@@ -69,7 +69,7 @@ QBrush  *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QStr
 class   cBackgroundObject {
 public:
     bool                    IsValide;
-    QString                 FilePath;
+    qlonglong               FileKey;
     QDateTime               ModifDateTime;
     cBaseApplicationConfig *ApplicationConfig;
     QString                 Name;

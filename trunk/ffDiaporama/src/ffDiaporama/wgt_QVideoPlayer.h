@@ -70,6 +70,8 @@ signals:
 class wgt_QVideoPlayer : public QWidget {
 Q_OBJECT
 public:
+    QTime                   PreviousTimerEvent;
+    int                     TimerDelta;
     bool                    *FLAGSTOPITEMSELECTION; // Flag to stop Item Selection process in the timeline
 
     bool                    Deinterlace;            // Add a YADIF filter to deinterlace video (on/off)

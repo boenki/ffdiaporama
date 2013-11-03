@@ -1,28 +1,46 @@
 **************************************************
-* FFDIAPORAMA 1.8 - Trunk
+* FFDIAPORAMA 2.0 - Trunk
 * changelog since ffDiaporama 1.7
 **************************************************
+[Commit: ]
+    French version
+        Correction de bug :
+        Nouveautés :
+    English version
+        Bug fixes:
+        New features:
+**************************************************
 
-French version / Correction de bug :
---------------------------------
-[Commit: 30/10/2013]
--Corrige le bug de lecture des SVG [regression 1.7 beta 2]
+[Commit: 03/11/2013]
+    French version
+        Correction de bug :
+            -Corrige le plantage lors de l'annulation de l'insertion d'un objet dans la boite d'edition des slides [Bug chrisbra 01/11/2013]
+            -Modifie tout le code source pour mieux prendre en considération les différences entre libav et ffmpeg
+        Nouveautés :
+            -Ajoute une table des fichiers et supprime l'information de chemin de fichier de tous les objects dérivés de cBaseMediaFile
+            -Modifie le browser multimédia pour qu'il utilise la table des fichiers comme cache pour accélérer la navigation
+    English version
+        Bug fixes:
+            -Correct crash when canceling the insertion of an object in the edition box of slides [Bug chrisbra 01/11/2013]
+            -Change all the source code to better take into account the differences between libav and ffmpeg
+        New features:
+            -Add a files table and remove filepath information from all objects derivated from cBaseMediaFile
+            -Changes the multimedia browser to it use the files table as a cache for faster browsing
 
-English version / Bug fixes :
---------------------------------
-[Commit: 30/10/2013]
--Fix SVG reading error [regression 1.7 beta 2]
+--------------------------------------------------------------------------------------------------------------------------------------------------
 
-French version / Nouveautés :
---------------------------------
 [Commit: 30/10/2013]
--Crée une base de données SQLite3 "home user" dans le profil de l'utilisateur pour stocker toute sorte d'information
--Déplace le stockage des positions des fenetres de la memoire vers la base de données (et supprime la RAM utilisée pour ce stockage)
--Ajoute une table des répertoires et supprime l'information de répertoire de tous les objects dérivés de cBaseMediaFile
-
-English version / New features :
---------------------------------
-[Commit: 30/10/2013]
--Create a SQLite3 database "home user" in home user directory to stock different informations
--Move Window State and position from memory to the home user database (remove memory used by that)
--Add a folder table and remove folder path information from all objects derivated from cBaseMediaFile
+    French version
+        Correction de bug :
+            -Corrige le bug de lecture des SVG [regression 1.7 beta 2]
+        Nouveautés :
+            -Crée une base de données SQLite3 "home user" dans le profil de l'utilisateur pour stocker toute sorte d'information
+            -Déplace le stockage des positions des fenetres de la memoire vers la base de données (et supprime la RAM utilisée pour ce stockage)
+            -Ajoute une table des répertoires et supprime l'information de répertoire de tous les objects dérivés de cBaseMediaFile
+    English version
+        Bug fixes:
+            -Fix SVG reading error [regression 1.7 beta 2]
+        New features:
+            -Create a SQLite3 database "home user" in home user directory to stock different informations
+            -Move Window State and position from memory to the home user database (remove memory used by that)
+            -Add a folders table and remove folder path information from all objects derivated from cBaseMediaFile

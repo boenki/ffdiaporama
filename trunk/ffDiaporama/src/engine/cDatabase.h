@@ -25,9 +25,15 @@
 #include "_GlobalDefines.h"
 
 // Include some additional standard class
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlError>
+#ifdef Q_OS_WIN
+    #include <QtSql/QSqlDatabase>
+    #include <QtSql/QSqlQuery>
+    #include <QtSql/QSqlError>
+#else
+    #include <QSqlDatabase>
+    #include <QSqlQuery>
+    #include <QSqlError>
+#endif
 
 //*****************************************************************************
 // Enum of all table type
@@ -35,18 +41,27 @@
 enum eTypeTable {
     TypeTable_Undefined,
     TypeTable_SettingsTable,
-    TypeTable_FolderTable
+    TypeTable_FolderTable,
+    TypeTable_FileTable
 };
+
+//*****************************************************************************
+// Utility function
+//*****************************************************************************
+
+void DisplayLastSQLError(QSqlQuery *Query);
 
 //*****************************************************************************
 // cDatabase : encapsulate a SQLite3 database
 //*****************************************************************************
 class cDatabaseTable;
+class cBaseApplicationConfig;
 class cDatabase {
 public:
     QSqlDatabase            db;
     QString                 dbPath;
     QList<cDatabaseTable *> Tables;
+    cBaseApplicationConfig  *ApplicationConfig;
 
                             cDatabase(QString DBFNAME);
     virtual                 ~cDatabase();
@@ -110,6 +125,28 @@ public:
 
     qlonglong               GetFolderKey(QString FolderPath);
     QString                 GetFolderPath(qlonglong FolderKey);
+};
+
+//**********************************************************************************************
+// cFilesTable : encapsulate media files in the table
+//**********************************************************************************************
+class cFilesTable : public cDatabaseTable {
+public:
+
+    explicit                cFilesTable(cDatabase *Database);
+
+    qlonglong               GetFileKey(qlonglong FolderKey,QString ShortName,int MediaFileType);
+    QString                 GetShortName(qlonglong FileKey);
+    QString                 GetFileName(qlonglong FileKey);
+    void                    UpdateTableForFolder(qlonglong FolderKey);
+    int                     CleanTableForFolder(qlonglong FolderKey);
+
+    virtual bool            SetBasicProperties(qlonglong FileKey,QString Properties);
+    virtual bool            GetBasicProperties(qlonglong FileKey,QString *Properties,QString FileName,int64_t *FileSize,QDateTime *CreatDateTime,QDateTime *ModifDateTime);
+    virtual bool            SetExtendedProperties(qlonglong FileKey,QStringList *PropertiesList);
+    virtual bool            GetExtendedProperties(qlonglong FileKey,QStringList *PropertiesList);
+    virtual bool            SetThumbs(qlonglong FileKey,QImage *Icon16,QImage *Icon100);
+    virtual bool            GetThumbs(qlonglong FileKey,QImage *Icon16,QImage *Icon100);
 };
 
 #endif // CDATABASE_H

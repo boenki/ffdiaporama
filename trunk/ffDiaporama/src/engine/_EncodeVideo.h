@@ -78,14 +78,12 @@ public:
     AVFrame             *AudioFrame;
     u_int8_t            *AudioResamplerBuffer;          // Buffer for sampled audio
     int                 AudioResamplerBufferSize;
-    #if defined(LIBAV_08)
+    #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
     ReSampleContext         *AudioResampler;            // Audio resampler
-    #elif defined(USELIBSWRESAMPLE)
-    SwrContext              *AudioResampler;
-    #elif defined(USELIBAVRESAMPLE)
+    #elif defined(LIBAV) && (LIBAVVERSIONINT<=9)
     AVAudioResampleContext  *AudioResampler;
-    #else
-    ReSampleContext         *AudioResampler;            // Audio resampler
+    #elif defined(FFMPEG)
+    SwrContext              *AudioResampler;
     #endif
 
     // Progress display settings

@@ -39,6 +39,7 @@
 // Include some common various class
 #include "cSaveWindowPosition.h"
 #include "cCustomIcon.h"
+#include "cDatabase.h"
 #include "cLuLoImageCache.h"
 #include "cDeviceModelDef.h"
 #include "cDriveList.h"
@@ -46,7 +47,6 @@
 #include "_SpeedWave.h"
 #include "_Transition.h"
 #include "_Model.h"
-#include "cDatabase.h"
 
 //============================================
 
@@ -249,6 +249,7 @@ public:
     cDatabase               *Database;
     cSettingsTable          *SettingsTable;                             // Settings table on the database
     cFolderTable            *FoldersTable;                              // Folders table on the database
+    cFilesTable             *FilesTable;                                // Files table on the database
 
     // Image cache
     cLuLoImageCache         ImagesCache;                                // cLuLoImageCache List Object

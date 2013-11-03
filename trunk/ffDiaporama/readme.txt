@@ -1,16 +1,25 @@
+**************************************************
+* FFDIAPORAMA 2.0 - Trunk
+*
+* readme.txt on 03/11/2013
+**************************************************
+
 ffDiaporama is a tools to make diaporama as video
 ffDiaporama is a Free Software (Open Source) and is distributed under the GNU General Public License (GPL) version 2
 See authors.txt for more copyright and credits information
 
 Index:
     1-General purposes about building ffDiaporama for Linux
-    2-Build ffDiaporama for Ubuntu/LinuxMint (Ubuntu based version)
-    3-Build ffDiaporama for openSUSE
-    4-Build ffDiaporama for Fedora
-    5-Build ffDiaporama for Windows
+    2-General purposes about libav and ffmpeg
+    3-Build ffDiaporama for Ubuntu/LinuxMint (Ubuntu based version)
+    4-Build ffDiaporama for openSUSE
+    5-Build ffDiaporama for Fedora
+    6-Build ffDiaporama for Windows
 
 
 General purposes about building ffDiaporama for Linux
+-----------------------------------------------------
+
     In general:
         Once a system has Qt 5, it was this version of Qt that is preferred.
         If a system has ffmpeg, ffmpeg is preferred to libav.
@@ -27,7 +36,29 @@ General purposes about building ffDiaporama for Linux
             /usr/local to make the application compatible with installation in /usr/local/bin for the binary and /usr/local/share/ffDiaporama for data
 
 
+
+
+General purposes about libav and ffmpeg
+---------------------------------------
+
+    The following table list versions of libav supported with ffDiaporama
+      LIBAV	LIBAVUTIL	LIBAVCODEC	LIBAVFORMAT	LIBAVDEVICE	LIBAVFILTER	LIBSWSCALE	LIBAVRESAMPLE
+      0.8.x	51.22.1		53.35.0		53.21.1		53.2.0		2.15.0		2.1.0		-
+      9.x	52.3.0		54.35.0		54.20.3		53.2.0		3.3.0		2.1.1		1.0.1
+      
+      Note: support of version 9.x is actually partial
+      
+    The following table list versions of ffmpeg supported with ffDiaporama
+      FFMPEG	LIBAVUTIL	LIBAVCODEC	LIBAVFORMAT	LIBAVDEVICE	LIBAVFILTER	LIBSWSCALE	LIBSWRESAMPLE
+      1.2.3	52,18,100	54,92,100	54,63,104	54,3,103	3,42,103	2,2,100		0,17,102
+      2.0.1	52,38,100	55,18,102	55,12,100	55,3,100	3,79,101	2,3,100		0,17,102
+
+
+
+
 Build ffDiaporama for Ubuntu/LinuxMint (Ubuntu based version)
+-------------------------------------------------------------
+
     Version 12.04 and 12.10 (Qt 4.8/Libav 0.8.6)
         Installation prerequisites:
             sudo apt-get install build-essential
@@ -41,8 +72,6 @@ Build ffDiaporama for Ubuntu/LinuxMint (Ubuntu based version)
             sudo make install
 
     Version 13.04 (Qt 5.01/Libav 0.8.6) and Version 13.10 (Qt 5.02/Libav 0.8.7)
-
-        BUG libx264: https://bugs.launchpad.net/ubuntu/+source/libav/+bug/1241777
 
         Installation prerequisites:
             sudo apt-get install build-essential
@@ -63,8 +92,13 @@ Build ffDiaporama for Ubuntu/LinuxMint (Ubuntu based version)
                                  libavutil-ffmpeg-dev libpostproc-ffmpeg-dev libswresample-ffmpeg-dev libswscale-ffmpeg-dev
         -For Compilation and Installation use instructions as describe above
 
+        WARNING: Actual ffmpeg version proposed on the samrog ppa is the 2.1.0
+        This version is unstable and may cause infinite loop reading some videos
+
 Build ffDiaporama for openSUSE
-    Version openSUSE 12.3 (Qt 4.8.4/ffmpeg 1.0.6)
+------------------------------
+
+    Version openSUSE 12.3 (Qt 4.8.4/ffmpeg 2.0.2)
         Installation prerequisites:
             su -c "zypper in make gcc build kernel-desktop-devel"
             su -c "zypper in libqt4 libqt4-devel"
@@ -79,21 +113,9 @@ Build ffDiaporama for openSUSE
 
 
 Build ffDiaporama for Fedora
-    Fedora 18 (Qt 4.8.4/ffmpeg 1.2.1)
-        Installation prerequisites:
-            sudo yum groupinstall development-tools
-            sudo yum install gcc-c++ qt4 qt4-devel qt-assistant
-            sudo yum install ffmpeg ffmpeg-devel
-            sudo yum install SDL SDL-devel SDL_mixer-devel SDL_mixer
-            sudo yum install exiv2 exiv2-devel
-            sudo ln -s /usr/bin/assistant-qt4 /usr/bin/assistant
-        Compilation:
-            qmake-qt4 ffDiaporama.pro /PREFIX=/opt
-            make
-        Installation:
-            sudo make install
+----------------------------
 
-    Fedora 19 (Qt 5.1.1/ffmpeg 1.2.3)
+    Fedora 19 (Qt 5.1.1/ffmpeg 1.2.4)
         Installation prerequisites:
             sudo yum groupinstall development-tools
             sudo yum install gcc-c++
@@ -109,6 +131,8 @@ Build ffDiaporama for Fedora
 
 
 Build ffDiaporama for Windows
+-----------------------------
+
     Note: This documentation has to be completed
 
     Prerequisites:

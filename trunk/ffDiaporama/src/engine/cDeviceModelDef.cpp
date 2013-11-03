@@ -717,159 +717,150 @@ void cDeviceModelList::TranslatRenderType() {
 bool cDeviceModelList::InitLibav() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::InitLibav");
 
-    // Check libav version
-    #if (!(defined(LIBAV_08)||defined(LIBAV_09)))
-        CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","ffDiaporama initialisation"),"Incorrect libav version\nApplication will stop!");
-        return false;
-    #else
+    // Next step : start libav
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Starting libav..."));
+    avfilter_register_all();
+    avcodec_register_all();
+    av_register_all();
+    avformat_network_init();
 
-        // Next step : start libav
-        ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Starting libav..."));
-        avfilter_register_all();
-        avcodec_register_all();
-        av_register_all();
-        avformat_network_init();
+    av_log_set_callback(LibAVLogCallback);
+    switch (LogMsgLevel) {
+        case LOGMSG_DEBUGTRACE  : AVLOGLEVEL=AV_LOG_DEBUG;   break;
+        case LOGMSG_INFORMATION : AVLOGLEVEL=AV_LOG_VERBOSE; break;
+        case LOGMSG_WARNING     : AVLOGLEVEL=AV_LOG_WARNING; break;
+        case LOGMSG_CRITICAL    :
+        default                 : AVLOGLEVEL=AV_LOG_ERROR;   break;
+    }
+    //av_log_set_level(AVLOGLEVEL);
+    av_log_set_level(AV_LOG_DEBUG);
 
-        av_log_set_callback(LibAVLogCallback);
-        switch (LogMsgLevel) {
-            case LOGMSG_DEBUGTRACE  : AVLOGLEVEL=AV_LOG_DEBUG;   break;
-            case LOGMSG_INFORMATION : AVLOGLEVEL=AV_LOG_VERBOSE; break;
-            case LOGMSG_WARNING     : AVLOGLEVEL=AV_LOG_WARNING; break;
-            case LOGMSG_CRITICAL    :
-            default                 : AVLOGLEVEL=AV_LOG_ERROR;   break;
-        }
-        //av_log_set_level(AVLOGLEVEL);
-        av_log_set_level(AV_LOG_DEBUG);
-
-        // Check codec to know if they was finded
-        AVCodec *p=NULL;
-        while ((p=av_codec_next(p))) {
-            if (
-                    #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(53,35,0)
-                    (p->encode!=NULL)
-                    #elif LIBAVCODEC_VERSION_INT < AV_VERSION_INT(54,27,0)
-                    (p->encode!=NULL)||(p->encode2!=NULL)
-                    #else
-                    (p->encode2!=NULL)
-                    #endif
-               ) {
-                if (p->type==AVMEDIA_TYPE_AUDIO) {
-                    for (int i=0;i<NBR_AUDIOCODECDEF;i++) if ((p->id==AUDIOCODECDEF[i].Codec_id)&&(!AUDIOCODECDEF[i].IsFind)) {
-                        AUDIOCODECDEF[i].IsFind=true;
-                        //strcpy(AUDIOCODECDEF[i].ShortName,p->name);
-                    }
-                    // special case for vorbis codec : if libvorbis is found, prefer it to default internal vorbis encoder
-                    if (QString(p->name)==QString("libvorbis")) strcpy(AUDIOCODECDEF[4].ShortName,p->name);
-                    // special case for aac codec : if libfaac is found, prefer it to default internal aac encoder
-                    if (QString(p->name)==QString("libfaac")) strcpy(AUDIOCODECDEF[2].ShortName,p->name);
-                    // special case for aac codec : if libvo_aacenc is found, prefer it to default internal aac encoder
-                    if (QString(p->name)==QString("libvo_aacenc")) strcpy(AUDIOCODECDEF[2].ShortName,p->name);
+    // Check codec to know if they was finded
+    AVCodec *p=NULL;
+    while ((p=av_codec_next(p))) {
+        if (
+                #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
+                (p->encode!=NULL)||(p->encode2!=NULL)
+                #else
+                (p->encode2!=NULL)
+                #endif
+           ) {
+            if (p->type==AVMEDIA_TYPE_AUDIO) {
+                for (int i=0;i<NBR_AUDIOCODECDEF;i++) if ((p->id==AUDIOCODECDEF[i].Codec_id)&&(!AUDIOCODECDEF[i].IsFind)) {
+                    AUDIOCODECDEF[i].IsFind=true;
+                    //strcpy(AUDIOCODECDEF[i].ShortName,p->name);
                 }
-                if (p->type==AVMEDIA_TYPE_VIDEO) {
-                    for (int i=0;i<NBR_VIDEOCODECDEF;i++) if ((p->id==VIDEOCODECDEF[i].Codec_id)&&(!VIDEOCODECDEF[i].IsFind)) {
-                        VIDEOCODECDEF[i].IsFind=true;
-                        strcpy(VIDEOCODECDEF[i].ShortName,p->name);
-                    }
-                    // special case for mpeg4 codec : if libxvid is found, prefer it to default mpeg4 internal encoder
-                    if (QString(p->name)==QString("libxvid")) strcpy(VIDEOCODECDEF[2].ShortName,p->name);
-                }
+                // special case for vorbis codec : if libvorbis is found, prefer it to default internal vorbis encoder
+                if (QString(p->name)==QString("libvorbis")) strcpy(AUDIOCODECDEF[4].ShortName,p->name);
+                // special case for aac codec : if libfaac is found, prefer it to default internal aac encoder
+                if (QString(p->name)==QString("libfaac")) strcpy(AUDIOCODECDEF[2].ShortName,p->name);
+                // special case for aac codec : if libvo_aacenc is found, prefer it to default internal aac encoder
+                if (QString(p->name)==QString("libvo_aacenc")) strcpy(AUDIOCODECDEF[2].ShortName,p->name);
             }
-            if (p->decode!=NULL) {
-                if (p->type==AVMEDIA_TYPE_AUDIO) {
-                    for (int i=0;i<NBR_AUDIOCODECDEF;i++) if ((p->id==AUDIOCODECDEF[i].Codec_id)&&(!AUDIOCODECDEF[i].IsRead)) {
-                        AUDIOCODECDEF[i].IsRead=true;
-                        //strcpy(AUDIOCODECDEF[i].ShortName,p->name);
-                    }
-                    // special case for vorbis codec : if libvorbis is found, prefer it to default internal vorbis encoder
-                    if (QString(p->name)==QString("libvorbis")) strcpy(AUDIOCODECDEF[4].ShortName,p->name);
-                    // special case for aac codec : if libfaac is found, prefer it to default internal aac encoder
-                    if (QString(p->name)==QString("libfaac")) strcpy(AUDIOCODECDEF[2].ShortName,p->name);
-                    // special case for aac codec : if libvo_aacenc is found, prefer it to default internal aac encoder
-                    if (QString(p->name)==QString("libvo_aacenc")) strcpy(AUDIOCODECDEF[2].ShortName,p->name);
+            if (p->type==AVMEDIA_TYPE_VIDEO) {
+                for (int i=0;i<NBR_VIDEOCODECDEF;i++) if ((p->id==VIDEOCODECDEF[i].Codec_id)&&(!VIDEOCODECDEF[i].IsFind)) {
+                    VIDEOCODECDEF[i].IsFind=true;
+                    strcpy(VIDEOCODECDEF[i].ShortName,p->name);
                 }
-                if (p->type==AVMEDIA_TYPE_VIDEO) {
-                    for (int i=0;i<NBR_VIDEOCODECDEF;i++) if ((p->id==VIDEOCODECDEF[i].Codec_id)&&(!VIDEOCODECDEF[i].IsRead)) {
-                        VIDEOCODECDEF[i].IsRead=true;
-                        strcpy(VIDEOCODECDEF[i].ShortName,p->name);
-                    }
-                    // special case for mpeg4 codec : if libxvid is found, prefer it to default mpeg4 internal encoder
-                    if (QString(p->name)==QString("libxvid")) strcpy(VIDEOCODECDEF[2].ShortName,p->name);
-                }
+                // special case for mpeg4 codec : if libxvid is found, prefer it to default mpeg4 internal encoder
+                if (QString(p->name)==QString("libxvid")) strcpy(VIDEOCODECDEF[2].ShortName,p->name);
             }
         }
-
-        // Check format to know if they was finded
-        AVOutputFormat *ofmt=NULL;
-        while ((ofmt=av_oformat_next(ofmt))) {
-            for (int i=0;i<VFORMAT_NBR;i++) if (strcmp(ofmt->name,FORMATDEF[i].ShortName)==0) {
-                QString     AllowedCodec=FORMATDEF[i].PossibleVideoCodec;
-                QString     Codec="";
-                int         Index=0;
-                bool        IsFindVideoCodec=false;
-                bool        IsFindAudioCodec=false;
-
-                while (AllowedCodec.length()>0) {
-                    Index=AllowedCodec.indexOf("#");
-                    if (Index>0) {
-                        Codec=AllowedCodec.left(Index);
-                        AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
-                    } else {
-                        Codec=AllowedCodec;
-                        AllowedCodec="";
-                    }
-                    // Now find index of this codec in the VIDEOCODECDEF
-                    Index=0;
-                    while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].FFD_VCODECST))) Index++;
-                    if ((Index<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[Index].IsFind)) IsFindVideoCodec=true;
+        if (p->decode!=NULL) {
+            if (p->type==AVMEDIA_TYPE_AUDIO) {
+                for (int i=0;i<NBR_AUDIOCODECDEF;i++) if ((p->id==AUDIOCODECDEF[i].Codec_id)&&(!AUDIOCODECDEF[i].IsRead)) {
+                    AUDIOCODECDEF[i].IsRead=true;
+                    //strcpy(AUDIOCODECDEF[i].ShortName,p->name);
                 }
-                AllowedCodec=FORMATDEF[i].PossibleAudioCodec;
-                Codec="";
+                // special case for vorbis codec : if libvorbis is found, prefer it to default internal vorbis encoder
+                if (QString(p->name)==QString("libvorbis")) strcpy(AUDIOCODECDEF[4].ShortName,p->name);
+                // special case for aac codec : if libfaac is found, prefer it to default internal aac encoder
+                if (QString(p->name)==QString("libfaac")) strcpy(AUDIOCODECDEF[2].ShortName,p->name);
+                // special case for aac codec : if libvo_aacenc is found, prefer it to default internal aac encoder
+                if (QString(p->name)==QString("libvo_aacenc")) strcpy(AUDIOCODECDEF[2].ShortName,p->name);
+            }
+            if (p->type==AVMEDIA_TYPE_VIDEO) {
+                for (int i=0;i<NBR_VIDEOCODECDEF;i++) if ((p->id==VIDEOCODECDEF[i].Codec_id)&&(!VIDEOCODECDEF[i].IsRead)) {
+                    VIDEOCODECDEF[i].IsRead=true;
+                    strcpy(VIDEOCODECDEF[i].ShortName,p->name);
+                }
+                // special case for mpeg4 codec : if libxvid is found, prefer it to default mpeg4 internal encoder
+                if (QString(p->name)==QString("libxvid")) strcpy(VIDEOCODECDEF[2].ShortName,p->name);
+            }
+        }
+    }
+
+    // Check format to know if they was finded
+    AVOutputFormat *ofmt=NULL;
+    while ((ofmt=av_oformat_next(ofmt))) {
+        for (int i=0;i<VFORMAT_NBR;i++) if (strcmp(ofmt->name,FORMATDEF[i].ShortName)==0) {
+            QString     AllowedCodec=FORMATDEF[i].PossibleVideoCodec;
+            QString     Codec="";
+            int         Index=0;
+            bool        IsFindVideoCodec=false;
+            bool        IsFindAudioCodec=false;
+
+            while (AllowedCodec.length()>0) {
+                Index=AllowedCodec.indexOf("#");
+                if (Index>0) {
+                    Codec=AllowedCodec.left(Index);
+                    AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
+                } else {
+                    Codec=AllowedCodec;
+                    AllowedCodec="";
+                }
+                // Now find index of this codec in the VIDEOCODECDEF
                 Index=0;
-                while (AllowedCodec.length()>0) {
-                    Index=AllowedCodec.indexOf("#");
-                    if (Index>0) {
-                        Codec=AllowedCodec.left(Index);
-                        AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
-                    } else {
-                        Codec=AllowedCodec;
-                        AllowedCodec="";
-                    }
-                    // Now find index of this codec in the AUDIOCODECDEF
-                    Index=0;
-                    while ((Index<NBR_AUDIOCODECDEF)&&(Codec!=QString(AUDIOCODECDEF[Index].ShortName))) Index++;
-                    if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) IsFindAudioCodec=true;
-                }
-                FORMATDEF[i].IsFind=IsFindAudioCodec && IsFindVideoCodec;
-                if (i==10) FORMATDEF[i].IsRead=(AUDIOCODECDEF[9].IsFind || AUDIOCODECDEF[9].IsRead || AUDIOCODECDEF[10].IsFind || AUDIOCODECDEF[10].IsRead)&&
-                                               (VIDEOCODECDEF[9].IsFind || VIDEOCODECDEF[9].IsRead || VIDEOCODECDEF[10].IsFind || VIDEOCODECDEF[10].IsRead || VIDEOCODECDEF[11].IsFind || VIDEOCODECDEF[11].IsRead);
+                while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].FFD_VCODECST))) Index++;
+                if ((Index<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[Index].IsFind)) IsFindVideoCodec=true;
             }
+            AllowedCodec=FORMATDEF[i].PossibleAudioCodec;
+            Codec="";
+            Index=0;
+            while (AllowedCodec.length()>0) {
+                Index=AllowedCodec.indexOf("#");
+                if (Index>0) {
+                    Codec=AllowedCodec.left(Index);
+                    AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
+                } else {
+                    Codec=AllowedCodec;
+                    AllowedCodec="";
+                }
+                // Now find index of this codec in the AUDIOCODECDEF
+                Index=0;
+                while ((Index<NBR_AUDIOCODECDEF)&&(Codec!=QString(AUDIOCODECDEF[Index].ShortName))) Index++;
+                if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) IsFindAudioCodec=true;
+            }
+            FORMATDEF[i].IsFind=IsFindAudioCodec && IsFindVideoCodec;
+            if (i==10) FORMATDEF[i].IsRead=(AUDIOCODECDEF[9].IsFind || AUDIOCODECDEF[9].IsRead || AUDIOCODECDEF[10].IsFind || AUDIOCODECDEF[10].IsRead)&&
+                                           (VIDEOCODECDEF[9].IsFind || VIDEOCODECDEF[9].IsRead || VIDEOCODECDEF[10].IsFind || VIDEOCODECDEF[10].IsRead || VIDEOCODECDEF[11].IsFind || VIDEOCODECDEF[11].IsRead);
         }
+    }
 
-        // Check audio format to know if they was finded
-        ofmt=NULL;
-        while ((ofmt=av_oformat_next(ofmt))) {
-            for (int i=0;i<NBR_AFORMAT;i++) if (strcmp(ofmt->name,AUDIOFORMATDEF[i].ShortName)==0) {
-                QString     AllowedCodec=AUDIOFORMATDEF[i].PossibleAudioCodec;
-                QString     Codec="";
-                int         Index=0;
-                bool        IsFindAudioCodec=false;
-                while (AllowedCodec.length()>0) {
-                    Index=AllowedCodec.indexOf("#");
-                    if (Index>0) {
-                        Codec=AllowedCodec.left(Index);
-                        AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
-                    } else {
-                        Codec=AllowedCodec;
-                        AllowedCodec="";
-                    }
-                    // Now find index of this codec in the AUDIOCODECDEF
-                    Index=0;
-                    while ((Index<NBR_AUDIOCODECDEF)&&(Codec!=QString(AUDIOCODECDEF[Index].ShortName))) Index++;
-                    if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) IsFindAudioCodec=true;
+    // Check audio format to know if they was finded
+    ofmt=NULL;
+    while ((ofmt=av_oformat_next(ofmt))) {
+        for (int i=0;i<NBR_AFORMAT;i++) if (strcmp(ofmt->name,AUDIOFORMATDEF[i].ShortName)==0) {
+            QString     AllowedCodec=AUDIOFORMATDEF[i].PossibleAudioCodec;
+            QString     Codec="";
+            int         Index=0;
+            bool        IsFindAudioCodec=false;
+            while (AllowedCodec.length()>0) {
+                Index=AllowedCodec.indexOf("#");
+                if (Index>0) {
+                    Codec=AllowedCodec.left(Index);
+                    AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
+                } else {
+                    Codec=AllowedCodec;
+                    AllowedCodec="";
                 }
-                AUDIOFORMATDEF[i].IsFind=IsFindAudioCodec;
+                // Now find index of this codec in the AUDIOCODECDEF
+                Index=0;
+                while ((Index<NBR_AUDIOCODECDEF)&&(Codec!=QString(AUDIOCODECDEF[Index].ShortName))) Index++;
+                if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) IsFindAudioCodec=true;
             }
+            AUDIOFORMATDEF[i].IsFind=IsFindAudioCodec;
         }
-        return true;
-    #endif
+    }
+    return true;
 }

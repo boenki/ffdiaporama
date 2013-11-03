@@ -43,94 +43,62 @@ extern "C" {
     #define UINT64_C(c) (c ## ULL)
     #endif
 
-    #include <libavcodec/version.h>
-    #include <libavdevice/avdevice.h>
-    #if LIBAVCODEC_VERSION_INT <= AV_VERSION_INT(53,8,0)
-        #include "libavfilter/avfilter.h"
+#include <libavcodec/version.h>
+#include <libavdevice/avdevice.h>
+#include <libavfilter/version.h>
+#include <libavformat/version.h>
+#include <libavutil/avutil.h>
+#include <libavutil/opt.h>
+#include <libswscale/swscale.h>
+
+#include <libavutil/mathematics.h>
+#include <libavutil/pixdesc.h>
+#include <libavutil/audioconvert.h>
+
+#include <libavcodec/avcodec.h>
+
+#include <libavformat/avformat.h>
+#include <libavformat/avio.h>
+
+#include "libavfilter/avfilter.h"
+#include "libavfilter/avfiltergraph.h"
+
+#if (LIBAVUTIL_VERSION_MICRO<100)&&(LIBAVCODEC_VERSION_MICRO<100)&&(LIBAVFORMAT_VERSION_MICRO<100)&&(LIBAVDEVICE_VERSION_MICRO<100)&&(LIBAVFILTER_VERSION_MICRO<100)&&(LIBSWSCALE_VERSION_MICRO<100)
+    #define LIBAV
+    #if ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(52,3,0))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(54,35,0))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(54,20,0))&&(LIBAVDEVICE_VERSION_INT>=AV_VERSION_INT(53,2,0))&&(LIBAVFILTER_VERSION_INT>=AV_VERSION_INT(3,3,0))&&(LIBSWSCALE_VERSION_INT>=AV_VERSION_INT(2,1,1)))
+        #define LIBAVVERSION        "Libav 9.x"
+        #define LIBAVVERSIONINT     9
+        #include "libavresample/avresample.h"
+        #define RESAMPLE_MAX_CHANNELS AVRESAMPLE_MAX_CHANNELS
+        #include "libavfilter/avcodec.h"
+        #include "libavfilter/buffersink.h"
+        #include "libavfilter/buffersrc.h"
+    #elif ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(51,22,1))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(53,35,0))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(53,21,1))&&(LIBAVDEVICE_VERSION_INT>=AV_VERSION_INT(53,2,0))&&(LIBAVFILTER_VERSION_INT>=AV_VERSION_INT(2,15,0))&&(LIBSWSCALE_VERSION_INT>=AV_VERSION_INT(2,1,0)))
+        #define LIBAVVERSION        "Libav 0.8.x"
+        #define LIBAVVERSIONINT     8
+        #define AVCodecID           CodecID
+        #include "libavfilter/buffersrc.h"
+        #include "libavfilter/vsrc_buffer.h"
     #else
-        #include <libavfilter/version.h>
+        // unsupported version
     #endif
-    #include <libavformat/version.h>
-    #include <libavutil/avutil.h>
-    #include <libavutil/opt.h>
-    #include <libswscale/swscale.h>
-
-    #include <libavutil/mathematics.h>
-    #include <libavutil/pixdesc.h>
-    #include <libavutil/audioconvert.h>
-
-    #include <libavcodec/avcodec.h>
-
-    #include <libavformat/avformat.h>
-    #include <libavformat/avio.h>
-
-    #if ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(51,73,0))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(54,31,0))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(54,19,0)))
-        #define LIBAV_09
-        #if defined(USELIBAVRESAMPLE)
-            #include "libavresample/avresample.h"
-            #define RESAMPLE_MAX_CHANNELS AVRESAMPLE_MAX_CHANNELS
-        #elif defined(USELIBSWRESAMPLE)
-            #include "libswresample/swresample.h"
-            #define RESAMPLE_MAX_CHANNELS SWR_CH_MAX
-        #endif
-        #if (LIBAVUTIL_VERSION_MICRO>=100)&&(LIBAVCODEC_VERSION_MICRO>=100)&&(LIBAVFORMAT_VERSION_MICRO>=100)&&(LIBAVDEVICE_VERSION_MICRO>=100)&&(LIBAVFILTER_VERSION_MICRO>=100)&&(LIBSWSCALE_VERSION_MICRO>=100)&&(LIBSWRESAMPLE_VERSION_MICRO>=100)
-            #define FFMPEG
-            #if   ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(52,38,100))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(55,18,102))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(55,12,100))&&(LIBAVDEVICE_VERSION_INT>=AV_VERSION_INT(55,3,100))&&(LIBAVFILTER_VERSION_INT>=AV_VERSION_INT(3,79,101))&&(LIBSWSCALE_VERSION_INT>=AV_VERSION_INT(2,3,100))&&(LIBSWRESAMPLE_VERSION_INT>=AV_VERSION_INT(0,17,102)))
-                #define FFMPEGVERSION "FFmpeg 2.0.1 or higher"
-                #define FFMPEG201
-            #elif ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(52,18,100))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(54,92,100))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(54,63,104))&&(LIBAVDEVICE_VERSION_INT>=AV_VERSION_INT(54,3,103))&&(LIBAVFILTER_VERSION_INT>=AV_VERSION_INT(3,42,103))&&(LIBSWSCALE_VERSION_INT>=AV_VERSION_INT(2,2,100))&&(LIBSWRESAMPLE_VERSION_INT>=AV_VERSION_INT(0,17,102)))
-                #define FFMPEGVERSION "FFmpeg 1.2.3 or higher"
-                #define FFMPEG123
-            #elif ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(52,13,100))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(54,86,100))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(54,59,106))&&(LIBAVDEVICE_VERSION_INT>=AV_VERSION_INT(54,3,102))&&(LIBAVFILTER_VERSION_INT>=AV_VERSION_INT(3,32,100))&&(LIBSWSCALE_VERSION_INT>=AV_VERSION_INT(2,1,103))&&(LIBSWRESAMPLE_VERSION_INT>=AV_VERSION_INT(0,17,102)))
-                #define FFMPEGVERSION "FFmpeg 1.1.6 or higher"
-                #define FFMPEG116
-            #elif ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(51,73,101))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(54,59,100))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(54,29,104))&&(LIBAVDEVICE_VERSION_INT>=AV_VERSION_INT(54,2,101))&&(LIBAVFILTER_VERSION_INT>=AV_VERSION_INT(3,17,100))&&(LIBSWSCALE_VERSION_INT>=AV_VERSION_INT(2,1,101))&&(LIBSWRESAMPLE_VERSION_INT>=AV_VERSION_INT(0,15,100)))
-                #define FFMPEGVERSION "FFmpeg 1.0.8 or higher"
-                #define FFMPEG108
-            #else
-                #define FFMPEGVERSION "FFmpeg 0.x or higher"
-                #define FFMPEG000
-            #endif
-        #endif
-    #elif ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(51,22,0))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(53,35,0))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(53,21,0)))
-        #define LIBAV_08
-        #define AVCodecID CodecID
-        #if defined(USELIBAVRESAMPLE)
-            #undef USELIBAVRESAMPLE
-        #endif
-        #if defined(USELIBSWRESAMPLE)
-            #undef USELIBSWRESAMPLE
-        #endif
-    #elif ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(51,7,0))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(53,6,0))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(53,3,0)))
-        #define LIBAV_07
+#elif (LIBAVUTIL_VERSION_MICRO>=100)&&(LIBAVCODEC_VERSION_MICRO>=100)&&(LIBAVFORMAT_VERSION_MICRO>=100)&&(LIBAVDEVICE_VERSION_MICRO>=100)&&(LIBAVFILTER_VERSION_MICRO>=100)&&(LIBSWSCALE_VERSION_MICRO>=100)
+    #define FFMPEG
+    #include "libswresample/swresample.h"
+    #define RESAMPLE_MAX_CHANNELS SWR_CH_MAX
+    #include "libavfilter/avcodec.h"
+    #include "libavfilter/buffersink.h"
+    #include "libavfilter/buffersrc.h"
+    #if   ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(52,38,100))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(55,18,102))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(55,12,100))&&(LIBAVDEVICE_VERSION_INT>=AV_VERSION_INT(55,3,100))&&(LIBAVFILTER_VERSION_INT>=AV_VERSION_INT(3,79,101))&&(LIBSWSCALE_VERSION_INT>=AV_VERSION_INT(2,3,100))&&(LIBSWRESAMPLE_VERSION_INT>=AV_VERSION_INT(0,17,102)))
+        #define FFMPEGVERSIONINT    201
+        #define FFMPEGVERSION       "FFmpeg 2.0.1 or higher"
+    #elif ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(52,18,100))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(54,92,100))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(54,63,104))&&(LIBAVDEVICE_VERSION_INT>=AV_VERSION_INT(54,3,103))&&(LIBAVFILTER_VERSION_INT>=AV_VERSION_INT(3,42,103))&&(LIBSWSCALE_VERSION_INT>=AV_VERSION_INT(2,2,100))&&(LIBSWRESAMPLE_VERSION_INT>=AV_VERSION_INT(0,17,102)))
+        #define FFMPEGVERSIONINT    123
+        #define FFMPEGVERSION       "FFmpeg 1.2.3 or higher"
+    #else
+        // unsupported version
     #endif
-
-    // include for libavfilter
-    #if LIBAVFILTER_VERSION_INT >= AV_VERSION_INT(2,13,0)       // For all
-        #if LIBAVCODEC_VERSION_INT > AV_VERSION_INT(53,8,0)
-            #include "libavfilter/avfilter.h"
-        #endif
-        #include "libavfilter/avfiltergraph.h"
-        #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,23,0)    // From 2.13 to 2.23
-            #include "libavfilter/buffersrc.h"
-            #include "libavfilter/vsrc_buffer.h"
-        #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,60,0)   // From 2.23 to 2.60
-            #include "libavfilter/avcodec.h"
-            #include "libavfilter/vsrc_buffer.h"
-        #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,0,0)   // From 2.6 to 3.0
-            #include "libavfilter/buffersink.h"
-            #include "libavfilter/avcodec.h"
-        #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,1,0)   // From 3.0 to 3.1
-            #include "libavfilter/buffersink.h"
-            #include "libavfilter/avcodec.h"
-        #else                                                   // From 3.1
-            #if LIBAVFILTER_VERSION_INT >= AV_VERSION_INT(3,17,0)   // From 3.17
-                #include "libavfilter/avcodec.h"
-            #endif
-            #include "libavfilter/buffersink.h"
-            #include "libavfilter/buffersrc.h"
-        #endif
-    #endif
+#endif
 }
 
 #ifndef AVCODEC_MAX_AUDIO_FRAME_SIZE

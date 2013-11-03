@@ -74,7 +74,6 @@ public:
 
     virtual void            SetMode(int Mode,int Filter);
     virtual void            FillListFolder(QString Path);
-    virtual void            RefreshListFolder();
 
     virtual void            AppendMediaToTable(cBaseMediaFile *MediaObject);
 

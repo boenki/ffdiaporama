@@ -31,6 +31,7 @@
 
 // Include some common various class
 #include "cCustomIcon.h"
+#include "cDatabase.h"
 
 #define PREVIEWMAXHEIGHT    720         // Max height for preview image
 
@@ -40,7 +41,7 @@ class cLuLoImageCache;
 
 class cLuLoImageCacheObject {
 public:
-    QString         FileName;                               // Filename
+    qlonglong       FileKey;                                // index of the file in the home user database
     QDateTime       ModifDateTime;
     bool            Smoothing;                              // Smoothing
     QImage          *CachePreviewImage;                     // Cache image (Preview mode)
@@ -51,7 +52,7 @@ public:
     cLuLoImageCache *LuLoImageCache;                        // Link to parent LuLoImageCache collection
 
     // Constructor for image file
-    cLuLoImageCacheObject(QString FileName,QDateTime ModifDateTime,int ImageOrientation,QString FilterString,bool Smoothing,cLuLoImageCache *Parent);
+    cLuLoImageCacheObject(qlonglong FileKey,QDateTime ModifDateTime,int ImageOrientation,QString FilterString,bool Smoothing,cLuLoImageCache *Parent);
     ~cLuLoImageCacheObject();
 
     QImage      *ValidateCacheRenderImage();
@@ -63,15 +64,16 @@ public:
 class cLuLoImageCache {
 public:
     QList<cLuLoImageCacheObject *>  List;           // Fifo list
-    int64_t                       MaxValue;       // Max memory used
+    int64_t                         MaxValue;       // Max memory used
+    cFilesTable                     *FilesTable;
 
     cLuLoImageCache();
     ~cLuLoImageCache();
 
-    cLuLoImageCacheObject   *FindObject(QString FileName,QDateTime ModifDateTime,int ImageOrientation,bool Smoothing,bool SetAtTop);
+    cLuLoImageCacheObject   *FindObject(qlonglong FileKey,QDateTime ModifDateTime,int ImageOrientation,bool Smoothing,bool SetAtTop);
     void                    FreeMemoryToMaxValue();
     int64_t                 MemoryUsed();
-    void                    RemoveImageObject(QString FileName);    // Special case for slide dialog : Remove all object  of this name
+    void                    RemoveImageObject(qlonglong FileKey);    // Special case for slide dialog : Remove all object of this key
 };
 
 #endif // _cLuLoImageCACHE_H

@@ -55,9 +55,9 @@
     #include <exiv2/image.hpp>
 #endif
 
-#if defined(LIBAV_08) || (!defined(USELIBSWRESAMPLE) && !defined(USELIBAVRESAMPLE))
+#if defined(LIBAV) && (LIBAVVERSIONINT<=8)
     //****************************************************************************************************************************************************************
-    // TAGLIB PART only if LIBAV_08 because since LIBAV_09, thumbnails are reading using libav
+    // TAGLIB PART only if LIBAV 8 after, thumbnails are reading using libav
     //****************************************************************************************************************************************************************
 
     #include <taglib/fileref.h>
@@ -120,34 +120,38 @@ public:
 
 class cBaseMediaFile : public cCustomIcon {
 public:
+    cBaseApplicationConfig *ApplicationConfig;
     int                     ObjectType;
+
     qlonglong               FileKey;                        // Key index of this file in the Files table of the database
     qlonglong               FolderKey;                      // Key index of the folder containing this file in the Folders table of the database
-    bool                    IsValide;                       // if true then object if initialise
-    bool                    IsInformationValide;            // if true then information list if fuly initialise
-    int                     ObjectGeometry;                 // Image geometry of the embeded image or video
-    QString                 ShortName;                      // filename without path
-    QString                 FileExtension;                  // file extension
+    QStringList             InformationList;
+
     int64_t                 FileSize;                       // filesize
-    QString                 FileSizeText;                   // filesize in text mode
     QDateTime               CreatDateTime;                  // Original date/time
     QDateTime               ModifDateTime;                  // Last modified date/time
+
     int                     ImageWidth;                     // Widht of normal image
     int                     ImageHeight;                    // Height of normal image
     int                     ImageOrientation;               // EXIF ImageOrientation (or -1)
+    int                     ObjectGeometry;                 // Image geometry of the embeded image or video
     double                  AspectRatio;                    // Aspect ratio
-    int                     ImageType;                      // Type of image (depending on type object and size)
-    cBaseApplicationConfig *ApplicationConfig;
-    QStringList             InformationList;
+    QTime                   Duration;                       // Duration of the video
+
+    bool                    IsValide;                       // if true then object if initialise
+    bool                    IsInformationValide;            // if true then information list if fuly initialise
 
     cBaseMediaFile(cBaseApplicationConfig *ApplicationConfig);
     virtual                 ~cBaseMediaFile();
 
     virtual QString         FileName();
+    virtual QString         ShortName();
+    virtual bool            LoadBasicInformationFromDatabase(QDomElement root)=0;
+    virtual void            SaveBasicInformationToDatabase(QDomElement *root)=0;
+
     virtual void            Reset();
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey);
-    virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType)=0;
-    virtual void            GetFullInformationFromFile()=0;
+    virtual bool            GetFullInformationFromFile()=0;
     virtual QString         GetInformationValue(QString ValueToSearch);
     virtual QString         GetCumulInfoStr(QString Key1,QString Key2);
 
@@ -162,6 +166,8 @@ public:
     virtual QString         GetTAGInfo()=0;                                 // Return TAG information as formated string
 
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size)=0;
+
+    virtual bool            SaveAllInformationToDatabase();
 };
 
 //*********************************************************************************************************************************************
@@ -171,13 +177,13 @@ class cUnmanagedFile : public cBaseMediaFile {
 public:
     explicit cUnmanagedFile(cBaseApplicationConfig *ApplicationConfig);
 
-    virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey);
     virtual QString         GetFileTypeStr();
-    virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType);
-    virtual void            GetFullInformationFromFile()                    {/*Nothing to do*/}
-    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return ApplicationConfig->DefaultFILEIcon.GetIcon(Size); }
-    virtual QString         GetTechInfo()                                   { return ""; }
-    virtual QString         GetTAGInfo()                                    { return ""; }
+    virtual bool            LoadBasicInformationFromDatabase(QDomElement)       {return true;}
+    virtual void            SaveBasicInformationToDatabase(QDomElement *)       {/*Nothing to do*/}
+    virtual bool            GetFullInformationFromFile()                        {return SaveAllInformationToDatabase();}
+    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size)     { return ApplicationConfig->DefaultFILEIcon.GetIcon(Size); }
+    virtual QString         GetTechInfo()                                       { return ""; }
+    virtual QString         GetTAGInfo()                                        { return ""; }
 };
 
 //*********************************************************************************************************************************************
@@ -187,13 +193,13 @@ class cFolder : public cBaseMediaFile {
 public:
     explicit cFolder(cBaseApplicationConfig *ApplicationConfig);
 
-    virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey);
     virtual QString         GetFileTypeStr();
-    virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType);
-    virtual void            GetFullInformationFromFile();
-    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return ApplicationConfig->DefaultFOLDERIcon.GetIcon(Size); }
-    virtual QString         GetTechInfo()                                   { return ""; }
-    virtual QString         GetTAGInfo()                                    { return ""; }
+    virtual bool            LoadBasicInformationFromDatabase(QDomElement)       {return true;}
+    virtual void            SaveBasicInformationToDatabase(QDomElement *)       {/*Nothing to do*/}
+    virtual bool            GetFullInformationFromFile();
+    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size)     { return ApplicationConfig->DefaultFOLDERIcon.GetIcon(Size); }
+    virtual QString         GetTechInfo()                                       { return ""; }
+    virtual QString         GetTAGInfo()                                        { return ""; }
 };
 
 //*********************************************************************************************************************************************
@@ -210,7 +216,6 @@ public:
     QString     LongDate;           // Project dates
     QString     Comment;            // Free text - free size
     QString     Composer;           // ffDiaporama version
-    int64_t     Duration;           // (Duration in msec)
     int         NbrSlide;           // (Number of slide in project)
     QString     ffDRevision;        // ffD Application version (in reverse date format)
     QString     DefaultLanguage;    // Default Language (ISO 639 language code)
@@ -220,10 +225,10 @@ public:
 
     void                    InitDefaultValues();
 
-    virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey);
     virtual QString         GetFileTypeStr();
-    virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType);
-    virtual void            GetFullInformationFromFile();
+    virtual bool            LoadBasicInformationFromDatabase(QDomElement root);
+    virtual void            SaveBasicInformationToDatabase(QDomElement *root);
+    virtual bool            GetFullInformationFromFile();
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return ApplicationConfig->DefaultFFDIcon.GetIcon(Size); }
 
     virtual QString         GetTechInfo();
@@ -246,10 +251,10 @@ public:
 
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey);
     virtual QImage          *ImageAt(bool PreviewMode);
-    virtual QImage          *LoadVectorImg();
     virtual QString         GetFileTypeStr();
-    virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType);
-    virtual void            GetFullInformationFromFile();
+    virtual bool            LoadBasicInformationFromDatabase(QDomElement root);
+    virtual void            SaveBasicInformationToDatabase(QDomElement *root);
+    virtual bool            GetFullInformationFromFile();
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return (ObjectType==OBJECTTYPE_THUMBNAIL?ApplicationConfig->DefaultThumbIcon:ApplicationConfig->DefaultIMAGEIcon).GetIcon(Size); }
     virtual QString         GetTechInfo();
     virtual QString         GetTAGInfo();
@@ -277,7 +282,6 @@ public:
     QTime                   StartPos;                           // Start position
     QTime                   EndPos;                             // End position
     QString                 Container;                          // Container type (get from file extension)
-    QTime                   Duration;                           // Duration of the video
     QString                 VideoCodecInfo;
     QString                 AudioCodecInfo;
     int                     NbrChapters;                        // Number of chapters in the file
@@ -301,16 +305,13 @@ public:
     int                     AudioTrackNbr;              // Number of audio stream in file
 
     // Audio resampling
-    #if defined(LIBAV_08)
+    #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
     ReSampleContext         *RSC;
-    #elif defined(USELIBSWRESAMPLE)
-    SwrContext              *RSC;
-    #elif defined(LIBAV_09) //#elif defined(USELIBAVRESAMPLE)
+    #elif defined(LIBAV) && (LIBAVVERSIONINT<=9)
     AVAudioResampleContext  *RSC;
-    #else
-    ReSampleContext         *RSC;
-    #endif
-    #if defined(LIBAV_09)
+    uint64_t                RSC_InChannelLayout,RSC_OutChannelLayout;
+    #elif defined(FFMPEG)
+    SwrContext              *RSC;
     uint64_t                RSC_InChannelLayout,RSC_OutChannelLayout;
     #endif
     int                     RSC_InChannels,RSC_OutChannels;
@@ -322,8 +323,9 @@ public:
     virtual void            Reset(int TheWantedObjectType);
 
     virtual QString         GetFileTypeStr();
-    virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType);
-    virtual void            GetFullInformationFromFile();
+    virtual bool            LoadBasicInformationFromDatabase(QDomElement root);
+    virtual void            SaveBasicInformationToDatabase(QDomElement *root);
+    virtual bool            GetFullInformationFromFile();
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size);
 
     virtual QString         GetTechInfo();
@@ -341,9 +343,9 @@ public:
     virtual bool            SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Position);
     virtual void            CloseResampler();
     virtual void            CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleFormat RSC_InSampleFmt,AVSampleFormat RSC_OutSampleFmt,int RSC_InSampleRate,int RSC_OutSampleRate
-                                               #ifdef LIBAV_09
+                                                #if (defined(LIBAV)&&(LIBAVVERSIONINT>=9)) || defined(FFMPEG)
                                                    ,uint64_t RSC_InChannelLayout,uint64_t RSC_OutChannelLayout
-                                               #endif
+                                                #endif
                                           );
     virtual u_int8_t        *Resample(AVFrame *Frame,int64_t *SizeDecoded,int DstSampleSize);
 
@@ -356,7 +358,7 @@ public:
 
     virtual int             VideoFilter_Open();
     virtual void            VideoFilter_Close();
-    #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,79,0)
+    #if defined(LIBAV) || (FFMPEGVERSIONINT<201)
         virtual int         VideoFilter_Process();
     #endif
 };
@@ -371,7 +373,8 @@ public:
 
     cMusicObject(cBaseApplicationConfig *ApplicationConfig);
 
-    virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType);
+    virtual bool            LoadBasicInformationFromDatabase(QDomElement root);
+    virtual void            SaveBasicInformationToDatabase(QDomElement *root);
 
     void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList);
     bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag);
