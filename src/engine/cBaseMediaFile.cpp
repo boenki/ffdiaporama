@@ -288,6 +288,17 @@ QString cBaseMediaFile::ShortName() {
 
 //====================================================================================================================
 
+bool cBaseMediaFile::GetFullInformationFromFile() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::GetFullInformationFromFile");
+    IsInformationValide=ApplicationConfig->FilesTable->GetExtendedProperties(FileKey,&InformationList)&&ApplicationConfig->FilesTable->GetThumbs(FileKey,&Icon16,&Icon100);
+    if (!IsInformationValide) IsInformationValide=GetChildFullInformationFromFile() && SaveAllInformationToDatabase();
+    if (IsInformationValide) {
+    }
+    return IsInformationValide;
+}
+
+//====================================================================================================================
+
 bool cBaseMediaFile::GetInformationFromFile(QString FileName,QStringList *AliasList,bool *ModifyFlag,qlonglong GivenFolderKey) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::GetInformationFromFile");
 
@@ -388,20 +399,6 @@ bool cBaseMediaFile::SaveAllInformationToDatabase() {
 
 //====================================================================================================================
 
-QString cBaseMediaFile::GetInformationValue(QString ValueToSearch) {
-    //ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::GetInformationValue");    // Remove: to much
-
-    int i=0;
-    while ((i<InformationList.count())&&(!((QString )InformationList[i]).startsWith(ValueToSearch+"##"))) i++;
-    if ((i<InformationList.count())&&(((QString )InformationList[i]).startsWith(ValueToSearch))) {
-        QStringList Values=((QString)InformationList[i]).split("##");
-        if (Values.count()==2) return ((QString)Values[1]).trimmed();
-    }
-    return "";
-}
-
-//====================================================================================================================
-
 QString cBaseMediaFile::GetImageGeometryStr() {
     //ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::GetImageGeometryStr");    // Remove: to much
 
@@ -478,24 +475,19 @@ QString cBaseMediaFile::GetImageSizeStr(ImageSizeFmt Fmt) {
 }
 
 //====================================================================================================================
+// return 3 lines to display Summary of media file in dialog box which need them
 
-QString cBaseMediaFile::GetCumulInfoStr(QString Key1,QString Key2) {
-    //ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::GetCumulInfoStr");        // Remove: to much
-
-    int     Num     =0;
-    QString TrackNum="";
-    QString Value   ="";
-    QString Info    ="";
-    do {
-        TrackNum=QString("%1").arg(Num);
-        while (TrackNum.length()<3) TrackNum="0"+TrackNum;
-        TrackNum=Key1+"_"+TrackNum+":";
-        Value=GetInformationValue(TrackNum+Key2);
-        if (Value!="") Info=Info+((Num>0)?",":"")+Value;
-        // Next
-        Num++;
-    } while (Value!="");
-    return Info;
+QStringList cBaseMediaFile::GetSummaryText(QStringList *InformationList) {
+    QStringList SummaryText;
+    SummaryText.append(ShortName()+"("+GetFileSizeStr()+")");
+    SummaryText.append(GetImageSizeStr(cBaseMediaFile::FULLWEB));
+    if (ObjectType==OBJECTTYPE_IMAGEFILE) {
+        SummaryText.append(GetInformationValue("composer",InformationList));
+        if (GetInformationValue("Photo.ExposureTime",   InformationList)!="") SummaryText[2]=SummaryText[2]+(SummaryText[2]!=""?"-":"")+GetInformationValue("Photo.ExposureTime",   InformationList);
+        if (GetInformationValue("Photo.ApertureValue",  InformationList)!="") SummaryText[2]=SummaryText[2]+(SummaryText[2]!=""?"-":"")+GetInformationValue("Photo.ApertureValue",  InformationList);
+        if (GetInformationValue("Photo.ISOSpeedRatings",InformationList)!="") SummaryText[2]=SummaryText[2]+(SummaryText[2]!=""?"-":"")+GetInformationValue("Photo.ISOSpeedRatings",InformationList)+" ISO";
+    } else SummaryText.append(QApplication::translate("DlgSlideProperties","Duration:")+Duration.toString("HH:mm:ss.zzz"));
+    return SummaryText;
 }
 
 //*********************************************************************************************************************************************
@@ -530,88 +522,84 @@ cFolder::cFolder(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(Appli
 
 //====================================================================================================================
 
-bool cFolder::GetFullInformationFromFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cFolder::GetFullInformationFromFile");
+bool cFolder::GetChildFullInformationFromFile() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cFolder::GetChildFullInformationFromFile");
 
-    IsInformationValide=ApplicationConfig->FilesTable->GetExtendedProperties(FileKey,&InformationList)&&ApplicationConfig->FilesTable->GetThumbs(FileKey,&Icon16,&Icon100);
-    if (IsInformationValide) return true; else {
+    QString AdjustedFileName=FileName();
+    if (!AdjustedFileName.endsWith(QDir::separator())) AdjustedFileName=AdjustedFileName+QDir::separator();
 
-        QString AdjustedFileName=FileName();
-        if (!AdjustedFileName.endsWith(QDir::separator())) AdjustedFileName=AdjustedFileName+QDir::separator();
-
-        // Check if a folder.jpg file exist
-        if (Icon16.isNull()) {
-            QFileInfoList Directorys=QDir(FileName()).entryInfoList(QDir::Files);
-            for (int j=0;j<Directorys.count();j++) if (Directorys[j].fileName().toLower()=="folder.jpg") {
-                QString FileName=AdjustedFileName+Directorys[j].fileName();
-                QImage Final(":img/FolderMask_200.png");
-                QImage Img(FileName);
-                QImage ImgF;
-                if (double(Img.height())/double(Img.width())*double(Img.width())<=162) ImgF=Img.scaledToWidth(180,Qt::SmoothTransformation);
-                    else ImgF=Img.scaledToHeight(162,Qt::SmoothTransformation);
-                QPainter Painter;
-                Painter.begin(&Final);
-                Painter.drawImage(QRect((Final.width()-ImgF.width())/2,195-ImgF.height(),ImgF.width(),ImgF.height()),ImgF);
-                Painter.end();
-                LoadIcons(&Final);
-            }
+    // Check if a folder.jpg file exist
+    if (Icon16.isNull()) {
+        QFileInfoList Directorys=QDir(FileName()).entryInfoList(QDir::Files);
+        for (int j=0;j<Directorys.count();j++) if (Directorys[j].fileName().toLower()=="folder.jpg") {
+            QString FileName=AdjustedFileName+Directorys[j].fileName();
+            QImage Final(":img/FolderMask_200.png");
+            QImage Img(FileName);
+            QImage ImgF;
+            if (double(Img.height())/double(Img.width())*double(Img.width())<=162) ImgF=Img.scaledToWidth(180,Qt::SmoothTransformation);
+                else ImgF=Img.scaledToHeight(162,Qt::SmoothTransformation);
+            QPainter Painter;
+            Painter.begin(&Final);
+            Painter.drawImage(QRect((Final.width()-ImgF.width())/2,195-ImgF.height(),ImgF.width(),ImgF.height()),ImgF);
+            Painter.end();
+            LoadIcons(&Final);
         }
-
-        // Check if there is an desktop.ini ==========> WINDOWS EXTENSION
-        if (Icon16.isNull()) {
-            QFileInfoList Directorys=QDir(FileName()).entryInfoList(QDir::Files|QDir::Hidden);
-            for (int j=0;j<Directorys.count();j++) if (Directorys[j].fileName().toLower()=="desktop.ini") {
-                QFile   FileIO(AdjustedFileName+Directorys[j].fileName());
-                QString IconFile ="";
-                #ifdef Q_OS_WIN
-                int     IconIndex=0;
-                #endif
-                if (FileIO.open(QIODevice::ReadOnly/*|QIODevice::Text*/)) {
-                    // Sometimes this kind of files have incorrect line terminator : nor \r\n nor \n
-                    QTextStream FileST(&FileIO);
-                    QString     AllInfo=FileST.readAll();
-                    QString     Line="";
-                    while (AllInfo!="") {
-                        int j=0;
-                        while ((j<AllInfo.length())&&((AllInfo[j]>=char(32))||(AllInfo[j]==9))) j++;
-                        if (j<AllInfo.length()) {
-                            Line=AllInfo.left(j);
-                            while ((j<AllInfo.length())&&(AllInfo[j]<=char(32))) j++;
-                            if (j<AllInfo.length()) AllInfo=AllInfo.mid(j); else AllInfo="";
-                        } else {
-                            Line=AllInfo;
-                            AllInfo="";
-                        }
-                        #ifdef Q_OS_WIN
-                        if ((Line.toUpper().startsWith("ICONINDEX"))&&(Line.indexOf("=")!=-1)) {
-                            IconIndex=Line.mid(Line.indexOf("=")+1).toInt();
-                        } else
-                        #endif
-                        if ((Line.toUpper().startsWith("ICONFILE"))&&(Line.indexOf("=")!=-1)) {
-                            Line=Line.mid(Line.indexOf("=")+1).trimmed();
-                            // Replace all variables like %systemroot%
-                            while (Line.indexOf("%")!=-1) {
-                                QString Var=Line.mid(Line.indexOf("%")+1);  Var=Var.left(Var.indexOf("%"));
-                                QString Value=getenv(Var.toLocal8Bit());
-                                Line.replace("%"+Var+"%",Value,Qt::CaseInsensitive);
-                            }
-                            if (QFileInfo(Line).isRelative()) IconFile=AdjustDirForOS(AdjustedFileName+Line);
-                                else IconFile=AdjustDirForOS(QFileInfo(Line).absoluteFilePath());
-                        }
-                    }
-                    FileIO.close();
-                }
-                if (IconFile.toLower().endsWith(".jpg") || IconFile.toLower().endsWith(".png") || IconFile.toLower().endsWith(".ico")) LoadIcons(IconFile);
-                #ifdef Q_OS_WIN
-                else LoadIcons(GetIconForFileOrDir(IconFile,IconIndex));
-                #endif
-            }
-        }
-
-        // if no icon then load default for type
-        if (Icon16.isNull()) LoadIcons(&ApplicationConfig->DefaultFOLDERIcon);
-        return SaveAllInformationToDatabase();
     }
+
+    // Check if there is an desktop.ini ==========> WINDOWS EXTENSION
+    if (Icon16.isNull()) {
+        QFileInfoList Directorys=QDir(FileName()).entryInfoList(QDir::Files|QDir::Hidden);
+        for (int j=0;j<Directorys.count();j++) if (Directorys[j].fileName().toLower()=="desktop.ini") {
+            QFile   FileIO(AdjustedFileName+Directorys[j].fileName());
+            QString IconFile ="";
+            #ifdef Q_OS_WIN
+            int     IconIndex=0;
+            #endif
+            if (FileIO.open(QIODevice::ReadOnly/*|QIODevice::Text*/)) {
+                // Sometimes this kind of files have incorrect line terminator : nor \r\n nor \n
+                QTextStream FileST(&FileIO);
+                QString     AllInfo=FileST.readAll();
+                QString     Line="";
+                while (AllInfo!="") {
+                    int j=0;
+                    while ((j<AllInfo.length())&&((AllInfo[j]>=char(32))||(AllInfo[j]==9))) j++;
+                    if (j<AllInfo.length()) {
+                        Line=AllInfo.left(j);
+                        while ((j<AllInfo.length())&&(AllInfo[j]<=char(32))) j++;
+                        if (j<AllInfo.length()) AllInfo=AllInfo.mid(j); else AllInfo="";
+                    } else {
+                        Line=AllInfo;
+                        AllInfo="";
+                    }
+                    #ifdef Q_OS_WIN
+                    if ((Line.toUpper().startsWith("ICONINDEX"))&&(Line.indexOf("=")!=-1)) {
+                        IconIndex=Line.mid(Line.indexOf("=")+1).toInt();
+                    } else
+                    #endif
+                    if ((Line.toUpper().startsWith("ICONFILE"))&&(Line.indexOf("=")!=-1)) {
+                        Line=Line.mid(Line.indexOf("=")+1).trimmed();
+                        // Replace all variables like %systemroot%
+                        while (Line.indexOf("%")!=-1) {
+                            QString Var=Line.mid(Line.indexOf("%")+1);  Var=Var.left(Var.indexOf("%"));
+                            QString Value=getenv(Var.toLocal8Bit());
+                            Line.replace("%"+Var+"%",Value,Qt::CaseInsensitive);
+                        }
+                        if (QFileInfo(Line).isRelative()) IconFile=AdjustDirForOS(AdjustedFileName+Line);
+                            else IconFile=AdjustDirForOS(QFileInfo(Line).absoluteFilePath());
+                    }
+                }
+                FileIO.close();
+            }
+            if (IconFile.toLower().endsWith(".jpg") || IconFile.toLower().endsWith(".png") || IconFile.toLower().endsWith(".ico")) LoadIcons(IconFile);
+            #ifdef Q_OS_WIN
+            else LoadIcons(GetIconForFileOrDir(IconFile,IconIndex));
+            #endif
+        }
+    }
+
+    // if no icon then load default for type
+    if (Icon16.isNull()) LoadIcons(&ApplicationConfig->DefaultFOLDERIcon);
+    return true;
 }
 
 //====================================================================================================================
@@ -693,11 +681,11 @@ void cffDProjectFile::SaveToXML(QDomElement &domDocument) {
     for (int i=0;i<NbrChapters;i++) {
         QString     ChapterNum=QString("%1").arg(i); while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
         QDomElement SubElement=DomDocument.createElement("Chapter_"+ChapterNum);
-        SubElement.setAttribute("Start",GetInformationValue("Chapter_"+ChapterNum+":Start"));
-        SubElement.setAttribute("End",GetInformationValue("Chapter_"+ChapterNum+":End"));
-        SubElement.setAttribute("Duration",GetInformationValue("Chapter_"+ChapterNum+":Duration"));
-        SubElement.setAttribute("title",GetInformationValue("Chapter_"+ChapterNum+":title"));
-        SubElement.setAttribute("InSlide",GetInformationValue("Chapter_"+ChapterNum+":InSlide"));
+        SubElement.setAttribute("Start",    GetInformationValue("Chapter_"+ChapterNum+":Start",&InformationList));
+        SubElement.setAttribute("End",      GetInformationValue("Chapter_"+ChapterNum+":End",&InformationList));
+        SubElement.setAttribute("Duration", GetInformationValue("Chapter_"+ChapterNum+":Duration",&InformationList));
+        SubElement.setAttribute("title",    GetInformationValue("Chapter_"+ChapterNum+":title",&InformationList));
+        SubElement.setAttribute("InSlide",  GetInformationValue("Chapter_"+ChapterNum+":InSlide",&InformationList));
         Element.appendChild(SubElement);
     }
     domDocument.appendChild(Element);
@@ -751,18 +739,7 @@ bool cffDProjectFile::LoadFromXML(QDomElement domDocument) {
             DefaultLanguage=Element.attribute("DefaultLanguage");
             InformationList.append(QString("Audio_000:language")+QString("##")+QString(DefaultLanguage));
         }
-        if (Element.hasAttribute("Duration")) {
-            Duration=QTime(0,0,0,0).addMSecs(Element.attribute("Duration").toLongLong());
-            if (QTime(0,0,0,0).msecsTo(Duration)!=0) {
-                int     TimeMSec    =QTime(0,0,0,0).msecsTo(Duration)-(QTime(0,0,0,0).msecsTo(Duration)/1000)*1000;
-                int     TimeSec     =int(QTime(0,0,0,0).msecsTo(Duration)/1000);
-                int     TimeHour    =TimeSec/(60*60);
-                int     TimeMinute  =(TimeSec%(60*60))/60;
-                QTime   tDuration;
-                tDuration.setHMS(TimeHour,TimeMinute,TimeSec%60,TimeMSec);
-                InformationList.append(QString("Duration")+QString("##")+tDuration.toString("HH:mm:ss.zzz"));
-            }
-        }
+        if (Element.hasAttribute("Duration")) Duration=QTime(0,0,0,0).addMSecs(Element.attribute("Duration").toLongLong());
         if (Element.hasAttribute("ChaptersNumber")) {
             NbrChapters=Element.attribute("ChaptersNumber").toInt();
             for (int i=0;i<NbrChapters;i++) {
@@ -810,30 +787,25 @@ bool cffDProjectFile::LoadFromXML(QDomElement domDocument) {
 
 //====================================================================================================================
 
-bool cffDProjectFile::GetFullInformationFromFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cffDProjectFile::GetFullInformationFromFile");
+bool cffDProjectFile::GetChildFullInformationFromFile() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cffDProjectFile::GetChildFullInformationFromFile");
 
-    IsInformationValide=ApplicationConfig->FilesTable->GetExtendedProperties(FileKey,&InformationList)&&ApplicationConfig->FilesTable->GetThumbs(FileKey,&Icon16,&Icon100);
-    if (IsInformationValide) return true; else {
+    LoadIcons(&ApplicationConfig->DefaultFFDIcon);
 
-        LoadIcons(&ApplicationConfig->DefaultFFDIcon);
-
-        QFile           file(FileName());
-        QDomDocument    domDocument;
-        QDomElement     root;
-        QString         errorStr;
-        int             errorLine,errorColumn;
-        if (file.open(QFile::ReadOnly | QFile::Text)) {
-            if (domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
-                root = domDocument.documentElement();
-                // Load project properties
-                if (root.tagName()==FFD_APPLICATION_ROOTNAME) LoadFromXML(root);
-            }
-            file.close();
+    QFile           file(FileName());
+    QDomDocument    domDocument;
+    QDomElement     root;
+    QString         errorStr;
+    int             errorLine,errorColumn;
+    if (file.open(QFile::ReadOnly | QFile::Text)) {
+        if (domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
+            root = domDocument.documentElement();
+            // Load project properties
+            if (root.tagName()==FFD_APPLICATION_ROOTNAME) LoadFromXML(root);
         }
-        IsInformationValide=true;
-        return SaveAllInformationToDatabase();
+        file.close();
     }
+    return true;
 }
 
 //====================================================================================================================
@@ -933,265 +905,256 @@ bool cImageFile::GetInformationFromFile(QString FileName,QStringList *AliasList,
 
 //====================================================================================================================
 
-bool cImageFile::GetFullInformationFromFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::GetFullInformationFromFile");
+bool cImageFile::GetChildFullInformationFromFile() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::GetChildFullInformationFromFile");
 
-    IsInformationValide=ApplicationConfig->FilesTable->GetExtendedProperties(FileKey,&InformationList)&&ApplicationConfig->FilesTable->GetThumbs(FileKey,&Icon16,&Icon100);
-    if (IsInformationValide) return true; else {
+    ImageOrientation    =-1;
+    bool                ExifOk=false;
 
-        ImageOrientation    =-1;
-        IsInformationValide =false;
-        bool                ExifOk=false;
+    if ((!IsVectorImg)&&(!NoExifData)) {
 
-        if ((!IsVectorImg)&&(!NoExifData)) {
+        // ******************************************************************************************************
+        // Try to load EXIF information using library exiv2
+        // ******************************************************************************************************
+        Exiv2::Image::AutoPtr ImageFile;
+        try {
+            #ifdef Q_OS_WIN
+                ImageFile=Exiv2::ImageFactory::open(FileName().toLocal8Bit().data());
+            #else
+                ImageFile=Exiv2::ImageFactory::open(FileName().toUtf8().data());
+            #endif
+            ExifOk=true;
+        }
+        catch( Exiv2::Error& ) {
+            //ToLog(LOGMSG_INFORMATION,QApplication::translate("cBaseMediaFile","Image don't have EXIF metadata %1").arg(FileName));
+            NoExifData=true;
+        }
+        if ((ExifOk)&&(ImageFile->good())) {
+            ImageFile->readMetadata();
+            // Read data
+            Exiv2::ExifData &exifData = ImageFile->exifData();
+            if (!exifData.empty()) {
+                Exiv2::ExifData::const_iterator end = exifData.end();
+                for (Exiv2::ExifData::const_iterator CurrentData=exifData.begin();CurrentData!=end;++CurrentData) {
 
-            // ******************************************************************************************************
-            // Try to load EXIF information using library exiv2
-            // ******************************************************************************************************
-            Exiv2::Image::AutoPtr ImageFile;
-            try {
-                #ifdef Q_OS_WIN
-                    ImageFile=Exiv2::ImageFactory::open(FileName().toLocal8Bit().data());
-                #else
-                    ImageFile=Exiv2::ImageFactory::open(FileName().toUtf8().data());
-                #endif
-                ExifOk=true;
-            }
-            catch( Exiv2::Error& ) {
-                //ToLog(LOGMSG_INFORMATION,QApplication::translate("cBaseMediaFile","Image don't have EXIF metadata %1").arg(FileName));
-                NoExifData=true;
-            }
-            if ((ExifOk)&&(ImageFile->good())) {
-                ImageFile->readMetadata();
-                // Read data
-                Exiv2::ExifData &exifData = ImageFile->exifData();
-                if (!exifData.empty()) {
-                    Exiv2::ExifData::const_iterator end = exifData.end();
-                    for (Exiv2::ExifData::const_iterator CurrentData=exifData.begin();CurrentData!=end;++CurrentData) {
+                    if ((QString().fromStdString(CurrentData->key())=="Exif.Image.Orientation")&&(CurrentData->tag()==274))
+                        ImageOrientation=QString().fromStdString(CurrentData->value().toString()).toInt();
 
-                        if ((QString().fromStdString(CurrentData->key())=="Exif.Image.Orientation")&&(CurrentData->tag()==274))
-                            ImageOrientation=QString().fromStdString(CurrentData->value().toString()).toInt();
-
-                        if ((CurrentData->typeId()!=Exiv2::undefined)&&
-                            (!(((CurrentData->typeId()==Exiv2::unsignedByte)||(CurrentData->typeId()==Exiv2::signedByte))&&(CurrentData->size()>64)))) {
-                            QString Key  =QString().fromStdString(CurrentData->key());
-                            #ifdef Q_OS_WIN
-                            QString Value=QString().fromStdString(CurrentData->print(&exifData).c_str());
-                            #else
-                            QString Value=QString().fromUtf8(CurrentData->print(&exifData).c_str());
-                            #endif
-                            if (Key.startsWith("Exif.")) Key=Key.mid(QString("Exif.").length());
-                            InformationList.append(Key+QString("##")+Value);
-                        }
+                    if ((CurrentData->typeId()!=Exiv2::undefined)&&
+                        (!(((CurrentData->typeId()==Exiv2::unsignedByte)||(CurrentData->typeId()==Exiv2::signedByte))&&(CurrentData->size()>64)))) {
+                        QString Key  =QString().fromStdString(CurrentData->key());
+                        #ifdef Q_OS_WIN
+                        QString Value=QString().fromStdString(CurrentData->print(&exifData).c_str());
+                        #else
+                        QString Value=QString().fromUtf8(CurrentData->print(&exifData).c_str());
+                        #endif
+                        if (Key.startsWith("Exif.")) Key=Key.mid(QString("Exif.").length());
+                        InformationList.append(Key+QString("##")+Value);
                     }
                 }
+            }
 
-                // Append InformationList
-                if (GetInformationValue("Image.Artist")!="") InformationList.append(QString("artist")+QString("##")+GetInformationValue("Image.Artist"));
-                if (GetInformationValue("Image.Model")!="")  {
-                    if (GetInformationValue("Image.Model").contains(GetInformationValue("Image.Make"),Qt::CaseInsensitive)) InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Model"));
-                        else InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Make")+" "+GetInformationValue("Image.Model"));
-                }
-                // Get size information
-                ImageWidth =ImageFile->pixelWidth();
-                ImageHeight=ImageFile->pixelHeight();
+            // Append InformationList
+            if (GetInformationValue("Image.Artist",&InformationList)!="") InformationList.append(QString("artist")+QString("##")+GetInformationValue("Image.Artist",&InformationList));
+            if (GetInformationValue("Image.Model",&InformationList)!="")  {
+                if (GetInformationValue("Image.Model",&InformationList).contains(GetInformationValue("Image.Make",&InformationList),Qt::CaseInsensitive)) InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Model",&InformationList));
+                    else InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Make",&InformationList)+" "+GetInformationValue("Image.Model",&InformationList));
+            }
+            // Get size information
+            ImageWidth =ImageFile->pixelWidth();
+            ImageHeight=ImageFile->pixelHeight();
 
-                //if (GetInformationValue("Photo.PixelXDimension")!="")       ImageWidth =GetInformationValue("Photo.PixelXDimension").toInt();
-                //    else if (GetInformationValue("Image.ImageWidth")!="")   ImageWidth =GetInformationValue("Image.ImageWidth").toInt();            // TIFF Version
-                //if (GetInformationValue("Photo.PixelYDimension")!="")       ImageHeight=GetInformationValue("Photo.PixelYDimension").toInt();
-                //    else if (GetInformationValue("Image.ImageLength")!="")  ImageHeight=GetInformationValue("Image.ImageLength").toInt();           // TIFF Version
+            //if (GetInformationValue("Photo.PixelXDimension")!="")       ImageWidth =GetInformationValue("Photo.PixelXDimension").toInt();
+            //    else if (GetInformationValue("Image.ImageWidth")!="")   ImageWidth =GetInformationValue("Image.ImageWidth").toInt();            // TIFF Version
+            //if (GetInformationValue("Photo.PixelYDimension")!="")       ImageHeight=GetInformationValue("Photo.PixelYDimension").toInt();
+            //    else if (GetInformationValue("Image.ImageLength")!="")  ImageHeight=GetInformationValue("Image.ImageLength").toInt();           // TIFF Version
 
-                // switch ImageWidth and ImageHeight if image was rotated
-                if ((ImageOrientation==6)||(ImageOrientation==8)) {
-                    int IW=ImageWidth;
-                    ImageWidth=ImageHeight;
-                    ImageHeight=IW;
-                }
+            // switch ImageWidth and ImageHeight if image was rotated
+            if ((ImageOrientation==6)||(ImageOrientation==8)) {
+                int IW=ImageWidth;
+                ImageWidth=ImageHeight;
+                ImageHeight=IW;
+            }
 
-                // Read preview image
-                #ifdef EXIV2WITHPREVIEW
-                if (IsIconNeeded) {
-                    Exiv2::PreviewManager *Manager=new Exiv2::PreviewManager(*ImageFile);
-                    if (Manager) {
-                        Exiv2::PreviewPropertiesList Properties=Manager->getPreviewProperties();
-                        if (!Properties.empty()) {
-                            Exiv2::PreviewImage Image=Manager->getPreviewImage(Properties[Properties.size()-1]);      // Get the latest image (biggest)
-                            QImage *Icon=new QImage();
-                            if (Icon->loadFromData(QByteArray((const char*)Image.pData(),Image.size()))) {
-                                if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
-                                    QMatrix matrix;
-                                    matrix.rotate(-90);
-                                    QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
-                                    delete Icon;
-                                    Icon=NewImage;
-                                } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
-                                    QMatrix matrix;
-                                    matrix.rotate(180);
-                                    QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
-                                    delete Icon;
-                                    Icon=NewImage;
-                                } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
-                                    QMatrix matrix;
-                                    matrix.rotate(90);
-                                    QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
-                                    delete Icon;
-                                    Icon=NewImage;
-                                }
-
-                                // Sometimes, Icon have black bar : try to remove them
-                                if ((double(Icon->width())/double(Icon->height()))!=(double(ImageWidth)/double(ImageHeight))) {
-                                    if (ImageWidth>ImageHeight) {
-                                        int RealHeight=int((double(Icon->width())*double(ImageHeight))/double(ImageWidth));
-                                        int Delta     =Icon->height()-RealHeight;
-                                        QImage *NewImage=new QImage(Icon->copy(0,Delta/2,Icon->width(),Icon->height()-Delta));
-                                        delete Icon;
-                                        Icon=NewImage;
-                                        // if preview Icon have a really small size, then don't use it
-                                        if (Icon->width()>=ApplicationConfig->MinimumEXIFHeight) LoadIcons(Icon);
-                                    } else {
-                                        int RealWidth=int((double(Icon->height())*double(ImageWidth))/double(ImageHeight));
-                                        int Delta     =Icon->width()-RealWidth;
-                                        QImage *NewImage=new QImage(Icon->copy(Delta/2,0,Icon->width()-Delta,Icon->height()));
-                                        delete Icon;
-                                        Icon=NewImage;
-                                        // if preview Icon have a really small size, then don't use it
-                                        if (Icon->height()>=ApplicationConfig->MinimumEXIFHeight) LoadIcons(Icon);
-                                    }
-                                }
-
+            // Read preview image
+            #ifdef EXIV2WITHPREVIEW
+            if (IsIconNeeded) {
+                Exiv2::PreviewManager *Manager=new Exiv2::PreviewManager(*ImageFile);
+                if (Manager) {
+                    Exiv2::PreviewPropertiesList Properties=Manager->getPreviewProperties();
+                    if (!Properties.empty()) {
+                        Exiv2::PreviewImage Image=Manager->getPreviewImage(Properties[Properties.size()-1]);      // Get the latest image (biggest)
+                        QImage *Icon=new QImage();
+                        if (Icon->loadFromData(QByteArray((const char*)Image.pData(),Image.size()))) {
+                            if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
+                                QMatrix matrix;
+                                matrix.rotate(-90);
+                                QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
+                                delete Icon;
+                                Icon=NewImage;
+                            } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
+                                QMatrix matrix;
+                                matrix.rotate(180);
+                                QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
+                                delete Icon;
+                                Icon=NewImage;
+                            } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
+                                QMatrix matrix;
+                                matrix.rotate(90);
+                                QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
+                                delete Icon;
+                                Icon=NewImage;
                             }
-                            delete Icon;
+
+                            // Sometimes, Icon have black bar : try to remove them
+                            if ((double(Icon->width())/double(Icon->height()))!=(double(ImageWidth)/double(ImageHeight))) {
+                                if (ImageWidth>ImageHeight) {
+                                    int RealHeight=int((double(Icon->width())*double(ImageHeight))/double(ImageWidth));
+                                    int Delta     =Icon->height()-RealHeight;
+                                    QImage *NewImage=new QImage(Icon->copy(0,Delta/2,Icon->width(),Icon->height()-Delta));
+                                    delete Icon;
+                                    Icon=NewImage;
+                                    // if preview Icon have a really small size, then don't use it
+                                    if (Icon->width()>=ApplicationConfig->MinimumEXIFHeight) LoadIcons(Icon);
+                                } else {
+                                    int RealWidth=int((double(Icon->height())*double(ImageWidth))/double(ImageHeight));
+                                    int Delta     =Icon->width()-RealWidth;
+                                    QImage *NewImage=new QImage(Icon->copy(Delta/2,0,Icon->width()-Delta,Icon->height()));
+                                    delete Icon;
+                                    Icon=NewImage;
+                                    // if preview Icon have a really small size, then don't use it
+                                    if (Icon->height()>=ApplicationConfig->MinimumEXIFHeight) LoadIcons(Icon);
+                                }
+                            }
+
                         }
-                        delete Manager;
+                        delete Icon;
                     }
+                    delete Manager;
                 }
-                #endif
             }
+            #endif
+        }
 
-        } else if (IsVectorImg) {
-            // Vector image file
-            QSvgRenderer SVGImg(FileName());
-            if (SVGImg.isValid()) {
-                ImageOrientation=0;
-                ImageWidth      =SVGImg.viewBox().width();
-                ImageHeight     =SVGImg.viewBox().height();
+    } else if (IsVectorImg) {
+        // Vector image file
+        QSvgRenderer SVGImg(FileName());
+        if (SVGImg.isValid()) {
+            ImageOrientation=0;
+            ImageWidth      =SVGImg.viewBox().width();
+            ImageHeight     =SVGImg.viewBox().height();
 
-                QPainter Painter;
-                QImage   Img;
-                qreal    RatioX=(ImageWidth>ImageHeight?1:qreal(ImageWidth)/qreal(ImageHeight));
-                qreal    RatioY=(ImageWidth<ImageHeight?1:qreal(ImageHeight)/qreal(ImageWidth));
+            QPainter Painter;
+            QImage   Img;
+            qreal    RatioX=(ImageWidth>ImageHeight?1:qreal(ImageWidth)/qreal(ImageHeight));
+            qreal    RatioY=(ImageWidth<ImageHeight?1:qreal(ImageHeight)/qreal(ImageWidth));
 
-                // 16x16 icon
-                Img=QImage(qreal(16)*RatioX,qreal(16)*RatioY,QImage::Format_ARGB32);
-                Painter.begin(&Img);
-                Painter.setCompositionMode(QPainter::CompositionMode_Source);
-                Painter.fillRect(QRect(0,0,Img.width(),Img.height()),Qt::transparent);
-                Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-                SVGImg.render(&Painter);
-                Painter.end();
-                Icon16=QImage(16,16,QImage::Format_ARGB32_Premultiplied);
-                Painter.begin(&Icon16);
-                Painter.setCompositionMode(QPainter::CompositionMode_Source);
-                Painter.fillRect(QRect(0,0,Icon16.width(),Icon16.height()),Qt::transparent);
-                Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-                Painter.drawImage(QPoint((16-Img.width())/2,(16-Img.height())/2),Img);
-                Painter.end();
+            // 16x16 icon
+            Img=QImage(qreal(16)*RatioX,qreal(16)*RatioY,QImage::Format_ARGB32);
+            Painter.begin(&Img);
+            Painter.setCompositionMode(QPainter::CompositionMode_Source);
+            Painter.fillRect(QRect(0,0,Img.width(),Img.height()),Qt::transparent);
+            Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+            SVGImg.render(&Painter);
+            Painter.end();
+            Icon16=QImage(16,16,QImage::Format_ARGB32_Premultiplied);
+            Painter.begin(&Icon16);
+            Painter.setCompositionMode(QPainter::CompositionMode_Source);
+            Painter.fillRect(QRect(0,0,Icon16.width(),Icon16.height()),Qt::transparent);
+            Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+            Painter.drawImage(QPoint((16-Img.width())/2,(16-Img.height())/2),Img);
+            Painter.end();
 
-                // 100x100 icon
-                Img=QImage(qreal(100)*RatioX,qreal(100)*RatioY,QImage::Format_ARGB32);
-                Painter.begin(&Img);
-                Painter.setCompositionMode(QPainter::CompositionMode_Source);
-                Painter.fillRect(QRect(0,0,Img.width(),Img.height()),Qt::transparent);
-                Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-                SVGImg.render(&Painter);
-                Painter.end();
-                Icon100=QImage(100,100,QImage::Format_ARGB32_Premultiplied);
-                Painter.begin(&Icon100);
-                Painter.setCompositionMode(QPainter::CompositionMode_Source);
-                Painter.fillRect(QRect(0,0,Icon100.width(),Icon100.height()),Qt::transparent);
-                Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-                Painter.drawImage(QPoint((100-Img.width())/2,(100-Img.height())/2),Img);
-                Painter.end();
+            // 100x100 icon
+            Img=QImage(qreal(100)*RatioX,qreal(100)*RatioY,QImage::Format_ARGB32);
+            Painter.begin(&Img);
+            Painter.setCompositionMode(QPainter::CompositionMode_Source);
+            Painter.fillRect(QRect(0,0,Img.width(),Img.height()),Qt::transparent);
+            Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+            SVGImg.render(&Painter);
+            Painter.end();
+            Icon100=QImage(100,100,QImage::Format_ARGB32_Premultiplied);
+            Painter.begin(&Icon100);
+            Painter.setCompositionMode(QPainter::CompositionMode_Source);
+            Painter.fillRect(QRect(0,0,Icon100.width(),Icon100.height()),Qt::transparent);
+            Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+            Painter.drawImage(QPoint((100-Img.width())/2,(100-Img.height())/2),Img);
+            Painter.end();
 
+            InformationList.append(QString("Photo.PixelXDimension")+QString("##")+QString("%1").arg(ImageWidth));
+            InformationList.append(QString("Photo.PixelYDimension")+QString("##")+QString("%1").arg(ImageHeight));
+        }
+    }
+
+    //************************************************************************************
+    // If no exif preview image (of image too small) then load/create thumbnail
+    //************************************************************************************
+    if ((!IsVectorImg)&&(IsIconNeeded)&&(Icon16.isNull())) {
+        cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileKey,ModifDateTime,ImageOrientation,ApplicationConfig->Smoothing,true);
+        if (ImageObject==NULL) {
+            ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : FindObject return NULL for thumbnail creation !");
+        } else {
+            QImageReader ImgReader(FileName());
+            if (ImgReader.canRead()) {
+                QSize Size=ImgReader.size();
+                if ((Size.width()>=100)||(Size.height()>=100)) {
+                    if ((qreal(Size.height())/qreal(Size.width()))*100<=100) {
+                        Size.setHeight((qreal(Size.height())/qreal(Size.width()))*100);
+                        Size.setWidth(100);
+                    } else {
+                        Size.setWidth((qreal(Size.width())/qreal(Size.height()))*100);
+                        Size.setHeight(100);
+                    }
+                    ImgReader.setScaledSize(Size);
+                }
+                QImage Image=ImgReader.read();
+                if (Image.isNull()) ToLog(LOGMSG_CRITICAL,"QImageReader.read return error in GetFullInformationFromFile");
+                    else LoadIcons(&Image);
+            }
+        }
+    }
+
+    //************************************************************************************
+    // if no information about size then load image
+    //************************************************************************************
+    if ((!IsVectorImg)&&((ImageWidth==0)||(ImageHeight==0))) {
+        cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileKey,ModifDateTime,ImageOrientation,ApplicationConfig->Smoothing,true);
+        if (ImageObject==NULL) {
+            ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : FindObject return NULL for size computation !");
+        } else {
+            QImageReader Img(FileName());
+            if (Img.canRead()) {
+                QSize Size =Img.size();
+                ImageWidth =Size.width();
+                ImageHeight=Size.height();
                 InformationList.append(QString("Photo.PixelXDimension")+QString("##")+QString("%1").arg(ImageWidth));
                 InformationList.append(QString("Photo.PixelYDimension")+QString("##")+QString("%1").arg(ImageHeight));
-                IsInformationValide=true;
             }
         }
-
-        //************************************************************************************
-        // If no exif preview image (of image too small) then load/create thumbnail
-        //************************************************************************************
-        if ((!IsVectorImg)&&(IsIconNeeded)&&(Icon16.isNull())) {
-            cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileKey,ModifDateTime,ImageOrientation,ApplicationConfig->Smoothing,true);
-            if (ImageObject==NULL) {
-                ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : FindObject return NULL for thumbnail creation !");
-            } else {
-                QImageReader ImgReader(FileName());
-                if (ImgReader.canRead()) {
-                    QSize Size=ImgReader.size();
-                    if ((Size.width()>=100)||(Size.height()>=100)) {
-                        if ((qreal(Size.height())/qreal(Size.width()))*100<=100) {
-                            Size.setHeight((qreal(Size.height())/qreal(Size.width()))*100);
-                            Size.setWidth(100);
-                        } else {
-                            Size.setWidth((qreal(Size.width())/qreal(Size.height()))*100);
-                            Size.setHeight(100);
-                        }
-                        ImgReader.setScaledSize(Size);
-                    }
-                    QImage Image=ImgReader.read();
-                    if (Image.isNull()) ToLog(LOGMSG_CRITICAL,"QImageReader.read return error in GetFullInformationFromFile");
-                        else LoadIcons(&Image);
-                }
-            }
-        }
-
-        //************************************************************************************
-        // if no information about size then load image
-        //************************************************************************************
-        if ((!IsVectorImg)&&((ImageWidth==0)||(ImageHeight==0))) {
-            cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileKey,ModifDateTime,ImageOrientation,ApplicationConfig->Smoothing,true);
-            if (ImageObject==NULL) {
-                ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : FindObject return NULL for size computation !");
-            } else {
-                QImageReader Img(FileName());
-                if (Img.canRead()) {
-                    QSize Size =Img.size();
-                    ImageWidth =Size.width();
-                    ImageHeight=Size.height();
-                    InformationList.append(QString("Photo.PixelXDimension")+QString("##")+QString("%1").arg(ImageWidth));
-                    InformationList.append(QString("Photo.PixelYDimension")+QString("##")+QString("%1").arg(ImageHeight));
-                    IsInformationValide=true;
-                }
-            }
-        }
-
-        //************************************************************************************
-        // End process by computing some values ....
-        //************************************************************************************
-
-        // Sort InformationList
-        InformationList.sort();
-
-        // Now we have image size then compute image geometry
-        ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
-        double RatioHW=double(ImageWidth)/double(ImageHeight);
-        if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
-        else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
-        else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
-        else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
-        else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
-        else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
-        else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
-        else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
-
-        // if Icon16 stil null then load default icon
-        if ((IsIconNeeded)&&(Icon16.isNull())) LoadIcons(&ApplicationConfig->DefaultIMAGEIcon);
-
-        IsInformationValide=true;
-        return SaveAllInformationToDatabase();
     }
+
+    //************************************************************************************
+    // End process by computing some values ....
+    //************************************************************************************
+
+    // Sort InformationList
+    InformationList.sort();
+
+    // Now we have image size then compute image geometry
+    ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
+    double RatioHW=double(ImageWidth)/double(ImageHeight);
+    if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
+    else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
+    else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
+    else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
+    else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
+    else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
+    else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
+    else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
+
+    // if Icon16 stil null then load default icon
+    if ((IsIconNeeded)&&(Icon16.isNull())) LoadIcons(&ApplicationConfig->DefaultIMAGEIcon);
+    return true;
 }
 
 //====================================================================================================================
@@ -1200,9 +1163,9 @@ QString cImageFile::GetTechInfo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::GetTechInfo");
 
     QString Info=GetImageSizeStr(FULLWEB);
-    if (GetInformationValue("artist")!="")              Info=Info+(Info!=""?"-":"")+GetInformationValue("artist");
-    if (GetInformationValue("composer")!="")            Info=Info+(Info!=""?"-":"")+GetInformationValue("composer");
-    if (GetInformationValue("Image.Orientation")!="")   Info=Info+(Info!=""?"-":"")+GetInformationValue("Image.Orientation");
+    if (GetInformationValue("artist",&InformationList)!="")              Info=Info+(Info!=""?"-":"")+GetInformationValue("artist",&InformationList);
+    if (GetInformationValue("composer",&InformationList)!="")            Info=Info+(Info!=""?"-":"")+GetInformationValue("composer",&InformationList);
+    if (GetInformationValue("Image.Orientation",&InformationList)!="")   Info=Info+(Info!=""?"-":"")+GetInformationValue("Image.Orientation",&InformationList);
     return Info;
 }
 
@@ -1211,14 +1174,14 @@ QString cImageFile::GetTechInfo() {
 QString cImageFile::GetTAGInfo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::GetTAGInfo");
 
-    QString Info=GetInformationValue("Photo.ExposureTime");
-    if (GetInformationValue("Photo.ApertureValue")!="")    Info=Info+(Info!=""?"-":"")+GetInformationValue("Photo.ApertureValue");
-    if (GetInformationValue("Photo.ISOSpeedRatings")!="")  Info=Info+(Info!=""?"-":"")+GetInformationValue("Photo.ISOSpeedRatings")+" ISO";
-    if (GetInformationValue("CanonCs.LensType")!="")       Info=Info+(Info!=""?"-":"")+GetInformationValue("CanonCs.LensType");                // Canon version
-    if (GetInformationValue("NikonLd3.LensIDNumber")!="")  Info=Info+(Info!=""?"-":"")+GetInformationValue("NikonLd3.LensIDNumber");           // Nikon version
-    if (GetInformationValue("Photo.Flash")!="")            Info=Info+(Info!=""?"-":"")+GetInformationValue("Photo.Flash");
-    if (GetInformationValue("CanonCs.FlashMode")!="")      Info=Info+(Info!=""?"-":"")+GetInformationValue("CanonCs.FlashMode");               // Canon version
-    if (GetInformationValue("Nikon3.FlashMode")!="")       Info=Info+(Info!=""?"-":"")+GetInformationValue("Nikon3.FlashMode");                // Nikon version
+    QString Info=GetInformationValue("Photo.ExposureTime",&InformationList);
+    if (GetInformationValue("Photo.ApertureValue",&InformationList)!="")    Info=Info+(Info!=""?"-":"")+GetInformationValue("Photo.ApertureValue",&InformationList);
+    if (GetInformationValue("Photo.ISOSpeedRatings",&InformationList)!="")  Info=Info+(Info!=""?"-":"")+GetInformationValue("Photo.ISOSpeedRatings",&InformationList)+" ISO";
+    if (GetInformationValue("CanonCs.LensType",&InformationList)!="")       Info=Info+(Info!=""?"-":"")+GetInformationValue("CanonCs.LensType",&InformationList);                // Canon version
+    if (GetInformationValue("NikonLd3.LensIDNumber",&InformationList)!="")  Info=Info+(Info!=""?"-":"")+GetInformationValue("NikonLd3.LensIDNumber",&InformationList);           // Nikon version
+    if (GetInformationValue("Photo.Flash",&InformationList)!="")            Info=Info+(Info!=""?"-":"")+GetInformationValue("Photo.Flash",&InformationList);
+    if (GetInformationValue("CanonCs.FlashMode",&InformationList)!="")      Info=Info+(Info!=""?"-":"")+GetInformationValue("CanonCs.FlashMode",&InformationList);               // Canon version
+    if (GetInformationValue("Nikon3.FlashMode",&InformationList)!="")       Info=Info+(Info!=""?"-":"")+GetInformationValue("Nikon3.FlashMode",&InformationList);                // Nikon version
     return Info;
 }
 
@@ -1402,441 +1365,428 @@ void cVideoFile::SaveBasicInformationToDatabase(QDomElement *root) {
 //      return true if WantedObjectType=OBJECTTYPE_VIDEOFILE and at least one video track is present
 //      return true if WantedObjectType=OBJECTTYPE_MUSICFILE and at least one audio track is present
 
-bool cVideoFile::GetFullInformationFromFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::GetFullInformationFromFile");
+bool cVideoFile::GetChildFullInformationFromFile() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::GetChildFullInformationFromFile");
 
-    IsInformationValide=ApplicationConfig->FilesTable->GetExtendedProperties(FileKey,&InformationList)&&ApplicationConfig->FilesTable->GetThumbs(FileKey,&Icon16,&Icon100);
-    if (IsInformationValide) return true; else {
+    //Mutex.lock();
+    bool            Continu=true;
+    AVFormatContext *LibavFile=NULL;
+    QString         sFileName=FileName();
 
-        //Mutex.lock();
-        bool            Continu=true;
-        AVFormatContext *LibavFile=NULL;
-        QString         sFileName=FileName();
+    //*********************************************************************************************************
+    // Open file and get a LibAVFormat context and an associated LibAVCodec decoder
+    //*********************************************************************************************************
+    char filename[512];
+    strcpy(filename,sFileName.toLocal8Bit());
+    if (avformat_open_input(&LibavFile,filename,NULL,NULL)!=0) {
+        LibavFile=NULL;
+        //Mutex.unlock();
+        return false;
+    }
+    InformationList.append(QString("Short Format##")+QString(LibavFile->iformat->name));
+    InformationList.append(QString("Long Format##")+QString(LibavFile->iformat->long_name));
+    LibavFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future NbrFrames.
 
+    //*********************************************************************************************************
+    // Search stream in file
+    //*********************************************************************************************************
+    if (avformat_find_stream_info(LibavFile,NULL)<0) {
+        avformat_close_input(&LibavFile);
+        LibavFile=NULL;
+        Continu=false;
+    }
+
+    if (Continu) {
         //*********************************************************************************************************
-        // Open file and get a LibAVFormat context and an associated LibAVCodec decoder
+        // Get metadata
         //*********************************************************************************************************
-        char filename[512];
-        strcpy(filename,sFileName.toLocal8Bit());
-        if (avformat_open_input(&LibavFile,filename,NULL,NULL)!=0) {
-            LibavFile=NULL;
-            //Mutex.unlock();
-            return false;
+        AVDictionaryEntry *tag=NULL;
+        while ((tag=av_dict_get(LibavFile->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
+            QString Value=QString().fromUtf8(tag->value);
+            #ifdef Q_OS_WIN
+            Value.replace(char(13),"\n");
+            #endif
+            if (Value.endsWith("\n")) Value=Value.left(Value.lastIndexOf("\n"));
+            InformationList.append(QString().fromUtf8(tag->key).toLower()+QString("##")+Value);
         }
-        InformationList.append(QString("Short Format##")+QString(LibavFile->iformat->name));
-        InformationList.append(QString("Long Format##")+QString(LibavFile->iformat->long_name));
-        LibavFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future NbrFrames.
 
         //*********************************************************************************************************
-        // Search stream in file
+        // Get chapters
         //*********************************************************************************************************
-        if (avformat_find_stream_info(LibavFile,NULL)<0) {
-            avformat_close_input(&LibavFile);
-            LibavFile=NULL;
-            Continu=false;
-        }
+        NbrChapters=0;
+        for (uint i=0;i<LibavFile->nb_chapters;i++) {
+            AVChapter   *ch=LibavFile->chapters[i];
+            QString     ChapterNum=QString("%1").arg(NbrChapters);
+            while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
+            int64_t Start=double(ch->start)*(double(av_q2d(ch->time_base))*1000);     // Lib AV use 1/1 000 000 000 sec and we want msec !
+            int64_t End  =double(ch->end)*(double(av_q2d(ch->time_base))*1000);       // Lib AV use 1/1 000 000 000 sec and we want msec !
 
-        if (Continu) {
-            //*********************************************************************************************************
-            // Get metadata
-            //*********************************************************************************************************
-            AVDictionaryEntry *tag=NULL;
-            while ((tag=av_dict_get(LibavFile->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
-                QString Value=QString().fromUtf8(tag->value);
-                #ifdef Q_OS_WIN
-                Value.replace(char(13),"\n");
-                #endif
-                if (Value.endsWith("\n")) Value=Value.left(Value.lastIndexOf("\n"));
-                InformationList.append(QString().fromUtf8(tag->key).toLower()+QString("##")+Value);
-            }
-
-            //*********************************************************************************************************
-            // Get chapters
-            //*********************************************************************************************************
-            NbrChapters=0;
-            for (uint i=0;i<LibavFile->nb_chapters;i++) {
-                AVChapter   *ch=LibavFile->chapters[i];
-                QString     ChapterNum=QString("%1").arg(NbrChapters);
-                while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
-                int64_t Start=double(ch->start)*(double(av_q2d(ch->time_base))*1000);     // Lib AV use 1/1 000 000 000 sec and we want msec !
-                int64_t End  =double(ch->end)*(double(av_q2d(ch->time_base))*1000);       // Lib AV use 1/1 000 000 000 sec and we want msec !
-
-                // Special case if it's first chapter and start!=0 => add a chapter 0
-                if ((NbrChapters==0)&&(LibavFile->chapters[i]->start>0)) {
-                    InformationList.append("Chapter_"+ChapterNum+":Start"   +QString("##")+QTime(0,0,0,0).toString("hh:mm:ss.zzz"));
-                    InformationList.append("Chapter_"+ChapterNum+":End"     +QString("##")+QTime(0,0,0,0).addMSecs(Start).toString("hh:mm:ss.zzz"));
-                    InformationList.append("Chapter_"+ChapterNum+":Duration"+QString("##")+QTime(0,0,0,0).addMSecs(Start).toString("hh:mm:ss.zzz"));
-                    if (GetInformationValue("title")!="") InformationList.append("Chapter_"+ChapterNum+":title##"+GetInformationValue("title"));
-                        else InformationList.append("Chapter_"+ChapterNum+":title##"+QFileInfo(sFileName).baseName());
-                    NbrChapters++;
-                    ChapterNum=QString("%1").arg(NbrChapters);
-                    while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
-                }
-
-                InformationList.append("Chapter_"+ChapterNum+":Start"   +QString("##")+QTime(0,0,0,0).addMSecs(Start).toString("hh:mm:ss.zzz"));
-                InformationList.append("Chapter_"+ChapterNum+":End"     +QString("##")+QTime(0,0,0,0).addMSecs(End).toString("hh:mm:ss.zzz"));
-                InformationList.append("Chapter_"+ChapterNum+":Duration"+QString("##")+QTime(0,0,0,0).addMSecs(End-Start).toString("hh:mm:ss.zzz"));
-                // Chapter metadata
-                while ((tag=av_dict_get(ch->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
-                    InformationList.append("Chapter_"+ChapterNum+":"+QString().fromUtf8(tag->key).toLower()+QString("##")+QString().fromUtf8(tag->value));
-
+            // Special case if it's first chapter and start!=0 => add a chapter 0
+            if ((NbrChapters==0)&&(LibavFile->chapters[i]->start>0)) {
+                InformationList.append("Chapter_"+ChapterNum+":Start"   +QString("##")+QTime(0,0,0,0).toString("hh:mm:ss.zzz"));
+                InformationList.append("Chapter_"+ChapterNum+":End"     +QString("##")+QTime(0,0,0,0).addMSecs(Start).toString("hh:mm:ss.zzz"));
+                InformationList.append("Chapter_"+ChapterNum+":Duration"+QString("##")+QTime(0,0,0,0).addMSecs(Start).toString("hh:mm:ss.zzz"));
+                if (GetInformationValue("title",&InformationList)!="") InformationList.append("Chapter_"+ChapterNum+":title##"+GetInformationValue("title",&InformationList));
+                    else InformationList.append("Chapter_"+ChapterNum+":title##"+QFileInfo(sFileName).baseName());
                 NbrChapters++;
+                ChapterNum=QString("%1").arg(NbrChapters);
+                while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
             }
 
+            InformationList.append("Chapter_"+ChapterNum+":Start"   +QString("##")+QTime(0,0,0,0).addMSecs(Start).toString("hh:mm:ss.zzz"));
+            InformationList.append("Chapter_"+ChapterNum+":End"     +QString("##")+QTime(0,0,0,0).addMSecs(End).toString("hh:mm:ss.zzz"));
+            InformationList.append("Chapter_"+ChapterNum+":Duration"+QString("##")+QTime(0,0,0,0).addMSecs(End-Start).toString("hh:mm:ss.zzz"));
+            // Chapter metadata
+            while ((tag=av_dict_get(ch->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
+                InformationList.append("Chapter_"+ChapterNum+":"+QString().fromUtf8(tag->key).toLower()+QString("##")+QString().fromUtf8(tag->value));
+
+            NbrChapters++;
+        }
+
+        //*********************************************************************************************************
+        // Get information about duration
+        //*********************************************************************************************************
+        int64_t ms=LibavFile->duration/1000;//-LibavFile->start_time;
+        int     ss=ms/1000;
+        int     mm=ss/60;
+        int     hh=mm/60;
+        mm      =mm-(hh*60);
+        ss      =ss-(ss/60)*60;
+        ms      =ms-(ms/1000)*1000;
+        Duration=QTime(hh,mm,ss,ms);
+        EndPos  =Duration;
+
+        //*********************************************************************************************************
+        // Get information from track
+        //*********************************************************************************************************
+        for (int Track=0;Track<(int)LibavFile->nb_streams;Track++) {
+
+            // Find codec
+            AVCodec *Codec=avcodec_find_decoder(LibavFile->streams[Track]->codec->codec_id);
+
             //*********************************************************************************************************
-            // Get information about duration
+            // Audio track
             //*********************************************************************************************************
-            int       hh,mm,ss;
-            int64_t   ms;
+            if (LibavFile->streams[Track]->codec->codec_type==AVMEDIA_TYPE_AUDIO) {
+                // Keep this as default track
+                if (AudioStreamNumber==-1) AudioStreamNumber=Track;
 
-            ms=LibavFile->duration;//-LibavFile->start_time;
-            ms=ms/1000;
+                // Compute TrackNum
+                QString TrackNum=QString("%1").arg(AudioTrackNbr);
+                while (TrackNum.length()<3) TrackNum="0"+TrackNum;
+                TrackNum="Audio_"+TrackNum+":";
 
-            ss=ms/1000;
-            mm=ss/60;
-            hh=mm/60;
-            mm=mm-(hh*60);
-            ss=ss-(ss/60)*60;
-            ms=ms-(ms/1000)*1000;
-            Duration=QTime(hh,mm,ss,ms);
+                // General
+                InformationList.append(TrackNum+QString("Track")+QString("##")+QString("%1").arg(Track));
+                if (Codec) InformationList.append(TrackNum+QString("Codec")+QString("##")+QString(Codec->name));
 
-            InformationList.append(QString("Duration")+QString("##")+Duration.toString("HH:mm:ss.zzz"));
-            EndPos=Duration;
+                // Channels and Sample format
+                QString SampleFMT="";
+                switch (LibavFile->streams[Track]->codec->sample_fmt) {
+                    case AV_SAMPLE_FMT_U8  : SampleFMT="-U8";   InformationList.append(TrackNum+QString("Sample format")+QString("##")+"unsigned 8 bits");          break;
+                    case AV_SAMPLE_FMT_S16 : SampleFMT="-S16";  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 16 bits");           break;
+                    case AV_SAMPLE_FMT_S32 : SampleFMT="-S32";  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 32 bits");           break;
+                    case AV_SAMPLE_FMT_FLT : SampleFMT="-FLT";  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"float");                    break;
+                    case AV_SAMPLE_FMT_DBL : SampleFMT="-DBL";  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"double");                   break;
+                    case AV_SAMPLE_FMT_U8P : SampleFMT="-U8P";  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"unsigned 8 bits, planar");  break;
+                    case AV_SAMPLE_FMT_S16P: SampleFMT="-S16P"; InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 16 bits, planar");   break;
+                    case AV_SAMPLE_FMT_S32P: SampleFMT="-S32P"; InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 32 bits, planar");   break;
+                    case AV_SAMPLE_FMT_FLTP: SampleFMT="-FLTP"; InformationList.append(TrackNum+QString("Sample format")+QString("##")+"float, planar");            break;
+                    case AV_SAMPLE_FMT_DBLP: SampleFMT="-DBLP"; InformationList.append(TrackNum+QString("Sample format")+QString("##")+"double, planar");           break;
+                    default                : SampleFMT="-?";    InformationList.append(TrackNum+QString("Sample format")+QString("##")+"Unknown");                  break;
+                }
+                if (LibavFile->streams[Track]->codec->channels==1)      InformationList.append(TrackNum+QString("Channels")+QString("##")+QApplication::translate("cBaseMediaFile","Mono","Audio channels mode")+SampleFMT);
+                else if (LibavFile->streams[Track]->codec->channels==2) InformationList.append(TrackNum+QString("Channels")+QString("##")+QApplication::translate("cBaseMediaFile","Stereo","Audio channels mode")+SampleFMT);
+                else                                                    InformationList.append(TrackNum+QString("Channels")+QString("##")+QString("%1").arg(LibavFile->streams[Track]->codec->channels)+SampleFMT);
+
+                // Frequency
+                if (int(LibavFile->streams[Track]->codec->sample_rate/1000)*1000>0) {
+                    if (int(LibavFile->streams[Track]->codec->sample_rate/1000)*1000==LibavFile->streams[Track]->codec->sample_rate)
+                         InformationList.append(TrackNum+QString("Frequency")+QString("##")+QString("%1").arg(int(LibavFile->streams[Track]->codec->sample_rate/1000))+"Khz");
+                    else InformationList.append(TrackNum+QString("Frequency")+QString("##")+QString("%1").arg(double(LibavFile->streams[Track]->codec->sample_rate)/1000,8,'f',1).trimmed()+"Khz");
+                }
+
+                // Bitrate
+                if (int(LibavFile->streams[Track]->codec->bit_rate/1000)>0) InformationList.append(TrackNum+QString("Bitrate")+QString("##")+QString("%1").arg(int(LibavFile->streams[Track]->codec->bit_rate/1000))+"Kb/s");
+
+                // Stream metadata
+                while ((tag=av_dict_get(LibavFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
+                    // OGV container affect TAG to audio stream !
+                    QString Key=QString().fromUtf8(tag->key).toLower();
+                    if ((sFileName.toLower().endsWith(".ogv"))&&((Key=="title")||(Key=="artist")||(Key=="album")||(Key=="comment")||(Key=="date")||(Key=="composer")||(Key=="encoder")))
+                             InformationList.append(Key+QString("##")+QString().fromUtf8(tag->value));
+                        else InformationList.append(TrackNum+Key+QString("##")+QString().fromUtf8(tag->value));
+                }
+
+                // Ensure language exist (Note : AVI and FLV container own language at container level instead of track level)
+                if (GetInformationValue(TrackNum+"language",&InformationList)=="") {
+                    QString Lng=GetInformationValue("language",&InformationList);
+                    InformationList.append(TrackNum+QString("language##")+(Lng==""?"und":Lng));
+                }
+
+                // Next
+                AudioTrackNbr++;
 
             //*********************************************************************************************************
-            // Get information from track
+            // Video track
             //*********************************************************************************************************
-            for (int Track=0;Track<(int)LibavFile->nb_streams;Track++) {
+            } else if (!MusicOnly && (LibavFile->streams[Track]->codec->codec_type==AVMEDIA_TYPE_VIDEO)) {
+                // Compute TrackNum
+                QString TrackNum=QString("%1").arg(VideoTrackNbr);
+                while (TrackNum.length()<3) TrackNum="0"+TrackNum;
+                TrackNum="Video_"+TrackNum+":";
 
-                // Find codec
-                AVCodec *Codec=avcodec_find_decoder(LibavFile->streams[Track]->codec->codec_id);
+                // General
+                InformationList.append(TrackNum+QString("Track")+QString("##")+QString("%1").arg(Track));
+                if (Codec) InformationList.append(TrackNum+QString("Codec")+QString("##")+QString(Codec->name));
 
-                //*********************************************************************************************************
-                // Audio track
-                //*********************************************************************************************************
-                if (LibavFile->streams[Track]->codec->codec_type==AVMEDIA_TYPE_AUDIO) {
-                    // Keep this as default track
-                    if (AudioStreamNumber==-1) AudioStreamNumber=Track;
+                // Bitrate
+                if (LibavFile->streams[Track]->codec->bit_rate>0) InformationList.append(TrackNum+QString("Bitrate")+QString("##")+QString("%1").arg(int(LibavFile->streams[Track]->codec->bit_rate/1000))+"Kb/s");
 
-                    // Compute TrackNum
-                    QString TrackNum=QString("%1").arg(AudioTrackNbr);
-                    while (TrackNum.length()<3) TrackNum="0"+TrackNum;
-                    TrackNum="Audio_"+TrackNum+":";
+                // Frame rate
+                if (int(double(LibavFile->streams[Track]->avg_frame_rate.num)/double(LibavFile->streams[Track]->avg_frame_rate.den))>0) {
+                    if (int(double(LibavFile->streams[Track]->avg_frame_rate.num)/double(LibavFile->streams[Track]->avg_frame_rate.den))==double(LibavFile->streams[Track]->avg_frame_rate.num)/double(LibavFile->streams[Track]->avg_frame_rate.den))
+                         InformationList.append(TrackNum+QString("Frame rate")+QString("##")+QString("%1").arg(int(double(LibavFile->streams[Track]->avg_frame_rate.num)/double(LibavFile->streams[Track]->avg_frame_rate.den)))+" FPS");
+                    else InformationList.append(TrackNum+QString("Frame rate")+QString("##")+QString("%1").arg(double(double(LibavFile->streams[Track]->avg_frame_rate.num)/double(LibavFile->streams[Track]->avg_frame_rate.den)),8,'f',3).trimmed()+" FPS");
+                }
 
-                    // General
-                    InformationList.append(TrackNum+QString("Track")+QString("##")+QString("%1").arg(Track));
-                    if (Codec) InformationList.append(TrackNum+QString("Codec")+QString("##")+QString(Codec->name));
+                // Stream metadata
+                while ((tag=av_dict_get(LibavFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
+                    InformationList.append(TrackNum+QString(tag->key)+QString("##")+QString().fromUtf8(tag->value));
 
-                    // Channels and Sample format
-                    QString SampleFMT="";
-                    switch (LibavFile->streams[Track]->codec->sample_fmt) {
-                        case AV_SAMPLE_FMT_U8  : SampleFMT="-U8";   InformationList.append(TrackNum+QString("Sample format")+QString("##")+"unsigned 8 bits");          break;
-                        case AV_SAMPLE_FMT_S16 : SampleFMT="-S16";  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 16 bits");           break;
-                        case AV_SAMPLE_FMT_S32 : SampleFMT="-S32";  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 32 bits");           break;
-                        case AV_SAMPLE_FMT_FLT : SampleFMT="-FLT";  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"float");                    break;
-                        case AV_SAMPLE_FMT_DBL : SampleFMT="-DBL";  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"double");                   break;
-                        case AV_SAMPLE_FMT_U8P : SampleFMT="-U8P";  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"unsigned 8 bits, planar");  break;
-                        case AV_SAMPLE_FMT_S16P: SampleFMT="-S16P"; InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 16 bits, planar");   break;
-                        case AV_SAMPLE_FMT_S32P: SampleFMT="-S32P"; InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 32 bits, planar");   break;
-                        case AV_SAMPLE_FMT_FLTP: SampleFMT="-FLTP"; InformationList.append(TrackNum+QString("Sample format")+QString("##")+"float, planar");            break;
-                        case AV_SAMPLE_FMT_DBLP: SampleFMT="-DBLP"; InformationList.append(TrackNum+QString("Sample format")+QString("##")+"double, planar");           break;
-                        default                : SampleFMT="-?";    InformationList.append(TrackNum+QString("Sample format")+QString("##")+"Unknown");                  break;
-                    }
-                    if (LibavFile->streams[Track]->codec->channels==1)      InformationList.append(TrackNum+QString("Channels")+QString("##")+QApplication::translate("cBaseMediaFile","Mono","Audio channels mode")+SampleFMT);
-                    else if (LibavFile->streams[Track]->codec->channels==2) InformationList.append(TrackNum+QString("Channels")+QString("##")+QApplication::translate("cBaseMediaFile","Stereo","Audio channels mode")+SampleFMT);
-                    else                                                    InformationList.append(TrackNum+QString("Channels")+QString("##")+QString("%1").arg(LibavFile->streams[Track]->codec->channels)+SampleFMT);
+                // Ensure language exist (Note : AVI ‘AttachedPictureFrame’and FLV container own language at container level instead of track level)
+                if (GetInformationValue(TrackNum+"language",&InformationList)=="") {
+                    QString Lng=GetInformationValue("language",&InformationList);
+                    InformationList.append(TrackNum+QString("language##")+(Lng==""?"und":Lng));
+                }
 
-                    // Frequency
-                    if (int(LibavFile->streams[Track]->codec->sample_rate/1000)*1000>0) {
-                        if (int(LibavFile->streams[Track]->codec->sample_rate/1000)*1000==LibavFile->streams[Track]->codec->sample_rate)
-                             InformationList.append(TrackNum+QString("Frequency")+QString("##")+QString("%1").arg(int(LibavFile->streams[Track]->codec->sample_rate/1000))+"Khz");
-                        else InformationList.append(TrackNum+QString("Frequency")+QString("##")+QString("%1").arg(double(LibavFile->streams[Track]->codec->sample_rate)/1000,8,'f',1).trimmed()+"Khz");
-                    }
-
-                    // Bitrate
-                    if (int(LibavFile->streams[Track]->codec->bit_rate/1000)>0) InformationList.append(TrackNum+QString("Bitrate")+QString("##")+QString("%1").arg(int(LibavFile->streams[Track]->codec->bit_rate/1000))+"Kb/s");
-
-                    // Stream metadata
-                    while ((tag=av_dict_get(LibavFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
-                        // OGV container affect TAG to audio stream !
-                        QString Key=QString().fromUtf8(tag->key).toLower();
-                        if ((sFileName.toLower().endsWith(".ogv"))&&((Key=="title")||(Key=="artist")||(Key=="album")||(Key=="comment")||(Key=="date")||(Key=="composer")||(Key=="encoder")))
-                                 InformationList.append(Key+QString("##")+QString().fromUtf8(tag->value));
-                            else InformationList.append(TrackNum+Key+QString("##")+QString().fromUtf8(tag->value));
-                    }
-
-                    // Ensure language exist (Note : AVI and FLV container own language at container level instead of track level)
-                    if (GetInformationValue(TrackNum+"language")=="") {
-                        QString Lng=GetInformationValue("language");
-                        InformationList.append(TrackNum+QString("language##")+(Lng==""?"und":Lng));
-                    }
-
-                    // Next
-                    AudioTrackNbr++;
-
-                //*********************************************************************************************************
-                // Video track
-                //*********************************************************************************************************
-                } else if (!MusicOnly && (LibavFile->streams[Track]->codec->codec_type==AVMEDIA_TYPE_VIDEO)) {
-                    // Compute TrackNum
-                    QString TrackNum=QString("%1").arg(VideoTrackNbr);
-                    while (TrackNum.length()<3) TrackNum="0"+TrackNum;
-                    TrackNum="Video_"+TrackNum+":";
-
-                    // General
-                    InformationList.append(TrackNum+QString("Track")+QString("##")+QString("%1").arg(Track));
-                    if (Codec) InformationList.append(TrackNum+QString("Codec")+QString("##")+QString(Codec->name));
-
-                    // Bitrate
-                    if (LibavFile->streams[Track]->codec->bit_rate>0) InformationList.append(TrackNum+QString("Bitrate")+QString("##")+QString("%1").arg(int(LibavFile->streams[Track]->codec->bit_rate/1000))+"Kb/s");
-
-                    // Frame rate
-                    if (int(double(LibavFile->streams[Track]->avg_frame_rate.num)/double(LibavFile->streams[Track]->avg_frame_rate.den))>0) {
-                        if (int(double(LibavFile->streams[Track]->avg_frame_rate.num)/double(LibavFile->streams[Track]->avg_frame_rate.den))==double(LibavFile->streams[Track]->avg_frame_rate.num)/double(LibavFile->streams[Track]->avg_frame_rate.den))
-                             InformationList.append(TrackNum+QString("Frame rate")+QString("##")+QString("%1").arg(int(double(LibavFile->streams[Track]->avg_frame_rate.num)/double(LibavFile->streams[Track]->avg_frame_rate.den)))+" FPS");
-                        else InformationList.append(TrackNum+QString("Frame rate")+QString("##")+QString("%1").arg(double(double(LibavFile->streams[Track]->avg_frame_rate.num)/double(LibavFile->streams[Track]->avg_frame_rate.den)),8,'f',3).trimmed()+" FPS");
-                    }
-
-                    // Stream metadata
-                    while ((tag=av_dict_get(LibavFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
-                        InformationList.append(TrackNum+QString(tag->key)+QString("##")+QString().fromUtf8(tag->value));
-
-                    // Ensure language exist (Note : AVI ‘AttachedPictureFrame’and FLV container own language at container level instead of track level)
-                    if (GetInformationValue(TrackNum+"language")=="") {
-                        QString Lng=GetInformationValue("language");
-                        InformationList.append(TrackNum+QString("language##")+(Lng==""?"und":Lng));
-                    }
-
-                    // Keep this as default track
-                    if (VideoStreamNumber==-1) {
-                        QImage  *Img=NULL;
-                        AVFrame *FrameBufYUV=NULL;
+                // Keep this as default track
+                if (VideoStreamNumber==-1) {
+                    QImage  *Img=NULL;
+                    AVFrame *FrameBufYUV=NULL;
 
 
-                        // Search if a jukebox mode thumbnail (jpg file with same name as video) exist
-                        QFileInfo   File(sFileName);
-                        QString     JPegFile=File.absolutePath()+(File.absolutePath().endsWith(QDir::separator())?"":QString(QDir::separator()))+File.completeBaseName()+".jpg";
-                        if (QFileInfo(JPegFile).exists()) LoadIcons(JPegFile);
+                    // Search if a jukebox mode thumbnail (jpg file with same name as video) exist
+                    QFileInfo   File(sFileName);
+                    QString     JPegFile=File.absolutePath()+(File.absolutePath().endsWith(QDir::separator())?"":QString(QDir::separator()))+File.completeBaseName()+".jpg";
+                    if (QFileInfo(JPegFile).exists()) LoadIcons(JPegFile);
 
-                        VideoStreamNumber=Track;
-                        IsMTS=(sFileName.toLower().endsWith(".mts",Qt::CaseInsensitive) || sFileName.toLower().endsWith(".m2ts",Qt::CaseInsensitive) || sFileName.toLower().endsWith(".mod",Qt::CaseInsensitive));
-                        LibavFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future NbrFrames.
-                        LibavFile->streams[VideoStreamNumber]->discard=AVDISCARD_DEFAULT;  // Setup STREAM options
+                    VideoStreamNumber=Track;
+                    IsMTS=(sFileName.toLower().endsWith(".mts",Qt::CaseInsensitive) || sFileName.toLower().endsWith(".m2ts",Qt::CaseInsensitive) || sFileName.toLower().endsWith(".mod",Qt::CaseInsensitive));
+                    LibavFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future NbrFrames.
+                    LibavFile->streams[VideoStreamNumber]->discard=AVDISCARD_DEFAULT;  // Setup STREAM options
 
-                        // Setup decoder options
-                        LibavFile->streams[VideoStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
-                        LibavFile->streams[VideoStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
-                        LibavFile->streams[VideoStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
-                        LibavFile->streams[VideoStreamNumber]->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
-                        LibavFile->streams[VideoStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
-                        LibavFile->streams[VideoStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
-                        LibavFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
-                        LibavFile->streams[VideoStreamNumber]->codec->error_concealment=3;
-                        LibavFile->streams[VideoStreamNumber]->codec->thread_count     =getCpuCount();
-                        LibavFile->streams[VideoStreamNumber]->codec->thread_type      =getThreadFlags(LibavFile->streams[VideoStreamNumber]->codec->codec_id);
+                    // Setup decoder options
+                    LibavFile->streams[VideoStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
+                    LibavFile->streams[VideoStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
+                    LibavFile->streams[VideoStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
+                    LibavFile->streams[VideoStreamNumber]->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
+                    LibavFile->streams[VideoStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
+                    LibavFile->streams[VideoStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
+                    LibavFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
+                    LibavFile->streams[VideoStreamNumber]->codec->error_concealment=3;
+                    LibavFile->streams[VideoStreamNumber]->codec->thread_count     =getCpuCount();
+                    LibavFile->streams[VideoStreamNumber]->codec->thread_type      =getThreadFlags(LibavFile->streams[VideoStreamNumber]->codec->codec_id);
 
-                        // Hack to correct wrong frame rates that seem to be generated by some codecs
-                        if (LibavFile->streams[VideoStreamNumber]->codec->time_base.num>1000 && LibavFile->streams[VideoStreamNumber]->codec->time_base.den==1) LibavFile->streams[VideoStreamNumber]->codec->time_base.den=1000;
+                    // Hack to correct wrong frame rates that seem to be generated by some codecs
+                    if (LibavFile->streams[VideoStreamNumber]->codec->time_base.num>1000 && LibavFile->streams[VideoStreamNumber]->codec->time_base.den==1) LibavFile->streams[VideoStreamNumber]->codec->time_base.den=1000;
 
-                        if (avcodec_open2(LibavFile->streams[VideoStreamNumber]->codec,Codec,NULL)>=0) {
-                            // Get Aspect Ratio
+                    if (avcodec_open2(LibavFile->streams[VideoStreamNumber]->codec,Codec,NULL)>=0) {
+                        // Get Aspect Ratio
 
-                            AspectRatio=double(LibavFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio.num)/double(LibavFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio.den);
+                        AspectRatio=double(LibavFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio.num)/double(LibavFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio.den);
 
-                            if (LibavFile->streams[VideoStreamNumber]->sample_aspect_ratio.num!=0)
-                                AspectRatio=double(LibavFile->streams[VideoStreamNumber]->sample_aspect_ratio.num)/double(LibavFile->streams[VideoStreamNumber]->sample_aspect_ratio.den);
+                        if (LibavFile->streams[VideoStreamNumber]->sample_aspect_ratio.num!=0)
+                            AspectRatio=double(LibavFile->streams[VideoStreamNumber]->sample_aspect_ratio.num)/double(LibavFile->streams[VideoStreamNumber]->sample_aspect_ratio.den);
 
-                            if (AspectRatio==0) AspectRatio=1;
+                        if (AspectRatio==0) AspectRatio=1;
 
-                            // Special case for DVD mode video without PAR
-                            if ((AspectRatio==1)&&(LibavFile->streams[VideoStreamNumber]->codec->coded_width==720)&&((LibavFile->streams[VideoStreamNumber]->codec->coded_height==576)||(LibavFile->streams[VideoStreamNumber]->codec->coded_height==480)))
-                                AspectRatio=double((LibavFile->streams[VideoStreamNumber]->codec->coded_height/3)*4)/720;
+                        // Special case for DVD mode video without PAR
+                        if ((AspectRatio==1)&&(LibavFile->streams[VideoStreamNumber]->codec->coded_width==720)&&((LibavFile->streams[VideoStreamNumber]->codec->coded_height==576)||(LibavFile->streams[VideoStreamNumber]->codec->coded_height==480)))
+                            AspectRatio=double((LibavFile->streams[VideoStreamNumber]->codec->coded_height/3)*4)/720;
 
-                            // Try to load one image to be sure we can make something with this file
-                            // and use this first image as thumbnail (if no jukebox thumbnail)
-                            int64_t   Position =0;
-                            double    dEndFile =double(QTime(0,0,0,0).msecsTo(Duration))/1000;    // End File Position in double format
-                            if (dEndFile!=0) {
-                                // Allocate structure for YUV image
+                        // Try to load one image to be sure we can make something with this file
+                        // and use this first image as thumbnail (if no jukebox thumbnail)
+                        int64_t   Position =0;
+                        double    dEndFile =double(QTime(0,0,0,0).msecsTo(Duration))/1000;    // End File Position in double format
+                        if (dEndFile!=0) {
+                            // Allocate structure for YUV image
 
-                                FrameBufYUV=ALLOCFRAME();
+                            FrameBufYUV=ALLOCFRAME();
 
-                                if (FrameBufYUV!=NULL) {
+                            if (FrameBufYUV!=NULL) {
 
-                                    AVStream    *VideoStream    =LibavFile->streams[VideoStreamNumber];
-                                    AVPacket    *StreamPacket   =NULL;
-                                    bool        Continue        =true;
-                                    bool        IsVideoFind     =false;
-                                    double      FrameTimeBase   =av_q2d(VideoStream->time_base);
-                                    double      FramePosition   =0;
+                                AVStream    *VideoStream    =LibavFile->streams[VideoStreamNumber];
+                                AVPacket    *StreamPacket   =NULL;
+                                bool        Continue        =true;
+                                bool        IsVideoFind     =false;
+                                double      FrameTimeBase   =av_q2d(VideoStream->time_base);
+                                double      FramePosition   =0;
 
-                                    while (Continue) {
-                                        StreamPacket=new AVPacket();
-                                        av_init_packet(StreamPacket);
-                                        StreamPacket->flags|=AV_PKT_FLAG_KEY;  // HACK for CorePNG to decode as normal PNG by default
-                                        if (av_read_frame(LibavFile,StreamPacket)==0) {
-                                            if (StreamPacket->stream_index==VideoStreamNumber) {
-                                                int FrameDecoded=0;
-                                                if (avcodec_decode_video2(VideoStream->codec,FrameBufYUV,&FrameDecoded,StreamPacket)<0)
-                                                    ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::OpenCodecAndFile : avcodec_decode_video2 return an error");
-                                                if (FrameDecoded>0) {
-                                                    int64_t pts=AV_NOPTS_VALUE;
-                                                    if ((FrameBufYUV->pkt_dts==(int64_t)AV_NOPTS_VALUE)&&(FrameBufYUV->pkt_pts!=(int64_t)AV_NOPTS_VALUE)) pts=FrameBufYUV->pkt_pts; else pts=FrameBufYUV->pkt_dts;
-                                                    if (pts==(int64_t)AV_NOPTS_VALUE) pts=0;
-                                                    FramePosition         =double(pts)*FrameTimeBase;
-                                                    Img                   =ConvertYUVToRGB(false,FrameBufYUV);      // Create Img from YUV Buffer
-                                                    IsVideoFind           =(Img!=NULL)&&(!Img->isNull());
-                                                    ObjectGeometry        =IMAGE_GEOMETRY_UNKNOWN;
-                                                }
+                                while (Continue) {
+                                    StreamPacket=new AVPacket();
+                                    av_init_packet(StreamPacket);
+                                    StreamPacket->flags|=AV_PKT_FLAG_KEY;  // HACK for CorePNG to decode as normal PNG by default
+                                    if (av_read_frame(LibavFile,StreamPacket)==0) {
+                                        if (StreamPacket->stream_index==VideoStreamNumber) {
+                                            int FrameDecoded=0;
+                                            if (avcodec_decode_video2(VideoStream->codec,FrameBufYUV,&FrameDecoded,StreamPacket)<0)
+                                                ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::OpenCodecAndFile : avcodec_decode_video2 return an error");
+                                            if (FrameDecoded>0) {
+                                                int64_t pts=AV_NOPTS_VALUE;
+                                                if ((FrameBufYUV->pkt_dts==(int64_t)AV_NOPTS_VALUE)&&(FrameBufYUV->pkt_pts!=(int64_t)AV_NOPTS_VALUE)) pts=FrameBufYUV->pkt_pts; else pts=FrameBufYUV->pkt_dts;
+                                                if (pts==(int64_t)AV_NOPTS_VALUE) pts=0;
+                                                FramePosition         =double(pts)*FrameTimeBase;
+                                                Img                   =ConvertYUVToRGB(false,FrameBufYUV);      // Create Img from YUV Buffer
+                                                IsVideoFind           =(Img!=NULL)&&(!Img->isNull());
+                                                ObjectGeometry        =IMAGE_GEOMETRY_UNKNOWN;
                                             }
-                                            // Check if we need to continue loop
-                                            Continue=(IsVideoFind==false)&&(FramePosition<dEndFile);
-                                        } else {
-                                            // if error in av_read_frame(...) then may be we have reach the end of file !
-                                            Continue=false;
                                         }
-                                        // Continue with a new one
-                                        if (StreamPacket!=NULL) {
-                                            av_free_packet(StreamPacket); // Free the StreamPacket that was allocated by previous call to av_read_frame
-                                            delete StreamPacket;
-                                            StreamPacket=NULL;
-                                        }
+                                        // Check if we need to continue loop
+                                        Continue=(IsVideoFind==false)&&(FramePosition<dEndFile);
+                                    } else {
+                                        // if error in av_read_frame(...) then may be we have reach the end of file !
+                                        Continue=false;
                                     }
-                                    if ((!IsVideoFind)&&(!Img)) {
-                                        ToLog(LOGMSG_CRITICAL,QString("No video image return for position %1 => return black frame").arg(Position));
-                                        Img=new QImage(LibavFile->streams[VideoStreamNumber]->codec->width,LibavFile->streams[VideoStreamNumber]->codec->height,QImage::Format_ARGB32_Premultiplied);
-                                        Img->fill(0);
-                                    }
-                                    FREEFRAME(&FrameBufYUV);
-
-                                } else ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::OpenCodecAndFile : Impossible to allocate FrameBufYUV");
-                            } else ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::OpenCodecAndFile : dEndFile=0 ?????");
-                        }
-                        if (Img) {
-                            IsOpen=true;
-                            // Get information about size image
-                            ImageWidth =Img->width();
-                            ImageHeight=Img->height();
-                            // Compute image geometry
-                            ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
-                            double RatioHW=double(ImageWidth)/double(ImageHeight);
-                            if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
-                            else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
-                            else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
-                            else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
-                            else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
-                            else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
-                            else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
-                            else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
-                            // Icon
-                            if (Icon16.isNull()) {
-                                QImage Final=(ApplicationConfig->Video_ThumbWidth==162?ApplicationConfig->VideoMask_162:ApplicationConfig->Video_ThumbWidth==150?ApplicationConfig->VideoMask_150:ApplicationConfig->VideoMask_120).copy();
-                                QImage ImgF;
-                                if (Img->width()>Img->height()) ImgF=Img->scaledToWidth(ApplicationConfig->Video_ThumbWidth-2,Qt::SmoothTransformation);
-                                    else                        ImgF=Img->scaledToHeight(ApplicationConfig->Video_ThumbHeight*0.7,Qt::SmoothTransformation);
-                                QPainter Painter;
-                                Painter.begin(&Final);
-                                Painter.drawImage(QRect((Final.width()-ImgF.width())/2,(Final.height()-ImgF.height())/2,ImgF.width(),ImgF.height()),ImgF);
-                                Painter.end();
-                                LoadIcons(&Final);
-                            }
-                            delete Img;
-                        }
-
-                    }
-
-                    // Next
-                    VideoTrackNbr++;
-
-                }
-
-                // Close the video codec
-                if (Codec!=NULL) {
-                    avcodec_close(LibavFile->streams[Track]->codec);
-                    Codec=NULL;
-                }
-
-                //*********************************************************************************************************
-                // Thumbnails (since lavf 54.2.0 - avformat.h)
-                //*********************************************************************************************************
-                #ifndef USETAGLIB
-                if (LibavFile->streams[Track]->disposition & AV_DISPOSITION_ATTACHED_PIC) {
-                    AVStream *ThumbStream=LibavFile->streams[Track];
-                    AVPacket pkt         =ThumbStream->attached_pic;
-                    int      FrameDecoded=0;
-                    AVFrame  *FrameYUV=ALLOCFRAME();
-                    if (FrameYUV) {
-
-                        AVCodec *ThumbDecoderCodec=avcodec_find_decoder(ThumbStream->codec->codec_id);
-
-                        // Setup decoder options
-                        ThumbStream->codec->debug_mv         =0;                    // Debug level (0=nothing)
-                        ThumbStream->codec->debug            =0;                    // Debug level (0=nothing)
-                        ThumbStream->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
-                        ThumbStream->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
-                        ThumbStream->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
-                        ThumbStream->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
-                        ThumbStream->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
-                        ThumbStream->codec->error_concealment=3;
-                        ThumbStream->codec->thread_count     =getCpuCount();
-                        ThumbStream->codec->thread_type      =getThreadFlags(ThumbStream->codec->codec_id);
-                        if (avcodec_open2(ThumbStream->codec,ThumbDecoderCodec,NULL)>=0) {
-                            if ((avcodec_decode_video2(ThumbStream->codec,FrameYUV,&FrameDecoded,&pkt)>=0)&&(FrameDecoded>0)) {
-                                int     W=FrameYUV->width, RealW=(W/8)*8;    if (RealW<W) RealW+=8;
-                                int     H=FrameYUV->height,RealH=(H/8)*8;    if (RealH<H) RealH+=8;;
-                                QImage  Thumbnail(RealW,RealH,QTPIXFMT);
-                                AVFrame *FrameRGB=ALLOCFRAME();
-                                if ((FrameRGB)&&(!Thumbnail.isNull())) {
-                                    avpicture_fill((AVPicture *)FrameRGB,Thumbnail.bits(),PIXFMT,RealW,RealH);
-                                    struct SwsContext *img_convert_ctx=sws_getContext(FrameYUV->width,FrameYUV->height,(PixelFormat)FrameYUV->format,RealW,RealH,PIXFMT,SWS_FAST_BILINEAR,NULL,NULL,NULL);
-                                    if (img_convert_ctx!=NULL) {
-                                        int ret = sws_scale(img_convert_ctx,FrameYUV->data,FrameYUV->linesize,0,FrameYUV->height,FrameRGB->data,FrameRGB->linesize);
-                                        if (ret>0) {
-                                            // sws_scaler truncate the width of the images to a multiple of 8. So cut resulting image to comply a multiple of 8
-                                            Thumbnail=Thumbnail.copy(0,0,W,H);
-                                            LoadIcons(&Thumbnail);
-                                        }
-                                        sws_freeContext(img_convert_ctx);
+                                    // Continue with a new one
+                                    if (StreamPacket!=NULL) {
+                                        av_free_packet(StreamPacket); // Free the StreamPacket that was allocated by previous call to av_read_frame
+                                        delete StreamPacket;
+                                        StreamPacket=NULL;
                                     }
                                 }
-                                if (FrameRGB) FREEFRAME(&FrameRGB);
-                            }
-                            avcodec_close(ThumbStream->codec);
-                        }
+                                if ((!IsVideoFind)&&(!Img)) {
+                                    ToLog(LOGMSG_CRITICAL,QString("No video image return for position %1 => return black frame").arg(Position));
+                                    Img=new QImage(LibavFile->streams[VideoStreamNumber]->codec->width,LibavFile->streams[VideoStreamNumber]->codec->height,QImage::Format_ARGB32_Premultiplied);
+                                    Img->fill(0);
+                                }
+                                FREEFRAME(&FrameBufYUV);
+
+                            } else ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::OpenCodecAndFile : Impossible to allocate FrameBufYUV");
+                        } else ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::OpenCodecAndFile : dEndFile=0 ?????");
                     }
-                    if (FrameYUV) FREEFRAME(&FrameYUV);
+                    if (Img) {
+                        IsOpen=true;
+                        // Get information about size image
+                        ImageWidth =Img->width();
+                        ImageHeight=Img->height();
+                        // Compute image geometry
+                        ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
+                        double RatioHW=double(ImageWidth)/double(ImageHeight);
+                        if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
+                        else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
+                        else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
+                        else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
+                        else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
+                        else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
+                        else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
+                        else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
+                        // Icon
+                        if (Icon16.isNull()) {
+                            QImage Final=(ApplicationConfig->Video_ThumbWidth==162?ApplicationConfig->VideoMask_162:ApplicationConfig->Video_ThumbWidth==150?ApplicationConfig->VideoMask_150:ApplicationConfig->VideoMask_120).copy();
+                            QImage ImgF;
+                            if (Img->width()>Img->height()) ImgF=Img->scaledToWidth(ApplicationConfig->Video_ThumbWidth-2,Qt::SmoothTransformation);
+                                else                        ImgF=Img->scaledToHeight(ApplicationConfig->Video_ThumbHeight*0.7,Qt::SmoothTransformation);
+                            QPainter Painter;
+                            Painter.begin(&Final);
+                            Painter.drawImage(QRect((Final.width()-ImgF.width())/2,(Final.height()-ImgF.height())/2,ImgF.width(),ImgF.height()),ImgF);
+                            Painter.end();
+                            LoadIcons(&Final);
+                        }
+                        delete Img;
+                    }
+
                 }
-                #endif
+
+                // Next
+                VideoTrackNbr++;
+
             }
 
-            IsInformationValide=true;
+            // Close the video codec
+            if (Codec!=NULL) {
+                avcodec_close(LibavFile->streams[Track]->codec);
+                Codec=NULL;
+            }
 
-            #ifdef USETAGLIB
-            // If it's an audio file, try to get embeded image with taglib
-            if ((IsIconNeeded)&&(Icon16.isNull())&&(ObjectType==OBJECTTYPE_MUSICFILE)) {
-                QImage *Img=GetEmbededImage(sFileName);
-                if (Img) {
-                    LoadIcons(Img);
-                    delete Img;
+            //*********************************************************************************************************
+            // Thumbnails (since lavf 54.2.0 - avformat.h)
+            //*********************************************************************************************************
+            #ifndef USETAGLIB
+            if (LibavFile->streams[Track]->disposition & AV_DISPOSITION_ATTACHED_PIC) {
+                AVStream *ThumbStream=LibavFile->streams[Track];
+                AVPacket pkt         =ThumbStream->attached_pic;
+                int      FrameDecoded=0;
+                AVFrame  *FrameYUV=ALLOCFRAME();
+                if (FrameYUV) {
+
+                    AVCodec *ThumbDecoderCodec=avcodec_find_decoder(ThumbStream->codec->codec_id);
+
+                    // Setup decoder options
+                    ThumbStream->codec->debug_mv         =0;                    // Debug level (0=nothing)
+                    ThumbStream->codec->debug            =0;                    // Debug level (0=nothing)
+                    ThumbStream->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
+                    ThumbStream->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
+                    ThumbStream->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
+                    ThumbStream->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
+                    ThumbStream->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
+                    ThumbStream->codec->error_concealment=3;
+                    ThumbStream->codec->thread_count     =getCpuCount();
+                    ThumbStream->codec->thread_type      =getThreadFlags(ThumbStream->codec->codec_id);
+                    if (avcodec_open2(ThumbStream->codec,ThumbDecoderCodec,NULL)>=0) {
+                        if ((avcodec_decode_video2(ThumbStream->codec,FrameYUV,&FrameDecoded,&pkt)>=0)&&(FrameDecoded>0)) {
+                            int     W=FrameYUV->width, RealW=(W/8)*8;    if (RealW<W) RealW+=8;
+                            int     H=FrameYUV->height,RealH=(H/8)*8;    if (RealH<H) RealH+=8;;
+                            QImage  Thumbnail(RealW,RealH,QTPIXFMT);
+                            AVFrame *FrameRGB=ALLOCFRAME();
+                            if ((FrameRGB)&&(!Thumbnail.isNull())) {
+                                avpicture_fill((AVPicture *)FrameRGB,Thumbnail.bits(),PIXFMT,RealW,RealH);
+                                struct SwsContext *img_convert_ctx=sws_getContext(FrameYUV->width,FrameYUV->height,(PixelFormat)FrameYUV->format,RealW,RealH,PIXFMT,SWS_FAST_BILINEAR,NULL,NULL,NULL);
+                                if (img_convert_ctx!=NULL) {
+                                    int ret = sws_scale(img_convert_ctx,FrameYUV->data,FrameYUV->linesize,0,FrameYUV->height,FrameRGB->data,FrameRGB->linesize);
+                                    if (ret>0) {
+                                        // sws_scaler truncate the width of the images to a multiple of 8. So cut resulting image to comply a multiple of 8
+                                        Thumbnail=Thumbnail.copy(0,0,W,H);
+                                        LoadIcons(&Thumbnail);
+                                    }
+                                    sws_freeContext(img_convert_ctx);
+                                }
+                            }
+                            if (FrameRGB) FREEFRAME(&FrameRGB);
+                        }
+                        avcodec_close(ThumbStream->codec);
+                    }
                 }
+                if (FrameYUV) FREEFRAME(&FrameYUV);
             }
             #endif
-
-            // if no icon then load default for type
-            if ((IsIconNeeded)&&(Icon16.isNull()))
-                    LoadIcons(ObjectType==OBJECTTYPE_VIDEOFILE?&ApplicationConfig->DefaultVIDEOIcon:&ApplicationConfig->DefaultMUSICIcon);
         }
 
-        // Close the libav file
-        if (LibavFile!=NULL) {
-            avformat_close_input(&LibavFile);
-            LibavFile=NULL;
+        #ifdef USETAGLIB
+        // If it's an audio file, try to get embeded image with taglib
+        if ((IsIconNeeded)&&(Icon16.isNull())&&(ObjectType==OBJECTTYPE_MUSICFILE)) {
+            QImage *Img=GetEmbededImage(sFileName);
+            if (Img) {
+                LoadIcons(Img);
+                delete Img;
+            }
         }
+        #endif
 
-        IsOpen=false;
-        //Mutex.unlock();
-        return SaveAllInformationToDatabase();
+        // if no icon then load default for type
+        if ((IsIconNeeded)&&(Icon16.isNull()))
+                LoadIcons(ObjectType==OBJECTTYPE_VIDEOFILE?&ApplicationConfig->DefaultVIDEOIcon:&ApplicationConfig->DefaultMUSICIcon);
     }
+
+    // Close the libav file
+    if (LibavFile!=NULL) {
+        avformat_close_input(&LibavFile);
+        LibavFile=NULL;
+    }
+
+    IsOpen=false;
+    //Mutex.unlock();
+    return Continu;
 }
 
 //====================================================================================================================
@@ -1864,15 +1814,15 @@ QString cVideoFile::GetTechInfo() {
 
     QString Info="";
     if (ObjectType==OBJECTTYPE_MUSICFILE) {
-        Info=GetCumulInfoStr("Audio","Codec");
-        if (GetCumulInfoStr("Audio","Channels")!="")       Info=Info+(Info!=""?"-":"")+GetCumulInfoStr("Audio","Channels");
-        if (GetCumulInfoStr("Audio","Bitrate")!="")        Info=Info+(Info!=""?"-":"")+GetCumulInfoStr("Audio","Bitrate");
-        if (GetCumulInfoStr("Audio","Frequency")!="")      Info=Info+(Info!=""?"-":"")+GetCumulInfoStr("Audio","Frequency");
+        Info=GetCumulInfoStr(&InformationList,"Audio","Codec");
+        if (GetCumulInfoStr(&InformationList,"Audio","Channels")!="")       Info=Info+(Info!=""?"-":"")+GetCumulInfoStr(&InformationList,"Audio","Channels");
+        if (GetCumulInfoStr(&InformationList,"Audio","Bitrate")!="")        Info=Info+(Info!=""?"-":"")+GetCumulInfoStr(&InformationList,"Audio","Bitrate");
+        if (GetCumulInfoStr(&InformationList,"Audio","Frequency")!="")      Info=Info+(Info!=""?"-":"")+GetCumulInfoStr(&InformationList,"Audio","Frequency");
     } else {
         Info=GetImageSizeStr();
-        if (GetCumulInfoStr("Video","Codec")!="")          Info=Info+(Info!=""?"-":"")+GetCumulInfoStr("Video","Codec");
-        if (GetCumulInfoStr("Video","Frame rate")!="")     Info=Info+(Info!=""?"-":"")+GetCumulInfoStr("Video","Frame rate");
-        if (GetCumulInfoStr("Video","Bitrate")!="")        Info=Info+(Info!=""?"-":"")+GetCumulInfoStr("Video","Bitrate");
+        if (GetCumulInfoStr(&InformationList,"Video","Codec")!="")          Info=Info+(Info!=""?"-":"")+GetCumulInfoStr(&InformationList,"Video","Codec");
+        if (GetCumulInfoStr(&InformationList,"Video","Frame rate")!="")     Info=Info+(Info!=""?"-":"")+GetCumulInfoStr(&InformationList,"Video","Frame rate");
+        if (GetCumulInfoStr(&InformationList,"Video","Bitrate")!="")        Info=Info+(Info!=""?"-":"")+GetCumulInfoStr(&InformationList,"Video","Bitrate");
 
         int     Num     =0;
         QString TrackNum="";
@@ -1882,13 +1832,13 @@ QString cVideoFile::GetTechInfo() {
             TrackNum=QString("%1").arg(Num);
             while (TrackNum.length()<3) TrackNum="0"+TrackNum;
             TrackNum="Audio_"+TrackNum+":";
-            Value=GetInformationValue(TrackNum+"language");
+            Value=GetInformationValue(TrackNum+"language",&InformationList);
             if (Value!="") {
                 if (Num==0) Info=Info+"-"; else Info=Info+"/";
-                SubInfo=GetInformationValue(TrackNum+"Codec");
-                if (GetInformationValue(TrackNum+"Channels")!="")  SubInfo=SubInfo+(Info!=""?"-":"")+GetInformationValue(TrackNum+"Channels");
-                if (GetInformationValue(TrackNum+"Bitrate")!="")   SubInfo=SubInfo+(Info!=""?"-":"")+GetInformationValue(TrackNum+"Bitrate");
-                if (GetInformationValue(TrackNum+"Frequency")!="") SubInfo=SubInfo+(Info!=""?"-":"")+GetInformationValue(TrackNum+"Frequency");
+                SubInfo=GetInformationValue(TrackNum+"Codec",&InformationList);
+                if (GetInformationValue(TrackNum+"Channels",&InformationList)!="")  SubInfo=SubInfo+(Info!=""?"-":"")+GetInformationValue(TrackNum+"Channels",&InformationList);
+                if (GetInformationValue(TrackNum+"Bitrate",&InformationList)!="")   SubInfo=SubInfo+(Info!=""?"-":"")+GetInformationValue(TrackNum+"Bitrate",&InformationList);
+                if (GetInformationValue(TrackNum+"Frequency",&InformationList)!="") SubInfo=SubInfo+(Info!=""?"-":"")+GetInformationValue(TrackNum+"Frequency",&InformationList);
                 Info=Info+Value+"("+SubInfo+")";
             }
             // Next
@@ -1903,12 +1853,12 @@ QString cVideoFile::GetTechInfo() {
 QString cVideoFile::GetTAGInfo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::GetTAGInfo");
 
-    QString Info=GetInformationValue("track");
-    if (GetInformationValue("title")!="")          Info=Info+(Info!=""?"-":"")+GetInformationValue("title");
-    if (GetInformationValue("artist")!="")         Info=Info+(Info!=""?"-":"")+GetInformationValue("artist");
-    if (GetInformationValue("album")!="")          Info=Info+(Info!=""?"-":"")+GetInformationValue("album");
-    if (GetInformationValue("date")!="")           Info=Info+(Info!=""?"-":"")+GetInformationValue("date");
-    if (GetInformationValue("genre")!="")          Info=Info+(Info!=""?"-":"")+GetInformationValue("genre");
+    QString Info=GetInformationValue("track",&InformationList);
+    if (GetInformationValue("title",&InformationList)!="")          Info=Info+(Info!=""?"-":"")+GetInformationValue("title",&InformationList);
+    if (GetInformationValue("artist",&InformationList)!="")         Info=Info+(Info!=""?"-":"")+GetInformationValue("artist",&InformationList);
+    if (GetInformationValue("album",&InformationList)!="")          Info=Info+(Info!=""?"-":"")+GetInformationValue("album",&InformationList);
+    if (GetInformationValue("date",&InformationList)!="")           Info=Info+(Info!=""?"-":"")+GetInformationValue("date",&InformationList);
+    if (GetInformationValue("genre",&InformationList)!="")          Info=Info+(Info!=""?"-":"")+GetInformationValue("genre",&InformationList);
     return Info;
 }
 

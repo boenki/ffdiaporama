@@ -570,7 +570,7 @@ void MainWindow::UpdateChapterInfo() {
         ChapterNum=QString("%1").arg(i);
         while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
         ChapterNum="Chapter_"+ChapterNum+":";
-        Chapter.append(Diaporama->ProjectInfo->GetInformationValue(ChapterNum+"InSlide").toInt());
+        Chapter.append(GetInformationValue(ChapterNum+"InSlide",&Diaporama->ProjectInfo->InformationList).toInt());
     }
     if (Chapter.count()==0) {
         Diaporama->CurrentChapter=-1;
@@ -582,7 +582,7 @@ void MainWindow::UpdateChapterInfo() {
         ChapterNum=QString("%1").arg(Diaporama->CurrentChapter-1);
         while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
         ChapterNum="Chapter_"+ChapterNum+":";
-        Diaporama->CurrentChapterName=Diaporama->ProjectInfo->GetInformationValue(ChapterNum+"title");
+        Diaporama->CurrentChapterName=GetInformationValue(ChapterNum+"title",&Diaporama->ProjectInfo->InformationList);
         ui->StatusBar_ChapterNumber->setText(QApplication::translate("MainWindow","Chapter: ")+QString("%1/%2 [%3]").arg(Diaporama->CurrentChapter).arg(Diaporama->ProjectInfo->NbrChapters).arg(Diaporama->CurrentChapterName));
     }
     ToStatusBar("");
@@ -2274,11 +2274,11 @@ void MainWindow::s_Action_DoAddFile() {
                     QString ChapterStr=QString("%1").arg(ChapterNum);
                     while (ChapterStr.length()<3) ChapterStr="0"+ChapterStr;
                     ChapterStr="Chapter_"+ChapterStr+":";
-                    QString Start=MediaFile->GetInformationValue(ChapterStr+"Start");
-                    QString End  =MediaFile->GetInformationValue(ChapterStr+"End");
+                    QString Start=GetInformationValue(ChapterStr+"Start",&MediaFile->InformationList);
+                    QString End  =GetInformationValue(ChapterStr+"End",&MediaFile->InformationList);
                     CurrentBrush->Video->StartPos=QTime().fromString(Start);
                     CurrentBrush->Video->EndPos  =QTime().fromString(End);
-                    DiaporamaObject->SlideName   =MediaFile->GetInformationValue(ChapterStr+"title");
+                    DiaporamaObject->SlideName   =GetInformationValue(ChapterStr+"title",&MediaFile->InformationList);
                 } else {
                     CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
                     if (CurrentBrush->Video->LibavVideoFile->start_time>0) CurrentBrush->Video->StartPos=QTime(0,0,0,0).addMSecs(int64_t((double(CurrentBrush->Video->LibavVideoFile->start_time)/AV_TIME_BASE)*1000));
@@ -2972,9 +2972,10 @@ void MainWindow::DoBrowserRefreshSelectedFileInfo() {
         ui->FileIcon->setPixmap(QPixmap().fromImage(MediaObject->Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
 
         QString FStr=MediaObject->GetFileSizeStr();
-        if (FStr!="") ui->FileInfo1a->setText(QString("%1 (%2)").arg(MediaObject->ShortName()).arg(FStr)); else ui->FileInfo1a->setText(MediaObject->ShortName());
-        FStr=MediaObject->GetInformationValue("Duration");
-        if (FStr!="") ui->FileInfo2a->setText(QString("%1-%2").arg(MediaObject->GetTechInfo()).arg(FStr)); else ui->FileInfo2a->setText(MediaObject->GetTechInfo());
+        if (FStr!="") ui->FileInfo1a->setText(QString("%1 (%2)").arg(MediaObject->ShortName()).arg(FStr));
+            else ui->FileInfo1a->setText(MediaObject->ShortName());
+        if (MediaObject->Duration.isValid()) ui->FileInfo2a->setText(QString("%1-%2").arg(MediaObject->GetTechInfo()).arg(MediaObject->Duration.toString("HH:mm:ss.zzz")));
+            else ui->FileInfo2a->setText(MediaObject->GetTechInfo());
         ui->FileInfo3a->setText(MediaObject->GetTAGInfo());
 
     } else if (MediaList.count()>1) {

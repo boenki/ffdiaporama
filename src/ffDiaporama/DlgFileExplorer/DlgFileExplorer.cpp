@@ -228,9 +228,10 @@ void DlgFileExplorer::DoBrowserRefreshSelectedFileInfo() {
         ui->FileIcon->setPixmap(QPixmap().fromImage(MediaObject->Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
 
         QString FStr=MediaObject->GetFileSizeStr();
-        if (FStr!="") ui->FileInfo1a->setText(QString("%1 (%2)").arg(MediaObject->ShortName()).arg(FStr)); else ui->FileInfo1a->setText(MediaObject->ShortName());
-        FStr=MediaObject->GetInformationValue("Duration");
-        if (FStr!="") ui->FileInfo2a->setText(QString("%1-%2").arg(MediaObject->GetTechInfo()).arg(FStr)); else ui->FileInfo2a->setText(MediaObject->GetTechInfo());
+        if (FStr!="") ui->FileInfo1a->setText(QString("%1 (%2)").arg(MediaObject->ShortName()).arg(FStr));
+            else ui->FileInfo1a->setText(MediaObject->ShortName());
+        if (MediaObject->Duration.isValid()) ui->FileInfo2a->setText(QString("%1-%2").arg(MediaObject->GetTechInfo()).arg(MediaObject->Duration.toString("HH:mm:ss.zzz")));
+            else ui->FileInfo2a->setText(MediaObject->GetTechInfo());
         ui->FileInfo3a->setText(MediaObject->GetTAGInfo());
 
     } else if (MediaList.count()>1) {

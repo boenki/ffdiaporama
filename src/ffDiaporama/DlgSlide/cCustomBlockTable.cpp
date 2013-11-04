@@ -160,17 +160,7 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
 
     // Init text to display in summary views
     if (MediaFile!=NULL) {
-        QString SummaryText[3];
-
-        SummaryText[0]=MediaFile->ShortName()+"("+MediaFile->GetFileSizeStr()+")";
-        SummaryText[1]=MediaFile->GetImageSizeStr(cBaseMediaFile::FULLWEB);
-        if (MediaFile->ObjectType==OBJECTTYPE_IMAGEFILE) {
-            SummaryText[2]=MediaFile->GetInformationValue("composer");
-            if (MediaFile->GetInformationValue("Photo.ExposureTime")!="")    SummaryText[2]=SummaryText[2]+(SummaryText[2]!=""?"-":"")+MediaFile->GetInformationValue("Photo.ExposureTime");
-            if (MediaFile->GetInformationValue("Photo.ApertureValue")!="")   SummaryText[2]=SummaryText[2]+(SummaryText[2]!=""?"-":"")+MediaFile->GetInformationValue("Photo.ApertureValue");
-            if (MediaFile->GetInformationValue("Photo.ISOSpeedRatings")!="") SummaryText[2]=SummaryText[2]+(SummaryText[2]!=""?"-":"")+MediaFile->GetInformationValue("Photo.ISOSpeedRatings")+" ISO";
-        } else SummaryText[2]=QApplication::translate("DlgSlideProperties","Duration:")+MediaFile->GetInformationValue("Duration");
-
+        QStringList SummaryText=MediaFile->GetSummaryText(&MediaFile->InformationList);
         // First line
         font=QFont("Sans serif",9,QFont::Bold,QFont::StyleNormal);          // First line use bold
         Painter->setFont(font);

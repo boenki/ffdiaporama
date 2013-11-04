@@ -173,7 +173,7 @@ QString cVariable::ResolveTextVariable(cDiaporamaObject *Object,QString SourceTe
         else if (Variables[i].VarName=="PAP") VarName=QApplication::translate("Variables","A %1 production").arg(Object->Parent->ProjectInfo->Author);
         else if (Variables[i].VarName=="PAL") VarName=Object->Parent->ProjectInfo->Album;
         else if (Variables[i].VarName=="PCT") VarName=Object->Parent->ProjectInfo->Comment;
-        else if (Variables[i].VarName=="PDD") { VarName=Object->Parent->ProjectInfo->GetInformationValue("Duration"); VarName=VarName.left(VarName.lastIndexOf(".")); }
+        else if (Variables[i].VarName=="PDD") { VarName=Object->Parent->ProjectInfo->Duration.toString("HH:mm:ss.zzz"); VarName=VarName.left(VarName.lastIndexOf(".")); }
         else if (Variables[i].VarName=="PSC") VarName=QString("%1").arg(Object->Parent->List.count());
 
         // Project date values
@@ -190,15 +190,15 @@ QString cVariable::ResolveTextVariable(cDiaporamaObject *Object,QString SourceTe
         else if (Variables[i].VarName=="CSR") VarName=QString("%1").arg(Object->GetSlideNumber()+1);
 
         // Current chapter
-        else if (Variables[i].VarName=="CCN") VarName=Object->Parent->ProjectInfo->GetInformationValue(ChapterNum+"title");
+        else if (Variables[i].VarName=="CCN") VarName=GetInformationValue(ChapterNum+"title",&Object->Parent->ProjectInfo->InformationList);
         else if (Variables[i].VarName=="CCR") VarName=QString("%1").arg(ChapterNumber);
         else if (Variables[i].VarName=="CCI") VarName=QApplication::translate("Variables","Chapter %1").arg(ChapterNumber);
-        else if (Variables[i].VarName=="CCD") VarName=Object->Parent->ProjectInfo->GetInformationValue(ChapterNum+"Duration");
+        else if (Variables[i].VarName=="CCD") VarName=GetInformationValue(ChapterNum+"Duration",&Object->Parent->ProjectInfo->InformationList);
         else if (Variables[i].VarName=="CCT") VarName=QString("%1").arg(Object->Parent->ProjectInfo->NbrChapters);
 
         // Current chapter date values
-        else if (Variables[i].VarName=="CSD") VarName=Object->Parent->ProjectInfo->GetInformationValue(ChapterNum+"Date");
-        else if (Variables[i].VarName=="CLD") VarName=Object->Parent->ProjectInfo->GetInformationValue(ChapterNum+"LongDate");
+        else if (Variables[i].VarName=="CSD") VarName=GetInformationValue(ChapterNum+"Date",&Object->Parent->ProjectInfo->InformationList);
+        else if (Variables[i].VarName=="CLD") VarName=GetInformationValue(ChapterNum+"LongDate",&Object->Parent->ProjectInfo->InformationList);
         else if (Variables[i].VarName=="CYR") VarName=QString("%1").arg((CurrentChapter->OverrideProjectEventDate?CurrentChapter->ChapterEventDate:Object->Parent->ProjectInfo->EventDate).year());
         else if (Variables[i].VarName=="CMD") VarName=ito2a((CurrentChapter->OverrideProjectEventDate?CurrentChapter->ChapterEventDate:Object->Parent->ProjectInfo->EventDate).month());
         else if (Variables[i].VarName=="CDY") VarName=ito2a((CurrentChapter->OverrideProjectEventDate?CurrentChapter->ChapterEventDate:Object->Parent->ProjectInfo->EventDate).day());

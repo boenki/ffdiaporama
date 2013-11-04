@@ -173,11 +173,13 @@ void    ToLog(int MessageType,QString Message,QString Source="internal",bool Add
 
 QString ito2a(int val);
 QString ito3a(int val);
-double  GetDoubleValue(QDomElement CorrectElement,QString Name);    // Load a double value from an XML element
-double  GetDoubleValue(QString sValue);                             // Load a double value from a string
+double  GetDoubleValue(QDomElement CorrectElement,QString Name);                    // Load a double value from an XML element
+double  GetDoubleValue(QString sValue);                                             // Load a double value from a string
 QString UpInitials(QString Source);
 QString FormatLongDate(QDate EventDate);
-QString AdjustDirForOS(QString Dir);                                // Adjust separator in pathname depending on operating system
+QString AdjustDirForOS(QString Dir);                                                // Adjust separator in pathname depending on operating system
+QString GetInformationValue(QString ValueToSearch,QStringList *InformationList);    // Get a value from a list of value (value as store in pair name##value)
+QString GetCumulInfoStr(QStringList *InformationList,QString Key1,QString Key2);    // Return a string concataining each value of a key containing key1 and key2
 
 //====================================================================
 // VARIOUS

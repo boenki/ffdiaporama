@@ -192,6 +192,38 @@ QString AdjustDirForOS(QString Dir) {
 
 //====================================================================================================================
 
+QString GetInformationValue(QString ValueToSearch,QStringList *InformationList) {
+    if (!InformationList) return "";
+    int i=0;
+    while ((i<InformationList->count())&&(!InformationList->at(i).startsWith(ValueToSearch+"##"))) i++;
+    if ((i<InformationList->count())&&(InformationList->at(i).startsWith(ValueToSearch))) {
+        QStringList Values=InformationList->at(i).split("##");
+        if (Values.count()==2) return ((QString)Values[1]).trimmed();
+    }
+    return "";
+}
+
+//====================================================================================================================
+
+QString GetCumulInfoStr(QStringList *InformationList,QString Key1,QString Key2) {
+    int     Num     =0;
+    QString TrackNum="";
+    QString Value   ="";
+    QString Info    ="";
+    do {
+        TrackNum=QString("%1").arg(Num);
+        while (TrackNum.length()<3) TrackNum="0"+TrackNum;
+        TrackNum=Key1+"_"+TrackNum+":";
+        Value=GetInformationValue(TrackNum+Key2,InformationList);
+        if (Value!="") Info=Info+((Num>0)?",":"")+Value;
+        // Next
+        Num++;
+    } while (Value!="");
+    return Info;
+}
+
+//====================================================================================================================
+
 bool PreviousBreak=true;
 
 #ifdef Q_OS_WIN
