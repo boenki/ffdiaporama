@@ -643,7 +643,8 @@ bool cEncodeVideo::OpenAudioStream(sAudioCodecDef *AudioCodecDef,int &AudioChann
         #if (defined(LIBAV)&&(LIBAVVERSIONINT>=9))||defined(FFMPEG)
         AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLTP;
         #else
-        AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLT;
+        //AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLT;
+        AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_S16;
         #endif
     } else if (codec->id==AV_CODEC_ID_AC3) {
         #if (defined(LIBAV)&&(LIBAVVERSIONINT>=9))||defined(FFMPEG)

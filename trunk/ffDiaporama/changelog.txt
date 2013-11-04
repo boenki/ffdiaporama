@@ -11,6 +11,20 @@
         New features:
 **************************************************
 
+[Commit: 04/11/2013]
+    French version
+        Correction de bug :
+            -Corrige l'erreur lors des générations en webm, ogv et ogg avec libav 0.8 : remplace AV_SAMPLE_FMT_FLT par AV_SAMPLE_FMT_S16 pour le codec OGG
+        Nouveautés :
+            - Réorganise les données à l'intérieur des objets afin de pouvoir a terme les supprimer de la mémoire et ne les avoir plus que dans la base de données
+    English version
+        Bug fixes:
+            -Fixed the error when rendering to webm, ogv and ogg with libav 0.8: replaces AV_SAMPLE_FMT_FLT by AV_SAMPLE_FMT_S16 for OGG codec
+        New features:
+            - Arranges the data inside objects in order soon to remove them from memory and only have them in the database
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
 [Commit: 03/11/2013]
     French version
         Correction de bug :

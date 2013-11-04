@@ -120,6 +120,8 @@ public:
 
 class cBaseMediaFile : public cCustomIcon {
 public:
+    enum    ImageSizeFmt {FULLWEB,SIZEONLY,FMTONLY,GEOONLY};
+
     cBaseApplicationConfig *ApplicationConfig;
     int                     ObjectType;
 
@@ -146,28 +148,28 @@ public:
 
     virtual QString         FileName();
     virtual QString         ShortName();
+
     virtual bool            LoadBasicInformationFromDatabase(QDomElement root)=0;
     virtual void            SaveBasicInformationToDatabase(QDomElement *root)=0;
+    virtual bool            SaveAllInformationToDatabase();
 
     virtual void            Reset();
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey);
-    virtual bool            GetFullInformationFromFile()=0;
-    virtual QString         GetInformationValue(QString ValueToSearch);
-    virtual QString         GetCumulInfoStr(QString Key1,QString Key2);
+    virtual bool            GetFullInformationFromFile();
+    virtual bool            GetChildFullInformationFromFile() { return true;}
 
-    enum    ImageSizeFmt {FULLWEB,SIZEONLY,FMTONLY,GEOONLY};
-    virtual QString         GetImageSizeStr(ImageSizeFmt Fmt=FULLWEB);      // Return image size as formated string
-    virtual QString         GetImageGeometryStr();                          // Return image geometry as formated string
-    virtual QString         GetFileTypeStr()=0;
+    // return information from basic properties
+    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size)=0;
     virtual QString         GetFileDateTimeStr(bool Created=false);         // Return file date/time as formated string
     virtual QString         GetFileSizeStr();                               // Return file size as formated string
+    virtual QString         GetImageSizeStr(ImageSizeFmt Fmt=FULLWEB);      // Return image size as formated string
+    virtual QString         GetImageGeometryStr();                          // Return image geometry as formated string
+    virtual QString         GetFileTypeStr()=0;                             // Return type of file
 
+    // return information from extended properties
+    virtual QStringList     GetSummaryText(QStringList *InformationList);   // return 3 lines to display Summary of media file in dialog box which need them
     virtual QString         GetTechInfo()=0;                                // Return technical information as formated string
     virtual QString         GetTAGInfo()=0;                                 // Return TAG information as formated string
-
-    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size)=0;
-
-    virtual bool            SaveAllInformationToDatabase();
 };
 
 //*********************************************************************************************************************************************
@@ -178,9 +180,8 @@ public:
     explicit cUnmanagedFile(cBaseApplicationConfig *ApplicationConfig);
 
     virtual QString         GetFileTypeStr();
-    virtual bool            LoadBasicInformationFromDatabase(QDomElement)       {return true;}
-    virtual void            SaveBasicInformationToDatabase(QDomElement *)       {/*Nothing to do*/}
-    virtual bool            GetFullInformationFromFile()                        {return SaveAllInformationToDatabase();}
+    virtual bool            LoadBasicInformationFromDatabase(QDomElement)       { return true;}
+    virtual void            SaveBasicInformationToDatabase(QDomElement *)       { /*Nothing to do*/}
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size)     { return ApplicationConfig->DefaultFILEIcon.GetIcon(Size); }
     virtual QString         GetTechInfo()                                       { return ""; }
     virtual QString         GetTAGInfo()                                        { return ""; }
@@ -194,9 +195,9 @@ public:
     explicit cFolder(cBaseApplicationConfig *ApplicationConfig);
 
     virtual QString         GetFileTypeStr();
-    virtual bool            LoadBasicInformationFromDatabase(QDomElement)       {return true;}
-    virtual void            SaveBasicInformationToDatabase(QDomElement *)       {/*Nothing to do*/}
-    virtual bool            GetFullInformationFromFile();
+    virtual bool            LoadBasicInformationFromDatabase(QDomElement)       { return true;}
+    virtual void            SaveBasicInformationToDatabase(QDomElement *)       { /*Nothing to do*/}
+    virtual bool            GetChildFullInformationFromFile();
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size)     { return ApplicationConfig->DefaultFOLDERIcon.GetIcon(Size); }
     virtual QString         GetTechInfo()                                       { return ""; }
     virtual QString         GetTAGInfo()                                        { return ""; }
@@ -228,7 +229,7 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            LoadBasicInformationFromDatabase(QDomElement root);
     virtual void            SaveBasicInformationToDatabase(QDomElement *root);
-    virtual bool            GetFullInformationFromFile();
+    virtual bool            GetChildFullInformationFromFile();
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return ApplicationConfig->DefaultFFDIcon.GetIcon(Size); }
 
     virtual QString         GetTechInfo();
@@ -254,7 +255,7 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            LoadBasicInformationFromDatabase(QDomElement root);
     virtual void            SaveBasicInformationToDatabase(QDomElement *root);
-    virtual bool            GetFullInformationFromFile();
+    virtual bool            GetChildFullInformationFromFile();
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return (ObjectType==OBJECTTYPE_THUMBNAIL?ApplicationConfig->DefaultThumbIcon:ApplicationConfig->DefaultIMAGEIcon).GetIcon(Size); }
     virtual QString         GetTechInfo();
     virtual QString         GetTAGInfo();
@@ -325,7 +326,7 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            LoadBasicInformationFromDatabase(QDomElement root);
     virtual void            SaveBasicInformationToDatabase(QDomElement *root);
-    virtual bool            GetFullInformationFromFile();
+    virtual bool            GetChildFullInformationFromFile();
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size);
 
     virtual QString         GetTechInfo();

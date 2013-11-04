@@ -86,11 +86,11 @@ void DlgffDPjrProperties::DoInitDialog() {
         QColor Background=((i & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
         ui->ChapterTable->insertRow(ui->ChapterTable->rowCount());
         ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,0,CreateItem(QString("%1").arg(iChapterNum),Qt::AlignLeft|Qt::AlignVCenter,Background));
-        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,1,CreateItem(ffdProject->ProjectInfo->GetInformationValue(ChapterNum+"InSlide"),Qt::AlignLeft|Qt::AlignVCenter,Background));
-        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,2,CreateItem(ffdProject->ProjectInfo->GetInformationValue(ChapterNum+"title"),Qt::AlignLeft|Qt::AlignVCenter,Background));
-        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,3,CreateItem(ffdProject->ProjectInfo->GetInformationValue(ChapterNum+"Start"),Qt::AlignLeft|Qt::AlignVCenter,Background));
-        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,4,CreateItem(ffdProject->ProjectInfo->GetInformationValue(ChapterNum+"End"),Qt::AlignLeft|Qt::AlignVCenter,Background));
-        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,5,CreateItem(ffdProject->ProjectInfo->GetInformationValue(ChapterNum+"Duration"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,1,CreateItem(GetInformationValue(ChapterNum+"InSlide",&ffdProject->ProjectInfo->InformationList),Qt::AlignLeft|Qt::AlignVCenter,Background));
+        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,2,CreateItem(GetInformationValue(ChapterNum+"title",&ffdProject->ProjectInfo->InformationList),Qt::AlignLeft|Qt::AlignVCenter,Background));
+        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,3,CreateItem(GetInformationValue(ChapterNum+"Start",&ffdProject->ProjectInfo->InformationList),Qt::AlignLeft|Qt::AlignVCenter,Background));
+        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,4,CreateItem(GetInformationValue(ChapterNum+"End",&ffdProject->ProjectInfo->InformationList),Qt::AlignLeft|Qt::AlignVCenter,Background));
+        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,5,CreateItem(GetInformationValue(ChapterNum+"Duration",&ffdProject->ProjectInfo->InformationList),Qt::AlignLeft|Qt::AlignVCenter,Background));
     }
     DoResizeColumnsTableWidget(ui->ChapterTable);
 

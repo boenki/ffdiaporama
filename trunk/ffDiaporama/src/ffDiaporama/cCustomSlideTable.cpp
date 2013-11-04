@@ -502,8 +502,8 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         }
 
         if ((CurMusic)&&(OwnerObjectMusic==ItemIndex)) {
-            QString Artist=CurMusic->GetInformationValue("artist");
-            QString Title=CurMusic->GetInformationValue("title");
+            QString Artist=GetInformationValue("artist",&CurMusic->InformationList);
+            QString Title=GetInformationValue("title",&CurMusic->InformationList);
             QString MusicName=((Artist!="")&&(Title!="")?Artist+"\n"+Title:QFileInfo(CurMusic->FileName()).baseName());
             Pen.setWidth(1);
             Pen.setStyle(Qt::SolidLine);

@@ -2085,10 +2085,10 @@ void cDiaporama::UpdateStatInformation() {
             QStringList MusicList;
             Text=QApplication::translate("Variables","Musical content:","Project statistics");
             for (int i=0;i<List.count();i++) if (List[i]->MusicType) for (int music=0;music<List[i]->MusicList.count();music++) {
-                QString TMusc =List[i]->MusicList[music].GetInformationValue("title");
-                QString Album =List[i]->MusicList[music].GetInformationValue("album");
-                QString Date  =List[i]->MusicList[music].GetInformationValue("date");
-                QString Artist=List[i]->MusicList[music].GetInformationValue("artist");
+                QString TMusc =GetInformationValue("title",&List[i]->MusicList[music].InformationList);
+                QString Album =GetInformationValue("album",&List[i]->MusicList[music].InformationList);
+                QString Date  =GetInformationValue("date",&List[i]->MusicList[music].InformationList);
+                QString Artist=GetInformationValue("artist",&List[i]->MusicList[music].InformationList);
                 QString SubText=(!TMusc.isEmpty()?TMusc:List[i]->MusicList[music].ShortName());
                 if (!Artist.isEmpty()) {
                     if (!Date.isEmpty())  SubText=SubText+QApplication::translate("Variables"," - © %1 (%2)","Project statistics-Music").arg(Artist).arg(Date);
