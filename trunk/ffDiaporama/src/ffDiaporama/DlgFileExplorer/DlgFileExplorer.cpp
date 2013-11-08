@@ -146,7 +146,7 @@ void DlgFileExplorer::s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,Q
     #ifdef Q_OS_WIN
         Path.replace("%HOMEDRIVE%%HOMEPATH%",BaseApplicationConfig->DriveList->List[0].Path,Qt::CaseInsensitive);
         Path.replace("%USERPROFILE%",BaseApplicationConfig->DriveList->List[0].Path,Qt::CaseInsensitive);
-        Path=AdjustDirForOS(Path);
+        Path=QDir::toNativeSeparators(Path);
         if (QDir(Path).canonicalPath()!="") Path=QDir(Path).canonicalPath(); // Resolved eventual .lnk files
     #endif
     ui->FolderTable->FillListFolder(Path);
@@ -211,7 +211,8 @@ void DlgFileExplorer::DoBrowserRefreshFolderInfo() {
 void DlgFileExplorer::DoBrowserRefreshSelectedFileInfo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::DoBrowserRefreshSelectedFileInfo");
 
-    QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
+    QList<cBaseMediaFile*> MediaList;
+    ui->FolderTable->GetCurrentSelectedMediaFile(&MediaList);
 
     if (MediaList.count()==0) {
         // No selection
@@ -225,18 +226,19 @@ void DlgFileExplorer::DoBrowserRefreshSelectedFileInfo() {
         // One file selection
 
         cBaseMediaFile *MediaObject=MediaList[0];
-        ui->FileIcon->setPixmap(QPixmap().fromImage(MediaObject->Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
+        QStringList     TempExtProperties;
+        BaseApplicationConfig->FilesTable->GetExtendedProperties(MediaObject->FileKey,&TempExtProperties);
+        ui->FileIcon->setPixmap(QPixmap().fromImage(MediaObject->GetIcon(cCustomIcon::ICON100,true).scaledToHeight(48,Qt::SmoothTransformation)));
 
         QString FStr=MediaObject->GetFileSizeStr();
         if (FStr!="") ui->FileInfo1a->setText(QString("%1 (%2)").arg(MediaObject->ShortName()).arg(FStr));
             else ui->FileInfo1a->setText(MediaObject->ShortName());
-        if (MediaObject->Duration.isValid()) ui->FileInfo2a->setText(QString("%1-%2").arg(MediaObject->GetTechInfo()).arg(MediaObject->Duration.toString("HH:mm:ss.zzz")));
-            else ui->FileInfo2a->setText(MediaObject->GetTechInfo());
-        ui->FileInfo3a->setText(MediaObject->GetTAGInfo());
+        if (QTime(0,0,0,0).msecsTo(MediaObject->Duration)>0) ui->FileInfo2a->setText(QString("%1-%2").arg(MediaObject->GetTechInfo(&TempExtProperties)).arg(MediaObject->Duration.toString("HH:mm:ss.zzz")));
+            else ui->FileInfo2a->setText(MediaObject->GetTechInfo(&TempExtProperties));
+        ui->FileInfo3a->setText(MediaObject->GetTAGInfo(&TempExtProperties));
 
     } else if (MediaList.count()>1) {
         // Multi file select
-
 
         // Do qualification of files
         bool    IsFind;
@@ -305,7 +307,7 @@ void DlgFileExplorer::DoBrowserRefreshSelectedFileInfo() {
             ui->FileInfo2a->setText(QApplication::translate("MainWindow","Multiple file types"));
         }
     }
-
+    while (!MediaList.isEmpty()) delete MediaList.takeLast();
     //RefreshControls();
 }
 
@@ -389,16 +391,22 @@ void DlgFileExplorer::s_Browser_RefreshHere() {
 
 bool DlgFileExplorer::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_OpenFolder");
-    QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
+    QList<cBaseMediaFile*> MediaList;
+    ui->FolderTable->GetCurrentSelectedMediaFile(&MediaList);
     bool HaveFolder=false;
+    bool Ret=true;
     for (int i=0;i<MediaList.count();i++) if (MediaList[i]->ObjectType==OBJECTTYPE_FOLDER) HaveFolder=true;
-    if (MediaList.count()==0) return false;
-    if (!HaveFolder) return true; else if (MediaList.count()==1) {
-        s_Browser_OpenFolder();
-        return false;
+    if (MediaList.count()==0) Ret=false; else if (HaveFolder) {
+        if (MediaList.count()==1) {
+            s_Browser_OpenFolder();
+            Ret=false;
+        } else {
+            CustomMessageBox(this,QMessageBox::Information,BoxTitle,QApplication::translate("DlgFileExplorer","The selection can't include folders."),QMessageBox::Ok,QMessageBox::Ok);
+            Ret=false;
+        }
     }
-    CustomMessageBox(this,QMessageBox::Information,BoxTitle,QApplication::translate("DlgFileExplorer","The selection can't include folders."),QMessageBox::Ok,QMessageBox::Ok);
-    return false;
+    while (!MediaList.isEmpty()) delete MediaList.takeLast();
+    return Ret;
 }
 
 //====================================================================================================================
@@ -418,6 +426,7 @@ void DlgFileExplorer::s_Browser_OpenFolder() {
             Path=Path+Media->ShortName();
             ui->FolderTree->SetSelectItemByPath(Path);
         } else accept();
+        delete Media;
     }
 }
 
@@ -426,7 +435,8 @@ void DlgFileExplorer::s_Browser_OpenFolder() {
 void DlgFileExplorer::s_Browser_RightClicked(QMouseEvent *) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_RightClicked");
 
-    QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
+    QList<cBaseMediaFile*> MediaList;
+    ui->FolderTable->GetCurrentSelectedMediaFile(&MediaList);
     if (MediaList.count()==0) return;
 
     bool    Multiple=(MediaList.count()>1);
@@ -459,6 +469,7 @@ void DlgFileExplorer::s_Browser_RightClicked(QMouseEvent *) {
         ContextMenu->exec(QCursor::pos());
         delete ContextMenu;
     }
+    while (!MediaList.isEmpty()) delete MediaList.takeLast();
 }
 
 //====================================================================================================================
@@ -470,6 +481,7 @@ void DlgFileExplorer::s_Browser_Properties() {
         DlgInfoFile Dlg(Media,BaseApplicationConfig,this);
         Dlg.InitDialog();
         Dlg.exec();
+        delete Media;
     }
 }
 

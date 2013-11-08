@@ -22,15 +22,12 @@
 #include <QDesktopServices>
 
 HelpBrowser::HelpBrowser(QWidget *parent):QTextBrowser(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:HelpBrowser::HelpBrowser");
     HelpEngine=NULL;
 }
 
 //====================================================================================================================
 
 QVariant HelpBrowser::loadResource(int type,const QUrl &name) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:HelpBrowser::loadResource");
-
     QByteArray ba;
     if ((type<4)&&(HelpEngine)) {
         QUrl url(name);
@@ -43,6 +40,5 @@ QVariant HelpBrowser::loadResource(int type,const QUrl &name) {
 //====================================================================================================================
 
 void HelpBrowser::setSource(const QUrl &name) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:HelpBrowser::setSource");
     if (name.toString().startsWith("http")) QDesktopServices::openUrl(QUrl(name)); else QTextBrowser::setSource(name);
 }

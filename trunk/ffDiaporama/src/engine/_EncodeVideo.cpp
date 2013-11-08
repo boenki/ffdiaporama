@@ -101,14 +101,6 @@ cEncodeVideo::cEncodeVideo() {
     ExtendV                 =0;
     VideoFrameBufSize       =0;
     VideoFrameBuf           =NULL;
-
-    // link to control for progression display
-    ElapsedTimeLabel        =NULL;
-    SlideNumberLabel        =NULL;
-    FrameNumberLabel        =NULL;
-    FPSLabel                =NULL;
-    SlideProgressBar        =NULL;
-    TotalProgressBar        =NULL;
 }
 
 //*************************************************************************************************************************************************
@@ -120,8 +112,6 @@ cEncodeVideo::~cEncodeVideo() {
 //*************************************************************************************************************************************************
 
 void cEncodeVideo::CloseEncoder() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::CloseEncoder");
-
     if (Container) {
         if (IsOpen) {
             if ((AudioStream)&&(AudioStream->codec->codec_id==AV_CODEC_ID_FLAC)) {
@@ -218,8 +208,6 @@ int cEncodeVideo::getThreadFlags(AVCodecID ID) {
 bool cEncodeVideo::OpenEncoder(cDiaporama *Diaporama,QString OutputFileName,int FromSlide,int ToSlide,
                     bool EncodeVideo,int VideoCodecSubId,sIMAGEDEF *ImageDef,int ImageWidth,int ImageHeight,int ExtendV,int InternalWidth,int InternalHeight,AVRational PixelAspectRatio,int VideoBitrate,
                     bool EncodeAudio,int AudioCodecSubId,int AudioChannels,int AudioBitrate,int AudioSampleRate,QString Language) {
-
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::OpenEncoder");
 
     sFormatDef *FormatDef   =NULL;
     this->Diaporama         =Diaporama;
@@ -358,11 +346,6 @@ bool cEncodeVideo::OpenEncoder(cDiaporama *Diaporama,QString OutputFileName,int 
     dFPS    =double(VideoFrameRate.den)/double(VideoFrameRate.num);
     NbrFrame=int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide))*dFPS/1000);    // Number of frame to generate
 
-    //=======================================
-    // Prepare Display
-    //=======================================
-    InitDisplay();
-
     return true;
 }
 
@@ -371,8 +354,6 @@ bool cEncodeVideo::OpenEncoder(cDiaporama *Diaporama,QString OutputFileName,int 
 //*************************************************************************************************************************************************
 
 bool cEncodeVideo::AddStream(AVStream **Stream,AVCodec **codec,const char *CodecName,AVMediaType Type) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::AddStream");
-
     *codec=avcodec_find_encoder_by_name(CodecName);
     if (!(*codec)) {
         ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-AddStream: Unable to find codec %1").arg(CodecName));
@@ -425,8 +406,6 @@ bool cEncodeVideo::AddStream(AVStream **Stream,AVCodec **codec,const char *Codec
 
 bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecSubId,AVRational VideoFrameRate,
                                    int ImageWidth,int ImageHeight,AVRational PixelAspectRatio,int VideoBitrate) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::OpenVideoStream");
-
     AVCodec *codec;
     if (!AddStream(&VideoStream,&codec,VideoCodecDef->ShortName,AVMEDIA_TYPE_VIDEO)) return false;
 
@@ -600,8 +579,6 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
 //*************************************************************************************************************************************************
 
 bool cEncodeVideo::OpenAudioStream(sAudioCodecDef *AudioCodecDef,int &AudioChannels,int &AudioBitrate,int &AudioSampleRate,QString Language) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::OpenAudioStream");
-
     AVCodec *codec;
     if (!AddStream(&AudioStream,&codec,AudioCodecDef->ShortName,AVMEDIA_TYPE_AUDIO)) return false;
 
@@ -683,8 +660,6 @@ bool cEncodeVideo::OpenAudioStream(sAudioCodecDef *AudioCodecDef,int &AudioChann
 //*************************************************************************************************************************************************
 
 bool cEncodeVideo::PrepareTAG(QString Language) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::PrepareTAG");
-
     // Set TAGS
     av_dict_set(&Container->metadata,"language",Language.toUtf8().constData(),0);
     av_dict_set(&Container->metadata,"title",AdjustMETA(Diaporama->ProjectInfo->Title==""?QFileInfo(OutputFileName).baseName():Diaporama->ProjectInfo->Title).toUtf8().constData(),0);
@@ -726,69 +701,7 @@ bool cEncodeVideo::PrepareTAG(QString Language) {
 
 //*************************************************************************************************************************************************
 
-void cEncodeVideo::InitDisplay() {
-    SlideNumberLabel->setText("");
-    SlideProgressBar->setValue(0);
-    FrameNumberLabel->setText("");
-    TotalProgressBar->setValue(0);
-    ElapsedTimeLabel->setText("");
-    FPSLabel->setText("");
-
-    // Filename
-    InfoLabelB1->setText(OutputFileName);
-
-    // Video part
-    if (VideoStream) {
-        InfoLabelB2->setText(ImageDef->Name);
-        QString VideoBitRateStr=QString("%1").arg(VideoBitrate); if (VideoBitRateStr.endsWith("000")) VideoBitRateStr=VideoBitRateStr.left(VideoBitRateStr.length()-3)+"k";
-        InfoLabelB3->setText(QString(VIDEOCODECDEF[VideoCodecSubId].LongName)+" - "+(VideoBitRateStr!="0"?VideoBitRateStr+"b/s":"lossless"));
-    } else {
-        InfoLabelA2->setVisible(false);
-        InfoLabelB2->setVisible(false);
-        InfoLabelA3->setVisible(false);
-        InfoLabelB3->setVisible(false);
-        SlideProgressBarLabel->setVisible(false);
-        SlideNumberLabel->setVisible(false);
-        SlideProgressBar->setVisible(false);
-    }
-
-    // Audio part
-    if (AudioStream) {
-        QString AudioBitRateStr=QString("%1").arg(AudioBitrate); if (AudioBitRateStr.endsWith("000")) AudioBitRateStr=AudioBitRateStr.left(AudioBitRateStr.length()-3)+"k";
-        InfoLabelB4->setText(QString(AUDIOCODECDEF[AudioCodecSubId].LongName)+QString(" - %1 Hz - ").arg(AudioSampleRate)+(AudioBitRateStr!="0"?AudioBitRateStr+"b/s":"lossless"));
-    } else {
-        InfoLabelA4->setVisible(false);
-        InfoLabelB4->setVisible(false);
-    }
-}
-
-//*************************************************************************************************************************************************
-
-void cEncodeVideo::DisplayProgress(int64_t RenderedFrame,int64_t Position,int Column,int ColumnStart) {
-    int     DurationProcess =StartTime.msecsTo(QTime::currentTime());
-    double  CalcFPS         =(double(RenderedFrame)/(double(DurationProcess)/1000));
-    double  EstimDur        =double(NbrFrame-RenderedFrame)/CalcFPS;
-
-    ElapsedTimeLabel->setText(QString("%1").arg((QTime(0,0,0,0).addMSecs(DurationProcess)).toString("hh:mm:ss"))+
-                            QApplication::translate("DlgRenderVideo"," - Estimated time left : ")+
-                            QString("%1").arg(QTime(0,0,0,0).addMSecs(EstimDur*1000).toString("hh:mm:ss")));
-    FPSLabel->setText(QString("%1").arg(double(RenderedFrame)/(double(DurationProcess)/1000),0,'f',1));
-    if (VideoStream) {
-        SlideNumberLabel->setText(QString("%1/%2").arg(Column-FromSlide+1).arg(ToSlide-FromSlide+1));
-        FrameNumberLabel->setText(QString("%1/%2").arg(RenderedFrame).arg(NbrFrame));
-    }
-    SlideProgressBar->setValue(Position!=-1?int(double(Position-ColumnStart)/(double(AV_TIME_BASE)/dFPS/double(1000))):SlideProgressBar->maximum());
-    TotalProgressBar->setValue(RenderedFrame);
-
-    LastCheckTime=QTime::currentTime();
-    QApplication::processEvents();  // Give time to interface!
-}
-
-//*************************************************************************************************************************************************
-
 QString cEncodeVideo::AdjustMETA(QString Text) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::AdjustMETA");
-
     //Metadata keys or values containing special characters (’=’, ’;’, ’#’, ’\’ and a newline) must be escaped with a backslash ’\’.
     Text.replace("=","\\=");
     Text.replace(";","\\;");
@@ -805,13 +718,10 @@ QString cEncodeVideo::AdjustMETA(QString Text) {
 //*************************************************************************************************************************************************
 
 bool cEncodeVideo::DoEncode() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::DoEncode");
-
     bool                    Continue=true;
     cSoundBlockList         RenderMusic,ToEncodeMusic;
     cDiaporamaObjectInfo    *PreviousFrame=NULL,*PreviousPreviousFrame=NULL;
     cDiaporamaObjectInfo    *Frame        =NULL;
-    int64_t                 RenderedFrame =0;
     int                     FrameSize     =0;
 
     IncreasingVideoPts=double(1000)/double(dFPS);
@@ -842,9 +752,10 @@ bool cEncodeVideo::DoEncode() {
     IncreasingAudioPts  =AudioStream?FrameSize*1000*AudioStream->codec->time_base.num/AudioStream->codec->time_base.den:0;
     StartTime           =QTime::currentTime();
     LastCheckTime       =StartTime;                                     // Display control : last time the loop start
-    int64_t             Position=Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
-    int ColumnStart     =-1;                                            // Render start position of current object
-    int Column          =FromSlide-1;                                     // Render current object
+    Position            =Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
+    ColumnStart         =-1;                                            // Render start position of current object
+    Column              =FromSlide-1;                                   // Render current object
+    RenderedFrame       =0;
 
     // Init Resampler (if needed)
     if (AudioStream) {
@@ -922,9 +833,6 @@ bool cEncodeVideo::DoEncode() {
         #endif
     }
 
-    if (SlideProgressBar)   SlideProgressBar->setMaximum(ToSlide-FromSlide);
-    if (TotalProgressBar)   TotalProgressBar->setMaximum(NbrFrame);
-
     // Prepare a DefaultSourceImage to not create it for each frame
     QImage DefaultSourceImage;
     if ((InternalWidth!=0)&&(InternalHeight!=0)) {
@@ -957,11 +865,8 @@ bool cEncodeVideo::DoEncode() {
     //Time.start();
 
     for (RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
-        // Give time to interface!
-        QApplication::processEvents();
-
         // Calculate position & column
-        int AdjustedDuration=((Column>=0)&&(Column<Diaporama->List.count()))?Diaporama->List[Column]->GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
+        AdjustedDuration=((Column>=0)&&(Column<Diaporama->List.count()))?Diaporama->List[Column]->GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
         if (AdjustedDuration<33) AdjustedDuration=33; // Not less than 1/30 sec
 
         if ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+AdjustedDuration)<=Position))) {
@@ -969,12 +874,11 @@ bool cEncodeVideo::DoEncode() {
             AdjustedDuration=((Column>=0)&&(Column<Diaporama->List.count()))?Diaporama->List[Column]->GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
             if (AdjustedDuration<33) AdjustedDuration=33; // Not less than 1/30 sec
             ColumnStart=Diaporama->GetObjectStartPosition(Column);
-            if ((Column<Diaporama->List.count())&&(SlideProgressBar)) SlideProgressBar->setMaximum(int(double(AdjustedDuration)/((double(AV_TIME_BASE)/dFPS)/double(1000)))-1);
             Diaporama->CloseUnusedLibAv(Column);
-            DisplayProgress(RenderedFrame,Position,Column,ColumnStart);
-
-        // Refresh Display (if needed)
-        } else if (LastCheckTime.msecsTo(QTime::currentTime())>=1000) DisplayProgress(RenderedFrame,Position,Column,ColumnStart);  // Refresh display only one time per second
+            if (LastCheckTime.msecsTo(QTime::currentTime())>=1000) {
+                LastCheckTime=QTime::currentTime();
+            }
+        }
 
         // Get current frame
         Frame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,IncreasingVideoPts,AudioStream!=NULL);
@@ -1013,7 +917,7 @@ bool cEncodeVideo::DoEncode() {
         PreviousPreviousFrame=PreviousFrame;
 
         // If not static image then compute using threaded function
-        if ((!PreviousFrame)||(PreviousFrame->FreeRenderedImage))
+        if ((!PreviousFrame)||(PreviousFrame->RenderedImage.isNull()))
             ThreadAssembly.setFuture(QtConcurrent::run(this,&cEncodeVideo::Assembly,Frame,PreviousFrame,&RenderMusic,&ToEncodeMusic,Continue));
             else Assembly(Frame,PreviousFrame,&RenderMusic,&ToEncodeMusic,Continue);
         //Assembly+=Time.elapsed(); Time.restart();
@@ -1037,8 +941,9 @@ bool cEncodeVideo::DoEncode() {
     QThread::currentThread()->setPriority(QThread::HighestPriority);
     #endif
 
-    // refresh display
-    if (!StopProcessWanted) DisplayProgress(RenderedFrame,-1,Column,0);  // Set All to 100%
+    Position=-1;
+    ColumnStart=0;
+    AdjustedDuration=0;
 
     // Cleaning
     if (PreviousPreviousFrame)  delete PreviousPreviousFrame;
@@ -1067,7 +972,7 @@ void cEncodeVideo::Assembly(cDiaporamaObjectInfo *Frame,cDiaporamaObjectInfo *Pr
         ThreadEncodeAudio.setFuture(QtConcurrent::run(this,&cEncodeVideo::EncodeMusic,Frame,RenderMusic,ToEncodeMusic,Continue));
 
     if ((Continue)&&(VideoStream)&&(VideoFrameConverter)&&(VideoFrame)) {
-        QImage *Image=((PreviousFrame)&&(Frame->RenderedImage==PreviousFrame->RenderedImage))?NULL:Frame->RenderedImage;
+        QImage *Image=((PreviousFrame)&&(Frame->IsShotStatic))?NULL:&Frame->RenderedImage;
         ThreadEncodeVideo.setFuture(QtConcurrent::run(this,&cEncodeVideo::EncodeVideo,Image,Continue));
     }
 }
@@ -1075,9 +980,6 @@ void cEncodeVideo::Assembly(cDiaporamaObjectInfo *Frame,cDiaporamaObjectInfo *Pr
 //*************************************************************************************************************************************************
 
 void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *RenderMusic,cSoundBlockList *ToEncodeMusic,bool &Continue) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::EncodeMusic");
-
-
     // mix audio data
     for (int j=0;j<Frame->CurrentObject_MusicTrack->NbrPacketForFPS;j++)
         RenderMusic->MixAppendPacket(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,
@@ -1262,8 +1164,6 @@ void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *Rend
 //*************************************************************************************************************************************************
 
 void cEncodeVideo::EncodeVideo(QImage *SrcImage,bool &Continue) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::EncodeVideo");
-
     QImage *Image=SrcImage;
     int     errcode;
 

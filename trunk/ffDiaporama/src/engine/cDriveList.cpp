@@ -42,8 +42,6 @@ QString MFD             ="";
 //*******************************************************************************************************************************************************
 
 cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *ApplicationConfig) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDriveDesc::cDriveDesc");
-
     Flag        =2;         // New DriveDesc
     Label       ="";
     Size        =0;
@@ -253,10 +251,10 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
                         Line.trimmed();
                         if ((Line.toUpper().startsWith("ICON"))&&(Line.indexOf("=")!=-1)) {
                             Line=Line.mid(Line.indexOf("=")+1).trimmed();
-                            if (Line.toLower().endsWith(".jpg") || Line.toLower().endsWith(".png") || Line.toLower().endsWith(".ico")) IconDrive=QIcon(AdjustDirForOS(Path+Line)).pixmap(16,16).toImage().copy();
+                            if (Line.toLower().endsWith(".jpg") || Line.toLower().endsWith(".png") || Line.toLower().endsWith(".ico")) IconDrive=QIcon(QDir::toNativeSeparators(Path+Line)).pixmap(16,16).toImage().copy();
                             #ifdef Q_OS_WIN
                             else {
-                                QIcon Ico(GetIconForFileOrDir(AdjustDirForOS(Path+Line),0));
+                                QIcon Ico(GetIconForFileOrDir(QDir::toNativeSeparators(Path+Line),0));
                                 IconDrive=Ico.pixmap(16,16).toImage();
                             }
                             #endif
@@ -302,8 +300,8 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
                                 QString Value=getenv(Var.toLocal8Bit());
                                 Line.replace("%"+Var+"%",Value,Qt::CaseInsensitive);
                             }
-                            if (QFileInfo(Line).isRelative()) IconFile=AdjustDirForOS(Path+(Path.endsWith(QDir::separator())?QString(""):QDir::separator())+Line);
-                                else IconFile=AdjustDirForOS(QFileInfo(Line).absoluteFilePath());
+                            if (QFileInfo(Line).isRelative()) IconFile=QDir::toNativeSeparators(Path+(Path.endsWith(QDir::separator())?QString(""):QDir::separator())+Line);
+                                else IconFile=QDir::toNativeSeparators(QFileInfo(Line).absoluteFilePath());
                         }
                     }
                     FileIO.close();
@@ -330,8 +328,6 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
 //*******************************************************************************************************************************************************
 
 cDriveList::cDriveList(cBaseApplicationConfig *TheApplicationConfig) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDriveList::cDriveList");
-
     ApplicationConfig=TheApplicationConfig;
 
     #ifdef Q_OS_WIN
@@ -342,7 +338,7 @@ cDriveList::cDriveList(cBaseApplicationConfig *TheApplicationConfig) {
     #else
     PersonalFolder=QApplication::translate("QCustomFolderTree","Personal folder");
     #endif
-    ClipArtFolder=AdjustDirForOS(QDir::currentPath());
+    ClipArtFolder=QDir::toNativeSeparators(QDir::currentPath());
     if (!ClipArtFolder.endsWith(QDir::separator())) ClipArtFolder=ClipArtFolder+QDir::separator();
     ModelFolder=ClipArtFolder;
     ClipArtFolder=ClipArtFolder+"clipart";
@@ -367,15 +363,13 @@ bool cDriveList::SearchDrive(QString Path) {
 // Utility function to be use to populate ListList
 
 void cDriveList::UpdateDriveList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDriveList::CreateListList");
-
     for (int i=0;i<List.count();i++) List[i].Flag=0;
 
-    if (!SearchDrive(AdjustDirForOS(ClipArtFolder)))    List.append(cDriveDesc(AdjustDirForOS(ClipArtFolder),QApplication::translate("QCustomFolderTree","Clipart"),ApplicationConfig));
-    if (!SearchDrive(AdjustDirForOS(QDir::homePath()))) List.append(cDriveDesc(QDir::homePath(),PersonalFolder,ApplicationConfig));
+    if (!SearchDrive(QDir::toNativeSeparators(ClipArtFolder)))    List.append(cDriveDesc(QDir::toNativeSeparators(ClipArtFolder),QApplication::translate("QCustomFolderTree","Clipart"),ApplicationConfig));
+    if (!SearchDrive(QDir::toNativeSeparators(QDir::homePath()))) List.append(cDriveDesc(QDir::homePath(),PersonalFolder,ApplicationConfig));
     #ifdef Q_OS_WIN
         foreach(QFileInfo drive,QDir::drives()) {
-            QString Path=AdjustDirForOS(drive.filePath());
+            QString Path=QDir::toNativeSeparators(drive.filePath());
             if (((((Path.length()>=3)&&(Path.at(1)==":")&&(Path.at(2)=="\\")&&(Path.at(0)>='C')&&(Path.at(0)<='Z'))||   // If it's a drive
                    (Path.startsWith("\\\\"))                                                                            // or it's a network path
                   )&&(!SearchDrive(Path))                                                                               // and it's not yet included
@@ -438,15 +432,13 @@ void cDriveList::UpdateDriveList() {
 //      FilePath : Path to get Icon
 
 QIcon cDriveList::GetFolderIcon(QString FilePath) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDriveList::GetFolderIcon");
-
     if (!FilePath.endsWith(QDir::separator())) FilePath=FilePath+QDir::separator();
 
     #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
     if (FilePath.startsWith("~")) FilePath=QDir::homePath()+FilePath.mid(1);
     #else
         if (FilePath.startsWith(PersonalFolder)) FilePath=QDir::homePath()+FilePath.mid(PersonalFolder.length());
-        FilePath=AdjustDirForOS(FilePath);
+        FilePath=QDir::toNativeSeparators(FilePath);
     #endif
 
     QIcon   RetIcon;
@@ -508,8 +500,8 @@ QIcon cDriveList::GetFolderIcon(QString FilePath) {
                             QString Value=getenv(Var.toLocal8Bit());
                             Line.replace("%"+Var+"%",Value,Qt::CaseInsensitive);
                         }
-                        if (QFileInfo(Line).isRelative()) IconFile=AdjustDirForOS(FilePath+(FilePath.endsWith(QDir::separator())?QString(""):QDir::separator())+Line);
-                            else IconFile=AdjustDirForOS(QFileInfo(Line).absoluteFilePath());
+                        if (QFileInfo(Line).isRelative()) IconFile=QDir::toNativeSeparators(FilePath+(FilePath.endsWith(QDir::separator())?QString(""):QDir::separator())+Line);
+                            else IconFile=QDir::toNativeSeparators(QFileInfo(Line).absoluteFilePath());
                     }
                 }
                 FileIO.close();

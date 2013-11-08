@@ -982,11 +982,8 @@ void cCompositionObject::DrawCompositionObject(cDiaporamaObject *Object,QPainter
 
         if (IsFullScreen) {
 
-            QImage *Img=BackgroundBrush->GetImageDiskBrush(QRectF(0,0,w*width,h*height),PreviewMode,Position,SoundTrackMontage,ImagePctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL);
-            if (Img) {
-                DestPainter->drawImage(x*width,y*height,*Img);
-                delete Img;
-            }
+            QImage Img=BackgroundBrush->GetImageDiskBrush(QRectF(0,0,w*width,h*height),PreviewMode,Position,SoundTrackMontage,ImagePctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL);
+            if (!Img.isNull()) DestPainter->drawImage(x*width,y*height,Img);
 
         } else {
 
@@ -1994,8 +1991,8 @@ void cDiaporama::UpdateChapterInformation() {
 
     // Remove all chapters information
     int i=0;
-    while (i<ProjectInfo->InformationList.count()) {
-        if (((QString)ProjectInfo->InformationList[i]).startsWith("Chapter_")) ProjectInfo->InformationList.removeAt(i);
+    while (i<ProjectInfo->ChaptersProperties.count()) {
+        if (((QString)ProjectInfo->ChaptersProperties[i]).startsWith("Chapter_")) ProjectInfo->ChaptersProperties.removeAt(i);
             else i++;
     }
     ProjectInfo->NbrChapters=0;
@@ -2012,29 +2009,15 @@ void cDiaporama::UpdateChapterInformation() {
             NextChapter++;
             if (NextChapter<List.count()) Duration=Duration-List[NextChapter]->GetTransitDuration();
         }
-        ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":InSlide" +QString("##")+QString("%1").arg(i+1));
-        ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":Start"   +QString("##")+QTime(0,0,0,0).addMSecs(Start).toString("hh:mm:ss.zzz"));
-        ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":End"     +QString("##")+QTime(0,0,0,0).addMSecs(Start+Duration).toString("hh:mm:ss.zzz"));
-        ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":Duration"+QString("##")+QTime(0,0,0,0).addMSecs(Duration).toString("hh:mm:ss.zzz"));
-        ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":title"   +QString("##")+(List[i]->StartNewChapter?List[i]->ChapterName:ProjectInfo->Title));
-        ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":Date"    +QString("##")+(List[i]->OverrideProjectEventDate?List[i]->ChapterEventDate:ProjectInfo->EventDate).toString(ApplicationConfig->ShortDateFormat));
-        ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":LongDate"+QString("##")+(List[i]->OverrideProjectEventDate?List[i]->OverrideChapterLongDate?List[i]->ChapterLongDate:FormatLongDate(List[i]->ChapterEventDate):ProjectInfo->LongDate));
+        ProjectInfo->ChaptersProperties.append("Chapter_"+ChapterNum+":InSlide" +QString("##")+QString("%1").arg(i+1));
+        ProjectInfo->ChaptersProperties.append("Chapter_"+ChapterNum+":Start"   +QString("##")+QTime(0,0,0,0).addMSecs(Start).toString("hh:mm:ss.zzz"));
+        ProjectInfo->ChaptersProperties.append("Chapter_"+ChapterNum+":End"     +QString("##")+QTime(0,0,0,0).addMSecs(Start+Duration).toString("hh:mm:ss.zzz"));
+        ProjectInfo->ChaptersProperties.append("Chapter_"+ChapterNum+":Duration"+QString("##")+QTime(0,0,0,0).addMSecs(Duration).toString("hh:mm:ss.zzz"));
+        ProjectInfo->ChaptersProperties.append("Chapter_"+ChapterNum+":title"   +QString("##")+(List[i]->StartNewChapter?List[i]->ChapterName:ProjectInfo->Title));
+        ProjectInfo->ChaptersProperties.append("Chapter_"+ChapterNum+":Date"    +QString("##")+(List[i]->OverrideProjectEventDate?List[i]->ChapterEventDate:ProjectInfo->EventDate).toString(ApplicationConfig->ShortDateFormat));
+        ProjectInfo->ChaptersProperties.append("Chapter_"+ChapterNum+":LongDate"+QString("##")+(List[i]->OverrideProjectEventDate?List[i]->OverrideChapterLongDate?List[i]->ChapterLongDate:FormatLongDate(List[i]->ChapterEventDate):ProjectInfo->LongDate));
     }
 }
-
-/*class cComposerItem {
-public:
-    QString Composer;
-    int     Count;
-    cComposerItem(QString Composer) {this->Composer=Composer; Count=1; }
-};
-
-class cComposerCount {
-public:
-    QList<cComposerItem> List;
-    cComposerCount() {}
-    void Add(QString Composer) { for (int i=0;i<List.count();i++) if (List[i].Composer==Composer) List[i].Count++; else List.append(cComposerItem(Composer)); }
-};*/
 
 void cDiaporama::UpdateStatInformation() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:UpdateStatInformation");
@@ -2050,7 +2033,6 @@ void cDiaporama::UpdateStatInformation() {
             int             NbrImage=0;
             int             NbrText=0;
             int             NbrAutoSlide=0;
-            //cComposerCount  Composer;
 
             for (int i=0;i<List.count();i++) {
                 if (List[i]->GetAutoTSNumber()==-1) {
@@ -2085,10 +2067,12 @@ void cDiaporama::UpdateStatInformation() {
             QStringList MusicList;
             Text=QApplication::translate("Variables","Musical content:","Project statistics");
             for (int i=0;i<List.count();i++) if (List[i]->MusicType) for (int music=0;music<List[i]->MusicList.count();music++) {
-                QString TMusc =GetInformationValue("title",&List[i]->MusicList[music].InformationList);
-                QString Album =GetInformationValue("album",&List[i]->MusicList[music].InformationList);
-                QString Date  =GetInformationValue("date",&List[i]->MusicList[music].InformationList);
-                QString Artist=GetInformationValue("artist",&List[i]->MusicList[music].InformationList);
+                QStringList TempExtProperties;
+                ApplicationConfig->FilesTable->GetExtendedProperties(List[i]->MusicList[music].FileKey,&TempExtProperties);
+                QString TMusc =GetInformationValue("title",&TempExtProperties);
+                QString Album =GetInformationValue("album",&TempExtProperties);
+                QString Date  =GetInformationValue("date",&TempExtProperties);
+                QString Artist=GetInformationValue("artist",&TempExtProperties);
                 QString SubText=(!TMusc.isEmpty()?TMusc:List[i]->MusicList[music].ShortName());
                 if (!Artist.isEmpty()) {
                     if (!Date.isEmpty())  SubText=SubText+QApplication::translate("Variables"," - © %1 (%2)","Project statistics-Music").arg(Artist).arg(Date);
@@ -2405,8 +2389,8 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
     bool SoundOnly=((W==0)&&(H==0));  // W and H = 0 when producing sound track in render process
 
     // return immediatly if we have image
-    if (((!SoundOnly)&&(IsCurrentObject)&&(Info->CurrentObject_PreparedImage!=NULL)) ||
-        ((!SoundOnly)&&(!IsCurrentObject)&&(Info->TransitObject_PreparedImage!=NULL))) return;
+    if (((!SoundOnly)&&(IsCurrentObject)&&(!Info->CurrentObject_PreparedImage.isNull())) ||
+        ((!SoundOnly)&&(!IsCurrentObject)&&(!Info->TransitObject_PreparedImage.isNull()))) return;
 
     int64_t             Duration            =IsCurrentObject?Info->CurrentObject_ShotDuration:Info->TransitObject_ShotDuration;
     cDiaporamaShot      *CurShot            =IsCurrentObject?Info->CurrentObject_CurrentShot:Info->TransitObject_CurrentShot;
@@ -2416,7 +2400,6 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
     int                 ObjectNumber        =IsCurrentObject?Info->CurrentObject_Number:Info->TransitObject_Number;
     int                 ShotNumber          =IsCurrentObject?Info->CurrentObject_ShotSequenceNumber:Info->TransitObject_ShotSequenceNumber;
     cDiaporamaShot      *PreviousShot       =(ShotNumber>0?List[ObjectNumber]->List[ShotNumber-1]:NULL);
-    QImage              *Image              =NULL;
 
     if (SoundOnly) {
         // if sound only then parse all shot objects to create SoundTrackMontage
@@ -2446,17 +2429,12 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
 
     } else {
 
-        /*if ((ShotNumber==0)&&(List[ObjectNumber]->List.count()==1)&&(List[ObjectNumber]->List[0]->ShotComposition.List.count()==1)&&
-            (List[ObjectNumber]->List[0]->ShotComposition.List[0]->IsFullScreenVideo)) {
-            qDebug()<<"ICI";
-        }*/
-
-        Image=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-        if ((!Image)||(Image->isNull())) return;
+        QImage Image(W,H,QImage::Format_ARGB32_Premultiplied);
+        if (Image.isNull()) return;
 
         // Prepare a transparent image
         QPainter P;
-        P.begin(Image);
+        P.begin(&Image);
         P.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
         P.setCompositionMode(QPainter::CompositionMode_Source);
         P.fillRect(0,0,W,H,Qt::transparent);
@@ -2500,42 +2478,41 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
 void cDiaporama::DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H,QImage::Format QTFMT) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoAssembly");
 
-    if ((Info->RenderedImage!=NULL)||((W==0)&&(H==0))) return;    // return immediatly if we already have image or if sound only
+    if ((!Info->RenderedImage.isNull())||((W==0)&&(H==0))) return;    // return immediatly if we already have image or if sound only
 
-    QImage   *Image=new QImage(W,H,QTFMT);
+    QImage   Image(W,H,QTFMT);
     QPainter P;
 
-    P.begin(Image);
+    P.begin(&Image);
     P.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
 
     // Draw background
     if ((Info->IsTransition)&&((Info->CurrentObject_Number==0)||(Info->CurrentObject_BackgroundIndex!=Info->TransitObject_BackgroundIndex))) {
         double Opacity;
-        if ((Info->TransitObject)&&(Info->TransitObject_PreparedBackground)) {
+        if ((Info->TransitObject)&&(!Info->TransitObject_PreparedBackground.isNull())) {
             Opacity=1-ComputePCT(Info->CurrentObject->GetSpeedWave(),Info->TransitionPCTDone);
             P.setOpacity(Opacity);
-            P.drawImage(0,0,*Info->TransitObject_PreparedBackground);
+            P.drawImage(0,0,Info->TransitObject_PreparedBackground);
         }
-        if (Info->CurrentObject_PreparedBackground) {
+        if (!Info->CurrentObject_PreparedBackground.isNull()) {
             Opacity=ComputePCT(Info->CurrentObject->GetSpeedWave(),Info->TransitionPCTDone);
             if (Info->TransitObject) P.setOpacity(Opacity);
-            P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
+            P.drawImage(0,0,Info->CurrentObject_PreparedBackground);
         }
         P.setOpacity(1);
     } else {
-        if (Info->CurrentObject_PreparedBackground) P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
+        if (!Info->CurrentObject_PreparedBackground.isNull()) P.drawImage(0,0,Info->CurrentObject_PreparedBackground);
             else P.fillRect(QRect(0,0,W,H),Qt::black);
     }
 
     // Add prepared images and transition
-    if ((Info->IsTransition)&&(Info->CurrentObject_PreparedImage!=NULL)) {
-        if (Info->TransitObject_PreparedImage==NULL) {
-            Info->TransitObject_PreparedImage=new QImage(Info->CurrentObject_PreparedImage->width(),Info->CurrentObject_PreparedImage->height(),QImage::Format_ARGB32_Premultiplied);
-            Info->TransitObject_PreparedImage->fill(0);
-            Info->TransitObject_FreePreparedImage=true;
+    if ((Info->IsTransition)&&(!Info->CurrentObject_PreparedImage.isNull())) {
+        if (Info->TransitObject_PreparedImage.isNull()) {
+            Info->TransitObject_PreparedImage=QImage(Info->CurrentObject_PreparedImage.width(),Info->CurrentObject_PreparedImage.height(),QImage::Format_ARGB32_Premultiplied);
+            Info->TransitObject_PreparedImage.fill(0);
         }
-        DoTransition(Info->TransitionFamilly,Info->TransitionSubType,PCT,Info->TransitObject_PreparedImage,Info->CurrentObject_PreparedImage,&P,W,H);
-    } else if (Info->CurrentObject_PreparedImage!=NULL) P.drawImage(0,0,*Info->CurrentObject_PreparedImage);
+        DoTransition(Info->TransitionFamilly,Info->TransitionSubType,PCT,&Info->TransitObject_PreparedImage,&Info->CurrentObject_PreparedImage,&P,W,H);
+    } else if (!Info->CurrentObject_PreparedImage.isNull()) P.drawImage(0,0,Info->CurrentObject_PreparedImage);
     P.end();
     Info->RenderedImage=Image;
 }
@@ -2570,10 +2547,10 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
     if (Info->IsTransition) {
         if (Info->TransitObject) {
             PrepareImage(Info,W,H,false,PreviewMode,AddStartPos);
-        } else if (!Info->TransitObject_PreparedImage) {
-            Info->TransitObject_PreparedImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+        } else if (Info->TransitObject_PreparedImage.isNull()) {
+            Info->TransitObject_PreparedImage=QImage(W,H,QImage::Format_ARGB32_Premultiplied);
             QPainter P;
-            P.begin(Info->TransitObject_PreparedImage);
+            P.begin(&Info->TransitObject_PreparedImage);
             P.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
             P.fillRect(0,0,W,H,Qt::black);//Qt::transparent);
             P.end();
@@ -2591,9 +2568,9 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
             if ((Info->CurrentObject_BackgroundIndex>=List.count())||(List[Info->CurrentObject_BackgroundIndex]->BackgroundType==false))
                      Info->CurrentObject_BackgroundBrush=new QBrush(Qt::black);   // If no background definition @ first object
                 else Info->CurrentObject_BackgroundBrush=List[Info->CurrentObject_BackgroundIndex]->BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,0,NULL,1,NULL);
-            Info->CurrentObject_PreparedBackground=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+            Info->CurrentObject_PreparedBackground=QImage(W,H,QImage::Format_ARGB32_Premultiplied);
             QPainter P;
-            P.begin(Info->CurrentObject_PreparedBackground);
+            P.begin(&Info->CurrentObject_PreparedBackground);
             if (Info->CurrentObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->CurrentObject_BackgroundBrush);
                 else                                 P.fillRect(QRect(0,0,W,H),QBrush(Qt::black));
             P.end();
@@ -2603,9 +2580,9 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
             if ((Info->TransitObject_BackgroundIndex>=List.count())||(List[Info->TransitObject_BackgroundIndex]->BackgroundType==false))
                      Info->TransitObject_BackgroundBrush=new QBrush(Qt::black);   // If no background definition @ first object
                 else Info->TransitObject_BackgroundBrush=List[Info->TransitObject_BackgroundIndex]->BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,0,NULL,1,NULL);
-            Info->TransitObject_PreparedBackground=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+            Info->TransitObject_PreparedBackground=QImage(W,H,QImage::Format_ARGB32_Premultiplied);
             QPainter P;
-            P.begin(Info->TransitObject_PreparedBackground);
+            P.begin(&Info->TransitObject_PreparedBackground);
             if (Info->TransitObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->TransitObject_BackgroundBrush);
                 else                                 P.fillRect(QRect(0,0,W,H),QBrush(Qt::black));
             P.end();
@@ -2760,7 +2737,7 @@ void cDiaporama::CloseUnusedLibAv(int CurrentCell) {
                     List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->CloseCodecAndFile();
         }
     }
-    ApplicationConfig->ImagesCache.FreeMemoryToMaxValue();
+    //ApplicationConfig->ImagesCache.FreeMemoryToMaxValue(NULL);
 }
 //*********************************************************************************************************************************************
 // Class object for rendering
@@ -2770,10 +2747,9 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:cDiaporamaObjectInfo");
 
     //==============> Pre-initialise all values
+    IsShotStatic                        =false;
+    IsTransitStatic                     =false;
     FrameDuration                       =0;
-    RenderedImage                       =NULL;              // Final image rendered
-    FreeRenderedImage                   =true;              // True if allow to delete RenderedImage during destructor
-
     // Current object
     CurrentObject_Number                =0;                 // Object number
     CurrentObject_StartTime             =0;                 // Position (in msec) of the first frame relative to the diaporama
@@ -2787,12 +2763,8 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo() {
     CurrentObject_BackgroundIndex       =0;                 // Object number containing current background definition
     CurrentObject_BackgroundBrush       =NULL;              // Current background brush
     CurrentObject_FreeBackgroundBrush   =true;              // True if allow to delete CurrentObject_BackgroundBrush during destructor
-    CurrentObject_PreparedBackground    =NULL;              // Current image produce for background
-    CurrentObject_FreePreparedBackground=true;              // True if allow to delete CurrentObject_FreePreparedBackground during destructor
     CurrentObject_SoundTrackMontage     =NULL;              // Sound for playing sound from montage track
     CurrentObject_FreeSoundTrackMontage =true;              // True if allow to delete CurrentObject_SoundTrackMontage during destructor
-    CurrentObject_PreparedImage         =NULL;              // Current image prepared
-    CurrentObject_FreePreparedImage     =true;              // True if allow to delete CurrentObject_PreparedImage during destructor
     CurrentObject_MusicTrack            =NULL;              // Sound for playing music from music track
     CurrentObject_FreeMusicTrack        =true;              // True if allow to delete CurrentObject_MusicTrack during destructor
     CurrentObject_MusicObject           =NULL;              // Ref to the current playing music
@@ -2812,12 +2784,8 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo() {
     TransitObject_BackgroundIndex       =0;                 // Object number containing current background definition
     TransitObject_BackgroundBrush       =NULL;              // Current background brush
     TransitObject_FreeBackgroundBrush   =true;              // True if allow to delete TransitObject_BackgroundBrush during destructor
-    TransitObject_PreparedBackground    =NULL;              // Current image produce for background
-    TransitObject_FreePreparedBackground=true;              // True if allow to delete TransitObject_PreparedBackground during destructor
     TransitObject_SoundTrackMontage     =NULL;              // Sound for playing sound from montage track
     TransitObject_FreeSoundTrackMontage =true;              // True if allow to delete TransitObject_SoundTrackMontage during destructor
-    TransitObject_PreparedImage         =NULL;              // Current image prepared
-    TransitObject_FreePreparedImage     =true;              // True if allow to delete TransitObject_PreparedImage during destructor
     TransitObject_MusicTrack            =NULL;              // Sound for playing music from music track
     TransitObject_FreeMusicTrack        =true;              // True if allow to delete TransitObject_MusicTrack during destructor
     TransitObject_MusicObject           =NULL;              // Ref to the current playing music
@@ -2827,9 +2795,9 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:cDiaporamaObjectInfo");
 
     //==============> Pre-initialise all values
+    IsShotStatic                        =false;
+    IsTransitStatic                     =false;
     FrameDuration                       =TheFrameDuration;
-    RenderedImage                       =NULL;              // Final image rendered
-    FreeRenderedImage                   =true;              // True if allow to delete RenderedImage during destructor
 
     // Current object
     CurrentObject_Number                =0;                 // Object number
@@ -2844,12 +2812,8 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     CurrentObject_BackgroundIndex       =0;                 // Object number containing current background definition
     CurrentObject_BackgroundBrush       =NULL;              // Current background brush
     CurrentObject_FreeBackgroundBrush   =true;              // True if allow to delete CurrentObject_BackgroundBrush during destructor
-    CurrentObject_PreparedBackground    =NULL;              // Current image produce for background
-    CurrentObject_FreePreparedBackground=true;              // True if allow to delete CurrentObject_FreePreparedBackground during destructor
     CurrentObject_SoundTrackMontage     =NULL;              // Sound for playing sound from montage track
     CurrentObject_FreeSoundTrackMontage =true;              // True if allow to delete CurrentObject_SoundTrackMontage during destructor
-    CurrentObject_PreparedImage         =NULL;              // Current image prepared
-    CurrentObject_FreePreparedImage     =true;              // True if allow to delete CurrentObject_PreparedImage during destructor
     CurrentObject_MusicTrack            =NULL;              // Sound for playing music from music track
     CurrentObject_FreeMusicTrack        =true;              // True if allow to delete CurrentObject_MusicTrack during destructor
     CurrentObject_MusicObject           =NULL;              // Ref to the current playing music
@@ -2869,12 +2833,8 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     TransitObject_BackgroundIndex       =0;                 // Object number containing current background definition
     TransitObject_BackgroundBrush       =NULL;              // Current background brush
     TransitObject_FreeBackgroundBrush   =true;              // True if allow to delete TransitObject_BackgroundBrush during destructor
-    TransitObject_PreparedBackground    =NULL;              // Current image produce for background
-    TransitObject_FreePreparedBackground=true;              // True if allow to delete TransitObject_PreparedBackground during destructor
     TransitObject_SoundTrackMontage     =NULL;              // Sound for playing sound from montage track
     TransitObject_FreeSoundTrackMontage =true;              // True if allow to delete TransitObject_SoundTrackMontage during destructor
-    TransitObject_PreparedImage         =NULL;              // Current image prepared
-    TransitObject_FreePreparedImage     =true;              // True if allow to delete TransitObject_PreparedImage during destructor
     TransitObject_MusicTrack            =NULL;              // Sound for playing music from music track
     TransitObject_FreeMusicTrack        =true;              // True if allow to delete TransitObject_MusicTrack during destructor
     TransitObject_MusicObject           =NULL;              // Ref to the current playing music
@@ -2985,7 +2945,6 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                 CurrentObject_BackgroundBrush=PreviousFrame->CurrentObject_BackgroundBrush;             // Use the same background
                 PreviousFrame->CurrentObject_FreeBackgroundBrush=false;                                 // Set tag to not delete previous background
                 CurrentObject_PreparedBackground=PreviousFrame->CurrentObject_PreparedBackground;
-                PreviousFrame->CurrentObject_FreePreparedBackground=false;
             }
             // Background of transition Object
             if (TransitObject) {
@@ -2993,24 +2952,16 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                     TransitObject_BackgroundBrush=PreviousFrame->CurrentObject_BackgroundBrush;             // Use the same background
                     PreviousFrame->CurrentObject_FreeBackgroundBrush=false;                                 // Set tag to not delete previous background
                     TransitObject_PreparedBackground=PreviousFrame->CurrentObject_PreparedBackground;
-                    PreviousFrame->CurrentObject_FreePreparedBackground=false;
                 } else if (PreviousFrame->TransitObject_BackgroundIndex==TransitObject_BackgroundIndex) {
                     TransitObject_BackgroundBrush=PreviousFrame->TransitObject_BackgroundBrush;         // Use the same background
                     PreviousFrame->TransitObject_FreeBackgroundBrush=false;                             // Set tag to not delete previous background
                     TransitObject_PreparedBackground=PreviousFrame->TransitObject_PreparedBackground;
-                    PreviousFrame->TransitObject_FreePreparedBackground=false;
                 }
                 // Special case to disable free of background brush if transit object and current object use the same
                 if (TransitObject_BackgroundBrush==CurrentObject_BackgroundBrush) {
                     TransitObject_FreeBackgroundBrush=false;
-                    TransitObject_FreePreparedBackground=false;
                 }
             }
-            // Definitively check PreviousFrame to know if we realy need to free Background
-            if (PreviousFrame->CurrentObject_FreePreparedBackground && ((PreviousFrame->CurrentObject_PreparedBackground==CurrentObject_PreparedBackground)||(PreviousFrame->CurrentObject_PreparedBackground==TransitObject_PreparedBackground)))
-                PreviousFrame->CurrentObject_FreePreparedBackground=false;
-            if (PreviousFrame->TransitObject_FreePreparedBackground && ((PreviousFrame->TransitObject_PreparedBackground==CurrentObject_PreparedBackground)||(PreviousFrame->TransitObject_PreparedBackground==TransitObject_PreparedBackground)||(PreviousFrame->TransitObject_PreparedBackground==PreviousFrame->CurrentObject_PreparedBackground)))
-                PreviousFrame->TransitObject_FreePreparedBackground=false;
 
             //************ SoundTrackMontage
             if ((WantSound)&&(PreviousFrame->CurrentObject_Number==CurrentObject_Number)) {
@@ -3055,25 +3006,21 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                 PreviousFrame->TransitObject_FreeMusicTrack=false;
 
             //************ PreparedImage & RenderedImage
-            if ((PreviousFrame->CurrentObject_CurrentShot==CurrentObject_CurrentShot)&&                 // Same shot
-                (IsShotStatic(CurrentObject,CurrentObject_ShotSequenceNumber))) {
+            IsShotStatic=(PreviousFrame->CurrentObject_Number==CurrentObject_Number)&&
+                         (PreviousFrame->CurrentObject_CurrentShot==CurrentObject_CurrentShot)&&
+                         (ComputeIsShotStatic(CurrentObject,CurrentObject_ShotSequenceNumber));
+            if (IsShotStatic) {// Same shot
                 CurrentObject_PreparedImage=PreviousFrame->CurrentObject_PreparedImage;                 // Use the same PreparedImage
-                PreviousFrame->CurrentObject_FreePreparedImage=false;                                   // Set tag to not delete previous PreparedImage
-                if ((!IsTransition)&&(!PreviousFrame->IsTransition)) {
+                if ((!IsTransition)&&(!PreviousFrame->IsTransition))
                     RenderedImage=PreviousFrame->RenderedImage;   // Use the same RenderedImage
-                    PreviousFrame->FreeRenderedImage=false;       // Set tag to not delete previous RenderedImage
-                }
             }
             // PreparedImage of transition Object
             if (TransitObject) {
-                if ((PreviousFrame->CurrentObject_CurrentShot==TransitObject_CurrentShot)&&             // Same shot
-                    (IsShotStatic(TransitObject,TransitObject_ShotSequenceNumber))) {
+                IsTransitStatic=ComputeIsShotStatic(TransitObject,TransitObject_ShotSequenceNumber);
+                if ((PreviousFrame->CurrentObject_CurrentShot==TransitObject_CurrentShot)&&(IsTransitStatic)) {
                     TransitObject_PreparedImage=PreviousFrame->CurrentObject_PreparedImage;             // Use the same PreparedImage
-                    PreviousFrame->CurrentObject_FreePreparedImage=false;                               // Set tag to not delete previous PreparedImage
-                } else if ((PreviousFrame->TransitObject_CurrentShot==TransitObject_CurrentShot)&&      // Same shot
-                    (IsShotStatic(TransitObject,TransitObject_ShotSequenceNumber))) {
+                } else if ((PreviousFrame->TransitObject_CurrentShot==TransitObject_CurrentShot)&&(IsTransitStatic)) {
                     TransitObject_PreparedImage=PreviousFrame->TransitObject_PreparedImage;             // Use the same PreparedImage
-                    PreviousFrame->TransitObject_FreePreparedImage=false;                               // Set tag to not delete previous PreparedImage
                 }
             }
         }
@@ -3084,9 +3031,9 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
 void cDiaporamaObjectInfo::Copy(cDiaporamaObjectInfo *PreviousFrame) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:cDiaporamaObjectInfo from PreviousFrame");
 
+    IsShotStatic                        =PreviousFrame->IsShotStatic;
+    IsTransitStatic                     =PreviousFrame->IsTransitStatic;
     FrameDuration                       =PreviousFrame->FrameDuration;
-    RenderedImage                       =NULL;                                              // Final image rendered
-    FreeRenderedImage                   =true;                                              // True if allow to delete RenderedImage during destructor
     TransitionFamilly                   =PreviousFrame->TransitionFamilly;                  // Transition familly
     TransitionSubType                   =PreviousFrame->TransitionSubType;                  // Transition type in the familly
     TransitionDuration                  =PreviousFrame->TransitionDuration;                 // Transition duration (in msec)
@@ -3105,11 +3052,9 @@ void cDiaporamaObjectInfo::Copy(cDiaporamaObjectInfo *PreviousFrame) {
     CurrentObject_BackgroundBrush       =PreviousFrame->CurrentObject_BackgroundBrush;      // Current background brush
     CurrentObject_FreeBackgroundBrush   =false;                                             // True if allow to delete CurrentObject_BackgroundBrush during destructor
     CurrentObject_PreparedBackground    =PreviousFrame->CurrentObject_PreparedBackground;   // Current image produce for background
-    CurrentObject_FreePreparedBackground=false;                                             // True if allow to delete CurrentObject_FreePreparedBackground during destructor
     CurrentObject_SoundTrackMontage     =PreviousFrame->CurrentObject_SoundTrackMontage;    // Sound for playing sound from montage track
     CurrentObject_FreeSoundTrackMontage =false;                                             // True if allow to delete CurrentObject_SoundTrackMontage during destructor
     CurrentObject_PreparedImage         =PreviousFrame->CurrentObject_PreparedImage;        // Current image prepared
-    CurrentObject_FreePreparedImage     =false;                                             // True if allow to delete CurrentObject_PreparedImage during destructor
     CurrentObject_MusicTrack            =PreviousFrame->CurrentObject_MusicTrack;           // Sound for playing music from music track
     CurrentObject_FreeMusicTrack        =false;                                             // True if allow to delete CurrentObject_MusicTrack during destructor
     CurrentObject_MusicObject           =PreviousFrame->CurrentObject_MusicObject;          // Ref to the current playing music
@@ -3130,17 +3075,15 @@ void cDiaporamaObjectInfo::Copy(cDiaporamaObjectInfo *PreviousFrame) {
     TransitObject_BackgroundBrush       =PreviousFrame->TransitObject_BackgroundBrush;      // Current background brush
     TransitObject_FreeBackgroundBrush   =false;                                             // True if allow to delete TransitObject_BackgroundBrush during destructor
     TransitObject_PreparedBackground    =PreviousFrame->TransitObject_PreparedBackground;   // Current image produce for background
-    TransitObject_FreePreparedBackground=false;                                             // True if allow to delete TransitObject_PreparedBackground during destructor
     TransitObject_SoundTrackMontage     =PreviousFrame->TransitObject_SoundTrackMontage;    // Sound for playing sound from montage track
     TransitObject_FreeSoundTrackMontage =false;                                             // True if allow to delete TransitObject_SoundTrackMontage during destructor
     TransitObject_PreparedImage         =PreviousFrame->TransitObject_PreparedImage;        // Current image prepared
-    TransitObject_FreePreparedImage     =false;                                             // True if allow to delete TransitObject_PreparedImage during destructor
     TransitObject_MusicTrack            =PreviousFrame->TransitObject_MusicTrack;           // Sound for playing music from music track
     TransitObject_FreeMusicTrack        =false;                                             // True if allow to delete TransitObject_MusicTrack during destructor
     TransitObject_MusicObject           =PreviousFrame->TransitObject_MusicObject;          // Ref to the current playing music
 }
 
-bool cDiaporamaObjectInfo::IsShotStatic(cDiaporamaObject *Object,int ShotNumber) {
+bool cDiaporamaObjectInfo::ComputeIsShotStatic(cDiaporamaObject *Object,int ShotNumber) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:IsShotStatic");
 
     bool IsStatic=true;
@@ -3197,17 +3140,9 @@ cDiaporamaObjectInfo::~cDiaporamaObjectInfo() {
         delete CurrentObject_BackgroundBrush;
         CurrentObject_BackgroundBrush=NULL;
     }
-    if ((CurrentObject_FreePreparedBackground)&&(CurrentObject_PreparedBackground)) {
-        delete CurrentObject_PreparedBackground;
-        CurrentObject_PreparedBackground=NULL;
-    }
     if ((CurrentObject_FreeSoundTrackMontage)&&(CurrentObject_SoundTrackMontage)) {
         delete CurrentObject_SoundTrackMontage;
         CurrentObject_SoundTrackMontage=NULL;
-    }
-    if ((CurrentObject_FreePreparedImage)&&(CurrentObject_PreparedImage)) {
-        delete CurrentObject_PreparedImage;
-        CurrentObject_PreparedImage=NULL;
     }
     if ((CurrentObject_FreeMusicTrack)&&(CurrentObject_MusicTrack)) {
         delete CurrentObject_MusicTrack;
@@ -3219,26 +3154,12 @@ cDiaporamaObjectInfo::~cDiaporamaObjectInfo() {
         delete TransitObject_BackgroundBrush;
         TransitObject_BackgroundBrush=NULL;
     }
-    if ((TransitObject_FreePreparedBackground)&&(TransitObject_PreparedBackground)) {
-        delete TransitObject_PreparedBackground;
-        TransitObject_PreparedBackground=NULL;
-    }
     if ((TransitObject_FreeSoundTrackMontage)&&(TransitObject_SoundTrackMontage)) {
         delete TransitObject_SoundTrackMontage;
         TransitObject_SoundTrackMontage=NULL;
     }
-    if ((TransitObject_FreePreparedImage)&&(TransitObject_PreparedImage)) {
-        delete TransitObject_PreparedImage;
-        TransitObject_PreparedImage=NULL;
-    }
     if ((TransitObject_FreeMusicTrack)&&(TransitObject_MusicTrack)) {
         delete TransitObject_MusicTrack;
         TransitObject_MusicTrack=NULL;
-    }
-
-    // Common
-    if ((FreeRenderedImage)&&(RenderedImage)) {
-        delete RenderedImage;
-        RenderedImage=NULL;
     }
 }

@@ -54,13 +54,11 @@ QString  ColorRef[MAXCOLORREF]={
 //========================================================================================================================
 
 cCColorComboBoxItem::cCColorComboBoxItem(QObject *parent):QStyledItemDelegate(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCColorComboBoxItem::cCColorComboBoxItem");
 }
 
 //========================================================================================================================
 
 void cCColorComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCColorComboBoxItem::paint");
     int ColorNum=index.row()*5+index.column();
     if (ColorNum<MAXCOLORREF) {
         painter->setPen(Qt::NoPen);
@@ -88,7 +86,6 @@ void cCColorComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &op
 //========================================================================================================================
 
 QSize cCColorComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const QModelIndex &/*index*/) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCColorComboBoxItem::sizeHint");
     return QSize(24,24);
 }
 
@@ -97,7 +94,6 @@ QSize cCColorComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const
 //******************************************************************************************************************
 
 cCColorComboBox::cCColorComboBox(QWidget *parent):QComboBox(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCColorComboBox::cCColorComboBox");
     STOPMAJ=false;
     CurrentColor=NULL;
 
@@ -132,7 +128,6 @@ cCColorComboBox::cCColorComboBox(QWidget *parent):QComboBox(parent) {
 //========================================================================================================================
 
 void cCColorComboBox::SetCurrentColor(QString *Color) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCColorComboBox::SetCurrentColor");
     CurrentColor=Color;
     if (!Color) return;
     int i=0;
@@ -156,7 +151,6 @@ void cCColorComboBox::SetCurrentColor(QString *Color) {
 //========================================================================================================================
 
 QString cCColorComboBox::GetCurrentColor() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCColorComboBox::GetCurrentColor");
     if (!CurrentColor) return SavedCustomColor;
     int i=((QTableWidget *)view())->currentRow()*5+((QTableWidget *)view())->currentColumn();
     StandardColor=((i>=0)&&(i<MAXCOLORREF));
@@ -170,7 +164,6 @@ QString cCColorComboBox::GetCurrentColor() {
 //========================================================================================================================
 
 void cCColorComboBox::MakeIcons() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCColorComboBox::MakeIcons");
     int ColorNum=0;
     if (CurrentColor) {
         while ((ColorNum<MAXCOLORREF)&&(ColorRef[ColorNum]!=*CurrentColor)) ColorNum++;
@@ -199,7 +192,6 @@ void cCColorComboBox::MakeIcons() {
 //========================================================================================================================
 
 void cCColorComboBox::s_ItemSelectionChanged() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCColorComboBox::s_ItemSelectionChanged");
     STOPMAJ=true;
     setCurrentIndex(((QTableWidget *)view())->currentRow());
     MakeIcons();
@@ -210,7 +202,6 @@ void cCColorComboBox::s_ItemSelectionChanged() {
 //========================================================================================================================
 
 void cCColorComboBox::s_ItemPressed(int,int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCColorComboBox::s_ItemPressed");
     int CurrentRow=((QTableWidget *)view())->currentRow();      if (CurrentRow<0) CurrentRow=0;
     int CurrentCol=((QTableWidget *)view())->currentColumn();   if (CurrentCol<0) CurrentCol=0;
     int ColorNum=CurrentRow*5+CurrentCol;

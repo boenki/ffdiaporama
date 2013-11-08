@@ -190,15 +190,15 @@ QString cVariable::ResolveTextVariable(cDiaporamaObject *Object,QString SourceTe
         else if (Variables[i].VarName=="CSR") VarName=QString("%1").arg(Object->GetSlideNumber()+1);
 
         // Current chapter
-        else if (Variables[i].VarName=="CCN") VarName=GetInformationValue(ChapterNum+"title",&Object->Parent->ProjectInfo->InformationList);
+        else if (Variables[i].VarName=="CCN") VarName=GetInformationValue(ChapterNum+"title",&Object->Parent->ProjectInfo->ChaptersProperties);
         else if (Variables[i].VarName=="CCR") VarName=QString("%1").arg(ChapterNumber);
         else if (Variables[i].VarName=="CCI") VarName=QApplication::translate("Variables","Chapter %1").arg(ChapterNumber);
-        else if (Variables[i].VarName=="CCD") VarName=GetInformationValue(ChapterNum+"Duration",&Object->Parent->ProjectInfo->InformationList);
+        else if (Variables[i].VarName=="CCD") VarName=GetInformationValue(ChapterNum+"Duration",&Object->Parent->ProjectInfo->ChaptersProperties);
         else if (Variables[i].VarName=="CCT") VarName=QString("%1").arg(Object->Parent->ProjectInfo->NbrChapters);
 
         // Current chapter date values
-        else if (Variables[i].VarName=="CSD") VarName=GetInformationValue(ChapterNum+"Date",&Object->Parent->ProjectInfo->InformationList);
-        else if (Variables[i].VarName=="CLD") VarName=GetInformationValue(ChapterNum+"LongDate",&Object->Parent->ProjectInfo->InformationList);
+        else if (Variables[i].VarName=="CSD") VarName=GetInformationValue(ChapterNum+"Date",&Object->Parent->ProjectInfo->ChaptersProperties);
+        else if (Variables[i].VarName=="CLD") VarName=GetInformationValue(ChapterNum+"LongDate",&Object->Parent->ProjectInfo->ChaptersProperties);
         else if (Variables[i].VarName=="CYR") VarName=QString("%1").arg((CurrentChapter->OverrideProjectEventDate?CurrentChapter->ChapterEventDate:Object->Parent->ProjectInfo->EventDate).year());
         else if (Variables[i].VarName=="CMD") VarName=ito2a((CurrentChapter->OverrideProjectEventDate?CurrentChapter->ChapterEventDate:Object->Parent->ProjectInfo->EventDate).month());
         else if (Variables[i].VarName=="CDY") VarName=ito2a((CurrentChapter->OverrideProjectEventDate?CurrentChapter->ChapterEventDate:Object->Parent->ProjectInfo->EventDate).day());
@@ -260,8 +260,6 @@ void AppendAction(QMenu *Menu,QWidget *ParentWindow,QString Title) {
 }
 
 QString cVariable::PopupVariableMenu(QWidget *ParentWindow) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:PopupVariableMenu");
-
     QMenu   *ContextMenu    =new QMenu(ParentWindow);   ContextMenu->setFont(QFont("Sans Serif",9));
     QMenu   *PropertiesMenu =new QMenu(ParentWindow);   PropertiesMenu->setFont(QFont("Sans Serif",9));     PropertiesMenu->setTitle(QApplication::translate("Variables","Project properties values"));
     QMenu   *ProjectDateMenu=new QMenu(ParentWindow);   ProjectDateMenu->setFont(QFont("Sans Serif",9));    ProjectDateMenu->setTitle(QApplication::translate("Variables","Project date values"));

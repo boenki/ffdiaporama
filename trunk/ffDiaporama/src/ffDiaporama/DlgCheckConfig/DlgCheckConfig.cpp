@@ -34,8 +34,6 @@
 DlgCheckConfig::DlgCheckConfig(cBaseApplicationConfig *ApplicationConfig,QWidget *parent)
     :QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgCheckConfig) {
 
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgCheckConfig::DlgCheckConfig");
-
     ui->setupUi(this);
     OkBt    =ui->OKBT;
     HelpBt  =ui->HelpBt;
@@ -45,8 +43,6 @@ DlgCheckConfig::DlgCheckConfig(cBaseApplicationConfig *ApplicationConfig,QWidget
 //====================================================================================================================
 
 DlgCheckConfig::~DlgCheckConfig() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgCheckConfig::~DlgCheckConfig");
-
     delete ui;
 }
 
@@ -54,8 +50,6 @@ DlgCheckConfig::~DlgCheckConfig() {
 // Initialise dialog
 
 void DlgCheckConfig::DoInitDialog() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgCheckConfig::DoInitDialog");
-
     QString StatusStr;
     bool    Status;
     int     LumaListNbr=LumaList_Bar.List.count()+LumaList_Box.List.count()+LumaList_Center.List.count()+LumaList_Checker.List.count()+LumaList_Clock.List.count()+LumaList_Snake.List.count();
@@ -69,10 +63,10 @@ void DlgCheckConfig::DoInitDialog() {
     #else
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Application architecture: 64 bits")));
     #endif
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","User config file: %1").arg(AdjustDirForOS(BaseApplicationConfig->UserConfigFile))));
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Global config file: %1").arg(AdjustDirForOS(BaseApplicationConfig->GlobalConfigFile))));
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Starting path: %1").arg(AdjustDirForOS(BaseApplicationConfig->StartingPath))));
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Working path set to: %1").arg(AdjustDirForOS(QDir::currentPath()))));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","User config file: %1").arg(QDir::toNativeSeparators(BaseApplicationConfig->UserConfigFile))));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Global config file: %1").arg(QDir::toNativeSeparators(BaseApplicationConfig->GlobalConfigFile))));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Starting path: %1").arg(QDir::toNativeSeparators(BaseApplicationConfig->StartingPath))));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Working path set to: %1").arg(QDir::toNativeSeparators(QDir::currentPath()))));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Search path set to: %1").arg(getenv("PATH"))));
     // Ressources libraries
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","The background library contains %1 pictures").arg(BackgroundList.List.count())));
@@ -88,11 +82,11 @@ void DlgCheckConfig::DoInitDialog() {
     ui->ListWidget->addItem(new QListWidgetItem(""));
     ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","QT version: %1").arg(qVersion())));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Detected system locale: %1").arg(BaseApplicationConfig->CurrentLanguage)));
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Translation file loaded: %1").arg(AdjustDirForOS(QDir().absoluteFilePath(QString("locale")+QDir::separator()+QString("locale_")+BaseApplicationConfig->CurrentLanguage+".qm")))));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Translation file loaded: %1").arg(QDir::toNativeSeparators(QDir().absoluteFilePath(QString("locale")+QDir::separator()+QString("locale_")+BaseApplicationConfig->CurrentLanguage+".qm")))));
     ui->ListWidget->addItem(new QListWidgetItem(""));
 
     // exiv2
-    StatusStr=QApplication::translate("DlgCheckConfig","LibExiv2 version:")+QString(" %1.%2.%3").arg(EXIV2_MAJOR_VERSION).arg(EXIV2_MINOR_VERSION).arg(EXIV2_PATCH_VERSION);
+    StatusStr=QApplication::translate("DlgCheckConfig","LibExiv2 version:")+QString(" %1.%2.%3").arg(Exiv2MajorVersion).arg(Eviv2MinorVersion).arg(Exiv2PatchVersion);
     ui->ListWidget->addItem(new QListWidgetItem(StatusStr));
     #ifdef EXIV2WITHPREVIEW
     Status=true;
@@ -105,7 +99,7 @@ void DlgCheckConfig::DoInitDialog() {
 
     #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
     // taglib
-    ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","TAGLib version:")+QString(" %1.%2.%3").arg(TAGLIB_MAJOR_VERSION).arg(TAGLIB_MINOR_VERSION).arg(TAGLIB_PATCH_VERSION)));
+    ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","TAGLib version:")+QString(" %1.%2.%3").arg(TaglibMajorVersion).arg(TaglibMinorVersion).arg(TaglibPatchVersion)));
     #ifdef TAGLIBWITHFLAC
     Status=true;
     #else
@@ -174,8 +168,6 @@ void DlgCheckConfig::DoInitDialog() {
 // Call when user click on Ok button
 
 bool DlgCheckConfig::DoAccept() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgCheckConfig::DoAccept");
-
     BaseApplicationConfig->CheckConfigAtStartup=ui->CheckConfigAtStartupCB->isChecked();
     return true;
 }

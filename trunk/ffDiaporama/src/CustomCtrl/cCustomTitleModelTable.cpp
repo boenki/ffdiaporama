@@ -36,15 +36,12 @@ public:
 //========================================================================================================================
 
 cCustomTitleModelItem::cCustomTitleModelItem(QObject *parent):QStyledItemDelegate(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTitleModelItem::cCustomTitleModelItem");
     Table=(cCustomTitleModelTable *)parent;
 }
 
 //========================================================================================================================
 
 void cCustomTitleModelItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTitleModelItem::paint");
-
     if (!CustomTitleModelTableLockPaint.tryLock()) return;
     if ((!Table->ApplicationConfig)||(Table->InModifTable)) return;
 
@@ -87,14 +84,12 @@ void cCustomTitleModelItem::paint(QPainter *painter,const QStyleOptionViewItem &
 //========================================================================================================================
 
 QSize cCustomTitleModelItem::sizeHint(const QStyleOptionViewItem &/*option*/,const QModelIndex &/*index*/) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTitleModelItem::sizeHint");
     return QSize(Table->ModelTable->ThumbnailSize.width()+20,Table->ModelTable->ThumbnailSize.height()+20);
 }
 
 //====================================================================================================================
 
 cCustomTitleModelTable::cCustomTitleModelTable(QWidget *parent):QTableWidget(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTitleModelTable::cCustomTitleModelTable");
     ApplicationConfig=NULL;
     ModelTable       =NULL;
     TimerPosition    =0;
@@ -108,14 +103,12 @@ cCustomTitleModelTable::cCustomTitleModelTable(QWidget *parent):QTableWidget(par
 //====================================================================================================================
 
 cCustomTitleModelTable::~cCustomTitleModelTable() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTitleModelTable::~cCustomTitleModelTable");
     delete DefaultDelegate;
 }
 
 //====================================================================================================================
 
 void cCustomTitleModelTable::resizeEvent(QResizeEvent *ev) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTitleModelTable::resizeEvent");
     if (ModelTable) {
 
         QString Current=GetCurrentModel();
@@ -140,15 +133,12 @@ void cCustomTitleModelTable::resizeEvent(QResizeEvent *ev) {
 //====================================================================================================================
 
 void cCustomTitleModelTable::mouseDoubleClickEvent(QMouseEvent *ev) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTitleModelTable::mouseDoubleClickEvent");
     emit DoubleClickEvent(ev);
 }
 
 //====================================================================================================================
 
 void cCustomTitleModelTable::showEvent(QShowEvent *ev) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTitleModelTable::showEvent");
-
     if (ModelTable) {
 
         QString Current=GetCurrentModel();
@@ -197,7 +187,6 @@ void cCustomTitleModelTable::PrepareTable(cModelList *Table) {
 //========================================================================================================================
 
 void cCustomTitleModelTable::SetCurrentModel(QString ModelName) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCBrushComboBox::SetCurrentModel");
     if (!ModelTable) return;
     CurrentSel=ModelTable->SearchModel(ModelName);
     setCurrentCell(CurrentSel/columnCount(),CurrentSel-(CurrentSel/columnCount())*columnCount());

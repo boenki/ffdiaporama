@@ -39,7 +39,7 @@
 
 DlgManageStyle::DlgManageStyle(cStyleCollection *TheCollection,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgManageStyle) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::DlgManageStyle");
+
     ui->setupUi(this);
     OkBt        =ui->OKBT;
     CancelBt    =ui->CancelBt;
@@ -51,7 +51,6 @@ DlgManageStyle::DlgManageStyle(cStyleCollection *TheCollection,cBaseApplicationC
 //====================================================================================================================
 
 DlgManageStyle::~DlgManageStyle() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::~DlgManageStyle");
     delete ui;
     delete UndoCollection;
 }
@@ -59,7 +58,6 @@ DlgManageStyle::~DlgManageStyle() {
 //====================================================================================================================
 
 void DlgManageStyle::DoInitDialog() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::DoInitDialog");
     PopulateList("");
 
     // Define handler
@@ -75,7 +73,6 @@ void DlgManageStyle::DoInitDialog() {
 // Initiale Undo
 
 void DlgManageStyle::PrepareGlobalUndo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::PrepareGlobalUndo");
     // Save object before modification for cancel button
     UndoCollection=Collection->PrepUndo();
 }
@@ -84,14 +81,12 @@ void DlgManageStyle::PrepareGlobalUndo() {
 // Apply Undo : call when user click on Cancel button
 
 void DlgManageStyle::DoGlobalUndo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::DoGlobalUndo");
     UndoCollection->SourceCollection->ApplyUndo(UndoCollection);
 }
 
 //====================================================================================================================
 
 void DlgManageStyle::PopulateList(QString StyleToActivate) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::PopulateList");
     ui->ListStyle->setUpdatesEnabled(false);
     ui->ListStyle->clear();
     QString Item;
@@ -109,7 +104,6 @@ void DlgManageStyle::PopulateList(QString StyleToActivate) {
 //====================================================================================================================
 
 void DlgManageStyle::s_currentRowChanged(int NewRow) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::s_currentRowChanged");
     QListWidgetItem *Item=ui->ListStyle->item(NewRow);
     if (Item) {
         QString StyleName=(Collection->GeometryFilter?Collection->ActiveFilter:"")+Item->text();
@@ -134,7 +128,6 @@ void DlgManageStyle::s_currentRowChanged(int NewRow) {
 //====================================================================================================================
 
 void DlgManageStyle::s_DBRename() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::s_DBRename");
     QListWidgetItem *Item=ui->ListStyle->item(ui->ListStyle->currentRow());
     if (Item) {
         QString StyleName=(Collection->GeometryFilter?Collection->ActiveFilter:"")+Item->text();
@@ -171,7 +164,6 @@ void DlgManageStyle::s_DBRename() {
 //====================================================================================================================
 
 void DlgManageStyle::s_DBRemove() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::s_DBRemove");
     QListWidgetItem *Item=ui->ListStyle->item(ui->ListStyle->currentRow());
     if (Item) {
         QString StyleName=(Collection->GeometryFilter?Collection->ActiveFilter:"")+Item->text();
@@ -190,7 +182,6 @@ void DlgManageStyle::s_DBRemove() {
 //====================================================================================================================
 
 void DlgManageStyle::s_DBReset() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::s_DBReset");
     QListWidgetItem *Item=ui->ListStyle->item(ui->ListStyle->currentRow());
     if (Item) {
         QString StyleName=(Collection->GeometryFilter?Collection->ActiveFilter:"")+Item->text();

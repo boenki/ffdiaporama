@@ -30,12 +30,10 @@
 #define AutoFrameShapeComboBoxNBRCOLUMN    8
 
 cCShapeComboBoxItem::cCShapeComboBoxItem(QObject *parent):QStyledItemDelegate(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCShapeComboBoxItem::cCShapeComboBoxItem");
 }
 
 //========================================================================================================================
 void cCShapeComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCShapeComboBoxItem::paint");
     int CurIndex=index.row()*AutoFrameShapeComboBoxNBRCOLUMN+index.column();
     int CurrentFramingStyle=0;
     while ((CurrentFramingStyle<ComboBox->FrameShapeTable.count())&&(ComboBox->CurrentFramingStyle!=ComboBox->FrameShapeTable.at(CurrentFramingStyle).FrameStyle)) CurrentFramingStyle++;
@@ -63,7 +61,6 @@ void cCShapeComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &op
 //========================================================================================================================
 
 QSize cCShapeComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const QModelIndex &/*index*/) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCShapeComboBoxItem::sizeHint");
     return QSize(AutoFrameShapeComboBoxIMAGEWIDTH,AutoFrameShapeComboBoxIMAGEWIDTH);
 }
 
@@ -79,7 +76,6 @@ cFrameShapeTableItem::cFrameShapeTableItem(QImage *Image,int FrameStyle) {
 //******************************************************************************************************************
 
 cCShapeComboBox::cCShapeComboBox(QWidget *parent):QComboBox(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCShapeComboBox::cCShapeComboBox");
     CurrentFilter       =-1;
     CurrentFramingStyle =-1;
     CurrentNbrITem      =-1;
@@ -113,7 +109,6 @@ void cCShapeComboBox::hidePopup() {
 //========================================================================================================================
 
 void cCShapeComboBox::keyReleaseEvent(QKeyEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cFramingComboBox::keyReleaseEvent");
     int CurIndex=((QTableWidget *)view())->currentRow()*AutoFrameShapeComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
     int aCurIndex=CurIndex;
     if ((event->key()==Qt::Key_Right)||(event->key()==Qt::Key_Down)) {
@@ -182,7 +177,6 @@ void cCShapeComboBox::PrepareFrameShapeTable(bool ResetContent,int Filter,int Cu
 //========================================================================================================================
 
 void cCShapeComboBox::SetCurrentFrameShape(int FrameShape) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCShapeComboBox::SetCurrentFraming");
     if (STOPMAJ) return;
     CurrentFramingStyle=FrameShape;
     int Index=0;
@@ -199,7 +193,6 @@ void cCShapeComboBox::SetCurrentFrameShape(int FrameShape) {
 //========================================================================================================================
 
 int cCShapeComboBox::GetCurrentFrameShape() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCShapeComboBox::GetCurrentFrameShape");
     int CurIndex=((QTableWidget *)view())->currentRow()*AutoFrameShapeComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
     if ((CurIndex>=0)&&(CurIndex<FrameShapeTable.count())) return FrameShapeTable.at(CurIndex).FrameStyle;
     return 0;
@@ -208,7 +201,6 @@ int cCShapeComboBox::GetCurrentFrameShape() {
 //========================================================================================================================
 
 void cCShapeComboBox::MakeIcons() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCShapeComboBox::MakeIcons");
     int CurIndex=((QTableWidget *)view())->currentRow()*AutoFrameShapeComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
     if ((CurIndex>=0)&&(CurIndex<FrameShapeTable.count())) {
         cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,/*ApplicationConfig*/NULL);
@@ -237,7 +229,6 @@ void cCShapeComboBox::MakeIcons() {
 //========================================================================================================================
 
 void cCShapeComboBox::s_ItemSelectionChanged() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCShapeComboBox::s_ItemSelectionChanged");
     if (STOPMAJ) return;
     int CurIndex=((QTableWidget *)view())->currentRow()*AutoFrameShapeComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
     if ((CurIndex>=0)&&(CurIndex<FrameShapeTable.count())) {

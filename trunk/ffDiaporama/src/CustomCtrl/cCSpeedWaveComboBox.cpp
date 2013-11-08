@@ -23,28 +23,24 @@
 //====================================================================================================================
 
 cCSpeedWaveComboBox::cCSpeedWaveComboBox(QWidget *parent):QCustomComboBox(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCSpeedWaveComboBox::cCSpeedWaveComboBox");
     for (int i=0;i<SPEEDWAVE_TYPE_NBR;i++) addItem(GetSpeedWaveName(i),QVariant(i));
 }
 
 //====================================================================================================================
 
 void cCSpeedWaveComboBox::AddProjectDefault(int DefaultSpeedWave) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCSpeedWaveComboBox::AddProjectDefault");
     insertItem(0,GetSpeedWaveName(SPEEDWAVE_PROJECTDEFAULT).arg(GetSpeedWaveName(DefaultSpeedWave)),QVariant(SPEEDWAVE_PROJECTDEFAULT));
 }
 
 //====================================================================================================================
 
 void cCSpeedWaveComboBox::SetCurrentValue(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCSpeedWaveComboBox::SetCurrentValue");
     for (int i=0;i<this->count();i++) if (itemData(i).toInt()==Value) setCurrentIndex(i);
 }
 
 //====================================================================================================================
 
 int cCSpeedWaveComboBox::GetCurrentValue() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCSpeedWaveComboBox::GetCurrentValue");
     int Current=currentIndex();
     if ((Current<0)||(Current>count())) return -1; else return itemData(Current).toInt();
 }

@@ -60,7 +60,7 @@
 
 #include <cmath>
 
-#define LATENCY 5
+#define LATENCY 10
 
 //====================================================================================================================
 
@@ -151,7 +151,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     // Init database
     screen.showMessage(QApplication::translate("MainWindow","Init home user database..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Init home user database..."));
-    ApplicationConfig->Database=new cDatabase(AdjustDirForOS(ApplicationConfig->UserConfigPath+"ffdiaporama.db"));
+    ApplicationConfig->Database=new cDatabase(QDir::toNativeSeparators(ApplicationConfig->UserConfigPath+"ffdiaporama.db"));
     ApplicationConfig->Database->ApplicationConfig=ApplicationConfig;
     bool IsDBCreation=!QFileInfo(ApplicationConfig->Database->dbPath).exists();
     if (ApplicationConfig->Database->OpenDB()) {
@@ -570,7 +570,7 @@ void MainWindow::UpdateChapterInfo() {
         ChapterNum=QString("%1").arg(i);
         while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
         ChapterNum="Chapter_"+ChapterNum+":";
-        Chapter.append(GetInformationValue(ChapterNum+"InSlide",&Diaporama->ProjectInfo->InformationList).toInt());
+        Chapter.append(GetInformationValue(ChapterNum+"InSlide",&Diaporama->ProjectInfo->ChaptersProperties).toInt());
     }
     if (Chapter.count()==0) {
         Diaporama->CurrentChapter=-1;
@@ -582,7 +582,7 @@ void MainWindow::UpdateChapterInfo() {
         ChapterNum=QString("%1").arg(Diaporama->CurrentChapter-1);
         while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
         ChapterNum="Chapter_"+ChapterNum+":";
-        Diaporama->CurrentChapterName=GetInformationValue(ChapterNum+"title",&Diaporama->ProjectInfo->InformationList);
+        Diaporama->CurrentChapterName=GetInformationValue(ChapterNum+"title",&Diaporama->ProjectInfo->ChaptersProperties);
         ui->StatusBar_ChapterNumber->setText(QApplication::translate("MainWindow","Chapter: ")+QString("%1/%2 [%3]").arg(Diaporama->CurrentChapter).arg(Diaporama->ProjectInfo->NbrChapters).arg(Diaporama->CurrentChapterName));
     }
     ToStatusBar("");
@@ -900,6 +900,7 @@ void MainWindow::s_Action_Exit() {
         return;
     }
 
+    ui->FolderTable->EnsureThreadIsStopped();
     close();
 }
 
@@ -1431,24 +1432,19 @@ void MainWindow::s_Action_ChangeApplicationSettings() {
     if (Dlg.exec()==0) {
         SetTimelineHeight();
         ToStatusBar(QApplication::translate("MainWindow","Saving configuration file and applying new configuration ..."));
-        QTimer::singleShot(LATENCY,this,SLOT(DoChangeApplicationSettings()));
+        QApplication::processEvents();
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+        ui->preview->WantedFPS =ApplicationConfig->PreviewFPS;
+        ui->preview2->WantedFPS=ApplicationConfig->PreviewFPS;
+        SDLSetFPS(double(1000)/ApplicationConfig->PreviewFPS,ApplicationConfig->SDLAudioOldMode,ApplicationConfig->PreviewSamplingRate);  // Reinit SDL if Preview FPS has changed
+        // Save configuration
+        //ApplicationConfig->MainWinWSP->SaveWindowState(this); // Do not change get WindowState for mainwindow except when closing
         ApplicationConfig->ImagesCache.MaxValue=ApplicationConfig->MemCacheMaxValue;
         toolTipTowhatsThis(this);
+        ApplicationConfig->SaveConfigurationFile();
+        QApplication::restoreOverrideCursor();
+        ToStatusBar("");
     }
-}
-
-void MainWindow::DoChangeApplicationSettings() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoChangeApplicationSettings");
-
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    ui->preview->WantedFPS =ApplicationConfig->PreviewFPS;
-    ui->preview2->WantedFPS=ApplicationConfig->PreviewFPS;
-    SDLSetFPS(double(1000)/ApplicationConfig->PreviewFPS,ApplicationConfig->SDLAudioOldMode,ApplicationConfig->PreviewSamplingRate);  // Reinit SDL if Preview FPS has changed
-    // Save configuration
-    //ApplicationConfig->MainWinWSP->SaveWindowState(this); // Do not change get WindowState for mainwindow except when closing
-    ApplicationConfig->SaveConfigurationFile();
-    QApplication::restoreOverrideCursor();
-    ToStatusBar("");
 }
 
 //====================================================================================================================
@@ -1518,7 +1514,7 @@ void MainWindow::s_Action_OpenRecent() {
         return;
     }
     QMenu *ContextMenu=new QMenu(this);
-    for (int i=ApplicationConfig->RecentFile.count()-1;i>=0;i--) ContextMenu->addAction(AdjustDirForOS(ApplicationConfig->RecentFile.at(i)));
+    for (int i=ApplicationConfig->RecentFile.count()-1;i>=0;i--) ContextMenu->addAction(QDir::toNativeSeparators(ApplicationConfig->RecentFile.at(i)));
     QAction *Action=ContextMenu->exec(QCursor::pos());
     QString Selected="";
     if (Action) Selected=Action->iconText();
@@ -1582,16 +1578,15 @@ void MainWindow::DoOpenFile() {
     }
     bool            Continue=true;
     QDomDocument    domDocument;
-    QString         ProjectFileName=AdjustDirForOS(FileForIO);
+    QString         ProjectFileName=QDir::toNativeSeparators(FileForIO);
 
     // Check if ffDRevision is not > current ffDRevision
     cffDProjectFile File(ApplicationConfig);
-    if (File.GetInformationFromFile(ProjectFileName,NULL,NULL,-1)) {
-        File.GetFullInformationFromFile();
-        if ((File.ffDRevision.toInt()>CurrentAppVersion.toInt())&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Open project"),
+    if (!File.GetInformationFromFile(ProjectFileName,NULL,NULL,-1)) return;
+    File.GetFullInformationFromFile();
+    if ((File.ffDRevision.toInt()>CurrentAppVersion.toInt())&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Open project"),
         QApplication::translate("MainWindow","This project was created with a newer version of ffDiaporama.\nIf you continue, you take the risk of losing data!\nDo you want to open it nevertheless?"),QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No))
-            return;
-    }
+        return;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
@@ -1668,7 +1663,7 @@ void MainWindow::DoOpenFile() {
             if ((CurrentLoadingProjectDocument.elementsByTagName("Project").length()>0)&&(CurrentLoadingProjectDocument.elementsByTagName("Project").item(0).isElement()==true)) {
 
                 // Manage Recent files list
-                for (int i=0;i<ApplicationConfig->RecentFile.count();i++) if (AdjustDirForOS(ApplicationConfig->RecentFile.at(i))==ProjectFileName) {
+                for (int i=0;i<ApplicationConfig->RecentFile.count();i++) if (QDir::toNativeSeparators(ApplicationConfig->RecentFile.at(i))==ProjectFileName) {
                     ApplicationConfig->RecentFile.removeAt(i);
                     break;
                 }
@@ -1834,7 +1829,7 @@ void MainWindow::s_Action_SaveAs() {
         if (QFileInfo(Diaporama->ProjectFileName).suffix()!="ffd") Diaporama->ProjectFileName=Diaporama->ProjectFileName+".ffd";
         ApplicationConfig->LastProjectPath=QFileInfo(Diaporama->ProjectFileName).dir().absolutePath();
         // Manage Recent files list
-        for (int i=0;i<ApplicationConfig->RecentFile.count();i++) if (ApplicationConfig->RecentFile.at(i)==AdjustDirForOS(Diaporama->ProjectFileName)) {
+        for (int i=0;i<ApplicationConfig->RecentFile.count();i++) if (ApplicationConfig->RecentFile.at(i)==QDir::toNativeSeparators(Diaporama->ProjectFileName)) {
             ApplicationConfig->RecentFile.removeAt(i);
             break;
         }
@@ -2271,14 +2266,16 @@ void MainWindow::s_Action_DoAddFile() {
                 CurrentBrush->Video=(cVideoFile *)MediaFile;
                 DiaporamaObject->List[0]->StaticDuration=1000;
                 if (ChapterNum>=0) {
+                    QStringList TempExtProperties;
+                    ApplicationConfig->FilesTable->GetExtendedProperties(MediaFile->FileKey,&TempExtProperties);
                     QString ChapterStr=QString("%1").arg(ChapterNum);
                     while (ChapterStr.length()<3) ChapterStr="0"+ChapterStr;
                     ChapterStr="Chapter_"+ChapterStr+":";
-                    QString Start=GetInformationValue(ChapterStr+"Start",&MediaFile->InformationList);
-                    QString End  =GetInformationValue(ChapterStr+"End",&MediaFile->InformationList);
+                    QString Start=GetInformationValue(ChapterStr+"Start",&TempExtProperties);
+                    QString End  =GetInformationValue(ChapterStr+"End",&TempExtProperties);
                     CurrentBrush->Video->StartPos=QTime().fromString(Start);
                     CurrentBrush->Video->EndPos  =QTime().fromString(End);
-                    DiaporamaObject->SlideName   =GetInformationValue(ChapterStr+"title",&MediaFile->InformationList);
+                    DiaporamaObject->SlideName   =GetInformationValue(ChapterStr+"title",&TempExtProperties);
                 } else {
                     CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
                     if (CurrentBrush->Video->LibavVideoFile->start_time>0) CurrentBrush->Video->StartPos=QTime(0,0,0,0).addMSecs(int64_t((double(CurrentBrush->Video->LibavVideoFile->start_time)/AV_TIME_BASE)*1000));
@@ -2534,7 +2531,7 @@ void MainWindow::s_VideoPlayer_SaveImageEvent() {
             cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Diaporama->CurrentPosition,Diaporama,1,false);
             Diaporama->LoadSources(Frame,Width,Height,false,true);
             Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,Width,Height);
-            Frame->RenderedImage->save(OutputFileName,0,100);
+            Frame->RenderedImage.save(OutputFileName,0,100);
             delete Frame;
         }
     }
@@ -2871,7 +2868,8 @@ void MainWindow::AdjustRuller() {
         ui->preview2->SetStartEndPos(0,0,-1,0,-1,0);
     }
     ui->timeline->repaint();
-    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->CurrentPosition);
+    wgt_QVideoPlayer *Player=(ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2);
+    if (Player->ActualPosition!=Diaporama->CurrentPosition) Player->SeekPlayer(Diaporama->CurrentPosition);
     RefreshControls();
     UpdateChapterInfo();
 }
@@ -2891,7 +2889,7 @@ void MainWindow::s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,QTreeW
     #ifdef Q_OS_WIN
         Path.replace("%HOMEDRIVE%%HOMEPATH%",ApplicationConfig->DriveList->List[0].Path,Qt::CaseInsensitive);
         Path.replace("%USERPROFILE%",ApplicationConfig->DriveList->List[0].Path,Qt::CaseInsensitive);
-        Path=AdjustDirForOS(Path);
+        Path=QDir::toNativeSeparators(Path);
         if (QDir(Path).canonicalPath()!="") Path=QDir(Path).canonicalPath(); // Resolved eventual .lnk files
     #endif
     ui->FolderTable->FillListFolder(Path);
@@ -2955,7 +2953,8 @@ void MainWindow::DoBrowserRefreshFolderInfo() {
 void MainWindow::DoBrowserRefreshSelectedFileInfo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoBrowserRefreshSelectedFileInfo");
 
-    QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
+    QList<cBaseMediaFile*> MediaList;
+    ui->FolderTable->GetCurrentSelectedMediaFile(&MediaList);
 
     if (MediaList.count()==0) {
         // No selection
@@ -2969,18 +2968,19 @@ void MainWindow::DoBrowserRefreshSelectedFileInfo() {
         // One file selection
 
         cBaseMediaFile *MediaObject=MediaList[0];
-        ui->FileIcon->setPixmap(QPixmap().fromImage(MediaObject->Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
+        QStringList     TempExtProperties;
+        ApplicationConfig->FilesTable->GetExtendedProperties(MediaObject->FileKey,&TempExtProperties);
+        ui->FileIcon->setPixmap(QPixmap().fromImage(MediaObject->GetIcon(cCustomIcon::ICON100,true).scaledToHeight(48,Qt::SmoothTransformation)));
 
         QString FStr=MediaObject->GetFileSizeStr();
         if (FStr!="") ui->FileInfo1a->setText(QString("%1 (%2)").arg(MediaObject->ShortName()).arg(FStr));
             else ui->FileInfo1a->setText(MediaObject->ShortName());
-        if (MediaObject->Duration.isValid()) ui->FileInfo2a->setText(QString("%1-%2").arg(MediaObject->GetTechInfo()).arg(MediaObject->Duration.toString("HH:mm:ss.zzz")));
-            else ui->FileInfo2a->setText(MediaObject->GetTechInfo());
-        ui->FileInfo3a->setText(MediaObject->GetTAGInfo());
+        if (QTime(0,0,0,0).msecsTo(MediaObject->Duration)>0) ui->FileInfo2a->setText(QString("%1-%2").arg(MediaObject->GetTechInfo(&TempExtProperties)).arg(MediaObject->Duration.toString("HH:mm:ss.zzz")));
+            else ui->FileInfo2a->setText(MediaObject->GetTechInfo(&TempExtProperties));
+        ui->FileInfo3a->setText(MediaObject->GetTAGInfo(&TempExtProperties));
 
     } else if (MediaList.count()>1) {
         // Multi file select
-
 
         // Do qualification of files
         bool    IsFind;
@@ -3049,7 +3049,7 @@ void MainWindow::DoBrowserRefreshSelectedFileInfo() {
             ui->FileInfo2a->setText(QApplication::translate("MainWindow","Multiple file types"));
         }
     }
-
+    while (!MediaList.isEmpty()) delete MediaList.takeLast();
     RefreshControls();
 }
 
@@ -3243,7 +3243,7 @@ void MainWindow::s_Browser_RemoveFolder() {
         if (FolderPath.startsWith("~")) FolderPath=QDir::homePath()+FolderPath.mid(1);
     #else
         if (FolderPath.startsWith(PersonalFolder)) FolderPath=QDir::homePath()+FolderPath.mid(PersonalFolder.length());
-        FolderPath=AdjustDirForOS(FolderPath);
+        FolderPath=QDir::toNativeSeparators(FolderPath);
     #endif
 
     QString NewFolderPath=ui->FolderTree->GetFolderPath(ui->FolderTree->currentItem(),true);
@@ -3271,7 +3271,7 @@ void MainWindow::s_Browser_RenameFolder() {
     #else
         if (FolderPath.startsWith(PersonalFolder)) {
             FolderPath=QDir::homePath()+FolderPath.mid(PersonalFolder.length());
-            FolderPath=AdjustDirForOS(FolderPath);
+            FolderPath=QDir::toNativeSeparators(FolderPath);
             PersoF=true;
         }
     #endif
@@ -3289,7 +3289,7 @@ void MainWindow::s_Browser_RenameFolder() {
                     #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
                     FolderPath.replace(QDir::homePath(),"~");
                     #else
-                    FolderPath.replace(AdjustDirForOS(QDir::homePath()),PersonalFolder);
+                    FolderPath.replace(QDir::toNativeSeparators(QDir::homePath()),PersonalFolder);
                     #endif
                 }
                 ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(ui->FolderTree->currentItem()->parent(),true),false);
@@ -3404,6 +3404,7 @@ void MainWindow::s_Browser_OpenFile() {
                 QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
             }
         }
+        delete Media;
     }
 }
 
@@ -3412,7 +3413,8 @@ void MainWindow::s_Browser_OpenFile() {
 void MainWindow::s_Browser_RightClicked(QMouseEvent *) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RightClicked");
 
-    QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
+    QList<cBaseMediaFile*> MediaList;
+    ui->FolderTable->GetCurrentSelectedMediaFile(&MediaList);
     if (MediaList.count()==0) return;
 
     bool    Multiple=(MediaList.count()>1);
@@ -3469,6 +3471,7 @@ void MainWindow::s_Browser_RightClicked(QMouseEvent *) {
     }
     ContextMenu->exec(QCursor::pos());
     delete ContextMenu;
+    while (!MediaList.isEmpty()) delete MediaList.takeLast();
 }
 
 //====================================================================================================================
@@ -3480,6 +3483,7 @@ void MainWindow::s_Browser_Properties() {
         DlgInfoFile Dlg(Media,ApplicationConfig,this);
         Dlg.InitDialog();
         Dlg.exec();
+        delete Media;
     }
 }
 
@@ -3487,7 +3491,8 @@ void MainWindow::s_Browser_Properties() {
 
 void MainWindow::s_Browser_AddFiles() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_AddFiles");
-    QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
+    QList<cBaseMediaFile*> MediaList;
+    ui->FolderTable->GetCurrentSelectedMediaFile(&MediaList);
     if (MediaList.count()>0) {
 
         // Calc position of new object depending on ApplicationConfig->AppendObject
@@ -3521,6 +3526,7 @@ void MainWindow::s_Browser_AddFiles() {
         ToStatusBar(QApplication::translate("MainWindow","Add file to project :")+QFileInfo(FileList[0]).fileName());
         QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
         DlgWorkingTaskDialog->exec();
+        while (!MediaList.isEmpty()) delete MediaList.takeLast();
     }
 }
 
@@ -3528,7 +3534,8 @@ void MainWindow::s_Browser_AddFiles() {
 
 void MainWindow::s_Browser_RemoveFile() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RemoveFile");
-    QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
+    QList<cBaseMediaFile*> MediaList;
+    ui->FolderTable->GetCurrentSelectedMediaFile(&MediaList);
     if (MediaList.count()>0) {
         while (FileList.count()>0) FileList.removeLast();
         for (int i=0;i<MediaList.count();i++) {
@@ -3545,6 +3552,7 @@ void MainWindow::s_Browser_RemoveFile() {
         DlgWorkingTaskDialog->SetMaxValue(FileList.count(),0);
         QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoRemoveFile()));
         DlgWorkingTaskDialog->exec();
+        while (!MediaList.isEmpty()) delete MediaList.takeLast();
     }
 }
 
@@ -3587,13 +3595,14 @@ void MainWindow::s_Browser_RenameFile() {
         QString NewName=Media->ShortName();
         NewName=CustomInputDialog(this,QApplication::translate("MainWindow","Rename file"),QApplication::translate("MainWindow","New name:"),QLineEdit::Normal,NewName,&Ok);
         if (Ok && !NewName.isEmpty()) {
-            NewName=AdjustDirForOS(QFileInfo(Media->FileName()).absolutePath()+QDir::separator()+NewName);
+            NewName=QDir::toNativeSeparators(QFileInfo(Media->FileName()).absolutePath()+QDir::separator()+NewName);
             if (!QDir().rename(Media->FileName(),NewName)) CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Rename file"),QApplication::translate("MainWindow","Impossible to rename file!"),QMessageBox::Ok); else {
                 if (QFileInfo(NewName).isDir())
                     ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(ui->FolderTree->currentItem(),true),false);
                 s_Browser_RefreshHere();
             }
         }
+        delete Media;
     }
 }
 
@@ -3601,11 +3610,13 @@ void MainWindow::s_Browser_RenameFile() {
 
 void MainWindow::s_Browser_UseAsPlaylist() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_UseAsPlaylist");
-    QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
+    QList<cBaseMediaFile*> MediaList;
+    ui->FolderTable->GetCurrentSelectedMediaFile(&MediaList);
     if (MediaList.count()>0) {
         QStringList MusicFileList;
         for (int i=0;i<MediaList.count();i++) MusicFileList.append(QFileInfo(MediaList[i]->FileName()).absoluteFilePath());
         s_Action_DoUseAsPlayList(MusicFileList,Diaporama->CurrentCol);
+        while (!MediaList.isEmpty()) delete MediaList.takeLast();
     }
 }
 

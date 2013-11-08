@@ -229,16 +229,12 @@ void DlgTransitionProperties::s_ChTransitionTypeCB(int NewValue) {
         // Adjust transition subtype
         Frame->TransitionSubType=i;
         // Render images
-        if (Frame->RenderedImage!=NULL) {
-            delete Frame->RenderedImage;
-            Frame->RenderedImage=NULL;
-        }
         DiaporamaObject->Parent->DoAssembly(ComputePCT(Frame->CurrentObject->GetSpeedWave(),Frame->TransitionPCTDone),Frame,W,H);
 
         // Create a label object to handle the bitmap
         QLabel *Widget=new QLabel();
         Widget->setAlignment(Qt::AlignCenter);
-        Widget->setPixmap(QPixmap().fromImage(*Frame->RenderedImage));
+        Widget->setPixmap(QPixmap().fromImage(Frame->RenderedImage));
         if (CurCol>=ui->TransitionTable->columnCount()) {
             ui->TransitionTable->insertRow(ui->TransitionTable->rowCount());
             ui->TransitionTable->setRowHeight(ui->TransitionTable->rowCount()-1,ROWHEIGHT+DECAL*2);
@@ -329,10 +325,6 @@ void DlgTransitionProperties::s_TimerEvent() {
         // Adjust transition subtype
         Frame->TransitionSubType=i;
         // Render images
-        if (Frame->RenderedImage!=NULL) {
-            delete Frame->RenderedImage;
-            Frame->RenderedImage=NULL;
-        }
         int SpeedWave=ui->SpeedWaveCB->GetCurrentValue();
         if (SpeedWave==SPEEDWAVE_PROJECTDEFAULT) SpeedWave=DiaporamaObject->Parent->TransitionSpeedWave;
         DiaporamaObject->Parent->DoAssembly(ComputePCT(SpeedWave,Frame->TransitionPCTDone),Frame,W,H);
@@ -340,14 +332,14 @@ void DlgTransitionProperties::s_TimerEvent() {
         // Add icon in the bottom left corner
         QPainter P;
         QImage   *Img=IconList.GetIcon(Frame->TransitionFamilly,Frame->TransitionSubType);
-        P.begin(Frame->RenderedImage);
-        P.drawImage(QRect(0,Frame->RenderedImage->height()-32,32,32),*Img);
+        P.begin(&Frame->RenderedImage);
+        P.drawImage(QRect(0,Frame->RenderedImage.height()-32,32,32),*Img);
         P.end();
         delete Img;
 
         // Create a label object to handle the bitmap
         QLabel *Widget=(QLabel *)ui->TransitionTable->cellWidget(CurRow,CurCol);
-        if (Widget) Widget->setPixmap(QPixmap().fromImage(*Frame->RenderedImage));
+        if (Widget) Widget->setPixmap(QPixmap().fromImage(Frame->RenderedImage));
 
         // Go to next image
         CurCol++;

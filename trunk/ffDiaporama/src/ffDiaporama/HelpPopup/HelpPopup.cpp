@@ -216,7 +216,7 @@ void HelpPopup::SaveLatestHelpFile() {
 
 void HelpPopup::RestorePreviousHelpFile() {
    ToLog(LOGMSG_DEBUGTRACE,"IN:HelpPopup::RestorePreviousHelpFile");
-   if (HelpFileHistory.count()>0) OpenHelp(HelpFileHistory.takeLast(),false);
+   if (!HelpFileHistory.isEmpty()>0) OpenHelp(HelpFileHistory.takeLast(),false);
 }
 
 //====================================================================================================================

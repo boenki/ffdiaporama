@@ -25,7 +25,6 @@
 
 DlgAbout::DlgAbout(cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgAbout) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::DlgAbout");
 
     ui->setupUi(this);
     OkBt    =ui->OKBT;
@@ -36,8 +35,6 @@ DlgAbout::DlgAbout(cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
 //====================================================================================================================
 
 DlgAbout::~DlgAbout() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::~DlgAbout");
-
     delete ui;
 }
 
@@ -45,7 +42,6 @@ DlgAbout::~DlgAbout() {
 // Initialise dialog
 
 void DlgAbout::DoInitDialog() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::DoInitDialog");
     QString FName,Text;
     QFile   File;
 

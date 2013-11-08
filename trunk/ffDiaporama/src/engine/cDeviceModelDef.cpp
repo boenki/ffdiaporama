@@ -462,8 +462,6 @@ void LibAVLogCallback(void * /*ptr*/, int level, const char *fmt, va_list vargs)
 //====================================================================================================================
 
 cDeviceModelDef::cDeviceModelDef(bool IsGlobalConf,int IndexKey) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelDef::cDeviceModelDef");
-
     FromGlobalConf  =IsGlobalConf;                          // true if device model is defined in global config file
     FromUserConf    =!IsGlobalConf;                         // true if device model is defined in user config file
     IsFind          =false;                                 // true if device model format is supported by installed version of libav
@@ -481,14 +479,11 @@ cDeviceModelDef::cDeviceModelDef(bool IsGlobalConf,int IndexKey) {
 }
 
 cDeviceModelDef::~cDeviceModelDef() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelDef::~cDeviceModelDef");
 }
 
 //====================================================================================================================
 
 void cDeviceModelDef::SaveToXML(QDomElement &domDocument,QString ElementName) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelDef::SaveToXML");
-
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     Element.setAttribute("DeviceIndex",DeviceIndex);
@@ -508,8 +503,6 @@ void cDeviceModelDef::SaveToXML(QDomElement &domDocument,QString ElementName) {
 //====================================================================================================================
 
 bool cDeviceModelDef::LoadFromXML(QDomElement domDocument,QString ElementName,bool IsUserConfigFile) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelDef::LoadFromXML");
-
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
         if (IsUserConfigFile) FromUserConf=true;
@@ -555,28 +548,23 @@ bool cDeviceModelDef::LoadFromXML(QDomElement domDocument,QString ElementName,bo
 //====================================================================================================================
 
 cDeviceModelList::cDeviceModelList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::cDeviceModelList");
 }
 
 //====================================================================================================================
 
 cDeviceModelList::~cDeviceModelList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::~cDeviceModelList");
-
     while (!RenderDeviceModel.isEmpty()) delete RenderDeviceModel.takeLast();
 }
 
 //====================================================================================================================
 
 bool cDeviceModelList::LoadConfigurationFile(QString ConfigFileName,LoadConfigFileType TypeConfigFile) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::LoadConfigurationFile");
-
     // Compute FileName
     QString FileName=QFileInfo(ConfigFileName).absolutePath();
     if (!FileName.endsWith(QDir::separator())) FileName=FileName+QDir::separator();
     FileName=FileName+CONFIGFILENAME+"."+QFileInfo(ConfigFileName).suffix();
 
-    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Read configuration file")+" "+AdjustDirForOS(FileName));
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Read configuration file")+" "+QDir::toNativeSeparators(FileName));
 
     QFile           file(FileName);
     QDomDocument    domDocument;
@@ -586,19 +574,19 @@ bool cDeviceModelList::LoadConfigurationFile(QString ConfigFileName,LoadConfigFi
     bool            IsOk=true;
 
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        ToLog(LOGMSG_WARNING,QApplication::translate("MainWindow","Error reading configuration file","Error message")+" "+AdjustDirForOS(FileName));
+        ToLog(LOGMSG_WARNING,QApplication::translate("MainWindow","Error reading configuration file","Error message")+" "+QDir::toNativeSeparators(FileName));
         IsOk=false;
     }
 
     if (IsOk && (!domDocument.setContent(&file,true,&errorStr,&errorLine,&errorColumn))) {
-        ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error reading content of configuration file","Error message")+" "+AdjustDirForOS(FileName));
+        ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error reading content of configuration file","Error message")+" "+QDir::toNativeSeparators(FileName));
         IsOk=false;
     }
 
     if (IsOk) {
         root = domDocument.documentElement();
         if (root.tagName()!=CONFIGROOTNAME) {
-            ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","The file is not a valid configuration file","Error message")+" "+AdjustDirForOS(FileName));
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","The file is not a valid configuration file","Error message")+" "+QDir::toNativeSeparators(FileName));
             IsOk=false;
         }
     }
@@ -613,8 +601,6 @@ bool cDeviceModelList::LoadConfigurationFile(QString ConfigFileName,LoadConfigFi
 //====================================================================================================================
 
 bool cDeviceModelList::SaveConfigurationFile(QString ConfigFileName) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::LoadConfigurationFile");
-
     // Compute FileName
     QString FileName=QFileInfo(ConfigFileName).absolutePath();
     if (!FileName.endsWith(QDir::separator())) FileName=FileName+QDir::separator();
@@ -657,8 +643,6 @@ bool cDeviceModelList::SaveConfigurationFile(QString ConfigFileName) {
 //====================================================================================================================
 
 bool cDeviceModelList::LoadFromXML(QDomElement domDocument,LoadConfigFileType TypeConfigFile) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::LoadFromXML");
-
     if ((domDocument.elementsByTagName("RenderingDeviceModel").length()>0)&&(domDocument.elementsByTagName("RenderingDeviceModel").item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName("RenderingDeviceModel").item(0).toElement();
         int i=0;
@@ -691,8 +675,6 @@ bool cDeviceModelList::LoadFromXML(QDomElement domDocument,LoadConfigFileType Ty
 //====================================================================================================================
 
 void cDeviceModelList::TranslatRenderType() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::TranslatRenderType");
-
     TranslatedRenderType.append(QApplication::translate("cDeviceModelList","Advanced","Device database type"));           // EXPORTMODE_ADVANCED
     TranslatedRenderType.append(QApplication::translate("cDeviceModelList","Smartphone","Device database type"));         // MODE_SMARTPHONE
     TranslatedRenderType.append(QApplication::translate("cDeviceModelList","Multimedia system","Device database type"));  // MODE_MULTIMEDIASYS
@@ -715,8 +697,6 @@ void cDeviceModelList::TranslatRenderType() {
 //====================================================================================================================
 
 bool cDeviceModelList::InitLibav() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::InitLibav");
-
     // Next step : start libav
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Starting libav..."));
     avfilter_register_all();

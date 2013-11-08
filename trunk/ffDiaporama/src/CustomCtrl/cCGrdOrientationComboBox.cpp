@@ -27,12 +27,10 @@
 //******************************************************************************************************************
 
 cCGrdOrientationComboBoxItem::cCGrdOrientationComboBoxItem(QObject *parent):QStyledItemDelegate(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCGrdOrientationComboBoxItem::cCGrdOrientationComboBoxItem");
 }
 
 //========================================================================================================================
 void cCGrdOrientationComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCGrdOrientationComboBoxItem::paint");
     if ((!ComboBox)||(!ComboBox->Brush)) return;
     int ColorNum=index.row()*3+index.column();
     if ((ColorNum>=0)&&(ColorNum<MAXGRADIENTORIENTATION)) {
@@ -70,7 +68,6 @@ void cCGrdOrientationComboBoxItem::paint(QPainter *painter,const QStyleOptionVie
 //========================================================================================================================
 
 QSize cCGrdOrientationComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const QModelIndex &/*index*/) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCGrdOrientationComboBoxItem::sizeHint");
     return QSize(32,32);
 }
 
@@ -79,7 +76,6 @@ QSize cCGrdOrientationComboBoxItem::sizeHint(const QStyleOptionViewItem &/*optio
 //******************************************************************************************************************
 
 cCGrdOrientationComboBox::cCGrdOrientationComboBox(QWidget *parent):QComboBox(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCGrdOrientationComboBox::cCGrdOrientationComboBox");
     STOPMAJ=false;
     Brush=NULL;
     QTableWidget    *Table=new QTableWidget();
@@ -109,7 +105,6 @@ cCGrdOrientationComboBox::cCGrdOrientationComboBox(QWidget *parent):QComboBox(pa
 //========================================================================================================================
 
 void cCGrdOrientationComboBox::SetCurrentBrush(cBrushDefinition *TheBrush) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCGrdOrientationComboBox::SetCurrentBrush");
     if (STOPMAJ) return;
     Brush=TheBrush;
     setCurrentIndex(Brush->GradientOrientation/3);
@@ -120,7 +115,6 @@ void cCGrdOrientationComboBox::SetCurrentBrush(cBrushDefinition *TheBrush) {
 //========================================================================================================================
 
 cBrushDefinition *cCGrdOrientationComboBox::GetCurrentBrush() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCGrdOrientationComboBox::GetCurrentBrush");
     if (Brush) {
         Brush->GradientOrientation=currentIndex()*3+((QTableWidget *)view())->currentColumn();
         MakeIcons();
@@ -131,7 +125,6 @@ cBrushDefinition *cCGrdOrientationComboBox::GetCurrentBrush() {
 //========================================================================================================================
 
 void cCGrdOrientationComboBox::MakeIcons() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCGrdOrientationComboBox::MakeIcons");
     if (!Brush) return;
     int CurrentRow=currentIndex();
     if (CurrentRow<0) return;
@@ -173,7 +166,6 @@ void cCGrdOrientationComboBox::MakeIcons() {
 //========================================================================================================================
 
 void cCGrdOrientationComboBox::s_ItemSelectionChanged() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCGrdOrientationComboBox::s_ItemSelectionChanged");
     STOPMAJ=true;
     setCurrentIndex(((QTableWidget *)view())->currentRow());
     MakeIcons();

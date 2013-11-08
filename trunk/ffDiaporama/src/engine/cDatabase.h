@@ -135,6 +135,8 @@ public:
 
     explicit                cFilesTable(cDatabase *Database);
 
+    virtual bool            DoUpgradeTableVersion(qlonglong CurrentVersion);
+
     qlonglong               GetFileKey(qlonglong FolderKey,QString ShortName,int MediaFileType);
     QString                 GetShortName(qlonglong FileKey);
     QString                 GetFileName(qlonglong FileKey);

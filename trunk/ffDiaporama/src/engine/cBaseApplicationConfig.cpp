@@ -118,7 +118,7 @@ bool CheckFolder(QString FileToTest,QString PathToTest) {
     if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();
     bool IsFound=QFileInfo(Path+FileToTest).exists();
     if (IsFound) QDir::setCurrent(Path);
-    ToLog(LOGMSG_INFORMATION,QString("Try to find datas in %1 %2").arg(AdjustDirForOS(Path)+FileToTest).arg(IsFound));
+    ToLog(LOGMSG_INFORMATION,QString("Try to find data in %1 %2").arg(QDir::toNativeSeparators(Path)+FileToTest).arg(IsFound));
     return IsFound;
 }
 
@@ -136,7 +136,7 @@ bool CheckFolder(QString FileToTest,QString PathToTest) {
 bool SetWorkingPath(char * const argv[],QString ApplicationName,QString ConfigFileExt) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:SetWorkingPath");
     QString StartupDir=QFileInfo(argv[0]).absolutePath();
-    ToLog(LOGMSG_INFORMATION,"StartupDir "+AdjustDirForOS(StartupDir));
+    ToLog(LOGMSG_INFORMATION,"StartupDir "+QDir::toNativeSeparators(StartupDir));
     QDir::setCurrent(StartupDir);
 
     QString FileToTest  =QString("%1%2").arg(ApplicationName).arg(ConfigFileExt);
@@ -156,7 +156,7 @@ bool SetWorkingPath(char * const argv[],QString ApplicationName,QString ConfigFi
         ToLog(LOGMSG_INFORMATION,QString("Critical error : Impossible to find global configuration file (%1%2)").arg(ApplicationName).arg(ConfigFileExt));
         exit(1);
     }
-    ToLog(LOGMSG_INFORMATION,"Set working path to "+AdjustDirForOS(QDir::currentPath()));
+    ToLog(LOGMSG_INFORMATION,"Set working path to "+QDir::toNativeSeparators(QDir::currentPath()));
 
     return true;
 }
@@ -315,7 +315,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
 
     // Initialise all variables and set them default value
     ParentWindow            =NULL;
-    StartingPath            =AdjustDirForOS(QDir::currentPath());
+    StartingPath            =QDir::toNativeSeparators(QDir::currentPath());
     this->ForceLanguage     =ForceLanguage;
     MainWinState            =false;                                                        // WindowsSettings-ismaximized
     RestoreWindow           =true;                                                         // if true then restore windows size and position
@@ -525,9 +525,9 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
     int             errorLine,errorColumn;
     bool            IsOk=true;
 
-    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Read configuration file")+" "+AdjustDirForOS(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Read configuration file")+" "+QDir::toNativeSeparators(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        ToLog(LOGMSG_WARNING,QApplication::translate("MainWindow","Error reading configuration file","Error message")+" "+AdjustDirForOS(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
+        ToLog(LOGMSG_WARNING,QApplication::translate("MainWindow","Error reading configuration file","Error message")+" "+QDir::toNativeSeparators(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
         IsOk=false;
     }
 
@@ -535,7 +535,7 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
         QTextStream in(&file);
         in.setCodec("UTF-8");
         if (!domDocument.setContent(in.readAll(),true,&errorStr,&errorLine,&errorColumn)) {
-            ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error reading content of configuration file","Error message")+" "+AdjustDirForOS(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error reading content of configuration file","Error message")+" "+QDir::toNativeSeparators(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
             IsOk=false;
         }
 
@@ -545,7 +545,7 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
     if (IsOk) {
         root = domDocument.documentElement();
         if (root.tagName()!=ConfigFileRootName) {
-            ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","The file is not a valid configuration file","Error message")+" "+AdjustDirForOS(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","The file is not a valid configuration file","Error message")+" "+QDir::toNativeSeparators(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
             IsOk=false;
         }
     }

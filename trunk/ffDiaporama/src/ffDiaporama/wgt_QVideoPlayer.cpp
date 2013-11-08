@@ -413,7 +413,7 @@ void wgt_QVideoPlayer::s_SliderReleased() {
     IsSliderProcess  = false;
     s_SliderMoved(ActualPosition);
     // Restore saved pause state
-    if (!PreviousPause) SetPlayerToPlay(); //else if (FileInfo!=NULL) SendToMPlayer("pause\n");
+    if (!PreviousPause) SetPlayerToPlay();
 }
 
 //============================================================================================
@@ -449,7 +449,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             cDiaporamaObjectInfo *Frame=ImageList.DetachFirstImage();
 
             // Display frame
-            if (Frame->RenderedImage) ui->MovieFrame->SetImage(Frame->RenderedImage->scaledToHeight(ui->MovieFrame->height()));
+            if (!Frame->RenderedImage.isNull()) ui->MovieFrame->SetImage(Frame->RenderedImage.scaledToHeight(ui->MovieFrame->height()));
 
             // If Diaporama mode and needed, set Diaporama to another object
             if (Diaporama) {
@@ -504,7 +504,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
             cDiaporamaObjectInfo *Frame=ImageList.DetachFirstImage();     // Then detach frame from the ImageList
             // Display frame
-            ui->MovieFrame->SetImage(Frame->RenderedImage->scaledToHeight(ui->MovieFrame->height()));
+            ui->MovieFrame->SetImage(Frame->RenderedImage.scaledToHeight(ui->MovieFrame->height()));
 
             // If needed, set Diaporama to another object
             if (Diaporama->CurrentCol!=Frame->CurrentObject_Number) {
@@ -689,9 +689,7 @@ void wgt_QVideoPlayer::PrepareImage(bool SoundWanted,bool AddStartPos,cDiaporama
     Diaporama->LoadSources(Frame,W,H,true,AddStartPos);
 
     // Do Assembly
-    if ((!PreviousFrame)||(PreviousFrame->FreeRenderedImage))
-        ThreadAssembly.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::StartThreadAssembly,ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,W,H,SoundWanted));
-        else StartThreadAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,W,H,SoundWanted);
+    ThreadAssembly.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::StartThreadAssembly,ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,W,H,SoundWanted));
 }
 
 void wgt_QVideoPlayer::StartThreadAssembly(double PCT,cDiaporamaObjectInfo *Frame,int W,int H,bool SoundWanted) {
@@ -713,12 +711,11 @@ void wgt_QVideoPlayer::PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Posi
     ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::PrepareVideoFrame");
     QImage *Temp=FileInfo->ImageAt(true,Position,&Music,Deinterlace,1,false,true);
     if (Temp) {
-        QImage *Temp2=new QImage(Temp->scaledToHeight(ui->MovieFrame->height()));
-        NewFrame->RenderedImage=Temp2;
+        NewFrame->RenderedImage=QImage(Temp->scaledToHeight(ui->MovieFrame->height()));
         delete Temp;
         for (int j=0;j<Music.NbrPacketForFPS;j++) MixedMusic.AppendPacket(Music.CurrentPosition,Music.DetachFirstPacket());
     }
-    if (NewFrame->RenderedImage) ImageList.AppendImage(NewFrame);
+    if (!NewFrame->RenderedImage.isNull()) ImageList.AppendImage(NewFrame);
         else delete NewFrame;
 }
 //============================================================================================

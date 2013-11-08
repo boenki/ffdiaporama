@@ -41,8 +41,6 @@
 //====================================================================================================================
 
 QCustomFolderTree::QCustomFolderTree(QWidget *parent):QTreeWidget(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::QCustomFolderTree");
-
     ApplicationConfig       =NULL;
     IsRemoveAllowed         =false;
     IsRenameAllowed         =false;
@@ -56,8 +54,6 @@ QCustomFolderTree::QCustomFolderTree(QWidget *parent):QTreeWidget(parent) {
 //====================================================================================================================
 
 void QCustomFolderTree::InitDrives() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::InitDrives");
-
     foreach(cDriveDesc HDD,ApplicationConfig->DriveList->List)
     #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
         if (HDD.Path.startsWith("/media/")
@@ -102,8 +98,6 @@ QAction *QCustomFolderTree::CreateMenuAction(QIcon Icon,QString Text,int Data,bo
 }
 
 void QCustomFolderTree::s_ContextMenu(const QPoint) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::s_ContextMenu");
-
     QMenu   *ContextMenu=new QMenu(this);
     ContextMenu->addAction(CreateMenuAction(QApplication::style()->standardIcon(QStyle::SP_BrowserReload),QApplication::translate("QCustomFolderTree","Refresh all"),1,false,false));       //":/img/Refresh.png"
     ContextMenu->addAction(CreateMenuAction(QApplication::style()->standardIcon(QStyle::SP_BrowserReload),QApplication::translate("QCustomFolderTree","Refresh from here"),2,false,false)); //":/img/Refresh.png"
@@ -131,7 +125,7 @@ void QCustomFolderTree::s_ContextMenu(const QPoint) {
                     if (FolderName.startsWith("~")) FolderName=QDir::homePath()+FolderName.mid(1);
                     #else
                         if (FolderName.startsWith(PersonalFolder)) FolderName=QDir::homePath()+FolderName.mid(PersonalFolder.length());
-                        FolderName=AdjustDirForOS(FolderName);
+                        FolderName=QDir::toNativeSeparators(FolderName);
                     #endif
                     if (QDir().mkdir(FolderName)) RefreshItemByPath(GetFolderPath(currentItem(),true),false); else {
                         QString ErrorMsg=QString(QApplication::translate("QCustomFolderTree","Error %1:")).arg(errno)+QString().fromLocal8Bit(strerror(errno));
@@ -156,14 +150,12 @@ void QCustomFolderTree::s_ContextMenu(const QPoint) {
 //      FilePath : Path to check
 
 bool QCustomFolderTree::IsFolderHaveChild(QString FilePath) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QTreeWidgetItem::IsFolderHaveChild");
-
     if (FilePath.startsWith(QApplication::translate("QCustomFolderTree","Clipart"))) FilePath=ClipArtFolder+FilePath.mid(QApplication::translate("QCustomFolderTree","Clipart").length());
     #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
     if (FilePath.startsWith("~")) FilePath=QDir::homePath()+FilePath.mid(1);
     #else
         if (FilePath.startsWith(PersonalFolder)) FilePath=QDir::homePath()+FilePath.mid(PersonalFolder.length());
-        FilePath=AdjustDirForOS(FilePath);
+        FilePath=QDir::toNativeSeparators(FilePath);
     #endif
     QFileInfoList List=QDir(FilePath).entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot|(ApplicationConfig->ShowHiddenFilesAndDir?QDir::Hidden:QDir::Dirs));
     int i=0; while (i<List.count()) if ((ApplicationConfig->ShowHiddenFilesAndDir)||(!List[i].fileName().startsWith("."))) i++; else List.removeAt(i);
@@ -175,8 +167,6 @@ bool QCustomFolderTree::IsFolderHaveChild(QString FilePath) {
 //      FilePath : Path to check
 
 bool QCustomFolderTree::IsReadOnlyDrive(QString Folder) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QTreeWidgetItem::IsReadOnlyDrive");
-
     bool IsReadOnly=false;
     for (int i=0;i<ApplicationConfig->DriveList->List.count();i++) if (Folder.startsWith(ApplicationConfig->DriveList->List[i].Path)) {
         IsReadOnly=ApplicationConfig->DriveList->List[i].IsReadOnly;
@@ -192,8 +182,6 @@ bool QCustomFolderTree::IsReadOnlyDrive(QString Folder) {
 //      FilePath : Path to get Icon
 
 QTreeWidgetItem *QCustomFolderTree::CreateItem(QString Text,QString FilePath,QIcon Icon) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::CreateItem");
-
     QTreeWidgetItem *Current=new QTreeWidgetItem();
     Current->setText(0,Text);
     Current->setIcon(0,Icon);
@@ -211,8 +199,6 @@ QTreeWidgetItem *QCustomFolderTree::CreateItem(QString Text,QString FilePath,QIc
 //      TreeMode : if true, don't make alias interpretation
 
 QString QCustomFolderTree::GetFolderPath(const QTreeWidgetItem *Item,bool TreeMode) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::GetFolderPath");
-
     if (!Item) return "";
 
     QString FilePath;
@@ -250,8 +236,6 @@ QString QCustomFolderTree::GetFolderPath(const QTreeWidgetItem *Item,bool TreeMo
 // Public utility function to get Path from from the current selected Item
 
 QString QCustomFolderTree::GetCurrentFolderPath() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::GetCurrentFolderPath");
-
     return GetFolderPath(currentItem(),false);
 }
 
@@ -260,7 +244,6 @@ QString QCustomFolderTree::GetCurrentFolderPath() {
 // overloaded function use const !
 
 void QCustomFolderTree::s_itemExpanded(QTreeWidgetItem *item) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::expandItem");
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     // Expand node if necessary
@@ -278,7 +261,7 @@ void QCustomFolderTree::s_itemExpanded(QTreeWidgetItem *item) {
             if (Folder.startsWith("~")) Folder=QDir::homePath()+Folder.mid(1);
         #else
             if (Folder.startsWith(PersonalFolder)) Folder=QDir::homePath()+Folder.mid(PersonalFolder.length());
-            Folder=AdjustDirForOS(Folder);
+            Folder=QDir::toNativeSeparators(Folder);
         #endif
 
         // remove tag to sub item
@@ -289,7 +272,7 @@ void QCustomFolderTree::s_itemExpanded(QTreeWidgetItem *item) {
         #ifdef Q_OS_WIN
             bool IsPersonalFolder=Folder.startsWith(PersonalFolder);
             if (IsPersonalFolder) Folder=QDir::homePath()+Folder.mid(PersonalFolder.length());
-            Folder=AdjustDirForOS(Folder);
+            Folder=QDir::toNativeSeparators(Folder);
         #endif
         Directorys=QDir(Folder).entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot|(ApplicationConfig->ShowHiddenFilesAndDir?QDir::Hidden:QDir::Dirs));
         i=0; while (i<Directorys.count()) if ((ApplicationConfig->ShowHiddenFilesAndDir)||(!Directorys[i].fileName().startsWith("."))) i++; else Directorys.removeAt(i);
@@ -322,18 +305,16 @@ void QCustomFolderTree::s_itemExpanded(QTreeWidgetItem *item) {
 //====================================================================================================================
 
 cDriveDesc *QCustomFolderTree::SearchRealDrive(QString Path) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::SearchRealDrive");
-
     #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
         if (Path.startsWith("~")) Path=QDir::homePath()+Path.mid(1);
     #else
         if (Path.startsWith(PersonalFolder)) Path=QDir::homePath()+Path.mid(PersonalFolder.length());
-        Path=AdjustDirForOS(Path);
+        Path=QDir::toNativeSeparators(Path);
     #endif
 
     if (Path.endsWith(QDir::separator()))  Path=Path=Path.left(Path.length()-1);    // Remove endest separator
     if (QDir(Path).canonicalPath()!="")    Path=QDir(Path).canonicalPath();         // Convert path to physical path
-    Path=AdjustDirForOS(Path);
+    Path=QDir::toNativeSeparators(Path);
     if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();             // Add separtor to find drive in our list
     for (int i=0;i<ApplicationConfig->DriveList->List.count();i++)
         if ((ApplicationConfig->DriveList->List[i].Path!=QString("/"))&&(Path.startsWith(ApplicationConfig->DriveList->List[i].Path)))
@@ -346,8 +327,6 @@ cDriveDesc *QCustomFolderTree::SearchRealDrive(QString Path) {
 //====================================================================================================================
 
 QString QCustomFolderTree::RealPathToTreePath(QString Path) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::RealPathToTreePath");
-
     for (int i=0;i<ApplicationConfig->DriveList->List.count();i++) if ((ApplicationConfig->DriveList->List[i].Path!=QString("/"))&&(Path.startsWith(ApplicationConfig->DriveList->List[i].Path))) {
         Path=ApplicationConfig->DriveList->List[i].Label+Path.mid(ApplicationConfig->DriveList->List[i].Path.length()-1);
         break;
@@ -364,8 +343,6 @@ QString RemoveLabel(QString Path) {
 }
 
 void QCustomFolderTree::SetSelectItemByPath(QString Path) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::SetSelectedItemByPath");
-
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     setUpdatesEnabled(false);
 
@@ -379,7 +356,7 @@ void QCustomFolderTree::SetSelectItemByPath(QString Path) {
     #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
         if (Path.startsWith("~")) Path=PersonalFolder+Path.mid(1);
     #else
-        Path=AdjustDirForOS(Path);
+        Path=QDir::toNativeSeparators(Path);
         // Remove labels
         int StartLabel=Path.indexOf("[");
         int EndLabel  =(StartLabel>0?Path.indexOf("]\\"):0);
@@ -433,7 +410,7 @@ void QCustomFolderTree::SetSelectItemByPath(QString Path) {
                 if (RealPath.startsWith("~")) RealPath=QDir::homePath()+RealPath.mid(1);
                 #else
                 if (RealPath.startsWith(PersonalFolder)) RealPath=QDir::homePath()+RealPath.mid(PersonalFolder.length());
-                RealPath=AdjustDirForOS(RealPath);
+                RealPath=QDir::toNativeSeparators(RealPath);
                 #endif
                 Directorys=QDir(RealPath).entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot|(ApplicationConfig->ShowHiddenFilesAndDir?QDir::Hidden:QDir::Dirs));
                 int z=0; while (z<Directorys.count()) if ((ApplicationConfig->ShowHiddenFilesAndDir)||(!Directorys[z].fileName().startsWith("."))) z++; else Directorys.removeAt(z);
@@ -478,8 +455,7 @@ QString CleanTextPath(QString Source) {
 #endif
 
 void QCustomFolderTree::RefreshItemByPath(QString Path,bool RefreshAll,int Level) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::SetSelectedItemByPath");
-    Path=AdjustDirForOS(Path);
+    Path=QDir::toNativeSeparators(Path);
     QString RealPath=Path;
     int     i,j;
 
@@ -623,8 +599,6 @@ void QCustomFolderTree::RefreshItemByPath(QString Path,bool RefreshAll,int Level
 //====================================================================================================================
 
 void QCustomFolderTree::DeleteChildItem(QTreeWidgetItem *Item) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::DeleteChildItem");
-
     while (Item->childCount()!=0) {
         QTreeWidgetItem *SubItem=Item->child(0);
         DeleteChildItem(SubItem);
@@ -636,8 +610,6 @@ void QCustomFolderTree::DeleteChildItem(QTreeWidgetItem *Item) {
 //====================================================================================================================
 
 void QCustomFolderTree::RefreshDriveList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::RefreshDriveList");
-
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ApplicationConfig->DriveList->UpdateDriveList();
     int i=0;

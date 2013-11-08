@@ -25,8 +25,6 @@
 //*********************************************************************************************************************************************
 
 cSoundBlockList::cSoundBlockList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::cSoundBlockList");
-
     CurrentTempSize     =0;                                                                 // Amount of data in the TempData buffer
     CurrentPosition     =-1;
     SoundPacketSize     =MAXSOUNDPACKETSIZE;                                                // Size of a packet (depending on FPS)
@@ -42,8 +40,6 @@ cSoundBlockList::cSoundBlockList() {
 //====================================================================================================================
 
 cSoundBlockList::~cSoundBlockList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::~cSoundBlockList");
-
     ClearList();
     if (TempData) {
         av_free(TempData);
@@ -55,8 +51,6 @@ cSoundBlockList::~cSoundBlockList() {
 // Prepare and calculate values for a frame rate
 //====================================================================================================================
 void cSoundBlockList::SetFPS(double TheWantedDuration,int TheChannels,int64_t TheSamplingRate,enum AVSampleFormat TheSampleFormat) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::SetFPS");
-
     // Adjust value for 6 FPS (because rounded value make seek of audio files)
     if ((TheWantedDuration>166)&&(TheWantedDuration<167)) TheWantedDuration=166;
 
@@ -85,8 +79,6 @@ void cSoundBlockList::SetFPS(double TheWantedDuration,int TheChannels,int64_t Th
 // Prepare and calculate values for a frame size
 //====================================================================================================================
 void cSoundBlockList::SetFrameSize(int FrameSize,int TheChannels,int64_t TheSamplingRate,enum AVSampleFormat TheSampleFormat) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::SetFrameSize");
-
     ClearList();
     SamplingRate   =TheSamplingRate;
     SampleFormat   =TheSampleFormat;
@@ -106,7 +98,6 @@ void cSoundBlockList::SetFrameSize(int FrameSize,int TheChannels,int64_t TheSamp
 // Clear the list (make av_free of each packet)
 //====================================================================================================================
 void cSoundBlockList::ClearList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::ClearList");
     while (List.count()>0) {
         int16_t *Packet=DetachFirstPacket();
         if (Packet) av_free(Packet);
@@ -119,7 +110,6 @@ void cSoundBlockList::ClearList() {
 // Detach the first packet of the list (do not make av_free)
 //====================================================================================================================
 int16_t *cSoundBlockList::DetachFirstPacket() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::DetachFirstPacket");
     Mutex.lock();
     int16_t *Ret=NULL;
     if (List.count()>0) {
@@ -134,7 +124,6 @@ int16_t *cSoundBlockList::DetachFirstPacket() {
 // Append a packet to the end of the list
 //====================================================================================================================
 void cSoundBlockList::AppendPacket(int64_t Position,int16_t *PacketToAdd) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::AppendPacket");
     Mutex.lock();
     if (CurrentPosition==-1)
         CurrentPosition=Position;
@@ -146,7 +135,6 @@ void cSoundBlockList::AppendPacket(int64_t Position,int16_t *PacketToAdd) {
 // Append a packet of null sound to the end of the list
 //====================================================================================================================
 void cSoundBlockList::AppendNullSoundPacket(int64_t Position) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::AppendNullSoundPacket");
     AppendPacket(Position,NULL);
 }
 
@@ -154,7 +142,6 @@ void cSoundBlockList::AppendNullSoundPacket(int64_t Position) {
 // Synchronise sound and video by adding null sound to catch VideoPosition
 //====================================================================================================================
 void cSoundBlockList::AdjustSoundPosition(int64_t SoundPosition,int64_t VideoPosition) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::AdjustSoundPosition");
     if ((CurrentTempSize+SoundPacketSize*List.count())==0) {
         if (SoundPosition>VideoPosition) {
             int64_t Delay=int64_t((qreal(SoundPosition-VideoPosition)/1000000)*SamplingRate)*SampleBytes*Channels;
@@ -192,8 +179,6 @@ void cSoundBlockList::AdjustSoundPosition(int64_t SoundPosition,int64_t VideoPos
 // Append data to the list creating packet as necessary and filling TempData
 //====================================================================================================================
 void cSoundBlockList::AppendData(int64_t Position,int16_t *Data,int64_t DataLen) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::AppendData");
-
     u_int8_t *CurData=(u_int8_t *)Data;
     // Cut data to Packet
     while ((DataLen+CurrentTempSize>=SoundPacketSize)) {
@@ -233,8 +218,6 @@ void cSoundBlockList::AppendData(int64_t Position,int16_t *Data,int64_t DataLen)
 // Note : the 2 packet are free during process
 //====================================================================================================================
 void cSoundBlockList::MixAppendPacket(int64_t Position,int16_t *PacketA,int16_t *PacketB) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::MixAppendPacket");
-
     int32_t mix;
     if ((PacketA==NULL)&&(PacketB==NULL))           AppendNullSoundPacket(Position);
         else if ((PacketA!=NULL)&&(PacketB==NULL))  AppendPacket(Position,PacketA);
@@ -258,8 +241,6 @@ void cSoundBlockList::MixAppendPacket(int64_t Position,int16_t *PacketA,int16_t 
 // Change volume of a packet
 //====================================================================================================================
 void cSoundBlockList::ApplyVolume(int PacketNumber,double VolumeFactor) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::ApplyVolume");
-
     if (PacketNumber>=List.count()) return;
     int16_t *Buf1=List[PacketNumber];
     if (Buf1==NULL) return;

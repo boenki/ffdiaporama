@@ -4,17 +4,17 @@
 <context>
     <name>CommonErrorMsg</name>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="270"/>
+        <location filename="../src/engine/_GlobalDefines.cpp" line="281"/>
         <source>Format not supported</source>
         <translation>Формат не поддерживается</translation>
     </message>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="271"/>
+        <location filename="../src/engine/_GlobalDefines.cpp" line="282"/>
         <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
         <translation>Это приложение поддерживает звуковую дорожку только с неподписанным 8 битным или подписанным 16 битным форматом сэмпла</translation>
     </message>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="272"/>
+        <location filename="../src/engine/_GlobalDefines.cpp" line="283"/>
         <source>This application support only mono or stereo audio track</source>
         <translation>Данное приложение поддерживает только моно/стерео аудиотреки</translation>
     </message>
@@ -22,12 +22,12 @@
 <context>
     <name>CommonInfoMsg</name>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="275"/>
+        <location filename="../src/engine/_GlobalDefines.cpp" line="286"/>
         <source>Select a file</source>
         <translation>Выбор файла</translation>
     </message>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="276"/>
+        <location filename="../src/engine/_GlobalDefines.cpp" line="287"/>
         <source>Error</source>
         <comment>Title of dialog box displaying an error</comment>
         <translation>Ошибка</translation>
@@ -1149,7 +1149,7 @@ See help for more details!</source>
 Смотрите справку для более подробной информации!</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="758"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="725"/>
         <source>MM/dd/yyyy</source>
         <comment>Default Date format : dd/MM/yyyy or MM/dd/yyyy or yyyy/MM/dd or dd.MM.yyyy and so on...</comment>
         <translation>MM/dd/yyyy</translation>
@@ -1659,202 +1659,202 @@ Yellow: The component works partially
         <translation>&amp;Справка</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="102"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="114"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="121"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="128"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="160"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="167"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="171"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="175"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="96"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="108"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="115"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="122"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="147"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="154"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="158"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="162"/>
         <source>available</source>
         <translation>доступно</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="65"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="59"/>
         <source>Operating system version: %1 - %2 Core/CPU</source>
         <translation>Версия операционной системы: %1 - %2 Ядра CPU</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="68"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="62"/>
         <source>Application architecture: 32 bits</source>
         <translation>Архитектура приложения: 32 бита</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="70"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="64"/>
         <source>Application architecture: 64 bits</source>
         <translation>Архитектура приложения: 64 бита</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="72"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="66"/>
         <source>User config file: %1</source>
         <translation>Пользовательский конфигурационный файл: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="73"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="67"/>
         <source>Global config file: %1</source>
         <translation>Глобальный конфигурационный файл: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="74"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="68"/>
         <source>Starting path: %1</source>
         <translation>Путь запуска: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="75"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="69"/>
         <source>Working path set to: %1</source>
         <translation>Рабочий путь: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="76"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="70"/>
         <source>Search path set to: %1</source>
         <translation>Путь поиска: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="78"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="72"/>
         <source>The background library contains %1 pictures</source>
         <translation>Библиотека фонов содержит %1 фотографий</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="79"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="73"/>
         <source>The non-luma library contains %1 transitions</source>
         <translation>Библиотека не luma переходов содержит %1 переходов</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="80"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="74"/>
         <source>The luma library contains %1 transitions</source>
         <translation>Библиотека luma переходов содержит %1 переходов</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="82"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="76"/>
         <source>SDL version: %1.%2.%3-Licence=GPL version 2.1 or later</source>
         <translation>SDL версия: %1.%2.%3-Лицензия=GPL версии 2.1 или позже</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="84"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="78"/>
         <source>fmt_filters version:0.6.4-Licence=LGPL</source>
         <translation>fmt_filters версии:0.6.4-Лицензия=LGPL</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="86"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="80"/>
         <source>qimageblitz version:0.6.6-Licence=LGPL</source>
         <translation>qimageblitz версия:0.6.6-Лицензия=LGPL</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="89"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="83"/>
         <source>QT version: %1</source>
         <translation>QT версии: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="90"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="84"/>
         <source>Detected system locale: %1</source>
         <translation>Обнаруженный язык системы: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="91"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="85"/>
         <source>Translation file loaded: %1</source>
         <translation>Загруженный файл перевода: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="95"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="89"/>
         <source>LibExiv2 version:</source>
         <translation>LibExiv2 версии: </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="102"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="114"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="121"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="128"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="161"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="167"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="171"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="175"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="96"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="108"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="115"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="122"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="148"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="154"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="158"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="162"/>
         <source>not available</source>
         <translation>не доступно</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="102"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="96"/>
         <source>LibExiv2 support for preview image</source>
         <translation>LibExiv2 поддержка предварительного просмотра изображений</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="108"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="102"/>
         <source>TAGLib version:</source>
         <translation>TAGLib версии:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="114"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="108"/>
         <source>TAGLib support for FLAC</source>
         <translation>TAGLib поддержка FLAC</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="121"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="115"/>
         <source>TAGLib support for ASF/WMA</source>
         <translation>TAGLib поддержка ASF/WMA</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="128"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="122"/>
         <source>TAGLib support for M4A/MP4</source>
         <translation>TAGLib поддержка M4A/MP4</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="135"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="129"/>
         <source>LIBAV general version:</source>
         <translation>Libav общая версия: </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="146"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="136"/>
         <source>LIBAVUTIL version: %1.%2.%3.%4</source>
         <translation>LIBAVUTIL версия: %1.%2.%3.%4</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="147"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="137"/>
         <source>LIBAVCODEC version: %1.%2.%3.%4</source>
         <translation>LIBAVCODEC версия: %1.%2.%3.%4</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="148"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="138"/>
         <source>LIBAVFORMAT version: %1.%2.%3.%4</source>
         <translation>LIBAVFORMAT версия: %1.%2.%3.%4</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="149"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="139"/>
         <source>LIBAVFILTER version: %1.%2.%3.%4</source>
         <translation>LIBAVFILTER версия: %1.%2.%3.%4</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="150"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="140"/>
         <source>LIBSWSCALE version: %1.%2.%3.%4</source>
         <translation>LIBSWSCALE версия: %1.%2.%3.%4</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="154"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="142"/>
         <source>LIBAVRESAMPLE version: %1.%2.%3.%4</source>
         <translation>LIBAVRESAMPLE версия: %1.%2.%3.%4</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="156"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="144"/>
         <source>LIBSWRESAMPLE version: %1.%2.%3.%4</source>
         <translation>LIBSWRESAMPLE версия: %1.%2.%3.%4</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="166"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="153"/>
         <source>Audio Codecs</source>
         <translation>Аудио кодеки</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="170"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="157"/>
         <source>Video Codecs</source>
         <translation>Видео кодеки</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="174"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="161"/>
         <source>Container Formats</source>
         <translation>Форматы файлов</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="160"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="161"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="147"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="148"/>
         <source>Lossless rendering</source>
         <translation>Сжатие &quot;без потерь&quot;</translation>
     </message>
@@ -1912,70 +1912,70 @@ Yellow: The component works partially
         <translation>&amp;Отмена</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="62"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="58"/>
         <source>% done;Destination file;Source file</source>
         <translation>% выполнения;Файл назначения;Исходный файл</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="91"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="86"/>
         <source>Error: Project subfolder can&apos;t be empty</source>
         <comment>Error message</comment>
         <translation>Ошибка: Подпапка проекта не может быть пустой</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="107"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="102"/>
         <source>Export done</source>
         <comment>Error message</comment>
         <translation>Экспорт завершен</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="135"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="128"/>
         <source>Export cancel</source>
         <comment>Error message</comment>
         <translation>Экспорт отменен</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="171"/>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="206"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="162"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="196"/>
         <source>not started</source>
         <translation>не запущено</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="203"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="193"/>
         <source>Project file</source>
         <translation>Файл проекта</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="221"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="210"/>
         <source>Error during the creation of the %1 folder</source>
         <comment>Error message</comment>
         <translation>Ошибка при создании папки %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="227"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="216"/>
         <source>started</source>
         <translation>запущено</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="230"/>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="242"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="219"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="231"/>
         <source>done</source>
         <translation>завершено</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="231"/>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="240"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="220"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="229"/>
         <source>error</source>
         <translation>ошибка</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="233"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="222"/>
         <source>Error during the export of the project file</source>
         <comment>Error message</comment>
         <translation>Ошибка при экспорте файла проекта</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="239"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="228"/>
         <source>Error during the copy of %1 to %2</source>
         <comment>Error message</comment>
         <translation>Ошибка при копировании %1 в %2</translation>
@@ -2084,7 +2084,7 @@ Yellow: The component works partially
         <translation>Показать информацию о файле</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="411"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="404"/>
         <source>The selection can&apos;t include folders.</source>
         <translation>Выбранное не содержит папок.</translation>
     </message>
@@ -2618,53 +2618,53 @@ Remark: To make animations of text, you have to create at least 2 shots then:
         <translation>Добавить новый клипарт блок текста</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="141"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="142"/>
         <source>None</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="142"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="143"/>
         <source>Shadow upper left</source>
         <translation>Тень вверху слева</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="143"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="144"/>
         <source>Shadow upper right</source>
         <translation>Тень вверху справа</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="144"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="145"/>
         <source>Shadow bottom left</source>
         <translation>Тень внизу слева</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="145"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="146"/>
         <source>Shadow bottom right</source>
         <translation>Тень внизу справа</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="890"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="875"/>
         <source>Remove block</source>
         <translation>Удалить блок</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="890"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="875"/>
         <source>Are you sure you want to delete this block?</source>
         <translation>Удалить этот блок?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="893"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="878"/>
         <source>Remove blocks</source>
         <translation>Удалить блоки</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="893"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="878"/>
         <source>Are you sure you want to delete these blocks?</source>
         <translation>Удалить эти блоки?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="958"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1022"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="943"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1007"/>
         <source>Text</source>
         <comment>Default text value</comment>
         <translation>Текст</translation>
@@ -3246,7 +3246,7 @@ When rulers are enabled, the mouse will automatically snap to the edges of the p
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="148"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="195"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="213"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="843"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="827"/>
         <source>Full screen size</source>
         <translation>Во весь экран</translation>
     </message>
@@ -3254,7 +3254,7 @@ When rulers are enabled, the mouse will automatically snap to the edges of the p
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="149"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="196"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="214"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="845"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="829"/>
         <source>TV margins</source>
         <translation>TV поля</translation>
     </message>
@@ -3262,7 +3262,7 @@ When rulers are enabled, the mouse will automatically snap to the edges of the p
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="150"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="197"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="215"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="847"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="831"/>
         <source>Two thirds screen</source>
         <translation>Две трети экрана</translation>
     </message>
@@ -3270,7 +3270,7 @@ When rulers are enabled, the mouse will automatically snap to the edges of the p
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="151"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="198"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="216"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="849"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="833"/>
         <source>Half screen</source>
         <translation>Половина экрана</translation>
     </message>
@@ -3278,7 +3278,7 @@ When rulers are enabled, the mouse will automatically snap to the edges of the p
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="152"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="199"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="217"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="851"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="835"/>
         <source>Third screen</source>
         <translation>Треть экрана</translation>
     </message>
@@ -3286,37 +3286,37 @@ When rulers are enabled, the mouse will automatically snap to the edges of the p
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="153"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="200"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="218"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="853"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="837"/>
         <source>Quarter screen</source>
         <translation>Четверть экрана</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="155"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="865"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="868"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="849"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="852"/>
         <source>Unlock</source>
         <translation>Разблокировать</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="194"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="212"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="840"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="824"/>
         <source>Real image size</source>
         <translation>Реальный размер</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="836"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="820"/>
         <source>Custom size</source>
         <translation>Заданный размер</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="869"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="853"/>
         <source>Lock to this geometry</source>
         <translation>Заблокировать в этой геометрии</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="157"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="870"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="854"/>
         <source>Lock to project geometry</source>
         <translation>Заблокировать геометрию проекта</translation>
     </message>
@@ -3790,8 +3790,8 @@ Please select another name!</source>
         <translation>Управление стилями</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgManageStyle/DlgManageStyle.cpp" line="148"/>
-        <location filename="../src/ffDiaporama/DlgManageStyle/DlgManageStyle.cpp" line="154"/>
+        <location filename="../src/ffDiaporama/DlgManageStyle/DlgManageStyle.cpp" line="141"/>
+        <location filename="../src/ffDiaporama/DlgManageStyle/DlgManageStyle.cpp" line="147"/>
         <source>Rename style</source>
         <translation>Переименовать стиль</translation>
     </message>
@@ -3863,12 +3863,12 @@ It concerns as well the name of the style as the associated settings.</source>
         <translation>&amp;Отмена</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgManageStyle/DlgManageStyle.cpp" line="148"/>
+        <location filename="../src/ffDiaporama/DlgManageStyle/DlgManageStyle.cpp" line="141"/>
         <source>New style name:</source>
         <translation>Новое имя стиля:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgManageStyle/DlgManageStyle.cpp" line="155"/>
+        <location filename="../src/ffDiaporama/DlgManageStyle/DlgManageStyle.cpp" line="148"/>
         <source>A style with this name already exist.
 Please select another name!</source>
         <translation>Стиль с таким именем уже существует.
@@ -4495,114 +4495,114 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
         <translation>&amp;Отмена</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="73"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="77"/>
         <source>Advanced render video</source>
         <translation>Дополнительные параметры создания видеофайла</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="74"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="78"/>
         <source>Render lossless video</source>
         <translation>Создать видеофайл без потери качества</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="75"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="79"/>
         <source>Render video for mobil player and smartphone</source>
         <translation>Создать видеофайл для мобильного плеера или смартфона</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="76"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="80"/>
         <source>Render video for multimedia system</source>
         <translation>Создать видеофайл для мультимедиа системы</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="77"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="81"/>
         <source>Render video for the WEB</source>
         <translation>Создать видеофайл для интернета</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="78"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="82"/>
         <source>Export soundtrack</source>
         <translation>Экспорт аудио дорожки</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="108"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="112"/>
         <source>soundtrack</source>
         <comment>Default name for rendering</comment>
         <translation>Аудио дорожка</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="119"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="123"/>
         <source>movie</source>
         <comment>Default name for rendering</comment>
         <translation>Видео</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="420"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="424"/>
         <source>Select destination file</source>
         <translation>Выберите файл назначения</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="654"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="735"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="658"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="804"/>
         <source>Stop rendering</source>
         <translation>Остановить кодирование</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="740"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="809"/>
         <source>Range selection</source>
         <translation>Выбор диапазона</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="741"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="810"/>
         <source>Slide range is defined to incorrect values</source>
         <translation>Диапазон слайдов определен неправильными значениями</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="749"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="818"/>
         <source>Language selection</source>
         <translation>Выбор языка</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="750"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="819"/>
         <source>Language must be empty or an ISO 639 language code (3 characters)
 See help for more details!</source>
         <translation>Поле должно быть пустым или содержать код языка по ISO 639 (3 символа)
 Смотрите справку для более подробной информации!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="757"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="826"/>
         <source>Overwrite file ?</source>
         <translation>Перезаписать файл?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="758"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="827"/>
         <source>The file you selected already exist.
 Do you want to overwrite it ?</source>
         <translation>Выбранный файл уже существует.
 Хотите перезаписать его?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="894"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="963"/>
         <source>Incorrect codec combination!</source>
         <translation>Неправильное сочетание кодеков!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="914"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="983"/>
         <source>Stop rendering process and exit dialog box</source>
         <translation>Остановить кодирование и выйти из диалогового окна</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="949"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1000"/>
         <source>Encoding video</source>
         <translation>Кодирование видео</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1040"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1102"/>
         <source>Job canceled!</source>
         <translation>Задание отменено!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1041"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1103"/>
         <source>Job error!
 Please contact ffDiaporama team</source>
         <translation>Ошибка задания!
@@ -4610,43 +4610,43 @@ Please contact ffDiaporama team</source>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="26"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="776"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="787"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="808"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="894"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1039"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1040"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1041"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="845"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="856"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="877"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="963"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1101"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1102"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1103"/>
         <source>Render video</source>
         <translation>Создание видео</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="839"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="908"/>
         <source>Device model selection</source>
         <translation>Выбор модели устройства</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="840"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="909"/>
         <source>A device model is require!</source>
         <translation>Требуется модель устройства!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="938"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="990"/>
         <source>Encoding sound</source>
         <translation>Кодирование звука</translation>
     </message>
     <message>
-        <location filename="../src/engine/_EncodeVideo.cpp" line="787"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="785"/>
         <source> - Estimated time left : </source>
         <translation>    Прогнозируемое оставшееся время : </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1039"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1101"/>
         <source>Job completed successfully!</source>
         <translation>Задание выполнено успешно!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="143"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="135"/>
         <source>Select destination folder</source>
         <translation>Выберите папку назначения</translation>
     </message>
@@ -5365,7 +5365,7 @@ Note: Hidden video blocks are automatically paused</source>
         <translation>Добавить к шаблонам заключительных титров</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2119"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2105"/>
         <source>Remove block</source>
         <translation>Удалить блок</translation>
     </message>
@@ -5757,158 +5757,158 @@ Information</source>
         <translation>&amp;Отмена</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="214"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="259"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="216"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="261"/>
         <source>None</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="215"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="217"/>
         <source>Shadow upper left</source>
         <translation>Тень слева вверху</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="216"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="218"/>
         <source>Shadow upper right</source>
         <translation>Тень справа вверху</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="217"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="219"/>
         <source>Shadow bottom left</source>
         <translation>Тень слева внизу</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="218"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="220"/>
         <source>Shadow bottom right</source>
         <translation>Тень справа внизу</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="260"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="262"/>
         <source>Multiple block turn</source>
         <translation>Несколько поворотов</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="261"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="263"/>
         <source>Dissolve</source>
         <translation>Растворение</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="264"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="266"/>
         <source>Appear</source>
         <translation>Появление</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="265"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="267"/>
         <source>Disappear</source>
         <translation>Исчезновение</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="266"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="268"/>
         <source>Blink at slow speed</source>
         <translation>Мигание (медленно)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="267"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="269"/>
         <source>Blink at medium speed</source>
         <translation>Мигание (средне)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="268"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="270"/>
         <source>Blink at fast speed</source>
         <translation>Мигание (быстро)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="269"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="271"/>
         <source>Blink at very fast speed</source>
         <translation>Мигание (очень быстро)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1353"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1339"/>
         <source>Slide added in Project title models collection</source>
         <comment>Information message</comment>
         <translation>Слайд добавлен в коллекцию шаблонов названий проекта</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1362"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1348"/>
         <source>Slide added in Chapter title models collection</source>
         <comment>Information message</comment>
         <translation>Слайд добавлен в коллекцию шаблонов названий глав</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1371"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1357"/>
         <source>Slide added in Credit title models collection</source>
         <comment>Information message</comment>
         <translation>Слайд добавлен в коллекцию шаблонов заключительных титров</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1419"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1405"/>
         <source>Are you sure you want to delete this shot?</source>
         <translation>Удалить этот кадр?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1560"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1546"/>
         <source>Lengthened to %1</source>
         <translation>Удлинен на %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2119"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2105"/>
         <source>Are you sure you want to delete this block?</source>
         <translation>Удалить этот блок?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2122"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2108"/>
         <source>Are you sure you want to delete these blocks?</source>
         <translation>Удалить эти блоки?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2122"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2108"/>
         <source>Remove blocks</source>
         <translation>Удалить блоки</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.cpp" line="69"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="177"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="179"/>
         <source>Slide</source>
         <translation>Слайд</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3756"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1419"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1405"/>
         <source>Remove shot</source>
         <translation>Удалить кадр</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1812"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1880"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1798"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1866"/>
         <source>Text</source>
         <comment>Default text value</comment>
         <translation>Текст</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/cCustomBlockTable.cpp" line="172"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="566"/>
         <source>Duration:</source>
         <translation>Продолжительность:</translation>
     </message>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="279"/>
+        <location filename="../src/engine/_GlobalDefines.cpp" line="290"/>
         <source>Correct or reframe image</source>
         <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
         <translation>Кадрирование и коррекция изображения</translation>
     </message>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="280"/>
+        <location filename="../src/engine/_GlobalDefines.cpp" line="291"/>
         <source>Correct, reframe or cut video</source>
         <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
         <translation>Коррекция, кадрирование или обрезка видео</translation>
     </message>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="281"/>
+        <location filename="../src/engine/_GlobalDefines.cpp" line="292"/>
         <source>Define framing and correction of image</source>
         <comment>Tooltip</comment>
         <translation>Настроить кадрирование и коррекцию изображения</translation>
     </message>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="282"/>
+        <location filename="../src/engine/_GlobalDefines.cpp" line="293"/>
         <source>Define framing and correction of image or cut video</source>
         <comment>Tooltip</comment>
         <translation>Настроить кадрирование и коррекцию изображения или обрезку видео</translation>
@@ -6799,7 +6799,7 @@ thumbnail</source>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="55"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1449"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1466"/>
         <source>New project</source>
         <translation>Новый проект</translation>
     </message>
@@ -7410,12 +7410,12 @@ and help</source>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4491"/>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="522"/>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="528"/>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="539"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3143"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3149"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3160"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="524"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="530"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="541"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3168"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3174"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3185"/>
         <source>Add to favorite</source>
         <translation>Добавить в избранное</translation>
     </message>
@@ -7511,8 +7511,8 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4599"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4614"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2426"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3495"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2445"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3523"/>
         <source>Add files to project</source>
         <translation>Добавить файлы в проект</translation>
     </message>
@@ -7528,8 +7528,8 @@ and help</source>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4635"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3564"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3567"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3596"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3599"/>
         <source>Rename file</source>
         <translation>Переименовать файл</translation>
     </message>
@@ -7662,176 +7662,177 @@ and help</source>
         <translation>Найти растровый режим в файле конфигурации</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="318"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="285"/>
         <source>All suported file (</source>
         <translation>Все поддерживаемые файлы (</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="325"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="292"/>
         <source>Image file (</source>
         <translation>Изображения (</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="331"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="298"/>
         <source>Video file (</source>
         <translation>Видео файлы (</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="337"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="304"/>
         <source>Music file (</source>
         <translation>Аудио файлы (</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="561"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="579"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="528"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="567"/>
         <source>Read configuration file</source>
         <translation>Прочитать файл конфигурации</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1148"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2027"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2180"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1133"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2013"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2196"/>
         <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
         <comment>Error message</comment>
         <translation>Это приложение поддерживает аудио дорожку только с неподписанным 8 битным или подписанным 16 битным форматом сэмпла</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1153"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2032"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2190"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1138"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2018"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2206"/>
         <source>This application support only mono or stereo audio track</source>
         <comment>Error message</comment>
         <translation>Это приложение поддерживает только моно или стерео аудио дорожки</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="1657"/>
-        <location filename="../src/engine/_Diaporama.cpp" line="1688"/>
-        <location filename="../src/engine/_Diaporama.cpp" line="2328"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1205"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2106"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1628"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1632"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1643"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2111"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2119"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2137"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2142"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2167"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2181"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2191"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2275"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="1656"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="1687"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="2314"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1190"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2092"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="165"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1644"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1648"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1659"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2127"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2135"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2153"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2158"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2183"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2197"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2207"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2293"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="563"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="589"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="530"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="577"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translation>Ошибка чтения файла конфигурации</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="571"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="594"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="538"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="582"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translation>Ошибка чтения содержимого файла конфигурации</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="581"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="601"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="548"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="589"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translation>Этот файл не является файлом конфигурации</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="715"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="648"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="682"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="634"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
         <translation>Ошибка создания файла конфигурации</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="1451"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="1450"/>
         <source>Title</source>
         <comment>Default slide name when no file</comment>
         <translation>Название</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="1648"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="1647"/>
         <source>The file is not a valid thumbnail file</source>
         <comment>Error message</comment>
         <translation>Файл не является обложкой</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="1654"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="1653"/>
         <source>The file is not a valid title model file</source>
         <comment>Error message</comment>
         <translation>Файл не является шаблоном титров</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="1688"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="1687"/>
         <source>Error creating model file</source>
         <comment>Error message</comment>
         <translation>Ошибка создания файла шаблона</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2328"/>
-        <location filename="../src/engine/_Diaporama.cpp" line="2329"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="2314"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="2315"/>
         <source>Error creating data file</source>
         <comment>Error message</comment>
         <translation>Ошибка создания файла данных</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1608"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1682"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1624"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1698"/>
         <source>Open project file</source>
         <translation>Открыть файл проекта</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1609"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1625"/>
         <source>Impossible to open file </source>
         <translation>Невозможно открыть файл</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1609"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1625"/>
         <source>Do you want to select another file ?</source>
         <translation>Хотите выбрать другой файл?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1612"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1628"/>
         <source>Select another file for </source>
         <translation>Выбрать другой файл</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1620"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1636"/>
         <source>Impossible to open project file %1</source>
         <translation>Невозможно открыть файл проекта %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1627"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2142"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1643"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2158"/>
         <source>Error reading project file</source>
         <comment>Error message</comment>
         <translation>Ошибка чтения файла проекта</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1632"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2137"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1648"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2153"/>
         <source>Error reading content of project file</source>
         <comment>Error message</comment>
         <translation>Ошибка чтения содержимого файла проекта</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1643"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2111"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1659"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2127"/>
         <source>The file is not a valid project file</source>
         <comment>Error message</comment>
         <translation>Этот файл не является файлом проекта</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2119"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2135"/>
         <source>Impossible to import this file :
 Image geometry in this file is not the same than the current project</source>
         <comment>Error message</comment>
@@ -7839,484 +7840,499 @@ Image geometry in this file is not the same than the current project</source>
 геометрия изображения в нем не соответствует текущему проекту</translation>
     </message>
     <message>
-        <location filename="../src/engine/cLuLoImageCache.cpp" line="87"/>
-        <source>Rescale image to 8MPix</source>
-        <translation>Изменить размер изображения до 8Мп</translation>
-    </message>
-    <message>
-        <location filename="../src/engine/cLuLoImageCache.cpp" line="72"/>
+        <location filename="../src/engine/cLuLoImageCache.cpp" line="71"/>
+        <location filename="../src/engine/cLuLoImageCache.cpp" line="157"/>
         <source>Loading file :</source>
         <translation>Загрузка файла:</translation>
     </message>
     <message>
-        <location filename="../src/engine/cLuLoImageCache.cpp" line="95"/>
+        <location filename="../src/engine/cLuLoImageCache.cpp" line="79"/>
         <source>Error allocating memory for render image</source>
         <translation>Ошибка выделения памяти для обработки изображения</translation>
     </message>
     <message>
-        <location filename="../src/engine/cLuLoImageCache.cpp" line="97"/>
+        <location filename="../src/engine/cLuLoImageCache.cpp" line="82"/>
+        <location filename="../src/engine/cLuLoImageCache.cpp" line="173"/>
         <source>Error loading file :</source>
         <translation>Ошибка загрузки файла:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="154"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="152"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="153"/>
+        <source>Init home user database...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="164"/>
+        <source>Error initialising home user database...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="166"/>
+        <source>Error initialising home user database
+ffDiaporama can&apos;t start</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="175"/>
         <source>Starting SDL...</source>
         <translation>Запуск SDL...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="162"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="163"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="183"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="184"/>
         <source>Loading background library...</source>
         <translation>Загрузка библиотек фонов ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="172"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="173"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="188"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="189"/>
+        <source>Loading text frame library...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="193"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="194"/>
         <source>Loading no-luma transitions...</source>
         <translation>Загрузка не luma переходов...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="177"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="178"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="198"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="199"/>
         <source>Loading luma transitions...</source>
         <translation>Загрузка luma переходов...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="185"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="186"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="206"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="207"/>
         <source>Scan drives in computer...</source>
         <translation>Сканирование дисков компьютера...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="190"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="191"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="211"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="212"/>
         <source>Register models...</source>
         <translation>Регистрация шаблонов...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="278"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="279"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="299"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="300"/>
         <source>Init WIKI...</source>
         <translation>Инициализация WIKI...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="636"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="657"/>
         <source>Close application</source>
         <translation>Закрыть программу</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="636"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="657"/>
         <source>Want to save the project before closing?</source>
         <translation>Хотите сохранить проект перед закрытием?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="724"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="745"/>
         <source>A new ffDiaporama release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !</source>
         <translation>Доступна новая версия ffDiaporama. Пожалуйста, обновите ее с http://ffdiaporama.tuxfamily.org !</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="729"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="750"/>
         <source>A new ffDiaporama version is available from WEB site.
 Do you whant do download it now?</source>
         <translation>Новая версия ffDiaporama доступна на сайте.
 Хотите скачать ее сейчас?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="736"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="757"/>
         <source>Your version of ffDiaporama is up to day</source>
         <translation>У вас установлена последняя версия ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1227"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1249"/>
         <source>&lt;html&gt;&lt;body&gt;Visit the ffDiaporama Web site to use the forum,&lt;br&gt;consult tutorials and learn the lastest news:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Посетите сайт ffDiaporama чтобы&lt;br&gt;посмотреть руководство и узнать последние новости:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1412"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1434"/>
         <source>Saving configuration file and applying new configuration ...</source>
         <translation>Сохранение файла конфигурации и применение новой конфигурации ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1449"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1508"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1530"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3376"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1466"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1525"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1547"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3398"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
         <translation>Текущий проект был изменен.
 Сохранить его?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1707"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1723"/>
         <source>Loading slide %1/%2</source>
         <translation>Загрузка слайда %1/%2</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1985"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2032"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2001"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2048"/>
         <source>Add file to project</source>
         <translation>Добавить файл в проект</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2207"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2223"/>
         <source>This video files contains more than one chapter.
 Do you want to create one slide for each chapters ?</source>
         <translation>Этот видеофайл содержит более чем одну главу.
 Хотите создать отдельный слайд для каждой главы ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2642"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2661"/>
         <source>Are you sure you want to remove this slide?</source>
         <translation>Удалить этот слайд?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2646"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2665"/>
         <source>Remove multiple slides</source>
         <translation>Удалить несколько слайдов</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3546"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3578"/>
         <source>Are you sure to delete this file or folder ?
 (Warning: Content will not be moved to trash)</source>
         <translation>Удалить этот файл или папку?
 (Внимание: они не будут перемещены в корзину)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3548"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3580"/>
         <source>Impossible to delete folder!
 Are you sure it is empty?</source>
         <translation>Невозможно удалить папку!
 Вы уверены, что она пустая?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3550"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3582"/>
         <source>Impossible to delete file!</source>
         <translation>Невозможно удалить файл!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="276"/>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="277"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2984"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2985"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="267"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="268"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3009"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3010"/>
         <source>Total duration:</source>
         <translation>Общая продолжительность:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="280"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2988"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="271"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3013"/>
         <source>Total size:%1</source>
         <translation>Общий размер:%1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="287"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2995"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="278"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3020"/>
         <source>%1 audio files</source>
         <translation>аудио файлов - %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="291"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2999"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="282"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3024"/>
         <source>%1 video files</source>
         <translation>видео файлов - %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="295"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3003"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="286"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3028"/>
         <source>%1 image files</source>
         <translation>файлов изображений - %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="299"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3007"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="290"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3032"/>
         <source>%1 ffDiaporama project files</source>
         <translation>файлов проектов ffDiaporama - %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="303"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3011"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="294"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3036"/>
         <source>%1 folders</source>
         <translation>папок - %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="307"/>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="315"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3015"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3023"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="298"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="306"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3040"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3048"/>
         <source>%1 files</source>
         <translation>файлов - %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="308"/>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="316"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3016"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3024"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="299"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="307"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3041"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3049"/>
         <source>Multiple file types</source>
         <translation>Несколько типов файлов</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="350"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3042"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="341"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3067"/>
         <source>Refresh All</source>
         <translation>Обновить все</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="353"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3045"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="344"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3070"/>
         <source>update drive list</source>
         <translation>Обновить список дисков</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="365"/>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="377"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3057"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3069"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="356"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="368"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3082"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3094"/>
         <source>update drive (%1)</source>
         <translation>Обновление дисков (%1)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="381"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3073"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="372"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3098"/>
         <source>update current folder</source>
         <translation>Обновить текущую папку</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="522"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3143"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="524"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3168"/>
         <source>Favorite name:</source>
         <translation>Имя избранного:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3198"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3223"/>
         <source>Impossible to remove file %1 - error %2:%3</source>
         <translation>Невозможно удалить файл%1 - Ошибка:%2:%3</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3203"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3228"/>
         <source>Impossible to remove folder %1 - error %2:%3</source>
         <translation>Невозможно удалить папку%1 - Ошибка:%2:%3</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3228"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3252"/>
         <source>Are you sure to remove this folder ?
 (Warning: Content will not be moved to trash)</source>
         <translation>Удалить эту папку?
 (Внимание: она не будет перемещена в корзину)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3261"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3263"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3284"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3286"/>
         <source>Rename folder</source>
         <translation>Переименовать папку</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3261"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3284"/>
         <source>Folder:</source>
         <translation>Папка:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3263"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3286"/>
         <source>Impossible to rename folder!</source>
         <translation>Невозможно переименовать папку!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="591"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3308"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="593"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3330"/>
         <source>Hide files name</source>
         <translation>Скрыть имена файлов</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="592"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3309"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="594"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3331"/>
         <source>Show files name</source>
         <translation>Показать имена файлов</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3519"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3550"/>
         <source>Remove files</source>
         <translation>Удалить файлы</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3541"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3573"/>
         <source>Remove file :</source>
         <translation>Удалить файл :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3548"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3580"/>
         <source>Remove folder</source>
         <translation>Удалить папку</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3550"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3582"/>
         <source>Remove file</source>
         <translation>Удалить файл</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3564"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3596"/>
         <source>New name:</source>
         <translation>Новое имя:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3567"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3599"/>
         <source>Impossible to rename file!</source>
         <translation>Невозможно переименовать файл!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="578"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3295"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="580"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3317"/>
         <source>Details view</source>
         <translation>Подробно</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2646"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2665"/>
         <source>Are you sure you want to remove these %1 slides?</source>
         <translation>Удалить слайды %1?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="529"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3150"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="531"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3175"/>
         <source>A favorite with this name already exists.
 Do you want to overwrite it?</source>
         <translation>Избранное с таким именем уже существует.
 Перезаписать его?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="540"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3161"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="542"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3186"/>
         <source>A favorite with for this path already exists.
 Do you want to overwrite it?</source>
         <translation>Избранное с таким путем уже существует.
 Перезаписать его?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3206"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3231"/>
         <source>Successfully deleted folder (and all its content) %1</source>
         <translation>Папка %1 успешно удалена (и все ее содержимое)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="579"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3296"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="581"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3318"/>
         <source>Icon view</source>
         <translation>Значки</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="581"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3298"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="583"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3320"/>
         <source>All files</source>
         <translation>Все файлы</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="582"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3299"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="584"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3321"/>
         <source>Managed files</source>
         <translation>Поддерживаемые файлы</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="583"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3300"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="585"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3322"/>
         <source>Image files</source>
         <translation>Изображения</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="584"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3301"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="586"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3323"/>
         <source>Video files</source>
         <translation>Видео файлы</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="585"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3302"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="587"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3324"/>
         <source>Music files</source>
         <translation>Аудио файлы</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="586"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3303"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="588"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3325"/>
         <source>ffDiaporama project files</source>
         <translation>Файлы проектов ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="588"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3305"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="590"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3327"/>
         <source>Hide hidden files and folders</source>
         <translation>Не показывать скрытые файлы и папки</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="589"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3306"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="591"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3328"/>
         <source>Show hidden files and folders</source>
         <translation>Показать скрытые файлы и папки</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="810"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="831"/>
         <source>&lt;new project&gt;</source>
         <comment>when project have no name define</comment>
         <translation>&lt;Новый проект&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1512"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1540"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1550"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3381"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1529"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1557"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1567"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3403"/>
         <source>Open file :</source>
         <translation>Открыть файл :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1508"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1530"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1535"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1570"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3375"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1525"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1547"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1552"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1587"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3397"/>
         <source>Open project</source>
         <translation>Открыть проект</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="282"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="150"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="249"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="171"/>
         <source>Loading system icons...</source>
         <translation>Загрузка системных иконок...</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="727"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="158"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="701"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="179"/>
         <source>Starting libav...</source>
         <translation>Запуск libav...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="167"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="168"/>
-        <source>Loading text frame  library...</source>
-        <translation>Загрузка бибилотеки клипартов текста ...</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="435"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="800"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="456"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="821"/>
         <source>Slide: </source>
         <translation>Слайд:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="436"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="557"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="565"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="457"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="578"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="586"/>
         <source>Chapter: </source>
         <translation>Глава:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1215"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1237"/>
         <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Выберите существующий проект или создайте новый.&lt;br&gt;Чтобы узнать больше о ffDiaporama,&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;посетите WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1219"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1241"/>
         <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Добавьте пустые слайды или слайды из фотографий или видео.&lt;br&gt;Чтобы узнать как создать слайд-шоу и анимировать слайды,&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;познакомьтесь с принципами функционирования ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1223"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1245"/>
         <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Выберите тип устройства, на котором вы собираетесь просматривать видео.&lt;br&gt;Чтобы узнать как сделать видео,&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;посетите страницу обработки видео в WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1571"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1588"/>
         <source>This project was created with a newer version of ffDiaporama.
 If you continue, you take the risk of losing data!
 Do you want to open it nevertheless?</source>
@@ -8325,369 +8341,368 @@ Do you want to open it nevertheless?</source>
 Хотите открыть его все равно?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1756"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1822"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1772"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1838"/>
         <source>Saving project file ...</source>
         <translation>Сохранение файла проекта ...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4788"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1811"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1827"/>
         <source>Save project as</source>
         <translation>Сохранить проект как</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4455"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1066"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1943"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1961"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1051"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1929"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1977"/>
         <source>Add files</source>
         <translation>Добавить файлы</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1108"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1985"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2157"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1093"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1971"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2173"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation>Формат не поддерживается</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2409"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2428"/>
         <source>Add a sub project</source>
         <translation>Добавить подпроект</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2439"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2458"/>
         <source>Add project file :</source>
         <translation>Добавить файл проекта :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2494"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2500"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2513"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2519"/>
         <source>Capture the image </source>
         <translation>Захват изображения </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2642"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2661"/>
         <source>Remove slide</source>
         <translation>Удалить слайд</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2086"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3498"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2102"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3526"/>
         <source>Add file to project :</source>
         <translation>Добавить файл в проект :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="1292"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2506"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2525"/>
         <source>Capture image</source>
         <translation>Захват изображения</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="1293"/>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="204"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2507"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2526"/>
         <source>Select destination file</source>
         <translation>Выберите файл назначения</translation>
     </message>
     <message>
-        <location filename="../src/engine/_SDL_Support.cpp" line="73"/>
-        <location filename="../src/engine/_SDL_Support.cpp" line="127"/>
+        <location filename="../src/engine/_SDL_Support.cpp" line="70"/>
+        <location filename="../src/engine/_SDL_Support.cpp" line="121"/>
         <source>Error during startup</source>
         <translation>Ошибка при запуске</translation>
     </message>
     <message>
-        <location filename="../src/engine/_SDL_Support.cpp" line="74"/>
-        <location filename="../src/engine/_SDL_Support.cpp" line="128"/>
+        <location filename="../src/engine/_SDL_Support.cpp" line="71"/>
+        <location filename="../src/engine/_SDL_Support.cpp" line="122"/>
         <source>Error during initialisation of sound system. Check your configuration and try again</source>
         <translation>Ошибка при инициализации звуковой системы. Проверьте ваши настройки и попробуйте снова</translation>
-    </message>
-    <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="722"/>
-        <source>ffDiaporama initialisation</source>
-        <translation>Инициализация ffDiaporama</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/main.cpp" line="99"/>
         <source>Start ...</source>
         <translation>Запуск ...</translation>
     </message>
+    <message>
+        <location filename="../src/CustomCtrl/_QCustomDialog.cpp" line="213"/>
+        <source>Error reading window state of %1 from home user database</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTable</name>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="295"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="315"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="359"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="545"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="573"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="584"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="592"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="619"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="318"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="360"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="538"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="567"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="579"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="588"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="616"/>
         <source>File</source>
         <comment>Column header</comment>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="298"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="316"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="360"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="546"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="319"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="361"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="539"/>
         <source>File Type</source>
         <comment>Column header</comment>
         <translation>Тип</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="317"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="361"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="547"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="574"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="585"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="593"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="620"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="320"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="362"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="540"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="568"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="580"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="589"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="617"/>
         <source>File Size</source>
         <comment>Column header</comment>
         <translation>Размер</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="318"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="362"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="548"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="575"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="586"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="594"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="621"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="321"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="363"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="541"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="569"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="581"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="590"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="618"/>
         <source>File Date</source>
         <comment>Column header</comment>
         <translation>Дата</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="319"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="363"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="549"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="576"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="595"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="622"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="322"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="364"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="542"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="570"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="591"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="619"/>
         <source>Duration</source>
         <comment>Column header</comment>
         <translation>Продолжительность</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="320"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="364"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="551"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="587"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="597"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="323"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="365"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="544"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="582"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="593"/>
         <source>Image Size</source>
         <comment>Column header</comment>
         <translation>Размер изображения</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="321"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="365"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="552"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="588"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="598"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="324"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="366"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="545"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="583"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="594"/>
         <source>Image Format</source>
         <comment>Column header</comment>
         <translation>Формат изображения</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="322"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="367"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="553"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="589"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="599"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="325"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="368"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="546"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="584"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="595"/>
         <source>Image Geometry</source>
         <comment>Column header</comment>
         <translation>Геометрия</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="323"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="368"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="554"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="600"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="326"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="369"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="547"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="596"/>
         <source>Video Codec</source>
         <comment>Column header</comment>
         <translation>Видео кодек</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="324"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="369"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="555"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="601"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="327"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="370"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="548"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="597"/>
         <source>Frame Rate</source>
         <comment>Column header</comment>
         <translation>Частота кадров</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="325"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="370"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="556"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="602"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="328"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="371"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="549"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="598"/>
         <source>Video Bitrate</source>
         <comment>Column header</comment>
         <translation>Битрейт видео</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="326"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="371"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="557"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="603"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="329"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="372"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="550"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="599"/>
         <source>Audio Language</source>
         <comment>Column header</comment>
         <translation>Язык аудио</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="327"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="372"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="558"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="604"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="623"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="330"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="373"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="551"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="600"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="620"/>
         <source>Audio Codec</source>
         <comment>Column header</comment>
         <translation>Аудио кодек</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="328"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="373"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="559"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="605"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="624"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="331"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="374"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="552"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="601"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="621"/>
         <source>Audio Channels</source>
         <comment>Column header</comment>
         <translation>Аудиоканал</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="329"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="374"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="560"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="606"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="625"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="332"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="375"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="553"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="602"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="622"/>
         <source>Audio Bitrate</source>
         <comment>Column header</comment>
         <translation>Битрейт аудио</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="330"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="375"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="561"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="607"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="626"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="333"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="376"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="554"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="603"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="623"/>
         <source>Audio Frequency</source>
         <comment>Column header</comment>
         <translation>Частота звука</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="331"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="376"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="562"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="577"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="608"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="627"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="334"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="377"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="555"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="571"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="604"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="624"/>
         <source>Title</source>
         <comment>Column header</comment>
         <translation>Название</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="332"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="377"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="563"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="609"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="628"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="335"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="378"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="556"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="605"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="625"/>
         <source>Artist</source>
         <comment>Column header</comment>
         <translation>Исполнитель</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="333"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="378"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="564"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="579"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="610"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="629"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="336"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="379"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="557"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="573"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="606"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="626"/>
         <source>Album</source>
         <comment>Column header</comment>
         <translation>Альбом</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="334"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="379"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="565"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="580"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="611"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="630"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="337"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="380"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="558"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="574"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="607"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="627"/>
         <source>Year</source>
         <comment>Column header</comment>
         <translation>Год</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="335"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="380"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="566"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="612"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="631"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="338"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="381"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="559"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="608"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="628"/>
         <source>Track</source>
         <comment>Column header</comment>
         <translation>Трек</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="336"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="381"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="567"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="613"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="632"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="339"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="382"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="560"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="609"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="629"/>
         <source>Genre</source>
         <comment>Column header</comment>
         <translation>Жанр</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="337"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="382"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="568"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="614"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="340"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="383"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="561"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="610"/>
         <source>Comment</source>
         <comment>Column header</comment>
         <translation>Комментарий</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="338"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="383"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="569"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="581"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="615"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="341"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="384"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="562"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="575"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="611"/>
         <source>Composer</source>
         <comment>Column header</comment>
         <translation>Композитор</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="339"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="384"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="570"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="616"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="342"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="385"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="563"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="612"/>
         <source>Encoder</source>
         <comment>Column header</comment>
         <translation>Кодер</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="340"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="366"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="550"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="596"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="343"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="367"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="543"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="592"/>
         <source>Chapters</source>
         <comment>Column header</comment>
         <translation>Главы</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="578"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="572"/>
         <source>Author</source>
         <comment>Column header</comment>
         <translation>Автор</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="850"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="664"/>
         <source>Reading directory content (%1)</source>
         <translation>Чтение содержимого каталога (%1)</translation>
     </message>
@@ -8719,82 +8734,82 @@ Do you want to open it nevertheless?</source>
         <translation>Тб</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="108"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="102"/>
         <source>Refresh all</source>
         <translation>Обновить все</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="109"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="103"/>
         <source>Refresh from here</source>
         <translation>Обновить выделенное</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="110"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="104"/>
         <source>Create new subfolder</source>
         <translation>Создать новую подпапку</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="111"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="105"/>
         <source>Remove folder</source>
         <translation>Удалить папку</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="112"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="106"/>
         <source>Rename folder</source>
         <translation>Переименовать папку</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="127"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="139"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="121"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="132"/>
         <source>Create folder</source>
         <translation>Создать папку</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="127"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="121"/>
         <source>Folder:</source>
         <translation>Папка:</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="138"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="131"/>
         <source>Error %1:</source>
         <translation>Ошибка %1:</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="140"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="133"/>
         <source>Impossible to create folder !</source>
         <translation>Невозможно создать папку !</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="406"/>
-        <location filename="../src/engine/cDriveList.cpp" line="386"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="378"/>
+        <location filename="../src/engine/cDriveList.cpp" line="380"/>
         <source>System files</source>
         <translation>Системные файлы</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="877"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="66"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="162"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="232"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="236"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="278"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="436"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="509"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="640"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="659"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="669"/>
-        <location filename="../src/engine/cDriveList.cpp" line="64"/>
-        <location filename="../src/engine/cDriveList.cpp" line="103"/>
-        <location filename="../src/engine/cDriveList.cpp" line="374"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="687"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="62"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="153"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="216"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="220"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="259"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="408"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="485"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="617"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="636"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="646"/>
+        <location filename="../src/engine/cDriveList.cpp" line="62"/>
+        <location filename="../src/engine/cDriveList.cpp" line="101"/>
+        <location filename="../src/engine/cDriveList.cpp" line="368"/>
         <source>Clipart</source>
         <translation>Клипарт</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDriveList.cpp" line="104"/>
+        <location filename="../src/engine/cDriveList.cpp" line="102"/>
         <source>Empty drive...</source>
         <translation>Пустой диск...</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDriveList.cpp" line="343"/>
+        <location filename="../src/engine/cDriveList.cpp" line="339"/>
         <source>Personal folder</source>
         <translation>Личная папка</translation>
     </message>
@@ -9328,7 +9343,7 @@ Do you want to open it nevertheless?</source>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="217"/>
-        <location filename="../src/engine/_Variables.cpp" line="311"/>
+        <location filename="../src/engine/_Variables.cpp" line="309"/>
         <source>The end</source>
         <translation>Конец</translation>
     </message>
@@ -9338,250 +9353,250 @@ Do you want to open it nevertheless?</source>
         <translation>Выбрать эту переменную</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="266"/>
+        <location filename="../src/engine/_Variables.cpp" line="264"/>
         <source>Project properties values</source>
         <translation>Значения свойств проекта</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="267"/>
+        <location filename="../src/engine/_Variables.cpp" line="265"/>
         <source>Project date values</source>
         <translation>Дата проекта</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="268"/>
+        <location filename="../src/engine/_Variables.cpp" line="266"/>
         <source>Current slide values</source>
         <translation>Значения текущего слайда</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="269"/>
+        <location filename="../src/engine/_Variables.cpp" line="267"/>
         <source>Chapters values</source>
         <translation>Значения глав</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="270"/>
+        <location filename="../src/engine/_Variables.cpp" line="268"/>
         <source>Current chapter date values</source>
         <translation>Дата текущей главы</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="271"/>
+        <location filename="../src/engine/_Variables.cpp" line="269"/>
         <source>Various values</source>
         <translation>Разные значения</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="272"/>
+        <location filename="../src/engine/_Variables.cpp" line="270"/>
         <source>Today date values</source>
         <translation>Сегодня (дата)</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="275"/>
+        <location filename="../src/engine/_Variables.cpp" line="273"/>
         <source>Project title</source>
         <translation>Название проекта</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="276"/>
+        <location filename="../src/engine/_Variables.cpp" line="274"/>
         <source>Project author</source>
         <translation>Автор проекта</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="277"/>
+        <location filename="../src/engine/_Variables.cpp" line="275"/>
         <source>Project author as &lt;Author presents&gt;</source>
         <translation>Автор проекта: &quot;&lt;Автор представляет&gt;&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="278"/>
+        <location filename="../src/engine/_Variables.cpp" line="276"/>
         <source>Project author as &lt;A Author production&gt;</source>
         <translation>Автор проекта: &quot;&lt;Производство Автор&gt;&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="279"/>
+        <location filename="../src/engine/_Variables.cpp" line="277"/>
         <source>Project album</source>
         <translation>Альбом проекта</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="280"/>
+        <location filename="../src/engine/_Variables.cpp" line="278"/>
         <source>Project comment</source>
         <translation>Комментарий к проекту</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="281"/>
+        <location filename="../src/engine/_Variables.cpp" line="279"/>
         <source>Project duration</source>
         <translation>Продолжительность проекта</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="282"/>
+        <location filename="../src/engine/_Variables.cpp" line="280"/>
         <source>Project slide count</source>
         <translation>Количество слайдов проекта</translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Variables.cpp" line="282"/>
+        <location filename="../src/engine/_Variables.cpp" line="299"/>
+        <location filename="../src/engine/_Variables.cpp" line="314"/>
+        <source>Long date</source>
+        <translation>Дата (полностью)</translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Variables.cpp" line="283"/>
+        <location filename="../src/engine/_Variables.cpp" line="300"/>
+        <location filename="../src/engine/_Variables.cpp" line="315"/>
+        <source>Short date</source>
+        <translation>Дата (кратко)</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="284"/>
         <location filename="../src/engine/_Variables.cpp" line="301"/>
         <location filename="../src/engine/_Variables.cpp" line="316"/>
-        <source>Long date</source>
-        <translation>Дата (полностью)</translation>
+        <source>Year</source>
+        <translation>Год</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="285"/>
         <location filename="../src/engine/_Variables.cpp" line="302"/>
         <location filename="../src/engine/_Variables.cpp" line="317"/>
-        <source>Short date</source>
-        <translation>Дата (кратко)</translation>
+        <source>Month</source>
+        <translation>Месяц</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="286"/>
         <location filename="../src/engine/_Variables.cpp" line="303"/>
         <location filename="../src/engine/_Variables.cpp" line="318"/>
-        <source>Year</source>
-        <translation>Год</translation>
+        <source>Month as number</source>
+        <translation>Номер месяца</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="287"/>
         <location filename="../src/engine/_Variables.cpp" line="304"/>
         <location filename="../src/engine/_Variables.cpp" line="319"/>
-        <source>Month</source>
-        <translation>Месяц</translation>
+        <source>Day</source>
+        <translation>День</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="288"/>
         <location filename="../src/engine/_Variables.cpp" line="305"/>
         <location filename="../src/engine/_Variables.cpp" line="320"/>
-        <source>Month as number</source>
-        <translation>Номер месяца</translation>
-    </message>
-    <message>
-        <location filename="../src/engine/_Variables.cpp" line="289"/>
-        <location filename="../src/engine/_Variables.cpp" line="306"/>
-        <location filename="../src/engine/_Variables.cpp" line="321"/>
-        <source>Day</source>
-        <translation>День</translation>
-    </message>
-    <message>
-        <location filename="../src/engine/_Variables.cpp" line="290"/>
-        <location filename="../src/engine/_Variables.cpp" line="307"/>
-        <location filename="../src/engine/_Variables.cpp" line="322"/>
         <source>Day of week</source>
         <translation>День недели</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="292"/>
+        <location filename="../src/engine/_Variables.cpp" line="290"/>
         <source>Current slide name</source>
         <translation>Имя текущего слайда</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="293"/>
+        <location filename="../src/engine/_Variables.cpp" line="291"/>
         <source>Current slide number</source>
         <translation>Номер текущего слайда</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="295"/>
+        <location filename="../src/engine/_Variables.cpp" line="293"/>
         <source>Current chapter name</source>
         <translation>Название текущей главы</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="296"/>
+        <location filename="../src/engine/_Variables.cpp" line="294"/>
         <source>Current chapter number</source>
         <translation>Номер текущей главы</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="297"/>
+        <location filename="../src/engine/_Variables.cpp" line="295"/>
         <source>Current chapter number as &quot;Chapter NÂ°&quot;</source>
         <translation>Номер текущей главы: &quot;&lt;Глава №&gt;&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="298"/>
+        <location filename="../src/engine/_Variables.cpp" line="296"/>
         <source>Current chapter duration</source>
         <translation>Длительность текущей главы</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="299"/>
+        <location filename="../src/engine/_Variables.cpp" line="297"/>
         <source>Chapter count</source>
         <translation>Количество глав</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="309"/>
+        <location filename="../src/engine/_Variables.cpp" line="307"/>
         <source>ffDiaporama version</source>
         <translation>Версия ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="310"/>
+        <location filename="../src/engine/_Variables.cpp" line="308"/>
         <source>Copyright</source>
         <translation>Копирайт</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="312"/>
+        <location filename="../src/engine/_Variables.cpp" line="310"/>
         <source>Project made</source>
         <translation>Проект создан</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="313"/>
+        <location filename="../src/engine/_Variables.cpp" line="311"/>
         <source>Content</source>
         <translation>Содержимое</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="314"/>
+        <location filename="../src/engine/_Variables.cpp" line="312"/>
         <source>Musical content</source>
         <translation>Музыка</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2069"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="2053"/>
         <source>Content:</source>
         <comment>Project statistics</comment>
         <translation>Содержимое:</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2070"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="2054"/>
         <source>%1 slides (%2)</source>
         <translation>слайдов - %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2071"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="2055"/>
         <source>%1 chapters</source>
         <translation>глав - %1</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2072"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="2056"/>
         <source>%1 videos (%2)</source>
         <translation>видеофайлов - %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2073"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="2057"/>
         <source>%3 vector images</source>
         <translation>векторных изображений - %3</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2074"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="2058"/>
         <source>%4 photos</source>
         <translation>фотографий - %4</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2075"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="2059"/>
         <source>%5 text blocks</source>
         <translation>блоков текста - %5</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2076"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="2060"/>
         <source>%6 automatic slides</source>
         <translation>шаблонов - %6</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2084"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="2068"/>
         <source>Musical content:</source>
         <comment>Project statistics</comment>
         <translation>Музыка:</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2092"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="2078"/>
         <source> - Â© %1 (%2)</source>
         <comment>Project statistics-Music</comment>
         <translation> - © %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2093"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="2079"/>
         <source> - Â© %1</source>
         <comment>Project statistics-Music</comment>
         <translation> - © %1</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2095"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="2081"/>
         <source> from Â«%1Â»</source>
         <comment>Project statistics-Music</comment>
         <translation> от «%1»</translation>
@@ -9590,113 +9605,107 @@ Do you want to open it nevertheless?</source>
 <context>
     <name>cBaseMediaFile</name>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="331"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="431"/>
         <source>Impossible to open file </source>
         <translation>Невозможно открыть файл </translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="331"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="431"/>
         <source>Do you want to select another file ?</source>
         <translation>Хотите выбрать другой файл?</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="335"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="435"/>
         <source>Select another file for </source>
         <translation>Выбрать другой файл</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="348"/>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="498"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="448"/>
         <source>Impossible to open file %1</source>
         <translation>Невозможно открыть файл %1</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="433"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="531"/>
         <source>MPix</source>
         <translation>Мп</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="517"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="586"/>
         <source>Unmanaged</source>
         <comment>File type</comment>
         <translation>Неуправляемый</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="862"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="866"/>
         <source>Slides</source>
         <translation>Слайды</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="863"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="867"/>
         <source>Chapters</source>
         <translation>Главы</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="935"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="919"/>
         <source>Image</source>
         <comment>File type</comment>
         <translation>Изображение</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="936"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="920"/>
         <source>Vector image</source>
         <comment>File type</comment>
         <translation>Векторное изображение</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="937"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="921"/>
         <source>Thumbnail</source>
         <comment>File type</comment>
         <translation>Миниатюра</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="1823"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="1836"/>
         <source>Video</source>
         <comment>File type</comment>
         <translation>Видео</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="1822"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="1835"/>
         <source>Music</source>
         <comment>File type</comment>
         <translation>Аудио</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="1526"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="1538"/>
         <source>Mono</source>
         <comment>Audio channels mode</comment>
         <translation>Моно</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="330"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="430"/>
         <source>Open file</source>
         <translation>Открыть файл</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="827"/>
-        <source>Slide number</source>
-        <translation>Номер слайда</translation>
-    </message>
-    <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="892"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="888"/>
         <source>ffDiaporama</source>
         <comment>File type</comment>
         <translation>ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="1527"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="1539"/>
         <source>Stereo</source>
         <comment>Audio channels mode</comment>
         <translation>Стерео</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="645"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="686"/>
         <source>Folder</source>
         <comment>File type</comment>
         <translation>Папка</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2206"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2222"/>
         <source>Add video file</source>
         <translation>Добавить видеофайл</translation>
     </message>
@@ -9704,98 +9713,98 @@ Do you want to open it nevertheless?</source>
 <context>
     <name>cDeviceModelList</name>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="696"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="678"/>
         <source>Advanced</source>
         <comment>Device database type</comment>
         <translation>Дополнительно</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="697"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="701"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="679"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="683"/>
         <source>Smartphone</source>
         <comment>Device database type</comment>
         <translation>Смартфон и плеер</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="698"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="680"/>
         <source>Multimedia system</source>
         <comment>Device database type</comment>
         <translation>Мультимедиа система</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="699"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="681"/>
         <source>For the WEB</source>
         <comment>Device database type</comment>
         <translation>Интернет</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="700"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="682"/>
         <source>Lossless</source>
         <comment>Device database type</comment>
         <translation>Сжатие без потерь</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="702"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="684"/>
         <source>Portable Player</source>
         <comment>Device database type</comment>
         <translation>Портативный плеер</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="703"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="685"/>
         <source>Netbook/NetPC</source>
         <comment>Device database type</comment>
         <translation>Нетбук/NetPC</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="704"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="686"/>
         <source>Handheld game console</source>
         <comment>Device database type</comment>
         <translation>Портативная игровая консоль</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="705"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="687"/>
         <source>Tablet computer</source>
         <comment>Device database type</comment>
         <translation>Планшетный компьютер</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="706"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="688"/>
         <source>Multimedia hard drive and gateway</source>
         <comment>Device database type</comment>
         <translation>Мультимедийный жесткий диск и шлюз</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="707"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="689"/>
         <source>Player</source>
         <comment>Device database type</comment>
         <translation>Плеер</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="708"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="690"/>
         <source>ADSL Box</source>
         <comment>Device database type</comment>
         <translation>ADSL приставка</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="709"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="691"/>
         <source>Game console</source>
         <comment>Device database type</comment>
         <translation>Игровая консоль</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="710"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="692"/>
         <source>SWF Flash Player</source>
         <comment>Device database type</comment>
         <translation>SWF Flash Player</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="711"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="693"/>
         <source>Video-sharing and social WebSite</source>
         <comment>Device database type</comment>
         <translation>Сайты видео-обмена и социальные сети</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="712"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="694"/>
         <source>HTML 5</source>
         <comment>Device database type</comment>
         <translation>HTML 5</translation>
@@ -9804,124 +9813,124 @@ Do you want to open it nevertheless?</source>
 <context>
     <name>cModelList</name>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="64"/>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="669"/>
+        <location filename="../src/engine/_Model.cpp" line="63"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="708"/>
         <source>Project title</source>
         <translation>Название проекта</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="65"/>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="671"/>
+        <location filename="../src/engine/_Model.cpp" line="64"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="710"/>
         <source>Project album</source>
         <translation>Альбом проекта</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="66"/>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="670"/>
+        <location filename="../src/engine/_Model.cpp" line="65"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="709"/>
         <source>Project author</source>
         <translation>Автор проекта</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="67"/>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="675"/>
+        <location filename="../src/engine/_Model.cpp" line="66"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="714"/>
         <source>Project comment</source>
         <translation>Комментарий к проекту</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="206"/>
+        <location filename="../src/engine/_Model.cpp" line="202"/>
         <source>Error reading default thumbnail file</source>
         <comment>Error message</comment>
         <translation>Ошибка чтения файла обложки по умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="223"/>
+        <location filename="../src/engine/_Model.cpp" line="219"/>
         <source>Error reading content of title model file</source>
         <comment>Error message</comment>
         <translation>Ошибка чтения содержимого файла шаблона названий</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="281"/>
+        <location filename="../src/engine/_Model.cpp" line="274"/>
         <source>Register Credit title slide models (%1)...</source>
         <translation>Регистрация шаблонов заключительных титров (%1)...</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="215"/>
-        <location filename="../src/engine/_Model.cpp" line="227"/>
+        <location filename="../src/engine/_Model.cpp" line="211"/>
+        <location filename="../src/engine/_Model.cpp" line="223"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="211"/>
+        <location filename="../src/engine/_Model.cpp" line="207"/>
         <source>Error reading title model file</source>
         <comment>Error message</comment>
         <translation>Ошибка чтения файла шаблона названий</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="219"/>
+        <location filename="../src/engine/_Model.cpp" line="215"/>
         <source>Error reading content of default thumbnail file</source>
         <comment>Error message</comment>
         <translation>Ошибка чтения содержимого файла обложки по умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="290"/>
+        <location filename="../src/engine/_Model.cpp" line="283"/>
         <source>Register thumbnail models...</source>
         <translation>Регистрация шаблонов обложек...</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="265"/>
+        <location filename="../src/engine/_Model.cpp" line="258"/>
         <source>Register Project title slide models (%1)...</source>
         <translation>Регистрация шаблонов названий проекта (%1)...</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="273"/>
+        <location filename="../src/engine/_Model.cpp" line="266"/>
         <source>Register Chapter title slide models (%1)...</source>
         <translation>Регистрация шаблонов названий глав (%1)...</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="1467"/>
-        <location filename="../src/engine/_Model.cpp" line="90"/>
-        <location filename="../src/engine/_Model.cpp" line="98"/>
+        <location filename="../src/engine/_Diaporama.cpp" line="1466"/>
+        <location filename="../src/engine/_Model.cpp" line="89"/>
+        <location filename="../src/engine/_Model.cpp" line="97"/>
         <source>Chapter title</source>
         <translation>Название главы</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="196"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="217"/>
         <source>Simple titles without animation</source>
         <translation>Простые без анимации</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="197"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="218"/>
         <source>Animated titles</source>
         <translation>Анимированные</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="199"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="220"/>
         <source>Custom titles</source>
         <translation>Пользовательские</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="201"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="222"/>
         <source>Simple chapter titles without animation</source>
         <translation>Простые без анимации</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="202"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="223"/>
         <source>Animated chapter titles</source>
         <translation>Анимированные</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="204"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="225"/>
         <source>Custom chapter titles</source>
         <translation>Пользовательские</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="206"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="227"/>
         <source>Simple credit titles</source>
         <translation>Простые</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="207"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="228"/>
         <source>Custom credit titles</source>
         <translation>Пользовательские</translation>
     </message>

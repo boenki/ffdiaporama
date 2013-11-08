@@ -21,11 +21,11 @@
 #include "cDatabase.h"
 #include "cBaseApplicationConfig.h"
 
-#define DATABASEVERSION 1       // Current database version
+#define DATABASEVERSION 2       // Current database version
 
 void DisplayLastSQLError(QSqlQuery *Query) {
     ToLog(LOGMSG_CRITICAL,Query->lastQuery());
-    ToLog(LOGMSG_CRITICAL,Query->lastError().text());
+    ToLog(LOGMSG_CRITICAL,QString("Error %1:%2").arg(Query->lastError().number()).arg(Query->lastError().text()));
 }
 
 //**************************************************************************************************************************
@@ -101,7 +101,7 @@ bool cDatabase::CheckDatabaseVersion() {
     bool            Ret=SettingsTable!=NULL;
     if (Ret) {
         qlonglong DatabaseVersion=SettingsTable->GetIntValue("Version",0);
-        if (DatabaseVersion!=DATABASEVERSION) {
+        if (DatabaseVersion<DATABASEVERSION) {
             foreach (cDatabaseTable *Table,Tables) Ret=Ret && Table->DoUpgradeTableVersion(DatabaseVersion);
             SettingsTable->SetIntValue("Version",DATABASEVERSION);
         }
@@ -340,7 +340,7 @@ cFolderTable::cFolderTable(cDatabase *Database):cDatabaseTable(Database) {
 
 qlonglong cFolderTable::GetFolderKey(QString FolderPath) {
     if ((FolderPath==".")||(FolderPath=="..")) return -1;
-    FolderPath=AdjustDirForOS(QDir(FolderPath).absolutePath());
+    FolderPath=QDir::toNativeSeparators(QDir(FolderPath).absolutePath());
     #ifdef Q_OS_WIN
     // On windows, network share start with \\,  so keep this information in a boolean and remove this "\"
     bool IsNetworkShare=FolderPath.startsWith("\\\\");
@@ -419,8 +419,8 @@ cFilesTable::cFilesTable(cDatabase *Database):cDatabaseTable(Database) {
                             "Timestamp          bigint,"\
                             "IsHidden           int,"\
                             "IsDir              int,"\
-                            "CreatDateTime      varchar(30),"\
-                            "ModifDateTime      varchar(30),"\
+                            "CreatDateTime      text,"\
+                            "ModifDateTime      text,"\
                             "FileSize           bigint,"\
                             "MediaFileType      int,"\
                             "BasicProperties    text,"\
@@ -459,8 +459,8 @@ qlonglong cFilesTable::GetFileKey(qlonglong FolderKey,QString ShortName,int Medi
         Query.bindValue(":Timestamp",    FileInfo.lastModified().toMSecsSinceEpoch(),                   QSql::In);
         Query.bindValue(":IsHidden",     FileInfo.isHidden()||FileInfo.fileName().startsWith(".")?1:0,  QSql::In);
         Query.bindValue(":IsDir",        FileInfo.isDir()?1:0,                                          QSql::In);
-        Query.bindValue(":CreatDateTime",FileInfo.lastModified().toString(Qt::ISODate),                 QSql::In);
-        Query.bindValue(":ModifDateTime",FileInfo.created().toString(Qt::ISODate),                      QSql::In);
+        Query.bindValue(":CreatDateTime",FileInfo.lastModified(),                                       QSql::In);
+        Query.bindValue(":ModifDateTime",FileInfo.created(),                                            QSql::In);
         Query.bindValue(":FileSize",     FileInfo.size(),                                               QSql::In);
         Query.bindValue(":MediaFileType",MediaFileType,                                                 QSql::In);
         Ret=Query.exec();
@@ -521,7 +521,7 @@ int cFilesTable::CleanTableForFolder(qlonglong FolderKey) {
     if (!Query.exec()) DisplayLastSQLError(&Query); else while (Query.next()) {
         qlonglong FileKey=-1;
         QString   ShortName;
-        qlonglong Timestamp;
+        qlonglong Timestamp=-1;
         bool      Ret=false;
 
         if (!Query.value(0).isNull()) {
@@ -626,11 +626,11 @@ bool cFilesTable::GetBasicProperties(qlonglong FileKey,QString *Properties,QStri
     if (!Query.exec()) DisplayLastSQLError(&Query); else while (Query.next()) {
         bool        Ret=true;
         qlonglong   Timestamp=0;
-        if (!Query.value(0).isNull())           *Properties   =Query.value(0).toString();                           else Ret=false;
-        if ((Ret)&&(!Query.value(1).isNull()))  Timestamp     =Query.value(1).toLongLong(&Ret);                     else Ret=false;
-        if ((Ret)&&(!Query.value(2).isNull()))  *FileSize     =Query.value(2).toLongLong(&Ret);                     else Ret=false;
-        if ((Ret)&&(!Query.value(3).isNull()))  CreatDateTime->fromString(Query.value(3).toString(),Qt::ISODate);   else Ret=false;
-        if ((Ret)&&(!Query.value(4).isNull()))  ModifDateTime->fromString(Query.value(4).toString(),Qt::ISODate);   else Ret=false;
+        if (!Query.value(0).isNull())           *Properties   =Query.value(0).toString();                                               else Ret=false;
+        if ((Ret)&&(!Query.value(1).isNull()))  Timestamp     =Query.value(1).toLongLong(&Ret);                                         else Ret=false;
+        if ((Ret)&&(!Query.value(2).isNull()))  *FileSize     =Query.value(2).toLongLong(&Ret);                                         else Ret=false;
+        if ((Ret)&&(!Query.value(3).isNull()))  *CreatDateTime=Query.value(3).toDateTime();                                             else Ret=false;
+        if ((Ret)&&(!Query.value(4).isNull()))  *ModifDateTime=Query.value(4).toDateTime();                                             else Ret=false;
         Ret=Ret && (Timestamp==QFileInfo(FileName).lastModified().toMSecsSinceEpoch());
         return Ret;
     }
@@ -689,8 +689,9 @@ bool cFilesTable::GetExtendedProperties(qlonglong FileKey,QStringList *Propertie
                 i++;
             }
         }
+        return true;
     }
-    return true;
+    return false;
 }
 
 //=====================================================================================================
@@ -734,8 +735,27 @@ bool cFilesTable::GetThumbs(qlonglong FileKey,QImage *Icon16,QImage *Icon100) {
     }
     QByteArray Data;
     while (Query.next()) {
-        Data=Query.value(0).toByteArray();    Icon16->loadFromData(Data);
-        Data=Query.value(1).toByteArray();    Icon100->loadFromData(Data);
+        if (!Query.value(0).isNull()) {
+            Data=Query.value(0).toByteArray();
+            Icon16->loadFromData(Data);
+        }
+        if (!Query.value(1).isNull()) {
+            Data=Query.value(1).toByteArray();
+            Icon100->loadFromData(Data);
+        }
     }
     return (!Icon16->isNull())&&(!Icon100->isNull());
+}
+
+//=====================================================================================================
+
+bool cFilesTable::DoUpgradeTableVersion(qlonglong OldVersion) {
+    QSqlQuery Query(Database->db);
+    bool Ret=true;
+    if (OldVersion==1) Ret=Query.exec("DROP TABLE MediaFiles");
+    if (!Ret) {
+        if (Query.lastError().number()==1) Ret=true;    // If table not existed then ignore error
+            else DisplayLastSQLError(&Query);
+    }
+    return Ret;
 }

@@ -36,7 +36,6 @@ int32_t             SDLBufSize=0;
 //*********************************************************************************************************************************************
 
 void SDLAudioCallback(void *,u_int8_t *stream,int len) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:SDLAudioCallback");
     SDLIsAudioOpen=true;
     while (SDLBufSize<len) {
         int16_t *Packet=MixedMusic.DetachFirstPacket();
@@ -66,8 +65,6 @@ void SDLFlushBuffers() {
 //*********************************************************************************************************************************************
 
 void SDLFirstInit(double WantedDuration,bool SDLAncMode,int64_t SamplingRate) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:SDLFirstInit");
-
     // Start SDL
     if (SDL_Init(SDL_INIT_AUDIO)) {
         CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error during startup"),
@@ -85,8 +82,6 @@ void SDLFirstInit(double WantedDuration,bool SDLAncMode,int64_t SamplingRate) {
 //*********************************************************************************************************************************************
 
 void SDLLastClose() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:SDLLastClose");
-
     if (SDLIsAudioOpen) {
         SDL_CloseAudio();                               // Close audio
         SDLIsAudioOpen=false;
@@ -99,7 +94,6 @@ void SDLLastClose() {
 //*********************************************************************************************************************************************
 
 void SDLSetFPS(double WantedDuration,bool SDLAncMode,int64_t SamplingRate) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:SDLSetFPS");
     SDLFlushBuffers();
 
     SDL_CloseAudio();                               // Close audio
@@ -136,15 +130,12 @@ void SDLSetFPS(double WantedDuration,bool SDLAncMode,int64_t SamplingRate) {
 // Construct block list -> SDL Version
 //====================================================================================================================
 cSDLSoundBlockList::cSDLSoundBlockList():cSoundBlockList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSDLSoundBlockList::cSDLSoundBlockList");
 }
 
 //====================================================================================================================
 // Detach the first packet of the list (do not make av_free) -> SDL Version
 //====================================================================================================================
 int16_t *cSDLSoundBlockList::DetachFirstPacket() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSDLSoundBlockList::DetachFirstPacket");
-
     SDL_LockAudio();
     int16_t *Ret=cSoundBlockList::DetachFirstPacket();
     SDL_UnlockAudio();
@@ -155,8 +146,6 @@ int16_t *cSDLSoundBlockList::DetachFirstPacket() {
 // Append a packet to the end of the list -> SDL Version
 //====================================================================================================================
 void cSDLSoundBlockList::AppendPacket(int64_t Position,int16_t *PacketToAdd) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSDLSoundBlockList::AppendPacket");
-
     SDL_LockAudio();
     cSoundBlockList::AppendPacket(Position,PacketToAdd);
     SDL_UnlockAudio();

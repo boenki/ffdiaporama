@@ -31,11 +31,33 @@
 #include "../engine/cBaseApplicationConfig.h"
 #include "../engine/cBaseMediaFile.h"
 
+class MediaFileItem {
+public:
+    cBaseApplicationConfig  *ApplicationConfig;
+    qlonglong               FileKey;
+    qlonglong               FolderKey;
+    QStringList             TextToDisplay;
+    int                     ColImageType;
+    int                     ObjectType;
+    bool                    IsInformationValide;
+    QImage                  *DefaultTypeIcon16,*DefaultTypeIcon100;
+    QString                 ShortName;
+    QTime                   Duration;
+
+    explicit                MediaFileItem(cBaseMediaFile *MediaFileObject);
+                            ~MediaFileItem();
+
+    QString                 GetTextForColumn(int Col);
+    cBaseMediaFile          *CreateBaseMediaFile() const;
+
+    QImage                  GetIcon(cCustomIcon::IconSize Size,bool useDelayed);
+};
+
 class QCustomFolderTable : public QTableWidget {
 Q_OBJECT
 public:
     QStringList             BrowsePathList;
-    QList<cBaseMediaFile*>  MediaList;
+    QList<MediaFileItem>    MediaList;
     cBaseApplicationConfig  *ApplicationConfig;
 
     QString                 CurrentPath;
@@ -52,6 +74,8 @@ public:
     int64_t                 CurrentShowFolderSize;
     int64_t                 CurrentTotalFolderSize;
     int64_t                 CurrentShowDuration;
+
+    int                     ColImageType;
 
     // Thread controls
     QFutureWatcher<void>    ScanMediaList;
@@ -77,13 +101,12 @@ public:
 
     virtual void            AppendMediaToTable(cBaseMediaFile *MediaObject);
 
-    virtual QImage          *GetImageForColumn(int Col,cBaseMediaFile *MediaObject);
-    virtual QString         GetTextForColumn(int Col,cBaseMediaFile *MediaObject);
+    virtual QString         GetTextForColumn(int Col,cBaseMediaFile *MediaObject,QStringList *ExtendedProperties);
     virtual int             GetAlignmentForColumn(int Col);
 
-    virtual cBaseMediaFile          *GetCurrentMediaFile();
-    virtual QList<cBaseMediaFile*>  GetCurrentSelectedMediaFile() const;
-    virtual QStringList             GetCurrentSelectedFiles();
+    virtual cBaseMediaFile  *GetCurrentMediaFile();
+    virtual void            GetCurrentSelectedMediaFile(QList<cBaseMediaFile*> *SelMediaList) const;
+    virtual QStringList     GetCurrentSelectedFiles();
 
     virtual bool            CanBrowseToPreviousPath();
     virtual QString         BrowseToPreviousPath();

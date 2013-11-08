@@ -24,12 +24,10 @@
 #define DECAL       10
 
 cThumbnailComboBoxItem::cThumbnailComboBoxItem(QObject *parent):QStyledItemDelegate(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cThumbnailComboBoxItem::cThumbnailComboBoxItem");
 }
 
 //========================================================================================================================
 void cThumbnailComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cThumbnailComboBoxItem::paint");
     int CurIndex=index.row()*NBRCOLUMN+index.column();
 
     if ((CurIndex>=0)&&(CurIndex<ComboBox->ModelTable->List.count())) {
@@ -52,7 +50,6 @@ void cThumbnailComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem 
 //========================================================================================================================
 
 QSize cThumbnailComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const QModelIndex &/*index*/) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cThumbnailComboBoxItem::sizeHint");
     return QSize(THUMB_THUMBWITH+DECAL*2,THUMB_THUMBHEIGHT+DECAL*2);
 }
 
@@ -61,7 +58,6 @@ QSize cThumbnailComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,co
 //******************************************************************************************************************
 
 cThumbnailComboBox::cThumbnailComboBox(QWidget *parent):QComboBox(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cThumbnailComboBox::cThumbnailComboBox");
     ModelTable=NULL;
     Diaporama =NULL;
     CurrentSel=-1;
@@ -118,7 +114,6 @@ void cThumbnailComboBox::hidePopup() {
 //========================================================================================================================
 
 void cThumbnailComboBox::keyReleaseEvent(QKeyEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cThumbnailComboBox::keyReleaseEvent");
     int CurIndex=((QTableWidget *)view())->currentRow()*NBRCOLUMN+((QTableWidget *)view())->currentColumn();
     int aCurIndex=CurIndex;
     if ((event->key()==Qt::Key_Right)||(event->key()==Qt::Key_Down)) {
@@ -139,7 +134,6 @@ void cThumbnailComboBox::keyReleaseEvent(QKeyEvent *event) {
 //========================================================================================================================
 
 void cThumbnailComboBox::MakeIcons() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cThumbnailComboBox::MakeIcons");
     if (!ModelTable) return;
     int CurrentRow=currentIndex();
     if (CurrentRow<0) return;
@@ -152,7 +146,6 @@ void cThumbnailComboBox::MakeIcons() {
 //========================================================================================================================
 
 void cThumbnailComboBox::s_ItemSelectionChanged() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cThumbnailComboBox::s_ItemSelectionChanged");
     STOPMAJ=true;
     setCurrentIndex(((QTableWidget *)view())->currentRow());
     MakeIcons();
@@ -163,7 +156,6 @@ void cThumbnailComboBox::s_ItemSelectionChanged() {
 //========================================================================================================================
 
 void cThumbnailComboBox::SetCurrentModel(QString ModelName) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCBrushComboBox::SetCurrentModel");
     if (STOPMAJ) return;
     CurrentSel=ModelTable->SearchModel(ModelName);
     ((QTableWidget *)view())->setCurrentCell(CurrentSel/NBRCOLUMN,CurrentSel-(CurrentSel/NBRCOLUMN)*NBRCOLUMN);

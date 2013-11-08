@@ -32,41 +32,46 @@ namespace Ui {
 class DlgRenderVideo : public QCustomDialog {
 Q_OBJECT
 public:
-    cEncodeVideo    Encoder;
-    QTimer          Timer;                          // Display progress information
-    int             Column,ColumnStart,Position;    // Display progress information
+    cEncodeVideo            Encoder;
+    QTimer                  Timer;                          // Display progress information
+    int                     Column,ColumnStart,Position;    // Display progress information
 
-    cDiaporama      *Diaporama;
-    int             ExportMode;                     // Export mode (smartphone, advanced, etc...)
-    bool            StopSpinboxRecursion;
-    int             Extend;                         // amout of padding (top and bottom) for cinema mode with DVD
-    int             VideoCodecIndex;                // Index of video codec
-    int             AudioCodecIndex;                // Index of audio codec
+    cDiaporama              *Diaporama;
+    int                     ExportMode;                     // Export mode (smartphone, advanced, etc...)
+    bool                    StopSpinboxRecursion;
+    int                     Extend;                         // amout of padding (top and bottom) for cinema mode with DVD
+    int                     VideoCodecIndex;                // Index of video codec
+    int                     AudioCodecIndex;                // Index of audio codec
 
-    bool            IsDestFileOpen;                 // true if encoding is started
+    bool                    IsDestFileOpen;                 // true if encoding is started
 
-    QString         OutputFileName;                 // filename with path for the last rendering file
-    int             OutputFileFormat;               // Container format
-    QString         VideoCodec;                     // Last video codec used
-    double          VideoFrameRate;                 // Last video frame rate used
-    int             VideoBitRate;                   // Last video bit rate used
-    QString         AudioCodec;                     // Last audio codec used
-    int             AudioFrequency;                 // Last audio frequency used
-    int             AudioChannels;
-    int             AudioBitRate;                   // Last audio bit rate used
-    int             ImageSize;                      // Last image size use for rendering
-    int             Standard;                       // Last standard use for rendering
+    QString                 OutputFileName;                 // filename with path for the last rendering file
+    int                     OutputFileFormat;               // Container format
+    QString                 VideoCodec;                     // Last video codec used
+    double                  VideoFrameRate;                 // Last video frame rate used
+    int                     VideoBitRate;                   // Last video bit rate used
+    QString                 AudioCodec;                     // Last audio codec used
+    int                     AudioFrequency;                 // Last audio frequency used
+    int                     AudioChannels;
+    int                     AudioBitRate;                   // Last audio bit rate used
+    int                     ImageSize;                      // Last image size use for rendering
+    int                     Standard;                       // Last standard use for rendering
 
-    QString         Language;
+    QString                 Language;
 
-    int             W,H;
+    int                     W,H;
+
+    QFutureWatcher<void>    ThreadEncode;
+    bool                    Continue;
+    QTimer                  DisplayTimer;
+    int                     PrevAdjustedDuration;
 
     explicit DlgRenderVideo(cDiaporama &Diaporama,int ExportMode,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
     ~DlgRenderVideo();
 
     // function to be overloaded
     virtual void    DoInitDialog();                             // Initialise dialog
-    virtual bool    DoAccept();                                 // Call when user click on Ok button
+    virtual bool    DoAccept()          {return true;}          // Call when user click on Ok button
     virtual void    DoRejet()           {/*Nothing to do*/}     // Call when user click on Cancel button
     virtual void    PrepareGlobalUndo() {/*Nothing to do*/}     // Initiale Undo
     virtual void    DoGlobalUndo()      {/*Nothing to do*/}     // Apply Undo : call when user click on Cancel button
@@ -76,6 +81,12 @@ protected:
     virtual void    reject();
 
 private slots:
+    void            StartEncode();                                 // Call when user click on Ok button
+    void            DoThreadEncode();
+    void            EndThreadEncode();
+    void            InitDisplay();
+    void            OnTimer();
+
     void            ProjectProperties();
     void            InitImageSizeCombo(int);
     void            SelectDestinationFile();

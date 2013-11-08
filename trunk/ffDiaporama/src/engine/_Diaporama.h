@@ -325,9 +325,10 @@ public:
 class cDiaporamaObjectInfo {
 public:
     //=====> All objects
-    QImage              *RenderedImage;                         // Final image rendered
-    bool                FreeRenderedImage;                      // True if allow to delete RenderedImage during destructor
+    QImage              RenderedImage;                          // Final image rendered
     double              FrameDuration;                          // Duration of a frame (in msec)
+    bool                IsShotStatic;
+    bool                IsTransitStatic;
 
     //=====> Current object
     int                 CurrentObject_Number;                   // Object number
@@ -342,12 +343,10 @@ public:
     int                 CurrentObject_BackgroundIndex;          // Object number containing current background definition
     QBrush              *CurrentObject_BackgroundBrush;         // Current background brush
     bool                CurrentObject_FreeBackgroundBrush;      // True if allow to delete CurrentObject_BackgroundBrush during destructor
-    QImage              *CurrentObject_PreparedBackground;      // Current image produce for background
-    bool                CurrentObject_FreePreparedBackground;   // True if allow to delete CurrentObject_FreePreparedBackground during destructor
+    QImage              CurrentObject_PreparedBackground;       // Current image produce for background
     cSoundBlockList     *CurrentObject_SoundTrackMontage;       // Sound for playing sound from montage track
     bool                CurrentObject_FreeSoundTrackMontage;    // True if allow to delete CurrentObject_SoundTrackMontage during destructor
-    QImage              *CurrentObject_PreparedImage;           // Current image prepared
-    bool                CurrentObject_FreePreparedImage;        // True if allow to delete CurrentObject_PreparedImage during destructor
+    QImage              CurrentObject_PreparedImage;            // Current image prepared
     cSoundBlockList     *CurrentObject_MusicTrack;              // Sound for playing music from music track
     bool                CurrentObject_FreeMusicTrack;           // True if allow to delete CurrentObject_MusicTrack during destructor
     cMusicObject        *CurrentObject_MusicObject;             // Ref to the current playing music
@@ -370,12 +369,10 @@ public:
     int                 TransitObject_BackgroundIndex;          // Object number containing current background definition
     QBrush              *TransitObject_BackgroundBrush;         // Current background brush
     bool                TransitObject_FreeBackgroundBrush;      // True if allow to delete TransitObject_BackgroundBrush during destructor
-    QImage              *TransitObject_PreparedBackground;      // Current image produce for background
-    bool                TransitObject_FreePreparedBackground;   // True if allow to delete TransitObject_PreparedBackground during destructor
+    QImage              TransitObject_PreparedBackground;       // Current image produce for background
     cSoundBlockList     *TransitObject_SoundTrackMontage;       // Sound for playing sound from montage track
     bool                TransitObject_FreeSoundTrackMontage;    // True if allow to delete TransitObject_SoundTrackMontage during destructor
-    QImage              *TransitObject_PreparedImage;           // Current image prepared
-    bool                TransitObject_FreePreparedImage;        // True if allow to delete TransitObject_PreparedImage during destructor
+    QImage              TransitObject_PreparedImage;            // Current image prepared
     cSoundBlockList     *TransitObject_MusicTrack;              // Sound for playing music from music track
     bool                TransitObject_FreeMusicTrack;           // True if allow to delete TransitObject_MusicTrack during destructor
     cMusicObject        *TransitObject_MusicObject;             // Ref to the current playing music
@@ -384,7 +381,7 @@ public:
     cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,int64_t TimePosition,cDiaporama *Diaporama,double FrameDuration,bool WantSound);
     ~cDiaporamaObjectInfo();
     void Copy(cDiaporamaObjectInfo *PreviousFrame);
-    bool IsShotStatic(cDiaporamaObject *Object,int ShotNumber);
+    bool ComputeIsShotStatic(cDiaporamaObject *Object,int ShotNumber);
 };
 
 //*********************************************************************************************************************************************

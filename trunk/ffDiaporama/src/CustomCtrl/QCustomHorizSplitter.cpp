@@ -26,13 +26,10 @@
 #include <QSize>
 
 QCustomHorizSplitter::QCustomHorizSplitter(QWidget *parent):QSplitter(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomHorizSplitter::QCustomHorizSplitter");
     IsFirstInitDone=false;
 }
 
 void QCustomHorizSplitter::resizeEvent(QResizeEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::resizeEvent");
-
     if (!IsFirstInitDone) QSplitter::resizeEvent(event); else {
         QList<int> List=sizes();
         List[1]+=(event->size().width()-event->oldSize().width());
@@ -41,8 +38,6 @@ void QCustomHorizSplitter::resizeEvent(QResizeEvent *event) {
 }
 
 void QCustomHorizSplitter::showEvent(QShowEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::showEvent");
-
     QSplitter::showEvent(event);
     IsFirstInitDone=true;
 }

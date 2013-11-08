@@ -32,8 +32,6 @@
 
     // qt_fromWinHBITMAP From Qmmander Filemanager / Copyright (C) Alex Skoruppa 2009 (See:http://qmmander.googlecode.com/svn-history/r93/trunk/winfileinfo.cpp)
     QImage qt_fromWinHBITMAP(HDC hdc, HBITMAP bitmap, int w, int h) {
-        ToLog(LOGMSG_DEBUGTRACE,"IN:qt_fromWinHBITMAP");
-
         BITMAPINFO bmi;
         memset(&bmi, 0, sizeof(bmi));
         bmi.bmiHeader.biSize        = sizeof(BITMAPINFOHEADER);
@@ -69,8 +67,6 @@
     //====================================================================================================================
     // convertHIconToPixmap From Qmmander Filemanager / Copyright (C) Alex Skoruppa 2009 (See:http://qmmander.googlecode.com/svn-history/r93/trunk/winfileinfo.cpp)
     QPixmap convertHIconToPixmap( const HICON icon) {
-        ToLog(LOGMSG_DEBUGTRACE,"IN:convertHIconToPixmap");
-
         bool foundAlpha = false;
         HDC screenDevice = GetDC(0);
         HDC hdc = CreateCompatibleDC(screenDevice);
@@ -143,8 +139,6 @@
     //====================================================================================================================
     // GetIconForFileOrDir adapted by domledom From Qmmander Filemanager / Copyright (C) Alex Skoruppa 2009 (See:http://qmmander.googlecode.com/svn-history/r93/trunk/winfileinfo.cpp)
     QIcon GetIconForFileOrDir(QString FileName,int IconIndex) {
-        ToLog(LOGMSG_DEBUGTRACE,"IN:GetIconForFileOrDir");
-
         QIcon       RetIcon;
         WCHAR       WinFileName[256+1];
         QPixmap     pixmap;
@@ -228,13 +222,9 @@
 //*****************************************************************************************************************************************
 
 cCustomIcon::cCustomIcon() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::cCustomIcon");
-    IsIconNeeded=false;
 }
 
 void cCustomIcon::LoadIcons(QString FileName) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::LoadIcons as filename");
-
     QImage Icon(FileName);
     if (Icon.isNull()) ToLog(LOGMSG_CRITICAL,QString("Loading %1 Error").arg(FileName)); else {
         if (Icon.width()>Icon.height()) {
@@ -250,8 +240,6 @@ void cCustomIcon::LoadIcons(QString FileName) {
 //====================================================================================================================
 
 void cCustomIcon::LoadIcons(cCustomIcon *CustomIcon) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::LoadIcons as CustomIcon");
-
     Icon16 =CustomIcon->Icon16.copy();
     Icon100=CustomIcon->Icon100.copy();
 }
@@ -259,8 +247,6 @@ void cCustomIcon::LoadIcons(cCustomIcon *CustomIcon) {
 //====================================================================================================================
 
 void cCustomIcon::LoadIconsFromIMG(QString FileName) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::LoadIconsFromIMG");
-
     Icon16.load (":/img/MediaIcons/16x16/"+FileName);     if (Icon16.isNull())  ToLog(LOGMSG_CRITICAL,QString("Loading img/MediaIcons/16x16/%1 Error").arg(FileName));
     Icon100.load(":/img/MediaIcons/100x100/"+FileName);   if (Icon100.isNull()) ToLog(LOGMSG_CRITICAL,QString("Loading img/MediaIcons/100x100/%1 Error").arg(FileName));
 }
@@ -268,8 +254,6 @@ void cCustomIcon::LoadIconsFromIMG(QString FileName) {
 //====================================================================================================================
 
 void cCustomIcon::LoadIconsFromLinux(QString LinuxPath,QString FileName) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::LoadIconsFromLinux");
-
     Icon16.load(LinuxPath+"16x16/"+FileName);           if (Icon16.isNull())  ToLog(LOGMSG_CRITICAL,QString("Loading %116x16/%2 Error").arg(LinuxPath).arg(FileName));
     Icon100=QImage(LinuxPath+"128x128/"+FileName);      if (Icon100.isNull()) ToLog(LOGMSG_CRITICAL,QString("Loading %1128x128/%2 Error").arg(LinuxPath).arg(FileName));
     if (!Icon100.isNull()) Icon100=Icon100.scaledToHeight(100,Qt::SmoothTransformation);
@@ -278,8 +262,6 @@ void cCustomIcon::LoadIconsFromLinux(QString LinuxPath,QString FileName) {
 //====================================================================================================================
 
 void cCustomIcon::LoadIcons(QImage *Image) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::LoadIcons as QImage");
-
     if (Image->width()>Image->height()) {
         Icon16 =Image->scaledToWidth(16,Qt::SmoothTransformation);
         Icon100=Image->scaledToWidth(100,Qt::SmoothTransformation);
@@ -292,8 +274,6 @@ void cCustomIcon::LoadIcons(QImage *Image) {
 //====================================================================================================================
 
 void cCustomIcon::LoadIcons(QIcon Icon) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::LoadIcons as QIcon");
-
     Icon16 =Icon.pixmap(16,16).toImage();
     Icon100=Icon.pixmap(100,100).toImage();
     //if ((Icon100.height()<100)&&(Icon100.width()<100)) {
@@ -306,8 +286,6 @@ void cCustomIcon::LoadIcons(QIcon Icon) {
 //====================================================================================================================
 
 QIcon cCustomIcon::GetIcon() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::GetIcon");
-
     QIcon Ret=QIcon(QPixmap().fromImage(Icon16));
     Ret.addPixmap(QPixmap().fromImage(Icon100));
     return Ret;
@@ -316,8 +294,6 @@ QIcon cCustomIcon::GetIcon() {
 //====================================================================================================================
 
 QImage  *cCustomIcon::GetIcon(IconSize Size) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::GetIcon");
-
     switch (Size) {
         case ICON16:  return &Icon16;
         case ICON100: return &Icon100;

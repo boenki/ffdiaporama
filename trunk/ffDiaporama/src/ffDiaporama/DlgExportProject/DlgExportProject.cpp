@@ -26,8 +26,6 @@
 DlgExportProject::DlgExportProject(cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent)
     :QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgExportProject) {
 
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgExportProject::DlgExportProject");
-
     ui->setupUi(this);
     OkBt    =ui->OkBt;
     CancelBt=ui->CancelBt;
@@ -53,8 +51,6 @@ DlgExportProject::~DlgExportProject() {
 // Initialise dialog
 
 void DlgExportProject::DoInitDialog() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgExportProject::DoInitDialog");
-
     ui->ProgressBar->setEnabled(false);
     ui->ProgressBar->setRange(0,0);
     ui->OkBt->setEnabled(false);
@@ -86,7 +82,6 @@ void DlgExportProject::DoInitDialog() {
 // Call when user click on Ok button
 
 bool DlgExportProject::DoAccept() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgExportProject::DoAccept");
     if (ui->ProjectSubfolderED->text().isEmpty()) {
         CustomMessageBox(this,QMessageBox::Critical,this->windowTitle(),QApplication::translate("DlgExportProject","Error: Project subfolder can't be empty","Error message"),QMessageBox::Close);
         ui->ProjectSubfolderED->setFocus();
@@ -112,7 +107,6 @@ void DlgExportProject::EndAccept() {
 //====================================================================================================================
 
 void DlgExportProject::s_TimerEvent() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgExportProject::s_TimerEvent");
     if (JobStarted) {
         ui->Table->setUpdatesEnabled(false);
         ui->Table->selectionModel()->clear();
@@ -127,7 +121,6 @@ void DlgExportProject::s_TimerEvent() {
 // Call when user click on Ok button
 
 void DlgExportProject::DoRejet() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgExportProject::DoRejet");
     if (JobStarted) {
         Timer.stop();
         JobCancel=true;
@@ -139,7 +132,6 @@ void DlgExportProject::DoRejet() {
 //====================================================================================================================
 
 void DlgExportProject::SelectDestinationPath() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgExportProject::SelectDestinationPath");
     QString OutputFileName  =QFileDialog::getExistingDirectory(this,QApplication::translate("DlgRenderVideo","Select destination folder"),DestinationPath,
                                                                QFileDialog::ShowDirsOnly|QFileDialog::DontResolveSymlinks);
     if (OutputFileName!="") {
@@ -151,7 +143,6 @@ void DlgExportProject::SelectDestinationPath() {
 //====================================================================================================================
 
 void DlgExportProject::AdjustDestinationPath() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgExportProject::AdjustDestinationPath");
     DestinationPath=ui->DestinationPathED->text();
 }
 
@@ -170,13 +161,12 @@ void DlgExportProject::SearchAppendObject(QString FileName) {
         ui->Table->insertRow(Nbr);
         ui->Table->setItem(Nbr,0,CreateTextItem(QApplication::translate("DlgExportProject","not started"),Qt::AlignHCenter));
         ui->Table->setItem(Nbr,1,CreateTextItem(ReplaceList.List[Nbr].DestFileName,Qt::AlignLeft));
-        ui->Table->setItem(Nbr,2,CreateTextItem(AdjustDirForOS(ReplaceList.List[Nbr].SourceFileName),Qt::AlignLeft));
+        ui->Table->setItem(Nbr,2,CreateTextItem(QDir::toNativeSeparators(ReplaceList.List[Nbr].SourceFileName),Qt::AlignLeft));
         ui->Table->setRowHeight(Nbr,HeighRow);
     }
 }
 
 void DlgExportProject::ScanDiaporama() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgExportProject::ScanDiaporama");
     // ProjectThumbnail
     for (int j=0;j<ffdProject->ProjectThumbnail->ObjectComposition.List.count();j++) if (ffdProject->ProjectThumbnail->ObjectComposition.List[j]->BackgroundBrush) {
         if (ffdProject->ProjectThumbnail->ObjectComposition.List[j]->BackgroundBrush->Image)            SearchAppendObject(ffdProject->ProjectThumbnail->ObjectComposition.List[j]->BackgroundBrush->Image->FileName());
@@ -205,7 +195,7 @@ void DlgExportProject::ScanDiaporama() {
     ui->Table->setRowHeight(Nbr,HeighRow);
     ui->Table->setItem(Nbr,0,CreateTextItem(QApplication::translate("DlgExportProject","not started"),Qt::AlignHCenter));
     ui->Table->setItem(Nbr,1,CreateTextItem(ReplaceList.List[Nbr].DestFileName,Qt::AlignLeft));
-    ui->Table->setItem(Nbr,2,CreateTextItem(AdjustDirForOS(ReplaceList.List[Nbr].SourceFileName),Qt::AlignLeft));
+    ui->Table->setItem(Nbr,2,CreateTextItem(QDir::toNativeSeparators(ReplaceList.List[Nbr].SourceFileName),Qt::AlignLeft));
     ui->ProgressBar->setRange(0,ReplaceList.List.count()-1);
     ui->OkBt->setEnabled(true);
 }
@@ -213,7 +203,6 @@ void DlgExportProject::ScanDiaporama() {
 //====================================================================================================================
 
 void DlgExportProject::DoProcessCopy() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgExportProject::DoProcessCopy");
     QString DestPath=DestinationPath;
     if (!DestPath.endsWith(QDir::separator())) DestPath=DestPath+QDir::separator();
     DestPath=DestPath+ui->ProjectSubfolderED->text();

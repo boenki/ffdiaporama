@@ -50,6 +50,7 @@ public:
     int             ImageOrientation;                       // Image orientation (EXIF)         [For LULOOBJECT_IMAGE]
     int64_t         Position;                               // Position in video                [For LULOOBJECT_VIDEO]
     cLuLoImageCache *LuLoImageCache;                        // Link to parent LuLoImageCache collection
+    qlonglong       ByteCount;
 
     // Constructor for image file
     cLuLoImageCacheObject(qlonglong FileKey,QDateTime ModifDateTime,int ImageOrientation,QString FilterString,bool Smoothing,cLuLoImageCache *Parent);
@@ -71,7 +72,7 @@ public:
     ~cLuLoImageCache();
 
     cLuLoImageCacheObject   *FindObject(qlonglong FileKey,QDateTime ModifDateTime,int ImageOrientation,bool Smoothing,bool SetAtTop);
-    void                    FreeMemoryToMaxValue();
+    void                    FreeMemoryToMaxValue(cLuLoImageCacheObject *DontFree);
     int64_t                 MemoryUsed();
     void                    RemoveImageObject(qlonglong FileKey);    // Special case for slide dialog : Remove all object of this key
 };

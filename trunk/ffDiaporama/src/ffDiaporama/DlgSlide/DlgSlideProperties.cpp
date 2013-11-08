@@ -879,19 +879,21 @@ void DlgSlideProperties::RefreshStyleControls() {
                     CachedImage=CurrentCompoObject->BackgroundBrush->Image->ImageAt(true);
                  } else if (CurrentCompoObject->BackgroundBrush->Video) {
                     CachedImage=CurrentCompoObject->BackgroundBrush->Video->ImageAt(true,Position+QTime(0,0,0,0).msecsTo(CurrentCompoObject->BackgroundBrush->Video->StartPos),NULL,CurrentCompoObject->BackgroundBrush->Deinterlace,1,false,false);
-                    if (CachedImage->format()!=QImage::Format_ARGB32_Premultiplied) {
+                    if ((CachedImage)&&(CachedImage->format()!=QImage::Format_ARGB32_Premultiplied)) {
                         QImage *NewCachedImage=new QImage(CachedImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
                         delete CachedImage;
                         CachedImage=NewCachedImage;
                     }
                 }
 
-                ui->FramingStyleCB->X=CurrentCompoObject->BackgroundBrush->X;
-                ui->FramingStyleCB->Y=CurrentCompoObject->BackgroundBrush->Y;
-                ui->FramingStyleCB->ZoomFactor=CurrentCompoObject->BackgroundBrush->ZoomFactor;
-                ui->FramingStyleCB->AspectRatio=CurrentCompoObject->BackgroundBrush->AspectRatio;
-                ui->FramingStyleCB->PrepareFramingStyleTable(true,/*FILTERFRAMING_ALL*/FILTERFRAMING_IMAGE|FILTERFRAMING_PROJECT,CurrentCompoObject->BackgroundBrush,CachedImage,CurrentCompoObject->BackgroundForm,ProjectGeometry);
-                delete CachedImage;
+                if (CachedImage) {
+                    ui->FramingStyleCB->X=CurrentCompoObject->BackgroundBrush->X;
+                    ui->FramingStyleCB->Y=CurrentCompoObject->BackgroundBrush->Y;
+                    ui->FramingStyleCB->ZoomFactor=CurrentCompoObject->BackgroundBrush->ZoomFactor;
+                    ui->FramingStyleCB->AspectRatio=CurrentCompoObject->BackgroundBrush->AspectRatio;
+                    ui->FramingStyleCB->PrepareFramingStyleTable(true,/*FILTERFRAMING_ALL*/FILTERFRAMING_IMAGE|FILTERFRAMING_PROJECT,CurrentCompoObject->BackgroundBrush,CachedImage,CurrentCompoObject->BackgroundForm,ProjectGeometry);
+                    delete CachedImage;
+                }
             }
             ui->FramingStyleCB->SetCurrentFraming(CurrentCompoObject->BackgroundBrush->GetCurrentFramingStyle(ProjectGeometry));
         }

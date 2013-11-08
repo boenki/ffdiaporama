@@ -54,14 +54,11 @@ cTextFrameObject::cTextFrameObject(QString RessourceName,double TMx,double TMy,d
 //====================================================================================================================
 
 cTextFrameList::cTextFrameList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cTextFrameList::cTextFrameList");
 }
 
 //====================================================================================================================
 
 int cTextFrameList::SearchImage(QString NameToFind) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cTextFrameList::SearchImage");
-
     int Ret=-1;
     int j=0;
     while ((j<List.count())&&(Ret==-1)) if (List[j].RessourceName==NameToFind) Ret=j; else j++;
@@ -72,7 +69,6 @@ int cTextFrameList::SearchImage(QString NameToFind) {
 //====================================================================================================================
 
 void cTextFrameList::DoPreploadList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cTextFrameList::DoPreploadList");
     List.append(cTextFrameObject(":/img/TextFrame/010.svg", 0.08,0.11,0.83,0.54,Qt::white,             MEDIUMBLACK));
     List.append(cTextFrameObject(":/img/TextFrame/011.svg", 0.07,0.10,0.84,0.53,Qt::white,             MEDIUMBLACK));
     List.append(cTextFrameObject(":/img/TextFrame/012.svg", 0.07,0.09,0.85,0.55,Qt::white,             MEDIUMBLACK));

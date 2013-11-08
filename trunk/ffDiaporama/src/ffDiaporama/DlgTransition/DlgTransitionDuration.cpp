@@ -25,7 +25,7 @@
 
 DlgTransitionDuration::DlgTransitionDuration(int64_t Duration,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgTransitionDuration) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionDuration::DlgTransitionDuration");
+
     ui->setupUi(this);
     OkBt            =ui->OKBT;
     CancelBt        =ui->CancelBt;
@@ -37,15 +37,12 @@ DlgTransitionDuration::DlgTransitionDuration(int64_t Duration,cBaseApplicationCo
 //====================================================================================================================
 
 DlgTransitionDuration::~DlgTransitionDuration() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionDuration::~DlgTransitionDuration");
     delete ui;
 }
 
 //====================================================================================================================
 
 void DlgTransitionDuration::DoInitDialog() {
-   ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionDuration::DoInitDialog");
-
    QString sDuration=QString("%1").arg(double(Duration)/double(1000),0,'f');
    while (sDuration.endsWith('0')) sDuration=sDuration.left(sDuration.length()-1);
    while (sDuration.endsWith('.')) sDuration=sDuration.left(sDuration.length()-1);
@@ -55,7 +52,6 @@ void DlgTransitionDuration::DoInitDialog() {
 //====================================================================================================================
 
 bool DlgTransitionDuration::DoAccept() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionDuration::DoAccept");
     Duration=int64_t(GetDoubleValue(ui->TransitionDurationCB->currentText())*double(1000));
     return true;
 }
