@@ -6150,10 +6150,6 @@ Vuoi aprirlo comunque?</translation>
         <translation>Avvio libav...</translation>
     </message>
     <message>
-        <source>ffDiaporama initialisation</source>
-        <translation>Inizializzazione ffDiaporama</translation>
-    </message>
-    <message>
         <source>Adjust display mode and file filtering</source>
         <translation>Agiusta la modalità di visualizzazione e il filtro sui file</translation>
     </message>
@@ -6471,10 +6467,6 @@ Sei sicuro che è vuota?</translation>
         <translation>Impossibile cancellare il file!</translation>
     </message>
     <message>
-        <source>Rescale image to 8MPix</source>
-        <translation>Riscala immagine a 8MPix</translation>
-    </message>
-    <message>
         <source>Latest version number of ffDiaporama is indeterminable</source>
         <translation>L&apos;ultimo numero di versione di ffDiaporama è indeterminabile</translation>
     </message>
@@ -6497,10 +6489,6 @@ Sei sicuro che è vuota?</translation>
     <message>
         <source>Your version of ffDiaporama is up to day</source>
         <translation>La tua versione di ffDiaporama è aggiornata</translation>
-    </message>
-    <message>
-        <source>Loading text frame  library...</source>
-        <translation>Caricamento libreria cornici testo...</translation>
     </message>
     <message>
         <source>Export
@@ -6584,6 +6572,29 @@ Vuoi scaricarla ora?</translation>
     <message>
         <source>Init WIKI...</source>
         <translation>Inizializzazione WIKI...</translation>
+    </message>
+    <message>
+        <source>Error reading window state of %1 from home user database</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Init home user database...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error initialising home user database...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error initialising home user database
+ffDiaporama can&apos;t start</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading text frame library...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7484,10 +7495,6 @@ Vuoi scaricarla ora?</translation>
     <message>
         <source>Open file</source>
         <translation>Apri file</translation>
-    </message>
-    <message>
-        <source>Slide number</source>
-        <translation>Numero diapositiva</translation>
     </message>
     <message>
         <source>ffDiaporama</source>

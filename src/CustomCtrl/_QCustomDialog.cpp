@@ -28,8 +28,6 @@
 //====================================================================================================================
 
 QString CustomInputDialog(QWidget *parent,const QString &title,const QString &label,int mode,const QString &text,bool *ok,Qt::InputMethodHints inputMethodHints) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:CustomInputDialog");
-
     Qt::WindowFlags Flags=(Qt::Dialog|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint);
 
     QInputDialog dialog(parent,Flags);
@@ -52,8 +50,6 @@ QString CustomInputDialog(QWidget *parent,const QString &title,const QString &la
 //====================================================================================================================
 
 int CustomMessageBox(QWidget *parent,QMessageBox::Icon icon,const QString& title,const QString& text,QMessageBox::StandardButtons buttons,QMessageBox::StandardButton defaultButton) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:CustomMessageBox");
-
     Qt::WindowFlags Flags=(Qt::Dialog|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint);
 
     QMessageBox         msgBox(icon,title,text,QMessageBox::NoButton,parent,Flags);
@@ -79,8 +75,6 @@ int CustomMessageBox(QWidget *parent,QMessageBox::Icon icon,const QString& title
 //====================================================================================================================
 
 QCustomDialog::QCustomDialog(cBaseApplicationConfig *BaseApplicationConfig,QWidget *parent):QDialog(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::QCustomDialog");
-
     this->BaseApplicationConfig =BaseApplicationConfig;
     TypeWindowState             =TypeWindowState_simple;
     Splitter                    =NULL;
@@ -100,8 +94,6 @@ QCustomDialog::QCustomDialog(cBaseApplicationConfig *BaseApplicationConfig,QWidg
 //====================================================================================================================
 
 QCustomDialog::~QCustomDialog() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::~QCustomDialog");
-
     if (!HelpFile.isEmpty() && BaseApplicationConfig->WikiFollowInterface) BaseApplicationConfig->PopupHelp->RestorePreviousHelpFile();
 
     if (Undo) {
@@ -114,8 +106,6 @@ QCustomDialog::~QCustomDialog() {
 // Initialise dialog
 
 void QCustomDialog::InitDialog() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::InitDialog");
-
     // Define handler for standard buttons
     if (OkBt) {
         OkBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_DialogOkButton));
@@ -167,8 +157,6 @@ void QCustomDialog::toolTipTowhatsThis(QObject *StartObj) {
 //====================================================================================================================
 
 void QCustomDialog::accept() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::accept");
-
     SaveWindowState();  // Save Window size and position
     if (DoAccept())     // call overloaded function
         done(0);        // Close dialog
@@ -177,8 +165,6 @@ void QCustomDialog::accept() {
 //====================================================================================================================
 
 void QCustomDialog::reject() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::accept");
-
     SaveWindowState();  // Save Window size and position
     DoGlobalUndo();     // Undo change
     DoRejet();          // call overloaded function
@@ -188,7 +174,6 @@ void QCustomDialog::reject() {
 //====================================================================================================================
 
 void QCustomDialog::help() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::help");
     BaseApplicationConfig->PopupHelp->OpenHelp(HelpFile,true);
 }
 
@@ -196,8 +181,6 @@ void QCustomDialog::help() {
 // Save Window size and position
 
 void QCustomDialog::SaveWindowState() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::SaveWindowState");
-
     if (BaseApplicationConfig->RestoreWindow) {
         QDomDocument    domDocument;
         QDomElement     root=domDocument.createElement("WindowState");
@@ -221,8 +204,6 @@ void QCustomDialog::SaveWindowState() {
 // Restore window size and position
 
 void QCustomDialog::RestoreWindowState() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::RestoreWindowState");
-
     QString   WindowStateString;
     if (BaseApplicationConfig->SettingsTable->GetIntAndTextValue(objectName(),&TypeWindowState,&WindowStateString)) {
         QDomDocument    domDocument;
@@ -248,8 +229,6 @@ void QCustomDialog::RestoreWindowState() {
 // utility function to init a table widget
 
 void QCustomDialog::DoInitTableWidget(QTableWidget *Table,QString TableColumns) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::DoInitTableWidget");
-
     Table->setSelectionBehavior(QAbstractItemView::SelectRows);
     Table->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     Table->horizontalHeader()->show();
@@ -282,8 +261,6 @@ void QCustomDialog::DoInitTableWidget(QTableWidget *Table,QString TableColumns) 
 // utility function to create a QTableWidgetItem
 
 QTableWidgetItem *QCustomDialog::CreateItem(QString ItemText,int Alignment,QBrush Background) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::CreateItem");
-
     QTableWidgetItem *Item=new QTableWidgetItem(ItemText);
     Item->setTextAlignment(Alignment);
     Item->setBackground(Background);
@@ -294,8 +271,6 @@ QTableWidgetItem *QCustomDialog::CreateItem(QString ItemText,int Alignment,QBrus
 // utility function to resize columns in a table widget
 
 void QCustomDialog::DoResizeColumnsTableWidget(QTableWidget *Table) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::DoResizeColumnsTableWidget");
-
     #if QT_VERSION >= 0x050000
     Table->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     #else
@@ -316,7 +291,6 @@ void QCustomDialog::DoResizeColumnsTableWidget(QTableWidget *Table) {
 // utility function to add a partial undo to the list
 
 void QCustomDialog::AppendPartialUndo(int ActionType,QWidget *FocusWindow,bool ForceAdd) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::AppendPartialUndo");
     if ((ForceAdd)||(UndoDataList.count()==0)||(ActionType!=UndoDataList.last().ActionType)) {
 
         QDomDocument DomDocument("UNDO");
@@ -345,7 +319,6 @@ void QCustomDialog::RemoveLastPartialUndo() {
 // utility function to undo latest action
 
 void QCustomDialog::DoPartialUndo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::DoPartialUndo");
     if (UndoDataList.count()==0) {
         if (Undo!=NULL) DoGlobalUndo();
     } else {
@@ -365,7 +338,6 @@ void QCustomDialog::DoPartialUndo() {
 // Utility function use to set current index in a combobox base on an itemdata
 
 void QCustomDialog::SetCBIndex(QComboBox *CB,int ItemData) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::SetCBIndex");
     for (int i=0;i<CB->count();i++) if (CB->itemData(i).toInt()==ItemData) {
         CB->setCurrentIndex(i);
         break;

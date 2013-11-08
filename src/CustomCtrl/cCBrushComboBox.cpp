@@ -27,12 +27,10 @@
 //******************************************************************************************************************
 
 cCBrushComboBoxItem::cCBrushComboBoxItem(QObject *parent):QStyledItemDelegate(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCBrushComboBoxItem::cCBrushComboBoxItem");
 }
 
 //========================================================================================================================
 void cCBrushComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCBrushComboBoxItem::paint");
     if ((!ComboBox)||(!ComboBox->Brush)) return;
     int ColorNum=index.row()*4+index.column();
     if (ColorNum<MAXBRUSHPATTERN) {
@@ -63,7 +61,6 @@ void cCBrushComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &op
 //========================================================================================================================
 
 QSize cCBrushComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const QModelIndex &/*index*/) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCBrushComboBoxItem::sizeHint");
     return QSize(32,32);
 }
 
@@ -72,7 +69,6 @@ QSize cCBrushComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const
 //******************************************************************************************************************
 
 cCBrushComboBox::cCBrushComboBox(QWidget *parent):QComboBox(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCBrushComboBox::cCBrushComboBox");
     STOPMAJ=false;
     Brush=NULL;
     QTableWidget    *Table=new QTableWidget();
@@ -103,7 +99,6 @@ cCBrushComboBox::cCBrushComboBox(QWidget *parent):QComboBox(parent) {
 //========================================================================================================================
 
 void cCBrushComboBox::SetCurrentBrush(cBrushDefinition *TheBrush) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCBrushComboBox::SetCurrentBrush");
     if (STOPMAJ) return;
     Brush=TheBrush;
     ((QTableWidget *)view())->setCurrentCell(Brush->PatternType/4,Brush->PatternType-(Brush->PatternType/4)*4);
@@ -114,7 +109,6 @@ void cCBrushComboBox::SetCurrentBrush(cBrushDefinition *TheBrush) {
 //========================================================================================================================
 
 cBrushDefinition *cCBrushComboBox::GetCurrentBrush() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCBrushComboBox::GetCurrentBrush");
     Brush->BrushType  =BRUSHTYPE_PATTERN;
     Brush->PatternType=currentIndex()*4+((QTableWidget *)view())->currentColumn();
     MakeIcons();
@@ -124,7 +118,6 @@ cBrushDefinition *cCBrushComboBox::GetCurrentBrush() {
 //========================================================================================================================
 
 void cCBrushComboBox::MakeIcons() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCBrushComboBox::MakeIcons");
     if (!Brush) return;
     int CurrentRow=currentIndex();
     if (CurrentRow<0) return;
@@ -159,7 +152,6 @@ void cCBrushComboBox::MakeIcons() {
 //========================================================================================================================
 
 void cCBrushComboBox::s_ItemSelectionChanged() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCBrushComboBox::s_ItemSelectionChanged");
     STOPMAJ=true;
     setCurrentIndex(((QTableWidget *)view())->currentRow());
     MakeIcons();

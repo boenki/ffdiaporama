@@ -26,8 +26,6 @@
 DlgInfoFile::DlgInfoFile(cBaseMediaFile *MediaFile,cBaseApplicationConfig *ApplicationConfig,QWidget *parent)
     :QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgInfoFile) {
 
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgInfoFile::DlgInfoFile");
-
     this->MediaFile=MediaFile;
 
     ui->setupUi(this);
@@ -40,8 +38,6 @@ DlgInfoFile::DlgInfoFile(cBaseMediaFile *MediaFile,cBaseApplicationConfig *Appli
 //====================================================================================================================
 
 DlgInfoFile::~DlgInfoFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgInfoFile::~DlgInfoFile");
-
     delete ui;
 }
 
@@ -49,26 +45,26 @@ DlgInfoFile::~DlgInfoFile() {
 // Initialise dialog
 
 void DlgInfoFile::DoInitDialog() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgInfoFile::DoInitDialog");
-
     DoInitTableWidget(ui->tableWidget,"Propertie;Value");
 
     if (MediaFile) {
+        QStringList TempExtProperties;
+        BaseApplicationConfig->FilesTable->GetExtendedProperties(MediaFile->FileKey,&TempExtProperties);
         // General file information
-        if (!MediaFile->Icon100.isNull()) {
-            ui->FileIconLabel->setPixmap(QPixmap().fromImage(MediaFile->Icon100));
-        } else if (MediaFile->ObjectType==OBJECTTYPE_IMAGEFILE) {
+        if (MediaFile->ObjectType==OBJECTTYPE_IMAGEFILE) {
             cLuLoImageCacheObject *ImageObject=BaseApplicationConfig->ImagesCache.FindObject(MediaFile->FileKey,MediaFile->ModifDateTime,MediaFile->ImageOrientation,true,false);
             if (ImageObject) {
                 QImage *Img=ImageObject->ValidateCachePreviewImage();
-                if ((Img)&&(!Img->isNull())) {
+                if (Img) {
                     QImage NewImg=(Img->width()>Img->height())?Img->scaledToWidth(100,Qt::SmoothTransformation):Img->scaledToHeight(100,Qt::SmoothTransformation);
                     ui->FileIconLabel->setPixmap(QPixmap().fromImage(NewImg));
+                    delete Img;
                 }
             }
-        }
+        } else ui->FileIconLabel->setPixmap(QPixmap().fromImage(MediaFile->GetIcon(cCustomIcon::ICON100,false)));
+
         ui->FileNameValue->setText(MediaFile->ShortName());
-        ui->FileTypeValue->setText(MediaFile->GetFileTypeStr()+QString("(%1)").arg(GetInformationValue("Long Format",&MediaFile->InformationList)));
+        ui->FileTypeValue->setText(MediaFile->GetFileTypeStr()+QString("(%1)").arg(GetInformationValue("Long Format",&TempExtProperties)));
         ui->FileSizeValue->setText(MediaFile->GetFileSizeStr());
         ui->FileCreatedValue->setText(MediaFile->GetFileDateTimeStr(true));
         ui->FileModifyValue->setText(MediaFile->GetFileDateTimeStr(false));
@@ -88,9 +84,9 @@ void DlgInfoFile::DoInitDialog() {
                 ui->VideoTable->setItem(ui->VideoTable->rowCount()-1,1,CreateItem(MediaFile->GetImageSizeStr(cBaseMediaFile::SIZEONLY),Qt::AlignCenter|Qt::AlignVCenter,Background));
                 ui->VideoTable->setItem(ui->VideoTable->rowCount()-1,2,CreateItem(MediaFile->GetImageSizeStr(cBaseMediaFile::FMTONLY),Qt::AlignCenter|Qt::AlignVCenter,Background));
                 ui->VideoTable->setItem(ui->VideoTable->rowCount()-1,3,CreateItem(MediaFile->GetImageSizeStr(cBaseMediaFile::GEOONLY),Qt::AlignCenter|Qt::AlignVCenter,Background));
-                ui->VideoTable->setItem(ui->VideoTable->rowCount()-1,4,CreateItem(GetInformationValue(TrackNum+"Codec",&MediaFile->InformationList),Qt::AlignCenter|Qt::AlignVCenter,Background));
-                ui->VideoTable->setItem(ui->VideoTable->rowCount()-1,5,CreateItem(GetInformationValue(TrackNum+"Frame rate",&MediaFile->InformationList),Qt::AlignCenter|Qt::AlignVCenter,Background));
-                ui->VideoTable->setItem(ui->VideoTable->rowCount()-1,6,CreateItem(GetInformationValue(TrackNum+"Bitrate",&MediaFile->InformationList),Qt::AlignCenter|Qt::AlignVCenter,Background));
+                ui->VideoTable->setItem(ui->VideoTable->rowCount()-1,4,CreateItem(GetInformationValue(TrackNum+"Codec",&TempExtProperties),Qt::AlignCenter|Qt::AlignVCenter,Background));
+                ui->VideoTable->setItem(ui->VideoTable->rowCount()-1,5,CreateItem(GetInformationValue(TrackNum+"Frame rate",&TempExtProperties),Qt::AlignCenter|Qt::AlignVCenter,Background));
+                ui->VideoTable->setItem(ui->VideoTable->rowCount()-1,6,CreateItem(GetInformationValue(TrackNum+"Bitrate",&TempExtProperties),Qt::AlignCenter|Qt::AlignVCenter,Background));
             }
             DoResizeColumnsTableWidget(ui->VideoTable);
             ui->VideoTable->setUpdatesEnabled(true);
@@ -114,11 +110,18 @@ void DlgInfoFile::DoInitDialog() {
                 QColor Background=((i & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
                 ui->ChapterTable->insertRow(ui->ChapterTable->rowCount());
                 ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(QString("%1").arg(i+1),Qt::AlignLeft|Qt::AlignVCenter,Background));
-                if (MediaFile->ObjectType==OBJECTTYPE_FFDFILE) ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(GetInformationValue(ChapterNum+"InSlide",&MediaFile->InformationList),Qt::AlignLeft|Qt::AlignVCenter,Background));
-                ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(GetInformationValue(ChapterNum+"title",&MediaFile->InformationList),Qt::AlignLeft|Qt::AlignVCenter,Background));
-                ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(GetInformationValue(ChapterNum+"Start",&MediaFile->InformationList),Qt::AlignLeft|Qt::AlignVCenter,Background));
-                ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(GetInformationValue(ChapterNum+"End",&MediaFile->InformationList),Qt::AlignLeft|Qt::AlignVCenter,Background));
-                ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(GetInformationValue(ChapterNum+"Duration",&MediaFile->InformationList),Qt::AlignLeft|Qt::AlignVCenter,Background));
+                if (MediaFile->ObjectType==OBJECTTYPE_FFDFILE) {
+                    ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(GetInformationValue(ChapterNum+"InSlide", &((cffDProjectFile *)MediaFile)->ChaptersProperties),Qt::AlignLeft|Qt::AlignVCenter,Background));
+                    ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(GetInformationValue(ChapterNum+"title",   &((cffDProjectFile *)MediaFile)->ChaptersProperties),Qt::AlignLeft|Qt::AlignVCenter,Background));
+                    ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(GetInformationValue(ChapterNum+"Start",   &((cffDProjectFile *)MediaFile)->ChaptersProperties),Qt::AlignLeft|Qt::AlignVCenter,Background));
+                    ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(GetInformationValue(ChapterNum+"End",     &((cffDProjectFile *)MediaFile)->ChaptersProperties),Qt::AlignLeft|Qt::AlignVCenter,Background));
+                    ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(GetInformationValue(ChapterNum+"Duration",&((cffDProjectFile *)MediaFile)->ChaptersProperties),Qt::AlignLeft|Qt::AlignVCenter,Background));
+                } else {
+                    ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(GetInformationValue(ChapterNum+"title",   &TempExtProperties),Qt::AlignLeft|Qt::AlignVCenter,Background));
+                    ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(GetInformationValue(ChapterNum+"Start",   &TempExtProperties),Qt::AlignLeft|Qt::AlignVCenter,Background));
+                    ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(GetInformationValue(ChapterNum+"End",     &TempExtProperties),Qt::AlignLeft|Qt::AlignVCenter,Background));
+                    ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(GetInformationValue(ChapterNum+"Duration",&TempExtProperties),Qt::AlignLeft|Qt::AlignVCenter,Background));
+                }
             }
             DoResizeColumnsTableWidget(ui->ChapterTable);
             ui->ChapterTable->setUpdatesEnabled(true);
@@ -140,13 +143,13 @@ void DlgInfoFile::DoInitDialog() {
                 QColor Background=((i & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
                 ui->AudioTable->insertRow(ui->AudioTable->rowCount());
                 ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,0,CreateItem(QString("%1").arg(i+1),Qt::AlignLeft|Qt::AlignVCenter,Background));
-                ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,1,CreateItem(GetInformationValue(TrackNum+"language",&MediaFile->InformationList),Qt::AlignCenter|Qt::AlignVCenter,Background));
-                ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,2,CreateItem(GetInformationValue(TrackNum+"Codec",&MediaFile->InformationList),Qt::AlignCenter|Qt::AlignVCenter,Background));
-                ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,3,CreateItem(GetInformationValue(TrackNum+"Channels",&MediaFile->InformationList),Qt::AlignCenter|Qt::AlignVCenter,Background));
-                ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,4,CreateItem(GetInformationValue(TrackNum+"Bitrate",&MediaFile->InformationList),Qt::AlignCenter|Qt::AlignVCenter,Background));
-                ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,5,CreateItem(GetInformationValue(TrackNum+"Frequency",&MediaFile->InformationList),Qt::AlignCenter|Qt::AlignVCenter,Background));
+                ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,1,CreateItem(GetInformationValue(TrackNum+"language",&TempExtProperties),Qt::AlignCenter|Qt::AlignVCenter,Background));
+                ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,2,CreateItem(GetInformationValue(TrackNum+"Codec",&TempExtProperties),Qt::AlignCenter|Qt::AlignVCenter,Background));
+                ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,3,CreateItem(GetInformationValue(TrackNum+"Channels",&TempExtProperties),Qt::AlignCenter|Qt::AlignVCenter,Background));
+                ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,4,CreateItem(GetInformationValue(TrackNum+"Bitrate",&TempExtProperties),Qt::AlignCenter|Qt::AlignVCenter,Background));
+                ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,5,CreateItem(GetInformationValue(TrackNum+"Frequency",&TempExtProperties),Qt::AlignCenter|Qt::AlignVCenter,Background));
                 if (MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)
-                    ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,6,CreateItem(GetInformationValue(TrackNum+"title",&MediaFile->InformationList),Qt::AlignLeft|Qt::AlignVCenter,Background));
+                    ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,6,CreateItem(GetInformationValue(TrackNum+"title",&TempExtProperties),Qt::AlignLeft|Qt::AlignVCenter,Background));
             }
             DoResizeColumnsTableWidget(ui->AudioTable);
             ui->AudioTable->setUpdatesEnabled(true);
@@ -162,15 +165,15 @@ void DlgInfoFile::DoInitDialog() {
         #else
         ui->tableWidget->verticalHeader()->setResizeMode(QHeaderView::ResizeToContents);
         #endif
-        for (int i=0;i<MediaFile->InformationList.count();i++)
-          if ((!((QString)MediaFile->InformationList[i]).startsWith("Chapter_"))
-              &&(!((QString)MediaFile->InformationList[i]).startsWith("Video_"))
-              &&(!((QString)MediaFile->InformationList[i]).startsWith("Audio_"))
-              &&(!((QString)MediaFile->InformationList[i]).startsWith("Short Format"))
-              &&(!((QString)MediaFile->InformationList[i]).startsWith("Long Format"))
+        for (int i=0;i<TempExtProperties.count();i++)
+          if ((!((QString)TempExtProperties[i]).startsWith("Chapter_"))
+              &&(!((QString)TempExtProperties[i]).startsWith("Video_"))
+              &&(!((QString)TempExtProperties[i]).startsWith("Audio_"))
+              &&(!((QString)TempExtProperties[i]).startsWith("Short Format"))
+              &&(!((QString)TempExtProperties[i]).startsWith("Long Format"))
           ) {
             ui->tableWidget->insertRow(ui->tableWidget->rowCount());
-            QStringList Value=MediaFile->InformationList[i].split("##");
+            QStringList Value=TempExtProperties[i].split("##");
             ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,0,new QTableWidgetItem(Value[0]));
             ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,1,new QTableWidgetItem(Value[1]));
         }

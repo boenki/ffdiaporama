@@ -160,7 +160,9 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
 
     // Init text to display in summary views
     if (MediaFile!=NULL) {
-        QStringList SummaryText=MediaFile->GetSummaryText(&MediaFile->InformationList);
+        QStringList TempExtProperties;
+        ParentTable->ApplicationConfig->FilesTable->GetExtendedProperties(MediaFile->FileKey,&TempExtProperties);
+        QStringList SummaryText=MediaFile->GetSummaryText(&TempExtProperties);
         // First line
         font=QFont("Sans serif",9,QFont::Bold,QFont::StyleNormal);          // First line use bold
         Painter->setFont(font);

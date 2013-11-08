@@ -134,7 +134,6 @@ QRgb interpolate255(QRgb x, unsigned int a,QRgb y, unsigned int b) {
 
 // Adapt From fmt_filters<http://ksquirrel.sourceforge.net/subprojects.php>
 void FltBrightness(QImage &Img,int32_t bn) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:FltBrightness");
     u_int8_t *bits;
     int32_t  val;
 
@@ -155,7 +154,6 @@ void FltBrightness(QImage &Img,int32_t bn) {
 
 // Adapt From fmt_filters<http://ksquirrel.sourceforge.net/subprojects.php>
 void FltContrast(QImage &Img,int32_t contrast) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:FltContrast");
     if(contrast<-255) contrast=-255;
     if(contrast>255)  contrast=255;
 
@@ -205,7 +203,6 @@ void FltContrast(QImage &Img,int32_t contrast) {
 
 // Adapt From fmt_filters<http://ksquirrel.sourceforge.net/subprojects.php>
 void FltGamma(QImage &Img,double L) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:FltGamma");
     if (L==0||L<0) L=0.01;
 
     rgba       *_rgba;
@@ -235,7 +232,6 @@ void FltGamma(QImage &Img,double L) {
 
 // Adapt From fmt_filters<http://ksquirrel.sourceforge.net/subprojects.php>
 void FltColorize(QImage &Img,int32_t red,int32_t green,int32_t blue) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:FltColorize");
     u_int8_t   *bits;
     int32_t     val;
     int32_t     V[3]={red,green,blue};
@@ -259,8 +255,6 @@ void FltColorize(QImage &Img,int32_t red,int32_t green,int32_t blue) {
 
 // Adapt From QImageBlitz<http://qimageblitz.sourceforge.net/>
 void FltGrayscale(QImage &Img) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:FltGrayscale");
-
     if(Img.format()!=QImage::Format_ARGB32) Img=Img.convertToFormat(QImage::Format_ARGB32);
 
     int            y;
@@ -293,7 +287,6 @@ void FltGrayscale(QImage &Img) {
 
 // Adapt From normalize : QImageBlitz<http://qimageblitz.sourceforge.net/>
 void FltAutoContrast(QImage &Img) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:FltAutoContrast");
     IntegerPixel        intensity;
     HistogramListItem   *histogram;
     CharPixel           *normalize_map;
@@ -391,7 +384,6 @@ void FltAutoContrast(QImage &Img) {
 
 // Adapt From QImageBlitz<http://qimageblitz.sourceforge.net/>
 void FltBlur(QImage &Img,int radius) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:FltBlur");
     QRgb    *p1,*p2;
     int     x,y,w,h,mx,my,mw,mh,mt,xx,yy;
     int     a,r,g,b;
@@ -471,7 +463,6 @@ void FltBlur(QImage &Img,int radius) {
 
 // Adapt From QImageBlitz<http://qimageblitz.sourceforge.net/>
 void FltSharpen(QImage &Img,int radius) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:FltSharpen");
     if (Img.isNull() || radius<1) return;
 
     if(Img.format()!=QImage::Format_ARGB32) Img=Img.convertToFormat(QImage::Format_ARGB32);
@@ -513,7 +504,6 @@ void FltSharpen(QImage &Img,int radius) {
 
 // Adapt From QImageBlitz<http://qimageblitz.sourceforge.net/>
 void FltEdge(QImage &Img) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:FltEdge");
     int x,y,w=Img.width(),h=Img.height();
     if (w<3 || h<3) return;
 
@@ -580,7 +570,6 @@ void FltEdge(QImage &Img) {
 
 // Adapt From QImageBlitz<http://qimageblitz.sourceforge.net/>
 void FltCharcoal(QImage &Img) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:FltCharcoal");
     FltEdge(Img);
     FltBlur(Img,1);
     FltAutoContrast(Img);
@@ -637,7 +626,6 @@ void PrivateHull(int x_offset,int y_offset,int w,int h,unsigned char *f,unsigned
 }
 
 void FltDespeckle(QImage &Img) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:FltDespeckle");
     int                 length,x,y,j,i;
     QRgb                *src,*dest;
     unsigned char       *buffer,*pixels;
@@ -807,7 +795,6 @@ QImage convolveInteger(QImage &Img,int matrix_size,int *matrix,int divisor) {
 }
 
 void FltAntialias(QImage &Img) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:FltAntialias");
     int matrix[] = {
         1,2,1,
         2,8,2,

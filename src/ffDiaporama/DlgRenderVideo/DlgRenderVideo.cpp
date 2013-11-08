@@ -45,7 +45,6 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,cBaseA
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::DlgRenderVideo");
 
     ui->setupUi(this);
-    OkBt                =ui->OkBt;
     CancelBt            =ui->CancelBt;
     HelpBt              =ui->HelpBt;
     HelpFile            ="0115";
@@ -54,6 +53,10 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,cBaseA
     IsDestFileOpen      =false;
     StopSpinboxRecursion=false;
     Language            =Diaporama->ProjectInfo->DefaultLanguage;
+    ui->OkBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_DialogOkButton));
+    connect(ui->OkBt,SIGNAL(clicked()),this,SLOT(StartEncode()));
+    connect(&ThreadEncode,SIGNAL(finished()),this,SLOT(EndThreadEncode()));
+    connect(&DisplayTimer,SIGNAL(timeout()),this,SLOT(OnTimer()));
 }
 
 //====================================================================================================================
@@ -61,6 +64,7 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,cBaseA
 DlgRenderVideo::~DlgRenderVideo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::~DlgRenderVideo");
 
+    if (ThreadEncode.isRunning()) ThreadEncode.waitForFinished();
     delete ui;
 }
 
@@ -640,7 +644,7 @@ void DlgRenderVideo::AdjustDestinationFile() {
     OutputFileName=QFileInfo(OutputFileName).absoluteFilePath();
     if (QFileInfo(OutputFileName).suffix().length()>0) OutputFileName=OutputFileName.left(OutputFileName.length()-QFileInfo(OutputFileName).suffix().length()-1);
     if (OutputFileName.endsWith(".")) OutputFileName=OutputFileName.left(OutputFileName.length()-1);
-    OutputFileName=AdjustDirForOS(OutputFileName+"."+FileFormat);
+    OutputFileName=QDir::toNativeSeparators(OutputFileName+"."+FileFormat);
     ui->DestinationFilePath->setText(OutputFileName);
 }
 
@@ -727,9 +731,74 @@ void DlgRenderVideo::s_DeviceModelCB(int) {
 
 //====================================================================================================================
 
-bool DlgRenderVideo::DoAccept() {
+void DlgRenderVideo::InitDisplay() {
+    ui->SlideNumberLabel->setText("");
+    ui->SlideProgressBar->setValue(0);
+    ui->FrameNumberLabel->setText("");
+    ui->TotalProgressBar->setValue(0);
+    ui->ElapsedTimeLabel->setText("");
+    ui->FPSLabel->setText("");
+
+    // Filename
+    ui->InfoLabelB1->setText(OutputFileName);
+
+    // Video part
+    if (Encoder.VideoStream) {
+        ui->InfoLabelB2->setText(Encoder.ImageDef->Name);
+        QString VideoBitRateStr=QString("%1").arg(Encoder.VideoBitrate); if (VideoBitRateStr.endsWith("000")) VideoBitRateStr=VideoBitRateStr.left(VideoBitRateStr.length()-3)+"k";
+        ui->InfoLabelB3->setText(QString(VIDEOCODECDEF[Encoder.VideoCodecSubId].LongName)+" - "+(VideoBitRateStr!="0"?VideoBitRateStr+"b/s":"lossless"));
+    } else {
+        ui->InfoLabelA2->setVisible(false);
+        ui->InfoLabelB2->setVisible(false);
+        ui->InfoLabelA3->setVisible(false);
+        ui->InfoLabelB3->setVisible(false);
+        ui->SlideProgressBarLabel->setVisible(false);
+        ui->SlideNumberLabel->setVisible(false);
+        ui->SlideProgressBar->setVisible(false);
+    }
+
+    // Audio part
+    if (Encoder.AudioStream) {
+        QString AudioBitRateStr=QString("%1").arg(Encoder.AudioBitrate); if (AudioBitRateStr.endsWith("000")) AudioBitRateStr=AudioBitRateStr.left(AudioBitRateStr.length()-3)+"k";
+        ui->InfoLabelB4->setText(QString(AUDIOCODECDEF[Encoder.AudioCodecSubId].LongName)+QString(" - %1 Hz - ").arg(Encoder.AudioSampleRate)+(AudioBitRateStr!="0"?AudioBitRateStr+"b/s":"lossless"));
+    } else {
+        ui->InfoLabelA4->setVisible(false);
+        ui->InfoLabelB4->setVisible(false);
+    }
+    ui->SlideProgressBar->setMaximum(Encoder.ToSlide-Encoder.FromSlide);
+    ui->TotalProgressBar->setMaximum(Encoder.NbrFrame);
+
+}
+
+//====================================================================================================================
+
+void DlgRenderVideo::OnTimer() {
+    int     DurationProcess =Encoder.StartTime.msecsTo(QTime::currentTime());
+    double  CalcFPS         =(double(Encoder.RenderedFrame)/(double(DurationProcess)/1000));
+    double  EstimDur        =double(Encoder.NbrFrame-Encoder.RenderedFrame)/CalcFPS;
+
+    if ((Encoder.AdjustedDuration!=PrevAdjustedDuration)&&(Encoder.Column<Diaporama->List.count())) {
+        PrevAdjustedDuration=Encoder.AdjustedDuration;
+        ui->SlideProgressBar->setMaximum(int(double(Encoder.AdjustedDuration)/((double(AV_TIME_BASE)/Encoder.dFPS)/double(1000)))-1);
+    }
+    ui->ElapsedTimeLabel->setText(QString("%1").arg((QTime(0,0,0,0).addMSecs(DurationProcess)).toString("hh:mm:ss"))+
+                            QApplication::translate("DlgRenderVideo"," - Estimated time left : ")+
+                            QString("%1").arg(QTime(0,0,0,0).addMSecs(EstimDur*1000).toString("hh:mm:ss")));
+    ui->FPSLabel->setText(QString("%1").arg(double(Encoder.RenderedFrame)/(double(DurationProcess)/1000),0,'f',1));
+    if (Encoder.VideoStream) {
+        ui->SlideNumberLabel->setText(QString("%1/%2").arg(Encoder.Column-Encoder.FromSlide+1).arg(Encoder.ToSlide-Encoder.FromSlide+1));
+        ui->FrameNumberLabel->setText(QString("%1/%2").arg(Encoder.RenderedFrame).arg(Encoder.NbrFrame));
+    }
+    ui->SlideProgressBar->setValue(Encoder.Position!=-1?int(double(Encoder.Position-Encoder.ColumnStart)/(double(AV_TIME_BASE)/Encoder.dFPS/double(1000))):ui->SlideProgressBar->maximum());
+    ui->TotalProgressBar->setValue(Encoder.RenderedFrame);
+}
+
+//====================================================================================================================
+
+void DlgRenderVideo::StartEncode() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::DoAccept");
 
+    PrevAdjustedDuration=-1;
     if (IsDestFileOpen) {
         Encoder.StopProcessWanted=true;
         ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Stop rendering"));
@@ -740,7 +809,7 @@ bool DlgRenderVideo::DoAccept() {
             CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Range selection"),
                 QApplication::translate("DlgRenderVideo","Slide range is defined to incorrect values"));
             ui->RenderZoneToED->setFocus();
-            return false;
+            return;
         }
 
         Language=ui->LanguageED->text();
@@ -749,14 +818,14 @@ bool DlgRenderVideo::DoAccept() {
             CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Language selection"),
                 QApplication::translate("DlgRenderVideo","Language must be empty or an ISO 639 language code (3 characters)\nSee help for more details!"));
             ui->LanguageED->setFocus();
-            return false;
+            return;
         }
 
         if (OutputFileName !=ui->DestinationFilePath->text()) OutputFileName=ui->DestinationFilePath->text();
 
         if ((QFileInfo(OutputFileName).exists())&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgRenderVideo","Overwrite file ?"),
             QApplication::translate("DlgRenderVideo","The file you selected already exist.\nDo you want to overwrite it ?"),
-            QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes)) return false;
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes)) return;
 
         // Get values from controls
         AudioChannels    =2;
@@ -774,7 +843,7 @@ bool DlgRenderVideo::DoAccept() {
             VideoCodecIndex=ui->VideoFormatCB->currentIndex();
             if (VideoCodecIndex<0) {
                 CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Video codec error!");
-                return false;
+                return;
             }
             VideoCodecIndex=ui->VideoFormatCB->itemData(VideoCodecIndex).toInt();
             QString BitRate=ui->VideoBitRateCB->currentText();
@@ -785,7 +854,7 @@ bool DlgRenderVideo::DoAccept() {
             AudioCodecIndex=ui->AudioFormatCB->currentIndex();
             if (AudioCodecIndex<0) {
                 CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Audio codec error!");
-                return false;
+                return;
             }
             AudioCodecIndex=ui->AudioFormatCB->itemData(AudioCodecIndex).toInt();
             BitRate=ui->AudioBitRateCB->currentText();
@@ -806,7 +875,7 @@ bool DlgRenderVideo::DoAccept() {
             AudioCodecIndex=ui->AudioFormatCB->currentIndex();
             if (AudioCodecIndex<0) {
                 CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Audio codec error!");
-                return false;
+                return;
             }
             AudioCodecIndex=ui->AudioFormatCB->itemData(AudioCodecIndex).toInt();
             QString BitRate=ui->AudioBitRateCB->currentText();
@@ -839,7 +908,7 @@ bool DlgRenderVideo::DoAccept() {
                 CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Device model selection"),
                     QApplication::translate("DlgRenderVideo","A device model is require!"));
                 ui->DeviceModelCB->setFocus();
-                return false;
+                return;
             }
             int i=0;
             while ((i<Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel.count())&&(Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->DeviceName!=Device)) i++;
@@ -892,14 +961,14 @@ bool DlgRenderVideo::DoAccept() {
         int  Capabilities=(ExportMode==MODE_SOUNDTRACK)?SUPPORTED_COMBINATION:CheckEncoderCapabilities((VFORMAT_ID)OutputFileFormat,(AVCodecID)VIDEOCODECDEF[VideoCodecIndex].Codec_id,(AVCodecID)AUDIOCODECDEF[AudioCodecIndex].Codec_id);
         if (Capabilities!=SUPPORTED_COMBINATION) {
             CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Incorrect codec combination!"));
-            return false;
+            return;
         }
 
         //============================================================================================
         // Render
         //============================================================================================
 
-        bool Continue   =true;
+        Continue        =true;
         IsDestFileOpen  =true;
 
         // switch visible part of the dialog
@@ -916,23 +985,6 @@ bool DlgRenderVideo::DoAccept() {
         // Set focus to DestinationFilePath to not undo rendering per error
         ui->DestinationFilePath->setFocus();
 
-        // Set encoder display control
-        Encoder.InfoLabelA1          =ui->InfoLabelA1;
-        Encoder.InfoLabelA2          =ui->InfoLabelA2;
-        Encoder.InfoLabelA3          =ui->InfoLabelA3;
-        Encoder.InfoLabelA4          =ui->InfoLabelA4;
-        Encoder.InfoLabelB1          =ui->InfoLabelB1;
-        Encoder.InfoLabelB2          =ui->InfoLabelB2;
-        Encoder.InfoLabelB3          =ui->InfoLabelB3;
-        Encoder.InfoLabelB4          =ui->InfoLabelB4;
-        Encoder.SlideProgressBarLabel=ui->SlideProgressBarLabel;
-        Encoder.SlideNumberLabel     =ui->SlideNumberLabel;
-        Encoder.SlideProgressBar     =ui->SlideProgressBar;
-        Encoder.FrameNumberLabel     =ui->FrameNumberLabel;
-        Encoder.TotalProgressBar     =ui->TotalProgressBar;
-        Encoder.FPSLabel             =ui->FPSLabel;
-        Encoder.ElapsedTimeLabel     =ui->ElapsedTimeLabel;
-
         if (ExportMode==MODE_SOUNDTRACK) {
 
             ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Encoding sound"));
@@ -940,9 +992,8 @@ bool DlgRenderVideo::DoAccept() {
             Continue=Encoder.OpenEncoder(Diaporama,OutputFileName,FromSlide,ToSlide,
                                     false,AV_CODEC_ID_NONE,NULL,0,0,0,0,0,MakeAVRational(1,1),0,
                                     true,AudioCodecIndex,2,AudioBitRate,AudioFrequency,Language);
-
-            Continue=Continue && Encoder.DoEncode();
-            Encoder.CloseEncoder();
+            InitDisplay();
+            ThreadEncode.setFuture(QtConcurrent::run(this,&DlgRenderVideo::DoThreadEncode));
 
         } else {
 
@@ -994,53 +1045,61 @@ bool DlgRenderVideo::DoAccept() {
             Continue=Encoder.OpenEncoder(Diaporama,OutputFileName,FromSlide,ToSlide,
                                     true,VideoCodecIndex,&DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize],Final_W,Final_H,Ext_H,Internal_W,Internal_H,PixelAspectRatio,VideoBitRate,
                                     ui->IncludeSoundCB->isChecked(),AudioCodecIndex,2,AudioBitRate,AudioFrequency,Language);
-            Continue=Continue && Encoder.DoEncode();
-            Encoder.CloseEncoder();
-
+            InitDisplay();
+            ThreadEncode.setFuture(QtConcurrent::run(this,&DlgRenderVideo::DoThreadEncode));
         }
-
-        QString ThumbFileName="";
-        if ((Continue)&&(ExportMode!=MODE_SOUNDTRACK)&&(ui->ExportThumbCB->isChecked())) {
-            ThumbFileName=OutputFileName.left(OutputFileName.lastIndexOf("."))+".jpg";
-            int Index=BaseApplicationConfig->ThumbnailModels->SearchModel(Diaporama->ThumbnailName);
-            if (Index>=0) {
-                QSize  ForcedThumbnailSize(THUMBWITH,THUMBHEIGHT);
-                QImage Image=BaseApplicationConfig->ThumbnailModels->List[Index].PrepareImage(0,Diaporama,Diaporama->ProjectThumbnail,&ForcedThumbnailSize);
-                Image.save(ThumbFileName,0,100);
-            }
-        }
-
-        if ((Continue)&&(ExportMode!=MODE_SOUNDTRACK)&&(ui->ExportXBMCNfoCB->isChecked())) {
-            QString XBMCNFOFileName=OutputFileName.left(OutputFileName.lastIndexOf("."))+".nfo";
-            QFile   file(XBMCNFOFileName);
-            QString Text;
-            Text=Text+QString("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n");
-            Text=Text+QString("<movie>\n");
-            Text=Text+QString("  <title>%1</title>\n").arg(Diaporama->ProjectInfo->Title);
-            Text=Text+QString("  <sorttitle>%1</sorttitle>\n").arg(QFileInfo(OutputFileName).baseName());
-            Text=Text+QString("  <set>%1</set>\n").arg(Diaporama->ProjectInfo->Album);
-            Text=Text+QString("  <genre>%1</genre>\n").arg(Diaporama->ProjectInfo->Album);
-            Text=Text+QString("  <year>%1</year>\n").arg(Diaporama->ProjectInfo->EventDate.year());
-            Text=Text+QString("  <outline>%1</outline>\n").arg(Diaporama->ProjectInfo->Title);
-            Text=Text+QString("  <plot>%1</plot>\n").arg(Diaporama->ProjectInfo->Comment);
-            Text=Text+QString("  <director>%1</director>\n").arg(Diaporama->ProjectInfo->Author);
-            Text=Text+QString("  <credits>%1</credits>\n").arg(Diaporama->ProjectInfo->Author);
-            Text=Text+QString("  <runtime>%1</runtime>\n").arg(QTime(0,0,0,0).msecsTo(Diaporama->ProjectInfo->Duration)>60000?QTime(0,0,0,0).msecsTo(Diaporama->ProjectInfo->Duration)/60000:1);
-            if (!ThumbFileName.isEmpty()) Text=Text+QString("  <thumb>%1</thumb>\n").arg(QFileInfo(ThumbFileName).baseName()+".jpg");
-            Text=Text+QString("</movie>\n");
-            if (file.open(QIODevice::WriteOnly|QIODevice::Text)) {
-                QTextStream out(&file);
-                out<<Text;
-                file.close();
-            }
-        }
-
-        // Inform user of success
-        if (Continue)                           CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job completed successfully!"));
-            else if (Encoder.StopProcessWanted) CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job canceled!"));
-            else                                CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job error!\nPlease contact ffDiaporama team"));
-
-        return true;
     }
-    return false;
+    DisplayTimer.start(500);
+}
+
+void DlgRenderVideo::DoThreadEncode() {
+    Continue=Continue && Encoder.DoEncode();
+}
+
+void DlgRenderVideo::EndThreadEncode() {
+    DisplayTimer.stop();
+    Encoder.CloseEncoder();
+    OnTimer();  // Latest display
+
+    QString ThumbFileName;
+    if ((ExportMode!=MODE_SOUNDTRACK)&&(ui->ExportThumbCB->isChecked())) {
+        ThumbFileName=OutputFileName.left(OutputFileName.lastIndexOf("."))+".jpg";
+        int Index=BaseApplicationConfig->ThumbnailModels->SearchModel(Diaporama->ThumbnailName);
+        if (Index>=0) {
+            QSize  ForcedThumbnailSize(THUMBWITH,THUMBHEIGHT);
+            QImage Image=BaseApplicationConfig->ThumbnailModels->List[Index].PrepareImage(0,Diaporama,Diaporama->ProjectThumbnail,&ForcedThumbnailSize);
+            Image.save(ThumbFileName,0,100);
+        }
+    }
+
+    if ((Continue)&&(ExportMode!=MODE_SOUNDTRACK)&&(ui->ExportXBMCNfoCB->isChecked())) {
+        QString XBMCNFOFileName=OutputFileName.left(OutputFileName.lastIndexOf("."))+".nfo";
+        QFile   file(XBMCNFOFileName);
+        QString Text;
+        Text=Text+QString("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n");
+        Text=Text+QString("<movie>\n");
+        Text=Text+QString("  <title>%1</title>\n").arg(Diaporama->ProjectInfo->Title);
+        Text=Text+QString("  <sorttitle>%1</sorttitle>\n").arg(QFileInfo(OutputFileName).baseName());
+        Text=Text+QString("  <set>%1</set>\n").arg(Diaporama->ProjectInfo->Album);
+        Text=Text+QString("  <genre>%1</genre>\n").arg(Diaporama->ProjectInfo->Album);
+        Text=Text+QString("  <year>%1</year>\n").arg(Diaporama->ProjectInfo->EventDate.year());
+        Text=Text+QString("  <outline>%1</outline>\n").arg(Diaporama->ProjectInfo->Title);
+        Text=Text+QString("  <plot>%1</plot>\n").arg(Diaporama->ProjectInfo->Comment);
+        Text=Text+QString("  <director>%1</director>\n").arg(Diaporama->ProjectInfo->Author);
+        Text=Text+QString("  <credits>%1</credits>\n").arg(Diaporama->ProjectInfo->Author);
+        Text=Text+QString("  <runtime>%1</runtime>\n").arg(QTime(0,0,0,0).msecsTo(Diaporama->ProjectInfo->Duration)>60000?QTime(0,0,0,0).msecsTo(Diaporama->ProjectInfo->Duration)/60000:1);
+        if (!ThumbFileName.isEmpty()) Text=Text+QString("  <thumb>%1</thumb>\n").arg(QFileInfo(ThumbFileName).baseName()+".jpg");
+        Text=Text+QString("</movie>\n");
+        if (file.open(QIODevice::WriteOnly|QIODevice::Text)) {
+            QTextStream out(&file);
+            out<<Text;
+            file.close();
+        }
+    }
+
+    // Inform user of success
+    if (Continue)                           CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job completed successfully!"));
+        else if (Encoder.StopProcessWanted) CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job canceled!"));
+        else                                CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job error!\nPlease contact ffDiaporama team"));
+    if (Continue) accept();
 }

@@ -22,14 +22,12 @@
 #include "_QCustomComboBox.h"
 
 QCustomComboBox::QCustomComboBox(QWidget *parent):QComboBox(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomComboBox::QCustomComboBox");
     view()->setTextElideMode(Qt::ElideNone);
 }
 
 //====================================================================================================================
 
 void QCustomComboBox::showPopup() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomComboBox::showPopup");
     view()->setFixedWidth(this->width()*2);
     QComboBox::showPopup();
 }

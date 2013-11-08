@@ -24,12 +24,10 @@
 #define NBRCOLUMN    4
 
 cCBackgroundComboBoxItem::cCBackgroundComboBoxItem(QObject *parent):QStyledItemDelegate(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCBackgroundComboBoxItem::cCBackgroundComboBoxItem");
 }
 
 //========================================================================================================================
 void cCBackgroundComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCBackgroundComboBoxItem::paint");
     int CurIndex=index.row()*NBRCOLUMN+index.column();
 
     if ((CurIndex>=0)&&(CurIndex<ComboBox->BackgroundTable->List.count())) {
@@ -55,7 +53,6 @@ void cCBackgroundComboBoxItem::paint(QPainter *painter,const QStyleOptionViewIte
 //========================================================================================================================
 
 QSize cCBackgroundComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const QModelIndex &/*index*/) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCBackgroundComboBoxItem::sizeHint");
     return QSize(ComboBox->ImageWidth,IMAGEHEIGHT);
 }
 
@@ -64,7 +61,6 @@ QSize cCBackgroundComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,
 //******************************************************************************************************************
 
 cBackgroundComboBox::cBackgroundComboBox(QWidget *parent):QComboBox(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundComboBox::cBackgroundComboBox");
     BackgroundTable     =NULL;
     CurrentSel          =-1;
     STOPMAJ             =false;
@@ -131,7 +127,6 @@ void cBackgroundComboBox::hidePopup() {
 //========================================================================================================================
 
 void cBackgroundComboBox::keyReleaseEvent(QKeyEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundComboBox::keyReleaseEvent");
     int CurIndex=((QTableWidget *)view())->currentRow()*NBRCOLUMN+((QTableWidget *)view())->currentColumn();
     int aCurIndex=CurIndex;
     if ((event->key()==Qt::Key_Right)||(event->key()==Qt::Key_Down)) {
@@ -152,7 +147,6 @@ void cBackgroundComboBox::keyReleaseEvent(QKeyEvent *event) {
 //========================================================================================================================
 
 void cBackgroundComboBox::MakeIcons() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundComboBox::MakeIcons");
     if (!BackgroundTable) return;
     int CurrentRow=currentIndex();
     if (CurrentRow<0) return;
@@ -165,7 +159,6 @@ void cBackgroundComboBox::MakeIcons() {
 //========================================================================================================================
 
 void cBackgroundComboBox::s_ItemSelectionChanged() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundComboBox::s_ItemSelectionChanged");
     STOPMAJ=true;
     setCurrentIndex(((QTableWidget *)view())->currentRow());
     MakeIcons();
@@ -176,7 +169,6 @@ void cBackgroundComboBox::s_ItemSelectionChanged() {
 //========================================================================================================================
 
 void cBackgroundComboBox::SetCurrentBackground(QString BackgroundName) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCBrushComboBox::SetCurrentBrush");
     if (STOPMAJ) return;
     CurrentSel=BackgroundTable->SearchImage(BackgroundName);
     ((QTableWidget *)view())->setCurrentCell(CurrentSel/NBRCOLUMN,CurrentSel-(CurrentSel/NBRCOLUMN)*NBRCOLUMN);

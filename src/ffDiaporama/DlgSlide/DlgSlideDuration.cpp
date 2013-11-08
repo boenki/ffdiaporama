@@ -25,7 +25,7 @@
 
 DlgSlideDuration::DlgSlideDuration(int64_t Duration,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgSlideDuration) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideDuration::DlgSlideDuration");
+
     ui->setupUi(this);
     OkBt            =ui->OKBT;
     CancelBt        =ui->CancelBt;
@@ -37,21 +37,18 @@ DlgSlideDuration::DlgSlideDuration(int64_t Duration,cBaseApplicationConfig *Appl
 //====================================================================================================================
 
 DlgSlideDuration::~DlgSlideDuration() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideDuration::~DlgSlideDuration");
     delete ui;
 }
 
 //====================================================================================================================
 
 void DlgSlideDuration::DoInitDialog() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideDuration::DoInitDialog");
     ui->ShotDurationED->setTime(QTime(0,0,0,0).addMSecs(Duration));
 }
 
 //====================================================================================================================
 
 bool DlgSlideDuration::DoAccept() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideDuration::DoAccept");
     Duration=QTime(0,0,0,0).msecsTo(ui->ShotDurationED->time());
     return true;
 }

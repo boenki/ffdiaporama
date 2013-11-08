@@ -183,7 +183,6 @@ private slots:
     void    s_Action_OpenTABHelpLink(const QString);
 
     // Do function (call by action or event function)
-    void    DoChangeApplicationSettings();
     void    DoOpenFile();
     void    DoOpenFileObject();
     void    DoSaveFile();

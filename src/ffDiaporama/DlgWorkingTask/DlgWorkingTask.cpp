@@ -23,7 +23,6 @@
 
 DlgWorkingTask::DlgWorkingTask(QString Title,bool *CancelAction,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgWorkingTask) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgWorkingTask::DlgWorkingTask");
 
     ui->setupUi(this);
     CancelBt        =ui->CancelBt;
@@ -33,42 +32,36 @@ DlgWorkingTask::DlgWorkingTask(QString Title,bool *CancelAction,cBaseApplication
 }
 
 DlgWorkingTask::~DlgWorkingTask() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgWorkingTask::~DlgWorkingTask");
     delete ui;
 }
 
 //====================================================================================================================
 
 void DlgWorkingTask::DoInitDialog() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgWorkingTask::DoInitDialog");
     (*CancelActionFlag)=false;
 }
 
 //====================================================================================================================
 
 void DlgWorkingTask::DoRejet() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgWorkingTask::DoRejet");
     (*CancelActionFlag)=true;
 }
 
 //====================================================================================================================
 
 void DlgWorkingTask::DisplayText(QString Text) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgWorkingTask::DisplayText");
     ui->ActionLabel->setText(Text);
 }
 
 //====================================================================================================================
 
 void DlgWorkingTask::DisplayProgress(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgWorkingTask::DisplayProgress");
     ui->ProgressBar->setValue(Value);
 }
 
 //====================================================================================================================
 
 void DlgWorkingTask::SetMaxValue(int Value,int AddValue) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgWorkingTask::SetMaxValue");
     MaxValue=Value;
     this->AddValue=AddValue;
     ui->ProgressBar->setMaximum(MaxValue+AddValue);

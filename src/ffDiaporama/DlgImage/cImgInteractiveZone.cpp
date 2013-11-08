@@ -34,7 +34,6 @@
 //====================================================================================================================
 
 cImgInteractiveZone::cImgInteractiveZone(QWidget *parent):QWidget(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cImgInteractiveZone::cImgInteractiveZone");
     ForegroundImage =NULL;
     CachedImage     =NULL;
     IsCapture       =false;
@@ -57,7 +56,6 @@ cImgInteractiveZone::cImgInteractiveZone(QWidget *parent):QWidget(parent) {
 //====================================================================================================================
 
 cImgInteractiveZone::~cImgInteractiveZone() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cImgInteractiveZone::~cImgInteractiveZone");
     if (ForegroundImage!=NULL) {
         delete ForegroundImage;
         ForegroundImage=NULL;
@@ -71,8 +69,6 @@ cImgInteractiveZone::~cImgInteractiveZone() {
 //====================================================================================================================
 
 void cImgInteractiveZone::InitCachedImage(cCompositionObject *TheCompoObject,int TheBackgroundForm,cBrushDefinition *TheCurrentBrush,int TheVideoPosition) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cImgInteractiveZone::InitCachedImage");
-
     CompoObject     =TheCompoObject;
     BackgroundForm  =TheBackgroundForm;
     CurrentBrush    =TheCurrentBrush;
@@ -199,7 +195,6 @@ void cImgInteractiveZone::DrawSelect(QPainter &Painter,QRectF Rect,bool WithHand
 //====================================================================================================================
 
 void cImgInteractiveZone::RefreshDisplay() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cImgInteractiveZone::RefreshDisplay");
     if (!CurrentBrush) return;
     int         ImgWidth =CachedImage->width();     //CurrentBrush->Image?CurrentBrush->Image->ImageWidth :CurrentBrush->Video?CurrentBrush->Video->ImageWidth:0;
     int         ImgHeight=CachedImage->height();    //CurrentBrush->Image?CurrentBrush->Image->ImageHeight:CurrentBrush->Video?CurrentBrush->Video->ImageHeight:0;
@@ -359,7 +354,6 @@ void cImgInteractiveZone::ComputeNewCurSelRect(QRectF &ScrRect,QRectF &ImgRect) 
 //====================================================================================================================
 
 void cImgInteractiveZone::keyPressEvent(QKeyEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cImgInteractiveZone::keyPressEvent");
     if (!CurrentBrush) return;
 
     ManageCursor(mapFromGlobal(QCursor::pos()),event->modifiers());
@@ -434,7 +428,6 @@ void cImgInteractiveZone::keyPressEvent(QKeyEvent *event) {
 //====================================================================================================================
 
 void cImgInteractiveZone::keyReleaseEvent(QKeyEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cImgInteractiveZone::keyReleaseEvent");
     if (!CurrentBrush) return;
 
     ManageCursor(mapFromGlobal(QCursor::pos()),event->modifiers());
@@ -444,7 +437,6 @@ void cImgInteractiveZone::keyReleaseEvent(QKeyEvent *event) {
 //====================================================================================================================
 
 void cImgInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
-    //ToLog(LOGMSG_DEBUGTRACE,"IN:cImgInteractiveZone::mouseMoveEvent");   // Remove : too much
     if (!CurrentBrush) return;
 
     if (!IsCapture) {
@@ -713,7 +705,6 @@ void cImgInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
 //====================================================================================================================
 
 void cImgInteractiveZone::mousePressEvent(QMouseEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cImgInteractiveZone::mousePressEvent");
     if (!CurrentBrush) return;
 
     ManageCursor(event->pos(),event->modifiers());
@@ -751,7 +742,6 @@ void cImgInteractiveZone::mousePressEvent(QMouseEvent *event) {
 //====================================================================================================================
 
 void cImgInteractiveZone::mouseReleaseEvent(QMouseEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cImgInteractiveZone::mouseReleaseEvent");
     if ((!CurrentBrush)||(!IsCapture)) return;
 
     IsCapture=false;

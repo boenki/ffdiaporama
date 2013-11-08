@@ -27,8 +27,6 @@
 //====================================================================================================================
 
 cSaveWindowPosition::cSaveWindowPosition(QString TheWindowName,bool &TheRestoreWindow,bool TheIsMainWindow) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWindowPosition::cSaveWindowPosition");
-
     RestoreWindow   =&TheRestoreWindow;
     WindowName      =TheWindowName;
     IsMainWindow    =TheIsMainWindow;
@@ -41,8 +39,6 @@ cSaveWindowPosition::cSaveWindowPosition(QString TheWindowName,bool &TheRestoreW
 //***********************************************
 
 void cSaveWindowPosition::ApplyToWindow(QWidget *Window) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWindowPosition::ApplyToWindow");
-
     if ((Window==NULL)||(*RestoreWindow==false)||(!IsInit)) return;
 
     // Restore window size and position
@@ -59,8 +55,6 @@ void cSaveWindowPosition::ApplyToWindow(QWidget *Window) {
 //***********************************************
 
 void cSaveWindowPosition::SaveWindowState(QWidget *Window) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWindowPosition::SaveWindowState");
-
     if ((Window==NULL)||(*RestoreWindow==false)) return;
 
     // Save window size & position (if needed)
@@ -77,8 +71,6 @@ void cSaveWindowPosition::SaveWindowState(QWidget *Window) {
 //***********************************************
 
 void cSaveWindowPosition::SaveToXML(QDomElement &domDocument) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWindowPosition::SaveToXML");
-
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(WindowName);
     Element.setAttribute("saveGeometry",WindowGeo);
@@ -93,14 +85,11 @@ void cSaveWindowPosition::SaveToXML(QDomElement &domDocument) {
 //***********************************************
 
 void cSaveWindowPosition::OverloadedSaveToXML(QDomElement &) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWindowPosition::OverloadedSaveToXML - To be overloaded");
 }
 
 //***********************************************
 
 void cSaveWindowPosition::LoadFromXML(QDomElement domDocument) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWindowPosition::LoadFromXML");
-
     if ((domDocument.elementsByTagName(WindowName).length()>0)&&(domDocument.elementsByTagName(WindowName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(WindowName).item(0).toElement();
         if (Element.hasAttribute("saveGeometry"))                   WindowGeo=Element.attribute("saveGeometry");
@@ -114,20 +103,17 @@ void cSaveWindowPosition::LoadFromXML(QDomElement domDocument) {
 //***********************************************
 
 void cSaveWindowPosition::OverloadedLoadFromXML(QDomElement) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWindowPosition::OverloadedLoadFromXML - To be overloaded");
 }
 
 //====================================================================================================================
 
 cSaveWinWithSplitterPos::cSaveWinWithSplitterPos(QString WindowName,bool &RestoreWindow,bool IsMainWindow):cSaveWindowPosition(WindowName,RestoreWindow,IsMainWindow) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWinWithSplitterPos::cSaveWinWithSplitterPos");
     SplitterTop="";
 }
 
 //***********************************************
 
 void cSaveWinWithSplitterPos::ApplyToWindow(QWidget *Window,QSplitter *Top) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWinWithSplitterPos::ApplyToWindow");
     cSaveWindowPosition::ApplyToWindow(Window);
     if (SplitterTop!="") Top->restoreState(QByteArray::fromHex(SplitterTop.toUtf8()));
 }
@@ -135,7 +121,6 @@ void cSaveWinWithSplitterPos::ApplyToWindow(QWidget *Window,QSplitter *Top) {
 //***********************************************
 
 void cSaveWinWithSplitterPos::SaveWindowState(QWidget *Window,QSplitter *Top) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWinWithSplitterPos::SaveWindowState");
     cSaveWindowPosition::SaveWindowState(Window);
     SplitterTop=QString(QByteArray(Top->saveState()).toHex());
 }
@@ -143,13 +128,11 @@ void cSaveWinWithSplitterPos::SaveWindowState(QWidget *Window,QSplitter *Top) {
 //***********************************************
 
 void cSaveWinWithSplitterPos::OverloadedSaveToXML(QDomElement &Element) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWinWithSplitterPos::OverloadedSaveToXML");
     Element.setAttribute("SplitterTop",SplitterTop);
 }
 
 //***********************************************
 
 void cSaveWinWithSplitterPos::OverloadedLoadFromXML(QDomElement Element) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWinWithSplitterPos::OverloadedLoadFromXML");
     if (Element.hasAttribute("SplitterTop"))    SplitterTop=Element.attribute("SplitterTop");
 }

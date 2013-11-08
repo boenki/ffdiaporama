@@ -30,7 +30,6 @@
 //=============================================================================================================================
 
 cModelListItem::cModelListItem(cModelList *Parent,QString FileName,QSize ThumbnailSize) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cModelListItem::cModelListItem");
     this->Parent        =Parent;
     this->FileName      =FileName=="*"?"":FileName;
     this->ThumbnailSize =ThumbnailSize;
@@ -187,14 +186,11 @@ QImage cModelListItem::PrepareImage(int64_t Position,cDiaporama *DiaporamaToUse,
 //=============================================================================================================================
 
 cModelListItem::~cModelListItem() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cModelListItem::~cModelListItem");
 }
 
 //=============================================================================================================================
 
 QDomDocument cModelListItem::LoadModelFile(ffd_MODELTYPE TypeModel,QString ModelFileName) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:LoadModel");
-
     QFile           file(ModelFileName);
     QString         errorStr,ErrorMsg;
     int             errorLine,errorColumn;
@@ -234,7 +230,6 @@ QDomDocument cModelListItem::LoadModelFile(ffd_MODELTYPE TypeModel,QString Model
 //=============================================================================================================================
 
 cModelList::cModelList(cBaseApplicationConfig *ApplicationConfig,ffd_MODELTYPE ModelType,int64_t *NextNumber,ffd_GEOMETRY ProjectGeometry,int DigitCategorie,QString NameCategorie) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cModelList::cModelList");
     this->ApplicationConfig =ApplicationConfig;
     this->NextNumber        =NextNumber;
     this->ProjectGeometry   =ProjectGeometry;
@@ -246,13 +241,11 @@ cModelList::cModelList(cBaseApplicationConfig *ApplicationConfig,ffd_MODELTYPE M
 //=============================================================================================================================
 
 cModelList::~cModelList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cModelList::~cModelList");
 }
 
 //=============================================================================================================================
 
 void cModelList::FillModelType(ffd_MODELTYPE ModelType) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cModelList::FillModelType");
     int     StartNumber,EndNumber;
     QString GeoFolder=ProjectGeometry==GEOMETRY_4_3?"/4_3":ProjectGeometry==GEOMETRY_16_9?"/16_9":ProjectGeometry==GEOMETRY_40_17?"/40_17":"";
     List.clear();
@@ -319,7 +312,7 @@ void cModelList::FillModelType(ffd_MODELTYPE ModelType) {
         int  iNumber=0;
         bool IsOk=true;
         iNumber=Number.toInt(&IsOk);
-        if ((IsOk)&&(iNumber>=StartNumber)&&(iNumber<=EndNumber)) List.append(cModelListItem(this,AdjustDirForOS(Files[i].absoluteFilePath()),ThumbnailSize));
+        if ((IsOk)&&(iNumber>=StartNumber)&&(iNumber<=EndNumber)) List.append(cModelListItem(this,QDir::toNativeSeparators(Files[i].absoluteFilePath()),ThumbnailSize));
     }
 
     // Load custom model
@@ -335,7 +328,7 @@ void cModelList::FillModelType(ffd_MODELTYPE ModelType) {
         bool IsOk=true;
         iNumber=Number.toInt(&IsOk);
         if ((IsOk)&&(iNumber>=StartNumber)&&(iNumber<=EndNumber)) {
-            List.append(cModelListItem(this,AdjustDirForOS(Files[i].absoluteFilePath()),ThumbnailSize));
+            List.append(cModelListItem(this,QDir::toNativeSeparators(Files[i].absoluteFilePath()),ThumbnailSize));
             if (iNumber>*NextNumber) *NextNumber=iNumber;
         }
     }
@@ -361,7 +354,6 @@ QDomDocument cModelList::GetModelDocument(QString ModelName) {
 //=============================================================================================================================
 
 cModelListItem *cModelList::AppendCustomModel() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cModelList::AppendCustomModel");
     RemoveCustomModel();
     List.append(cModelListItem(this,"*",ThumbnailSize));
     return &List[List.count()-1];
@@ -370,6 +362,5 @@ cModelListItem *cModelList::AppendCustomModel() {
 //=============================================================================================================================
 
 void cModelList::RemoveCustomModel() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cModelList::RemoveCustomModel");
     if ((List.count()>0)&&(List[List.count()-1].Name=="*")) List.removeLast();
 }

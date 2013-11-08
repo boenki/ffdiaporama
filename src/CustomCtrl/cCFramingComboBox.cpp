@@ -27,12 +27,10 @@
 #define AutoFramingComboBoxNBRCOLUMN    3
 
 cCFramingComboBoxItem::cCFramingComboBoxItem(QObject *parent):QStyledItemDelegate(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCFramingComboBoxItem::cCFramingComboBoxItem");
 }
 
 //========================================================================================================================
 void cCFramingComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCFramingComboBoxItem::paint");
     int CurIndex=index.row()*AutoFramingComboBoxNBRCOLUMN+index.column();
     int CurrentFramingStyle=0;
     while ((CurrentFramingStyle<ComboBox->FramingStyleTable.count())&&(ComboBox->CurrentFramingStyle!=ComboBox->FramingStyleTable.at(CurrentFramingStyle).FrameStyle)) CurrentFramingStyle++;
@@ -60,7 +58,6 @@ void cCFramingComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &
 //========================================================================================================================
 
 QSize cCFramingComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const QModelIndex &/*index*/) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCFramingComboBoxItem::sizeHint");
     return QSize(AutoFramingComboBoxIMAGEWIDTH,AutoFramingComboBoxIMAGEWIDTH);
 }
 
@@ -76,7 +73,6 @@ cFramingStyleTableItem::cFramingStyleTableItem(QImage *Image,int FrameStyle) {
 //******************************************************************************************************************
 
 cCFramingComboBox::cCFramingComboBox(QWidget *parent):QComboBox(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCFramingComboBox::cCFramingComboBox");
     CurrentFilter       =-1;
     CurrentFramingStyle =-1;
     CurrentNbrITem      =-1;
@@ -110,7 +106,6 @@ void cCFramingComboBox::hidePopup() {
 //========================================================================================================================
 
 void cCFramingComboBox::keyReleaseEvent(QKeyEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCFramingComboBox::keyReleaseEvent");
     int CurIndex=((QTableWidget *)view())->currentRow()*AutoFramingComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
     int aCurIndex=CurIndex;
     if ((event->key()==Qt::Key_Right)||(event->key()==Qt::Key_Down)) {
@@ -190,7 +185,6 @@ void cCFramingComboBox::PrepareFramingStyleTable(bool ResetContent,int Filter,cB
 //========================================================================================================================
 
 void cCFramingComboBox::SetCurrentFraming(int AutoFraming) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCFramingComboBox::SetCurrentFraming");
     if (STOPMAJ) return;
     CurrentFramingStyle=AutoFraming;
     int Index=0;
@@ -207,7 +201,6 @@ void cCFramingComboBox::SetCurrentFraming(int AutoFraming) {
 //========================================================================================================================
 
 int cCFramingComboBox::GetCurrentFraming() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCFramingComboBox::GetCurrentFraming");
     int CurIndex=((QTableWidget *)view())->currentRow()*AutoFramingComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
     if ((CurIndex>=0)&&(CurIndex<FramingStyleTable.count())) return FramingStyleTable.at(CurIndex).FrameStyle;
     return -1;
@@ -216,7 +209,6 @@ int cCFramingComboBox::GetCurrentFraming() {
 //========================================================================================================================
 
 void cCFramingComboBox::MakeIcons() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCFramingComboBox::MakeIcons");
     int CurIndex=((QTableWidget *)view())->currentRow()*AutoFramingComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
     if ((CurIndex>=0)&&(CurIndex<FramingStyleTable.count())) {
         QIcon IconGeoImage;
@@ -234,7 +226,6 @@ void cCFramingComboBox::MakeIcons() {
 //========================================================================================================================
 
 void cCFramingComboBox::s_ItemSelectionChanged() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCFramingComboBox::s_ItemSelectionChanged");
     int CurIndex=((QTableWidget *)view())->currentRow()*AutoFramingComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
     if ((CurIndex>=0)&&(CurIndex<FramingStyleTable.count())) {
         STOPMAJ=true;

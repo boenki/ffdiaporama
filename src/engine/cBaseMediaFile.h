@@ -44,55 +44,10 @@
 #include "cSoundBlockList.h"
 #include "cCustomIcon.h"
 
-//****************************************************************************************************************************************************************
-// EXIV2 PART
-//****************************************************************************************************************************************************************
-#include <exiv2/exif.hpp>
-#if (EXIV2_MAJOR_VERSION==0) && (EXIV2_MINOR_VERSION>20)
-    #include <exiv2/exiv2.hpp>
-    #define EXIV2WITHPREVIEW
-#else
-    #include <exiv2/image.hpp>
-#endif
+extern int Exiv2MajorVersion,Eviv2MinorVersion,Exiv2PatchVersion;
 
 #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
-    //****************************************************************************************************************************************************************
-    // TAGLIB PART only if LIBAV 8 after, thumbnails are reading using libav
-    //****************************************************************************************************************************************************************
-
-    #include <taglib/fileref.h>
-    #include <taglib/tbytevector.h>
-    #include <taglib/id3v2tag.h>
-    #include <taglib/id3v2frame.h>
-    #include <taglib/id3v2header.h>
-    #include <taglib/id3v2framefactory.h>
-    #include <taglib/attachedpictureframe.h>
-    #include <taglib/mpegfile.h>
-    #include <taglib/flacfile.h>
-    #include <taglib/mp4file.h>
-    #include <taglib/vorbisfile.h>
-    #include <taglib/oggflacfile.h>
-    #include <taglib/asffile.h>
-    #include <taglib/mp4tag.h>
-    #include <taglib/mp4item.h>
-    #include <taglib/mp4coverart.h>
-
-    #if (TAGLIB_MAJOR_VERSION>=1) && (TAGLIB_MINOR_VERSION>=7)
-        #define TAGLIBWITHFLAC
-    #endif
-    #ifdef TAGLIB_WITH_ASF
-        #if (TAGLIB_WITH_ASF>=1)
-            #define TAGLIBWITHASF
-            #if (TAGLIB_MAJOR_VERSION>=1) && (TAGLIB_MINOR_VERSION>=7)
-                #define TAGLIBWITHASFPICTURE
-            #endif
-        #endif
-    #endif
-    #ifdef TAGLIB_WITH_MP4
-        #if (TAGLIB_WITH_MP4>=1)
-            #define TAGLIBWITHMP4
-        #endif
-    #endif
+extern int TaglibMajorVersion,TaglibMinorVersion,TaglibPatchVersion;
 #endif
 
 //============================================
@@ -118,7 +73,7 @@ public:
 
 //****************************************************************************************************************************************************************
 
-class cBaseMediaFile : public cCustomIcon {
+class cBaseMediaFile {
 public:
     enum    ImageSizeFmt {FULLWEB,SIZEONLY,FMTONLY,GEOONLY};
 
@@ -127,7 +82,6 @@ public:
 
     qlonglong               FileKey;                        // Key index of this file in the Files table of the database
     qlonglong               FolderKey;                      // Key index of the folder containing this file in the Folders table of the database
-    QStringList             InformationList;
 
     int64_t                 FileSize;                       // filesize
     QDateTime               CreatDateTime;                  // Original date/time
@@ -140,8 +94,8 @@ public:
     double                  AspectRatio;                    // Aspect ratio
     QTime                   Duration;                       // Duration of the video
 
-    bool                    IsValide;                       // if true then object if initialise
-    bool                    IsInformationValide;            // if true then information list if fuly initialise
+    bool                    IsValide;                       // if true if object if initialise
+    bool                    IsInformationValide;            // if true if ExtendedProperties if fuly initialise in the database
 
     cBaseMediaFile(cBaseApplicationConfig *ApplicationConfig);
     virtual                 ~cBaseMediaFile();
@@ -151,12 +105,11 @@ public:
 
     virtual bool            LoadBasicInformationFromDatabase(QDomElement root)=0;
     virtual void            SaveBasicInformationToDatabase(QDomElement *root)=0;
-    virtual bool            SaveAllInformationToDatabase();
 
     virtual void            Reset();
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey);
     virtual bool            GetFullInformationFromFile();
-    virtual bool            GetChildFullInformationFromFile() { return true;}
+    virtual bool            GetChildFullInformationFromFile(cCustomIcon *,QStringList *) { return true;}
 
     // return information from basic properties
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size)=0;
@@ -167,9 +120,12 @@ public:
     virtual QString         GetFileTypeStr()=0;                             // Return type of file
 
     // return information from extended properties
-    virtual QStringList     GetSummaryText(QStringList *InformationList);   // return 3 lines to display Summary of media file in dialog box which need them
-    virtual QString         GetTechInfo()=0;                                // Return technical information as formated string
-    virtual QString         GetTAGInfo()=0;                                 // Return TAG information as formated string
+    virtual QStringList     GetSummaryText(QStringList *ExtendedProperties);   // return 3 lines to display Summary of media file in dialog box which need them
+    virtual QString         GetTechInfo(QStringList *ExtendedProperties)=0;    // Return technical information as formated string
+    virtual QString         GetTAGInfo(QStringList *ExtendedProperties)=0;     // Return TAG information as formated string
+
+    // return icon
+    virtual QImage          GetIcon(cCustomIcon::IconSize Size,bool useDelayed);
 };
 
 //*********************************************************************************************************************************************
@@ -183,8 +139,8 @@ public:
     virtual bool            LoadBasicInformationFromDatabase(QDomElement)       { return true;}
     virtual void            SaveBasicInformationToDatabase(QDomElement *)       { /*Nothing to do*/}
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size)     { return ApplicationConfig->DefaultFILEIcon.GetIcon(Size); }
-    virtual QString         GetTechInfo()                                       { return ""; }
-    virtual QString         GetTAGInfo()                                        { return ""; }
+    virtual QString         GetTechInfo(QStringList *)                          { return ""; }
+    virtual QString         GetTAGInfo(QStringList *)                           { return ""; }
 };
 
 //*********************************************************************************************************************************************
@@ -197,10 +153,10 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            LoadBasicInformationFromDatabase(QDomElement)       { return true;}
     virtual void            SaveBasicInformationToDatabase(QDomElement *)       { /*Nothing to do*/}
-    virtual bool            GetChildFullInformationFromFile();
+    virtual bool            GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties);
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size)     { return ApplicationConfig->DefaultFOLDERIcon.GetIcon(Size); }
-    virtual QString         GetTechInfo()                                       { return ""; }
-    virtual QString         GetTAGInfo()                                        { return ""; }
+    virtual QString         GetTechInfo(QStringList *)                          { return ""; }
+    virtual QString         GetTAGInfo(QStringList *)                           { return ""; }
 };
 
 //*********************************************************************************************************************************************
@@ -221,6 +177,7 @@ public:
     QString     ffDRevision;        // ffD Application version (in reverse date format)
     QString     DefaultLanguage;    // Default Language (ISO 639 language code)
     int         NbrChapters;        // Number of chapters in the file
+    QStringList ChaptersProperties; // Properties of chapters
 
     explicit cffDProjectFile(cBaseApplicationConfig *ApplicationConfig);
 
@@ -229,11 +186,11 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            LoadBasicInformationFromDatabase(QDomElement root);
     virtual void            SaveBasicInformationToDatabase(QDomElement *root);
-    virtual bool            GetChildFullInformationFromFile();
+    virtual bool            GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties);
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return ApplicationConfig->DefaultFFDIcon.GetIcon(Size); }
 
-    virtual QString         GetTechInfo();
-    virtual QString         GetTAGInfo();
+    virtual QString         GetTechInfo(QStringList *ExtendedProperties);
+    virtual QString         GetTAGInfo(QStringList *ExtendedProperties);
 
     void                    SaveToXML(QDomElement &domDocument);
     bool                    LoadFromXML(QDomElement domDocument);
@@ -255,10 +212,10 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            LoadBasicInformationFromDatabase(QDomElement root);
     virtual void            SaveBasicInformationToDatabase(QDomElement *root);
-    virtual bool            GetChildFullInformationFromFile();
+    virtual bool            GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties);
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return (ObjectType==OBJECTTYPE_THUMBNAIL?ApplicationConfig->DefaultThumbIcon:ApplicationConfig->DefaultIMAGEIcon).GetIcon(Size); }
-    virtual QString         GetTechInfo();
-    virtual QString         GetTAGInfo();
+    virtual QString         GetTechInfo(QStringList *ExtendedProperties);
+    virtual QString         GetTAGInfo(QStringList *ExtendedProperties);
 };
 
 //*********************************************************************************************************************************************
@@ -326,11 +283,11 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            LoadBasicInformationFromDatabase(QDomElement root);
     virtual void            SaveBasicInformationToDatabase(QDomElement *root);
-    virtual bool            GetChildFullInformationFromFile();
+    virtual bool            GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties);
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size);
 
-    virtual QString         GetTechInfo();
-    virtual QString         GetTAGInfo();
+    virtual QString         GetTechInfo(QStringList *ExtendedProperties);
+    virtual QString         GetTAGInfo(QStringList *ExtendedProperties);
 
     virtual int             getThreadFlags(AVCodecID ID);
 
@@ -373,9 +330,6 @@ public:
     double              Volume;                 // Volume as % from 10% to 150%
 
     cMusicObject(cBaseApplicationConfig *ApplicationConfig);
-
-    virtual bool            LoadBasicInformationFromDatabase(QDomElement root);
-    virtual void            SaveBasicInformationToDatabase(QDomElement *root);
 
     void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList);
     bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag);

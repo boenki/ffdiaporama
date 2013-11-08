@@ -38,8 +38,6 @@
 //====================================================================================================================
 
 QCustomRuller::QCustomRuller(QWidget *parent):QSlider(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomRuller::QCustomRuller");
-
     StartPos=0;
     EndPos  =0;
     //setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
@@ -49,24 +47,18 @@ QCustomRuller::QCustomRuller(QWidget *parent):QSlider(parent) {
 //====================================================================================================================
 
 void QCustomRuller::ActiveSlider(int TotalDuration) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomRuller::ActiveSlider");
-
     this->TotalDuration=TotalDuration;
 }
 
 //====================================================================================================================
 
 void QCustomRuller::resizeEvent(QResizeEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomRuller::resizeEvent");
-
 //    if (Slider!=NULL) Slider->setMinimumWidth(this->width());
 }
 
 //====================================================================================================================
 
 void QCustomRuller::mousePressEvent(QMouseEvent *ev) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomRuller::mousePressEvent");
-
     if (ev->button()==Qt::LeftButton) {
         emit PositionChangeByUser();
         int x1 =int(double(this->width()-TAQUET_SIZE*2)*(double(value())/double(maximum())))+TAQUET_SIZE;
@@ -79,8 +71,6 @@ void QCustomRuller::mousePressEvent(QMouseEvent *ev) {
 //====================================================================================================================
 
 void QCustomRuller::paintEvent(QPaintEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomRuller::paintEvent");
-
     QPainter    Painter(this);
     QFont       font= QApplication::font();
     Painter.setFont(font);

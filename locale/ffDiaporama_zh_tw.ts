@@ -5943,14 +5943,6 @@ Soundtrack</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>ffDiaporama initialisation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rescale image to 8MPix</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Total duration:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6074,10 +6066,6 @@ Do you want to overwrite it?</source>
     </message>
     <message>
         <source>Starting libav...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Loading text frame  library...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6257,6 +6245,29 @@ Do you whant do download it now?</source>
     </message>
     <message>
         <source>Init WIKI...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error reading window state of %1 from home user database</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Init home user database...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error initialising home user database...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error initialising home user database
+ffDiaporama can&apos;t start</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading text frame library...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7160,10 +7171,6 @@ Do you whant do download it now?</source>
     <message>
         <source>Open file</source>
         <translation>開啟檔案</translation>
-    </message>
-    <message>
-        <source>Slide number</source>
-        <translation>投影片數量</translation>
     </message>
     <message>
         <source>ffDiaporama</source>

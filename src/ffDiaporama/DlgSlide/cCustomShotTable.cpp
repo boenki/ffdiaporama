@@ -41,15 +41,12 @@ public:
 //========================================================================================================================
 
 cShotTableItemDelegate::cShotTableItemDelegate(QObject *parent):QStyledItemDelegate(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cShotTableItemDelegate::cShotTableItemDelegate");
-
     ParentTable=(cCustomShotTable *)parent;
 }
 
 //========================================================================================================================
 
 void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cShotTableItemDelegate::paint");
     int Height=ParentTable->rowHeight(0);
     int Width =ParentTable->columnWidth(0);
 
@@ -80,10 +77,10 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
         if (RedColor) Duration=ParentTable->DiaporamaObject->GetDuration()-Position;
 
         // draw shot
-        if (ParentTable->DiaporamaObject->Thumbnail) {
+        /*if (ParentTable->DiaporamaObject->Thumbnail) {
             delete ParentTable->DiaporamaObject->Thumbnail;
             ParentTable->DiaporamaObject->Thumbnail=NULL;
-        }
+        }*/
         ParentTable->DiaporamaObject->DrawThumbnail(Width,Height,&TempPainter,0,0,CurCol);
     }
 
@@ -155,8 +152,6 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
 //********************************************************************************************************************************
 
 cCustomShotTable::cCustomShotTable(QWidget *parent):QTableWidget(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomShotTable::cCustomShotTable");
-
     DragItemSource  =-1;
     DragItemDest    =-1;
     IsDragOn        =0;
@@ -185,8 +180,6 @@ cCustomShotTable::cCustomShotTable(QWidget *parent):QTableWidget(parent) {
 //====================================================================================================================
 
 void cCustomShotTable::mousePressEvent(QMouseEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomShotTable::mousePressEvent");
-
     QTableWidget::mousePressEvent(event);
     if ((IsDragOn==1)||(columnCount()==0)||(DiaporamaObject==NULL)) return;
     setCursor(Qt::ArrowCursor);
@@ -210,7 +203,6 @@ void cCustomShotTable::mousePressEvent(QMouseEvent *event) {
 }
 
 void cCustomShotTable::mouseMoveEvent(QMouseEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomShotTable::mouseMoveEvent");
     if (IsDragOn!=1) {
         setCursor(Qt::ArrowCursor);
         QTableWidget::mouseMoveEvent(event);
@@ -245,7 +237,6 @@ void cCustomShotTable::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void cCustomShotTable::mouseReleaseEvent(QMouseEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomShotTable::mouseReleaseEvent");
     setCursor(Qt::ArrowCursor);
     if (event->button()==Qt::RightButton) {
         emit RightClickEvent(event);
@@ -275,7 +266,6 @@ int cCustomShotTable::NbrItem() {
 //====================================================================================================================
 
 void cCustomShotTable::SetCurrentCell(int Index) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomShotTable::SetCurrentCell");
     if ((Index<0)||(Index>=columnCount())) return;
     setCurrentCell(0,Index,QItemSelectionModel::Select|QItemSelectionModel::Current);
 }
@@ -283,7 +273,6 @@ void cCustomShotTable::SetCurrentCell(int Index) {
 //====================================================================================================================
 
 void cCustomShotTable::RepaintCell(int Index) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomShotTable::RepaintCell");
     if ((Index<0)||(Index>=columnCount())) return;
 
     update(model()->index(0,Index));

@@ -29,7 +29,6 @@
 
 class cCustomIcon {
 public:
-    bool   IsIconNeeded;                    // If true, create thumbnails on open
     QImage Icon16,Icon100;                  // Icons
     enum   IconSize {ICON16,ICON100};
 

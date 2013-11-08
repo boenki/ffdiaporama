@@ -57,8 +57,20 @@
 #endif
 
 //============================================
+// Specific for SOLARIS
+//============================================
+
+#ifdef Q_OS_SOLARIS
+#define u_int64_t uint64_t
+#define u_int32_t uint32_t
+#define u_int16_t uint16_t
+#define u_int8_t uint8_t
+#endif
+
+//============================================
 // Minimum QT inclusions needed by all files
 //============================================
+
 #include <QtCore>
 #include <QApplication>
 #include <QtDebug>
@@ -177,7 +189,6 @@ double  GetDoubleValue(QDomElement CorrectElement,QString Name);                
 double  GetDoubleValue(QString sValue);                                             // Load a double value from a string
 QString UpInitials(QString Source);
 QString FormatLongDate(QDate EventDate);
-QString AdjustDirForOS(QString Dir);                                                // Adjust separator in pathname depending on operating system
 QString GetInformationValue(QString ValueToSearch,QStringList *InformationList);    // Get a value from a list of value (value as store in pair name##value)
 QString GetCumulInfoStr(QStringList *InformationList,QString Key1,QString Key2);    // Return a string concataining each value of a key containing key1 and key2
 

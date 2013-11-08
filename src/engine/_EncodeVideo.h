@@ -35,7 +35,7 @@ int CheckEncoderCapabilities(VFORMAT_ID FormatId,AVCodecID VideoCodec,AVCodecID 
 
 //************************************************
 
-class cEncodeVideo {
+class cEncodeVideo{
 public:
     cDiaporama          *Diaporama;
     bool                IsOpen,InterleaveFrame;
@@ -90,10 +90,9 @@ public:
     bool                StopProcessWanted;              // True if user click on cancel or close during encoding process
     QTime               StartTime;                      // Time the process start
     QTime               LastCheckTime;                  // Last time the loop start
-    QLabel              *InfoLabelA1,*InfoLabelA2,*InfoLabelA3,*InfoLabelA4;
-    QLabel              *InfoLabelB1,*InfoLabelB2,*InfoLabelB3,*InfoLabelB4;
-    QLabel              *ElapsedTimeLabel,*SlideNumberLabel,*FrameNumberLabel,*FPSLabel,*SlideProgressBarLabel;
-    QProgressBar        *SlideProgressBar,*TotalProgressBar;
+
+    int64_t             RenderedFrame,Position;
+    int                 Column,ColumnStart,AdjustedDuration;
 
     QFutureWatcher<void> ThreadAssembly;
     QFutureWatcher<void> ThreadEncodeVideo;
@@ -109,8 +108,6 @@ public:
     void            CloseEncoder();
 
 private:
-    void            InitDisplay();
-    void            DisplayProgress(int64_t RenderedFrame,int64_t Position,int Column,int ColumnStart);
 
     int             getThreadFlags(AVCodecID ID);
     bool            AddStream(AVStream **Stream,AVCodec **codec,const char *CodecName,AVMediaType Type);

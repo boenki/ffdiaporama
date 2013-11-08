@@ -11,6 +11,24 @@
         New features:
 **************************************************
 
+[Commit: 08/11/2013]
+French version
+    Correction de bug :
+        -Ne pose plus la question de fois, lors de l'ouverture d'un projet, si celui n'existe plus et que l'utilisateur répond non à la proposition de sélectionner un autre fichier
+        -Corrige une fuite de mémoire qui survenait en preview et en génération avec des images statiques
+    Nouveautés :
+        -Accélère la réouverture des projets contenant des vidéos (ne teste plus les vidéos lors des ouvertures de projet)
+        -Retire les thumbnails et les propriétés étendues des objets MediaFiles de la mémoire
+        -Retire la reduction de qualité des thumbnails pour les systèmes 32 bits quand le nombre d'objets dans un répertoire est important (n'est plus nécessaire)
+English version
+    Bug fixes:
+        -Do not ask the question once more, at the opening of a project if it no longer exists and that the user answers no to the proposal to select another file
+        -Fixed a memory leak that occurred in preview and render with static images
+    New features:
+        -Accelerates reopening projects with videos (no longer tested videos when reopening project)
+        -Removes thumbnails and extended properties of MediaFiles objects from memory
+        -Removes the reduction of quality of thumbnails for 32-bit systems when the number of objects in a directory is important (no longer needed)
+
 [Commit: 04/11/2013]
     French version
         Correction de bug :
@@ -25,7 +43,7 @@
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
-[Commit: 03/11/2013]
+[Commit: 03/11/2013] + ffDiaporama 2.0 BETA 1
     French version
         Correction de bug :
             -Corrige le plantage lors de l'annulation de l'insertion d'un objet dans la boite d'edition des slides [Bug chrisbra 01/11/2013]
@@ -58,3 +76,7 @@
             -Create a SQLite3 database "home user" in home user directory to stock different informations
             -Move Window State and position from memory to the home user database (remove memory used by that)
             -Add a folders table and remove folder path information from all objects derivated from cBaseMediaFile
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+[Commit: 27/10/2013] + ffDiaporama 1.7 BETA 5

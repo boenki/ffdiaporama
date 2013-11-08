@@ -171,27 +171,6 @@ QString FormatLongDate(QDate EventDate) {
 
 //====================================================================================================================
 
-//functions used to adjust folder name depending on operating system
-QString AdjustDirForOS(QString Dir) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:AdjustDirForOS");
-
-    return QDir::toNativeSeparators(Dir);
-
-    /*
-    #ifdef Q_OS_WIN
-    Dir.replace("/","\\");
-    bool DoubleSlashBegin=Dir.startsWith("\\\\");
-    Dir.replace("\\\\","\\");
-    if (DoubleSlashBegin) Dir="\\"+Dir;
-    #elif defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
-    Dir.replace("\\","/");
-    #endif
-    return Dir;
-    */
-}
-
-//====================================================================================================================
-
 QString GetInformationValue(QString ValueToSearch,QStringList *InformationList) {
     if (!InformationList) return "";
     int i=0;

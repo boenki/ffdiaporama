@@ -23,7 +23,6 @@
 
 DlgChapter::DlgChapter(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgChapter) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgChapter::DlgChapter");
 
     ui->setupUi(this);
     OkBt        =ui->OKBT;
@@ -43,7 +42,6 @@ DlgChapter::~DlgChapter() {
 // Initialise dialog
 
 void DlgChapter::DoInitDialog() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgChapter::DoInitDialog");
     RefreshControl();
 
     ui->ChapterEventDateED->setDisplayFormat(BaseApplicationConfig->ShortDateFormat);
@@ -61,8 +59,6 @@ void DlgChapter::DoInitDialog() {
 // RefreshControl
 
 void DlgChapter::RefreshControl() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgChapter::RefreshControl");
-
     ui->StartNewChapterCB->setChecked(CurrentSlide->StartNewChapter);
     ui->OverrideProjectDateCB->setChecked(CurrentSlide->OverrideProjectEventDate);
     ui->OverrideDateCB->setChecked(CurrentSlide->OverrideChapterLongDate);
@@ -83,8 +79,6 @@ void DlgChapter::RefreshControl() {
 // Initiale Undo
 
 void DlgChapter::PrepareGlobalUndo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgChapter::PrepareGlobalUndo");
-
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");                                               // Create xml document and root
@@ -96,8 +90,6 @@ void DlgChapter::PrepareGlobalUndo() {
 // Apply Undo : call when user click on Cancel button
 
 void DlgChapter::DoGlobalUndo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgChapter::DoGlobalUndo");
-
     QDomElement root=Undo->documentElement();
     if (root.tagName()=="UNDO-DLG") CurrentSlide->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL);
 }
@@ -105,7 +97,6 @@ void DlgChapter::DoGlobalUndo() {
 //====================================================================================================================
 
 bool DlgChapter::DoAccept() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgChapter::DoAccept");
     CurrentSlide->StartNewChapter           =ui->StartNewChapterCB->isChecked();
 
     CurrentSlide->OverrideProjectEventDate  =CurrentSlide->StartNewChapter?ui->OverrideProjectDateCB->isChecked():false;
@@ -120,7 +111,6 @@ bool DlgChapter::DoAccept() {
 //====================================================================================================================
 
 void DlgChapter::StartNewChapterCBChanged(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgChapter::StartNewChapterCBChanged");
     CurrentSlide->StartNewChapter=ui->StartNewChapterCB->isChecked();
     RefreshControl();
 }
@@ -128,7 +118,6 @@ void DlgChapter::StartNewChapterCBChanged(int) {
 //====================================================================================================================
 
 void DlgChapter::OverrideProjectDateChanged(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgChapter::OverrideProjectDateChanged");
     CurrentSlide->OverrideProjectEventDate=ui->OverrideProjectDateCB->isChecked();
     if (!CurrentSlide->OverrideProjectEventDate) {
         ui->ChapterEventDateED->setDate(CurrentSlide->Parent->ProjectInfo->EventDate);
@@ -141,7 +130,6 @@ void DlgChapter::OverrideProjectDateChanged(int) {
 //====================================================================================================================
 
 void DlgChapter::OverrideDateCBChanged(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgChapter::OverrideDateCBChanged");
     CurrentSlide->OverrideChapterLongDate=ui->OverrideDateCB->isChecked();
     if (!CurrentSlide->OverrideChapterLongDate) {
         CurrentSlide->ChapterLongDate=FormatLongDate(CurrentSlide->ChapterEventDate);
@@ -153,7 +141,6 @@ void DlgChapter::OverrideDateCBChanged(int) {
 //====================================================================================================================
 
 void DlgChapter::ChapterEventDateChanged(const QDate &NewDate) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgChapter::ChapterEventDateChanged");
     CurrentSlide->ChapterEventDate=NewDate;
     if (!CurrentSlide->OverrideChapterLongDate) {
         CurrentSlide->ChapterLongDate=CurrentSlide->OverrideProjectEventDate?FormatLongDate(CurrentSlide->ChapterEventDate):CurrentSlide->Parent->ProjectInfo->LongDate;
