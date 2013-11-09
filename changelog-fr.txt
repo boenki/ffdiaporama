@@ -1,0 +1,62 @@
+**************************************************
+* FFDIAPORAMA 2.0 - Trunk
+* changelog since ffDiaporama 1.7
+* (Version Française)
+**************************************************
+
+[Commit: 09/11/2013] + ffDiaporama 2.0 BETA 2
+    Correction de bug :
+        -Corrige un crash intervenant lors de logging simultané provenant de plusieurs threads
+
+    Nouveautés :
+        -Netoyage du code (suppression des ffDText et des ToLog debugtrace des fonctions)
+
+[Commit: 08/11/2013]
+    Correction de bug :
+        -Ne pose plus la question de fois, lors de l'ouverture d'un projet, si celui n'existe plus et que l'utilisateur répond non à la proposition de sélectionner un autre fichier
+        -Corrige une fuite de mémoire qui survenait en preview et en génération avec des images statiques
+
+    Nouveautés :
+        -Accélère la réouverture des projets contenant des vidéos (ne teste plus les vidéos lors des ouvertures de projet)
+        -Retire les thumbnails et les propriétés étendues des objets MediaFiles de la mémoire
+        -Retire la reduction de qualité des thumbnails pour les systèmes 32 bits quand le nombre d'objets dans un répertoire est important (n'est plus nécessaire)
+
+[Commit: 04/11/2013]
+    Correction de bug :
+        -Corrige l'erreur lors des générations en webm, ogv et ogg avec libav 0.8 : remplace AV_SAMPLE_FMT_FLT par AV_SAMPLE_FMT_S16 pour le codec OGG
+
+    Nouveautés :
+        - Réorganise les données à l'intérieur des objets afin de pouvoir a terme les supprimer de la mémoire et ne les avoir plus que dans la base de données
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+[Commit: 03/11/2013] + ffDiaporama 2.0 BETA 1
+    Correction de bug :
+        -Corrige le plantage lors de l'annulation de l'insertion d'un objet dans la boite d'edition des slides [Bug chrisbra 01/11/2013]
+        -Modifie tout le code source pour mieux prendre en considération les différences entre libav et ffmpeg
+
+    Nouveautés :
+        -Ajoute une table des fichiers et supprime l'information de chemin de fichier de tous les objects dérivés de cBaseMediaFile
+        -Modifie le browser multimédia pour qu'il utilise la table des fichiers comme cache pour accélérer la navigation
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+[Commit: 30/10/2013]
+    Correction de bug :
+        -Corrige le bug de lecture des SVG [regression 1.7 beta 2]
+
+    Nouveautés :
+        -Crée une base de données SQLite3 "home user" dans le profil de l'utilisateur pour stocker toute sorte d'information
+        -Déplace le stockage des positions des fenetres de la memoire vers la base de données (et supprime la RAM utilisée pour ce stockage)
+        -Ajoute une table des répertoires et supprime l'information de répertoire de tous les objects dérivés de cBaseMediaFile
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+[Commit: 27/10/2013] + ffDiaporama 1.7 BETA 5
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+[Commit: ]
+    Correction de bug :
+
+    Nouveautés :

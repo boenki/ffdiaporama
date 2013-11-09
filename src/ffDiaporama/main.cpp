@@ -84,12 +84,19 @@ int main(int argc, char* argv[]) {
         default: ToLog(LOGMSG_INFORMATION,"Set LogLevel to CRITICAL");      break;
     }
 
+    QSplashScreen *screen=new QSplashScreen(QPixmap(":/img/splash.png"));
+    //screen->setPixmap(QPixmap(":/img/splash.png"));
+    screen->show();
+    screen->raise();
+    app.processEvents();
+
     // Start GUI
     ToLog(LOGMSG_INFORMATION,"Start GUI ...");
     MainWindow w;
-    w.InitWindow(ForceLanguage,&app);
+    w.InitWindow(ForceLanguage,&app,screen);
+    w.show();
+    delete screen;
     LogMsgLevel=FuturLogMsgLevel;
-    if (w.ApplicationConfig->RestoreWindow && w.ApplicationConfig->MainWinState) w.showMaximized(); else w.show();
 
     if (AutoLoad!="") {
         w.FileForIO=AutoLoad;

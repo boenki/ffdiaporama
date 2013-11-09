@@ -77,7 +77,7 @@ public:
 
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void    InitWindow(QString ForceLanguage,QApplication *App);
+    void    InitWindow(QString ForceLanguage,QApplication *App,QSplashScreen *screen);
 
     void    RefreshControls();
     void    SetModifyFlag(bool IsModify);

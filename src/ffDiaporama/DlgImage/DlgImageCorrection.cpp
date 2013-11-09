@@ -129,7 +129,8 @@ void DlgImageCorrection::DoInitDialog() {
     //*******************************
 
     // Set title of dialog
-    setWindowTitle(!IsVideo?ffDText(ffDSection_DlgImageCorrection,0):ffDText(ffDSection_DlgImageCorrection,1));
+    setWindowTitle(!IsVideo?QApplication::translate("DlgSlideProperties","Correct or reframe image","Action title in slide edit dialog + dialog title of image edit dialog"):
+                            QApplication::translate("DlgSlideProperties","Correct, reframe or cut video","Action title in slide edit dialog + dialog title of image edit dialog"));
 
     switch (ffDPrjGeometry) {
         case GEOMETRY_4_3:      ProjectGeometry=double(1440)/double(1920);  break;
@@ -727,7 +728,7 @@ void DlgImageCorrection::s_ChangeFile() {
     QStringList FileList;
     QString     NewFile="";
     DlgFileExplorer Dlg(CurrentBrush->Image?FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_IMAGEFILE:FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_VIDEOFILE,
-                        CurrentBrush->Image?OBJECTTYPE_IMAGEFILE:OBJECTTYPE_VIDEOFILE,false,false,ActualFilePath,ffDText(ffDSection_CommonInfoMsg,0),BaseApplicationConfig,this);
+                        CurrentBrush->Image?OBJECTTYPE_IMAGEFILE:OBJECTTYPE_VIDEOFILE,false,false,ActualFilePath,QApplication::translate("CommonInfoMsg","Select a file"),BaseApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         FileList=Dlg.GetCurrentSelectedFiles();
@@ -751,7 +752,7 @@ void DlgImageCorrection::s_ChangeFile() {
 
     } else {
         // Video
-        QString ErrorMessage=ffDText(ffDSection_CommonErrorMsg,0);
+        QString ErrorMessage=QApplication::translate("CommonErrorMsg","Format not supported");
         CurrentBrush->Video->Reset(OBJECTTYPE_VIDEOFILE);
         if (CurrentBrush->Video->GetInformationFromFile(NewBrushFileName,NULL,NULL,-1)&&(CurrentBrush->Video->OpenCodecAndFile())) {
             // Check if file have at least one sound track compatible
@@ -759,17 +760,17 @@ void DlgImageCorrection::s_ChangeFile() {
                 (CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
                 (CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
             ))) {
-                ErrorMessage=ErrorMessage+"\n"+ffDText(ffDSection_CommonErrorMsg,1);
+                ErrorMessage=ErrorMessage+"\n"+QApplication::translate("CommonErrorMsg","This application support only audio track with unsigned 8 bits or signed 16 bits sample format");
                 IsValide=false;
             }
             #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
             if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
-                ErrorMessage=ErrorMessage+"\n"+ffDText(ffDSection_CommonErrorMsg,2);
+                ErrorMessage=ErrorMessage+"\n"+QApplication::translate("CommonErrorMsg","This application support only mono or stereo audio track");
                 IsValide=false;
             }
             #endif
             if (!IsValide) {
-                CustomMessageBox(NULL,QMessageBox::Critical,ffDText(ffDSection_CommonInfoMsg,1),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
+                CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("CommonInfoMsg","Error","Title of dialog box displaying an error"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
                 CurrentBrush->Video->GetInformationFromFile(OldBrushFileName,NULL,NULL,-1);
             } else CurrentBrush->Video->OpenCodecAndFile();
         }

@@ -277,7 +277,6 @@ public:
     int                     WindowDisplayMode;
     bool                    WikiFollowInterface;                        // If true Wiki follow the interface
 
-    QString                 BrowserWidgetSplitter;                      // Position of the Browser Widget Splitter
     QStringList             BrowserFavorites;                           // List of favorites path
 
     // Editor options
@@ -406,7 +405,6 @@ public:
     QString                 CurrentLanguage;                            // Current Language translation
     QString                 ForceLanguage;                              // Empty or forced language
     QString                 StartingPath;
-    bool                    MainWinState;                               // WindowsSettings-ismaximized
 
     QTranslator             translator;                                 // translator for the application
     QTranslator             QTtranslator;                               // translator for QT default text
@@ -431,9 +429,6 @@ public:
     int                     Image_ThumbWidth,Image_ThumbHeight;         // Thumbnail size in big icon mode for image
     int                     Music_ThumbWidth,Music_ThumbHeight;         // Thumbnail size in big icon mode for music
     int                     Video_ThumbWidth,Video_ThumbHeight;         // Thumbnail size in big icon mode for video
-
-    // Windows Size & Position
-    cSaveWindowPosition     *MainWinWSP;                                // MainWindow - Window size and position
 
     cBaseApplicationConfig(QMainWindow *TopLevelWindow,QString AllowedWEBLanguage,QString ApplicationGroupName,QString ApplicationName,QString ApplicationVersion,QString ConfigFileExt,QString ConfigFileRootName);
     virtual ~cBaseApplicationConfig();

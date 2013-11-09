@@ -203,7 +203,8 @@ QString GetCumulInfoStr(QStringList *InformationList,QString Key1,QString Key2) 
 
 //====================================================================================================================
 
-bool PreviousBreak=true;
+bool    PreviousBreak=true;
+QMutex  LogMutex;
 
 #ifdef Q_OS_WIN
 std::string toAscii(QString tab) {
@@ -215,6 +216,7 @@ std::string toAscii(QString tab) {
 #endif
 
 void ToLog(int MessageType,QString Message,QString Source,bool AddBreak) {
+    LogMutex.lock();
     if ((MessageType>=LogMsgLevel)&&(PreviousBreak)) {
         QString DateTime=QTime::currentTime().toString("hh:mm:ss.zzz");
         #ifdef Q_OS_WIN
@@ -257,6 +259,7 @@ void ToLog(int MessageType,QString Message,QString Source,bool AddBreak) {
         std::cout << Message.toLocal8Bit().constData() << std::flush;
         #endif
     }
+    LogMutex.unlock();
 }
 
 //====================================================================================================================
@@ -271,27 +274,4 @@ QString ito3a(int val) {
     QString Ret=QString("%1").arg(val);
     while (Ret.length()<3) Ret="0"+Ret;
     return Ret;
-}
-
-//====================================================================================================================
-
-QString ffDText(ffDSection_ID SectionId,int TextId) {
-    switch (TEXTID(SectionId,TextId)) {
-        // Section Common Error Messages
-        case TEXTID(ffDSection_CommonErrorMsg,0):           return QApplication::translate("CommonErrorMsg","Format not supported");
-        case TEXTID(ffDSection_CommonErrorMsg,1):           return QApplication::translate("CommonErrorMsg","This application support only audio track with unsigned 8 bits or signed 16 bits sample format");
-        case TEXTID(ffDSection_CommonErrorMsg,2):           return QApplication::translate("CommonErrorMsg","This application support only mono or stereo audio track");
-
-        // Section Common information Messages
-        case TEXTID(ffDSection_CommonInfoMsg,0):            return QApplication::translate("CommonInfoMsg","Select a file");
-        case TEXTID(ffDSection_CommonInfoMsg,1):            return QApplication::translate("CommonInfoMsg","Error","Title of dialog box displaying an error");
-
-        // Section DlgImageCorrection
-        case TEXTID(ffDSection_DlgImageCorrection,0):       return QApplication::translate("DlgSlideProperties","Correct or reframe image","Action title in slide edit dialog + dialog title of image edit dialog");
-        case TEXTID(ffDSection_DlgImageCorrection,1):       return QApplication::translate("DlgSlideProperties","Correct, reframe or cut video","Action title in slide edit dialog + dialog title of image edit dialog");
-        case TEXTID(ffDSection_DlgImageCorrection,2):       return QApplication::translate("DlgSlideProperties","Define framing and correction of image","Tooltip");
-        case TEXTID(ffDSection_DlgImageCorrection,3):       return QApplication::translate("DlgSlideProperties","Define framing and correction of image or cut video","Tooltip");
-
-    }
-    return "Message text not found!";
 }

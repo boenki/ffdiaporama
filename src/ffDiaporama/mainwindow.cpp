@@ -65,8 +65,6 @@
 //====================================================================================================================
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::MainWindow");
-
     // Load application version version
     QFile file("BUILDVERSION.txt");
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -98,13 +96,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 //====================================================================================================================
 
-void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::InitWindow");
-
-    QSplashScreen screen;
-    screen.setPixmap(QPixmap(":/img/splash.png"));
-    screen.show();
-
+void MainWindow::InitWindow(QString ForceLanguage,QApplication *App,QSplashScreen *screen) {
     ApplicationConfig->InitConfigurationValues(ForceLanguage,App);
 
     ui->setupUi(this);
@@ -149,7 +141,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     // Now, we have application settings then we can init all others
 
     // Init database
-    screen.showMessage(QApplication::translate("MainWindow","Init home user database..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen->showMessage(QApplication::translate("MainWindow","Init home user database..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Init home user database..."));
     ApplicationConfig->Database=new cDatabase(QDir::toNativeSeparators(ApplicationConfig->UserConfigPath+"ffdiaporama.db"));
     ApplicationConfig->Database->ApplicationConfig=ApplicationConfig;
@@ -168,34 +160,34 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
         }
     }
 
-    screen.showMessage(QApplication::translate("MainWindow","Loading system icons..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen->showMessage(QApplication::translate("MainWindow","Loading system icons..."),Qt::AlignHCenter|Qt::AlignBottom);
     ApplicationConfig->PreloadSystemIcons();
 
     // Register SDL
-    screen.showMessage(QApplication::translate("MainWindow","Starting SDL..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen->showMessage(QApplication::translate("MainWindow","Starting SDL..."),Qt::AlignHCenter|Qt::AlignBottom);
     SDLFirstInit(double(1000)/double(ApplicationConfig->PreviewFPS),ApplicationConfig->SDLAudioOldMode,ApplicationConfig->PreviewSamplingRate);
 
     // Register all formats and codecs for libavformat/libavcodec/etc ...
-    screen.showMessage(QApplication::translate("MainWindow","Starting libav..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen->showMessage(QApplication::translate("MainWindow","Starting libav..."),Qt::AlignHCenter|Qt::AlignBottom);
     if (!ApplicationConfig->DeviceModelList.InitLibav()) exit(1);
 
     // Register background library
-    screen.showMessage(QApplication::translate("MainWindow","Loading background library..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen->showMessage(QApplication::translate("MainWindow","Loading background library..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading background library..."));
     BackgroundList.ScanDisk("background",ApplicationConfig);
 
     // Register text frame library
-    screen.showMessage(QApplication::translate("MainWindow","Loading text frame library..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen->showMessage(QApplication::translate("MainWindow","Loading text frame library..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading text frame library..."));
     TextFrameList.DoPreploadList();
 
     // Register non luma library
-    screen.showMessage(QApplication::translate("MainWindow","Loading no-luma transitions..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen->showMessage(QApplication::translate("MainWindow","Loading no-luma transitions..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading no-luma transitions..."));
     RegisterNoLumaTransition();
 
     // Register luma library
-    screen.showMessage(QApplication::translate("MainWindow","Loading luma transitions..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen->showMessage(QApplication::translate("MainWindow","Loading luma transitions..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading luma transitions..."));
     RegisterLumaTransition();
 
@@ -203,12 +195,12 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ShapeFormDefinitionInit();
 
     // Because now we have local installed, then we can translate drive name
-    screen.showMessage(QApplication::translate("MainWindow","Scan drives in computer..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen->showMessage(QApplication::translate("MainWindow","Scan drives in computer..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Scan drives in computer..."));
     ApplicationConfig->DriveList=new cDriveList(ApplicationConfig);
 
     // Register models
-    screen.showMessage(QApplication::translate("MainWindow","Register models..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen->showMessage(QApplication::translate("MainWindow","Register models..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Register models..."));
     ApplicationConfig->ThumbnailModels=new cModelList(ApplicationConfig,ffd_MODELTYPE_THUMBNAIL,&ApplicationConfig->ThumbnailModelsNextNumber,GEOMETRY_THUMBNAIL,0,"");
     int Cur;
@@ -296,15 +288,13 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ui->ZoomPlusBT->setEnabled(ApplicationConfig->TimelineHeight<TIMELINEMAXHEIGH);
 
     // Init help window
-    screen.showMessage(QApplication::translate("MainWindow","Init WIKI..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen->showMessage(QApplication::translate("MainWindow","Init WIKI..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Init WIKI..."));
     ApplicationConfig->PopupHelp=new HelpPopup(ApplicationConfig);
     ApplicationConfig->PopupHelp->InitDialog();
     ApplicationConfig->PopupHelp->hide();
     ApplicationConfig->PopupHelp->OpenHelp("main",false);
 
-    // We have finish with the SplashScreen
-    screen.hide();
     toolTipTowhatsThis(this);
 
     connect(ui->TABTooltip,SIGNAL(linkActivated(const QString)),this,SLOT(s_Action_OpenTABHelpLink(const QString)));
@@ -460,6 +450,24 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     SetModifyFlag(false);           // Setup title window and do first RefreshControls();
     s_Event_ClipboardChanged();     // Setup clipboard button state
 
+    QString     WindowStateString;
+    qlonglong   TypeWindowState=TypeWindowState_withsplitterpos;
+    if (ApplicationConfig->SettingsTable->GetIntAndTextValue("MainWindow",&TypeWindowState,&WindowStateString)) {
+        QDomDocument    domDocument;
+        QString         errorStr;
+        int             errorLine,errorColumn;
+        if (!domDocument.setContent(WindowStateString,true,&errorStr,&errorLine,&errorColumn)) {
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error reading window state of %1 from home user database","Error message").arg(objectName()));
+        } else {
+            cSaveWinWithSplitterPos DlgWSP("MainWindow",ApplicationConfig->RestoreWindow,true);
+            DlgWSP.LoadFromXML(domDocument.documentElement());
+            if (DlgWSP.IsInit) {
+                DlgWSP.ApplyToWindow(this,ui->BrowserWidget);
+                if (DlgWSP.IsMaximized) QTimer::singleShot(LATENCY,this,SLOT(DoMaximized()));
+            }
+        }
+    }
+
     if (ApplicationConfig->CheckConfigAtStartup) QTimer::singleShot(LATENCY,this,SLOT(s_Action_DlgCheckConfig()));
 }
 
@@ -478,8 +486,6 @@ void MainWindow::toolTipTowhatsThis(QObject *StartObj) {
 //====================================================================================================================
 
 MainWindow::~MainWindow() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::~MainWindow");
-
     SDLLastClose();
 
     delete ui;
@@ -522,8 +528,6 @@ void MainWindow::s_CleanStatusBar() {
 //====================================================================================================================
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::keyReleaseEvent");
-
     bool Find=true;
     if (event->matches(QKeySequence::Quit))             s_Action_Exit();
     else if (event->matches(QKeySequence::New))         s_Action_New();
@@ -554,14 +558,12 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
 //====================================================================================================================
 
 void MainWindow::ToStatusBar(QString Text) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::ToStatusBar");
     ui->StatusBar_General->setText(Text);
 }
 
 //====================================================================================================================
 
 void MainWindow::UpdateChapterInfo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::UpdateChapterInfo");
     QString     ChapterNum="Chapter_000:";
     QList<int>  Chapter;
 
@@ -591,7 +593,6 @@ void MainWindow::UpdateChapterInfo() {
 //====================================================================================================================
 
 void MainWindow::SetTimelineHeight() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::SetTimelineHeight");
     switch (ApplicationConfig->WindowDisplayMode) {
         case DISPLAYWINDOWMODE_PLAYER:
             ApplicationConfig->PartitionMode=false;
@@ -649,8 +650,6 @@ void MainWindow::SetTimelineHeight() {
 //====================================================================================================================
 
 void MainWindow::closeEvent(QCloseEvent *Event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::closeEvent");
-
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     ui->preview2->SetPlayerToPause(); // Ensure player is stop
     if (Diaporama->IsModify) {
@@ -662,19 +661,26 @@ void MainWindow::closeEvent(QCloseEvent *Event) {
             return;
         }
     }
-    if (isMaximized()) {
-        ApplicationConfig->MainWinWSP->IsMaximized=true;
-        showNormal();
-        QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
-    } else ApplicationConfig->MainWinWSP->IsMaximized=false;
-    if (isMinimized()) {
-        showNormal();
-        QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
-    }
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ApplicationConfig->PopupHelp->close();
-    ApplicationConfig->BrowserWidgetSplitter=QString(QByteArray(ui->BrowserWidget->saveState()).toHex());
-    ApplicationConfig->MainWinWSP->SaveWindowState(this);
+    if (ApplicationConfig->RestoreWindow) {
+        cSaveWinWithSplitterPos DlgWSP("MainWindow",ApplicationConfig->RestoreWindow,true);
+        DlgWSP.SaveWindowState(this,ui->BrowserWidget);
+        if (isMaximized()) {
+            DlgWSP.IsMaximized=true;
+            showNormal();
+            QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+        } else DlgWSP.IsMaximized=false;
+        if (isMinimized()) {
+            showNormal();
+            QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+        }
+        QDomDocument            domDocument;
+        QDomElement             root=domDocument.createElement("WindowState");
+        domDocument.appendChild(root);
+        DlgWSP.SaveToXML(root);
+        ApplicationConfig->SettingsTable->SetIntAndTextValue("MainWindow",TypeWindowState_withsplitterpos,domDocument.toString());
+    }
     ApplicationConfig->SaveConfigurationFile();
     QApplication::restoreOverrideCursor();
 }
@@ -682,8 +688,6 @@ void MainWindow::closeEvent(QCloseEvent *Event) {
 //====================================================================================================================
 
 void MainWindow::resizeEvent(QResizeEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::resizeEvent");
-
     ui->preview->SetPlayerToPause();  // Ensure player is stop
     ui->preview2->SetPlayerToPause(); // Ensure player is stop
     SetTimelineHeight();
@@ -693,13 +697,8 @@ void MainWindow::resizeEvent(QResizeEvent *) {
 //====================================================================================================================
 
 void MainWindow::showEvent(QShowEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::showEvent");
-
     if (!IsFirstInitDone) {
         IsFirstInitDone=true;                                   // do this only one time
-        ui->BrowserWidget->restoreState(QByteArray::fromHex(ApplicationConfig->BrowserWidgetSplitter.toUtf8()));
-        ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
-        if (ApplicationConfig->MainWinWSP->IsMaximized) QTimer::singleShot(LATENCY,this,SLOT(DoMaximized()));
         #ifndef DEBUG_MODE // Check it only if release mode
         // Start a network process to give last ffdiaporama version from internet web site
         QNetworkAccessManager *mNetworkManager=new QNetworkAccessManager(this);
@@ -716,8 +715,6 @@ void MainWindow::showEvent(QShowEvent *) {
 //====================================================================================================================
 
 void MainWindow::DoMaximized() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoMaximized");
-
     showMaximized();
 }
 
@@ -730,8 +727,6 @@ void MainWindow::s_Action_Version() {
 }
 
 void MainWindow::s_Event_NetworkReply(QNetworkReply* reply) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_NetworkReply");
-
     if (reply->error()==QNetworkReply::NoError) {
         int httpstatuscode=reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toUInt();
         if ((httpstatuscode>=200)&&(httpstatuscode<300)&&(reply->isReadable())) {
@@ -764,7 +759,6 @@ void MainWindow::s_Event_NetworkReply(QNetworkReply* reply) {
 //====================================================================================================================
 
 void MainWindow::RefreshControls() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::RefreshControls");
     bool IsMultipleSelection=ui->timeline->IsMultipleSelection();
 
     // Timeline actions
@@ -824,8 +818,6 @@ void MainWindow::RefreshControls() {
 //====================================================================================================================
 
 void MainWindow::SetModifyFlag(bool IsModify) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::SetModifyFlag");
-
     Diaporama->IsModify=IsModify;
     this->setWindowTitle(TitleBar+QString("-")+
                          (Diaporama->ProjectFileName!=""?Diaporama->ProjectFileName:QApplication::translate("MainWindow","<new project>","when project have no name define"))+
@@ -849,8 +841,6 @@ void MainWindow::SetTimelineCurrentCell(int Cell) {
 //====================================================================================================================
 
 void MainWindow::s_Action_About() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_About");
-
     ui->Action_About_BT->setDown(false);
     ui->Action_About_BT_2->setDown(false);
     DlgAbout Dlg(ApplicationConfig,this);
@@ -861,8 +851,6 @@ void MainWindow::s_Action_About() {
 //====================================================================================================================
 
 void MainWindow::s_Action_DlgCheckConfig() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_DlgCheckConfig");
-
     DlgCheckConfig Dlg(ApplicationConfig,this);
     Dlg.InitDialog();
     Dlg.exec();
@@ -871,8 +859,6 @@ void MainWindow::s_Action_DlgCheckConfig() {
 //====================================================================================================================
 
 void MainWindow::s_Action_Documentation() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_Documentation");
-
     ui->ActionDocumentation_BT->setDown(false);
     ui->ActionDocumentation_BT_2->setDown(false);
 
@@ -882,8 +868,6 @@ void MainWindow::s_Action_Documentation() {
 //====================================================================================================================
 
 void MainWindow::s_Action_NewFunctions() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_NewFunctions");
-
     ui->ActionNewFunctions_BT->setDown(false);
     QDesktopServices::openUrl(QUrl(QString(HELPFILE_CAT).arg(HELPFILE_NEWS).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
 }
@@ -891,8 +875,6 @@ void MainWindow::s_Action_NewFunctions() {
 //====================================================================================================================
 
 void MainWindow::s_Action_Exit() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_Exit");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -907,8 +889,6 @@ void MainWindow::s_Action_Exit() {
 //====================================================================================================================
 
 void MainWindow::s_Action_ZoomPlus() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_ZoomPlus");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -928,8 +908,6 @@ void MainWindow::s_Action_ZoomPlus() {
 //====================================================================================================================
 
 void MainWindow::s_Action_ZoomMinus() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_ZoomMinus");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -967,8 +945,6 @@ void MainWindow::s_Action_ChWindowDisplayMode_ToBrowserMode() {
 //====================================================================================================================
 
 void MainWindow::s_Action_ChWindowDisplayMode(int Mode) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_ChWindowDisplayMode");
-
     if (ApplicationConfig->WindowDisplayMode!=Mode) {
         ApplicationConfig->WindowDisplayMode=Mode;
         s_Action_ChWindowDisplayMode();
@@ -976,8 +952,6 @@ void MainWindow::s_Action_ChWindowDisplayMode(int Mode) {
 }
 
 void MainWindow::s_Action_ChWindowDisplayMode() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_ChWindowDisplayMode");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1000,8 +974,6 @@ void MainWindow::s_Action_ChWindowDisplayMode() {
 //====================================================================================================================
 
 void MainWindow::s_Event_DoubleClickedOnObject() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_DoubleClickedOnObject");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1070,8 +1042,6 @@ void MainWindow::s_Event_DoubleClickedOnObject() {
 //====================================================================================================================
 
 void MainWindow::s_Event_DoubleClickedOnTransition() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_DoubleClickedOnTransition");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1094,8 +1064,6 @@ void MainWindow::s_Event_DoubleClickedOnTransition() {
 //====================================================================================================================
 
 void MainWindow::s_Event_DoubleClickedOnBackground() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_DoubleClickedOnBackground");
-
     if (Diaporama->CurrentCol>=Diaporama->List.count()) return;
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
@@ -1116,7 +1084,6 @@ void MainWindow::s_Event_DoubleClickedOnBackground() {
 //====================================================================================================================
 
 void MainWindow::s_Event_RefreshDisplay() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_RefreshDisplay");
     (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
 }
 
@@ -1125,8 +1092,6 @@ void MainWindow::s_Event_RefreshDisplay() {
 //====================================================================================================================
 
 void MainWindow::s_Event_DoubleClickedOnMusic() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_DoubleClickedOnMusic");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1147,8 +1112,6 @@ void MainWindow::s_Event_DoubleClickedOnMusic() {
 //====================================================================================================================
 
 void MainWindow::s_Event_TimelineDragMoveItem() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_TimelineDragMoveItem");
-
     if (ui->timeline->DragItemSource<ui->timeline->DragItemDest) ui->timeline->DragItemDest--;
     if ((ui->timeline->DragItemSource!=ui->timeline->DragItemDest)&&(ui->timeline->DragItemSource>=0)&&(ui->timeline->DragItemSource<Diaporama->List.count())
         &&(ui->timeline->DragItemDest>=0)&&(ui->timeline->DragItemDest<Diaporama->List.count())) {
@@ -1164,7 +1127,6 @@ void MainWindow::s_Event_TimelineDragMoveItem() {
 //====================================================================================================================
 
 void MainWindow::s_Event_TimelineSelectionChanged() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_TimelineSelectionChanged");
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
         QTimer::singleShot(LATENCY,this,SLOT(s_Event_TimelineSelectionChanged()));
         return;
@@ -1173,7 +1135,6 @@ void MainWindow::s_Event_TimelineSelectionChanged() {
 }
 
 void MainWindow::DoTimelineSelectionChanged() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_TimelineSelectionChanged");
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     if (!FLAGSTOPITEMSELECTION) {
         int OldCurrentCol=Diaporama->CurrentCol;
@@ -1222,14 +1183,11 @@ void MainWindow::DoTimelineSelectionChanged() {
 //====================================================================================================================
 
 void MainWindow::s_Action_OpenTABHelpLink(const QString Link) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_OpenTABHelpLink");
     if (Link.startsWith("http:")) QDesktopServices::openUrl(QUrl(Link));
         else ApplicationConfig->PopupHelp->OpenHelp(Link,true);
 }
 
 void MainWindow::s_Event_ToolbarChanged(int MenuIndex) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_ToolbarChanged");
-
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     QString Html;
@@ -1260,8 +1218,6 @@ void MainWindow::s_Event_ToolbarChanged(int MenuIndex) {
 //====================================================================================================================
 
 void MainWindow::s_Action_RenderVideo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_RenderVideo");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1280,8 +1236,6 @@ void MainWindow::s_Action_RenderVideo() {
 }
 
 void MainWindow::s_Action_RenderSmartphone() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_RenderSmartphone");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1300,8 +1254,6 @@ void MainWindow::s_Action_RenderSmartphone() {
 }
 
 void MainWindow::s_Action_RenderMultimedia() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_RenderMultimedia");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1320,8 +1272,6 @@ void MainWindow::s_Action_RenderMultimedia() {
 }
 
 void MainWindow::s_Action_RenderForTheWEB() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_RenderForTheWEB");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1340,8 +1290,6 @@ void MainWindow::s_Action_RenderForTheWEB() {
 }
 
 void MainWindow::s_Action_RenderLossLess() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_RenderLossLess");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1360,8 +1308,6 @@ void MainWindow::s_Action_RenderLossLess() {
 }
 
 void MainWindow::s_Action_RenderSoundTrack() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_RenderSoundTrack");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1384,8 +1330,6 @@ void MainWindow::s_Action_RenderSoundTrack() {
 //====================================================================================================================
 
 void MainWindow::s_Action_ProjectProperties() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_ProjectProperties");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1416,8 +1360,6 @@ void MainWindow::s_Action_ProjectProperties() {
 //====================================================================================================================
 
 void MainWindow::s_Action_ChangeApplicationSettings() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_ChangeApplicationSettings");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1452,8 +1394,6 @@ void MainWindow::s_Action_ChangeApplicationSettings() {
 //====================================================================================================================
 
 void MainWindow::s_Action_New() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_New");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1505,8 +1445,6 @@ void MainWindow::s_Action_New() {
 //====================================================================================================================
 
 void MainWindow::s_Action_OpenRecent() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_OpenRecent");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1533,8 +1471,6 @@ void MainWindow::s_Action_OpenRecent() {
 }
 
 void MainWindow::s_Action_Open() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_Open");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1562,14 +1498,11 @@ void MainWindow::s_Action_Open() {
 }
 
 void MainWindow::DoOpenFileParam() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoOpenFileParam");
-
     ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(FileForIO).fileName());
     QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
 }
 
 void MainWindow::DoOpenFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoOpenFile");
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1713,8 +1646,6 @@ void MainWindow::DoOpenFile() {
 // Load an object from a project file and add it to the timeline
 //====================================================================================================================
 void MainWindow::DoOpenFileObject() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoOpenFileObject");
-
     if ((!CancelAction)&&(CurrentLoadingProjectObject<CurrentLoadingProjectNbrObject)&&
         (CurrentLoadingProjectDocument.elementsByTagName("Object-"+QString("%1").arg(CurrentLoadingProjectObject)).length()>0)&&
         (CurrentLoadingProjectDocument.elementsByTagName("Object-"+QString("%1").arg(CurrentLoadingProjectObject)).item(0).isElement()==true)) {
@@ -1761,8 +1692,6 @@ void MainWindow::DoOpenFileObject() {
 //====================================================================================================================
 
 void MainWindow::s_Action_Save() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_Save");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     ui->Action_Save_BT->setDown(false);
@@ -1776,8 +1705,6 @@ void MainWindow::s_Action_Save() {
 
 //====================================================================================================================
 void MainWindow::DoSaveFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoSaveFile");
-
     if (Diaporama->SaveFile(this)) SetModifyFlag(false);
     ToStatusBar("");
     s_Browser_RefreshHere();
@@ -1788,8 +1715,6 @@ void MainWindow::DoSaveFile() {
 //====================================================================================================================
 
 void MainWindow::s_Action_SaveAsBT() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_SaveAsBT");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1810,7 +1735,6 @@ void MainWindow::s_Action_SaveAsBT() {
 //====================================================================================================================
 
 void MainWindow::s_Action_Export() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_Export");
     DlgExportProject Dlg(Diaporama,ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) s_Browser_RefreshHere();
@@ -1821,8 +1745,6 @@ void MainWindow::s_Action_Export() {
 //====================================================================================================================
 
 void MainWindow::s_Action_SaveAs() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_SaveAs");
-
     // Save project
     Diaporama->ProjectFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Save project as"),Diaporama->ProjectFileName.isEmpty()?ApplicationConfig->LastProjectPath:Diaporama->ProjectFileName,QString("ffDiaporama (*.ffd)"));
     if (Diaporama->ProjectFileName!="") {
@@ -1845,7 +1767,6 @@ void MainWindow::s_Action_SaveAs() {
 //====================================================================================================================
 
 void MainWindow::s_Action_AddTitle() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_AddTitle");
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1862,8 +1783,6 @@ void MainWindow::s_Action_AddTitle() {
 }
 
 void MainWindow::s_Action_DoAddEmptyTitle() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_DoAddEmptyTitle");
-
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     int SavedCurIndex=ApplicationConfig->AppendObject?Diaporama->List.count():Diaporama->CurrentCol;
     int CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
@@ -1895,8 +1814,6 @@ void MainWindow::s_Action_DoAddEmptyTitle() {
 }
 
 void MainWindow::s_Action_AddAutoTitleSlide() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_AddAutoTitleSlide");
-
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     int SavedCurIndex=ApplicationConfig->AppendObject?Diaporama->List.count():Diaporama->CurrentCol;
     int CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
@@ -1961,8 +1878,6 @@ void MainWindow::s_Action_AddAutoTitleSlide() {
 //====================================================================================================================
 
 void MainWindow::s_Action_AddFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_AddFile");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -2009,8 +1924,6 @@ void MainWindow::s_Action_AddFile() {
 //====================================================================================================================
 
 void MainWindow::s_Event_TimelineAddDragAndDropFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_TimelineAddDragAndDropFile");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -2056,9 +1969,6 @@ void MainWindow::s_Event_TimelineAddDragAndDropFile() {
 //====================================================================================================================
 
 void MainWindow::s_Action_DoAppendFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_DoAppendFile");
-
-
     if ((CurrentAppendingProjectNbrObject<CurrentAppendingProjectObject)&&
         (CurrentAppendingRoot.elementsByTagName("Object-"+QString("%1").arg(CurrentAppendingProjectNbrObject)).length()>0)&&
         (CurrentAppendingRoot.elementsByTagName("Object-"+QString("%1").arg(CurrentAppendingProjectNbrObject)).item(0).isElement()==true)) {
@@ -2084,8 +1994,6 @@ void MainWindow::s_Action_DoAppendFile() {
 //====================================================================================================================
 
 void MainWindow::s_Action_DoAddFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_DoAddFile");
-
     if ((FileList.count()==0)||(CancelAction)) {
         if (DlgWorkingTaskDialog) {
             DlgWorkingTaskDialog->close();
@@ -2412,8 +2320,6 @@ void MainWindow::s_Action_DoAddFile() {
 //====================================================================================================================
 
 void MainWindow::s_Action_AddProject() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_AddProject");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -2466,7 +2372,6 @@ void MainWindow::s_Action_AddProject() {
 //====================================================================================================================
 
 void MainWindow::s_Action_DoUseAsPlayList(QStringList &MusicFileList,int Index) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_DoUseAsPlayList");
     if ((Index>=0)&&(Index<Diaporama->List.count())) {
         bool ModifyFlag=false;
         while (Diaporama->List[Index]->MusicList.count()) Diaporama->List[Index]->MusicList.removeAt(0);
@@ -2488,7 +2393,6 @@ void MainWindow::s_Action_DoUseAsPlayList(QStringList &MusicFileList,int Index) 
 //====================================================================================================================
 
 void MainWindow::s_VideoPlayer_SaveImageEvent() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_VideoPlayer_SaveImageEvent");
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -2541,7 +2445,6 @@ void MainWindow::s_VideoPlayer_SaveImageEvent() {
 //====================================================================================================================
 
 void MainWindow::s_Event_ContextualMenu(QMouseEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_ContextualMenu");
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -2600,7 +2503,6 @@ void MainWindow::s_Event_ContextualMenu(QMouseEvent *) {
 //====================================================================================================================
 
 void MainWindow::s_Action_EditObject() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_EditObject");
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -2641,8 +2543,6 @@ void MainWindow::s_Action_EditObject() {
 //====================================================================================================================
 
 void MainWindow::s_Action_RemoveObject() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_RemoveObject");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -2687,8 +2587,6 @@ void MainWindow::s_Action_RemoveObject() {
 //====================================================================================================================
 
 void MainWindow::s_Action_CutToClipboard() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_CutToClipboard");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -2729,8 +2627,6 @@ void MainWindow::s_Action_CutToClipboard() {
 //====================================================================================================================
 
 void MainWindow::s_Action_CopyToClipboard() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_CopyToClipboard");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -2771,8 +2667,6 @@ void MainWindow::s_Action_CopyToClipboard() {
 //====================================================================================================================
 
 void MainWindow::s_Action_PasteFromClipboard() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_PasteFromClipboard");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -2822,8 +2716,6 @@ void MainWindow::s_Action_PasteFromClipboard() {
 //====================================================================================================================
 
 void MainWindow::s_Event_ClipboardChanged() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_ClipboardChanged");
-
     ui->ActionPaste_BT->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/slide")));
     ui->ActionPaste_BT_2->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/slide")));
     ui->actionPaste->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/slide")));
@@ -2832,8 +2724,6 @@ void MainWindow::s_Event_ClipboardChanged() {
 //====================================================================================================================
 
 void MainWindow::AddObjectToTimeLine(int CurIndex) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::AddObjectToTimeLine");
-
     ui->timeline->AddObjectToTimeLine(CurIndex);
 }
 
@@ -2842,8 +2732,6 @@ void MainWindow::AddObjectToTimeLine(int CurIndex) {
 //====================================================================================================================
 
 void MainWindow::AdjustRuller() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::AdjustRuller");
-
     ui->preview->SetActualDuration(Diaporama->GetDuration());
     ui->preview2->SetActualDuration(Diaporama->GetDuration());
     if (Diaporama->List.count()>0)  {
@@ -2877,8 +2765,6 @@ void MainWindow::AdjustRuller() {
 //====================================================================================================================
 
 void MainWindow::s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_FolderTreeItemChanged");
-
     ApplicationConfig->CurrentPath=ui->FolderTree->GetFolderPath(current,false);
 
     ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(current,true),false);
@@ -2899,7 +2785,6 @@ void MainWindow::s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,QTreeW
 //====================================================================================================================
 
 void MainWindow::DoBrowserRefreshFolderInfo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_FolderTreeItemChanged");
     ApplicationConfig->DriveList->UpdateDriveList();   // To update free space on drive
     cDriveDesc *HDD=ui->FolderTree->SearchRealDrive(ApplicationConfig->CurrentPath);
     if (HDD) {
@@ -2951,8 +2836,6 @@ void MainWindow::DoBrowserRefreshFolderInfo() {
 //====================================================================================================================
 
 void MainWindow::DoBrowserRefreshSelectedFileInfo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoBrowserRefreshSelectedFileInfo");
-
     QList<cBaseMediaFile*> MediaList;
     ui->FolderTable->GetCurrentSelectedMediaFile(&MediaList);
 
@@ -3056,7 +2939,6 @@ void MainWindow::DoBrowserRefreshSelectedFileInfo() {
 //====================================================================================================================
 
 void MainWindow::s_Browser_RefreshAll() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RefreshAll");
     CurrentDriveCheck=0;
     CancelAction     =false;
     if (DlgWorkingTaskDialog) {
@@ -3075,7 +2957,6 @@ void MainWindow::s_Browser_RefreshAll() {
 //====================================================================================================================
 
 void MainWindow::s_Browser_RefreshDriveList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RefreshDriveList");
     // Refresh drive list
     ui->FolderTree->RefreshDriveList();
     DlgWorkingTaskDialog->SetMaxValue(ApplicationConfig->DriveList->List.count()+2,0);
@@ -3087,7 +2968,6 @@ void MainWindow::s_Browser_RefreshDriveList() {
 //====================================================================================================================
 
 void MainWindow::s_Browser_RefreshDrive() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RefreshDrive");
     if (CurrentDriveCheck<ApplicationConfig->DriveList->List.count()) ui->FolderTree->RefreshItemByPath(ApplicationConfig->DriveList->List[CurrentDriveCheck].Label,true);
     CurrentDriveCheck++;
     if ((!CancelAction)&&(CurrentDriveCheck<ApplicationConfig->DriveList->List.count())) {
@@ -3104,7 +2984,6 @@ void MainWindow::s_Browser_RefreshDrive() {
 //====================================================================================================================
 
 void MainWindow::s_Browser_RefreshHere() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RefreshHere");
     s_Browser_FolderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
     if (DlgWorkingTaskDialog) {
         DlgWorkingTaskDialog->close();
@@ -3116,7 +2995,6 @@ void MainWindow::s_Browser_RefreshHere() {
 //====================================================================================================================
 
 void MainWindow::s_Browser_SetToPrevious() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_SetToPrevious");
     QString Path=ui->FolderTable->BrowseToPreviousPath();
     if (Path!="") ui->FolderTree->SetSelectItemByPath(Path);
 }
@@ -3124,7 +3002,6 @@ void MainWindow::s_Browser_SetToPrevious() {
 //====================================================================================================================
 
 void MainWindow::s_Browser_SetToUpper() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_SetToUpper");
     QString Path=ui->FolderTable->BrowseToUpperPath();
     if (Path!="") ui->FolderTree->SetSelectItemByPath(Path);
 }
@@ -3132,7 +3009,6 @@ void MainWindow::s_Browser_SetToUpper() {
 //====================================================================================================================
 
 void MainWindow::s_Browser_Favorite() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_Favorite");
     QMenu *ContextMenu=new QMenu(this);
 
     ContextMenu->addAction(ui->actionAddToFavorite);
@@ -3158,8 +3034,6 @@ void MainWindow::s_Browser_Favorite() {
 //====================================================================================================================
 
 void MainWindow::s_Browser_AddToFavorite() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_AddToFavorite");
-
     bool    Ok,Continue=true;
     QString Text=ApplicationConfig->CurrentPath;
     while (Text.indexOf(QDir::separator())!=-1) Text=Text.mid(Text.indexOf(QDir::separator())+1);
@@ -3200,7 +3074,6 @@ void MainWindow::s_Browser_AddToFavorite() {
 //====================================================================================================================
 
 void MainWindow::s_Browser_ManageFavorite() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_ManageFavorite");
     DlgManageFavorite Dlg(&ApplicationConfig->BrowserFavorites,ApplicationConfig,this);
     Dlg.InitDialog();
     Dlg.exec();
@@ -3209,8 +3082,6 @@ void MainWindow::s_Browser_ManageFavorite() {
 //====================================================================================================================
 
 bool MainWindow::s_Browser_InRemoveFolder(QString FolderPath) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_InRemoveFolder");
-
     QDir            Folder(FolderPath);
     QFileInfoList   Dirs=Folder.entryInfoList(QDir::Dirs|QDir::AllDirs|QDir::Hidden);
 
@@ -3236,8 +3107,6 @@ bool MainWindow::s_Browser_InRemoveFolder(QString FolderPath) {
 //====================================================================================================================
 
 void MainWindow::s_Browser_RemoveFolder() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RemoveFolder");
-
     QString FolderPath=ui->FolderTree->GetFolderPath(ui->FolderTree->currentItem(),false);
     #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
         if (FolderPath.startsWith("~")) FolderPath=QDir::homePath()+FolderPath.mid(1);
@@ -3258,7 +3127,6 @@ void MainWindow::s_Browser_RemoveFolder() {
 //====================================================================================================================
 
 void MainWindow::s_Browser_RenameFolder() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RenameFolder");
     bool    Ok;
     bool    PersoF=false;
 
@@ -3310,8 +3178,6 @@ void MainWindow::s_Browser_RenameFolder() {
 #define ONOFFOPTIONS_SHOWFILENAME   4
 
 void MainWindow::s_Browser_ChangeDisplayMode() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_ChangeDisplayMode");
-
     // Create menu
     QMenu *ContextMenu=new QMenu(this);
     ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_DATA.png"),                                 QApplication::translate("MainWindow","Details view"),              ACTIONTYPE_DISPLAYMODE|DISPLAY_DATA,       true,ApplicationConfig->CurrentMode==DISPLAY_DATA));
@@ -3372,15 +3238,12 @@ void MainWindow::s_Browser_ChangeDisplayMode() {
 //====================================================================================================================
 
 void MainWindow::s_Browser_DoubleClicked(QMouseEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_DoubleClicked");
     s_Browser_OpenFile();
 }
 
 //====================================================================================================================
 
 void MainWindow::s_Browser_OpenFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_OpenFile");
-
     cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
     if (Media) {
         if ((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)||(Media->ObjectType==OBJECTTYPE_THUMBNAIL))
@@ -3411,8 +3274,6 @@ void MainWindow::s_Browser_OpenFile() {
 //====================================================================================================================
 
 void MainWindow::s_Browser_RightClicked(QMouseEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RightClicked");
-
     QList<cBaseMediaFile*> MediaList;
     ui->FolderTable->GetCurrentSelectedMediaFile(&MediaList);
     if (MediaList.count()==0) return;
@@ -3477,7 +3338,6 @@ void MainWindow::s_Browser_RightClicked(QMouseEvent *) {
 //====================================================================================================================
 
 void MainWindow::s_Browser_Properties() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_Properties");
     cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
     if (Media) {
         DlgInfoFile Dlg(Media,ApplicationConfig,this);
@@ -3490,7 +3350,6 @@ void MainWindow::s_Browser_Properties() {
 //====================================================================================================================
 
 void MainWindow::s_Browser_AddFiles() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_AddFiles");
     QList<cBaseMediaFile*> MediaList;
     ui->FolderTable->GetCurrentSelectedMediaFile(&MediaList);
     if (MediaList.count()>0) {
@@ -3533,7 +3392,6 @@ void MainWindow::s_Browser_AddFiles() {
 //====================================================================================================================
 
 void MainWindow::s_Browser_RemoveFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RemoveFile");
     QList<cBaseMediaFile*> MediaList;
     ui->FolderTable->GetCurrentSelectedMediaFile(&MediaList);
     if (MediaList.count()>0) {
@@ -3588,7 +3446,6 @@ void MainWindow::s_Action_DoRemoveFile() {
 //====================================================================================================================
 
 void MainWindow::s_Browser_RenameFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RenameFile");
     cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
     if (Media) {
         bool Ok=true;
@@ -3609,7 +3466,6 @@ void MainWindow::s_Browser_RenameFile() {
 //====================================================================================================================
 
 void MainWindow::s_Browser_UseAsPlaylist() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_UseAsPlaylist");
     QList<cBaseMediaFile*> MediaList;
     ui->FolderTable->GetCurrentSelectedMediaFile(&MediaList);
     if (MediaList.count()>0) {
@@ -3625,8 +3481,6 @@ void MainWindow::s_Browser_UseAsPlaylist() {
 //====================================================================================================================
 
 void MainWindow::s_ActionMultiple_SetFirstShotDuration() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_ActionMultiple_SetFirstShotDuration");
-
     int         Current=ui->timeline->CurrentSelected();
     QList<int>  SlideList;
     if ((Current<0)||(Current>=Diaporama->List.count())) return;
@@ -3650,8 +3504,6 @@ void MainWindow::s_ActionMultiple_SetFirstShotDuration() {
 //====================================================================================================================
 
 void MainWindow::s_ActionMultiple_ResetBackground() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_ActionMultiple_ResetBackground");
-
     int         Current=ui->timeline->CurrentSelected();
     QList<int>  SlideList;
     if ((Current<0)||(Current>=Diaporama->List.count())) return;
@@ -3669,8 +3521,6 @@ void MainWindow::s_ActionMultiple_ResetBackground() {
 //====================================================================================================================
 
 void MainWindow::s_ActionMultiple_ResetMusic() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_ActionMultiple_ResetMusic");
-
     int         Current=ui->timeline->CurrentSelected();
     QList<int>  SlideList;
     if ((Current<0)||(Current>=Diaporama->List.count())) return;
@@ -3691,8 +3541,6 @@ void MainWindow::s_ActionMultiple_ResetMusic() {
 //====================================================================================================================
 
 void MainWindow::s_ActionMultiple_RemoveTransition() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_ActionMultiple_RemoveTransition");
-
     int         Current=ui->timeline->CurrentSelected();
     QList<int>  SlideList;
     if ((Current<0)||(Current>=Diaporama->List.count())) return;
@@ -3711,8 +3559,6 @@ void MainWindow::s_ActionMultiple_RemoveTransition() {
 //====================================================================================================================
 
 void MainWindow::s_ActionMultiple_SelectTransition() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_ActionMultiple_SelectTransition");
-
     int         Current=ui->timeline->CurrentSelected();
     QList<int>  SlideList;
     if ((Current<0)||(Current>=Diaporama->List.count())) return;
@@ -3739,8 +3585,6 @@ void MainWindow::s_ActionMultiple_SelectTransition() {
 //====================================================================================================================
 
 void MainWindow::s_ActionMultiple_SetTransitionDuration() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_ActionMultiple_SetTransitionDuration");
-
     int         Current=ui->timeline->CurrentSelected();
     QList<int>  SlideList;
     if ((Current<0)||(Current>=Diaporama->List.count())) return;
@@ -3763,8 +3607,6 @@ void MainWindow::s_ActionMultiple_SetTransitionDuration() {
 //====================================================================================================================
 
 void MainWindow::s_ActionMultiple_Randomize() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_ActionMultiple_Randomize");
-
     int         Current=ui->timeline->CurrentSelected();
     QList<int>  SlideList;
     if ((Current<0)||(Current>=Diaporama->List.count())) return;
@@ -3794,7 +3636,6 @@ void MainWindow::s_ActionMultiple_Randomize() {
 //====================================================================================================================
 
 QAction *MainWindow::CreateMenuAction(QImage *Icon,QString Text,int Data,bool Checkable,bool IsCheck) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::CreateMenuAction");
     QAction *Action;
     if (Icon) Action=new QAction(QIcon(QPixmap().fromImage(*Icon)),Text,this);
         else Action=new QAction(Text,this);
@@ -3809,7 +3650,6 @@ QAction *MainWindow::CreateMenuAction(QImage *Icon,QString Text,int Data,bool Ch
 //====================================================================================================================
 
 QAction *MainWindow::CreateMenuAction(QIcon Icon,QString Text,int Data,bool Checkable,bool IsCheck) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::CreateMenuAction");
     QAction *Action;
     Action=new QAction(Icon,Text,this);
     Action->setIconVisibleInMenu(true);
@@ -3823,7 +3663,6 @@ QAction *MainWindow::CreateMenuAction(QIcon Icon,QString Text,int Data,bool Chec
 //====================================================================================================================
 
 void MainWindow::SortFileList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::SortFileList");
     // Sort files in the fileList
     if (Diaporama->ApplicationConfig->SortFile) {
         // Sort by last number
