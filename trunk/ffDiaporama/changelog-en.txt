@@ -1,0 +1,62 @@
+**************************************************
+* FFDIAPORAMA 2.0 - Trunk
+* changelog since ffDiaporama 1.7
+* (English version)
+**************************************************
+
+[Commit: 09/11/2013] + ffDiaporama 2.0 BETA 2
+    Bug fixes:
+        -Fixes a crash occurring during simultaneous logging from multiple threads
+
+    New features:
+        -Code cleaning (remove of ffDText and debugtrace ToLog of functions)
+
+[Commit: 08/11/2013]
+    Bug fixes:
+        -Do not ask the question once more, at the opening of a project if it no longer exists and that the user answers no to the proposal to select another file
+        -Fixed a memory leak that occurred in preview and render with static images
+
+    New features:
+        -Accelerates reopening projects with videos (no longer tested videos when reopening project)
+        -Removes thumbnails and extended properties of MediaFiles objects from memory
+        -Removes the reduction of quality of thumbnails for 32-bit systems when the number of objects in a directory is important (no longer needed)
+
+[Commit: 04/11/2013]
+    Bug fixes:
+        -Fixed the error when rendering to webm, ogv and ogg with libav 0.8: replaces AV_SAMPLE_FMT_FLT by AV_SAMPLE_FMT_S16 for OGG codec
+
+    New features:
+        - Arranges the data inside objects in order soon to remove them from memory and only have them in the database
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+[Commit: 03/11/2013] + ffDiaporama 2.0 BETA 1
+    Bug fixes:
+        -Correct crash when canceling the insertion of an object in the edition box of slides [Bug chrisbra 01/11/2013]
+        -Change all the source code to better take into account the differences between libav and ffmpeg
+
+    New features:
+        -Add a files table and remove filepath information from all objects derivated from cBaseMediaFile
+        -Changes the multimedia browser to it use the files table as a cache for faster browsing
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+[Commit: 30/10/2013]
+    Bug fixes:
+        -Fix SVG reading error [regression 1.7 beta 2]
+
+    New features:
+        -Create a SQLite3 database "home user" in home user directory to stock different informations
+        -Move Window State and position from memory to the home user database (remove memory used by that)
+        -Add a folders table and remove folder path information from all objects derivated from cBaseMediaFile
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+[Commit: 27/10/2013] + ffDiaporama 1.7 BETA 5
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+[Commit: ]
+    Bug fixes:
+
+    New features:

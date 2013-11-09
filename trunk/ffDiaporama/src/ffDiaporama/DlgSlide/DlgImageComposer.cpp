@@ -623,8 +623,10 @@ void DlgImageComposer::RefreshControls(bool UpdateInteractiveZone) {
 
     if (ui->actionEditImage->isEnabled()) {
         ui->actionEditImage->setIcon(QIcon(CurrentCompoObject->BackgroundBrush->Image!=NULL?ICON_EDIT_IMAGE:ICON_EDIT_MOVIE));
-        ui->actionEditImage->setText(CurrentCompoObject->BackgroundBrush->Image!=NULL?ffDText(ffDSection_DlgImageCorrection,0):ffDText(ffDSection_DlgImageCorrection,1));
-        ui->actionEditImage->setToolTip(CurrentCompoObject->BackgroundBrush->Image!=NULL?ffDText(ffDSection_DlgImageCorrection,2):ffDText(ffDSection_DlgImageCorrection,3));
+        ui->actionEditImage->setText(CurrentCompoObject->BackgroundBrush->Image!=NULL?   QApplication::translate("DlgSlideProperties","Correct or reframe image","Action title in slide edit dialog + dialog title of image edit dialog"):
+                                                                                         QApplication::translate("DlgSlideProperties","Correct, reframe or cut video","Action title in slide edit dialog + dialog title of image edit dialog"));
+        ui->actionEditImage->setToolTip(CurrentCompoObject->BackgroundBrush->Image!=NULL?QApplication::translate("DlgSlideProperties","Define framing and correction of image","Tooltip"):
+                                                                                         QApplication::translate("DlgSlideProperties","Define framing and correction of image or cut video","Tooltip"));
     }
 
     //*****************************

@@ -220,7 +220,6 @@ cBaseApplicationConfig::~cBaseApplicationConfig() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::~cBaseApplicationConfig");
 
     delete PopupHelp;
-    delete MainWinWSP;
     delete DriveList;
     delete ThumbnailModels;
     for (int geo=GEOMETRY_4_3;geo<=GEOMETRY_40_17;geo++) {
@@ -317,10 +316,8 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     ParentWindow            =NULL;
     StartingPath            =QDir::toNativeSeparators(QDir::currentPath());
     this->ForceLanguage     =ForceLanguage;
-    MainWinState            =false;                                                        // WindowsSettings-ismaximized
     RestoreWindow           =true;                                                         // if true then restore windows size and position
     DisableTooltips         =false;
-    MainWinWSP              =new cSaveWindowPosition("MainWindow",RestoreWindow,true);     // MainWindow - Window size and position
     #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
         RasterMode          =true;                                                         // Enable or disable raster mode [Linux only]
         CheckConfigAtStartup=true;
@@ -573,9 +570,6 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
             if (Element.hasAttribute("LastMusicPath"))              LastMusicPath          =Element.attribute("LastMusicPath");
         }
 
-        // Load windows size and position
-        MainWinWSP->LoadFromXML(root);                                  // MainWindow - Window size and position
-
         if ((domDocument.elementsByTagName("MMFiler").length()>0)&&(domDocument.elementsByTagName("MMFiler").item(0).isElement()==true)) {
             QDomElement Element=domDocument.elementsByTagName("MMFiler").item(0).toElement();
             if (Element.hasAttribute("ShowHiddenFilesAndDir"))      ShowHiddenFilesAndDir=Element.attribute("ShowHiddenFilesAndDir")=="1";
@@ -671,9 +665,6 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
     Element=domDocument.createElement("CacheMemory");
     Element.setAttribute("MemCacheMaxValue",        qlonglong(MemCacheMaxValue/(1024*1024)));
     root.appendChild(Element);
-
-    // Save windows size and position
-    MainWinWSP->SaveToXML(root);
 
     SaveValueToXML(root);
 
@@ -810,7 +801,6 @@ void cBaseApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("DisplayUnit",                 DisplayUnit);
     Element.setAttribute("PartitionMode",               PartitionMode?"1":"0");
     Element.setAttribute("WindowDisplayMode",           WindowDisplayMode);
-    Element.setAttribute("BrowserWidgetSplitter",       BrowserWidgetSplitter);
     Element.setAttribute("SortFile",                    SortFile?"1":"0");
     Element.setAttribute("NewTimelineHeight",           TimelineHeight);
     Element.setAttribute("DefaultFraming",              DefaultFraming);
@@ -946,7 +936,6 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
         if (Element.hasAttribute("AppendObject"))               AppendObject                =Element.attribute("AppendObject")=="1";
         if (Element.hasAttribute("PartitionMode"))              PartitionMode               =Element.attribute("PartitionMode")=="1";
         if (Element.hasAttribute("WindowDisplayMode"))          WindowDisplayMode           =Element.attribute("WindowDisplayMode").toInt();
-        if (Element.hasAttribute("BrowserWidgetSplitter"))      BrowserWidgetSplitter       =Element.attribute("BrowserWidgetSplitter");
         if (Element.hasAttribute("DisplayUnit"))                DisplayUnit                 =Element.attribute("DisplayUnit").toInt();
         if (Element.hasAttribute("SortFile"))                   SortFile                    =Element.attribute("SortFile")=="1";
         if (Element.hasAttribute("NewTimelineHeight"))          TimelineHeight              =Element.attribute("NewTimelineHeight").toInt();

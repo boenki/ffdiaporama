@@ -340,8 +340,9 @@ OTHER_FILES += ../../TODO-LIST.txt \          # Developpement file
     ../../WIKI/PREPLANGUAGE.cmd \
     ../../WIKI/src_en/0013.html \
     ../../readme.txt \
-    ../../changelog.txt \
-    ../../translation.txt
+    ../../translation.txt \
+    ../../changelog-fr.txt \
+    ../../changelog-en.txt
 
 # Source files
 SOURCES +=  wgt_QVideoPlayer.cpp \

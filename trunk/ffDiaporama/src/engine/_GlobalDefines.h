@@ -198,18 +198,4 @@ QString GetCumulInfoStr(QStringList *InformationList,QString Key1,QString Key2);
 
 enum SELECTMODE {SELECTMODE_NONE, SELECTMODE_ONE, SELECTMODE_MULTIPLE};
 
-//====================================================================
-
-// Table of sentence that ffDText could return
-enum ffDSection_ID {
-    // Section definition
-    ffDSection_CommonErrorMsg,
-    ffDSection_CommonInfoMsg,
-    ffDSection_DlgImageCorrection
-};
-
-#define TEXTID(Section,Id) (Section*1000+Id)
-
-QString ffDText(ffDSection_ID SectionId,int TextId);
-
 #endif // _GLOBALDEFINES_H

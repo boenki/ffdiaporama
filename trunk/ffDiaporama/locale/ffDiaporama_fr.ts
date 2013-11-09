@@ -7804,19 +7804,20 @@ La géométrie d&apos;image de ce fichier ne correspond pas à celle du projet e
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="152"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="153"/>
         <source>Init home user database...</source>
-        <translation type="unfinished"></translation>
+        <translation>Initialisation de la base de données utilisateur ...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="164"/>
         <source>Error initialising home user database...</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur durant l&apos;initialisation de la base de données utilisateur ...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="166"/>
         <source>Error initialising home user database
 ffDiaporama can&apos;t start</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Erreur durant l&apos;initialisation de la base de données utilisateur
+ffDiaporama ne peut pas démarrer</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="183"/>
@@ -7828,7 +7829,7 @@ ffDiaporama can&apos;t start</source>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="188"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="189"/>
         <source>Loading text frame library...</source>
-        <translation type="unfinished"></translation>
+        <translation>Chargement de la librairie des formes de texte ...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="193"/>
@@ -8394,7 +8395,7 @@ Voulez-vous l&apos;enregistrer ?</translation>
         <location filename="../src/CustomCtrl/_QCustomDialog.cpp" line="213"/>
         <source>Error reading window state of %1 from home user database</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Erreur lors de la lecture de la taille et position de la fenetre %1 depuis la base de données utilisateur</translation>
     </message>
 </context>
 <context>
