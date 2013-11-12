@@ -113,7 +113,7 @@ int main(int argc, char* argv[]) {
     #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
         #if QT_VERSION >= 0x050000
         #else
-            if (SearchRasterMode(CONFIGFILEEXT,CONFIGFILE_ROOTNAME)) QApplication::setGraphicsSystem("raster");
+            if (SearchRasterMode()) QApplication::setGraphicsSystem("raster");
         #endif
         QApplication app(zero,WM_NAME);
     #elif defined(Q_OS_WIN)
