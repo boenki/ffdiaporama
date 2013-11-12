@@ -109,10 +109,9 @@ unix {
         LIBS        += -L"../../../win_src/SDL-1.2.15/lib/x86"
     }
 
-    CONFIG      += console sql                                              #------ I don't know why, but windows version need sql module in config directive
+    CONFIG      += sql                                                      #------ I don't know why, but windows version need sql module in config directive
     DEFINES     += USELIBSWRESAMPLE
 
-    INCLUDEPATH +=
     INCLUDEPATH += .                                                        #------ I don't know why, but windows need this !
     INCLUDEPATH += ../exiv2
     INCLUDEPATH += "../../../win_src/exiv2-0.23/msvc64/include"
@@ -269,7 +268,9 @@ TRANSLATIONS += ../../locale/ffDiaporama_fr.ts \
     ../../locale/ffDiaporama_cz.ts \
     ../../locale/ffDiaporama_zh_tw.ts
 
-OTHER_FILES += ../../TODO-LIST.txt \          # Developpement file
+OTHER_FILES += \
+    $$TRANSLATIONS \
+    ../../TODO-LIST.txt \          # Developpement file
     ../../BUILDVERSION.txt \                  # Developpement file
     ../../ffDiaporama-mime.xml \              # MIME definition of .ffd type
     ../../ffDiaporama.xml \                   # Default configuration options for ffDiaporama

@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -369,6 +369,11 @@ QRectF cCompositionObject::GetTextMargin(QRectF Workspace,double  ADJUST_RATIO) 
 
 void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition,cReplaceObjectList *ReplaceList) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:SaveToXML");
+
+    // Force a refresh of IsTextEmpty flag
+    QTextDocument TextDocument;
+    TextDocument.setHtml(Text);
+    IsTextEmpty =TextDocument.isEmpty();
 
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
@@ -1445,10 +1450,12 @@ bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QSt
 cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:cDiaporamaObject");
 
-    BackgroundBrush                         = new cBrushDefinition(Diaporama->ApplicationConfig,&BackgroundList);
-    Parent                                  = Diaporama;
-    SlideName                               = QApplication::translate("MainWindow","Title","Default slide name when no file");
-    NextIndexKey                            = 1;
+    BackgroundBrush     = new cBrushDefinition(Diaporama->ApplicationConfig,&BackgroundList);
+    Parent              = Diaporama;
+    SlideName           = QApplication::translate("MainWindow","Title","Default slide name when no file");
+    NextIndexKey        = 1;
+    ThumbnailKey        =-1;
+    CachedStartPosition =0;
 
     InitDefaultValues();
 
@@ -1480,7 +1487,6 @@ void cDiaporamaObject::InitDefaultValues() {
     TransitionDuration                      = DEFAULT_TRANSITIONDURATION;   // Transition duration (in msec)
     TransitionSpeedWave                     = SPEEDWAVE_PROJECTDEFAULT;
     ObjectComposition.TypeComposition       = COMPOSITIONTYPE_OBJECT;
-    Thumbnail                               = NULL;
 }
 
 //====================================================================================================================
@@ -1488,10 +1494,6 @@ void cDiaporamaObject::InitDefaultValues() {
 cDiaporamaObject::~cDiaporamaObject() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:~cDiaporamaObject");
 
-    if (Thumbnail) {
-        delete Thumbnail;
-        Thumbnail=NULL;
-    }
     if (BackgroundBrush) {
         delete BackgroundBrush;
         BackgroundBrush=NULL;
@@ -1512,16 +1514,13 @@ QString cDiaporamaObject::GetDisplayName() {
 void cDiaporamaObject::DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY,int ShotNumber) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:DrawThumbnail");
 
-    QImage *Thumb=(ShotNumber==0)?Thumbnail:NULL;
+    QImage Thumb;
+    if (ShotNumber==0) Parent->ApplicationConfig->SlideThumbsTable->GetThumbs(&ThumbnailKey,&Thumb);
 
-    if ((!Thumb)||(Thumb->isNull())||(Thumb->width()!=ThumbWidth)||(Thumb->height()!=ThumbHeight)) {
-        if ((ShotNumber==0)&&(Thumbnail)) {
-            delete Thumbnail;
-            Thumbnail=NULL;
-        }
-        Thumb=new QImage(ThumbWidth,ThumbHeight,QImage::Format_ARGB32_Premultiplied);
+    if ((Thumb.isNull())||(Thumb.width()!=ThumbWidth)||(Thumb.height()!=ThumbHeight)) {
+        Thumb=QImage(ThumbWidth,ThumbHeight,QImage::Format_ARGB32_Premultiplied);
         QPainter  P;
-        P.begin(Thumb);
+        P.begin(&Thumb);
         P.fillRect(0,0,ThumbWidth,ThumbHeight,Transparent);
         if (List.count()>0) for (int j=0;j<List[ShotNumber]->ShotComposition.List.count();j++) {
             int StartPosToAdd=(List[ShotNumber]->ShotComposition.List[j]->BackgroundBrush->Video!=NULL)?QTime(0,0,0,0).msecsTo(List[ShotNumber]->ShotComposition.List[j]->BackgroundBrush->Video->StartPos):0;
@@ -1537,10 +1536,9 @@ void cDiaporamaObject::DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Pa
             List[ShotNumber]->ShotComposition.List[j]->DrawCompositionObject(this,&P,double(ThumbHeight)/1080,ThumbWidth,ThumbHeight,true,StartPosToAdd,NULL,0,0,NULL,false,List[ShotNumber]->StaticDuration,false);
         }
         P.end();
-        if (ShotNumber==0) Thumbnail=Thumb;
+        if (ShotNumber==0) Parent->ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailKey,Thumb);
     }
-    Painter->drawImage(AddX,AddY,*Thumb);
-    if ((Thumbnail!=Thumb)&&(Thumb)) delete Thumb;
+    Painter->drawImage(AddX,AddY,Thumb);
 }
 
 //===============================================================
@@ -1770,15 +1768,18 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
             for (int i=0;i<MusicList.count();i++) MusicList[i].SaveToXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,ReplaceList);
         }
 
-        if (Thumbnail) {
-            QByteArray ba;
-            QBuffer buf(&ba);
-            Thumbnail->save(&buf,"PNG");
-            QByteArray Compressed=qCompress(ba,1);
-            QByteArray Hexed     =Compressed.toHex();
-            Element.setAttribute("Thumbnail",QString(Hexed));
-            Element.setAttribute("ThumbWidth",Thumbnail->width());
-            Element.setAttribute("ThumbHeight",Thumbnail->height());
+        if (ThumbnailKey!=-1) {
+            QImage Thumbnail;
+            if (Parent->ApplicationConfig->SlideThumbsTable->GetThumbs(&ThumbnailKey,&Thumbnail)) {
+                QByteArray ba;
+                QBuffer buf(&ba);
+                Thumbnail.save(&buf,"PNG");
+                QByteArray Compressed=qCompress(ba,1);
+                QByteArray Hexed     =Compressed.toHex();
+                Element.setAttribute("Thumbnail",QString(Hexed));
+                Element.setAttribute("ThumbWidth",Thumbnail.width());
+                Element.setAttribute("ThumbHeight",Thumbnail.height());
+            }
         }
 
         // Background properties
@@ -1797,6 +1798,20 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,(ElementName==THUMBMODEL_ELEMENTNAME),ReplaceList);
 
     domDocument.appendChild(Element);
+}
+
+//===============================================================
+
+QFutureWatcher<void> ThreadAppendThumbToDB;
+
+void cDiaporamaObject::ThreadedLoadThumb(QDomElement Element) {
+    int         ThumbWidth   =Element.attribute("ThumbWidth").toInt();
+    int         ThumbHeight  =Element.attribute("ThumbHeight").toInt();
+    QImage      Thumbnail(ThumbWidth,ThumbHeight,QImage::Format_ARGB32_Premultiplied);
+    QByteArray  Compressed   =QByteArray::fromHex(Element.attribute("Thumbnail").toUtf8());
+    QByteArray  Decompressed =qUncompress(Compressed);
+    Thumbnail.loadFromData(Decompressed);
+    Parent->ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailKey,Thumbnail);
 }
 
 //===============================================================
@@ -1865,12 +1880,8 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             }
 
             if (Element.hasAttribute("Thumbnail")) {
-                int         ThumbWidth   =Element.attribute("ThumbWidth").toInt();
-                int         ThumbHeight  =Element.attribute("ThumbHeight").toInt();
-                Thumbnail=new QImage(ThumbWidth,ThumbHeight,QImage::Format_ARGB32_Premultiplied);
-                QByteArray  Compressed   =QByteArray::fromHex(Element.attribute("Thumbnail").toUtf8());
-                QByteArray  Decompressed =qUncompress(Compressed);
-                Thumbnail->loadFromData(Decompressed);
+                if (ThreadAppendThumbToDB.isRunning()) ThreadAppendThumbToDB.waitForFinished();
+                ThreadAppendThumbToDB.setFuture(QtConcurrent::run(this,&cDiaporamaObject::ThreadedLoadThumb,Element));
             }
 
             // Background properties
@@ -1944,7 +1955,7 @@ cDiaporama::cDiaporama(cBaseApplicationConfig *TheApplicationConfig,bool LoadDef
     CurrentChapterName          = QString("");
     IsModify                    = false;                                                            // true if project was modify
     ProjectFileName             = "";                                                               // Path and name of current file project
-    ProjectInfo->Composer       = ApplicationConfig->ApplicationName+QString(" ")+ApplicationConfig->ApplicationVersion;
+    ProjectInfo->Composer       = QString(APPLICATION_NAME)+QString(" ")+CurrentAppName;
     ProjectInfo->Author         = ApplicationConfig->DefaultAuthor;
     ProjectInfo->DefaultLanguage= ApplicationConfig->DefaultLanguage;
     TransitionSpeedWave         = ApplicationConfig->DefaultTransitionSpeedWave;                    // Speed wave for transition
@@ -1960,6 +1971,9 @@ cDiaporama::cDiaporama(cBaseApplicationConfig *TheApplicationConfig,bool LoadDef
         int ModelIndex=ApplicationConfig->ThumbnailModels->SearchModel(ApplicationConfig->DefaultThumbnailName);
         if ((ModelIndex>0)&&(ModelIndex<ApplicationConfig->ThumbnailModels->List.count())) ProjectThumbnail->LoadModelFromXMLData(ffd_MODELTYPE_THUMBNAIL,ApplicationConfig->ThumbnailModels->List[ModelIndex].Model);
     }
+
+    // Reset cache of thumbnails
+    ApplicationConfig->SlideThumbsTable->ClearTable();
 }
 
 //====================================================================================================================
@@ -2155,7 +2169,10 @@ int64_t cDiaporama::GetDuration() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetDuration");
 
     int64_t Duration=0;
-    for (int i=0;i<List.count();i++) Duration=Duration+((List[i]->GetDuration()-GetTransitionDuration(i+1)>=33)?List[i]->GetDuration()-GetTransitionDuration(i+1):33);
+    for (int i=0;i<List.count();i++) {
+        int64_t ObjDuration=List[i]->GetDuration()-GetTransitionDuration(i+1);
+        Duration=Duration+(ObjDuration>=33?ObjDuration:33);
+    }
     return Duration;
 }
 
@@ -2169,7 +2186,10 @@ int64_t cDiaporama::GetPartialDuration(int from,int to) {
     if (to<0)               to=0;
     if (to>=List.count())   to=List.count()-1;
     int64_t Duration=0;
-    for (int i=from;i<=to;i++) Duration=Duration+((List[i]->GetDuration()-GetTransitionDuration(i+1)>=33)?List[i]->GetDuration()-GetTransitionDuration(i+1):33);
+    for (int i=from;i<=to;i++) {
+        int64_t ObjDuration=List[i]->GetDuration()-GetTransitionDuration(i+1);
+        Duration=Duration+(ObjDuration>=33?ObjDuration:33);
+    }
     return Duration;
 }
 
@@ -2183,7 +2203,10 @@ int64_t cDiaporama::GetObjectStartPosition(int index) {
         index=List.count()-1;
         Duration=List[index]->GetDuration();
     }
-    for (int i=0;i<index;i++) Duration=Duration+((List[i]->GetDuration()-GetTransitionDuration(i+1))>=33?List[i]->GetDuration()-GetTransitionDuration(i+1):33);
+    for (int i=0;i<index;i++) {
+        int64_t ObjDuration=List[i]->GetDuration()-GetTransitionDuration(i+1);
+        Duration=Duration+(ObjDuration>=33?ObjDuration:33);
+    }
     return Duration;
 }
 
@@ -2218,21 +2241,50 @@ void cDiaporama::PrepareBackground(int Index,int Width,int Height,QPainter *Pain
 
 //====================================================================================================================
 
+void cDiaporama::UpdateCachedStartPosition() {
+    int64_t StartPosition=0;
+    int64_t MusicIndex=0;
+
+    List[0]->CachedStartPosition=0;
+    List[0]->CachedMusicIndex   =0;
+
+    for (int i=1;i<List.count();i++) {
+        if (List[i]->MusicType) {
+            StartPosition=0;
+            MusicIndex=i;
+        } else if (!List[i-1]->MusicPause) {
+            int64_t Duration=List[i-1]->GetDuration()-GetTransitionDuration(i);
+            StartPosition+=((Duration)>=33?Duration:33);
+        }
+        List[i]->CachedStartPosition=StartPosition;
+        List[i]->CachedMusicIndex   =MusicIndex;
+    }
+}
+
+//====================================================================================================================
+
 cMusicObject *cDiaporama::GetMusicObject(int ObjectIndex,int64_t &StartPosition,int *CountObject,int *IndexObject) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetMusicObject");
 
     if (ObjectIndex>=List.count()) return NULL;
 
-    cMusicObject *Ret =NULL;
-    int          Index=ObjectIndex;
-
+    StartPosition=List[ObjectIndex]->CachedStartPosition;
+    int Index    =List[ObjectIndex]->CachedMusicIndex;
+/*
     StartPosition=0;
+    int          Index=ObjectIndex;
 
     // Music type : false=same as precedent - true=new playlist definition
     while ((Index>0)&&(!List[Index]->MusicType)) {
-        if (!List[Index-1]->MusicPause) StartPosition+=((List[Index-1]->GetDuration()-GetTransitionDuration(Index))>=33?List[Index-1]->GetDuration()-GetTransitionDuration(Index):33);
+        if (!List[Index-1]->MusicPause) {
+            int64_t Duration=List[Index-1]->GetDuration()-GetTransitionDuration(Index);
+            StartPosition+=((Duration)>=33?Duration:33);
+        }
         Index--;
     }
+*/
+
+    cMusicObject *Ret =NULL;
 
     // Now we have the object owner of the playlist (or 0). Then we can calculate wich music in the playlist is usable for this object
     int i=0;
@@ -2287,7 +2339,7 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow,cReplaceObjectList *ReplaceList,
             if (ProjectInfo->Title.length()>30) ProjectInfo->Title=ProjectInfo->Title.left(30);
         }
         if (ProjectInfo->Author=="") ProjectInfo->Author=ApplicationConfig->DefaultAuthor;
-        ProjectInfo->Composer   =ApplicationConfig->ApplicationName+QString(" ")+ApplicationConfig->ApplicationVersion;
+        ProjectInfo->Composer=QString(APPLICATION_NAME)+QString(" ")+CurrentAppName;
     }
     ProjectInfo->ffDRevision=CurrentAppVersion;
 

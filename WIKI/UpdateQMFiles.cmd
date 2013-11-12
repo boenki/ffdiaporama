@@ -2,7 +2,7 @@ rem @ECHO OFF
 REM ======================================================================
 REM    This file is part of ffDiaporama
 REM    ffDiaporama is a tools to make diaporama as video
-REM    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+REM    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
 REM
 REM    This program is free software; you can redistribute it and/or modify
 REM    it under the terms of the GNU General Public License as published by

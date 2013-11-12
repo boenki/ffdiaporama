@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -2480,10 +2480,7 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
         FramingCB_CurrentBrush   =NULL; // To force a refresh of ui->FramingCB !
         CurrentBrush->AspectRatio=CurrentBrush->AspectRatio;
         CurrentCompoObject->h    =(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH;
-        if ((CurrentShotNbr==0)&&(CurrentSlide->Thumbnail!=NULL)) {
-            delete CurrentSlide->Thumbnail;
-            CurrentSlide->Thumbnail=NULL;
-        }
+        if ((CurrentShotNbr==0)&&(CurrentSlide->ThumbnailKey!=-1)) BaseApplicationConfig->SlideThumbsTable->ClearThumbs(CurrentSlide->ThumbnailKey);
 
         // Adjust height and width to image stay in screen
         if (((CurrentCompoObject->y+CurrentCompoObject->h)*DisplayH)>DisplayH) {

@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,9 +25,6 @@
 #include "_GlobalDefines.h"
 
 // Include some additional standard class
-#ifndef Q_OS_WIN
-    #include <unistd.h>
-#endif
 #include <QString>
 #include <QStringList>
 #include <QWidget>
@@ -47,6 +44,10 @@
 #include "_SpeedWave.h"
 #include "_Transition.h"
 #include "_Model.h"
+
+#if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
+    bool SearchRasterMode();
+#endif
 
 //============================================
 
@@ -215,19 +216,6 @@
 #define FilterOil                           0x0200
 
 //====================================================================================================================
-// Utility functions
-//====================================================================================================================
-
-int     getCpuCount();                                                                                              // Retrieve number of processor
-QString GetTextSize(int64_t Size);                                                                                // transform a size (_int64) in a string with apropriate unit (Gb/Tb...)
-bool    CheckFolder(QString FileToTest,QString PathToTest);                                                         // Check if FileToTest exist in PathToTest and if yes the change current folder to PathToTest
-bool    SetWorkingPath(char * const argv[],QString ApplicationName,QString ConfigFileExt);    // Adjust current folder
-
-#if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
-    bool SearchRasterMode(QString ApplicationName,QString ConfigFileExt,QString ConfigFileRootName);
-#endif
-
-//====================================================================================================================
 
 struct sDefaultBlockCoord {
     int     AutoCompo;
@@ -246,10 +234,12 @@ public:
     cDriveList              *DriveList;                                 // Drive list for multimedia file explorer
     QString                 AllowedWEBLanguage;
     HelpPopup               *PopupHelp;
+
     cDatabase               *Database;
     cSettingsTable          *SettingsTable;                             // Settings table on the database
     cFolderTable            *FoldersTable;                              // Folders table on the database
     cFilesTable             *FilesTable;                                // Files table on the database
+    cSlideThumbsTable       *SlideThumbsTable;                          // Slide thumbnails table on the database
 
     // Image cache
     cLuLoImageCache         ImagesCache;                                // cLuLoImageCache List Object
@@ -388,11 +378,6 @@ public:
         QString WINDOWS_DOCUMENTS;                                      // specific Windows Folder : Personal
     #endif
 
-    QString                 ApplicationGroupName;                       // Private folder name to save user configuration file
-    QString                 ApplicationName;                            // Application name
-    QString                 ApplicationVersion;                         // Application version
-    QString                 ConfigFileExt;                              // File extension of configuration files
-    QString                 ConfigFileRootName;                         // Name of root node in the config xml file
     QStringList             AllowVideoExtension;                        // List of all file extension allowed for video
     QStringList             AllowImageExtension;                        // List of all file extension allowed for image
     QStringList             AllowMusicExtension;                        // List of all file extension allowed for music
@@ -406,7 +391,7 @@ public:
     QString                 ForceLanguage;                              // Empty or forced language
     QString                 StartingPath;
 
-    QTranslator             translator;                                 // translator for the application
+    QTranslator             AppTranslator;                              // translator for the application
     QTranslator             QTtranslator;                               // translator for QT default text
 
     // Default systems icons
@@ -430,7 +415,7 @@ public:
     int                     Music_ThumbWidth,Music_ThumbHeight;         // Thumbnail size in big icon mode for music
     int                     Video_ThumbWidth,Video_ThumbHeight;         // Thumbnail size in big icon mode for video
 
-    cBaseApplicationConfig(QMainWindow *TopLevelWindow,QString AllowedWEBLanguage,QString ApplicationGroupName,QString ApplicationName,QString ApplicationVersion,QString ConfigFileExt,QString ConfigFileRootName);
+    cBaseApplicationConfig(QMainWindow *TopLevelWindow,QString AllowedWEBLanguage);
     virtual ~cBaseApplicationConfig();
 
     virtual QString         GetFilterForMediaFile(FilterFile type);

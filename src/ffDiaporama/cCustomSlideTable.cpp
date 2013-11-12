@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -943,14 +943,15 @@ void cCustomSlideTable::wheelEvent(QWheelEvent *event) {
 
         SetCurrentCell(Diaporama->CurrentCol-numSteps);
         event->accept();
-    }
+    } else QTableWidget::wheelEvent(event);
 }
 
 //====================================================================================================================
 
-void cCustomSlideTable::AddObjectToTimeLine(int CurIndex) {
+void cCustomSlideTable::AddObjectToTimeLine(int CurIndex,bool AdjustRuller) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::AddObjectToTimeLine");
 
+    Diaporama->UpdateCachedStartPosition();
     int ThumbWidth =Diaporama->GetWidthForHeight(ApplicationConfig->TimelineHeight/2-4)+36+5;
     int ThumbHeight=ApplicationConfig->TimelineHeight;
     int NbrX       =viewport()->width()/ThumbWidth;
@@ -972,7 +973,7 @@ void cCustomSlideTable::AddObjectToTimeLine(int CurIndex) {
 
     // Adjust current sel
     if ((Diaporama->CurrentCol<0)||(Diaporama->CurrentCol==CurIndex)) Diaporama->CurrentCol=CurIndex;
-    ((MainWindow *)ApplicationConfig->TopLevelWindow)->AdjustRuller();
+    if (AdjustRuller) ((MainWindow *)ApplicationConfig->TopLevelWindow)->AdjustRuller();
 }
 
 //====================================================================================================================

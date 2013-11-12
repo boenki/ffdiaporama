@@ -1,1 +1,1 @@
-Version 2.0_beta_1 20131109
+Version 2.0_beta_2 20131112

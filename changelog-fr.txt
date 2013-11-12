@@ -4,6 +4,23 @@
 * (Version Française)
 **************************************************
 
+[Commit: 12/11/2013]
+    Correction de bug :
+        -Ne quitte plus l'application en cas d'erreur d'initialisation de SDL (pour SOLARIS voir: http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=641)
+        -Corrige une erreur de transformation des noms de fichier musicaux de relatif en absolue
+        -Corrige une erreur d'enregistrement de certains textes lors de la sauvegarde
+        -Ne désactive plus l'utilisation des wheelEvent en mode partition
+        -Ne propose plus de sauvegarder le projet en cours lors d'un chargement de projet si celui ci est annulé
+        -Remet à jours la prévisualisation après l'ajout d'un slide et après le chargement d'un projet
+        -Corrige changement de curseur de la souris et l'affichage du message lors des sauvegardes de projet
+
+    Nouveautés :
+        -Ajoute une table de cache des thumbnails de slide dans la base de données et supprime les objets thumbnails de la mémoire
+        -Amélioration de la vitesse de chargement des projets
+        -Amélioration de la vitesse de navigation en mode partition
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
 [Commit: 09/11/2013] + ffDiaporama 2.0 BETA 2
     Correction de bug :
         -Corrige un crash intervenant lors de logging simultané provenant de plusieurs threads
@@ -60,3 +77,5 @@
     Correction de bug :
 
     Nouveautés :
+
+--------------------------------------------------------------------------------------------------------------------------------------------------

@@ -37,12 +37,6 @@ Basse       WIP     Pouvoir déplacer le centre de rotation des formes
                             - Ajouter la position du centre de rotation dans les fichiers de données
                             - Prendre en compte le centre de rotation dans la foction de dessin des formes
 
-    Modifier le fonctionnement si le user dit non à la recherche d'un fichier manquant : supprimer le bloc !
-
-
-    Memory Leak en render sur des photos !
-
-
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité
 NF  : New Feature

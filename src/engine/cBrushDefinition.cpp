@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -785,6 +785,13 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                     BrushFileName=BrushFileName.replace("<%CLIPARTFOLDER%>",CAF);   BrushFileName=BrushFileName.replace("%CLIPARTFOLDER%",CAF);
                     BrushFileName=BrushFileName.replace("<%MODELFOLDER%>",MFD);     BrushFileName=BrushFileName.replace("%MODELFOLDER%",MFD);
                     if ((PathForRelativPath!="")&&(BrushFileName!="")) BrushFileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(BrushFileName));
+                    // Fixes a previous bug in relative path
+                    #ifndef Q_OS_WIN
+                    if (BrushFileName.startsWith("/..")) {
+                        if (BrushFileName.contains("/home/")) BrushFileName=BrushFileName.mid(BrushFileName.indexOf("/home/"));
+                        if (BrushFileName.contains("/mnt/"))  BrushFileName=BrushFileName.mid(BrushFileName.indexOf("/mnt/"));
+                    }
+                    #endif
                     bool IsValide=false;
                     QString Extension=QFileInfo(BrushFileName).suffix().toLower();
                     for (int i=0;i<ApplicationConfig->AllowImageExtension.count();i++) if (ApplicationConfig->AllowImageExtension[i]==Extension) {

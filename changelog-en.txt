@@ -4,6 +4,22 @@
 * (English version)
 **************************************************
 
+[Commit: 12/11/2013]
+    Bug fixes:
+        -No longer leaves the application if error initializing SDL (for SOLARIS see: http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=641)
+        -Fixed an error converting music file names from relative to absolute
+        -Fixed an error recording some texts blocs during saving
+        -No longer disable wheelEvent when using partition mode
+        -No longer offer to save the current project when loading project if it is canceled
+        -Update preview after adding a slide and after loading a project
+        -Fixed mouse cursor and status bar message when saving project
+
+    New features:
+        -Add a Slide thumbnails cache table in the database and remove thumbnails objects from the memory
+        -Improve speed of project loading
+        -Improve speed of partition mode browsing
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
 [Commit: 09/11/2013] + ffDiaporama 2.0 BETA 2
     Bug fixes:
         -Fixes a crash occurring during simultaneous logging from multiple threads
@@ -26,7 +42,7 @@
         -Fixed the error when rendering to webm, ogv and ogg with libav 0.8: replaces AV_SAMPLE_FMT_FLT by AV_SAMPLE_FMT_S16 for OGG codec
 
     New features:
-        - Arranges the data inside objects in order soon to remove them from memory and only have them in the database
+        -Arranges the data inside objects in order soon to remove them from memory and only have them in the database
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -60,3 +76,5 @@
     Bug fixes:
 
     New features:
+
+--------------------------------------------------------------------------------------------------------------------------------------------------

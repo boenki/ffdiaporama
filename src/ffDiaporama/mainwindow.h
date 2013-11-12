@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -45,7 +45,6 @@ public:
     cBaseApplicationConfig  *ApplicationConfig;
     cDiaporama              *Diaporama;
     int                     LastCount;
-    QString                 InternetBUILDVERSION;
     QString                 TitleBar;
     QTime                   LastLogMessageTime;
     QStringList             AliasList;
@@ -81,7 +80,7 @@ public:
 
     void    RefreshControls();
     void    SetModifyFlag(bool IsModify);
-    void    AddObjectToTimeLine(int CurIndex);
+    void    AddObjectToTimeLine(int CurIndex,bool AdjustRuller);
     void    AdjustRuller();
     void    SetTimelineHeight();
     void    CheckVersion();
@@ -108,7 +107,7 @@ private slots:
     // Event functions
     void    s_Event_ClipboardChanged();                     // Something have changed in the clipboard
     void    s_Event_ToolbarChanged(int MenuIndex);          // User change current toolbar TAB
-    void    s_Event_NetworkReply(QNetworkReply*);           // Build version was downloaded from internet
+    void    DoCheckBUILDVERSION(QNetworkReply*);           // Build version was downloaded from internet
 
     // Timeline & player
     void    s_Event_TimelineDragMoveItem();                 // Drag & drop operation in timeline
