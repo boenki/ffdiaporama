@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -71,10 +71,12 @@ void DlgApplicationSettings::DoInitDialog() {
     ui->RestoreWindowCH->setChecked(ApplicationConfig->RestoreWindow);
     ui->DisableTooltipsCB->setChecked(ApplicationConfig->DisableTooltips);
     #ifdef Q_OS_WIN
-        ui->RasterModeCB->setVisible(false);
         ui->SDLAudioModeCB->setVisible(false);
-    #elif defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
+    #endif
+    #if (defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)) && (QT_VERSION < 0x050000)
         ui->RasterModeCB->setChecked(ApplicationConfig->RasterMode);
+    #else
+        ui->RasterModeCB->setVisible(false);
     #endif
 
     #if (!defined(Q_OS_WIN64))&&(defined(Q_OS_WIN32) || defined(Q_OS_LINUX32) || defined(Q_OS_SOLARIS32))

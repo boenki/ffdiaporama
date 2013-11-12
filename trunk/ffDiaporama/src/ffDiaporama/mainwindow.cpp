@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -65,31 +65,15 @@
 //====================================================================================================================
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
-    // Load application version version
-    QFile file("BUILDVERSION.txt");
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        CurrentAppName=QString(file.readLine());
-        CurrentAppName.replace("Version ","");
-        if (CurrentAppName.endsWith("\n"))   CurrentAppName=CurrentAppName.left(CurrentAppName.length()-QString("\n").length());
-        while (CurrentAppName.endsWith(" ")) CurrentAppName=CurrentAppName.left(CurrentAppName.length()-1);
-        if (CurrentAppName.lastIndexOf(" ")) {
-            CurrentAppVersion=CurrentAppName.mid(CurrentAppName.lastIndexOf(" ")+1);
-            CurrentAppName   =CurrentAppName.left(CurrentAppName.lastIndexOf(" "));
-            CurrentAppName.replace("_"," ");
-            CurrentAppName.replace("-"," ");
-        }
-        file.close();
-    }
-
-    ApplicationConfig       =new cBaseApplicationConfig(this,ALLOWEDWEBLANGUAGE,APPLICATION_NAME,APPLICATION_NAME,CurrentAppName,CONFIGFILEEXT,CONFIGFILE_ROOTNAME);
+    ApplicationConfig       =new cBaseApplicationConfig(this,ALLOWEDWEBLANGUAGE);
     CurrentThreadId         =this->thread()->currentThreadId();
-    InternetBUILDVERSION    ="";
     IsFirstInitDone         =false;        // true when first show window was done
     FLAGSTOPITEMSELECTION   =false;        // Flag to stop Item Selection process for delete and move of object
     InPlayerUpdate          =false;
     DlgWorkingTaskDialog    =NULL;
     CancelAction            =false;
     CurrentDriveCheck       =0;
+    EventReceiver           =this;          // Connect Event Receiver so now we accept LOG messages
     setAcceptDrops(true);
     ApplicationConfig->ParentWindow=this;
 }
@@ -148,9 +132,10 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App,QSplashScree
     bool IsDBCreation=!QFileInfo(ApplicationConfig->Database->dbPath).exists();
     if (ApplicationConfig->Database->OpenDB()) {
         //==== Tables definition
-        ApplicationConfig->Database->Tables.append(ApplicationConfig->SettingsTable=new cSettingsTable(ApplicationConfig->Database));
-        ApplicationConfig->Database->Tables.append(ApplicationConfig->FoldersTable =new cFolderTable(ApplicationConfig->Database));
-        ApplicationConfig->Database->Tables.append(ApplicationConfig->FilesTable   =new cFilesTable(ApplicationConfig->Database));          ApplicationConfig->ImagesCache.FilesTable=ApplicationConfig->FilesTable;
+        ApplicationConfig->Database->Tables.append(ApplicationConfig->SettingsTable     =new cSettingsTable(ApplicationConfig->Database));
+        ApplicationConfig->Database->Tables.append(ApplicationConfig->FoldersTable      =new cFolderTable(ApplicationConfig->Database));
+        ApplicationConfig->Database->Tables.append(ApplicationConfig->FilesTable        =new cFilesTable(ApplicationConfig->Database));         ApplicationConfig->ImagesCache.FilesTable=ApplicationConfig->FilesTable;
+        ApplicationConfig->Database->Tables.append(ApplicationConfig->SlideThumbsTable  =new cSlideThumbsTable(ApplicationConfig->Database));
         //==== End of tables definition
         if (((!IsDBCreation)&&(!ApplicationConfig->Database->CheckDatabaseVersion()))||(!ApplicationConfig->Database->ValidateTables())) {
             ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error initialising home user database..."));
@@ -442,7 +427,6 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App,QSplashScree
 
     // Some other init
     LastLogMessageTime=QTime::currentTime();
-    EventReceiver=this; // Connect Event Receiver so now we accept LOG messages
     ui->StatusBar_SlideNumber->setText(QApplication::translate("MainWindow","Slide: ")+"0/0");
     ui->StatusBar_ChapterNumber->setText(QApplication::translate("MainWindow","Chapter: ")+"0/0");
     s_Event_ToolbarChanged(0);
@@ -698,11 +682,13 @@ void MainWindow::resizeEvent(QResizeEvent *) {
 
 void MainWindow::showEvent(QShowEvent *) {
     if (!IsFirstInitDone) {
-        IsFirstInitDone=true;                                   // do this only one time
+        IsFirstInitDone=true;  // do this only one time
+
+        // Check BUILDVERSION to propose to the user to upgrade the application if a new one is available on internet
         #ifndef DEBUG_MODE // Check it only if release mode
         // Start a network process to give last ffdiaporama version from internet web site
         QNetworkAccessManager *mNetworkManager=new QNetworkAccessManager(this);
-        connect(mNetworkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(s_Event_NetworkReply(QNetworkReply*)));
+        connect(mNetworkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(DoCheckBUILDVERSION(QNetworkReply*)));
         QUrl            url(BUILDVERSION_WEBURL);
         QNetworkReply   *reply  = mNetworkManager->get(QNetworkRequest(url));
         reply->deleteLater();
@@ -726,7 +712,8 @@ void MainWindow::s_Action_Version() {
     CustomMessageBox(this,QMessageBox::Information,APPLICATION_NAME,ui->VersionBT->toolTip());
 }
 
-void MainWindow::s_Event_NetworkReply(QNetworkReply* reply) {
+void MainWindow::DoCheckBUILDVERSION(QNetworkReply* reply) {
+    QString InternetBUILDVERSION;
     if (reply->error()==QNetworkReply::NoError) {
         int httpstatuscode=reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toUInt();
         if ((httpstatuscode>=200)&&(httpstatuscode<300)&&(reply->isReadable())) {
@@ -737,19 +724,19 @@ void MainWindow::s_Event_NetworkReply(QNetworkReply* reply) {
             int CurrentVersion =CurrentAppVersion.toInt();
             int InternetVersion=InternetBUILDVERSION.toInt();
             if (InternetVersion>CurrentVersion) {
-                InternetBUILDVERSION=QApplication::translate("MainWindow","A new ffDiaporama release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !");
+                InternetBUILDVERSION=QApplication::translate("MainWindow","A new release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !");
                 ui->VersionBT->setIcon(QIcon(":/img/Red.png"));
                 ui->VersionBT->setToolTip(InternetBUILDVERSION);
                 if ((ApplicationConfig->OpenWEBNewVersion)&&
-                    (CustomMessageBox(this,QMessageBox::Question,"ffDiaporama",
-                                      QApplication::translate("MainWindow","A new ffDiaporama version is available from WEB site.\nDo you whant do download it now?"),
+                    (CustomMessageBox(this,QMessageBox::Question,APPLICATION_NAME,
+                                      QApplication::translate("MainWindow","A new version is available from WEB site.\nDo you whant do download it now?"),
                                       QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) {
                     QDesktopServices::openUrl(QUrl(QString(DOWNLOADPAGE).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
                 }
             } else {
                 InternetBUILDVERSION="";
                 ui->VersionBT->setIcon(QIcon(":/img/Green.png"));
-                ui->VersionBT->setToolTip(QApplication::translate("MainWindow","Your version of ffDiaporama is up to day"));
+                ui->VersionBT->setToolTip(QApplication::translate("MainWindow","Your version of %1 is up to day").arg(APPLICATION_NAME));
             }
         } else InternetBUILDVERSION="";
     } else InternetBUILDVERSION="";
@@ -1004,16 +991,14 @@ void MainWindow::s_Event_DoubleClickedOnObject() {
             Ret=Dlg.exec();
         }
         if (Ret!=1) {
-            if (Diaporama->List[Diaporama->CurrentCol]->Thumbnail) {
-                delete Diaporama->List[Diaporama->CurrentCol]->Thumbnail;
-                Diaporama->List[Diaporama->CurrentCol]->Thumbnail=NULL;
-            }
-            // Update thumbnails containing variables
+            // Reset thumbnails
+            ApplicationConfig->SlideThumbsTable->ClearThumbs(Diaporama->List[Diaporama->CurrentCol]->ThumbnailKey);
+
+            // Reset thumbnails of all slides containing variables
             for (int i=0;i<Diaporama->List.count();i++)
-                if ((Diaporama->List[i]->Thumbnail)&&(Variable.IsObjectHaveVariables(Diaporama->List[i]))) {
-                delete Diaporama->List[i]->Thumbnail;
-                Diaporama->List[i]->Thumbnail=NULL;
-            }
+                if ((Diaporama->List[i]->ThumbnailKey!=1)&&(Variable.IsObjectHaveVariables(Diaporama->List[i])))
+                    ApplicationConfig->SlideThumbsTable->ClearThumbs(Diaporama->List[i]->ThumbnailKey);
+
             (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol)-(Diaporama->GetTransitionDuration(Diaporama->CurrentCol)>0?1:0));
             AdjustRuller();
         }
@@ -1343,12 +1328,12 @@ void MainWindow::s_Action_ProjectProperties() {
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         SetModifyFlag(true);
-        // Update thumbnails containing variables
+
+        // Reset thumbnails of all slides containing variables
         for (int i=0;i<Diaporama->List.count();i++)
-            if ((Diaporama->List[i]->Thumbnail)&&(Variable.IsObjectHaveVariables(Diaporama->List[i]))) {
-            delete Diaporama->List[i]->Thumbnail;
-            Diaporama->List[i]->Thumbnail=NULL;
-        }
+            if ((Diaporama->List[i]->ThumbnailKey!=1)&&(Variable.IsObjectHaveVariables(Diaporama->List[i])))
+                ApplicationConfig->SlideThumbsTable->ClearThumbs(Diaporama->List[i]->ThumbnailKey);
+
         (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol)-(Diaporama->GetTransitionDuration(Diaporama->CurrentCol)>0?1:0));
         AdjustRuller();
     }
@@ -1460,10 +1445,10 @@ void MainWindow::s_Action_OpenRecent() {
     ui->Action_OpenRecent_BT->setDown(false);
     ui->Action_OpenRecent_BT_2->setDown(false);
 
-    if ((Diaporama->IsModify)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Open project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
-        QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_Action_Save();
-
     if (Selected!="") {
+        if ((Diaporama->IsModify)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Open project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_Action_Save();
+
         ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(Selected).fileName());
         FileForIO=Selected;
         QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
@@ -1480,9 +1465,6 @@ void MainWindow::s_Action_Open() {
     ui->Action_Open_BT->setDown(false);
     ui->Action_Open_BT_2->setDown(false);
 
-    if ((Diaporama->IsModify)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Open project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
-        QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_Action_Save();
-
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_FFDFILE,OBJECTTYPE_FFDFILE,
                         false,false,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastProjectPath:"",
                         QApplication::translate("MainWindow","Open project"),ApplicationConfig,this);
@@ -1490,6 +1472,8 @@ void MainWindow::s_Action_Open() {
     if (Dlg.exec()==0) {
         FileList=Dlg.GetCurrentSelectedFiles();
         if (FileList.count()==1) {
+            if ((Diaporama->IsModify)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Open project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
+                QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_Action_Save();
             ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(FileList.at(0)).fileName());
             FileForIO=FileList.at(0);
             QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
@@ -1661,7 +1645,7 @@ void MainWindow::DoOpenFileObject() {
                                                                     QFileInfo(Diaporama->ProjectFileName).absolutePath(),&AliasList)) {
 
             if (CurrentLoadingProjectObject==0) Diaporama->CurrentPosition=Diaporama->GetTransitionDuration(0);
-            AddObjectToTimeLine(CurrentLoadingProjectObject);
+            AddObjectToTimeLine(CurrentLoadingProjectObject,false);
 
         } else delete Diaporama->List.takeLast();
 
@@ -1680,6 +1664,8 @@ void MainWindow::DoOpenFileObject() {
         }
 
         SetModifyFlag(Diaporama->IsModify);
+        (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->ActualPosition=-1;
+        AdjustRuller();
         ui->timeline->SetCurrentCell(0);    // Set first slide as current
 
         QApplication::restoreOverrideCursor();
@@ -1697,16 +1683,17 @@ void MainWindow::s_Action_Save() {
     ui->Action_Save_BT->setDown(false);
     ui->Action_Save_BT_2->setDown(false);
 
-    if (Diaporama->ProjectFileName=="") s_Action_SaveAs(); else {
-        ToStatusBar(QApplication::translate("MainWindow","Saving project file ...")+QFileInfo(Diaporama->ProjectFileName).fileName());
-        DoSaveFile();
-    }
+    if (Diaporama->ProjectFileName=="") s_Action_SaveAs(); else DoSaveFile();
 }
 
 //====================================================================================================================
 void MainWindow::DoSaveFile() {
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    ToStatusBar(QApplication::translate("MainWindow","Saving project file ...")+QFileInfo(Diaporama->ProjectFileName).fileName());
+    QApplication::processEvents();
     if (Diaporama->SaveFile(this)) SetModifyFlag(false);
     ToStatusBar("");
+    QApplication::restoreOverrideCursor();
     s_Browser_RefreshHere();
 }
 
@@ -1757,7 +1744,6 @@ void MainWindow::s_Action_SaveAs() {
         }
         ApplicationConfig->RecentFile.append(Diaporama->ProjectFileName);
         while (ApplicationConfig->RecentFile.count()>10) ApplicationConfig->RecentFile.takeFirst();
-        ToStatusBar(QApplication::translate("MainWindow","Saving project file ...")+QFileInfo(Diaporama->ProjectFileName).fileName());
         DoSaveFile();
     }
 }
@@ -1806,7 +1792,7 @@ void MainWindow::s_Action_DoAddEmptyTitle() {
         Diaporama->List[CurIndex]->TransitionSubType=Diaporama->ApplicationConfig->DefaultTransitionSubType;
     }
     Diaporama->List[CurIndex]->TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
-    AddObjectToTimeLine(CurIndex);
+    AddObjectToTimeLine(CurIndex,true);
     ui->timeline->SetCurrentCell(SavedCurIndex+1);
     SetModifyFlag(true);
     AdjustRuller();
@@ -1839,7 +1825,7 @@ void MainWindow::s_Action_AddAutoTitleSlide() {
     }
     Diaporama->List[CurIndex]->TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
 
-    AddObjectToTimeLine(CurIndex);
+    AddObjectToTimeLine(CurIndex,true);
     ui->timeline->SetCurrentCell(SavedCurIndex+1);
     AdjustRuller();
 
@@ -1859,12 +1845,12 @@ void MainWindow::s_Action_AddAutoTitleSlide() {
         delete Diaporama->List.takeAt(Current);
         if (Current==Diaporama->List.count()) Current--;
     }
-    // Update thumbnails containing variables
+
+    // Reset thumbnails of all slides containing variables
     for (int i=0;i<Diaporama->List.count();i++)
-        if ((Diaporama->List[i]->Thumbnail)&&(Variable.IsObjectHaveVariables(Diaporama->List[i]))) {
-        delete Diaporama->List[i]->Thumbnail;
-        Diaporama->List[i]->Thumbnail=NULL;
-    }
+        if ((Diaporama->List[i]->ThumbnailKey!=1)&&(Variable.IsObjectHaveVariables(Diaporama->List[i])))
+            ApplicationConfig->SlideThumbsTable->ClearThumbs(Diaporama->List[i]->ThumbnailKey);
+
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->timeline->ResetDisplay(Current);    // FLAGSTOPITEMSELECTION is set to false by ResetDisplay
     (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Current)+Diaporama->GetTransitionDuration(Current));
@@ -1980,7 +1966,7 @@ void MainWindow::s_Action_DoAppendFile() {
             QFileInfo(CurrentAppendingProjectName).absolutePath(),&AliasList)) {
 
             if (CurrentAppendingProjectNbrObject==0) Diaporama->List[CurIndex]->StartNewChapter=true;
-            AddObjectToTimeLine(CurIndex);
+            AddObjectToTimeLine(CurIndex,true);
             CurIndex++;
 
         } else delete Diaporama->List.takeAt(CurIndex);
@@ -2291,7 +2277,7 @@ void MainWindow::s_Action_DoAddFile() {
 
             // Inc NextIndexKey
             DiaporamaObject->NextIndexKey++;
-            AddObjectToTimeLine(CurIndex++);
+            AddObjectToTimeLine(CurIndex++,false);
         }
 
         // If file list contains other file then send a newer signal message to proceed the next one
@@ -2307,10 +2293,10 @@ void MainWindow::s_Action_DoAddFile() {
         }
     }
     // Set current selection to first new object
+    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->ActualPosition=-1;
     ui->timeline->SetCurrentCell(SavedCurIndex+1);
 
     // Set title flag
-    AdjustRuller();
     SetModifyFlag(true);
     QApplication::restoreOverrideCursor();
 }
@@ -2723,8 +2709,8 @@ void MainWindow::s_Event_ClipboardChanged() {
 
 //====================================================================================================================
 
-void MainWindow::AddObjectToTimeLine(int CurIndex) {
-    ui->timeline->AddObjectToTimeLine(CurIndex);
+void MainWindow::AddObjectToTimeLine(int CurIndex,bool AdjustRuller) {
+    ui->timeline->AddObjectToTimeLine(CurIndex,AdjustRuller);
 }
 
 //====================================================================================================================
@@ -2732,6 +2718,7 @@ void MainWindow::AddObjectToTimeLine(int CurIndex) {
 //====================================================================================================================
 
 void MainWindow::AdjustRuller() {
+    Diaporama->UpdateCachedStartPosition();
     ui->preview->SetActualDuration(Diaporama->GetDuration());
     ui->preview2->SetActualDuration(Diaporama->GetDuration());
     if (Diaporama->List.count()>0)  {

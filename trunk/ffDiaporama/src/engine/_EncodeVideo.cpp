@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -667,7 +667,7 @@ bool cEncodeVideo::PrepareTAG(QString Language) {
     av_dict_set(&Container->metadata,"album",AdjustMETA(Diaporama->ProjectInfo->Album).toUtf8().constData(),0);
     av_dict_set(&Container->metadata,"comment",AdjustMETA(Diaporama->ProjectInfo->Comment).toUtf8().constData(),0);
     av_dict_set(&Container->metadata,"date",QString("%1").arg(Diaporama->ProjectInfo->EventDate.year()).toUtf8().constData(),0);
-    av_dict_set(&Container->metadata,"composer",QString(Diaporama->ApplicationConfig->ApplicationName+QString(" ")+Diaporama->ApplicationConfig->ApplicationVersion).toUtf8().constData(),0);
+    av_dict_set(&Container->metadata,"composer",QString(QString(APPLICATION_NAME)+QString(" ")+CurrentAppName).toUtf8().constData(),0);
     av_dict_set(&Container->metadata,"creation_time",QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss").toUtf8().constData(),0); // ISO 8601 format
 
     // Set Chapters (only if video stream)

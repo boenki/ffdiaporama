@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -55,10 +55,10 @@ void DlgCheckConfig::DoInitDialog() {
     int     LumaListNbr=LumaList_Bar.List.count()+LumaList_Box.List.count()+LumaList_Center.List.count()+LumaList_Checker.List.count()+LumaList_Clock.List.count()+LumaList_Snake.List.count();
 
     // ffDiaporama
-    ui->ListWidget->addItem(new QListWidgetItem(QString("ffDiaporama:%1").arg(BaseApplicationConfig->ApplicationVersion)));
+    ui->ListWidget->addItem(new QListWidgetItem(QString("%1 %2 (%3) ...").arg(APPLICATION_NAME).arg(CurrentAppName).arg(CurrentAppVersion)));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Operating system version: %1 - %2 Core/CPU").arg(BaseApplicationConfig->Plateforme).arg(getCpuCount())));
 
-#if (!defined(Q_OS_WIN64))&&(defined(Q_OS_WIN32) || defined(Q_OS_LINUX32) || defined(Q_OS_SOLARIS32))
+    #if (!defined(Q_OS_WIN64))&&(defined(Q_OS_WIN32) || defined(Q_OS_LINUX32) || defined(Q_OS_SOLARIS32))
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Application architecture: 32 bits")));
     #else
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Application architecture: 64 bits")));

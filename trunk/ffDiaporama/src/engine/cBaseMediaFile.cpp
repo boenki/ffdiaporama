@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -3058,6 +3058,13 @@ bool cMusicObject::LoadFromXML(QDomElement domDocument,QString ElementName,QStri
         QString FileName=Element.attribute("FilePath","");
         if ((!QFileInfo(FileName).exists())&&(PathForRelativPath!="")) {
             FileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(FileName));
+            // Fixes a previous bug in relative path
+            #ifndef Q_OS_WIN
+            if (FileName.startsWith("/..")) {
+                if (FileName.contains("/home/")) FileName=FileName.mid(FileName.indexOf("/home/"));
+                if (FileName.contains("/mnt/"))  FileName=FileName.mid(FileName.indexOf("/mnt/"));
+            }
+            #endif
             //QString PA=QDir(PathForRelativPath).absolutePath();
             //if (!PA.endsWith(QDir::separator())) PA=PA+QDir::separator();
             //PA=PA+FileName;

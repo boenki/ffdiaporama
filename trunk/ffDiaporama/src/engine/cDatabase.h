@@ -1,7 +1,7 @@
 /*======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray<levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray<domledom@laposte.net>
 
     This program is free software;you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -42,7 +42,8 @@ enum eTypeTable {
     TypeTable_Undefined,
     TypeTable_SettingsTable,
     TypeTable_FolderTable,
-    TypeTable_FileTable
+    TypeTable_FileTable,
+    TypeTable_SlideThumbsTable
 };
 
 //*****************************************************************************
@@ -149,6 +150,20 @@ public:
     virtual bool            GetExtendedProperties(qlonglong FileKey,QStringList *PropertiesList);
     virtual bool            SetThumbs(qlonglong FileKey,QImage *Icon16,QImage *Icon100);
     virtual bool            GetThumbs(qlonglong FileKey,QImage *Icon16,QImage *Icon100);
+};
+
+//**********************************************************************************************
+// cSlideThumbsTable : encapsulate thumbnails in the table
+//**********************************************************************************************
+class cSlideThumbsTable : public cDatabaseTable {
+public:
+
+    explicit                cSlideThumbsTable(cDatabase *Database);
+
+    virtual bool            ClearTable();
+    virtual bool            SetThumbs(qlonglong *ThumbnailKey,QImage Thumbs);
+    virtual bool            GetThumbs(qlonglong *ThumbnailKey,QImage *Thumbs);
+    virtual bool            ClearThumbs(qlonglong ThumbnailKey);
 };
 
 #endif // CDATABASE_H

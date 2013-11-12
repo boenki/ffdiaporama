@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -71,7 +71,7 @@ void SDLFirstInit(double WantedDuration,bool SDLAncMode,int64_t SamplingRate) {
                 QApplication::translate("MainWindow","Error during initialisation of sound system. Check your configuration and try again"),
                 QMessageBox::Close,QMessageBox::Close);
         ToLog(LOGMSG_CRITICAL,QString("SDLFirstInit=Could not initialize SDL :%1").arg(SDL_GetError()));
-        exit(1);    // ExitApplicationWithFatalError
+        //exit(1);    // ExitApplicationWithFatalError
     }
 
     SDLSetFPS(WantedDuration,SDLAncMode,SamplingRate);
@@ -122,7 +122,7 @@ void SDLSetFPS(double WantedDuration,bool SDLAncMode,int64_t SamplingRate) {
                 QApplication::translate("MainWindow","Error during initialisation of sound system. Check your configuration and try again"),
                 QMessageBox::Close,QMessageBox::Close);
         ToLog(LOGMSG_CRITICAL,QString("SDLFirstInit=Error in SDL_OpenAudio:%1").arg(SDL_GetError()));
-        exit(1);    // ExitApplicationWithFatalError
+        //exit(1);    // ExitApplicationWithFatalError
     }
 }
 

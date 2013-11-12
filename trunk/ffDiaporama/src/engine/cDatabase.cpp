@@ -1,7 +1,7 @@
 /*======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray<levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray<domledom@laposte.net>
 
     This program is free software;you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -758,4 +758,117 @@ bool cFilesTable::DoUpgradeTableVersion(qlonglong OldVersion) {
             else DisplayLastSQLError(&Query);
     }
     return Ret;
+}
+
+//**********************************************************************************************
+// cFolderTable : encapsulate folders in the table
+//**********************************************************************************************
+
+cSlideThumbsTable::cSlideThumbsTable(cDatabase *Database):cDatabaseTable(Database) {
+    TypeTable       =TypeTable_SlideThumbsTable;
+    TableName       ="SlideThumbs";
+    IndexKeyName    ="Key";
+    CreateTableQuery="create table SlideThumbs ("\
+                            "Key                bigint primary key,"\
+                            "Thumbnail          binary"\
+                     ")";
+    CreateIndexQuery.append("CREATE INDEX idx_SlideThumbs_Key ON SlideThumbs (Key)");
+}
+
+//=====================================================================================================
+// Reset the table : delete all items
+
+bool cSlideThumbsTable::ClearTable() {
+    QSqlQuery Query(Database->db);
+    if (!Query.exec(QString("DELETE FROM %1").arg(TableName))) {
+        DisplayLastSQLError(&Query);
+        return false;
+    }
+    NextIndex=0;
+    return true;
+}
+
+//=====================================================================================================
+// Write thumbnails to the database
+
+bool cSlideThumbsTable::SetThumbs(qlonglong *ThumbnailKey,QImage Thumbs) {
+    QSqlQuery Query(Database->db);
+    if (*ThumbnailKey==-1) {
+        Query.prepare(QString("INSERT INTO %1 (Key,Thumbnail) VALUES (:Key,:Thumbnail)").arg(TableName));
+        Query.bindValue(":Key",++NextIndex,QSql::In);
+        if (!Thumbs.isNull()) {
+            QByteArray  Data;
+            QBuffer     BufData(&Data);
+            BufData.open(QIODevice::WriteOnly);
+            Thumbs.save(&BufData,"PNG");
+            Query.bindValue(":Thumbnail",Data,QSql::In|QSql::Binary);
+        } else Query.bindValue(":Thumbnail",QVariant(QVariant::ByteArray),QSql::In|QSql::Binary);
+        bool Ret=Query.exec();
+        if (!Ret) {
+            DisplayLastSQLError(&Query);
+            return false;
+        } else *ThumbnailKey=NextIndex;
+    } else {
+        Query.prepare((QString("UPDATE %1 SET Thumbnail=:Thumbnail WHERE Key=:Key").arg(TableName)));
+        Query.bindValue(":Key",*ThumbnailKey,QSql::In);
+        if (!Thumbs.isNull()) {
+            QByteArray  Data;
+            QBuffer     BufData(&Data);
+            BufData.open(QIODevice::WriteOnly);
+            Thumbs.save(&BufData,"PNG");
+            Query.bindValue(":Thumbnail",Data,QSql::In|QSql::Binary);
+        } else Query.bindValue(":Thumbnail",QVariant(QVariant::ByteArray),QSql::In|QSql::Binary);
+        if (!Query.exec()) {
+            DisplayLastSQLError(&Query);
+            return false;
+        }
+    }
+    return true;
+}
+
+//=====================================================================================================
+// Read thumbnails properties from the database
+
+bool cSlideThumbsTable::GetThumbs(qlonglong *ThumbnailKey,QImage *Thumbs) {
+    QSqlQuery Query(Database->db);
+
+    if (*ThumbnailKey==-1) {
+        Query.prepare(QString("INSERT INTO %1 (Key) VALUES (:Key)").arg(TableName));
+        Query.bindValue(":Key",++NextIndex,QSql::In);
+        bool Ret=Query.exec();
+        if (!Ret) {
+            DisplayLastSQLError(&Query);
+            return false;
+        } else *ThumbnailKey=NextIndex;
+    } else {
+        Query.prepare((QString("SELECT Thumbnail FROM %1 WHERE Key=:Key").arg(TableName)));
+        Query.bindValue(":Key",*ThumbnailKey,QSql::In);
+        if (!Query.exec()) {
+            DisplayLastSQLError(&Query);
+            return false;
+        }
+        QByteArray Data;
+        while (Query.next()) {
+            if (!Query.value(0).isNull()) {
+                Data=Query.value(0).toByteArray();
+                Thumbs->loadFromData(Data);
+            }
+        }
+    }
+    return (!Thumbs->isNull());
+}
+
+//=====================================================================================================
+// Read thumbnails properties from the database
+
+bool cSlideThumbsTable::ClearThumbs(qlonglong ThumbnailKey) {
+    if (ThumbnailKey==-1) return true;
+    QSqlQuery Query(Database->db);
+    Query.prepare((QString("UPDATE %1 SET Thumbnail=NULL WHERE Key=:Key").arg(TableName)));
+    Query.bindValue(":Key",ThumbnailKey,QSql::In);
+    if (!Query.exec()) {
+        DisplayLastSQLError(&Query);
+        return false;
+    }
+    return true;
 }

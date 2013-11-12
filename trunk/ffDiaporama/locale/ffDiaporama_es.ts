@@ -776,7 +776,7 @@ Opciones de edición (al añadir objetos)</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="711"/>
         <source>If this box is checked, a dialog box will appear at startup the next time a new version will be available.</source>
-        <translation>Sieata casilla está seleccionada, aparecerá una ventana al inicio cuanda haya una versión disponible.</translation>
+        <translation>Si esta casilla está seleccionada, aparecerá una ventana al inicio cuanda haya una versión disponible.</translation>
     </message>
     <message utf8="true">
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1280"/>
@@ -7869,19 +7869,20 @@ La geometría de la imagen de este archivo no es igual que la del proyecto actua
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="152"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="153"/>
         <source>Init home user database...</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciando base de datos de usuario...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="164"/>
         <source>Error initialising home user database...</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al iniciar base de datos de usuario...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="166"/>
         <source>Error initialising home user database
 ffDiaporama can&apos;t start</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Error al iniciar base de datos de usuario
+ffDiaporama no puede iniciarse</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="175"/>
@@ -7898,7 +7899,7 @@ ffDiaporama can&apos;t start</source>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="188"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="189"/>
         <source>Loading text frame library...</source>
-        <translation type="unfinished"></translation>
+        <translation>Cargando librería cuadro de texto...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="193"/>
@@ -8428,13 +8429,13 @@ Si continúas, se corre el riesgo de perder datos!
     <message>
         <location filename="../src/ffDiaporama/main.cpp" line="99"/>
         <source>Start ...</source>
-        <translation>Iiciando ...</translation>
+        <translation>Iniciando ...</translation>
     </message>
     <message>
         <location filename="../src/CustomCtrl/_QCustomDialog.cpp" line="213"/>
         <source>Error reading window state of %1 from home user database</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Error al leer estado de ventana %1 desde base de datos de usuario</translation>
     </message>
 </context>
 <context>

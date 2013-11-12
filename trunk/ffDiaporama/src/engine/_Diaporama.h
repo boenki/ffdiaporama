@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -266,6 +266,9 @@ public:
     QString                 SlideName;                  // Display name of the slide
     QList<cDiaporamaShot *> List;                       // list of scene definition
 
+    int64_t                 CachedStartPosition;        // Cached start position to improve interface speed
+    int64_t                 CachedMusicIndex;           // Cached Music Index to improve interface speed
+
     // Chapter definition
     bool                    StartNewChapter;            // if true then start a new chapter from this slide
     QString                 ChapterName;                // Chapter name
@@ -294,7 +297,7 @@ public:
     int64_t                 TransitionDuration;         // Transition duration (in msec)
     int                     TransitionSpeedWave;        // Transition SpeedWave
 
-    QImage                  *Thumbnail;                 // Thumbnail cached image
+    qlonglong               ThumbnailKey;               // Thumbnail key in the database
     QList<cMusicObject>     MusicList;                  // List of music definition
 
     cDiaporamaObject(cDiaporama *Parent);
@@ -317,6 +320,9 @@ public:
     void                    LoadModelFromXMLData(ffd_MODELTYPE TypeModel,QDomDocument domDocument);
     bool                    SaveModelFile(ffd_MODELTYPE TypeModel,QString ModelFileName,bool ForceAbsolutPath);
     QString                 SaveAsNewCustomModelFile(ffd_MODELTYPE TypeModel);
+
+    // Thread functions
+    void                    ThreadedLoadThumb(QDomElement Element);
 };
 
 //*********************************************************************************************************************************************
@@ -428,6 +434,7 @@ public:
     int64_t                 GetPartialDuration(int from,int to);
     int64_t                 GetObjectStartPosition(int index);
     int64_t                 GetTransitionDuration(int index);
+    void                    UpdateCachedStartPosition();
     void                    PrepareBackground(int ObjectIndex,int Width,int Height,QPainter *Painter,int AddX,int AddY);
     cMusicObject            *GetMusicObject(int ObjectIndex,int64_t &StartPosition,int *CountObject=NULL,int *IndexObject=NULL);
     void                    DefineSizeAndGeometry(ffd_GEOMETRY Geometry);                        // Init size and geometry

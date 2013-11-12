@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ int     SCALINGTEXTFACTOR=700;                  // 700 instead of 400 (ffD 1.0/1
 
 //======================================================================
 // Internal log defines and functions
-//====================================================================
+//======================================================================
 
 int         LogMsgLevel=LOGMSG_INFORMATION;     // Level from wich debug message was print to stdout
 QStringList EventList;                          // Internal event queue
@@ -274,4 +274,47 @@ QString ito3a(int val) {
     QString Ret=QString("%1").arg(val);
     while (Ret.length()<3) Ret="0"+Ret;
     return Ret;
+}
+
+//====================================================================================================================
+
+QString GetTextSize(int64_t Size) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:GetTextSize");
+
+    QString UnitStr="";
+    int     Unit   =0;
+
+    while ((Size>1024*1024)&&(Unit<2)) {
+        Unit++;
+        Size=Size/1024;
+    }
+    switch (Unit) {
+        case 0 : UnitStr=QApplication::translate("QCustomFolderTree","Kb","Unit Kb");   break;
+        case 1 : UnitStr=QApplication::translate("QCustomFolderTree","Mb","Unit Mb");   break;
+        case 2 : UnitStr=QApplication::translate("QCustomFolderTree","Gb","Unit Gb");   break;
+        case 3 : UnitStr=QApplication::translate("QCustomFolderTree","Tb","Unit Tb");   break;
+    }
+    if (Size==0) return "0";
+    else if (double(Size)/double(1024)>0.1) return QString("%1").arg(double(Size)/double(1024),8,'f',1).trimmed()+" "+UnitStr;
+    else return "<0.1"+UnitStr;
+}
+
+//====================================================================================================================
+
+//functions used to retrieve number of processor
+//Thanks to : Stuart Nixon
+//See : http://lists.trolltech.com/qt-interest/2006-05/thread00922-0.html
+int getCpuCount() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:getCpuCount");
+    int cpuCount=1;
+
+    #ifdef Q_OS_WIN
+    SYSTEM_INFO    si;
+    GetSystemInfo(&si);
+    cpuCount = si.dwNumberOfProcessors;
+    #elif defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
+    cpuCount = sysconf(_SC_NPROCESSORS_ONLN);
+    #endif
+    if(cpuCount<1) cpuCount=1;
+    return cpuCount;
 }

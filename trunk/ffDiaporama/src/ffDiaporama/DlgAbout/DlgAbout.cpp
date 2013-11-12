@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -72,7 +72,7 @@ void DlgAbout::DoInitDialog() {
         ui->tabWidget->removeTab(1);
     }
 
-    ui->ApplicationReleaseLabel->setText(CurrentAppVersion);
-    ui->ApplicationNameLabel->setText(BaseApplicationConfig->ApplicationVersion);
+    ui->ApplicationReleaseLabel->setText(QString("%1 (%2)").arg(CurrentAppName).arg(CurrentAppVersion));
+    ui->ApplicationNameLabel->setText(APPLICATION_NAME);
     ui->tabWidget->setCurrentIndex(0);
 }

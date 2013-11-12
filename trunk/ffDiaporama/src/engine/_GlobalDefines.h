@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,12 +38,15 @@
 //============================================
 // Activate standard stdint macro
 //============================================
+
 #ifdef _STDINT_H
     #undef _STDINT_H            // Remove previous inclusion (if exist)
 #endif
 
 #define __STDC_CONSTANT_MACROS  // Activate macro for stdint
 #include <stdint.h>             // Include stdint with macro activated
+#include <stdlib.h>
+#include <unistd.h>
 
 //============================================
 // Specific for MSVC
@@ -109,15 +112,20 @@
 // Note : Application version and revision are in BUILDVERSION.txt
 // Syntax for BUILDVERSION.txt is : <Version MAJOR.MINOR[.SUB|_beta_VERSION|_devel]>
 #define APPLICATION_NAME                    "ffDiaporama"
-#define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
-#define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
-#define APPLICATION_ROOTNAME                "Project"                             // Name of root node in the project xml file
-
-#define TITLEMODEL_ROOTNAME                 "Model"                               // Name of root node in the title model xml files
-#define TITLEMODEL_ELEMENTNAME              "TitleModel"                          // Name of element in the title model xml files
-
-#define THUMBMODEL_ROOTNAME                 "Thumbnail"                           // Name of root node in the thumbnail xml files
-#define THUMBMODEL_ELEMENTNAME              "ProjectThumbnail"                    // Name of element in the thumbnail xml files
+// File extension of configuration files
+#define CONFIGFILEEXT                       ".xml"
+// Name of root node in the config xml file
+#define CONFIGFILE_ROOTNAME                 "Configuration"
+// Name of root node in the project xml file
+#define APPLICATION_ROOTNAME                "Project"
+// Name of root node in the title model xml files
+#define TITLEMODEL_ROOTNAME                 "Model"
+// Name of element in the title model xml files
+#define TITLEMODEL_ELEMENTNAME              "TitleModel"
+// Name of root node in the thumbnail xml files
+#define THUMBMODEL_ROOTNAME                 "Thumbnail"
+// Name of element in the thumbnail xml files
+#define THUMBMODEL_ELEMENTNAME              "ProjectThumbnail"
 
 // Application version : url to file on internet
 //#define BUILDVERSION_WEBURL                 "http://ffdiaporama.tuxfamily.org/Stable/BUILDVERSION.txt"
@@ -125,7 +133,6 @@
 
 //#define DOWNLOADPAGE                        "ffdiaporama.tuxfamily.org/?page_id=178&lang=%1"
 #define DOWNLOADPAGE                         "ffdiaporama.tuxfamily.org/?page_id=3635&lang=%1"
-
 
 // Global values
 extern QString CurrentAppName;              // Application name (including devel, beta, ...)
@@ -185,12 +192,14 @@ void    ToLog(int MessageType,QString Message,QString Source="internal",bool Add
 
 QString ito2a(int val);
 QString ito3a(int val);
-double  GetDoubleValue(QDomElement CorrectElement,QString Name);                    // Load a double value from an XML element
-double  GetDoubleValue(QString sValue);                                             // Load a double value from a string
+double  GetDoubleValue(QDomElement CorrectElement,QString Name);                                        // Load a double value from an XML element
+double  GetDoubleValue(QString sValue);                                                                 // Load a double value from a string
 QString UpInitials(QString Source);
 QString FormatLongDate(QDate EventDate);
-QString GetInformationValue(QString ValueToSearch,QStringList *InformationList);    // Get a value from a list of value (value as store in pair name##value)
-QString GetCumulInfoStr(QStringList *InformationList,QString Key1,QString Key2);    // Return a string concataining each value of a key containing key1 and key2
+QString GetInformationValue(QString ValueToSearch,QStringList *InformationList);                        // Get a value from a list of value (value as store in pair name##value)
+QString GetCumulInfoStr(QStringList *InformationList,QString Key1,QString Key2);                        // Return a string concataining each value of a key containing key1 and key2
+int     getCpuCount();                                                                                  // Retrieve number of processor
+QString GetTextSize(int64_t Size);                                                                      // transform a size (_int64) in a string with apropriate unit (Gb/Tb...)
 
 //====================================================================
 // VARIOUS

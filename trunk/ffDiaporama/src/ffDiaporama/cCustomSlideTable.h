@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ public:
 
     explicit    cCustomSlideTable(QWidget *parent = 0);
 
-    void        AddObjectToTimeLine(int CurIndex);
+    void        AddObjectToTimeLine(int CurIndex,bool AdjustRuller);
     void        SetTimelineHeight(bool NewPartitionMode);
     int         CurrentSelected();
     void        CurrentSelectionList(QList<int> *List);
