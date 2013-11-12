@@ -48,7 +48,6 @@
         GlobalConfigFile=QFileInfo(QString(APPLICATION_NAME)+QString(CONFIGFILEEXT)).absoluteFilePath();
         UserConfigFile  =QFileInfo(UserConfigPath+QString(APPLICATION_NAME)+QString(CONFIGFILEEXT)).absoluteFilePath();
 
-
         QFile           file(GlobalConfigFile);
         QDomDocument    domDocument;
         QDomElement     root;
