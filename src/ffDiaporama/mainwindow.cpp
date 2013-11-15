@@ -144,6 +144,8 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App,QSplashScree
             exit(1);
         }
     }
+    ApplicationConfig->SortFile=ApplicationConfig->SettingsTable->GetIntValue("SortOrderFile",ApplicationConfig->SortFile);
+    ApplicationConfig->ShowFoldersFirst=ApplicationConfig->SettingsTable->GetIntValue("ShowFoldersFirst",ApplicationConfig->ShowFoldersFirst)==1;
 
     screen->showMessage(QApplication::translate("MainWindow","Loading system icons..."),Qt::AlignHCenter|Qt::AlignBottom);
     ApplicationConfig->PreloadSystemIcons();
@@ -309,7 +311,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App,QSplashScree
     connect(ui->ActionAddtitle_BT,SIGNAL(pressed()),this,SLOT(s_Action_AddTitle()));
     connect(ui->ActionAddtitle_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_AddTitle()));
     connect(ui->actionAddTitle,SIGNAL(triggered()),this,SLOT(s_Action_AddTitle()));
-    connect(ui->actionAddEmptySlide,SIGNAL(triggered()),this,SLOT(s_Action_DoAddEmptyTitle()));
+    connect(ui->actionAddEmptySlide,SIGNAL(triggered()),this,SLOT(s_Action_AddEmptyTitle()));
     connect(ui->actionAddAutoTitleSlide,SIGNAL(triggered()),this,SLOT(s_Action_AddAutoTitleSlide()));
 
     connect(ui->ActionAddProject_BT,SIGNAL(released()),this,SLOT(s_Action_AddProject()));
@@ -729,7 +731,7 @@ void MainWindow::DoCheckBUILDVERSION(QNetworkReply* reply) {
                 ui->VersionBT->setToolTip(InternetBUILDVERSION);
                 if ((ApplicationConfig->OpenWEBNewVersion)&&
                     (CustomMessageBox(this,QMessageBox::Question,APPLICATION_NAME,
-                                      QApplication::translate("MainWindow","A new version is available from WEB site.\nDo you whant do download it now?"),
+                                      QApplication::translate("MainWindow","A new version is available from WEB site.\nDo you want to download it now?"),
                                       QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) {
                     QDesktopServices::openUrl(QUrl(QString(DOWNLOADPAGE).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
                 }
@@ -1149,7 +1151,7 @@ void MainWindow::DoTimelineSelectionChanged() {
                 Diaporama->CurrentCol=Selected;
                 Diaporama->CurrentPosition=Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol);
                 if (Diaporama->List[Diaporama->CurrentCol]->GetTransitDuration()>0) Diaporama->CurrentPosition--;
-                AdjustRuller();
+                AdjustRuller(Selected);
             } else {
                 (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(0);
                 (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SetStartEndPos(0,0,-1,0,-1,0);
@@ -1479,6 +1481,7 @@ void MainWindow::s_Action_Open() {
             QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
         }
     }
+    s_Browser_RefreshHere();
 }
 
 void MainWindow::DoOpenFileParam() {
@@ -1645,7 +1648,6 @@ void MainWindow::DoOpenFileObject() {
                                                                     QFileInfo(Diaporama->ProjectFileName).absolutePath(),&AliasList)) {
 
             if (CurrentLoadingProjectObject==0) Diaporama->CurrentPosition=Diaporama->GetTransitionDuration(0);
-            AddObjectToTimeLine(CurrentLoadingProjectObject,false);
 
         } else delete Diaporama->List.takeLast();
 
@@ -1665,8 +1667,7 @@ void MainWindow::DoOpenFileObject() {
 
         SetModifyFlag(Diaporama->IsModify);
         (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->ActualPosition=-1;
-        AdjustRuller();
-        ui->timeline->SetCurrentCell(0);    // Set first slide as current
+        AdjustRuller(0);    // Set first slide as current
 
         QApplication::restoreOverrideCursor();
         ToStatusBar("");
@@ -1768,11 +1769,9 @@ void MainWindow::s_Action_AddTitle() {
     delete ContextMenu;
 }
 
-void MainWindow::s_Action_DoAddEmptyTitle() {
+void MainWindow::s_Action_AddEmptyTitle() {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    int SavedCurIndex=ApplicationConfig->AppendObject?Diaporama->List.count():Diaporama->CurrentCol;
-    int CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
-    if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
+    CurIndex=Diaporama->List.count()==0?0:(ApplicationConfig->AppendObject?Diaporama->List.count()-1:Diaporama->CurrentCol)+1;
 
     Diaporama->List.insert(CurIndex,new cDiaporamaObject(Diaporama));
     cDiaporamaObject *DiaporamaObject       =Diaporama->List[CurIndex];
@@ -1792,18 +1791,15 @@ void MainWindow::s_Action_DoAddEmptyTitle() {
         Diaporama->List[CurIndex]->TransitionSubType=Diaporama->ApplicationConfig->DefaultTransitionSubType;
     }
     Diaporama->List[CurIndex]->TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
-    AddObjectToTimeLine(CurIndex,true);
-    ui->timeline->SetCurrentCell(SavedCurIndex+1);
     SetModifyFlag(true);
-    AdjustRuller();
+    AdjustRuller(CurIndex);
     QApplication::restoreOverrideCursor();
 }
 
 void MainWindow::s_Action_AddAutoTitleSlide() {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    int SavedCurIndex=ApplicationConfig->AppendObject?Diaporama->List.count():Diaporama->CurrentCol;
-    int CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
-    if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
+    SavedCurIndex=Diaporama->CurrentCol;
+    CurIndex     =Diaporama->List.count()==0?0:(ApplicationConfig->AppendObject?Diaporama->List.count()-1:Diaporama->CurrentCol)+1;
 
     Diaporama->List.insert(CurIndex,new cDiaporamaObject(Diaporama));
     cDiaporamaObject *DiaporamaObject       =Diaporama->List[CurIndex];
@@ -1825,42 +1821,42 @@ void MainWindow::s_Action_AddAutoTitleSlide() {
     }
     Diaporama->List[CurIndex]->TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
 
-    AddObjectToTimeLine(CurIndex,true);
-    ui->timeline->SetCurrentCell(SavedCurIndex+1);
-    AdjustRuller();
+    AdjustRuller(CurIndex);
+    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
 
-    int Current=ui->timeline->CurrentSelected();
-    DlgAutoTitleSlide Dlg(true,Diaporama->List[Current],ApplicationConfig,this);
+    DlgAutoTitleSlide Dlg(true,Diaporama->List[CurIndex],ApplicationConfig,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     QApplication::restoreOverrideCursor();
     int Ret=Dlg.exec();
     if (Ret==4) {
-        DlgSlideProperties Dlg(Diaporama->List[Current],ApplicationConfig,this);
+        DlgSlideProperties Dlg(Diaporama->List[CurIndex],ApplicationConfig,this);
         Dlg.InitDialog();
         connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
         Ret=Dlg.exec();
-    }
-    if (Ret!=0) {
-        delete Diaporama->List.takeAt(Current);
-        if (Current==Diaporama->List.count()) Current--;
-    }
 
-    // Reset thumbnails of all slides containing variables
-    for (int i=0;i<Diaporama->List.count();i++)
-        if ((Diaporama->List[i]->ThumbnailKey!=1)&&(Variable.IsObjectHaveVariables(Diaporama->List[i])))
-            ApplicationConfig->SlideThumbsTable->ClearThumbs(Diaporama->List[i]->ThumbnailKey);
+        AdjustRuller();
+
+        // Reset thumbnails of all slides containing variables
+        for (int i=0;i<Diaporama->List.count();i++)
+            if ((Diaporama->List[i]->ThumbnailKey!=1)&&(Variable.IsObjectHaveVariables(Diaporama->List[i])))
+                ApplicationConfig->SlideThumbsTable->ClearThumbs(Diaporama->List[i]->ThumbnailKey);
+
+    } else if (Ret!=0) {
+        delete Diaporama->List.takeAt(CurIndex);
+        AdjustRuller(SavedCurIndex);
+        CurIndex=SavedCurIndex;
+    }
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    ui->timeline->ResetDisplay(Current);    // FLAGSTOPITEMSELECTION is set to false by ResetDisplay
-    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Current)+Diaporama->GetTransitionDuration(Current));
-    AdjustRuller();
+    ui->timeline->ResetDisplay(CurIndex);    // FLAGSTOPITEMSELECTION is set to false by ResetDisplay
+    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
     ui->timeline->setUpdatesEnabled(true);
     QApplication::restoreOverrideCursor();
 }
 
 //====================================================================================================================
-// Add an object (image or video)
+// Add a slide (image or video)
 //====================================================================================================================
 
 void MainWindow::s_Action_AddFile() {
@@ -1873,26 +1869,16 @@ void MainWindow::s_Action_AddFile() {
     ui->ActionAdd_BT->setDown(false);
     ui->ActionAdd_BT_2->setDown(false);
 
-    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MANAGED|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE|FILTERALLOW_OBJECTTYPE_IMAGEVECTORFILE,OBJECTTYPE_MANAGED,
+    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE|FILTERALLOW_OBJECTTYPE_IMAGEVECTORFILE,OBJECTTYPE_MANAGED,
                         true,true,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
                         QApplication::translate("MainWindow","Add files"),ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
-
+    s_Browser_RefreshHere();
     if (FileList.count()>0) {
 
-        // Calc position of new object depending on ApplicationConfig->AppendObject
-
-        if (ApplicationConfig->AppendObject) {
-            SavedCurIndex   =Diaporama->List.count();
-            CurIndex        =Diaporama->List.count();
-        } else {
-            SavedCurIndex=Diaporama->CurrentCol;
-            CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
-            if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
-        }
-
-        SortFileList();
+        SavedCurIndex=Diaporama->CurrentCol;
+        CurIndex     =Diaporama->List.count()==0?0:(ApplicationConfig->AppendObject?Diaporama->List.count()-1:Diaporama->CurrentCol)+1;
 
         if (DlgWorkingTaskDialog) {
             DlgWorkingTaskDialog->close();
@@ -1902,11 +1888,13 @@ void MainWindow::s_Action_AddFile() {
         DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Add file to project"),&CancelAction,ApplicationConfig,this);
         DlgWorkingTaskDialog->InitDialog();
         DlgWorkingTaskDialog->SetMaxValue(FileList.count(),0);
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
+        QTimer::singleShot(LATENCY,this,SLOT(DoAddFile()));
         DlgWorkingTaskDialog->exec();
     }
 }
 
+//====================================================================================================================
+// Add a slide from drag & drop
 //====================================================================================================================
 
 void MainWindow::s_Event_TimelineAddDragAndDropFile() {
@@ -1916,6 +1904,9 @@ void MainWindow::s_Event_TimelineAddDragAndDropFile() {
         QTimer::singleShot(LATENCY,this,SLOT(s_Event_TimelineAddDragAndDropFile()));
         return;
     }
+
+    CurIndex     =ui->timeline->DragItemDest;
+    SavedCurIndex=CurIndex-1;
 
     SortFileList();
 
@@ -1933,12 +1924,7 @@ void MainWindow::s_Event_TimelineAddDragAndDropFile() {
             } else i++;
         } else i++;
     }
-    if (MusicFileList.count()>0) s_Action_DoUseAsPlayList(MusicFileList,ui->timeline->DragItemDest);
-    else {
-        SavedCurIndex =ui->timeline->DragItemDest-1;
-        CurIndex      =ui->timeline->DragItemDest;
-        if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
-        ui->timeline->SetCurrentCell(CurIndex);
+    if (MusicFileList.count()>0) s_Action_DoUseAsPlayList(MusicFileList,ui->timeline->DragItemDest); else {
         if (DlgWorkingTaskDialog) {
             DlgWorkingTaskDialog->close();
             delete DlgWorkingTaskDialog;
@@ -1947,14 +1933,16 @@ void MainWindow::s_Event_TimelineAddDragAndDropFile() {
         DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Add file to project"),&CancelAction,ApplicationConfig,this);
         DlgWorkingTaskDialog->InitDialog();
         DlgWorkingTaskDialog->SetMaxValue(FileList.count(),0);
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
+        QTimer::singleShot(LATENCY,this,SLOT(DoAddFile()));
         DlgWorkingTaskDialog->exec();
     }
 }
 
 //====================================================================================================================
+// Add a slide from a current reading of project
+//====================================================================================================================
 
-void MainWindow::s_Action_DoAppendFile() {
+void MainWindow::DoAppendFile() {
     if ((CurrentAppendingProjectNbrObject<CurrentAppendingProjectObject)&&
         (CurrentAppendingRoot.elementsByTagName("Object-"+QString("%1").arg(CurrentAppendingProjectNbrObject)).length()>0)&&
         (CurrentAppendingRoot.elementsByTagName("Object-"+QString("%1").arg(CurrentAppendingProjectNbrObject)).item(0).isElement()==true)) {
@@ -1966,20 +1954,75 @@ void MainWindow::s_Action_DoAppendFile() {
             QFileInfo(CurrentAppendingProjectName).absolutePath(),&AliasList)) {
 
             if (CurrentAppendingProjectNbrObject==0) Diaporama->List[CurIndex]->StartNewChapter=true;
-            AddObjectToTimeLine(CurIndex,true);
             CurIndex++;
 
         } else delete Diaporama->List.takeAt(CurIndex);
 
         CurrentAppendingProjectNbrObject++;
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAppendFile()));
+        QTimer::singleShot(LATENCY,this,SLOT(DoAppendFile()));
 
-    } else QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
+    } else QTimer::singleShot(LATENCY,this,SLOT(DoAddFile()));
 }
 
 //====================================================================================================================
+// Add an (sub) project
+//====================================================================================================================
 
-void MainWindow::s_Action_DoAddFile() {
+void MainWindow::s_Action_AddProject() {
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_AddProject()));
+        return;
+    }
+    ui->ActionAddProject_BT->setDown(false);
+    ui->ActionAddProject_BT_2->setDown(false);
+
+    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_FFDFILE,OBJECTTYPE_FFDFILE,
+                        true,true,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastProjectPath:"",
+                        QApplication::translate("MainWindow","Add a sub project"),ApplicationConfig,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
+    s_Browser_RefreshHere();
+    CancelAction=false;
+    if (FileList.count()>0) {
+
+        // Load object list
+        CurrentLoadingProjectNbrObject=FileList.count();
+        CurrentLoadingProjectObject   =0;
+        CancelAction                  =false;
+
+        // Open progress window
+        if (DlgWorkingTaskDialog) {
+            DlgWorkingTaskDialog->close();
+            delete DlgWorkingTaskDialog;
+            DlgWorkingTaskDialog=NULL;
+        }
+        DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Add files to project"),&CancelAction,ApplicationConfig,this);
+        DlgWorkingTaskDialog->InitDialog();
+        DlgWorkingTaskDialog->SetMaxValue(CurrentLoadingProjectNbrObject,0);
+
+        // Calc position of new object depending on ApplicationConfig->AppendObject
+        SavedCurIndex=Diaporama->CurrentCol;
+        CurIndex     =Diaporama->List.count()==0?0:(ApplicationConfig->AppendObject?Diaporama->List.count()-1:Diaporama->CurrentCol)+1;
+
+        ToStatusBar(QApplication::translate("MainWindow","Add project file :")+QFileInfo(FileList[0]).fileName());
+        QTimer::singleShot(LATENCY,this,SLOT(DoAddFile()));
+        DlgWorkingTaskDialog->exec();
+    }
+}
+
+//====================================================================================================================
+// Add a slide from a list of file (FileList)
+// This sub is called by himself and:
+//  - s_Action_AddFile
+//  - s_Event_TimelineAddDragAndDropFile
+//  - DoAppendFile
+//  - s_Action_AddProject
+//  - s_Browser_AddFiles
+//====================================================================================================================
+
+void MainWindow::DoAddFile() {
     if ((FileList.count()==0)||(CancelAction)) {
         if (DlgWorkingTaskDialog) {
             DlgWorkingTaskDialog->close();
@@ -1987,8 +2030,8 @@ void MainWindow::s_Action_DoAddFile() {
             DlgWorkingTaskDialog=NULL;
         }
         FileList.clear();
-        // Set current selection to first new object
-        ui->timeline->SetCurrentCell(SavedCurIndex+1);
+        AdjustRuller(SavedCurIndex+1);
+        FLAGSTOPITEMSELECTION=false;
         return;
     }
 
@@ -2039,18 +2082,18 @@ void MainWindow::s_Action_DoAddFile() {
                     CurrentAppendingProjectObject   =Element.attribute("ObjectNumber").toInt();
                     CurrentAppendingProjectNbrObject=0;
                     if (DlgWorkingTaskDialog) DlgWorkingTaskDialog->SetMaxValue(DlgWorkingTaskDialog->MaxValue,DlgWorkingTaskDialog->AddValue+CurrentAppendingProjectObject);
-                    QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAppendFile()));
+                    QTimer::singleShot(LATENCY,this,SLOT(DoAppendFile()));
                 }
 
             } else  {
                 file.close();
                 CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading content of project file","Error message"),QMessageBox::Close);
-                QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
+                QTimer::singleShot(LATENCY,this,SLOT(DoAddFile()));
             }
 
         } else {
             CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading project file","Error message"),QMessageBox::Close);
-            QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
+            QTimer::singleShot(LATENCY,this,SLOT(DoAddFile()));
         }
 
     } else {
@@ -2127,6 +2170,8 @@ void MainWindow::s_Action_DoAddFile() {
             // Create Diaporama Object and load first image
             //**********************************************
 
+            if (CurIndex==-1) CurIndex=0;
+
             Diaporama->List.insert(CurIndex,new cDiaporamaObject(Diaporama));
             cDiaporamaObject *DiaporamaObject       =Diaporama->List[CurIndex];
             DiaporamaObject->List[0]->Parent        =DiaporamaObject;
@@ -2191,7 +2236,7 @@ void MainWindow::s_Action_DoAddFile() {
                 //delete MediaFile; Not because deletion of DiaporamaObject will delete current MediaFile
                 QApplication::restoreOverrideCursor();
                 // Switch to next file to add
-                QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
+                QTimer::singleShot(LATENCY,this,SLOT(DoAddFile()));
                 return;
             }
 
@@ -2271,88 +2316,28 @@ void MainWindow::s_Action_DoAddFile() {
                 for (int bb=0;bb<Diaporama->List[CurIndex]->List[aa]->ShotComposition.List.count();bb++)
                     Diaporama->List[CurIndex]->List[aa]->ShotComposition.List[bb]->ComputeOptimisationFlags(aa>0?Diaporama->List[CurIndex]->List[aa-1]->ShotComposition.List[bb]:NULL);
 
-            //*************************************************************
-            // Adjust project and display
-            //*************************************************************
-
             // Inc NextIndexKey
             DiaporamaObject->NextIndexKey++;
-            AddObjectToTimeLine(CurIndex++,false);
+
+            // Generate slide thumbs
+            int ThumbWidth      =Diaporama->GetWidthForHeight(ApplicationConfig->TimelineHeight/2-4)+36+5;
+            int NewThumbWidth   =ThumbWidth-36-6;
+            int NewThumbHeight  =Diaporama->GetHeightForWidth(NewThumbWidth);
+            int BarWidth        =(ThumbWidth-NewThumbWidth)/2;
+            int VideoThumbWidth =NewThumbWidth-BarWidth*2;
+            int VideoThumbHeight=Diaporama->GetHeightForWidth(VideoThumbWidth);
+
+            if ((DiaporamaObject->BackgroundBrush)&&(DiaporamaObject->BackgroundBrush->Video)) Diaporama->List[CurIndex]->DrawThumbnail(VideoThumbWidth,VideoThumbHeight,NULL,0,0,0);
+                else Diaporama->List[CurIndex]->DrawThumbnail(NewThumbWidth,NewThumbHeight,NULL,0,0,0);
+
+            // Set title flag
+            SetModifyFlag(true);
         }
 
-        // If file list contains other file then send a newer signal message to proceed the next one
-        if (FileList.count()>0) {
-            QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
-        } else {
-            ToStatusBar("");
-            if (DlgWorkingTaskDialog) {
-                DlgWorkingTaskDialog->close();
-                delete DlgWorkingTaskDialog;
-                DlgWorkingTaskDialog=NULL;
-            }
-        }
+        QTimer::singleShot(LATENCY,this,SLOT(DoAddFile()));
     }
-    // Set current selection to first new object
-    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->ActualPosition=-1;
-    ui->timeline->SetCurrentCell(SavedCurIndex+1);
-
-    // Set title flag
-    SetModifyFlag(true);
     QApplication::restoreOverrideCursor();
 }
-
-//====================================================================================================================
-// Add an (sub) project
-//====================================================================================================================
-
-void MainWindow::s_Action_AddProject() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_AddProject()));
-        return;
-    }
-    ui->ActionAddProject_BT->setDown(false);
-    ui->ActionAddProject_BT_2->setDown(false);
-
-    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_FFDFILE,OBJECTTYPE_FFDFILE,
-                        true,true,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastProjectPath:"",
-                        QApplication::translate("MainWindow","Add a sub project"),ApplicationConfig,this);
-    Dlg.InitDialog();
-    if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
-    CancelAction=false;
-    if (FileList.count()>0) {
-
-        // Load object list
-        CurrentLoadingProjectNbrObject=FileList.count();
-        CurrentLoadingProjectObject   =0;
-        CancelAction                  =false;
-
-        // Open progress window
-        if (DlgWorkingTaskDialog) {
-            DlgWorkingTaskDialog->close();
-            delete DlgWorkingTaskDialog;
-            DlgWorkingTaskDialog=NULL;
-        }
-        DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Add files to project"),&CancelAction,ApplicationConfig,this);
-        DlgWorkingTaskDialog->InitDialog();
-        DlgWorkingTaskDialog->SetMaxValue(CurrentLoadingProjectNbrObject,0);
-
-        // Calc position of new object depending on ApplicationConfig->AppendObject
-        if (ApplicationConfig->AppendObject) {
-            SavedCurIndex   =Diaporama->List.count();
-            CurIndex        =Diaporama->List.count();
-        } else {
-            SavedCurIndex=Diaporama->CurrentCol;
-            CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
-            if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
-        }
-        ToStatusBar(QApplication::translate("MainWindow","Add project file :")+QFileInfo(FileList[0]).fileName());
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
-        DlgWorkingTaskDialog->exec();
-    }
-}
-
 //====================================================================================================================
 // Define a music playlist (Drag & drop or browser contextual menu)
 //====================================================================================================================
@@ -2370,6 +2355,7 @@ void MainWindow::s_Action_DoUseAsPlayList(QStringList &MusicFileList,int Index) 
         Diaporama->List[Index]->MusicPause=false;
         Diaporama->List[Index]->MusicReduceVolume=false;
         SetModifyFlag(true);
+        Diaporama->UpdateCachedInformation();
         ui->timeline->setUpdatesEnabled(false);
         ui->timeline->setUpdatesEnabled(true);
     }
@@ -2708,17 +2694,11 @@ void MainWindow::s_Event_ClipboardChanged() {
 }
 
 //====================================================================================================================
-
-void MainWindow::AddObjectToTimeLine(int CurIndex,bool AdjustRuller) {
-    ui->timeline->AddObjectToTimeLine(CurIndex,AdjustRuller);
-}
-
-//====================================================================================================================
 // Adjust preview ruller depending on current Disporama Currentcol
 //====================================================================================================================
 
-void MainWindow::AdjustRuller() {
-    Diaporama->UpdateCachedStartPosition();
+void MainWindow::AdjustRuller(int CurIndex) {
+    Diaporama->UpdateCachedInformation();
     ui->preview->SetActualDuration(Diaporama->GetDuration());
     ui->preview2->SetActualDuration(Diaporama->GetDuration());
     if (Diaporama->List.count()>0)  {
@@ -2726,25 +2706,26 @@ void MainWindow::AdjustRuller() {
         Diaporama->ProjectInfo->NbrSlide=Diaporama->List.count();
         ui->preview->SetStartEndPos(
                 Diaporama->GetObjectStartPosition(Diaporama->CurrentCol),                                                           // Current slide
-                Diaporama->List[Diaporama->CurrentCol]->GetDuration(),
+                Diaporama->List[Diaporama->CurrentCol]->CachedDuration,
                 (Diaporama->CurrentCol>0)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol-1):((Diaporama->CurrentCol==0)?0:-1),                            // Previous slide
-                (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1]->GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
+                (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1]->CachedDuration:((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
                 Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol+1):-1,    // Next slide
-                Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1]->GetDuration():0);
+                Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1]->CachedDuration:0);
         ui->preview2->SetStartEndPos(
                 Diaporama->GetObjectStartPosition(Diaporama->CurrentCol),                                                           // Current slide
-                Diaporama->List[Diaporama->CurrentCol]->GetDuration(),
+                Diaporama->List[Diaporama->CurrentCol]->CachedDuration,
                 (Diaporama->CurrentCol>0)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol-1):((Diaporama->CurrentCol==0)?0:-1),                            // Previous slide
-                (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1]->GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
+                (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1]->CachedDuration:((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
                 Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol+1):-1,    // Next slide
-                Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1]->GetDuration():0);
+                Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1]->CachedDuration:0);
     } else {
         ui->preview->SetStartEndPos(0,0,-1,0,-1,0);
         ui->preview2->SetStartEndPos(0,0,-1,0,-1,0);
     }
-    ui->timeline->repaint();
-    wgt_QVideoPlayer *Player=(ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2);
-    if (Player->ActualPosition!=Diaporama->CurrentPosition) Player->SeekPlayer(Diaporama->CurrentPosition);
+    if (CurIndex!=-1) {
+        ui->timeline->AddObjectToTimeLine(CurIndex);
+        (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+    } else ui->timeline->repaint();
     RefreshControls();
     UpdateChapterInfo();
 }
@@ -3155,27 +3136,34 @@ void MainWindow::s_Browser_RenameFolder() {
 }
 
 //====================================================================================================================
-#define ACTIONTYPE_ACTIONTYPE       0x0f00
-#define ACTIONTYPE_DISPLAYMODE      0x0100
-#define ACTIONTYPE_FILTERMODE       0x0200
-#define ACTIONTYPE_ONOFFOPTIONS     0x0400
-#define ONOFFOPTIONS_SHOWHIDDEN     1
-#define ONOFFOPTIONS_HIDEHIDDEN     2
-#define ONOFFOPTIONS_HIDEFILENAME   3
-#define ONOFFOPTIONS_SHOWFILENAME   4
+#define ACTIONTYPE_ACTIONTYPE           0x0f00
+#define ACTIONTYPE_DISPLAYMODE          0x0100
+#define ACTIONTYPE_FILTERMODE           0x0200
+#define ACTIONTYPE_ONOFFOPTIONS         0x0400
+#define ACTIONTYPE_SORTORDER            0x0800
+#define ONOFFOPTIONS_SHOWHIDDEN         1
+#define ONOFFOPTIONS_HIDEHIDDEN         2
+#define ONOFFOPTIONS_HIDEFILENAME       3
+#define ONOFFOPTIONS_SHOWFILENAME       4
+#define ONOFFOPTIONS_SHOWFOLDERFIRST    5
 
 void MainWindow::s_Browser_ChangeDisplayMode() {
     // Create menu
     QMenu *ContextMenu=new QMenu(this);
-    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_DATA.png"),                                 QApplication::translate("MainWindow","Details view"),              ACTIONTYPE_DISPLAYMODE|DISPLAY_DATA,       true,ApplicationConfig->CurrentMode==DISPLAY_DATA));
-    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_JUKEBOX.png"),                              QApplication::translate("MainWindow","Icon view"),                 ACTIONTYPE_DISPLAYMODE|DISPLAY_ICON100,    true,ApplicationConfig->CurrentMode==DISPLAY_ICON100));
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_DATA.png"),                                    QApplication::translate("MainWindow","Details view"),              ACTIONTYPE_DISPLAYMODE|DISPLAY_DATA,                    true,ApplicationConfig->CurrentMode==DISPLAY_DATA));
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_JUKEBOX.png"),                                 QApplication::translate("MainWindow","Icon view"),                 ACTIONTYPE_DISPLAYMODE|DISPLAY_ICON100,                 true,ApplicationConfig->CurrentMode==DISPLAY_ICON100));
     ContextMenu->addSeparator();
-    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16), QApplication::translate("MainWindow","All files"),                 ACTIONTYPE_FILTERMODE|OBJECTTYPE_UNMANAGED,true,ApplicationConfig->CurrentFilter==OBJECTTYPE_UNMANAGED));
-    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16), QApplication::translate("MainWindow","Managed files"),             ACTIONTYPE_FILTERMODE|OBJECTTYPE_MANAGED,  true,ApplicationConfig->CurrentFilter==OBJECTTYPE_MANAGED));
-    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultIMAGEIcon.GetIcon(cCustomIcon::ICON16),QApplication::translate("MainWindow","Image files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_IMAGEFILE,true,ApplicationConfig->CurrentFilter==OBJECTTYPE_IMAGEFILE));
-    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultVIDEOIcon.GetIcon(cCustomIcon::ICON16),QApplication::translate("MainWindow","Video files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_VIDEOFILE,true,ApplicationConfig->CurrentFilter==OBJECTTYPE_VIDEOFILE));
-    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultMUSICIcon.GetIcon(cCustomIcon::ICON16),QApplication::translate("MainWindow","Music files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_MUSICFILE,true,ApplicationConfig->CurrentFilter==OBJECTTYPE_MUSICFILE));
-    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFFDIcon.GetIcon(cCustomIcon::ICON16),  QApplication::translate("MainWindow","ffDiaporama project files"), ACTIONTYPE_FILTERMODE|OBJECTTYPE_FFDFILE,  true,ApplicationConfig->CurrentFilter==OBJECTTYPE_FFDFILE));
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/SortByNumber.png"),                                    QApplication::translate("MainWindow","Sort by number"),            ACTIONTYPE_SORTORDER|SORTORDER_BYNUMBER,                true,ApplicationConfig->SortFile==SORTORDER_BYNUMBER));
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/SortByName.png"),                                      QApplication::translate("MainWindow","Sort by name"),              ACTIONTYPE_SORTORDER|SORTORDER_BYNAME,                  true,ApplicationConfig->SortFile==SORTORDER_BYNAME));
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/SortByDate.png"),                                      QApplication::translate("MainWindow","Sort by date"),              ACTIONTYPE_SORTORDER|SORTORDER_BYDATE,                  true,ApplicationConfig->SortFile==SORTORDER_BYDATE));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFOLDERIcon.GetIcon(cCustomIcon::ICON16),  QApplication::translate("MainWindow","Show folder first"),         ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_SHOWFOLDERFIRST,   true,ApplicationConfig->ShowFoldersFirst));
+    ContextMenu->addSeparator();
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16),    QApplication::translate("MainWindow","All files"),                 ACTIONTYPE_FILTERMODE|OBJECTTYPE_UNMANAGED,             true,ApplicationConfig->CurrentFilter==OBJECTTYPE_UNMANAGED));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16),    QApplication::translate("MainWindow","Managed files"),             ACTIONTYPE_FILTERMODE|OBJECTTYPE_MANAGED,               true,ApplicationConfig->CurrentFilter==OBJECTTYPE_MANAGED));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultIMAGEIcon.GetIcon(cCustomIcon::ICON16),   QApplication::translate("MainWindow","Image files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_IMAGEFILE,             true,ApplicationConfig->CurrentFilter==OBJECTTYPE_IMAGEFILE));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultVIDEOIcon.GetIcon(cCustomIcon::ICON16),   QApplication::translate("MainWindow","Video files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_VIDEOFILE,             true,ApplicationConfig->CurrentFilter==OBJECTTYPE_VIDEOFILE));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultMUSICIcon.GetIcon(cCustomIcon::ICON16),   QApplication::translate("MainWindow","Music files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_MUSICFILE,             true,ApplicationConfig->CurrentFilter==OBJECTTYPE_MUSICFILE));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFFDIcon.GetIcon(cCustomIcon::ICON16),     QApplication::translate("MainWindow","ffDiaporama project files"), ACTIONTYPE_FILTERMODE|OBJECTTYPE_FFDFILE,               true,ApplicationConfig->CurrentFilter==OBJECTTYPE_FFDFILE));
     ContextMenu->addSeparator();
     if (ApplicationConfig->ShowHiddenFilesAndDir) ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_KO.png"),  QApplication::translate("MainWindow","Hide hidden files and folders"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_HIDEHIDDEN,  true,false));
         else                                      ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_OK.png"),  QApplication::translate("MainWindow","Show hidden files and folders"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_SHOWHIDDEN,  true,false));
@@ -3210,7 +3198,15 @@ void MainWindow::s_Browser_ChangeDisplayMode() {
                 ApplicationConfig->DisplayFileName=(SubAction==ONOFFOPTIONS_SHOWFILENAME);
                 ui->FolderTable->DisplayFileName=ApplicationConfig->DisplayFileName;
                 s_Browser_RefreshAll();
+            } else if (SubAction==ONOFFOPTIONS_SHOWFOLDERFIRST) {
+                ApplicationConfig->ShowFoldersFirst=!ApplicationConfig->ShowFoldersFirst;
+                ApplicationConfig->SettingsTable->SetIntValue("ShowFoldersFirst",ApplicationConfig->ShowFoldersFirst?1:0);
+                s_Browser_RefreshHere();
             }
+        } else if (ActionType==ACTIONTYPE_SORTORDER) {
+            ApplicationConfig->SortFile=SubAction;
+            ApplicationConfig->SettingsTable->SetIntValue("SortOrderFile",ApplicationConfig->SortFile);
+            s_Browser_RefreshHere();
         }
     }
 
@@ -3353,8 +3349,6 @@ void MainWindow::s_Browser_AddFiles() {
         FileList.clear();
         for (int i=0;i<MediaList.count();i++) FileList.append(MediaList[i]->FileName());
 
-        SortFileList();
-
         // Load object list
         CurrentLoadingProjectNbrObject=FileList.count();
         CurrentLoadingProjectObject   =0;
@@ -3370,7 +3364,7 @@ void MainWindow::s_Browser_AddFiles() {
         DlgWorkingTaskDialog->InitDialog();
         DlgWorkingTaskDialog->SetMaxValue(CurrentLoadingProjectNbrObject,0);
         ToStatusBar(QApplication::translate("MainWindow","Add file to project :")+QFileInfo(FileList[0]).fileName());
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
+        QTimer::singleShot(LATENCY,this,SLOT(DoAddFile()));
         DlgWorkingTaskDialog->exec();
         while (!MediaList.isEmpty()) delete MediaList.takeLast();
     }
@@ -3649,27 +3643,32 @@ QAction *MainWindow::CreateMenuAction(QIcon Icon,QString Text,int Data,bool Chec
 
 //====================================================================================================================
 
+bool ByNumber(const QString &Item1,const QString &Item2) {
+    bool ok1,ok2;
+    QString NameA=QFileInfo(Item1).completeBaseName();
+    int NumA=NameA.length()-1;
+    while ((NumA>0)&&(((NameA[NumA]>='0')&&(NameA[NumA]<='9'))||((NameA[NumA]>='A')&&(NameA[NumA]<='F'))||((NameA[NumA]>='a')&&(NameA[NumA]<='f')))) NumA--;
+    if (NumA>=0) NumA=NameA.mid(NumA+1).toInt(&ok1,16);
+
+    QString NameB=QFileInfo(Item2).completeBaseName();
+    int NumB=NameB.length()-1;
+    while ((NumB>0)&&(((NameB[NumB]>='0')&&(NameB[NumB]<='9'))||((NameB[NumB]>='A')&&(NameB[NumB]<='F'))||((NameB[NumB]>='a')&&(NameB[NumB]<='f')))) NumB--;
+    if (NumB>=0) NumB=NameB.mid(NumB+1).toInt(&ok2,16);
+
+    if (ok1 && ok2) return NumA>NumB; else return QFileInfo(Item1).completeBaseName()>QFileInfo(Item2).completeBaseName();
+}
+
+bool ByName(const QString &Item1,const QString &Item2) {
+    return QFileInfo(Item1).completeBaseName()>QFileInfo(Item2).completeBaseName();
+}
+
+bool ByDate(const QString &Item1,const QString &Item2) {
+    return QFileInfo(Item1).lastModified()>QFileInfo(Item2).lastModified();
+}
+
 void MainWindow::SortFileList() {
     // Sort files in the fileList
-    if (Diaporama->ApplicationConfig->SortFile) {
-        // Sort by last number
-        for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
-            QString NameA=QFileInfo(FileList[j]).completeBaseName();
-            int NumA=NameA.length()-1;
-            while ((NumA>0)&&(NameA[NumA]>='0')&&(NameA[NumA]<='9')) NumA--;
-            if (NumA>=0) NumA=NameA.mid(NumA+1).toInt();
-
-            QString NameB=QFileInfo(FileList[j+1]).completeBaseName();
-            int NumB=NameB.length()-1;
-            while ((NumB>0)&&(NameB[NumB]>='0')&&(NameB[NumB]<='9')) NumB--;
-            if (NumB>=0) NumB=NameB.mid(NumB+1).toInt();
-
-            if (NumA>NumB) FileList.swap(j,j+1);
-        }
-    } else {
-        // Sort by alphabetical order
-        for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
-            if (QFileInfo(FileList[j]).completeBaseName()>QFileInfo(FileList[j+1]).completeBaseName()) FileList.swap(j,j+1);
-        }
-    }
+    if          (Diaporama->ApplicationConfig->SortFile==SORTORDER_BYNUMBER)    qSort(FileList.begin(),FileList.end(),ByNumber);
+        else if (Diaporama->ApplicationConfig->SortFile==SORTORDER_BYNAME)      qSort(FileList.begin(),FileList.end(),ByName);
+        else if (Diaporama->ApplicationConfig->SortFile==SORTORDER_BYDATE)      qSort(FileList.begin(),FileList.end(),ByDate);
 }

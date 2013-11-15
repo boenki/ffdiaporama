@@ -49,10 +49,10 @@ void DlgInfoFile::DoInitDialog() {
 
     if (MediaFile) {
         QStringList TempExtProperties;
-        BaseApplicationConfig->FilesTable->GetExtendedProperties(MediaFile->FileKey,&TempExtProperties);
+        ApplicationConfig->FilesTable->GetExtendedProperties(MediaFile->FileKey,&TempExtProperties);
         // General file information
         if (MediaFile->ObjectType==OBJECTTYPE_IMAGEFILE) {
-            cLuLoImageCacheObject *ImageObject=BaseApplicationConfig->ImagesCache.FindObject(MediaFile->FileKey,MediaFile->ModifDateTime,MediaFile->ImageOrientation,true,false);
+            cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(MediaFile->FileKey,MediaFile->ModifDateTime,MediaFile->ImageOrientation,true,false);
             if (ImageObject) {
                 QImage *Img=ImageObject->ValidateCachePreviewImage();
                 if (Img) {

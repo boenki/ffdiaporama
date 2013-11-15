@@ -83,7 +83,7 @@ public:
 
     QList<sUndoData>  UndoDataList;
 
-    cBaseApplicationConfig  *BaseApplicationConfig;
+    cBaseApplicationConfig  *ApplicationConfig;
     qlonglong               TypeWindowState;
     QSplitter               *Splitter;
     QDomDocument            *Undo;                          // Save object before modification for cancel button

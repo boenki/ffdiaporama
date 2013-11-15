@@ -63,7 +63,7 @@ void DlgffDPjrProperties::DoInitDialog() {
     ui->TitleED->setText(ffdProject->ProjectInfo->Title);
     ui->DateED->setPlainText(ffdProject->ProjectInfo->LongDate);
     ui->DateEdit->setDate(ffdProject->ProjectInfo->EventDate);
-    ui->DateEdit->setDisplayFormat(BaseApplicationConfig->ShortDateFormat);
+    ui->DateEdit->setDisplayFormat(ApplicationConfig->ShortDateFormat);
     ui->OverrideDateCB->setChecked(ffdProject->ProjectInfo->OverrideDate);
     ui->DateED->setEnabled(ui->OverrideDateCB->isChecked());
     ui->AuthorED->setText(ffdProject->ProjectInfo->Author);
@@ -73,7 +73,7 @@ void DlgffDPjrProperties::DoInitDialog() {
     ui->TransitionSpeedWaveCB->SetCurrentValue(ffdProject->TransitionSpeedWave);
     ui->BlockSpeedWaveCB->SetCurrentValue(ffdProject->BlockAnimSpeedWave);
     ui->ImageSpeedWaveCB->SetCurrentValue(ffdProject->ImageAnimSpeedWave);
-    if (BaseApplicationConfig->ID3V2Comptatibility) {
+    if (ApplicationConfig->ID3V2Comptatibility) {
         ui->TitleED->setMaxLength(30);
         ui->AuthorED->setMaxLength(30);
         ui->AlbumED->setMaxLength(30);
@@ -94,9 +94,9 @@ void DlgffDPjrProperties::DoInitDialog() {
     }
     DoResizeColumnsTableWidget(ui->ChapterTable);
 
-    if (ffdProject->ThumbnailName=="*") BaseApplicationConfig->ThumbnailModels->AppendCustomModel();
+    if (ffdProject->ThumbnailName=="*") ApplicationConfig->ThumbnailModels->AppendCustomModel();
     ui->ThumbCB->ProjectThumbnail=ffdProject->ProjectThumbnail;
-    ui->ThumbCB->PrepareTable(true,BaseApplicationConfig->ThumbnailModels);
+    ui->ThumbCB->PrepareTable(true,ApplicationConfig->ThumbnailModels);
     ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
 
     // Define handler
@@ -203,10 +203,10 @@ void DlgffDPjrProperties::ExportThumb() {
     QString Filter="JPG (*.jpg)";
     OutputFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Select destination file"),OutputFileName,"JPG (*.jpg)",&Filter);
     if (OutputFileName!="") {
-        int Index=BaseApplicationConfig->ThumbnailModels->SearchModel(ffdProject->ThumbnailName);
+        int Index=ApplicationConfig->ThumbnailModels->SearchModel(ffdProject->ThumbnailName);
         if (Index>=0) {
             QSize  ForcedThumbnailSize(THUMBWITH,THUMBHEIGHT);
-            QImage Image=BaseApplicationConfig->ThumbnailModels->List[Index].PrepareImage(0,ffdProject,ffdProject->ProjectThumbnail,&ForcedThumbnailSize);
+            QImage Image=ApplicationConfig->ThumbnailModels->List[Index].PrepareImage(0,ffdProject,ffdProject->ProjectThumbnail,&ForcedThumbnailSize);
             if (Image.save(OutputFileName,0,100))
                 CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgffDPjrProperties","Export thumbnail"),
                                  QApplication::translate("DlgffDPjrProperties","Thumbnail successfully exported","Information message"),QMessageBox::Close);
@@ -219,35 +219,35 @@ void DlgffDPjrProperties::ExportThumb() {
 
 void DlgffDPjrProperties::AdminEditThumb() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::AdminEditThumb");
-    int ThumbnailIndex=BaseApplicationConfig->ThumbnailModels->SearchModel(ffdProject->ThumbnailName);
-    if ((ThumbnailIndex<0)||(ThumbnailIndex>=BaseApplicationConfig->ThumbnailModels->List.count())) return;
-    if (!BaseApplicationConfig->ThumbnailModels->List[ThumbnailIndex].IsCustom) {
+    int ThumbnailIndex=ApplicationConfig->ThumbnailModels->SearchModel(ffdProject->ThumbnailName);
+    if ((ThumbnailIndex<0)||(ThumbnailIndex>=ApplicationConfig->ThumbnailModels->List.count())) return;
+    if (!ApplicationConfig->ThumbnailModels->List[ThumbnailIndex].IsCustom) {
         QString OldName=ffdProject->ThumbnailName;
         QString NewName=ffdProject->ProjectThumbnail->SaveAsNewCustomModelFile(ffd_MODELTYPE_THUMBNAIL);
-        ui->ThumbCB->PrepareTable(true,BaseApplicationConfig->ThumbnailModels);
+        ui->ThumbCB->PrepareTable(true,ApplicationConfig->ThumbnailModels);
         ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
-        DlgImageComposer Dlg(ffdProject,BaseApplicationConfig,this);
+        DlgImageComposer Dlg(ffdProject,ApplicationConfig,this);
         Dlg.InitDialog();
         if (Dlg.exec()==0) {
             ffdProject->ProjectThumbnail->SaveModelFile(ffd_MODELTYPE_THUMBNAIL,NewName,true);
-            BaseApplicationConfig->ThumbnailModels->FillModelType(ffd_MODELTYPE_THUMBNAIL);
-            ui->ThumbCB->PrepareTable(true,BaseApplicationConfig->ThumbnailModels);
+            ApplicationConfig->ThumbnailModels->FillModelType(ffd_MODELTYPE_THUMBNAIL);
+            ui->ThumbCB->PrepareTable(true,ApplicationConfig->ThumbnailModels);
             ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
         } else {
             QFile(NewName).remove();
-            (*BaseApplicationConfig->ThumbnailModels->NextNumber)--;
+            (*ApplicationConfig->ThumbnailModels->NextNumber)--;
             ffdProject->ThumbnailName=OldName;
-            BaseApplicationConfig->ThumbnailModels->FillModelType(ffd_MODELTYPE_THUMBNAIL);
-            ui->ThumbCB->PrepareTable(true,BaseApplicationConfig->ThumbnailModels);
+            ApplicationConfig->ThumbnailModels->FillModelType(ffd_MODELTYPE_THUMBNAIL);
+            ui->ThumbCB->PrepareTable(true,ApplicationConfig->ThumbnailModels);
             ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
         }
     } else {
-        DlgImageComposer Dlg(ffdProject,BaseApplicationConfig,this);
+        DlgImageComposer Dlg(ffdProject,ApplicationConfig,this);
         Dlg.InitDialog();
         if (Dlg.exec()==0) {
-            ffdProject->ProjectThumbnail->SaveModelFile(ffd_MODELTYPE_THUMBNAIL,BaseApplicationConfig->ThumbnailModels->List[BaseApplicationConfig->ThumbnailModels->SearchModel(ffdProject->ThumbnailName)].FileName,true);
-            BaseApplicationConfig->ThumbnailModels->FillModelType(ffd_MODELTYPE_THUMBNAIL);
-            ui->ThumbCB->PrepareTable(true,BaseApplicationConfig->ThumbnailModels);
+            ffdProject->ProjectThumbnail->SaveModelFile(ffd_MODELTYPE_THUMBNAIL,ApplicationConfig->ThumbnailModels->List[ApplicationConfig->ThumbnailModels->SearchModel(ffdProject->ThumbnailName)].FileName,true);
+            ApplicationConfig->ThumbnailModels->FillModelType(ffd_MODELTYPE_THUMBNAIL);
+            ui->ThumbCB->PrepareTable(true,ApplicationConfig->ThumbnailModels);
             ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
         }
     }
@@ -261,15 +261,15 @@ void DlgffDPjrProperties::EditThumb() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::EditThumb");
     if (ffdProject->ThumbnailName!="*") {
         ffdProject->ThumbnailName="*";
-        BaseApplicationConfig->ThumbnailModels->AppendCustomModel();
-        ui->ThumbCB->PrepareTable(true,BaseApplicationConfig->ThumbnailModels);
+        ApplicationConfig->ThumbnailModels->AppendCustomModel();
+        ui->ThumbCB->PrepareTable(true,ApplicationConfig->ThumbnailModels);
         ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
     }
-    DlgImageComposer Dlg(ffdProject,BaseApplicationConfig,this);
+    DlgImageComposer Dlg(ffdProject,ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
-        BaseApplicationConfig->ThumbnailModels->AppendCustomModel();
-        ui->ThumbCB->PrepareTable(true,BaseApplicationConfig->ThumbnailModels);
+        ApplicationConfig->ThumbnailModels->AppendCustomModel();
+        ui->ThumbCB->PrepareTable(true,ApplicationConfig->ThumbnailModels);
         ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
     }
     ThumbChanged();
@@ -291,20 +291,20 @@ void DlgffDPjrProperties::TabChanged(int NewTab) {
 void DlgffDPjrProperties::ThumbChanged() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::ThumbChanged");
     ffdProject->ThumbnailName=ui->ThumbCB->GetCurrentModel();
-    int ThumbnailIndex=BaseApplicationConfig->ThumbnailModels->SearchModel(ffdProject->ThumbnailName);
-    if ((ThumbnailIndex<0)||(ThumbnailIndex>=BaseApplicationConfig->ThumbnailModels->List.count())) return;
+    int ThumbnailIndex=ApplicationConfig->ThumbnailModels->SearchModel(ffdProject->ThumbnailName);
+    if ((ThumbnailIndex<0)||(ThumbnailIndex>=ApplicationConfig->ThumbnailModels->List.count())) return;
 
     if (ffdProject->ThumbnailName!="*") {
-        BaseApplicationConfig->ThumbnailModels->RemoveCustomModel();
-        if ((ThumbnailIndex>=0)&&(ThumbnailIndex<BaseApplicationConfig->ThumbnailModels->List.count()))
-            ffdProject->ProjectThumbnail->LoadModelFromXMLData(ffd_MODELTYPE_THUMBNAIL,BaseApplicationConfig->ThumbnailModels->List[ThumbnailIndex].Model);
-        ui->ThumbCB->PrepareTable(true,BaseApplicationConfig->ThumbnailModels);
+        ApplicationConfig->ThumbnailModels->RemoveCustomModel();
+        if ((ThumbnailIndex>=0)&&(ThumbnailIndex<ApplicationConfig->ThumbnailModels->List.count()))
+            ffdProject->ProjectThumbnail->LoadModelFromXMLData(ffd_MODELTYPE_THUMBNAIL,ApplicationConfig->ThumbnailModels->List[ThumbnailIndex].Model);
+        ui->ThumbCB->PrepareTable(true,ApplicationConfig->ThumbnailModels);
         ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
     }
-    if ((ThumbnailIndex<0)||(ThumbnailIndex>=BaseApplicationConfig->ThumbnailModels->List.count())) return;
-    if (BaseApplicationConfig->ThumbnailModels->List[ThumbnailIndex].IsCustom) {
+    if ((ThumbnailIndex<0)||(ThumbnailIndex>=ApplicationConfig->ThumbnailModels->List.count())) return;
+    if (ApplicationConfig->ThumbnailModels->List[ThumbnailIndex].IsCustom) {
         ui->AdminEditThumbBT->setText(QApplication::translate("DlgffDPjrProperties","Edit\ncustom model"));
-        ui->AdminEditThumbBT->setEnabled(BaseApplicationConfig->ThumbnailModels->List[ThumbnailIndex].Name!="*");
+        ui->AdminEditThumbBT->setEnabled(ApplicationConfig->ThumbnailModels->List[ThumbnailIndex].Name!="*");
     } else {
         ui->AdminEditThumbBT->setText(QApplication::translate("DlgffDPjrProperties","Create\ncustom model"));
         ui->AdminEditThumbBT->setEnabled(true);

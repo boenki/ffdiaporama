@@ -582,7 +582,7 @@ void cBaseApplicationConfig::InitValues() {
     PartitionMode               = false;                    // If true, partition mode is on (timeline with multiple row)
     MemCacheMaxValue            = int64_t(512*1024*1024);
     AskUserToRemove             = true;                     // If true, user must answer to a confirmation dialog box to remove slide
-    SortFile                    = true;                     // if true sort file by (last) number when multiple file insertion
+    SortFile                    = SORTORDER_BYNAME;
     AppendObject                = false;                    // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
     WikiFollowInterface         = true;
     DisplayUnit                 = 1;                        // Display coordinates unit
@@ -692,7 +692,7 @@ void cBaseApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("DisplayUnit",                 DisplayUnit);
     Element.setAttribute("PartitionMode",               PartitionMode?"1":"0");
     Element.setAttribute("WindowDisplayMode",           WindowDisplayMode);
-    Element.setAttribute("SortFile",                    SortFile?"1":"0");
+    Element.setAttribute("SortFileOrder",               SortFile);
     Element.setAttribute("NewTimelineHeight",           TimelineHeight);
     Element.setAttribute("DefaultFraming",              DefaultFraming);
     Element.setAttribute("PreviewFPS",                  (QString("%1").arg(PreviewFPS,0,'f')));
@@ -828,7 +828,7 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
         if (Element.hasAttribute("PartitionMode"))              PartitionMode               =Element.attribute("PartitionMode")=="1";
         if (Element.hasAttribute("WindowDisplayMode"))          WindowDisplayMode           =Element.attribute("WindowDisplayMode").toInt();
         if (Element.hasAttribute("DisplayUnit"))                DisplayUnit                 =Element.attribute("DisplayUnit").toInt();
-        if (Element.hasAttribute("SortFile"))                   SortFile                    =Element.attribute("SortFile")=="1";
+        if (Element.hasAttribute("SortFileOrder"))              SortFile                    =Element.attribute("SortFile").toInt();
         if (Element.hasAttribute("NewTimelineHeight"))          TimelineHeight              =Element.attribute("NewTimelineHeight").toInt();
         if (TimelineHeight<TIMELINEMINHEIGH) TimelineHeight=TIMELINEMINHEIGH;
         if (TimelineHeight>TIMELINEMAXHEIGH) TimelineHeight=TIMELINEMAXHEIGH;

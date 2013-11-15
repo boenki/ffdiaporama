@@ -374,5 +374,8 @@
         <file>img/ccbysa.png</file>
         <file>img/Opensource.png</file>
         <file>img/forum.png</file>
+        <file>img/SortByDate.png</file>
+        <file>img/SortByName.png</file>
+        <file>img/SortByNumber.png</file>
     </qresource>
 </RCC>

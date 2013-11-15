@@ -33,7 +33,7 @@ DlgExportProject::DlgExportProject(cDiaporama *ffdProject,cBaseApplicationConfig
     HelpFile="0107";
 
     this->ffdProject=ffdProject;
-    DestinationPath =BaseApplicationConfig->LastExportPath;
+    DestinationPath =ApplicationConfig->LastExportPath;
     JobStarted      =false;
     JobCancel       =false;
 
@@ -87,7 +87,7 @@ bool DlgExportProject::DoAccept() {
         ui->ProjectSubfolderED->setFocus();
         return false;
     }
-    BaseApplicationConfig->LastExportPath=DestinationPath;
+    ApplicationConfig->LastExportPath=DestinationPath;
     JobStarted=true;
     ui->OkBt->setEnabled(false);
     ThreadCopy.setFuture(QtConcurrent::run(this,&DlgExportProject::DoProcessCopy));

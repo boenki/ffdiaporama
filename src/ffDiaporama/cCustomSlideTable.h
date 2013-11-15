@@ -54,7 +54,7 @@ public:
 
     explicit    cCustomSlideTable(QWidget *parent = 0);
 
-    void        AddObjectToTimeLine(int CurIndex,bool AdjustRuller);
+    void        AddObjectToTimeLine(int CurIndex);
     void        SetTimelineHeight(bool NewPartitionMode);
     int         CurrentSelected();
     void        CurrentSelectionList(QList<int> *List);

@@ -31,14 +31,14 @@ HelpPopup::HelpPopup(cBaseApplicationConfig *ApplicationConfig,QWidget *):QCusto
 
     HelpEngine              =NULL;
     Path                    ="ffdiaporama_";
-    QString CollectionFile  =BaseApplicationConfig->StartingPath;
+    QString CollectionFile  =ApplicationConfig->StartingPath;
     QString NameSpace       ="ffdiaporama_";
 
     if (!CollectionFile.endsWith(QDir::separator())) CollectionFile=CollectionFile+QDir::separator();
-    if (QFileInfo(CollectionFile+"locale"+QDir::separator()+QString("wiki_%1.qhc").arg(BaseApplicationConfig->CurrentLanguage)).exists()) {
-        CollectionFile=CollectionFile+"locale"+QDir::separator()+QString("wiki_%1.qhc").arg(BaseApplicationConfig->CurrentLanguage);
-        Path=Path+BaseApplicationConfig->CurrentLanguage;
-        NameSpace=NameSpace+BaseApplicationConfig->CurrentLanguage;
+    if (QFileInfo(CollectionFile+"locale"+QDir::separator()+QString("wiki_%1.qhc").arg(ApplicationConfig->CurrentLanguage)).exists()) {
+        CollectionFile=CollectionFile+"locale"+QDir::separator()+QString("wiki_%1.qhc").arg(ApplicationConfig->CurrentLanguage);
+        Path=Path+ApplicationConfig->CurrentLanguage;
+        NameSpace=NameSpace+ApplicationConfig->CurrentLanguage;
     } else {
         CollectionFile=CollectionFile+"locale"+QDir::separator()+"wiki_en.qhc";
         Path=Path+"en";
@@ -151,7 +151,7 @@ void HelpPopup::Home() {
 
 void HelpPopup::WebSite() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:HelpPopup::WebSite");
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/?lang=%1").arg(BaseApplicationConfig->CurrentLanguage)));
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/?lang=%1").arg(ApplicationConfig->CurrentLanguage)));
 }
 
 //====================================================================================================================

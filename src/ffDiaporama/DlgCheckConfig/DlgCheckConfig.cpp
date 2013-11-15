@@ -56,16 +56,16 @@ void DlgCheckConfig::DoInitDialog() {
 
     // ffDiaporama
     ui->ListWidget->addItem(new QListWidgetItem(QString("%1 %2 (%3) ...").arg(APPLICATION_NAME).arg(CurrentAppName).arg(CurrentAppVersion)));
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Operating system version: %1 - %2 Core/CPU").arg(BaseApplicationConfig->Plateforme).arg(getCpuCount())));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Operating system version: %1 - %2 Core/CPU").arg(ApplicationConfig->Plateforme).arg(getCpuCount())));
 
     #if (!defined(Q_OS_WIN64))&&(defined(Q_OS_WIN32) || defined(Q_OS_LINUX32) || defined(Q_OS_SOLARIS32))
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Application architecture: 32 bits")));
     #else
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Application architecture: 64 bits")));
     #endif
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","User config file: %1").arg(QDir::toNativeSeparators(BaseApplicationConfig->UserConfigFile))));
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Global config file: %1").arg(QDir::toNativeSeparators(BaseApplicationConfig->GlobalConfigFile))));
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Starting path: %1").arg(QDir::toNativeSeparators(BaseApplicationConfig->StartingPath))));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","User config file: %1").arg(QDir::toNativeSeparators(ApplicationConfig->UserConfigFile))));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Global config file: %1").arg(QDir::toNativeSeparators(ApplicationConfig->GlobalConfigFile))));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Starting path: %1").arg(QDir::toNativeSeparators(ApplicationConfig->StartingPath))));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Working path set to: %1").arg(QDir::toNativeSeparators(QDir::currentPath()))));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Search path set to: %1").arg(getenv("PATH"))));
     // Ressources libraries
@@ -81,8 +81,8 @@ void DlgCheckConfig::DoInitDialog() {
     // QT
     ui->ListWidget->addItem(new QListWidgetItem(""));
     ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","QT version: %1").arg(qVersion())));
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Detected system locale: %1").arg(BaseApplicationConfig->CurrentLanguage)));
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Translation file loaded: %1").arg(QDir::toNativeSeparators(QDir().absoluteFilePath(QString("locale")+QDir::separator()+QString("locale_")+BaseApplicationConfig->CurrentLanguage+".qm")))));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Detected system locale: %1").arg(ApplicationConfig->CurrentLanguage)));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Translation file loaded: %1").arg(QDir::toNativeSeparators(QDir().absoluteFilePath(QString("locale")+QDir::separator()+QString("locale_")+ApplicationConfig->CurrentLanguage+".qm")))));
     ui->ListWidget->addItem(new QListWidgetItem(""));
 
     // exiv2
@@ -161,13 +161,13 @@ void DlgCheckConfig::DoInitDialog() {
     ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","Container Formats")));
     for (int i=0;i<VFORMAT_NBR;i++) ui->ListWidget->addItem(new QListWidgetItem(FORMATDEF[i].IsFind?QIcon(ICON_GREEN):FORMATDEF[i].IsRead?QIcon(ICON_YELLOW):QIcon(ICON_RED),QString(FORMATDEF[i].LongName)+" "+(FORMATDEF[i].IsFind||FORMATDEF[i].IsRead?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
 
-    ui->CheckConfigAtStartupCB->setChecked(BaseApplicationConfig->CheckConfigAtStartup);
+    ui->CheckConfigAtStartupCB->setChecked(ApplicationConfig->CheckConfigAtStartup);
 }
 
 //====================================================================================================================
 // Call when user click on Ok button
 
 bool DlgCheckConfig::DoAccept() {
-    BaseApplicationConfig->CheckConfigAtStartup=ui->CheckConfigAtStartupCB->isChecked();
+    ApplicationConfig->CheckConfigAtStartup=ui->CheckConfigAtStartupCB->isChecked();
     return true;
 }

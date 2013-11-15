@@ -4,6 +4,27 @@
 * (Version Française)
 **************************************************
 
+[Commit: 15/11/2013]
+    Correction de bug :
+        -Corrige la sélection de multiple fichiers dans le browser (ne sélectionne plus par colonne)
+        -Corrige un bug de détermination des images static lors de l'encodage qui ne prenait pas en compte les transitions [regression 1.7]
+        -Ajoute la dépendance manquante à sqlite dans les paquets pour Ubuntu
+
+    Nouveautés :
+        -Améliore la vitesse et la stabilité de l'interface
+        -Ajoute la sélection de l'ordre de trie dans le menu de configuration du browser avec 3 choix :
+            -Par n° (si le nom de fichier contient un n° avant l'extension et prend en charge les n° hexadécimaux (car certains appareil photo utilise ce mode)
+            -Par nom de fichier
+            -Par date de dernière modification
+        -Supprime l'option de sélection de l'ordre de trie lors des insertions de plusieurs fichiers dans la boite d'option. (Désormais l'ordre de trie est celui spécifié dans le browser.)
+        -Ajoute une option pour activer ou désactiver l'affichage en premier des répertoires dans le menu de configuration du browser
+        -Déplace la sauvegarde des options de trie et d'affichage en premier des répertoires du fichier .xml de configuration vers la base de données
+        -Force le rechargement des modeles de titre lors du projet d'un projet si le projet a été créé avec un ffDiaporama entre 20131016 et 20131112
+            =>Récupère partiellement des projets touchés par le bug sur la sauvegarde des textes corrigé dans le commit du 20131112
+        -Reconnait les signatures de ffmpeg 2.1
+        -Met à jours le WIKI
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
 [Commit: 12/11/2013]
     Correction de bug :
         -Ne quitte plus l'application en cas d'erreur d'initialisation de SDL (pour SOLARIS voir: http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=641)

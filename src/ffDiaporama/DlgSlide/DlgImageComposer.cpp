@@ -167,7 +167,7 @@ void DlgImageComposer::DoInitDialog() {
     ui->RotateZED->setRange(-180,180);      ui->RotateZSLD->setRange(-180,180);
 
     // Init Spinbox
-    if (BaseApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
+    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
         ui->PosXEd->setDecimals(2);             ui->PosXEd->setSingleStep(1);       ui->PosXEd->setSuffix("%");
         ui->PosYEd->setDecimals(2);             ui->PosYEd->setSingleStep(1);       ui->PosYEd->setSuffix("%");
         ui->WidthEd->setDecimals(2);            ui->WidthEd->setSingleStep(1);      ui->WidthEd->setSuffix("%");
@@ -312,7 +312,7 @@ void DlgImageComposer::MakeFormIcon(QComboBox *UICB) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::MakeFormIcon");
 
     for (int i=0;i<UICB->count();i++) {
-        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,BaseApplicationConfig);
+        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,ApplicationConfig);
         Object.x                        =0;
         Object.y                        =0;
         Object.w                        =1;
@@ -507,7 +507,7 @@ void DlgImageComposer::RefreshBlockTable(int SetCurrentIndex) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::RefreshBlockTable");
     ui->BlockTable->setUpdatesEnabled(false);
     ui->BlockTable->setRowCount(CompositionList->List.count());
-    for (int i=0;i<ui->BlockTable->rowCount();i++) ui->BlockTable->setRowHeight(i,48+2+((((cBaseApplicationConfig *)BaseApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20+1)*3);
+    for (int i=0;i<ui->BlockTable->rowCount();i++) ui->BlockTable->setRowHeight(i,48+2+((((cBaseApplicationConfig *)ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20+1)*3);
     ui->BlockTable->setUpdatesEnabled(true);
     if (ui->BlockTable->currentRow()!=SetCurrentIndex) {
         ui->BlockTable->clearSelection();
@@ -569,7 +569,7 @@ void DlgImageComposer::RefreshStyleControls() {
     ui->BlockShapeStyleED ->setEnabled(BlockSelectMode==SELECTMODE_ONE);
 
     if (BlockSelectMode==SELECTMODE_ONE) {
-        ui->BlockShapeStyleED->setText(BaseApplicationConfig->StyleBlockShapeCollection.GetStyleName(CurrentCompoObject->GetBlockShapeStyle()));
+        ui->BlockShapeStyleED->setText(ApplicationConfig->StyleBlockShapeCollection.GetStyleName(CurrentCompoObject->GetBlockShapeStyle()));
 
         StopMajFramingStyle=true;
         ui->BackgroundFormCB->PrepareFrameShapeTable(true,0,CurrentCompoObject->BackgroundForm);
@@ -644,7 +644,7 @@ void DlgImageComposer::RefreshControls(bool UpdateInteractiveZone) {
         qreal Ratio_X,Ratio_Y;
         ComputeBlockRatio(CurrentCompoObject,Ratio_X,Ratio_Y);
 
-        if (BaseApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
+        if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
             ui->PosXEd->setRange(-200,200);                 ui->PosXEd->    setValue(CurrentCompoObject->x*100/Ratio_X);
             ui->PosYEd->setRange(-200,200);                 ui->PosYEd->    setValue(CurrentCompoObject->y*100/Ratio_Y);
             ui->WidthEd->setRange(1,200);                   ui->WidthEd->   setValue(CurrentCompoObject->w*100/Ratio_X);
@@ -821,12 +821,12 @@ void DlgImageComposer::s_BlockTable_Paste() {
             for (int BlockNum=0;BlockNum<BlockNbr;BlockNum++) if ((root.elementsByTagName(QString("Block-%1").arg(BlockNum)).length()>0)&&(root.elementsByTagName(QString("Block-%1").arg(BlockNum)).item(0).isElement()==true)) {
                 QDomElement Element=root.elementsByTagName(QString("Block-%1").arg(BlockNum)).item(0).toElement();
                 // Create and append a composition block to the object list
-                ffdProject->ProjectThumbnail->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,BaseApplicationConfig));
+                ffdProject->ProjectThumbnail->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig));
                 cCompositionObject *GlobalBlock=ffdProject->ProjectThumbnail->ObjectComposition.List[ffdProject->ProjectThumbnail->ObjectComposition.List.count()-1];
                 GlobalBlock->LoadFromXML(Element,"CLIPBOARD-BLOCK-GLOBAL","",NULL,NULL);
                 GlobalBlock->IndexKey=ffdProject->ProjectThumbnail->NextIndexKey;
 
-                cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,ffdProject->ProjectThumbnail->NextIndexKey,BaseApplicationConfig);
+                cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig);
                 ShotBlock.LoadFromXML(Element,"CLIPBOARD-BLOCK-SHOT","",NULL,NULL);
                 ShotBlock.IndexKey=ffdProject->ProjectThumbnail->NextIndexKey;
                 ShotBlock.BackgroundBrush->Image=GlobalBlock->BackgroundBrush->Image;
@@ -846,7 +846,7 @@ void DlgImageComposer::s_BlockTable_Paste() {
                 }
                 // Now create and append a shot composition block to all shot
                 for (int i=0;i<ffdProject->ProjectThumbnail->List.count();i++) {
-                    ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,ffdProject->ProjectThumbnail->NextIndexKey,BaseApplicationConfig));
+                    ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig));
                     ffdProject->ProjectThumbnail->List[i]->ShotComposition.List[ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(&ShotBlock);
                 }
                 // Inc NextIndexKey
@@ -874,10 +874,10 @@ void DlgImageComposer::s_BlockTable_RemoveBlock() {
     AppendPartialUndo(UNDOACTION_BLOCKTABLE_REMOVEBLOCK,ui->BlockTable,true);
 
     if (BlockSelectMode==SELECTMODE_ONE) {
-        if ((BaseApplicationConfig->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgImageComposer","Remove block"),QApplication::translate("DlgImageComposer","Are you sure you want to delete this block?"),
+        if ((ApplicationConfig->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgImageComposer","Remove block"),QApplication::translate("DlgImageComposer","Are you sure you want to delete this block?"),
                                   QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No)) return;
     } else if (BlockSelectMode==SELECTMODE_MULTIPLE) {
-        if ((BaseApplicationConfig->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgImageComposer","Remove blocks"),QApplication::translate("DlgImageComposer","Are you sure you want to delete these blocks?"),
+        if ((ApplicationConfig->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgImageComposer","Remove blocks"),QApplication::translate("DlgImageComposer","Are you sure you want to delete these blocks?"),
                                   QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No)) return;
     }
     for (int i=CompositionList->List.count()-1;i>=0;i--) if (IsSelected[i]) {
@@ -929,16 +929,16 @@ void DlgImageComposer::s_BlockTable_AddNewSimpleTextBlock() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_AddNewTextBlock");
 
     // Create and append a composition block to the object list
-    ffdProject->ProjectThumbnail->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,BaseApplicationConfig));
+    ffdProject->ProjectThumbnail->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig));
     cCompositionObject *CompositionObject=ffdProject->ProjectThumbnail->ObjectComposition.List[ffdProject->ProjectThumbnail->ObjectComposition.List.count()-1];
 
     // Apply Styles
-    CompositionObject->ApplyTextStyle(BaseApplicationConfig->StyleTextCollection.GetStyleDef(BaseApplicationConfig->StyleTextCollection.DecodeString(BaseApplicationConfig->DefaultBlock_Text_TextST)));
-    CompositionObject->ApplyBackgroundStyle(BaseApplicationConfig->StyleTextBackgroundCollection.GetStyleDef(BaseApplicationConfig->StyleTextBackgroundCollection.DecodeString(BaseApplicationConfig->DefaultBlock_Text_BackGST)));
-    CompositionObject->ApplyBlockShapeStyle(BaseApplicationConfig->StyleBlockShapeCollection.GetStyleDef(BaseApplicationConfig->StyleBlockShapeCollection.DecodeString(BaseApplicationConfig->DefaultBlock_Text_ShapeST)));
+    CompositionObject->ApplyTextStyle(ApplicationConfig->StyleTextCollection.GetStyleDef(ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_TextST)));
+    CompositionObject->ApplyBackgroundStyle(ApplicationConfig->StyleTextBackgroundCollection.GetStyleDef(ApplicationConfig->StyleTextBackgroundCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_BackGST)));
+    CompositionObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_ShapeST)));
     CompositionObject->BackgroundBrush->LockGeometry=false; // For ApplyAutoCompoSize don't use it
-    CompositionObject->ApplyAutoCompoSize(BaseApplicationConfig->DefaultBlock_AutoSizePos,ffdProject->ImageGeometry);
-    CompositionObject->BackgroundBrush->LockGeometry=(BaseApplicationConfig->DefaultBlock_AutoLocking==AUTOFRAMING_CUSTOMPRJLOCK);
+    CompositionObject->ApplyAutoCompoSize(ApplicationConfig->DefaultBlock_AutoSizePos,ffdProject->ImageGeometry);
+    CompositionObject->BackgroundBrush->LockGeometry=(ApplicationConfig->DefaultBlock_AutoLocking==AUTOFRAMING_CUSTOMPRJLOCK);
     CompositionObject->BackgroundBrush->AspectRatio=(CompositionObject->h*(ffdProject->ImageGeometry==GEOMETRY_4_3?1440:ffdProject->ImageGeometry==GEOMETRY_16_9?1080:ffdProject->ImageGeometry==GEOMETRY_40_17?816:1920))/(CompositionObject->w*1920);
 
     // Create default text
@@ -965,7 +965,7 @@ void DlgImageComposer::s_BlockTable_AddNewSimpleTextBlock() {
 
     // Now create and append a shot composition block to all shot
     for (int i=0;i<ffdProject->ProjectThumbnail->List.count();i++) {
-        ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,BaseApplicationConfig));
+        ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig));
         ffdProject->ProjectThumbnail->List[i]->ShotComposition.List[ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
     }
 
@@ -990,14 +990,14 @@ void DlgImageComposer::s_BlockTable_AddNewClipArtTextBlock() {
     if (RessourceName=="") return;
 
     // Create and append a composition block to the object list
-    ffdProject->ProjectThumbnail->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,BaseApplicationConfig));
+    ffdProject->ProjectThumbnail->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig));
     cCompositionObject *CompositionObject=ffdProject->ProjectThumbnail->ObjectComposition.List[ffdProject->ProjectThumbnail->ObjectComposition.List.count()-1];
 
     // Apply Styles
     CompositionObject->ApplyTextStyle(TextFrameList.List[TextFrameList.SearchImage(RessourceName)].TextStyle);
     CompositionObject->BackgroundBrush->LockGeometry=false; // For ApplyAutoCompoSize don't use it
-    CompositionObject->ApplyAutoCompoSize(BaseApplicationConfig->DefaultBlock_AutoSizePos,ffdProject->ImageGeometry);
-    CompositionObject->BackgroundBrush->LockGeometry=(BaseApplicationConfig->DefaultBlock_AutoLocking==AUTOFRAMING_CUSTOMPRJLOCK);
+    CompositionObject->ApplyAutoCompoSize(ApplicationConfig->DefaultBlock_AutoSizePos,ffdProject->ImageGeometry);
+    CompositionObject->BackgroundBrush->LockGeometry=(ApplicationConfig->DefaultBlock_AutoLocking==AUTOFRAMING_CUSTOMPRJLOCK);
     CompositionObject->BackgroundBrush->AspectRatio =(CompositionObject->h*(ffdProject->ImageGeometry==GEOMETRY_4_3?1440:ffdProject->ImageGeometry==GEOMETRY_16_9?1080:ffdProject->ImageGeometry==GEOMETRY_40_17?816:1920))/(CompositionObject->w*1920);
     CompositionObject->TextClipArtName              =RessourceName;
     CompositionObject->TMx                          =TextFrameList.List[TextFrameList.SearchImage(RessourceName)].TMx;
@@ -1029,7 +1029,7 @@ void DlgImageComposer::s_BlockTable_AddNewClipArtTextBlock() {
 
     // Now create and append a shot composition block to all shot
     for (int i=0;i<ffdProject->ProjectThumbnail->List.count();i++) {
-        ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,BaseApplicationConfig));
+        ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig));
         ffdProject->ProjectThumbnail->List[i]->ShotComposition.List[ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
     }
 
@@ -1049,34 +1049,11 @@ void DlgImageComposer::s_BlockTable_AddNewFileBlock() {
     ui->AddFileBlock->setDown(false);
     QStringList FileList;
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MANAGED|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE|FILTERALLOW_OBJECTTYPE_IMAGEVECTORFILE,
-                        OBJECTTYPE_MANAGED,true,false,BaseApplicationConfig->RememberLastDirectories?BaseApplicationConfig->LastMediaPath:"",
-                        QApplication::translate("MainWindow","Add files"),BaseApplicationConfig,this);
+                        OBJECTTYPE_MANAGED,true,false,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
+                        QApplication::translate("MainWindow","Add files"),ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
     if (FileList.count()==0) return;
-
-    // Sort files in the fileList
-    if (BaseApplicationConfig->SortFile) {
-        // Sort by last number
-        for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
-            QString NameA=QFileInfo(FileList[j]).completeBaseName();
-            int NumA=NameA.length()-1;
-            while ((NumA>0)&&(NameA[NumA]>='0')&&(NameA[NumA]<='9')) NumA--;
-            if (NumA>=0) NumA=NameA.mid(NumA+1).toInt();
-
-            QString NameB=QFileInfo(FileList[j+1]).completeBaseName();
-            int NumB=NameB.length()-1;
-            while ((NumB>0)&&(NameB[NumB]>='0')&&(NameB[NumB]<='9')) NumB--;
-            if (NumB>=0) NumB=NameB.mid(NumB+1).toInt();
-
-            if (NumA>NumB) FileList.swap(j,j+1);
-        }
-    } else {
-        // Sort by alphabetical order
-        for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
-            if (QFileInfo(FileList[j]).completeBaseName()>QFileInfo(FileList[j+1]).completeBaseName()) FileList.swap(j,j+1);
-        }
-    }
 
     QApplication::processEvents();
     s_BlockTable_AddFilesBlock(FileList,ui->BlockTable->rowCount());
@@ -1094,10 +1071,10 @@ void DlgImageComposer::s_BlockTable_AddFilesBlock(QStringList FileList,int Posit
         QString NewFile=FileList[i];
         QString ErrorMessage=QApplication::translate("MainWindow","Format not supported","Error message");
 
-        if (BaseApplicationConfig->RememberLastDirectories) BaseApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
+        if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 
         // Create and append a composition block to the object list
-        ffdProject->ProjectThumbnail->ObjectComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,BaseApplicationConfig));
+        ffdProject->ProjectThumbnail->ObjectComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig));
         cCompositionObject  *CompositionObject=ffdProject->ProjectThumbnail->ObjectComposition.List[PositionToInsert];
         cBrushDefinition    *CurrentBrush     =CompositionObject->BackgroundBrush;
 
@@ -1111,9 +1088,9 @@ void DlgImageComposer::s_BlockTable_AddFilesBlock(QStringList FileList,int Posit
         QString Extension=QFileInfo(BrushFileName).suffix().toLower();
 
         // Search if file is an image
-        for (int i=0;i<BaseApplicationConfig->AllowImageExtension.count();i++) if (BaseApplicationConfig->AllowImageExtension[i]==Extension) {
+        for (int i=0;i<ApplicationConfig->AllowImageExtension.count();i++) if (ApplicationConfig->AllowImageExtension[i]==Extension) {
             // Create an image wrapper
-            CurrentBrush->Image=new cImageFile(BaseApplicationConfig);
+            CurrentBrush->Image=new cImageFile(ApplicationConfig);
             IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName,&AliasList,NULL,-1);
             if (!IsValide) {
                 delete CurrentBrush->Image;
@@ -1122,9 +1099,9 @@ void DlgImageComposer::s_BlockTable_AddFilesBlock(QStringList FileList,int Posit
             break;
         }
         // If it's not an image : search if file is a video
-        if (CurrentBrush->Image==NULL) for (int i=0;i<BaseApplicationConfig->AllowVideoExtension.count();i++) if (BaseApplicationConfig->AllowVideoExtension[i]==Extension) {
+        if (CurrentBrush->Image==NULL) for (int i=0;i<ApplicationConfig->AllowVideoExtension.count();i++) if (ApplicationConfig->AllowVideoExtension[i]==Extension) {
             // Create a video wrapper
-            CurrentBrush->Video=new cVideoFile(OBJECTTYPE_VIDEOFILE,BaseApplicationConfig);
+            CurrentBrush->Video=new cVideoFile(OBJECTTYPE_VIDEOFILE,ApplicationConfig);
             IsValide=(CurrentBrush->Video->GetInformationFromFile(BrushFileName,&AliasList,NULL,-1))&&(CurrentBrush->Video->OpenCodecAndFile());
             if (IsValide) {
                 // Check if file have at least one sound track compatible
@@ -1168,8 +1145,8 @@ void DlgImageComposer::s_BlockTable_AddFilesBlock(QStringList FileList,int Posit
             } else {
 
                 // Apply Styles
-                CompositionObject->ApplyTextStyle(BaseApplicationConfig->StyleTextCollection.GetStyleDef(BaseApplicationConfig->StyleTextCollection.DecodeString(BaseApplicationConfig->DefaultBlockBA_IMG_TextST)));
-                CompositionObject->ApplyBlockShapeStyle(BaseApplicationConfig->StyleBlockShapeCollection.GetStyleDef(BaseApplicationConfig->StyleBlockShapeCollection.DecodeString(BaseApplicationConfig->DefaultBlockBA_IMG_ShapeST)));
+                CompositionObject->ApplyTextStyle(ApplicationConfig->StyleTextCollection.GetStyleDef(ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_TextST)));
+                CompositionObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_ShapeST)));
                 // Apply styles for coordinates
                 CompositionObject->BackgroundBrush->ApplyAutoFraming(AUTOFRAMING_FULLMAX,ProjectGeometry);
                 if ((CurrentBrush->Image)&&(CurrentBrush->Image->IsVectorImg)) CompositionObject->ApplyAutoCompoSize(AUTOCOMPOSIZE_HALFSCREEN,GEOMETRY_THUMBNAIL);
@@ -1180,7 +1157,7 @@ void DlgImageComposer::s_BlockTable_AddFilesBlock(QStringList FileList,int Posit
         if (IsValide) {
             // Now create and append a shot composition block to all shot
             for (int i=0;i<ffdProject->ProjectThumbnail->List.count();i++) {
-                ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,BaseApplicationConfig));
+                ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig));
                 ffdProject->ProjectThumbnail->List[i]->ShotComposition.List[PositionToInsert]->CopyFromCompositionObject(CompositionObject);
             }
             // Inc NextIndexKey
@@ -1236,7 +1213,7 @@ void DlgImageComposer::s_BlockSettings_IntZoneDisplayTransformBlocks(qreal Move_
     qreal   w           =CompositionList->List[i]->w*RatioScale_X; if (w<0.002) w=0.002;
     qreal   h           =(CompositionList->List[i]->BackgroundBrush->LockGeometry?((w*THUMBWITH)*CompositionList->List[i]->BackgroundBrush->AspectRatio)/THUMBHEIGHT:CompositionList->List[i]->h*RatioScale_Y); if (h<0.002) h=0.002;
 
-    if (BaseApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
+    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
         ui->PosXEd->  setValue(x*100/Ratio_X);
         ui->PosYEd->  setValue(y*100/Ratio_Y);
         ui->WidthEd-> setValue(w*100/Ratio_X);
@@ -1424,7 +1401,7 @@ void DlgImageComposer::s_BlockSettings_TextEditor() {
 
     ui->InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_TextMargin;
     ui->InteractiveZone->RefreshDisplay();
-    DlgTextEdit Dlg(ffdProject,CurrentCompoObject,BaseApplicationConfig,&BaseApplicationConfig->StyleTextCollection,&BaseApplicationConfig->StyleTextBackgroundCollection,this);
+    DlgTextEdit Dlg(ffdProject,CurrentCompoObject,ApplicationConfig,&ApplicationConfig->StyleTextCollection,&ApplicationConfig->StyleTextBackgroundCollection,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));
     if (Dlg.exec()==0) {
@@ -1454,7 +1431,7 @@ void DlgImageComposer::s_BlockSettings_Information() {
         else if (CurrentCompoObject->BackgroundBrush->Video!=NULL)   Media=CurrentCompoObject->BackgroundBrush->Video;
 
     if (Media) {
-        DlgInfoFile Dlg(Media,BaseApplicationConfig,this);
+        DlgInfoFile Dlg(Media,ApplicationConfig,this);
         Dlg.InitDialog();
         Dlg.exec();
     }
@@ -1474,7 +1451,7 @@ void DlgImageComposer::s_BlockSettings_ImageEditCorrect() {
 
     // Compute position of video
     int Position=CurrentBrush->Video?QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos):0;
-    DlgImageCorrection Dlg(CurrentCompoObject,&CurrentCompoObject->BackgroundForm,CurrentCompoObject->BackgroundBrush,Position,ffdProject->ImageGeometry,ffdProject->ImageAnimSpeedWave,BaseApplicationConfig,this);
+    DlgImageCorrection Dlg(CurrentCompoObject,&CurrentCompoObject->BackgroundForm,CurrentCompoObject->BackgroundBrush,Position,ffdProject->ImageGeometry,ffdProject->ImageAnimSpeedWave,ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         FramingCB_CurrentBrush   =NULL; // To force a refresh of ui->FramingCB !
@@ -1488,8 +1465,8 @@ void DlgImageComposer::s_BlockSettings_ImageEditCorrect() {
         }
 
         // Lulo object for image and video must be remove
-        if (CurrentCompoObject->BackgroundBrush->Video) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Video->FileKey);
-        else if (CurrentCompoObject->BackgroundBrush->Image) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Image->FileKey);
+        if (CurrentCompoObject->BackgroundBrush->Video) ApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Video->FileKey);
+        else if (CurrentCompoObject->BackgroundBrush->Image) ApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Image->FileKey);
 
         RefreshBlockTable(CurrentCompoObjectNbr);
     } else {
@@ -1507,7 +1484,7 @@ void DlgImageComposer::s_BlockSettings_PosXValue(double Value) {
     if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_POSX,ui->PosXEd,false);
 
-    if (BaseApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->x=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
+    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->x=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
         else                                                     CurrentCompoObject->x=(Value/THUMBWITH);    // DisplayUnit==DISPLAYUNIT_PIXELS
     RefreshControls(true);
 }
@@ -1518,7 +1495,7 @@ void DlgImageComposer::s_BlockSettings_PosYValue(double Value) {
     if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_POSY,ui->PosYEd,false);
 
-    if (BaseApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->y=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
+    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->y=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
         else                                                     CurrentCompoObject->y=(Value/THUMBHEIGHT);    // DisplayUnit==DISPLAYUNIT_PIXELS
     RefreshControls(true);
 }
@@ -1532,7 +1509,7 @@ void DlgImageComposer::s_BlockSettings_PosWidthValue(double Value) {
     qreal Ratio_X,Ratio_Y;
     ComputeBlockRatio(CurrentCompoObject,Ratio_X,Ratio_Y);
 
-    if (BaseApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->w=(Value/100)*Ratio_X;
+    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->w=(Value/100)*Ratio_X;
         else CurrentCompoObject->w=(Value/THUMBWITH)*Ratio_X;
     if ((CurrentCompoObject->BackgroundBrush->LockGeometry)||(CurrentCompoObject->BackgroundBrush->Image!=NULL)||(CurrentCompoObject->BackgroundBrush->Video!=NULL))
             CurrentCompoObject->h=((CurrentCompoObject->w*THUMBWITH)*CurrentCompoObject->BackgroundBrush->AspectRatio)/THUMBHEIGHT;
@@ -1549,7 +1526,7 @@ void DlgImageComposer::s_BlockSettings_PosHeightValue(double Value) {
     qreal Ratio_X,Ratio_Y;
     ComputeBlockRatio(CurrentCompoObject,Ratio_X,Ratio_Y);
 
-    if (BaseApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->h=(Value/100)*Ratio_Y;
+    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->h=(Value/100)*Ratio_Y;
         else CurrentCompoObject->h=(Value/THUMBHEIGHT)*Ratio_Y;
     if ((CurrentCompoObject->BackgroundBrush->LockGeometry)||(CurrentCompoObject->BackgroundBrush->Image!=NULL)||(CurrentCompoObject->BackgroundBrush->Video!=NULL))
         CurrentCompoObject->w=((CurrentCompoObject->h*THUMBHEIGHT)/CurrentCompoObject->BackgroundBrush->AspectRatio)/THUMBWITH;
@@ -1727,11 +1704,11 @@ void DlgImageComposer::s_BlockShapeStyleBT() {
     if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
     AppendPartialUndo(UNDOACTION_STYLE_SHAPE,ui->InteractiveZone,false);
     QString ActualStyle =CurrentCompoObject->GetBlockShapeStyle();
-    QString Item        =BaseApplicationConfig->StyleBlockShapeCollection.PopupCollectionMenu(this,BaseApplicationConfig,ActualStyle);
+    QString Item        =ApplicationConfig->StyleBlockShapeCollection.PopupCollectionMenu(this,ApplicationConfig,ActualStyle);
     ui->BlockShapeStyleBT->setDown(false);
     if (Item!="") {
         InRefreshControls=true;
-        CurrentCompoObject->ApplyBlockShapeStyle(BaseApplicationConfig->StyleBlockShapeCollection.GetStyleDef(Item));
+        CurrentCompoObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(Item));
         CopyBlockProperties(CurrentCompoObject,GetGlobalCompositionObject(CurrentCompoObject->IndexKey));   // Apply to GlobalComposition objects
         RefreshBlockTable(CurrentCompoObjectNbr);
     }
@@ -1846,11 +1823,11 @@ void DlgImageComposer::s_BlockTable_DistributeVert() {
 void DlgImageComposer::s_RulersBt() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_RulersBt");
 
-    DlgRulerDef Dlg(&ui->InteractiveZone->MagneticRuler,false,BaseApplicationConfig,this);
+    DlgRulerDef Dlg(&ui->InteractiveZone->MagneticRuler,false,ApplicationConfig,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));
     if (Dlg.exec()==0) {
-        BaseApplicationConfig->ThumbRuler=ui->InteractiveZone->MagneticRuler;
+        ApplicationConfig->ThumbRuler=ui->InteractiveZone->MagneticRuler;
         ui->RulersBT->setIcon(QIcon(QString(ui->InteractiveZone->MagneticRuler!=0?ICON_RULER_ON:ICON_RULER_OFF)));
     }
     ui->InteractiveZone->RefreshDisplay();

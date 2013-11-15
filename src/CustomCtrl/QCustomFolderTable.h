@@ -43,6 +43,7 @@ public:
     QImage                  *DefaultTypeIcon16,*DefaultTypeIcon100;
     QString                 ShortName;
     QTime                   Duration;
+    QDateTime               Modified;
 
     explicit                MediaFileItem(cBaseMediaFile *MediaFileObject);
                             ~MediaFileItem();
@@ -95,6 +96,7 @@ public:
     virtual void            resizeEvent(QResizeEvent *);
     virtual void            mouseDoubleClickEvent(QMouseEvent *);
     virtual void            mouseReleaseEvent(QMouseEvent *);
+    virtual void            mousePressEvent(QMouseEvent *event);
 
     virtual void            SetMode(int Mode,int Filter);
     virtual void            FillListFolder(QString Path);

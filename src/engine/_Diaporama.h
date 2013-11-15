@@ -266,8 +266,15 @@ public:
     QString                 SlideName;                  // Display name of the slide
     QList<cDiaporamaShot *> List;                       // list of scene definition
 
-    int64_t                 CachedStartPosition;        // Cached start position to improve interface speed
-    int64_t                 CachedMusicIndex;           // Cached Music Index to improve interface speed
+    // Cached data to improve interface speed
+    int64_t                 CachedDuration;             // Real duration of the slide
+    int64_t                 CachedTransitDuration;      // Real duration of the transition of slide
+    int64_t                 CachedStartPosition;        // Start position of the music
+    int                     CachedMusicIndex;           // Index of slide owner of the music
+    int                     CachedBackgroundIndex;      // Index of slide owner of the background
+    bool                    CachedHaveFilter;           // True if object in slide have at least one filter
+    bool                    CachedHaveSound;            // True if object in slide have sound
+    double                  CachedSoundVolume;          // Max volume in the slide
 
     // Chapter definition
     bool                    StartNewChapter;            // if true then start a new chapter from this slide
@@ -434,7 +441,7 @@ public:
     int64_t                 GetPartialDuration(int from,int to);
     int64_t                 GetObjectStartPosition(int index);
     int64_t                 GetTransitionDuration(int index);
-    void                    UpdateCachedStartPosition();
+    void                    UpdateCachedInformation();
     void                    PrepareBackground(int ObjectIndex,int Width,int Height,QPainter *Painter,int AddX,int AddY);
     cMusicObject            *GetMusicObject(int ObjectIndex,int64_t &StartPosition,int *CountObject=NULL,int *IndexObject=NULL);
     void                    DefineSizeAndGeometry(ffd_GEOMETRY Geometry);                        // Init size and geometry

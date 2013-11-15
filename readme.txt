@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 2.0 - Trunk
 *
-* readme.txt on 03/11/2013
+* readme.txt on 15/11/2013
 **************************************************
 
 ffDiaporama is a tools to make diaporama as video
@@ -52,6 +52,7 @@ General purposes about libav and ffmpeg
       FFMPEG	LIBAVUTIL	LIBAVCODEC	LIBAVFORMAT	LIBAVDEVICE	LIBAVFILTER	LIBSWSCALE	LIBSWRESAMPLE
       1.2.3	52,18,100	54,92,100	54,63,104	54,3,103	3,42,103	2,2,100		0,17,102
       2.0.1	52,38,100	55,18,102	55,12,100	55,3,100	3,79,101	2,3,100		0,17,102
+      2.1       52.48.100       55.39.100       55.19.104       55.5.100        3.90.100        2.5.101         0.17.104
 
 
 
@@ -59,10 +60,10 @@ General purposes about libav and ffmpeg
 Build ffDiaporama for Ubuntu/LinuxMint (Ubuntu based version)
 -------------------------------------------------------------
 
-    Version 12.04 and 12.10 (Qt 4.8/Libav 0.8.6)
+    Version 12.04 and 12.10 (Qt 4.8.1/Libav 0.8.9 on 15/11/2013)
         Installation prerequisites:
             sudo apt-get install build-essential
-            sudo apt-get install qt4-qmake libqt4-dev
+            sudo apt-get install qt4-qmake libqt4-dev libqt4-sql-sqlite
             sudo apt-get install libavutil-dev libavformat-dev libavcodec-dev libavdevice-dev libavfilter-dev libswscale-dev
             sudo apt-get install libsdl-image1.2-dev libsdl-mixer1.2-dev libexiv2-dev libtag1-dev
         Compilation:
@@ -71,11 +72,11 @@ Build ffDiaporama for Ubuntu/LinuxMint (Ubuntu based version)
         Installation:
             sudo make install
 
-    Version 13.04 (Qt 5.01/Libav 0.8.6) and Version 13.10 (Qt 5.02/Libav 0.8.7)
+    Version 13.04 (Qt 5.01/Libav 0.8.9) and Version 13.10 (Qt 5.02/Libav 0.8.9)
 
         Installation prerequisites:
             sudo apt-get install build-essential
-            sudo apt-get install qt5-qmake qt5-default qttools5-dev qttools5-dev-tools libqt5svg5-dev libqt5help5
+            sudo apt-get install qt5-qmake qt5-default qttools5-dev qttools5-dev-tools libqt5svg5-dev libqt5help5 libqt5sql5-sqlite
             sudo apt-get install libavutil-dev libavformat-dev libavcodec-dev libavdevice-dev libavfilter-dev libswscale-dev
             sudo apt-get install libsdl-image1.2-dev libsdl-mixer1.2-dev libexiv2-dev libtag1-dev
         Compilation:
@@ -95,6 +96,9 @@ Build ffDiaporama for Ubuntu/LinuxMint (Ubuntu based version)
         WARNING: Actual ffmpeg version proposed on the samrog ppa is the 2.1.0
         This version is unstable and may cause infinite loop reading some videos
 
+
+
+
 Build ffDiaporama for openSUSE
 ------------------------------
 
@@ -110,6 +114,9 @@ Build ffDiaporama for openSUSE
             make
         Installation:
             sudo make install
+
+
+
 
 
 Build ffDiaporama for Fedora
@@ -130,30 +137,30 @@ Build ffDiaporama for Fedora
             sudo make install
 
 
+
+
 Build ffDiaporama for Windows
 -----------------------------
 
-    Note: This documentation has to be completed
-
     Prerequisites:
         Visual studio express:
-            Visual studio express 2012 from Microsoft (http://www.microsoft.com/visualstudio/fra/downloads#d-express-windows-desktop)
+            Visual studio express 2012 from Microsoft (http://download.microsoft.com/download/1/F/5/1F519CC5-0B90-4EA3-8159-33BFB97EF4D9/VS2012_WDX_ENU.iso)
 
         Microsoft SDK:
-            Microsoft Software Development kit (8.59) from Microsoft (http://msdn.microsoft.com/fr-fr/library/windows/desktop/hh852363.aspx)
+            Microsoft Software Development kit (SDK Windows for Windows 8) from Microsoft (http://msdn.microsoft.com/fr-fr/library/windows/desktop/hh852363.aspx)
 
         QT:
             32 bits version: Qt 5.1.1 for Windows 32-bit (VS 2012 without OpenGL) from Digia (http://download.qt-project.org/official_releases/qt/5.1/5.1.1/qt-windows-opensource-5.1.1-msvc2012-x86-offline.exe)
             64 bits version: Qt 5.1.1 for Windows 64-bit (VS 2012 without OpenGL) from Digia (http://download.qt-project.org/official_releases/qt/5.1/5.1.1/qt-windows-opensource-5.1.1-msvc2012-x86_64-offline.exe)
 
         ffmpeg:
-          32 bits version:
-            ffmpeg-2.0.1-win32-shared.7z from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win32/shared/ffmpeg-2.0.1-win32-shared.7z)
-            ffmpeg-2.0.1-win32-dev.7z from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win32/dev/ffmpeg-2.0.1-win32-dev.7z)
+          32 bits version (2.1):
+            ffmpeg win32 shared from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win32/shared/ffmpeg-2.1-win32-shared.7z)
+            ffmpeg win32 dev from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win32/dev/ffmpeg-2.1-win32-dev.7z)
 
-          64 bits version:
-             ffmpeg-2.0.1-win64-shared.7z from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win64/shared/ffmpeg-2.0.1-win64-shared.7z)
-             ffmpeg-2.0.1-win64-dev.7z from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win64/dev/ffmpeg-2.0.1-win64-dev.7z)
+          64 bits version (2.1):
+             ffmpeg win64 shared from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win64/shared/ffmpeg-2.1-win64-shared.7z)
+             ffmpeg win64 dev from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win64/dev/ffmpeg-2.1-win64-dev.7z)
 
         Exiv2:
             Exiv2 v0.23 Source from exiv2.org web site (http://www.exiv2.org/exiv2-0.23.tar.gz)
@@ -175,10 +182,10 @@ Build ffDiaporama for Windows
                 exiv2-0.23
                     files and folder included in exiv2-0.23.tar.gz
 
-                ffmpeg-2.0.1-win32-dev or ffmpeg-2.0.1-win64-dev
+                ffmpeg-2.1-win32-dev or ffmpeg-2.1-win64-dev
                     files and folders included in ffmpeg dev file
 
-                ffmpeg-2.0.1-win32-shared or ffmpeg-2.0.1-win64-shared
+                ffmpeg-2.1-win32-shared or ffmpeg-2.1-win64-shared
                     files and folders included in ffmpeg shared file
 
                 msinttypes
@@ -193,3 +200,6 @@ Build ffDiaporama for Windows
                             files included in SDL 32 bits zip file
 
         Edit ffDiaporama.pro file to update path to the differents external libraries
+
+    Build ffDiaporama for Windows
+        Use QT creator to compil ffDiaporama

@@ -73,7 +73,7 @@ void DlgAutoTitleSlide::DoInitDialog() {
 
     RefreshControl();
 
-    ui->ChapterEventDateED->setDisplayFormat(BaseApplicationConfig->ShortDateFormat);
+    ui->ChapterEventDateED->setDisplayFormat(ApplicationConfig->ShortDateFormat);
     ui->ChapterNameED->setText(CurrentSlide->ChapterName);
     ui->ChapterEventDateED->setDate(CurrentSlide->OverrideProjectEventDate?CurrentSlide->ChapterEventDate:CurrentSlide->Parent->ProjectInfo->EventDate);
     ui->ChapterDateED->setText(CurrentSlide->OverrideProjectEventDate?CurrentSlide->OverrideChapterLongDate?CurrentSlide->ChapterLongDate:FormatLongDate(CurrentSlide->ChapterEventDate):CurrentSlide->Parent->ProjectInfo->LongDate);
@@ -243,15 +243,15 @@ void DlgAutoTitleSlide::s_ChSlideTypeCB(int CurrentType) {
     ui->SlideCatCB->clear();
     switch (CurrentType) {
         case 0:
-            for (SubType=0;SubType<MODELTYPE_PROJECTTITLE_CATNUMBER;SubType++) ui->SlideCatCB->addItem(BaseApplicationConfig->PrjTitleModels[CurrentSlide->Parent->ImageGeometry][SubType==9?MODELTYPE_PROJECTTITLE_CATNUMBER-1:SubType]->NameCategorie);
+            for (SubType=0;SubType<MODELTYPE_PROJECTTITLE_CATNUMBER;SubType++) ui->SlideCatCB->addItem(ApplicationConfig->PrjTitleModels[CurrentSlide->Parent->ImageGeometry][SubType==9?MODELTYPE_PROJECTTITLE_CATNUMBER-1:SubType]->NameCategorie);
             CurrentSlide->StartNewChapter=false;
             break;
         case 1:
-            for (SubType=0;SubType<MODELTYPE_CHAPTERTITLE_CATNUMBER;SubType++) ui->SlideCatCB->addItem(BaseApplicationConfig->CptTitleModels[CurrentSlide->Parent->ImageGeometry][SubType==9?MODELTYPE_CHAPTERTITLE_CATNUMBER-1:SubType]->NameCategorie);
+            for (SubType=0;SubType<MODELTYPE_CHAPTERTITLE_CATNUMBER;SubType++) ui->SlideCatCB->addItem(ApplicationConfig->CptTitleModels[CurrentSlide->Parent->ImageGeometry][SubType==9?MODELTYPE_CHAPTERTITLE_CATNUMBER-1:SubType]->NameCategorie);
             CurrentSlide->StartNewChapter=true;
             break;
         case 2:
-            for (SubType=0;SubType<MODELTYPE_CREDITTITLE_CATNUMBER;SubType++) ui->SlideCatCB->addItem(BaseApplicationConfig->CreditTitleModels[CurrentSlide->Parent->ImageGeometry][SubType==9?MODELTYPE_CREDITTITLE_CATNUMBER-1:SubType]->NameCategorie);
+            for (SubType=0;SubType<MODELTYPE_CREDITTITLE_CATNUMBER;SubType++) ui->SlideCatCB->addItem(ApplicationConfig->CreditTitleModels[CurrentSlide->Parent->ImageGeometry][SubType==9?MODELTYPE_CREDITTITLE_CATNUMBER-1:SubType]->NameCategorie);
             CurrentSlide->StartNewChapter=false;
             break;
     }
@@ -266,9 +266,9 @@ void DlgAutoTitleSlide::s_ChSlideTypeCB(int CurrentType) {
     ui->ChapterDateED->setVisible(CurrentSlide->StartNewChapter);
 
     switch (CurrentType) {
-        case 0 : ui->ModelTable->PrepareTable(BaseApplicationConfig->PrjTitleModels[CurrentSlide->Parent->ImageGeometry][0]);       break;
-        case 1 : ui->ModelTable->PrepareTable(BaseApplicationConfig->CptTitleModels[CurrentSlide->Parent->ImageGeometry][0]);       break;
-        case 2 : ui->ModelTable->PrepareTable(BaseApplicationConfig->CreditTitleModels[CurrentSlide->Parent->ImageGeometry][0]);    break;
+        case 0 : ui->ModelTable->PrepareTable(ApplicationConfig->PrjTitleModels[CurrentSlide->Parent->ImageGeometry][0]);       break;
+        case 1 : ui->ModelTable->PrepareTable(ApplicationConfig->CptTitleModels[CurrentSlide->Parent->ImageGeometry][0]);       break;
+        case 2 : ui->ModelTable->PrepareTable(ApplicationConfig->CreditTitleModels[CurrentSlide->Parent->ImageGeometry][0]);    break;
     }
     ui->ModelTable->SetCurrentModel(OldName.mid(QString("<%AUTOTS_").length(),QString("000000").length()));
     ui->ModelTable->TimerPosition=0;
@@ -284,9 +284,9 @@ void DlgAutoTitleSlide::s_ChSlideCatCB(int CurrentSubType) {
     //int CurrentSubType  =ui->SlideCatCB->currentIndex();
     Timer.stop();
     switch (CurrentType) {
-        case 0 : ui->ModelTable->PrepareTable(BaseApplicationConfig->PrjTitleModels[CurrentSlide->Parent->ImageGeometry][CurrentSubType==9?MODELTYPE_PROJECTTITLE_CATNUMBER-1:CurrentSubType]);     break;
-        case 1 : ui->ModelTable->PrepareTable(BaseApplicationConfig->CptTitleModels[CurrentSlide->Parent->ImageGeometry][CurrentSubType==9?MODELTYPE_CHAPTERTITLE_CATNUMBER-1:CurrentSubType]);     break;
-        case 2 : ui->ModelTable->PrepareTable(BaseApplicationConfig->CreditTitleModels[CurrentSlide->Parent->ImageGeometry][CurrentSubType==9?MODELTYPE_CREDITTITLE_CATNUMBER-1:CurrentSubType]);   break;
+        case 0 : ui->ModelTable->PrepareTable(ApplicationConfig->PrjTitleModels[CurrentSlide->Parent->ImageGeometry][CurrentSubType==9?MODELTYPE_PROJECTTITLE_CATNUMBER-1:CurrentSubType]);     break;
+        case 1 : ui->ModelTable->PrepareTable(ApplicationConfig->CptTitleModels[CurrentSlide->Parent->ImageGeometry][CurrentSubType==9?MODELTYPE_CHAPTERTITLE_CATNUMBER-1:CurrentSubType]);     break;
+        case 2 : ui->ModelTable->PrepareTable(ApplicationConfig->CreditTitleModels[CurrentSlide->Parent->ImageGeometry][CurrentSubType==9?MODELTYPE_CREDITTITLE_CATNUMBER-1:CurrentSubType]);   break;
     }
     ui->ModelTable->SetCurrentModel(OldName.mid(QString("<%AUTOTS_").length(),QString("000000").length()));
     ui->ModelTable->TimerPosition=0;
@@ -329,7 +329,7 @@ void DlgAutoTitleSlide::ProjectProperties() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::ProjectProperties");
 
     Timer.stop();
-    DlgffDPjrProperties Dlg(false,CurrentSlide->Parent,BaseApplicationConfig,this);
+    DlgffDPjrProperties Dlg(false,CurrentSlide->Parent,ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) emit SetModifyFlag();
     ui->ModelTable->TimerPosition=0;

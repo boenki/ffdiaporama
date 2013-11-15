@@ -106,14 +106,6 @@
         <translation>Aggiungi a fine progetto</translation>
     </message>
     <message>
-        <source>Multiple file insertion :</source>
-        <translation>Inserimento file multipli :</translation>
-    </message>
-    <message>
-        <source>Sort file by last number</source>
-        <translation>Ordina file dall&apos;ultimo numero</translation>
-    </message>
-    <message>
         <source>Define the transition duration</source>
         <translation>Definisce la durata transizione</translation>
     </message>
@@ -621,14 +613,6 @@ La grafica &quot;raster&quot; accelera il display ma può sollevare problemi su 
         <translation>Se questa casella è selezionata, un messaggio di conferma verrà visualizzato ogni volta che si rimuove un oggetto:
 - Una diapositiva dalla finestra principale
 - Una immagine o blocco dalla finestra propietà diapositiva</translation>
-    </message>
-    <message>
-        <source>This option allows you to adjust the way files are sorted when you select several files in Add file.
-- If this box is checked, files will be added in order of their numerical suffix : Example: if you select IMG_0025, IMG_0032, MVI_0029 and MVI_0040, the files will be inserted as follows : IMG_0025, MVI_0029, IMG_0032 and MVI_0040
-- If this box is unchecked, files are added in alphabetical order.</source>
-        <translation>Questa opzione consente di regolare il modo in cui i file vengono ordinati quando si selezionano più file in Aggiungi file.
-- Se questa casella è selezionata, i file verranno aggiunti in ordine di suffisso numerico : Esempio: se si seleziona IMG_0025, IMG_0032, MVI_0029 e MVI_0040, i file verranno inseriti nel modo seguente: IMG_0025, MVI_0029, IMG_0032 e MVI_0040
-- Se questa casella non è selezionata, i file vengono aggiunti in ordine alfabetico.</translation>
     </message>
     <message>
         <source>If this box is checked, the sizes and the positions of all windows and dialogs will be saved and reused the next time you use ffDiaporama.</source>
@@ -6008,10 +5992,6 @@ la geometria dell&apos;immagine nel file non è uguale a quella del progetto cor
         <translation>Vuoi salvare il progetto prima di chiuderlo?</translation>
     </message>
     <message>
-        <source>A new ffDiaporama release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !</source>
-        <translation>Un nuovo rilascio di ffDiaporama è disponibile sul sito WEB. Per favore aggiornalo da http://ffdiaporama.tuxfamily.org !</translation>
-    </message>
-    <message>
         <source>&lt;html&gt;&lt;body&gt;Visit the ffDiaporama Web site to use the forum,&lt;br&gt;consult tutorials and learn the lastest news:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Visita il sito Web ffDiaporama per usare il forum,&lt;br&gt;consulta il tutorials e conosci le ultime novità:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -6487,10 +6467,6 @@ Sei sicuro che è vuota?</translation>
         <translation>Capitolo: </translation>
     </message>
     <message>
-        <source>Your version of ffDiaporama is up to day</source>
-        <translation>La tua versione di ffDiaporama è aggiornata</translation>
-    </message>
-    <message>
         <source>Export
 Soundtrack</source>
         <translation>Esporta
@@ -6544,12 +6520,6 @@ traccia audio</translation>
         <translation>Il file non è un file modello valido</translation>
     </message>
     <message>
-        <source>A new ffDiaporama version is available from WEB site.
-Do you whant do download it now?</source>
-        <translation>Una nuova versione di ffDiaporama è disponibile sul sito WEB.
-Vuoi scaricarla ora?</translation>
-    </message>
-    <message>
         <source>Export project</source>
         <translation>Esporta progetto</translation>
     </message>
@@ -6594,6 +6564,35 @@ ffDiaporama can&apos;t start</source>
     </message>
     <message>
         <source>Loading text frame library...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort by number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort by name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort by date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show folder first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A new release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your version of %1 is up to day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A new version is available from WEB site.
+Do you want to download it now?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

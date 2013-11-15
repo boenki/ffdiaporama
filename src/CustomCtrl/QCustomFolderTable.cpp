@@ -55,6 +55,7 @@ MediaFileItem::MediaFileItem(cBaseMediaFile *MediaFileObject) {
     DefaultTypeIcon100  =MediaFileObject->GetDefaultTypeIcon(cCustomIcon::ICON100);
     ShortName           =MediaFileObject->ShortName();
     Duration            =MediaFileObject->Duration;
+    Modified            =MediaFileObject->ModifDateTime;
 }
 
 MediaFileItem::~MediaFileItem() {
@@ -653,12 +654,94 @@ void QCustomFolderTable::mouseDoubleClickEvent(QMouseEvent *ev) {
 
 //====================================================================================================================
 
-void QCustomFolderTable::mouseReleaseEvent(QMouseEvent *ev) {
-    if (ev->button()==Qt::RightButton) emit RightClickEvent(ev);
-        else QTableWidget::mouseReleaseEvent(ev);
+void QCustomFolderTable::mouseReleaseEvent(QMouseEvent *event) {
+    if ((CurrentMode==DISPLAY_ICON100)&&(event->button()==Qt::LeftButton)&&(event->modifiers()!=Qt::ShiftModifier)&&(event->modifiers()!=Qt::ControlModifier)) {
+        // Get item number under mouse
+        int ThumbWidth  =columnWidth(0);
+        int ThumbHeight =rowHeight(0);
+        int row         =(event->pos().y()+verticalOffset())/ThumbHeight;
+        int col         =(event->pos().x()+horizontalOffset())/ThumbWidth;
+        // Clear selection
+        selectionModel()->clear();
+        // then add item to selection
+        selectionModel()->select(model()->index(row,col,QModelIndex()),QItemSelectionModel::Select);
+        setCurrentCell(row,col,QItemSelectionModel::Select|QItemSelectionModel::Current);
+    } else if (event->button()==Qt::RightButton) emit RightClickEvent(event);
+        else QTableWidget::mouseReleaseEvent(event);
 }
 
 //====================================================================================================================
+
+void QCustomFolderTable::mousePressEvent(QMouseEvent *event) {
+    if ((CurrentMode!=DISPLAY_ICON100)||(event->button()!=Qt::LeftButton)) {
+        QTableWidget::mousePressEvent(event);
+    } else {
+        // Get item number under mouse
+        int ThumbWidth  =columnWidth(0);
+        int ThumbHeight =rowHeight(0);
+        int row         =(event->pos().y()+verticalOffset())/ThumbHeight;
+        int col         =(event->pos().x()+horizontalOffset())/ThumbWidth;
+        int Current     =currentRow()*columnCount()+currentColumn();
+        int Selected    =row*columnCount()+col;
+
+        if (event->modifiers()==Qt::ShiftModifier) {
+            // Shift : Add all items from current to item
+            if (Current<Selected) for (int i=Current+1;i<=Selected;i++) selectionModel()->select(model()->index(i/columnCount(),i-(i/columnCount())*columnCount(),QModelIndex()),QItemSelectionModel::Select);
+                else              for (int i=Current-1;i>=Selected;i--) selectionModel()->select(model()->index(i/columnCount(),i-(i/columnCount())*columnCount(),QModelIndex()),QItemSelectionModel::Select);
+        } else if (event->modifiers()==Qt::ControlModifier) {
+            // Control : toggle selection for item (if is not current item)
+            selectionModel()->select(model()->index(row,col,QModelIndex()),QItemSelectionModel::Toggle);
+        } else {
+            QTableWidget::mousePressEvent(event);
+        }
+    }
+}
+
+//====================================================================================================================
+
+bool ByNumber(const MediaFileItem &Item1,const MediaFileItem &Item2) {
+    int NmA=(((Item1.ApplicationConfig->ShowFoldersFirst)&&(Item1.ObjectType==OBJECTTYPE_FOLDER))?0:1);
+    int NmB=(((Item1.ApplicationConfig->ShowFoldersFirst)&&(Item2.ObjectType==OBJECTTYPE_FOLDER))?0:1);
+    if (NmA<NmB) return true; else if (NmA>NmB) return false;
+
+    bool ok1,ok2;
+
+    QString NameA=Item1.ShortName;
+    if (NameA.contains(".")) NameA=NameA.left(NameA.lastIndexOf("."));
+    int NumA=NameA.length()-1;
+    while ((NumA>0)&&(((NameA[NumA]>='0')&&(NameA[NumA]<='9'))||((NameA[NumA]>='A')&&(NameA[NumA]<='F'))||((NameA[NumA]>='a')&&(NameA[NumA]<='f')))) NumA--;
+    if (NumA>=0) {
+        NameA=NameA.mid(NumA+1);
+        NumA=NameA.toInt(&ok1,16);
+    }
+
+    QString NameB=Item2.ShortName;
+    if (NameB.contains(".")) NameB=NameB.left(NameB.lastIndexOf("."));
+    int NumB=NameB.length()-1;
+    while ((NumB>0)&&(((NameB[NumB]>='0')&&(NameB[NumB]<='9'))||((NameB[NumB]>='A')&&(NameB[NumB]<='F'))||((NameB[NumB]>='a')&&(NameB[NumB]<='f')))) NumB--;
+    if (NumB>=0) {
+        NameB=NameB.mid(NumB+1);
+        NumB=NameB.toInt(&ok2,16);
+    }
+
+    if (ok1 && ok2) return NumA<NumB; else return Item1.ShortName<Item2.ShortName;
+}
+
+bool ByName(const MediaFileItem &Item1,const MediaFileItem &Item2) {
+    int NmA=(((Item1.ApplicationConfig->ShowFoldersFirst)&&(Item1.ObjectType==OBJECTTYPE_FOLDER))?0:1);
+    int NmB=(((Item1.ApplicationConfig->ShowFoldersFirst)&&(Item2.ObjectType==OBJECTTYPE_FOLDER))?0:1);
+    if (NmA<NmB) return true; else if (NmA>NmB) return false;
+    return Item1.ShortName<Item2.ShortName;
+}
+
+//LessThan
+bool ByDate(const MediaFileItem &Item1,const MediaFileItem &Item2) {
+    int NmA=(((Item1.ApplicationConfig->ShowFoldersFirst)&&(Item1.ObjectType==OBJECTTYPE_FOLDER))?0:1);
+    int NmB=(((Item1.ApplicationConfig->ShowFoldersFirst)&&(Item2.ObjectType==OBJECTTYPE_FOLDER))?0:1);
+    if (NmA<NmB) return true; else if (NmA>NmB) return false;
+    if (Item1.Modified==Item2.Modified) return Item1.ShortName<Item2.ShortName;
+    return Item1.Modified<Item2.Modified;
+}
 
 void QCustomFolderTable::FillListFolder(QString Path) {
     ToLog(LOGMSG_INFORMATION,QApplication::translate("QCustomFolderTable","Reading directory content (%1)").arg(QDir::toNativeSeparators(Path)));
@@ -725,10 +808,6 @@ void QCustomFolderTable::FillListFolder(QString Path) {
     }
     if (!ShowHiddenFilesAndDir) QueryString=QueryString+" AND IsHidden=0";
 
-    // Construct sort order
-    if (ApplicationConfig->ShowFoldersFirst) QueryString=QueryString+" ORDER BY IsDir,ShortName";
-        else                                 QueryString=QueryString+" ORDER BY ShortName";
-
     // Create column (if needed)
     if (CurrentMode==DISPLAY_ICON100) {
         int SizeColumn=GetWidthForIcon();
@@ -746,13 +825,13 @@ void QCustomFolderTable::FillListFolder(QString Path) {
         if ((FileKey!=-1)&&(ObjectType!=-1)) {
             cBaseMediaFile *MediaObject=NULL;
             switch (ObjectType) {
-                case OBJECTTYPE_FOLDER   : MediaObject=new cFolder(ApplicationConfig);                  break;
-                case OBJECTTYPE_UNMANAGED: MediaObject=new cUnmanagedFile(ApplicationConfig);           break;
-                case OBJECTTYPE_FFDFILE  : MediaObject=new cffDProjectFile(ApplicationConfig);          break;
-                case OBJECTTYPE_IMAGEFILE: MediaObject=new cImageFile(ApplicationConfig);               break;
-                case OBJECTTYPE_VIDEOFILE: MediaObject=new cVideoFile(ObjectType,ApplicationConfig);    break;
-                case OBJECTTYPE_MUSICFILE: MediaObject=new cMusicObject(ApplicationConfig);             break;
-                case OBJECTTYPE_THUMBNAIL: MediaObject=new cImageFile(ApplicationConfig);               break;
+                case OBJECTTYPE_FOLDER   : if ((AllowedFilter&FILTERALLOW_OBJECTTYPE_FOLDER)>0)    MediaObject=new cFolder(ApplicationConfig);                  break;
+                case OBJECTTYPE_UNMANAGED:                                                         MediaObject=new cUnmanagedFile(ApplicationConfig);           break;
+                case OBJECTTYPE_FFDFILE  : if ((AllowedFilter&FILTERALLOW_OBJECTTYPE_FFDFILE)>0)   MediaObject=new cffDProjectFile(ApplicationConfig);          break;
+                case OBJECTTYPE_IMAGEFILE: if ((AllowedFilter&FILTERALLOW_OBJECTTYPE_IMAGEFILE)>0) MediaObject=new cImageFile(ApplicationConfig);               break;
+                case OBJECTTYPE_VIDEOFILE: if ((AllowedFilter&FILTERALLOW_OBJECTTYPE_VIDEOFILE)>0) MediaObject=new cVideoFile(ObjectType,ApplicationConfig);    break;
+                case OBJECTTYPE_MUSICFILE: if ((AllowedFilter&FILTERALLOW_OBJECTTYPE_MUSICFILE)>0) MediaObject=new cMusicObject(ApplicationConfig);             break;
+                case OBJECTTYPE_THUMBNAIL: if ((AllowedFilter&FILTERALLOW_OBJECTTYPE_THUMBNAIL)>0) MediaObject=new cImageFile(ApplicationConfig);               break;
             }
             if (MediaObject) {
                 MediaObject->ObjectType=ObjectType;
@@ -773,6 +852,12 @@ void QCustomFolderTable::FillListFolder(QString Path) {
             delete MediaObject;
         }
     }
+
+    // Sort files in the fileList
+    if          (ApplicationConfig->SortFile==SORTORDER_BYNUMBER)    qSort(MediaList.begin(),MediaList.end(),ByNumber);
+        else if (ApplicationConfig->SortFile==SORTORDER_BYNAME)      qSort(MediaList.begin(),MediaList.end(),ByName);
+        else if (ApplicationConfig->SortFile==SORTORDER_BYDATE)      qSort(MediaList.begin(),MediaList.end(),ByDate);
+
 
     //**********************************************************
 

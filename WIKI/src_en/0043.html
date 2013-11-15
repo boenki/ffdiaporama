@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="wiki.css"/>
 </head>
 <body>
-    <div>In order to work, the application needs two configuration files. Each of them consists of a pair of files.</div>
+    <div>In order to work, the application needs two configuration files and one database. The two configuration files consists of a pair of files.</div>
     <div><br>For example:</div>
     <ul>
         <li>The primary ffDiaporama.xml file is stored in the ffDiaporama directory. This file is global for all users: it contains the default ffDiaporama application settings.
@@ -26,12 +26,10 @@
         </li>
     </ul>
     <br>
-    When the application is launched for the first time, the user configuration file is created if it does not already exist.
+    When the application is launched for the first time, the user configuration files and the database are created if they dont already exist.
     <br>
     <h4>Remark: </h4>
-    <div style="margin-left: 40px;">If ffDiaporama is used by several users on the same PC, there will be a separate configuration file for each user.</div>
-    <br>
-    The same principle is used for 2 files:
+    <div style="margin-left: 40px;">If ffDiaporama is used by several users on the same PC, there will be separate configuration files and database for each user.</div>
     <br>
     <table border="1" cellpadding="2" cellspacing="0"><tbody>
         <tr>
@@ -45,6 +43,10 @@
         <tr>
             <td style="text-align: left; vertical-align: top;">Devices.xml</td>
             <td style="text-align: left; vertical-align: top;">Contains the base of profiles for video generation.</td>
+        </tr>
+        <tr>
+            <td style="text-align: left; vertical-align: top;">ffDiaporama.db</td>
+            <td style="text-align: left; vertical-align: top;">Is a SQLite3 database containing cached objects and some configuration options.</td>
         </tr>
     </tbody></table>
 </body>

@@ -1348,14 +1348,6 @@ Neues Projekt</translation>
         <translation>EINFG</translation>
     </message>
     <message>
-        <source>Note: Each file selected is added to the project alphabetically by filename or in the numerical order of shots. </source>
-        <translation>Anmerkung: Jede der ausgewählten Dateien wird dem Projekt nach dem Alphabet oder nach seiner nummerischen Sortierung in die Aufnahmen eingefügt (dieses Verhalten können Sie in den Einstellungen ändern).</translation>
-    </message>
-    <message>
-        <source>Cameras number pictures/video sequences as they are taken; using numerical order ensures the correct chronological order of shots.</source>
-        <translation>Die Namensgebung von Kamerabildern, die verwendet werden: Verwenden Sie am besten nummerische Sortierung, damit gewährleisten Sie die chronologische Ordnung der Bilder in der Aufnahme.</translation>
-    </message>
-    <message>
         <source>Add project</source>
         <translation>Projekt hinzufügen</translation>
     </message>
@@ -1595,6 +1587,10 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     <message>
         <source>Allows you to render only the sound track of the project. The &lt;a href=&quot;0115.html&quot;&gt;render movie dialog&lt;/a&gt; appears.</source>
         <translation>Ernöglicht es, nur dier Musikspur des Projektes zu erstellen. Der Dialog &lt;a href=&quot;0115.html&quot;&gt;Video erstellen&lt;/a&gt; erscheint.</translation>
+    </message>
+    <message>
+        <source>Note: Each selected file is added to the project using sort order specified in the configuration menu of the multimedia file explorer.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2226,6 +2222,42 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     <message>
         <source>This option is available only for the icon view mode. If this option is activated, the file names will not be shown under the file images. It allows to increase the number of images shown in the view of the current directory. </source>
         <translation>Diese Option ist nur im Symbolmodus aktiv. Wenn diese aktiviert ist, wird der Name nicht unter den Bildsymbolen angezeigt. Es ermöglicht damit die Anzahl der Bilder, die gleichzeitig angezeigt werden können, zu erhöhen.</translation>
+    </message>
+    <message>
+        <source>Sort by number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This option sorts the files in order of their numerical suffix : Example: if you select IMG_0025, IMG_0032, MVI_0029 and MVI_0040, the files will be inserted as follows : IMG_0025, MVI_0029, IMG_0032 and MVI_0040</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort by name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This option sorts the files in alphabetical order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort by date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This option sorts the files in order of last modification date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show folder first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this option is enabled, the directories will be displayed first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings of the sort order</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3977,20 +4009,8 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <translation>Für Linux, ist der Ordner ~/.ffDiaporama</translation>
     </message>
     <message>
-        <source> When the application is launched for the first time, the user configuration file is created if it does not already exist. </source>
-        <translation> Beim Programmstart wird die Benutzerkonfiguration neu erstellt, falls die Datei nicht existiert.</translation>
-    </message>
-    <message>
         <source>Remark: </source>
         <translation>Anmerkung:</translation>
-    </message>
-    <message>
-        <source>If ffDiaporama is used by several users on the same PC, there will be a separate configuration file for each user.</source>
-        <translation>Wenn ffDiaporama von mehreren Benutzern am selben Conmputer verwendet wird, werden entsprechend der unterschiedlichen Anmeldungen auch unterschiedliche Benutzerkonfigurationen angelegt.</translation>
-    </message>
-    <message>
-        <source> The same principle is used for 2 files: </source>
-        <translation>Dieses Prinzip für alle zwei Konfigurationsdateien angewandt:</translation>
     </message>
     <message>
         <source>File</source>
@@ -4017,12 +4037,28 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <translation>Enthält das Basisprofil der Erzeugung. Diese Datei wird von beiden Programmen ( ffDiaporama und MMFiler) verwendet. Änderungen die in der einen Anwendung getätigt werden, sind automatisch auch für die andere Anwendung vorhanden.</translation>
     </message>
     <message>
-        <source>In order to work, the application needs two configuration files. Each of them consists of a pair of files.</source>
-        <translation>Um ordnungsgemäß zu arbeiten, braucht die Anwendung zwei Konfigurationsdatein. Jede dieser Dateien kann in zwei Orten untergebracht sein, einem primären Speicherort und einem sekundären.</translation>
-    </message>
-    <message>
         <source>For example:</source>
         <translation>Zum Beispiel :</translation>
+    </message>
+    <message>
+        <source>In order to work, the application needs two configuration files and one database. The two configuration files consists of a pair of files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> When the application is launched for the first time, the user configuration files and the database are created if they dont already exist. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If ffDiaporama is used by several users on the same PC, there will be separate configuration files and database for each user.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama.db</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Is a SQLite3 database containing cached objects and some configuration options.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4233,22 +4269,6 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     <message>
         <source>If &lt;I&gt;&lt;B&gt;Append to the end of the project&lt;/B&gt;&lt;/I&gt; is selected, then the new slides will be created at the end of the project.</source>
         <translation>Wenn die Option &lt;I&gt;&lt;B&gt;Am Ende des Projektes anfügen&lt;/B&gt;&lt;/I&gt; gewählt wurde, wird das neue Objekt am Ende des Projektes angefügt.</translation>
-    </message>
-    <message>
-        <source>Multiple file insertion</source>
-        <translation>Mehrere Objekte einfügen</translation>
-    </message>
-    <message>
-        <source>This option allows you to adjust the way files are sorted when you select several files in &lt;I&gt;&lt;B&gt;Add file&lt;/B&gt;&lt;/I&gt;. </source>
-        <translation>Diese Option legt fest, wie die hinzugefügten Objekte sortiert werden, wenn mehrere Dateien hinzugefügt werden.</translation>
-    </message>
-    <message>
-        <source>If this box is checked, files will be added in order of their numerical suffix : Example: if you select IMG_0025, IMG_0032, MVI_0029 and MVI_0040, the files will be inserted as follows : IMG_0025, MVI_0029, IMG_0032 and MVI_0040</source>
-        <translation>Ist die Option aktiv, werden die hinzugefügten Dateien sortiert nach ihrem nummerischen Index hinzugefügt. z.B:: Hatten Sie die Dateien IMG_0025, IMG_0032, MVI_0029 und MVI_0040 ausgewählt, werden die Dateien wie folgt an- bzw. eingefügt: IMG_0025, MVI_0029, IMG_0032 and MVI_0040</translation>
-    </message>
-    <message>
-        <source>If this box is unchecked, files are added in alphabetical order.</source>
-        <translation>Ist die Option nicht ausgewählt, werden die Dateien sortiert nach dem Alphabet eingefügt.</translation>
     </message>
     <message>
         <source>Object deletion</source>

@@ -972,7 +972,7 @@ void cEncodeVideo::Assembly(cDiaporamaObjectInfo *Frame,cDiaporamaObjectInfo *Pr
         ThreadEncodeAudio.setFuture(QtConcurrent::run(this,&cEncodeVideo::EncodeMusic,Frame,RenderMusic,ToEncodeMusic,Continue));
 
     if ((Continue)&&(VideoStream)&&(VideoFrameConverter)&&(VideoFrame)) {
-        QImage *Image=((PreviousFrame)&&(Frame->IsShotStatic))?NULL:&Frame->RenderedImage;
+        QImage *Image=((PreviousFrame)&&(!PreviousFrame->IsTransition)&&(Frame->IsShotStatic)&&(!Frame->IsTransition))?NULL:&Frame->RenderedImage;
         ThreadEncodeVideo.setFuture(QtConcurrent::run(this,&cEncodeVideo::EncodeVideo,Image,Continue));
     }
 }

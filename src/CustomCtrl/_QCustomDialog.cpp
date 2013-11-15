@@ -74,15 +74,15 @@ int CustomMessageBox(QWidget *parent,QMessageBox::Icon icon,const QString& title
 
 //====================================================================================================================
 
-QCustomDialog::QCustomDialog(cBaseApplicationConfig *BaseApplicationConfig,QWidget *parent):QDialog(parent) {
-    this->BaseApplicationConfig =BaseApplicationConfig;
-    TypeWindowState             =TypeWindowState_simple;
-    Splitter                    =NULL;
-    Undo                        =NULL;
-    OkBt                        =NULL;
-    CancelBt                    =NULL;
-    UndoBt                      =NULL;
-    HelpBt                      =NULL;
+QCustomDialog::QCustomDialog(cBaseApplicationConfig *ApplicationConfig,QWidget *parent):QDialog(parent) {
+    this->ApplicationConfig =ApplicationConfig;
+    TypeWindowState         =TypeWindowState_simple;
+    Splitter                =NULL;
+    Undo                    =NULL;
+    OkBt                    =NULL;
+    CancelBt                =NULL;
+    UndoBt                  =NULL;
+    HelpBt                  =NULL;
 
     #ifndef Q_OS_WIN
     setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
@@ -94,7 +94,7 @@ QCustomDialog::QCustomDialog(cBaseApplicationConfig *BaseApplicationConfig,QWidg
 //====================================================================================================================
 
 QCustomDialog::~QCustomDialog() {
-    if (!HelpFile.isEmpty() && BaseApplicationConfig->WikiFollowInterface) BaseApplicationConfig->PopupHelp->RestorePreviousHelpFile();
+    if (!HelpFile.isEmpty() && ApplicationConfig->WikiFollowInterface) ApplicationConfig->PopupHelp->RestorePreviousHelpFile();
 
     if (Undo) {
         delete Undo;
@@ -137,9 +137,9 @@ void QCustomDialog::InitDialog() {
     if (UndoBt) UndoBt->setEnabled(UndoDataList.count()>0);
 
     toolTipTowhatsThis(this);
-    if (!HelpFile.isEmpty() && BaseApplicationConfig->WikiFollowInterface) {
-        BaseApplicationConfig->PopupHelp->SaveLatestHelpFile();
-        BaseApplicationConfig->PopupHelp->OpenHelp(HelpFile,false);
+    if (!HelpFile.isEmpty() && ApplicationConfig->WikiFollowInterface) {
+        ApplicationConfig->PopupHelp->SaveLatestHelpFile();
+        ApplicationConfig->PopupHelp->OpenHelp(HelpFile,false);
     }
 }
 
@@ -149,7 +149,7 @@ void QCustomDialog::InitDialog() {
 void QCustomDialog::toolTipTowhatsThis(QObject *StartObj) {
     if (StartObj->property("toolTip").toString()!="") {
         StartObj->setProperty("whatsThis",StartObj->property("toolTip").toString());
-        if (BaseApplicationConfig->DisableTooltips) StartObj->setProperty("toolTip","");
+        if (ApplicationConfig->DisableTooltips) StartObj->setProperty("toolTip","");
     }
     for (int i=0;i<StartObj->children().count();i++) toolTipTowhatsThis(StartObj->children().at(i));
 }
@@ -174,28 +174,28 @@ void QCustomDialog::reject() {
 //====================================================================================================================
 
 void QCustomDialog::help() {
-    BaseApplicationConfig->PopupHelp->OpenHelp(HelpFile,true);
+    ApplicationConfig->PopupHelp->OpenHelp(HelpFile,true);
 }
 
 //====================================================================================================================
 // Save Window size and position
 
 void QCustomDialog::SaveWindowState() {
-    if (BaseApplicationConfig->RestoreWindow) {
+    if (ApplicationConfig->RestoreWindow) {
         QDomDocument    domDocument;
         QDomElement     root=domDocument.createElement("WindowState");
         domDocument.appendChild(root);
 
         if (TypeWindowState==TypeWindowState_simple) {
-            cSaveWindowPosition DlgWSP(objectName(),BaseApplicationConfig->RestoreWindow,false);
+            cSaveWindowPosition DlgWSP(objectName(),ApplicationConfig->RestoreWindow,false);
             DlgWSP.SaveWindowState(this);
             DlgWSP.SaveToXML(root);
-            BaseApplicationConfig->SettingsTable->SetIntAndTextValue(objectName(),TypeWindowState,domDocument.toString());
+            ApplicationConfig->SettingsTable->SetIntAndTextValue(objectName(),TypeWindowState,domDocument.toString());
         } else if (TypeWindowState==TypeWindowState_withsplitterpos) {
-            cSaveWinWithSplitterPos DlgWSP(objectName(),BaseApplicationConfig->RestoreWindow,false);
+            cSaveWinWithSplitterPos DlgWSP(objectName(),ApplicationConfig->RestoreWindow,false);
             DlgWSP.SaveWindowState(this,Splitter);
             DlgWSP.SaveToXML(root);
-            BaseApplicationConfig->SettingsTable->SetIntAndTextValue(objectName(),TypeWindowState,domDocument.toString());
+            ApplicationConfig->SettingsTable->SetIntAndTextValue(objectName(),TypeWindowState,domDocument.toString());
         }
     }
 }
@@ -205,7 +205,7 @@ void QCustomDialog::SaveWindowState() {
 
 void QCustomDialog::RestoreWindowState() {
     QString   WindowStateString;
-    if (BaseApplicationConfig->SettingsTable->GetIntAndTextValue(objectName(),&TypeWindowState,&WindowStateString)) {
+    if (ApplicationConfig->SettingsTable->GetIntAndTextValue(objectName(),&TypeWindowState,&WindowStateString)) {
         QDomDocument    domDocument;
         QString         errorStr;
         int             errorLine,errorColumn;
@@ -213,11 +213,11 @@ void QCustomDialog::RestoreWindowState() {
             ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error reading window state of %1 from home user database","Error message").arg(objectName()));
         } else {
             if (TypeWindowState==TypeWindowState_simple) {
-                cSaveWindowPosition DlgWSP(objectName(),BaseApplicationConfig->RestoreWindow,false);
+                cSaveWindowPosition DlgWSP(objectName(),ApplicationConfig->RestoreWindow,false);
                 DlgWSP.LoadFromXML(domDocument.documentElement());
                 if (DlgWSP.IsInit) DlgWSP.ApplyToWindow(this);
             } else if (TypeWindowState==TypeWindowState_withsplitterpos) {
-                cSaveWinWithSplitterPos DlgWSP(objectName(),BaseApplicationConfig->RestoreWindow,false);
+                cSaveWinWithSplitterPos DlgWSP(objectName(),ApplicationConfig->RestoreWindow,false);
                 DlgWSP.LoadFromXML(domDocument.documentElement());
                 if (DlgWSP.IsInit) DlgWSP.ApplyToWindow(this,Splitter);
             }

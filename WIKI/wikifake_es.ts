@@ -1347,14 +1347,6 @@
         <translation>INS</translation>
     </message>
     <message>
-        <source>Note: Each file selected is added to the project alphabetically by filename or in the numerical order of shots. </source>
-        <translation>Nota: Cada archivo seleccionado se añade al proyecto en orden alfabético según nombre de archivo o en el orden numérico de las tomas.</translation>
-    </message>
-    <message>
-        <source>Cameras number pictures/video sequences as they are taken; using numerical order ensures the correct chronological order of shots.</source>
-        <translation>Las cámaras enumeran las imágenes / secuencias de vídeoa medida que se toman, mediante orden numérico se asegura el orden cronológico correcto de las tomas.</translation>
-    </message>
-    <message>
         <source>Add project</source>
         <translation>Añadir proyecto</translation>
     </message>
@@ -1594,6 +1586,10 @@
     <message>
         <source>Allows you to render only the sound track of the project. The &lt;a href=&quot;0115.html&quot;&gt;render movie dialog&lt;/a&gt; appears.</source>
         <translation>Permite procesar sólo la banda sonora del proyecto. Aparece el diálogo &lt;a href=&quot;0115.html&quot;&gt;Exportar pista de audio&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <source>Note: Each selected file is added to the project using sort order specified in the configuration menu of the multimedia file explorer.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2224,6 +2220,42 @@
     <message>
         <source>This option is available only for the icon view mode. If this option is activated, the file names will not be shown under the file images. It allows to increase the number of images shown in the view of the current directory. </source>
         <translation>Esta opción sólo está disponible para el modo de vista de iconos. Si se activa esta opción, los nombres de los archivos no se mostrarán en las imágenes de archivo. Permite aumentar el número de imágenes que se muestran en la vista del directorio actual.</translation>
+    </message>
+    <message>
+        <source>Sort by number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This option sorts the files in order of their numerical suffix : Example: if you select IMG_0025, IMG_0032, MVI_0029 and MVI_0040, the files will be inserted as follows : IMG_0025, MVI_0029, IMG_0032 and MVI_0040</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort by name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This option sorts the files in alphabetical order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort by date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This option sorts the files in order of last modification date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show folder first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this option is enabled, the directories will be displayed first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings of the sort order</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3975,20 +4007,8 @@
         <translation>Para Linux es ~/.ffDiaporama</translation>
     </message>
     <message>
-        <source> When the application is launched for the first time, the user configuration file is created if it does not already exist. </source>
-        <translation> Cuando la aplicación se inicia por primera vez, se crea el archivo de configuración del usuario, si no existía anteriormente. </translation>
-    </message>
-    <message>
         <source>Remark: </source>
         <translation>Nota:</translation>
-    </message>
-    <message>
-        <source>If ffDiaporama is used by several users on the same PC, there will be a separate configuration file for each user.</source>
-        <translation>Si ffDiaporama es utilizado por varios usuarios en el mismo PC, habrá un archivo de configuración independiente para cada usuario.</translation>
-    </message>
-    <message>
-        <source> The same principle is used for 2 files: </source>
-        <translation>El mismo principio se utiliza para estos 2 archivos:</translation>
     </message>
     <message>
         <source>File</source>
@@ -4015,12 +4035,28 @@
         <translation>Contiene la base de los perfiles para la generación del video.</translation>
     </message>
     <message>
-        <source>In order to work, the application needs two configuration files. Each of them consists of a pair of files.</source>
-        <translation>Para que funcione correctamente, la aplicación necesita dos archivos de configuración. Cada uno de ellos consta de un par de archivos.</translation>
-    </message>
-    <message>
         <source>For example:</source>
         <translation>Por ejemplo:</translation>
+    </message>
+    <message>
+        <source>In order to work, the application needs two configuration files and one database. The two configuration files consists of a pair of files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> When the application is launched for the first time, the user configuration files and the database are created if they dont already exist. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If ffDiaporama is used by several users on the same PC, there will be separate configuration files and database for each user.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama.db</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Is a SQLite3 database containing cached objects and some configuration options.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4231,22 +4267,6 @@
     <message>
         <source>If &lt;I&gt;&lt;B&gt;Append to the end of the project&lt;/B&gt;&lt;/I&gt; is selected, then the new slides will be created at the end of the project.</source>
         <translation>Si se selecciona &lt;I&gt;&lt;B&gt;Añadir al final del proyecto&lt;/B&gt;&lt;/I&gt;, entonces se crearán las nuevas diapositivas al final del proyecto.</translation>
-    </message>
-    <message>
-        <source>Multiple file insertion</source>
-        <translation>Inserción múltiples de ficheros</translation>
-    </message>
-    <message>
-        <source>This option allows you to adjust the way files are sorted when you select several files in &lt;I&gt;&lt;B&gt;Add file&lt;/B&gt;&lt;/I&gt;. </source>
-        <translation>Esta opción permite ajustar la forma en que los archivos se ordenan cuando seleccionamos varios &lt;I&gt;&lt;B&gt;Añadir archivo&lt;/B&gt;&lt;/I&gt;.</translation>
-    </message>
-    <message>
-        <source>If this box is checked, files will be added in order of their numerical suffix : Example: if you select IMG_0025, IMG_0032, MVI_0029 and MVI_0040, the files will be inserted as follows : IMG_0025, MVI_0029, IMG_0032 and MVI_0040</source>
-        <translation>Si esta casilla está marcada, los archivos serán añadidos según su sufijo numérico: Si se selecciona IMG_0025, IMG_0032, MVI_0029 and MVI_0040, y MVI_0040, estos archivos se insertarán de la forma siguiente: IMG_0025, MVI_0029, IMG_0032 and MVI_0040 </translation>
-    </message>
-    <message>
-        <source>If this box is unchecked, files are added in alphabetical order.</source>
-        <translation>Si esta casilla está desmarcada, los archivos serán añadidos en orden alfabetico.</translation>
     </message>
     <message>
         <source>Object deletion</source>
