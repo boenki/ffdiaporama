@@ -107,7 +107,6 @@ void DlgApplicationSettings::DoInitDialog() {
     // Editor options
     ui->UnitCB->setCurrentIndex(ApplicationConfig->DisplayUnit);
     ui->AppendObjectCB->setCurrentIndex(ApplicationConfig->AppendObject?1:0);
-    ui->SortFileCB->setChecked(ApplicationConfig->SortFile);
     ui->AskUserToRemove->setChecked(ApplicationConfig->AskUserToRemove);
 
     // Various options
@@ -399,7 +398,6 @@ bool DlgApplicationSettings::DoAccept() {
 
     // Editor Options part
     ApplicationConfig->AppendObject                 =ui->AppendObjectCB->currentIndex()==1;
-    ApplicationConfig->SortFile                     =ui->SortFileCB->isChecked();
     ApplicationConfig->AskUserToRemove              =ui->AskUserToRemove->isChecked();
     ApplicationConfig->DisplayUnit                  =ui->UnitCB->currentIndex();
     ApplicationConfig->Crop1088To1080               =ui->Crop1088To1080CB->isChecked();

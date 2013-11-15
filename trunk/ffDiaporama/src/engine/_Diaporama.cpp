@@ -236,8 +236,6 @@ void cCompositionObjectContext::Compute() {
 //*********************************************************************************************************************************************
 
 cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cBaseApplicationConfig *TheApplicationConfig) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject::cCompositionObject");
-
     // Attribut of the text object
     ApplicationConfig       = TheApplicationConfig;
     TypeComposition         = TheTypeComposition;
@@ -249,7 +247,6 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cB
 //*********************************************************************************************************************************************
 
 void cCompositionObject::InitDefaultValues() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject::InitDefaultValues");
     IsVisible               = true;
     SameAsPrevShot          = false;
 
@@ -308,8 +305,6 @@ void cCompositionObject::InitDefaultValues() {
 //====================================================================================================================
 
 cCompositionObject::~cCompositionObject() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject::~cCompositionObject");
-
     if (BackgroundBrush) {
         delete BackgroundBrush;
         BackgroundBrush=NULL;
@@ -319,7 +314,6 @@ cCompositionObject::~cCompositionObject() {
 //====================================================================================================================
 
 void cCompositionObject::ApplyTextMargin(int TMType) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject::ApplyTextMargin");
     if ((this->TMType==TEXTMARGINS_CUSTOM)&&(TMType==TEXTMARGINS_CUSTOM)) return;   // Don't overwrite custom settings
     this->TMType=TMType;
     QRectF Rect =GetPrivateTextMargin();
@@ -332,8 +326,6 @@ void cCompositionObject::ApplyTextMargin(int TMType) {
 //====================================================================================================================
 
 QRectF cCompositionObject::GetPrivateTextMargin() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject::GetPrivateTextMargin");
-
     QRectF RectF;
     if (TMType==TEXTMARGINS_FULLSHAPE) {
             QRectF X100=RectF=PolygonToRectF(ComputePolygon(BackgroundForm,0,0,100,100));
@@ -353,7 +345,6 @@ QRectF cCompositionObject::GetPrivateTextMargin() {
 //====================================================================================================================
 
 QRectF cCompositionObject::GetTextMargin(QRectF Workspace,double  ADJUST_RATIO) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject::GetTextMargin");
     // if type is ShapeDefault, then adjust with border size
     if ((TMType==TEXTMARGINS_FULLSHAPE)||(TMType==TEXTMARGINS_CUSTOM)) {
         return QRectF(TMx*w*Workspace.width(),TMy*h*Workspace.height(),
@@ -368,8 +359,6 @@ QRectF cCompositionObject::GetTextMargin(QRectF Workspace,double  ADJUST_RATIO) 
 //====================================================================================================================
 
 void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition,cReplaceObjectList *ReplaceList) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:SaveToXML");
-
     // Force a refresh of IsTextEmpty flag
     QTextDocument TextDocument;
     TextDocument.setHtml(Text);
@@ -452,8 +441,6 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
 //====================================================================================================================
 
 bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:LoadFromXML");
-
     InitDefaultValues();
 
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
@@ -716,8 +703,6 @@ void cCompositionObject::ApplyAutoCompoSize(int AutoCompoStyle,int ffDProjectGeo
 //====================================================================================================================
 
 QString cCompositionObject::GetBlockShapeStyle() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:GetBlockShapeStyle");
-
     return  QString("###BackgroundForm:%1").arg(BackgroundForm)+
             QString("###PenSize:%1").arg(PenSize)+
             QString("###PenStyle:%1").arg(PenStyle)+
@@ -729,8 +714,6 @@ QString cCompositionObject::GetBlockShapeStyle() {
 }
 
 void cCompositionObject::ApplyBlockShapeStyle(QString StyleDef) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:ApplyBlockShapeStyle");
-
     QStringList List;
 
     // String to StringList
@@ -756,8 +739,6 @@ void cCompositionObject::ApplyBlockShapeStyle(QString StyleDef) {
 //====================================================================================================================
 
 QString cCompositionObject::GetTextStyle() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:GetTextStyle");
-
     return  QString("FontSize:%1").arg(FontSize)+
             QString("###HAlign:%1").arg(HAlign)+
             QString("###VAlign:%1").arg(VAlign)+
@@ -771,8 +752,6 @@ QString cCompositionObject::GetTextStyle() {
 }
 
 void cCompositionObject::ApplyTextStyle(QString StyleDef) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:ApplyTextStyle");
-
     QStringList List;
 
     // String to StringList
@@ -823,8 +802,6 @@ void cCompositionObject::ApplyTextStyle(QString StyleDef) {
 //====================================================================================================================
 
 QString cCompositionObject::GetBackgroundStyle() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:GetBackgroundStyle");
-
     return  QString("BrushType:%1").arg(BackgroundBrush->BrushType)+
             QString("###PatternType:%1").arg(BackgroundBrush->PatternType)+
             QString("###GradientOrientation:%1").arg(BackgroundBrush->GradientOrientation)+
@@ -836,8 +813,6 @@ QString cCompositionObject::GetBackgroundStyle() {
 }
 
 void cCompositionObject::ApplyBackgroundStyle(QString StyleDef) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:ApplyBackgroundStyle");
-
     QStringList List;
 
     // String to StringList
@@ -863,8 +838,6 @@ void cCompositionObject::ApplyBackgroundStyle(QString StyleDef) {
 //====================================================================================================================
 
 QString cCompositionObject::GetCoordinateStyle() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:GetCoordinateStyle");
-
     QString Style=QString("###X:%1").arg(x,0,'e')+
             QString("###Y:%1").arg(y,0,'e')+
             QString("###W:%1").arg(w,0,'e')+
@@ -877,8 +850,6 @@ QString cCompositionObject::GetCoordinateStyle() {
 }
 
 void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:ApplyCoordinateStyle");
-
     QStringList List;
     bool        RecalcAspectRatio=true;
 
@@ -912,8 +883,6 @@ void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
 //====================================================================================================================
 
 void cCompositionObject::CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:CopyFromCompositionObject");
-
     IsVisible            =CompositionObjectToCopy->IsVisible;
     x                    =CompositionObjectToCopy->x;
     y                    =CompositionObjectToCopy->y;
@@ -967,8 +936,6 @@ void cCompositionObject::DrawCompositionObject(cDiaporamaObject *Object,QPainter
                                                cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PrevCompoObject,
                                                int64_t ShotDuration,bool EnableAnimation,
                                                bool Transfo,double NewX,double NewY,double NewW,double NewH,bool DisplayTextMargin,cCompositionObjectContext *PreparedBrush) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:DrawCompositionObject");
-
     // W and H = 0 when producing sound track in render process
     if (!IsVisible) return;
 
@@ -1339,24 +1306,18 @@ void cCompositionObject::DrawCompositionObject(cDiaporamaObject *Object,QPainter
 //*********************************************************************************************************************************************
 
 cCompositionList::cCompositionList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionList:cCompositionList");
-
     TypeComposition=COMPOSITIONTYPE_BACKGROUND;
 }
 
 //====================================================================================================================
 
 cCompositionList::~cCompositionList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionList:~cCompositionList");
-
     while (List.count()>0) delete List.takeLast();
 }
 
 //====================================================================================================================
 
 void cCompositionList::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionList:SaveToXML");
-
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     // Save composition list
@@ -1369,8 +1330,6 @@ void cCompositionList::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 //====================================================================================================================
 
 bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,cBaseApplicationConfig *ApplicationConfig) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionList:LoadFromXML");
-
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
         bool    IsOk=true;
@@ -1399,8 +1358,6 @@ bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 //*********************************************************************************************************************************************
 
 cDiaporamaShot::cDiaporamaShot(cDiaporamaObject *DiaporamaObject) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaShot:cDiaporamaShot");
-
     Parent                          = DiaporamaObject;
     StaticDuration                  = ((MainWindow *)Parent->Parent->ApplicationConfig->TopLevelWindow)->ApplicationConfig->FixedDuration;    // Duration (in msec) of the static part animation
     ShotComposition.TypeComposition = COMPOSITIONTYPE_SHOT;
@@ -1409,15 +1366,11 @@ cDiaporamaShot::cDiaporamaShot(cDiaporamaObject *DiaporamaObject) {
 //====================================================================================================================
 
 cDiaporamaShot::~cDiaporamaShot() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaShot:~cDiaporamaShot");
-
 }
 
 //===============================================================
 
 void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool LimitedInfo,cReplaceObjectList *ReplaceList) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaShot:SaveToXML");
-
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
 
@@ -1429,8 +1382,6 @@ void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QStr
 //===============================================================
 
 bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaShot:LoadFromXML");
-
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
         if (Element.hasAttribute("StaticDuration")) StaticDuration=Element.attribute("StaticDuration").toInt();           // Duration (in msec) of the static part animation
@@ -1448,14 +1399,19 @@ bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QSt
 //*********************************************************************************************************************************************
 
 cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:cDiaporamaObject");
-
-    BackgroundBrush     = new cBrushDefinition(Diaporama->ApplicationConfig,&BackgroundList);
-    Parent              = Diaporama;
-    SlideName           = QApplication::translate("MainWindow","Title","Default slide name when no file");
-    NextIndexKey        = 1;
-    ThumbnailKey        =-1;
-    CachedStartPosition =0;
+    BackgroundBrush         =new cBrushDefinition(Diaporama->ApplicationConfig,&BackgroundList);
+    Parent                  =Diaporama;
+    SlideName               =QApplication::translate("MainWindow","Title","Default slide name when no file");
+    NextIndexKey            =1;
+    ThumbnailKey            =-1;
+    CachedDuration          =0;
+    CachedTransitDuration   =0;
+    CachedStartPosition     =0;
+    CachedMusicIndex        =0;
+    CachedBackgroundIndex   =0;
+    CachedHaveSound         =0;
+    CachedSoundVolume       =0;
+    CachedHaveFilter        =false;
 
     InitDefaultValues();
 
@@ -1466,8 +1422,6 @@ cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
 //====================================================================================================================
 
 void cDiaporamaObject::InitDefaultValues() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:InitDefaultValues");
-
     // Set default/initial value
     StartNewChapter                         = DEFAULT_STARTNEWCHAPTER;      // if true then start a new chapter from this slide
     ChapterName                             = QApplication::translate("cModelList","Chapter title");
@@ -1492,8 +1446,6 @@ void cDiaporamaObject::InitDefaultValues() {
 //====================================================================================================================
 
 cDiaporamaObject::~cDiaporamaObject() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:~cDiaporamaObject");
-
     if (BackgroundBrush) {
         delete BackgroundBrush;
         BackgroundBrush=NULL;
@@ -1504,16 +1456,12 @@ cDiaporamaObject::~cDiaporamaObject() {
 //====================================================================================================================
 
 QString cDiaporamaObject::GetDisplayName() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:GetDisplayName");
-
     return SlideName;
 }
 
 //===============================================================
 // Draw Thumb
 void cDiaporamaObject::DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY,int ShotNumber) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:DrawThumbnail");
-
     QImage Thumb;
     if (ShotNumber==0) Parent->ApplicationConfig->SlideThumbsTable->GetThumbs(&ThumbnailKey,&Thumb);
 
@@ -1538,7 +1486,7 @@ void cDiaporamaObject::DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Pa
         P.end();
         if (ShotNumber==0) Parent->ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailKey,Thumb);
     }
-    Painter->drawImage(AddX,AddY,Thumb);
+    if (Painter) Painter->drawImage(AddX,AddY,Thumb);
 }
 
 //===============================================================
@@ -1554,8 +1502,6 @@ int64_t cDiaporamaObject::GetTransitDuration() {
 }
 
 int64_t cDiaporamaObject::GetCumulTransitDuration() {
-    //ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:GetCumulTransitDuration");   // Remove : Too much
-
     // Adjust duration to ensure transition will be full !
     int       ObjectIndex    =Parent->GetObjectIndex(this);
     int64_t TransitDuration=GetTransitDuration();
@@ -1566,8 +1512,6 @@ int64_t cDiaporamaObject::GetCumulTransitDuration() {
 //===============================================================
 
 int64_t cDiaporamaObject::GetDuration() {
-    //ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:GetDuration");       // Remove : Too much
-
     int64_t Duration=0;
     for (int i=0;i<List.count();i++) Duration=Duration+List[i]->StaticDuration;
 
@@ -1634,8 +1578,6 @@ int cDiaporamaObject::GetAutoTSNumber() {
 //===============================================================
 
 void cDiaporamaObject::LoadModelFromXMLData(ffd_MODELTYPE TypeModel,QDomDocument domDocument) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:LoadModel");
-
     QString     ErrorMsg;
     QDomElement ProjectDocument=domDocument.documentElement();
     bool        IsOk=false;
@@ -1657,8 +1599,6 @@ void cDiaporamaObject::LoadModelFromXMLData(ffd_MODELTYPE TypeModel,QDomDocument
 //===============================================================
 
 bool cDiaporamaObject::SaveModelFile(ffd_MODELTYPE TypeModel,QString ModelFileName,bool ForceAbsolutPath) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:SaveThumbnail");
-
     QFile           file(ModelFileName);
     QDomDocument    domDocument(APPLICATION_NAME);
     QDomElement     root;
@@ -1696,8 +1636,6 @@ bool cDiaporamaObject::SaveModelFile(ffd_MODELTYPE TypeModel,QString ModelFileNa
 //===============================================================
 
 QString cDiaporamaObject::SaveAsNewCustomModelFile(ffd_MODELTYPE TypeModel) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:SaveAsNewCustomModelFile");
-
     QString     NewName,Text;
     cModelList  *ModelList;
 
@@ -1722,8 +1660,6 @@ QString cDiaporamaObject::SaveAsNewCustomModelFile(ffd_MODELTYPE TypeModel) {
 //===============================================================
 
 void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:SaveToXML");
-
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     QDomElement     SubElement;
@@ -1817,8 +1753,6 @@ void cDiaporamaObject::ThreadedLoadThumb(QDomElement Element) {
 //===============================================================
 
 bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:LoadFromXML");
-
     if ((ElementName!=THUMBMODEL_ELEMENTNAME)&&(ElementName!=TITLEMODEL_ELEMENTNAME)) InitDefaultValues();
 
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
@@ -1915,6 +1849,22 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             List.append(imagesequence);
         }
 
+        // Bug fix for ffDRevision between 1.7b3 and 2.0b3
+        if ((ElementName!=TITLEMODEL_ELEMENTNAME)&&(Parent->ProjectInfo->ffDRevision>"20131016")&&(Parent->ProjectInfo->ffDRevision<"20131112")) {
+            int AutoTSNumber=GetAutoTSNumber();
+            if (AutoTSNumber!=-1) {
+                int         ModelType   =(AutoTSNumber/100000);
+                int         ModelSubType=(AutoTSNumber%100000)/10000;
+                int         ModelIndex  =AutoTSNumber-ModelType*100000-ModelSubType*10000;
+                cModelList  *ModelList  =(ModelType==ffd_MODELTYPE_PROJECTTITLE)?Parent->ApplicationConfig->PrjTitleModels[Parent->ImageGeometry][ModelSubType==9?MODELTYPE_PROJECTTITLE_CATNUMBER-1:ModelSubType]:
+                                         (ModelType==ffd_MODELTYPE_CHAPTERTITLE)?Parent->ApplicationConfig->CptTitleModels[Parent->ImageGeometry][ModelSubType==9?MODELTYPE_CHAPTERTITLE_CATNUMBER-1:ModelSubType]:
+                                         (ModelType==ffd_MODELTYPE_CREDITTITLE)?Parent->ApplicationConfig->CreditTitleModels[Parent->ImageGeometry][ModelSubType==9?MODELTYPE_CREDITTITLE_CATNUMBER-1:ModelSubType]:
+                                         NULL;
+                if ((ModelList)&&(ModelIndex>=0)&&(ModelIndex<ModelList->List.count()))
+                    LoadModelFromXMLData((ffd_MODELTYPE)ModelType,ModelList->List[ModelIndex].Model);
+            }
+        }
+
         // Refresh OptimisationFlags
         for (int Shot=0;Shot<List.count();Shot++) for (int Block=0;Block<List[Shot]->ShotComposition.List.count();Block++)
                 List[Shot]->ShotComposition.List[Block]->ComputeOptimisationFlags(Shot>0?List[Shot-1]->ShotComposition.List[Block]:NULL);
@@ -1944,8 +1894,6 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 //*********************************************************************************************************************************************
 
 cDiaporama::cDiaporama(cBaseApplicationConfig *TheApplicationConfig,bool LoadDefaultModel) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:cDiaporama");
-
     ApplicationConfig           = TheApplicationConfig;
     ProjectInfo                 = new cffDProjectFile(ApplicationConfig);
     ProjectThumbnail            = new cDiaporamaObject(this);
@@ -1979,8 +1927,6 @@ cDiaporama::cDiaporama(cBaseApplicationConfig *TheApplicationConfig,bool LoadDef
 //====================================================================================================================
 
 cDiaporama::~cDiaporama() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:~cDiaporama");
-
     if (ProjectInfo) {
         delete ProjectInfo;
         ProjectInfo=NULL;
@@ -1995,14 +1941,11 @@ cDiaporama::~cDiaporama() {
 //====================================================================================================================
 
 void cDiaporama::UpdateInformation() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:UpdateInformation");
     UpdateChapterInformation();
     UpdateStatInformation();
 }
 
 void cDiaporama::UpdateChapterInformation() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:UpdateChapterInformation");
-
     // Remove all chapters information
     int i=0;
     while (i<ProjectInfo->ChaptersProperties.count()) {
@@ -2034,8 +1977,6 @@ void cDiaporama::UpdateChapterInformation() {
 }
 
 void cDiaporama::UpdateStatInformation() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:UpdateStatInformation");
-
     QString Text;
     for (int var=0;var<Variable.Variables.count();var++) {
         if (Variable.Variables[var].VarName=="STP") {
@@ -2105,8 +2046,6 @@ void cDiaporama::UpdateStatInformation() {
 //====================================================================================================================
 
 void cDiaporama::DefineSizeAndGeometry(ffd_GEOMETRY Geometry) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DefineSizeAndGeometry");
-
     ImageGeometry   =Geometry;
     InternalHeight  =PREVIEWMAXHEIGHT;
     InternalWidth   =GetWidthForHeight(InternalHeight);
@@ -2128,8 +2067,6 @@ void cDiaporama::DefineSizeAndGeometry(ffd_GEOMETRY Geometry) {
 //=======================================================
 
 int cDiaporama::GetHeightForWidth(int WantedWith) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetHeightForWidth");
-
     switch (ImageGeometry) {
         case GEOMETRY_4_3:      return int(double(3)*(double(WantedWith)/double(4)));       break;
         case GEOMETRY_40_17:    return int(double(17)*(double(WantedWith)/double(40)));     break;
@@ -2143,8 +2080,6 @@ int cDiaporama::GetHeightForWidth(int WantedWith) {
 //=======================================================
 
 int cDiaporama::GetWidthForHeight(int WantedHeight) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetWidthForHeight");
-
     switch (ImageGeometry) {
         case GEOMETRY_4_3:      return int(double(4)*(double(WantedHeight)/double(3)));       break;
         case GEOMETRY_40_17:    return int(double(40)*(double(WantedHeight)/double(17)));     break;
@@ -2156,8 +2091,6 @@ int cDiaporama::GetWidthForHeight(int WantedHeight) {
 //====================================================================================================================
 
 int64_t cDiaporama::GetTransitionDuration(int index) {
-    //ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetTransitionDuration"); // Remove : too much
-
     int64_t Duration=0;
     if ((index>=0)&&(List.count()>0)&&((index<List.count())&&(!((List[index]->TransitionFamilly==0)&&(List[index]->TransitionSubType==0))))) Duration=List[index]->TransitionDuration;
     return Duration;
@@ -2166,8 +2099,6 @@ int64_t cDiaporama::GetTransitionDuration(int index) {
 //====================================================================================================================
 
 int64_t cDiaporama::GetDuration() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetDuration");
-
     int64_t Duration=0;
     for (int i=0;i<List.count();i++) {
         int64_t ObjDuration=List[i]->GetDuration()-GetTransitionDuration(i+1);
@@ -2179,8 +2110,6 @@ int64_t cDiaporama::GetDuration() {
 //====================================================================================================================
 
 int64_t cDiaporama::GetPartialDuration(int from,int to) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetPartialDuration");
-
     if (from<0)             from=0;
     if (from>=List.count()) from=List.count()-1;
     if (to<0)               to=0;
@@ -2196,8 +2125,6 @@ int64_t cDiaporama::GetPartialDuration(int from,int to) {
 //====================================================================================================================
 
 int64_t cDiaporama::GetObjectStartPosition(int index) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetObjectStartPosition");
-
     int64_t Duration=0;
     if ((index>=List.count())&&(List.count()>0)) {
         index=List.count()-1;
@@ -2213,8 +2140,6 @@ int64_t cDiaporama::GetObjectStartPosition(int index) {
 //====================================================================================================================
 
 int cDiaporama::GetObjectIndex(cDiaporamaObject *ObjectToFind) {
-    //ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetObjectIndex");          // Remove : Too much
-
     int i=0;
     while ((i<List.count())&&(ObjectToFind!=List[i])) i++;
     if (i<List.count()) return i; else return -1;
@@ -2223,67 +2148,77 @@ int cDiaporama::GetObjectIndex(cDiaporamaObject *ObjectToFind) {
 //====================================================================================================================
 
 void cDiaporama::PrepareBackground(int Index,int Width,int Height,QPainter *Painter,int AddX,int AddY) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:PrepareBackground");
-
-    // Background type : false=same as precedent - true=new background definition
-    while ((Index>0)&&(!List[Index]->BackgroundType)) Index--;
     // Make painter translation to ensure QBrush image will start at AddX AddY position
     Painter->save();
     Painter->translate(AddX,AddY);
     Painter->fillRect(QRect(0,0,Width,Height),QBrush(Qt::black));
-    if ((Index>=0)&&(List[Index]->BackgroundType)) {
-        QBrush *BR=List[Index]->BackgroundBrush->GetBrush(QRectF(0,0,Width,Height),true,0,NULL,1,NULL);
-        Painter->fillRect(QRect(0,0,Width,Height),*BR);
-        delete BR;
-    }
+    QBrush *BR=List[List[Index]->CachedBackgroundIndex]->BackgroundBrush->GetBrush(QRectF(0,0,Width,Height),true,0,NULL,1,NULL);
+    Painter->fillRect(QRect(0,0,Width,Height),*BR);
+    delete BR;
     Painter->restore();
 }
 
 //====================================================================================================================
 
-void cDiaporama::UpdateCachedStartPosition() {
+void cDiaporama::UpdateCachedInformation() {
     int64_t StartPosition=0;
-    int64_t MusicIndex=0;
+    int     MusicIndex=0;
+    int     BackgroundIndex=0;
 
-    List[0]->CachedStartPosition=0;
-    List[0]->CachedMusicIndex   =0;
+    for (int DiaporamaObjectNum=0;DiaporamaObjectNum<List.count();DiaporamaObjectNum++) {
+        cDiaporamaObject    *DiaporamaObject=List[DiaporamaObjectNum];
+        bool                HaveSound=false;
+        bool                HaveFilter=false;
+        double              SoundVolume=0;
 
-    for (int i=1;i<List.count();i++) {
-        if (List[i]->MusicType) {
+        // Owner of the background
+        if (DiaporamaObject->BackgroundType) BackgroundIndex=DiaporamaObjectNum;
+
+        // Owner and start position of the music
+        if ((DiaporamaObjectNum==0)||(DiaporamaObject->MusicType)) {
             StartPosition=0;
-            MusicIndex=i;
-        } else if (!List[i-1]->MusicPause) {
-            int64_t Duration=List[i-1]->GetDuration()-GetTransitionDuration(i);
+            MusicIndex=DiaporamaObjectNum;
+        } else if (!List[DiaporamaObjectNum-1]->MusicPause) {
+            int64_t Duration=List[DiaporamaObjectNum-1]->GetDuration()-GetTransitionDuration(DiaporamaObjectNum);
             StartPosition+=((Duration)>=33?Duration:33);
         }
-        List[i]->CachedStartPosition=StartPosition;
-        List[i]->CachedMusicIndex   =MusicIndex;
+
+        // Parse ObjectComposition table to determine if slide have sound
+        for (int ObjNum=0;ObjNum<DiaporamaObject->ObjectComposition.List.count();ObjNum++)
+            if ((DiaporamaObject->ObjectComposition.List[ObjNum]->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(DiaporamaObject->ObjectComposition.List[ObjNum]->BackgroundBrush->Video))
+                HaveSound=true;
+
+        // Parse shots and objects in shot to determine if slide have filter and max SoundVolume
+        for (int shot=0;shot<DiaporamaObject->List.count();shot++) for (int ObjNum=0;ObjNum<DiaporamaObject->List[shot]->ShotComposition.List.count();ObjNum++) {
+            cCompositionObject *CompoObject=DiaporamaObject->List[shot]->ShotComposition.List[ObjNum];
+            if ((CompoObject->IsVisible)&&(CompoObject->BackgroundBrush))
+                if ((CompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(CompoObject->BackgroundBrush->Video)&&(CompoObject->BackgroundBrush->SoundVolume>SoundVolume))
+                    SoundVolume=CompoObject->BackgroundBrush->SoundVolume;
+
+            if ((CompoObject->BackgroundBrush->GaussBlurSharpenSigma!=0)||(CompoObject->BackgroundBrush->QuickBlurSharpenSigma!=0)||
+                (CompoObject->BackgroundBrush->Desat!=0)||(CompoObject->BackgroundBrush->Swirl!=0)||(CompoObject->BackgroundBrush->Implode!=0)||
+                (CompoObject->BackgroundBrush->OnOffFilter!=0)
+               ) HaveFilter=true;
+        }
+
+        DiaporamaObject->CachedDuration         =DiaporamaObject->GetDuration();
+        DiaporamaObject->CachedTransitDuration  =DiaporamaObject->GetTransitDuration();
+        DiaporamaObject->CachedStartPosition    =StartPosition;
+        DiaporamaObject->CachedMusicIndex       =MusicIndex;
+        DiaporamaObject->CachedBackgroundIndex  =BackgroundIndex;
+        DiaporamaObject->CachedHaveSound        =HaveSound;
+        DiaporamaObject->CachedSoundVolume      =SoundVolume;
+        DiaporamaObject->CachedHaveFilter       =HaveFilter;
     }
 }
 
 //====================================================================================================================
 
 cMusicObject *cDiaporama::GetMusicObject(int ObjectIndex,int64_t &StartPosition,int *CountObject,int *IndexObject) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetMusicObject");
-
     if (ObjectIndex>=List.count()) return NULL;
 
     StartPosition=List[ObjectIndex]->CachedStartPosition;
     int Index    =List[ObjectIndex]->CachedMusicIndex;
-/*
-    StartPosition=0;
-    int          Index=ObjectIndex;
-
-    // Music type : false=same as precedent - true=new playlist definition
-    while ((Index>0)&&(!List[Index]->MusicType)) {
-        if (!List[Index-1]->MusicPause) {
-            int64_t Duration=List[Index-1]->GetDuration()-GetTransitionDuration(Index);
-            StartPosition+=((Duration)>=33?Duration:33);
-        }
-        Index--;
-    }
-*/
-
     cMusicObject *Ret =NULL;
 
     // Now we have the object owner of the playlist (or 0). Then we can calculate wich music in the playlist is usable for this object
@@ -2313,8 +2248,6 @@ cMusicObject *cDiaporama::GetMusicObject(int ObjectIndex,int64_t &StartPosition,
 //====================================================================================================================
 
 bool cDiaporama::SaveFile(QWidget *ParentWindow,cReplaceObjectList *ReplaceList,QString *ExportFileName) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:SaveFile");
-
     QFile           file((ReplaceList!=NULL)&&(ExportFileName!=NULL)?*ExportFileName:ProjectFileName);
     QDomDocument    domDocument(APPLICATION_NAME);
     QDomElement     Element;
@@ -2380,7 +2313,6 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow,cReplaceObjectList *ReplaceList,
 // Note : Position is relative to the start of the Column object !
 //============================================================================================
 void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,int64_t Position,cSoundBlockList *MusicTrack) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:PrepareMusicBloc");
     if (Column>=List.count()) {
         for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket(Position);
         return;
@@ -2436,8 +2368,6 @@ void ComputeCompositionObjectContext(cCompositionObjectContext &PreparedBrush) {
 }
 
 void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurrentObject,bool PreviewMode,bool AddStartPos) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:PrepareImage");
-
     bool SoundOnly=((W==0)&&(H==0));  // W and H = 0 when producing sound track in render process
 
     // return immediatly if we have image
@@ -2528,8 +2458,6 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
 // Function use directly or with thread to make assembly of background and images and make mix (sound & music) when transition
 //=============================================================================================================================
 void cDiaporama::DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H,QImage::Format QTFMT) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoAssembly");
-
     if ((!Info->RenderedImage.isNull())||((W==0)&&(H==0))) return;    // return immediatly if we already have image or if sound only
 
     QImage   Image(W,H,QTFMT);
@@ -2576,7 +2504,6 @@ void cDiaporama::DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H,QI
 //============================================================================================
 
 void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode,bool AddStartPos) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:LoadSources");
     if (!Info->CurrentObject) return;
 
     QFutureWatcher<void> ThreadPrepareCurrentMusicBloc;
@@ -2796,8 +2723,6 @@ void cDiaporama::CloseUnusedLibAv(int CurrentCell) {
 //*********************************************************************************************************************************************
 
 cDiaporamaObjectInfo::cDiaporamaObjectInfo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:cDiaporamaObjectInfo");
-
     //==============> Pre-initialise all values
     IsShotStatic                        =false;
     IsTransitStatic                     =false;
@@ -2844,8 +2769,6 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo() {
 }
 
 cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,int64_t TimePosition,cDiaporama *Diaporama,double TheFrameDuration,bool WantSound) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:cDiaporamaObjectInfo");
-
     //==============> Pre-initialise all values
     IsShotStatic                        =false;
     IsTransitStatic                     =false;
@@ -2897,14 +2820,14 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     } else {
         //==============> Retrieve object information depending on position (in msec)
         // Search wich object for given time position
-        int AdjustedDuration=(CurrentObject_Number<Diaporama->List.count())?Diaporama->List[CurrentObject_Number]->GetDuration()-Diaporama->GetTransitionDuration(CurrentObject_Number+1):0;
+        int AdjustedDuration=(CurrentObject_Number<Diaporama->List.count())?Diaporama->List[CurrentObject_Number]->CachedDuration-Diaporama->GetTransitionDuration(CurrentObject_Number+1):0;
         if (AdjustedDuration<33) AdjustedDuration=33; // Not less than 1/30 sec
         while ((CurrentObject_Number<Diaporama->List.count())&&
                ((CurrentObject_StartTime+AdjustedDuration<=TimePosition))) {
 
             CurrentObject_StartTime=CurrentObject_StartTime+AdjustedDuration;
             CurrentObject_Number++;
-            AdjustedDuration=(CurrentObject_Number<Diaporama->List.count())?Diaporama->List[CurrentObject_Number]->GetDuration()-Diaporama->GetTransitionDuration(CurrentObject_Number+1):0;
+            AdjustedDuration=(CurrentObject_Number<Diaporama->List.count())?Diaporama->List[CurrentObject_Number]->CachedDuration-Diaporama->GetTransitionDuration(CurrentObject_Number+1):0;
             if (AdjustedDuration<33) AdjustedDuration=33;   // Not less than 1/30 sec
         }
         // Adjust CurrentObject_Number
@@ -2931,7 +2854,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
             }
             CurrentObject_CurrentShot=CurrentObject->List[CurrentObject_ShotSequenceNumber];
             if (CurrentObject_ShotSequenceNumber<CurrentObject->List.count()-1) CurrentObject_ShotDuration=CurrentObject_CurrentShot->StaticDuration;
-                else CurrentObject_ShotDuration=CurrentObject_CurrentShot->Parent->GetDuration()-CurPos;
+                else CurrentObject_ShotDuration=CurrentObject_CurrentShot->Parent->CachedDuration-CurPos;
 
             // calculate CurrentObject_PCTDone
             CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_ShotDuration));
@@ -2971,7 +2894,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                 }
                 TransitObject_CurrentShot=TransitObject->List[TransitObject_ShotSequenceNumber];
                 if (TransitObject_ShotSequenceNumber<TransitObject->List.count()-1) TransitObject_ShotDuration=TransitObject_CurrentShot->StaticDuration;
-                    else TransitObject_ShotDuration=TransitObject_CurrentShot->Parent->GetDuration()-CurPos;
+                    else TransitObject_ShotDuration=TransitObject_CurrentShot->Parent->CachedDuration-CurPos;
 
                 TransitObject_CurrentShotType=SHOTTYPE_VIDEO;
 
@@ -3081,8 +3004,6 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
 
 // make a copy of PreviousFrame
 void cDiaporamaObjectInfo::Copy(cDiaporamaObjectInfo *PreviousFrame) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:cDiaporamaObjectInfo from PreviousFrame");
-
     IsShotStatic                        =PreviousFrame->IsShotStatic;
     IsTransitStatic                     =PreviousFrame->IsTransitStatic;
     FrameDuration                       =PreviousFrame->FrameDuration;
@@ -3136,8 +3057,6 @@ void cDiaporamaObjectInfo::Copy(cDiaporamaObjectInfo *PreviousFrame) {
 }
 
 bool cDiaporamaObjectInfo::ComputeIsShotStatic(cDiaporamaObject *Object,int ShotNumber) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:IsShotStatic");
-
     bool IsStatic=true;
     if (ShotNumber==0) {
         for (int i=0;i<Object->List[0]->ShotComposition.List.count();i++)
@@ -3185,8 +3104,6 @@ bool cDiaporamaObjectInfo::ComputeIsShotStatic(cDiaporamaObject *Object,int Shot
 // Destructor
 //============================================================================================
 cDiaporamaObjectInfo::~cDiaporamaObjectInfo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:~cDiaporamaObjectInfo");
-
     // CurrentObject
     if ((CurrentObject_FreeBackgroundBrush)&&(CurrentObject_BackgroundBrush)) {
         delete CurrentObject_BackgroundBrush;

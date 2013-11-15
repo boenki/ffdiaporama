@@ -119,7 +119,9 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
 
     } else {
 
-        cDiaporamaObject *Object     =ParentTable->Diaporama->List[ItemIndex];
+        cDiaporamaObject *Object        =ParentTable->Diaporama->List[ItemIndex];
+        cDiaporamaObject *PreviousObject=ItemIndex>0?ParentTable->Diaporama->List[ItemIndex-1]:NULL;
+
         int              ThumbWidth  =ParentTable->columnWidth(0);
         int              ThumbHeight =ParentTable->rowHeight(0);
         bool             IsTransition=((Object->TransitionFamilly!=0)||(Object->TransitionSubType!=0));
@@ -170,53 +172,18 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         int     NewThumbWidth       = ThumbWidth-TransitionSize-6;
         int     NewThumbHeight      = ParentTable->Diaporama->GetHeightForWidth(NewThumbWidth);
         int     BarWidth            = (ThumbWidth-NewThumbWidth)/2;
-        bool    HaveSound           = false;
-        double  SoundVolume         = 0;
-        bool    PreviousHaveSound   = false;
-        double  PreviousSoundVolume = 0;
-        bool    HaveFilter          =false;
-        QString SlideDuration       =QTime(0,0,0,0).addMSecs(Object->GetDuration()).toString("hh:mm:ss.zzz");
+
+        bool    HaveFilter          =Object->CachedHaveFilter;
+        bool    HaveSound           =Object->CachedHaveSound;
+        double  SoundVolume         =Object->CachedSoundVolume;
+        bool    PreviousHaveSound   =PreviousObject?PreviousObject->CachedHaveSound:false;
+        double  PreviousSoundVolume =PreviousObject?PreviousObject->CachedSoundVolume:0;
+
+        QString SlideDuration       =QTime(0,0,0,0).addMSecs(Object->CachedDuration).toString("hh:mm:ss.zzz");
         QString FileName            =Object->SlideName;
-        QString TransitionDuration  =QTime(0,0,0,0).addMSecs(Object->GetTransitDuration()).toString("ss.z");
+        QString TransitionDuration  =QTime(0,0,0,0).addMSecs(Object->CachedTransitDuration).toString("ss.z");
         QString SlideNumber         =QString("%1").arg(ItemIndex+1);
         int     AutoTSNumber        =Object->GetAutoTSNumber();
-
-        // Search it at least one block have filter
-        for (int shot=0;shot<Object->List.count();shot++) for (int obj=0;obj<Object->List.at(shot)->ShotComposition.List.count();obj++)
-            if ((Object->List.at(shot)->ShotComposition.List[obj]->BackgroundBrush->GaussBlurSharpenSigma!=0)||
-                (Object->List.at(shot)->ShotComposition.List[obj]->BackgroundBrush->QuickBlurSharpenSigma!=0)||
-                (Object->List.at(shot)->ShotComposition.List[obj]->BackgroundBrush->Desat!=0)||
-                (Object->List.at(shot)->ShotComposition.List[obj]->BackgroundBrush->Swirl!=0)||
-                (Object->List.at(shot)->ShotComposition.List[obj]->BackgroundBrush->Implode!=0)||
-                (Object->List.at(shot)->ShotComposition.List[obj]->BackgroundBrush->OnOffFilter!=0)
-               ) HaveFilter=true;
-
-        // Parse current ObjectComposition table to determine if slide have sound
-        for (int i=0;i<Object->ObjectComposition.List.count();i++) if ((Object->ObjectComposition.List[i]->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&
-            (Object->ObjectComposition.List[i]->BackgroundBrush->Video)) {
-            HaveSound=true;
-            // Parse all object from all shot to determine max volume
-            for (int v=0;v<Object->List.count();v++) for (int w=0;w<Object->List[v]->ShotComposition.List.count();w++)
-                if ((Object->List[v]->ShotComposition.List[w]->IndexKey==Object->ObjectComposition.List[i]->IndexKey)&&
-                    (Object->List[v]->ShotComposition.List[w]->BackgroundBrush->SoundVolume>SoundVolume))
-                        SoundVolume=Object->List[v]->ShotComposition.List[w]->BackgroundBrush->SoundVolume;
-        }
-
-        // Parse previous object.ObjectComposition table to determine if previous slide have sound
-        if (ItemIndex>0) {
-            for (int i=0;i<ParentTable->Diaporama->List[ItemIndex-1]->ObjectComposition.List.count();i++)
-                    if ((ParentTable->Diaporama->List[ItemIndex-1]->ObjectComposition.List[i]->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&
-                        (ParentTable->Diaporama->List[ItemIndex-1]->ObjectComposition.List[i]->BackgroundBrush->Video)&&
-                        (ParentTable->Diaporama->List[ItemIndex-1]->ObjectComposition.List[i]->BackgroundBrush->SoundVolume!=0)) {
-
-                PreviousHaveSound=true;
-                // Parse all object from all shot to determine max volume
-                for (int v=0;v<ParentTable->Diaporama->List[ItemIndex-1]->List.count();v++) for (int w=0;w<ParentTable->Diaporama->List[ItemIndex-1]->List[v]->ShotComposition.List.count();w++)
-                    if ((ParentTable->Diaporama->List[ItemIndex-1]->List[v]->ShotComposition.List[w]->IndexKey==ParentTable->Diaporama->List[ItemIndex-1]->ObjectComposition.List[i]->IndexKey)&&
-                        (ParentTable->Diaporama->List[ItemIndex-1]->List[v]->ShotComposition.List[w]->BackgroundBrush->SoundVolume>PreviousSoundVolume))
-                            PreviousSoundVolume=ParentTable->Diaporama->List[ItemIndex-1]->List[v]->ShotComposition.List[w]->BackgroundBrush->SoundVolume;
-            }
-        }
 
         // Draw transition out of previous track
         if (IsTransition && PreviousHaveSound && !HaveSound) {
@@ -386,43 +353,32 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         // Track MUSIC (last 1/4 height of the slide)
         //==========================================================================================================================
 
-        int         CurrentCountObjet   =0;
-        int64_t     StartPosition       =0;
-        int64_t     NextStartPosition   =0;
-        double      CurrentFactor       =Object->MusicPause?0:Object->MusicReduceVolume?Object->MusicReduceFactor:1;
-        double      PreviousFactor      =0;
+        int             CurrentCountObjet   =0;
+        int64_t         StartPosition       =0;
+        int64_t         NextStartPosition   =0;
 
-        if ((ItemIndex>0)&&(Object->Parent->GetMusicObject(ItemIndex-1,StartPosition)!=NULL))
-            PreviousFactor=(Object->Parent->List[ItemIndex-1]->MusicPause)?0:(Object->Parent->List[ItemIndex-1]->MusicReduceVolume)?Object->Parent->List[ItemIndex-1]->MusicReduceFactor:1;
-
-        bool        EndMusic            =true;
-        bool        DrawVolumeTransition=(PreviousFactor!=CurrentFactor);
-        bool        DrawInTransition    =false;
-        bool        DrawOutTransition   =false;
-        bool        DrawOutCut          =false;
-        bool        DrawPause           =false;
-        int         RHeight             =int(TIMELINESOUNDHEIGHT*2*(CurrentFactor/1.5));
-        int         PHeight             =int(TIMELINESOUNDHEIGHT*2*(PreviousFactor/1.5));
-
-        if (ItemIndex>0) {
-            cMusicObject *PrevMusique=Object->Parent->GetMusicObject(ItemIndex-1,StartPosition);
-            if ((PrevMusique)&&((QTime(0,0,0,0).msecsTo(PrevMusique->Duration)-StartPosition)>Object->Parent->List[ItemIndex-1]->GetDuration())) DrawOutTransition=true;
-        }
-
-        // Calculate wich music will be use for this object and for the next object
         int             OwnerObjectMusic    =0;
         int             OwnerObjectNextMusic=0;
         cMusicObject    *CurMusic           =Object->Parent->GetMusicObject(ItemIndex,StartPosition,&CurrentCountObjet,&OwnerObjectMusic);
-        cMusicObject    *NextMusic          =NULL;
+        double          CurrentFactor       =Object->MusicPause?0:Object->MusicReduceVolume?Object->MusicReduceFactor:1;
+        cMusicObject    *PrevMusique        =ItemIndex>0?Object->Parent->GetMusicObject(ItemIndex-1,StartPosition):NULL;
+        double          PreviousFactor      =PrevMusique?((Object->Parent->List[ItemIndex-1]->MusicPause)?0:(Object->Parent->List[ItemIndex-1]->MusicReduceVolume)?Object->Parent->List[ItemIndex-1]->MusicReduceFactor:1):0;
+        cMusicObject    *NextMusic          =(ItemIndex+1)<ParentTable->columnCount()?Object->Parent->GetMusicObject(ItemIndex+1,NextStartPosition,NULL,&OwnerObjectNextMusic):NULL;
+        bool            EndMusic            =true;
 
-        if ((CurMusic!=NULL)&&(StartPosition>=(QTime(0,0,0,0).msecsTo(CurMusic->Duration)-Object->TransitionDuration))) CurMusic=NULL;
-
-        if ((ItemIndex+1)<ParentTable->columnCount()) {
-            NextMusic=Object->Parent->GetMusicObject(ItemIndex+1,NextStartPosition,NULL,&OwnerObjectNextMusic);
-            //if (NextMusic==CurMusic) EndMusic=false;
+        if ((CurMusic)&&(StartPosition>=(QTime(0,0,0,0).msecsTo(CurMusic->Duration)-Object->TransitionDuration))) CurMusic=NULL;
+        if (NextMusic) {
             if ((OwnerObjectMusic==OwnerObjectNextMusic)&&(CurMusic!=NULL)&&(NextMusic!=NULL)) EndMusic=false;
-                else if ((CurMusic)&&((QTime(0,0,0,0).msecsTo(CurMusic->Duration))-StartPosition>=Object->GetDuration())) EndMusic=false;
-        } else if (CurMusic) EndMusic=(QTime(0,0,0,0).msecsTo(CurMusic->Duration)-StartPosition)<Object->GetDuration();
+                else if ((CurMusic)&&((QTime(0,0,0,0).msecsTo(CurMusic->Duration))-StartPosition>=Object->CachedDuration)) EndMusic=false;
+        } else if (CurMusic) EndMusic=(QTime(0,0,0,0).msecsTo(CurMusic->Duration)-StartPosition)<Object->CachedDuration;
+
+        bool            DrawVolumeTransition=(PreviousFactor!=CurrentFactor);
+        bool            DrawInTransition    =false;
+        bool            DrawOutCut          =false;
+        bool            DrawPause           =false;
+        int             RHeight             =int(TIMELINESOUNDHEIGHT*2*(CurrentFactor/1.5));
+        int             PHeight             =int(TIMELINESOUNDHEIGHT*2*(PreviousFactor/1.5));
+        bool            DrawOutTransition   =((PrevMusique)&&((QTime(0,0,0,0).msecsTo(PrevMusique->Duration)-StartPosition)>Object->Parent->List[ItemIndex-1]->CachedDuration));
 
         if (CurMusic!=NULL) {
             // Search if sound end during the slide
@@ -432,7 +388,7 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
             if (Object->MusicType) {
                 if (Object->MusicList.count()>0) {
                     // Search if previous slide have music
-                    if (((ItemIndex>0)&&(Object->Parent->GetMusicObject(ItemIndex-1,StartPosition)!=NULL))&&(IsTransition)) DrawInTransition=true;
+                    if (((PrevMusique!=NULL))&&(IsTransition)) DrawInTransition=true;
                     DrawVolumeTransition=false;
                 }
             // continue Playlist from a previous object
@@ -844,7 +800,10 @@ void cCustomSlideTable::mousePressEvent(QMouseEvent *event) {
         QTableWidget::mousePressEvent(event);
         IsDragOn=DRAGMODE_NOACTION;
     } else {
-        if ((Diaporama->List.count()==0)||(IsDragOn==DRAGMODE_INTERNALMOVE_SLIDE)) return;
+        if ((Diaporama->List.count()==0)||(IsDragOn==DRAGMODE_INTERNALMOVE_SLIDE)) {
+            QTableWidget::mousePressEvent(event);
+            return;
+        }
         setCursor(Qt::ArrowCursor);
 
         // Get item number under mouse
@@ -948,10 +907,9 @@ void cCustomSlideTable::wheelEvent(QWheelEvent *event) {
 
 //====================================================================================================================
 
-void cCustomSlideTable::AddObjectToTimeLine(int CurIndex,bool AdjustRuller) {
+void cCustomSlideTable::AddObjectToTimeLine(int CurIndex) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::AddObjectToTimeLine");
 
-    Diaporama->UpdateCachedStartPosition();
     int ThumbWidth =Diaporama->GetWidthForHeight(ApplicationConfig->TimelineHeight/2-4)+36+5;
     int ThumbHeight=ApplicationConfig->TimelineHeight;
     int NbrX       =viewport()->width()/ThumbWidth;
@@ -972,8 +930,8 @@ void cCustomSlideTable::AddObjectToTimeLine(int CurIndex,bool AdjustRuller) {
     }
 
     // Adjust current sel
-    if ((Diaporama->CurrentCol<0)||(Diaporama->CurrentCol==CurIndex)) Diaporama->CurrentCol=CurIndex;
-    if (AdjustRuller) ((MainWindow *)ApplicationConfig->TopLevelWindow)->AdjustRuller();
+    Diaporama->CurrentCol=CurIndex;
+    SetCurrentCell(Diaporama->CurrentCol);
 }
 
 //====================================================================================================================

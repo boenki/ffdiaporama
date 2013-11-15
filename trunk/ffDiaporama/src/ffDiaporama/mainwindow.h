@@ -80,8 +80,7 @@ public:
 
     void    RefreshControls();
     void    SetModifyFlag(bool IsModify);
-    void    AddObjectToTimeLine(int CurIndex,bool AdjustRuller);
-    void    AdjustRuller();
+    void    AdjustRuller(int CurIndex=-1);
     void    SetTimelineHeight();
     void    CheckVersion();
     void    ToStatusBar(QString Text);
@@ -146,11 +145,11 @@ private slots:
     // Actions Project menu
     void    s_Action_AddFile();
     void    s_Action_AddTitle();
-    void    s_Action_DoAddEmptyTitle();
+    void    s_Action_AddEmptyTitle();
     void    s_Action_AddAutoTitleSlide();
     void    s_Action_AddProject();
-    void    s_Action_DoAddFile();
-    void    s_Action_DoAppendFile();
+    void    DoAddFile();
+    void    DoAppendFile();
     void    s_Action_DoUseAsPlayList(QStringList &MusicFileList,int Index);
     void    s_Action_RemoveObject();
     void    s_Action_EditObject();

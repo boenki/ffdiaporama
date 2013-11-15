@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 2.0 - Trunk
 *
-* TODO LIST on 03/11/2013
+* TODO LIST on 15/11/2013
 **************************************************
 
 TODO :
@@ -36,6 +36,22 @@ Basse       WIP     Pouvoir déplacer le centre de rotation des formes
                             - Ajouter le centre de rotation quand la forme est sélectionnée et pouvoir le déplacer dans la zone interactive et dans la boite slide
                             - Ajouter la position du centre de rotation dans les fichiers de données
                             - Prendre en compte le centre de rotation dans la foction de dessin des formes
+
+Basse       -       Se serait pas mal de pouvoir se créer de modèles couleurs (RVB)  dans 'retoucher ou recadrer l'image' que l'on puisse appliquer à plusieurs images
+
+Basse       -       Déplacer la sauvegarde des recentlist dans la base de données
+
+Basse       -       Déplacer la sauvegarde des favorites du browser dans la base de données
+
+Urgent      -       Déplacer la sauvegarde des derniers répertoires utilisés dans la base de données
+
+
+Urgent :
+--------
+    prendre en compte le passage en ffmpeg 2.1.x pour Suse
+    test sous win/8 à faire pour Gerold
+    test.mov sestay à faire
+    test pause norbert à faire
 
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité

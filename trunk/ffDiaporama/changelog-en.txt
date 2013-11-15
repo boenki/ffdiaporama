@@ -4,6 +4,28 @@
 * (English version)
 **************************************************
 
+[Commit: 15/11/2013]
+    Bug fixes:
+        -Fixed selecting multiple files in the browser (no longer select by column)
+        -Fixed a bug for determining static images when encoding that did not take into account the transitions [1.7 regression]
+        -Adds missing dependency to sqlite to Ubuntu packages
+
+    New features:
+        -Improve interface speed and stability
+        -Adds the selection of the sort order in the configuration menu of the browser with three choices:
+            -By number (if the file name contains a No. before the extension and adds supports for hexadecimal number (because some camera uses this mode)
+            -By file name
+            -By date of last modification
+        -Removes the option of selecting the sort order when you insert multiple files in the option dialog. (Now the order of sorts is that specified in the browser.)
+        -Adds an option to enable or disable the display of the first directories in the configuration menu of the browser
+        -Move the backup options for sorting and display the directories first from the configuration .xml file to the database
+        -Force reloading of title models during the loading of a project if this project was created with a ffDiaporama between 20131016 and 20131112
+            =>Partially recover projects affected by the bug on saving texts fixed in commit 20131112
+        -Recognizes signatures of ffmpeg 2.1
+        -Update WIKI
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
 [Commit: 12/11/2013]
     Bug fixes:
         -No longer leaves the application if error initializing SDL (for SOLARIS see: http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=641)

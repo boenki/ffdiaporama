@@ -921,7 +921,7 @@ void DlgTextEdit::s_TextStyleBT() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_TextStyleBT");
 
     QString ActualStyle=CurrentTextItem->GetTextStyle();
-    QString Item=StyleTextCollection->PopupCollectionMenu(this,BaseApplicationConfig,ActualStyle);
+    QString Item=StyleTextCollection->PopupCollectionMenu(this,ApplicationConfig,ActualStyle);
     ui->TextStyleBT->setDown(false);
     if (Item!="") {
         AppendPartialUndo(UNDOSTYLE_TEXT,ui->TextEdit,true);
@@ -938,7 +938,7 @@ void DlgTextEdit::s_BackgroundStyleBT() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_BackgroundStyleBT");
 
     QString ActualStyle=CurrentTextItem->GetBackgroundStyle();
-    QString Item=StyleTextBackgroundCollection->PopupCollectionMenu(this,BaseApplicationConfig,ActualStyle);
+    QString Item=StyleTextBackgroundCollection->PopupCollectionMenu(this,ApplicationConfig,ActualStyle);
     ui->BackgroundStyleBT->setDown(false);
     if (Item!="") {
         AppendPartialUndo(UNDOSTYLE_BACKGROUND,ui->TextEdit,true);

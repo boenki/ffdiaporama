@@ -215,6 +215,16 @@
 #define FilterCharcoal                      0x0100
 #define FilterOil                           0x0200
 
+//============================================
+// Sort order of files definition
+//============================================
+
+enum SORTORDER_ID {
+    SORTORDER_BYNUMBER,
+    SORTORDER_BYNAME,
+    SORTORDER_BYDATE
+};
+
 //====================================================================================================================
 
 struct sDefaultBlockCoord {
@@ -271,7 +281,7 @@ public:
 
     // Editor options
     bool                    AppendObject;                               // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
-    bool                    SortFile;                                   // if true sort file by (last) number when multiple file insertion
+    int                     SortFile;                                   // Sort order for file insertion and file display in browser
     int                     DisplayUnit;                                // Display coordinates unit
     int                     DefaultFraming;                             // 0=Width, 1=Height
     int                     TimelineHeight;                             // Height of the timeline

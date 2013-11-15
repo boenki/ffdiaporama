@@ -44,7 +44,7 @@ DlgChapter::~DlgChapter() {
 void DlgChapter::DoInitDialog() {
     RefreshControl();
 
-    ui->ChapterEventDateED->setDisplayFormat(BaseApplicationConfig->ShortDateFormat);
+    ui->ChapterEventDateED->setDisplayFormat(ApplicationConfig->ShortDateFormat);
     ui->ChapterNameED->setText(CurrentSlide->ChapterName);
     ui->ChapterEventDateED->setDate(CurrentSlide->OverrideProjectEventDate?CurrentSlide->ChapterEventDate:CurrentSlide->Parent->ProjectInfo->EventDate);
     ui->ChapterDateED->setPlainText(CurrentSlide->OverrideProjectEventDate?CurrentSlide->OverrideChapterLongDate?CurrentSlide->ChapterLongDate:FormatLongDate(CurrentSlide->ChapterEventDate):CurrentSlide->Parent->ProjectInfo->LongDate);

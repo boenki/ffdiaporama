@@ -297,7 +297,7 @@ void DlgBackgroundProperties::s_SelectFile() {
     QStringList FileList;
     QString     NewFile="";
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_IMAGEFILE,OBJECTTYPE_IMAGEFILE,
-                        false,false,BaseApplicationConfig->RememberLastDirectories?BaseApplicationConfig->LastMediaPath:"",
+                        false,false,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
                         QApplication::translate("DlgBackgroundProperties","Select a file"),DiaporamaObject->Parent->ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
@@ -306,13 +306,13 @@ void DlgBackgroundProperties::s_SelectFile() {
     }
     if (NewFile=="") return;
     AppendPartialUndo(UNDOACTION_BRUSHFILE,ui->ImageFileBT,true);
-    if (BaseApplicationConfig->RememberLastDirectories) BaseApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
+    if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
     QString BrushFileName=QFileInfo(NewFile).absoluteFilePath();
     if (DiaporamaObject->BackgroundBrush->Image) {
         delete DiaporamaObject->BackgroundBrush->Image;
         DiaporamaObject->BackgroundBrush->Image=NULL;
     }
-    DiaporamaObject->BackgroundBrush->Image=new cImageFile(BaseApplicationConfig);
+    DiaporamaObject->BackgroundBrush->Image=new cImageFile(ApplicationConfig);
     bool IsValide=DiaporamaObject->BackgroundBrush->Image->GetInformationFromFile(BrushFileName,NULL,NULL,-1);
     if (!IsValide) {
         delete DiaporamaObject->BackgroundBrush->Image;
@@ -405,8 +405,7 @@ void DlgBackgroundProperties::s_ImageEditCorrect() {
     if (DiaporamaObject->BackgroundBrush->Image) {
         AppendPartialUndo(UNDOACTION_EDITIMG,ui->ImageEditCorrectBT,false);
 
-        //DlgImageCorrection Dlg(NULL,1,DiaporamaObject->BackgroundBrush,0,HELPFILE_DlgImageCorrection,BaseApplicationConfig,BaseApplicationConfig->DlgImageCorrectionWSP,this);
-        DlgImageCorrection Dlg(NULL,NULL,DiaporamaObject->BackgroundBrush,0,DiaporamaObject->Parent->ImageGeometry,SPEEDWAVE_DISABLE,BaseApplicationConfig,this);
+        DlgImageCorrection Dlg(NULL,NULL,DiaporamaObject->BackgroundBrush,0,DiaporamaObject->Parent->ImageGeometry,SPEEDWAVE_DISABLE,ApplicationConfig,this);
         Dlg.InitDialog();
         if (Dlg.exec()==0) {
             RefreshControls();

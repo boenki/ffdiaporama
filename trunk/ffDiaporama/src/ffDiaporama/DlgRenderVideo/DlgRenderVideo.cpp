@@ -291,7 +291,7 @@ void DlgRenderVideo::DoInitDialog() {
 void DlgRenderVideo::ProjectProperties() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::ProjectProperties");
 
-    DlgffDPjrProperties Dlg(false,Diaporama,BaseApplicationConfig,this);
+    DlgffDPjrProperties Dlg(false,Diaporama,ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) emit SetModifyFlag();
 }
@@ -1064,10 +1064,10 @@ void DlgRenderVideo::EndThreadEncode() {
     QString ThumbFileName;
     if ((ExportMode!=MODE_SOUNDTRACK)&&(ui->ExportThumbCB->isChecked())) {
         ThumbFileName=OutputFileName.left(OutputFileName.lastIndexOf("."))+".jpg";
-        int Index=BaseApplicationConfig->ThumbnailModels->SearchModel(Diaporama->ThumbnailName);
+        int Index=ApplicationConfig->ThumbnailModels->SearchModel(Diaporama->ThumbnailName);
         if (Index>=0) {
             QSize  ForcedThumbnailSize(THUMBWITH,THUMBHEIGHT);
-            QImage Image=BaseApplicationConfig->ThumbnailModels->List[Index].PrepareImage(0,Diaporama,Diaporama->ProjectThumbnail,&ForcedThumbnailSize);
+            QImage Image=ApplicationConfig->ThumbnailModels->List[Index].PrepareImage(0,Diaporama,Diaporama->ProjectThumbnail,&ForcedThumbnailSize);
             Image.save(ThumbFileName,0,100);
         }
     }

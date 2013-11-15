@@ -78,14 +78,6 @@
         <translation>應用程式選項</translation>
     </message>
     <message>
-        <source>Multiple file insertion :</source>
-        <translation>多重檔案插入：</translation>
-    </message>
-    <message>
-        <source>Sort file by last number</source>
-        <translation>依最後數字排序檔案</translation>
-    </message>
-    <message>
         <source>Define the transition duration</source>
         <translation>定義轉換時間</translation>
     </message>
@@ -596,12 +588,6 @@ The &quot;raster&quot; Graphics accelerates the display but can raise problems o
         <source>If this box is checked, a confirmation prompt will be displayed every time you remove an object:
 - A slide from the main window
 -A shot or block from the slide properties dialog box</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This option allows you to adjust the way files are sorted when you select several files in Add file.
-- If this box is checked, files will be added in order of their numerical suffix : Example: if you select IMG_0025, IMG_0032, MVI_0029 and MVI_0040, the files will be inserted as follows : IMG_0025, MVI_0029, IMG_0032 and MVI_0040
-- If this box is unchecked, files are added in alphabetical order.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5724,10 +5710,6 @@ Do you want to save-it ?</source>
         <translation>關閉應用程式</translation>
     </message>
     <message>
-        <source>A new ffDiaporama release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !</source>
-        <translation>新的 ffDiaporama 已從網站釋出。請自 http://ffdiaporama.tuxfamily.org 更新！</translation>
-    </message>
-    <message>
         <source>&lt;new project&gt;</source>
         <comment>when project have no name define</comment>
         <translation>&lt;新專案&gt;</translation>
@@ -6077,10 +6059,6 @@ Do you want to overwrite it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Your version of ffDiaporama is up to day</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Loading slide %1/%2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6219,11 +6197,6 @@ Are you sure it is empty?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>A new ffDiaporama version is available from WEB site.
-Do you whant do download it now?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Export project</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6268,6 +6241,35 @@ ffDiaporama can&apos;t start</source>
     </message>
     <message>
         <source>Loading text frame library...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort by number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort by name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort by date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show folder first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A new release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your version of %1 is up to day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A new version is available from WEB site.
+Do you want to download it now?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
