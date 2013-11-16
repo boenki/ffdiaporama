@@ -40,6 +40,7 @@ namespace Ui {
 class MainWindow : public QMainWindow {
 Q_OBJECT
 public:
+    QString                 ForceLanguage;
     bool                    IsFirstInitDone;                // true when first show window was done
     bool                    FLAGSTOPITEMSELECTION;          // Flag to stop Item Selection process in the timeline
     cBaseApplicationConfig  *ApplicationConfig;
@@ -49,7 +50,7 @@ public:
     QTime                   LastLogMessageTime;
     QStringList             AliasList;
 
-    // Variables use for actions
+    // Variables used for actions
     QString                 FileForIO;
     int                     SavedCurIndex,CurIndex;
     QStringList             FileList;
@@ -74,9 +75,8 @@ public:
     int                     CurrentAppendingProjectNbrObject;
 
 
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QString ForceLanguage,QWidget *parent = 0);
     ~MainWindow();
-    void    InitWindow(QString ForceLanguage,QApplication *App,QSplashScreen *screen);
 
     void    RefreshControls();
     void    SetModifyFlag(bool IsModify);
@@ -85,8 +85,6 @@ public:
     void    CheckVersion();
     void    ToStatusBar(QString Text);
     void    SetTimelineCurrentCell(int Cell);
-
-    void    DoOpenFileParam();                              // Must be in public part because it was called by main
     void    DoTimelineSelectionChanged();                   // Timeline current item changed
 
 protected:
@@ -98,6 +96,8 @@ protected:
 
 
 private slots:
+    void    InitWindow();
+
     void    s_CleanStatusBar();
     void    DoMaximized();                                  // Use on init to force window maximized
     void    s_Event_SetModifyFlag();

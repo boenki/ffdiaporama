@@ -727,8 +727,11 @@ void DlgImageCorrection::s_ChangeFile() {
     QString     ActualFilePath=QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName():CurrentBrush->Video->FileName()).absolutePath();
     QStringList FileList;
     QString     NewFile="";
+
+    ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_Media,ActualFilePath);
     DlgFileExplorer Dlg(CurrentBrush->Image?FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_IMAGEFILE:FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_VIDEOFILE,
-                        CurrentBrush->Image?OBJECTTYPE_IMAGEFILE:OBJECTTYPE_VIDEOFILE,false,false,ActualFilePath,QApplication::translate("CommonInfoMsg","Select a file"),ApplicationConfig,this);
+                        CurrentBrush->Image?OBJECTTYPE_IMAGEFILE:OBJECTTYPE_VIDEOFILE,false,false,
+                        LASTFOLDER_Media,DefaultMediaPath,QApplication::translate("CommonInfoMsg","Select a file"),ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         FileList=Dlg.GetCurrentSelectedFiles();
@@ -737,7 +740,6 @@ void DlgImageCorrection::s_ChangeFile() {
 
     if (NewFile=="") return;
     AppendPartialUndo(UNDOACTION_EDITZONE_FILE,ui->InteractiveZone,true);
-    if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 
     QString NewBrushFileName=QFileInfo(NewFile).absoluteFilePath();
     QString OldBrushFileName=CurrentBrush->Image?CurrentBrush->Image->FileName():CurrentBrush->Video->FileName();
@@ -1287,13 +1289,13 @@ void DlgImageCorrection::s_Event_SaveImageEvent() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_Event_SaveImageEvent");
     if (!IsVideo) return;
     ui->VideoPlayer->SetPlayerToPause();
-    QString OutputFileName=ApplicationConfig->LastCaptureImage;
+    QString OutputFileName=ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_CaptureImagePath,DefaultCaptureImage);
     QString Filter="JPG (*.jpg)";
     if (!OutputFileName.endsWith(QDir::separator())) OutputFileName=OutputFileName+QDir::separator();
     OutputFileName=OutputFileName+QApplication::translate("MainWindow","Capture image");
     OutputFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Select destination file"),OutputFileName,"PNG (*.png);;JPG (*.jpg)",&Filter);
     if (OutputFileName!="") {
-        if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastCaptureImage=QFileInfo(OutputFileName).absolutePath();     // Keep folder for next use
+        if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_CaptureImagePath,QFileInfo(OutputFileName).absolutePath());     // Keep folder for next use
         if ((Filter.toLower().indexOf("png")!=-1)&&(!OutputFileName.endsWith(".png"))) OutputFileName=OutputFileName+".png";
         if ((Filter.toLower().indexOf("jpg")!=-1)&&(!OutputFileName.endsWith(".jpg"))) OutputFileName=OutputFileName+".jpg";
 

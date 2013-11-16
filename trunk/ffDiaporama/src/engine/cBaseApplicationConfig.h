@@ -216,6 +216,18 @@
 #define FilterOil                           0x0200
 
 //============================================
+// Last folder used string in settings table
+//============================================
+
+#define LASTFOLDER_Media                    "Path_Media"
+#define LASTFOLDER_MusicPath                "Path_Music"
+#define LASTFOLDER_ProjectPath              "Path_Project"
+#define LASTFOLDER_ExportPath               "Path_Export"
+#define LASTFOLDER_RenderVideoPath          "Path_RenderVideo"
+#define LASTFOLDER_CaptureImagePath         "Path_CaptureImage"
+#define LASTFOLDER_BrowserPath              "Path_Browser"
+
+//============================================
 // Sort order of files definition
 //============================================
 
@@ -270,6 +282,7 @@ public:
     bool                    OpenWEBNewVersion;                          // Offer to open the download Web page when a new version is available
     bool                    RasterMode;                                 // Enable or disable raster mode [Linux only]
     bool                    RestoreWindow;                              // If true, restore window state and position at startup
+    bool                    RememberLastDirectories;                    // If true, Remember all directories for future use
     bool                    DisableTooltips;                            // If true, tooltips are disable in dialog boxes
     bool                    SDLAudioOldMode;                            // If true SDL audio use old mode sample instead byte
     bool                    AskUserToRemove;                            // If true, user must answer to a confirmation dialog box to remove slide
@@ -293,16 +306,6 @@ public:
     double                  PreviewFPS;                                 // Preview FrameRate
     int64_t                 PreviewSamplingRate;                        // Sampling rate (frequency) for preview
     int                     MaxVideoPreviewHeight;
-
-    // Last directories
-    bool                    RememberLastDirectories;                    // If true, Remember all directories for future use
-    QString                 LastMediaPath;                              // Last folder use for image/video
-    QString                 LastMusicPath;                              // Last folder use for music
-    QString                 LastProjectPath;                            // Last folder use for project
-    QString                 LastExportPath;                             // Last folder use for project export
-    QString                 LastRenderVideoPath;                        // Last folder use for render video
-    QString                 LastCaptureImage;                           // Last folder use for captured image
-    QString                 CurrentPath;                                // Currently shown path in browser widget
 
     // Other
     bool                    Smoothing;                                  // True do smoothing in preview
@@ -378,16 +381,6 @@ public:
 
     QStringList             RecentFile;                                 // Recent project files
 
-    #ifdef Q_OS_WIN
-        // Options for windows only
-        // registry value for specific Windows Folder
-        QString WINDOWS_APPDATA;                                        // specific Windows Folder : AppData
-        QString WINDOWS_MUSIC;                                          // specific Windows Folder : My Music
-        QString WINDOWS_PICTURES;                                       // specific Windows Folder : My Pictures
-        QString WINDOWS_VIDEO;                                          // specific Windows Folder : My Video
-        QString WINDOWS_DOCUMENTS;                                      // specific Windows Folder : Personal
-    #endif
-
     QStringList             AllowVideoExtension;                        // List of all file extension allowed for video
     QStringList             AllowImageExtension;                        // List of all file extension allowed for image
     QStringList             AllowMusicExtension;                        // List of all file extension allowed for music
@@ -429,17 +422,13 @@ public:
     virtual ~cBaseApplicationConfig();
 
     virtual QString         GetFilterForMediaFile(FilterFile type);
-    virtual bool            InitConfigurationValues(QString ForceLanguage,QApplication *App);
-    virtual bool            LoadConfigurationFile(LoadConfigFileType TypeConfigFile,QApplication *App);
+    virtual void            InitValues();
+    virtual bool            InitConfigurationValues(QString ForceLanguage);
+    virtual bool            LoadConfigurationFile(LoadConfigFileType TypeConfigFile);
     virtual bool            SaveConfigurationFile();
 
     virtual QString         GetValideWEBLanguage(QString Language);
-
     virtual void            PreloadSystemIcons();
-
-    virtual void            InitValues();
-    virtual void            SaveValueToXML(QDomElement &domDocument);
-    virtual bool            LoadValueFromXML(QDomElement domDocument,LoadConfigFileType TypeConfigFile);
 };
 
 #endif // CBASEAPPLICATIONCONFIG_H

@@ -232,7 +232,7 @@ void DlgMusicProperties::s_AddMusic() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::s_AddMusic");
     QStringList FileList;
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MUSICFILE,OBJECTTYPE_MUSICFILE,
-                        true,false,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMusicPath:"",
+                        true,false,LASTFOLDER_MusicPath,DefaultMusicPath,
                         QApplication::translate("DlgMusicProperties","Add music files"),DiaporamaObject->Parent->ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
@@ -243,9 +243,6 @@ void DlgMusicProperties::s_AddMusic() {
     // Add files
     for (int i=0;i<FileList.count();i++) {
         QString NewFile=FileList[i];
-        if (DiaporamaObject->Parent->ApplicationConfig->RememberLastDirectories)
-            DiaporamaObject->Parent->ApplicationConfig->LastMusicPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
-
         DiaporamaObject->MusicList.insert(CurIndex,cMusicObject(ApplicationConfig));
         bool        ModifyFlag=false;
         if (DiaporamaObject->MusicList[CurIndex].LoadMedia(NewFile,NULL,&ModifyFlag)) {

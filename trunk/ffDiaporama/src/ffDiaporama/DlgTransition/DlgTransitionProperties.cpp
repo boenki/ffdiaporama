@@ -324,6 +324,7 @@ void DlgTransitionProperties::s_TimerEvent() {
     for (int i=0;i<MaxItem;i++) {
         // Adjust transition subtype
         Frame->TransitionSubType=i;
+        Frame->RenderedImage=QImage();  // Clear image to ensure DoAssembly will compute it
         // Render images
         int SpeedWave=ui->SpeedWaveCB->GetCurrentValue();
         if (SpeedWave==SPEEDWAVE_PROJECTDEFAULT) SpeedWave=DiaporamaObject->Parent->TransitionSpeedWave;

@@ -264,7 +264,7 @@ bool cSettingsTable::SetTextValue(QString SettingName,QString Value) {
     QSqlQuery   Query(Database->db);
     bool        Ret=true;
 
-    Query.prepare(QString("UPDATE %1 set TextValue=:IntValue WHERE Name=:Name").arg(TableName));
+    Query.prepare(QString("UPDATE %1 set TextValue=:TextValue WHERE Name=:Name").arg(TableName));
     Query.bindValue(":TextValue",Value,      QSql::In);
     Query.bindValue(":Name",     SettingName,QSql::In);
     if ((!Query.exec())||(Query.numRowsAffected()==0)) {

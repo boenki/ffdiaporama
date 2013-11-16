@@ -28,7 +28,7 @@
 #define LATENCY 5
 
 DlgFileExplorer::DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowMultipleSelection,bool AllowDragDrop,
-                QString StartupPath,QString TheBoxTitle,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+                QString LASTFOLDERString,QString DefaultPath,QString TheBoxTitle,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
                 QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgFileExplorer) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::DlgFileExplorer");
@@ -36,9 +36,10 @@ DlgFileExplorer::DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowM
     // Initialise UI
     ui->setupUi(this);
 
+    this->DefaultPath       =DefaultPath;
     TypeWindowState         =TypeWindowState_withsplitterpos;
     Splitter                =ui->BrowserWidget;
-    CurrentPath             =StartupPath;
+    CurrentPath             =ApplicationConfig->RememberLastDirectories?ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDERString,DefaultPath):DefaultPath;
     DlgWorkingTaskDialog    =NULL;
     CancelAction            =false;
     CurrentDriveCheck       =0;
@@ -53,6 +54,7 @@ DlgFileExplorer::DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowM
     setWindowTitle(BoxTitle);
 
     // Initialise integrated browser
+    ui->FolderTable->LASTFOLDERString       =LASTFOLDERString;
     ui->FolderTable->AllowedFilter          =AllowedFilter;
     ui->FolderTable->ShowHiddenFilesAndDir  =ApplicationConfig->ShowHiddenFilesAndDir;
     ui->FolderTable->DisplayFileName        =ApplicationConfig->DisplayFileName;
@@ -114,7 +116,7 @@ void DlgFileExplorer::DoInitDialog() {
 
     if (CurrentPath!="") ui->FolderTree->SetSelectItemByPath(ui->FolderTree->RealPathToTreePath(CurrentPath));
     if ((CurrentPath=="")||(ui->FolderTree->GetCurrentFolderPath()!=CurrentPath)) {
-        CurrentPath=ApplicationConfig->CurrentPath;
+        CurrentPath=DefaultPath;
         ui->FolderTree->SetSelectItemByPath(CurrentPath);
     }
 }
@@ -406,6 +408,7 @@ bool DlgFileExplorer::DoAccept() {
         }
     }
     while (!MediaList.isEmpty()) delete MediaList.takeLast();
+    if (Ret) ApplicationConfig->SettingsTable->SetTextValue(ui->FolderTable->LASTFOLDERString,CurrentPath);
     return Ret;
 }
 

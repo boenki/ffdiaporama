@@ -42,7 +42,6 @@ AVRational MakeAVRational(int num,int den) {
 
 DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgRenderVideo) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::DlgRenderVideo");
 
     ui->setupUi(this);
     CancelBt            =ui->CancelBt;
@@ -62,17 +61,12 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,cBaseA
 //====================================================================================================================
 
 DlgRenderVideo::~DlgRenderVideo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::~DlgRenderVideo");
-
-    if (ThreadEncode.isRunning()) ThreadEncode.waitForFinished();
     delete ui;
 }
 
 //====================================================================================================================
 
 void DlgRenderVideo::DoInitDialog() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::DoInitDialog");
-
     switch (ExportMode) {
         case EXPORTMODE_ADVANCED :  setWindowTitle(QApplication::translate("DlgRenderVideo","Advanced render video"));                          break;
         case MODE_LOSSLESS       :  setWindowTitle(QApplication::translate("DlgRenderVideo","Render lossless video"));                          break;
@@ -104,8 +98,8 @@ void DlgRenderVideo::DoInitDialog() {
     if (ExportMode==MODE_SOUNDTRACK) {
         ui->ExportThumbCB->setVisible(false);
         ui->ExportXBMCNfoCB->setVisible(false);
-        OutputFileName=Diaporama->ApplicationConfig->LastMusicPath+
-            (Diaporama->ApplicationConfig->LastMusicPath.endsWith(QDir::separator())?"":QString(QDir::separator()))+
+        QString MusicPath=Diaporama->ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_MusicPath,DefaultMusicPath);
+        OutputFileName=MusicPath+(MusicPath.endsWith(QDir::separator())?"":QString(QDir::separator()))+
             (Diaporama->ProjectFileName!=""?
                  (Diaporama->ApplicationConfig->DefaultNameProjectName==1?QFileInfo(Diaporama->ProjectFileName).baseName():
                  (((Diaporama->ApplicationConfig->DefaultNameProjectName==2)&&(Diaporama->ProjectInfo->Title!=""))?Diaporama->ProjectInfo->Title:FolderProject)):
@@ -115,8 +109,8 @@ void DlgRenderVideo::DoInitDialog() {
         AudioFrequency      = Diaporama->ApplicationConfig->DefaultSoundtrackFreq;
         AudioBitRate        = Diaporama->ApplicationConfig->DefaultSoundtrackBitRate;
     } else {
-        OutputFileName=Diaporama->ApplicationConfig->LastRenderVideoPath+
-            (Diaporama->ApplicationConfig->LastRenderVideoPath.endsWith(QDir::separator())?"":QString(QDir::separator()))+
+        QString RenderPath=Diaporama->ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_RenderVideoPath,DefaultRenderVideoPath);
+        OutputFileName=RenderPath+(RenderPath.endsWith(QDir::separator())?"":QString(QDir::separator()))+
             (Diaporama->ProjectFileName!=""?
                  (Diaporama->ApplicationConfig->DefaultNameProjectName==1?QFileInfo(Diaporama->ProjectFileName).baseName():
                  (((Diaporama->ApplicationConfig->DefaultNameProjectName==2)&&(Diaporama->ProjectInfo->Title!=""))?Diaporama->ProjectInfo->Title:FolderProject)):
@@ -289,8 +283,6 @@ void DlgRenderVideo::DoInitDialog() {
 //====================================================================================================================
 
 void DlgRenderVideo::ProjectProperties() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::ProjectProperties");
-
     DlgffDPjrProperties Dlg(false,Diaporama,ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) emit SetModifyFlag();
@@ -299,8 +291,6 @@ void DlgRenderVideo::ProjectProperties() {
 //====================================================================================================================
 
 void DlgRenderVideo::SetZoneToAll() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::SetZoneToAll");
-
     ui->RenderZoneAllBt->setChecked(true);
     ui->RenderZoneFromBt->setChecked(false);
     ui->RenderZoneFromED->setEnabled(ui->RenderZoneFromBt->isChecked());
@@ -311,8 +301,6 @@ void DlgRenderVideo::SetZoneToAll() {
 //====================================================================================================================
 
 void DlgRenderVideo::SetZoneToPartial() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::SetZoneToPartial");
-
     ui->RenderZoneAllBt->setChecked(false);
     ui->RenderZoneFromBt->setChecked(true);
     ui->RenderZoneFromED->setEnabled(ui->RenderZoneFromBt->isChecked());
@@ -350,8 +338,6 @@ QStringList DlgRenderVideo::StringToSortedStringList(QString String) {
 //====================================================================================================================
 
 void DlgRenderVideo::s_DeviceTypeCB(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::s_DeviceTypeCB");
-
     ui->DeviceModelCB->clear();
     int ItemData=ui->DeviceTypeCB->currentIndex();
     if (ItemData>=0) ItemData=ui->DeviceTypeCB->itemData(ItemData).toInt();
@@ -373,7 +359,6 @@ void DlgRenderVideo::s_DeviceTypeCB(int) {
 //====================================================================================================================
 
 void DlgRenderVideo::InitImageSizeCombo(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::InitImageSizeCombo");
     ffd_GEOMETRY Geometry=(ExportMode!=MODE_LOSSLESS?(ffd_GEOMETRY)ui->GeometryCombo->currentIndex():Diaporama->ImageGeometry);
     int          Standard=(ExportMode!=MODE_LOSSLESS?ui->StandardCombo->currentIndex():Diaporama->ApplicationConfig->DefaultStandard);
     int          ImageSize=ui->ImageSizeCombo->currentIndex();
@@ -398,8 +383,6 @@ void DlgRenderVideo::InitImageSizeCombo(int) {
 //====================================================================================================================
 
 void DlgRenderVideo::SelectDestinationFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::SelectDestinationFile");
-
     QString FileFormat;
     if (ExportMode==EXPORTMODE_ADVANCED) {
         int OutputFileFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
@@ -423,8 +406,8 @@ void DlgRenderVideo::SelectDestinationFile() {
     }
     QString OutputFileName  =QFileDialog::getSaveFileName(this,QApplication::translate("DlgRenderVideo","Select destination file"),ui->DestinationFilePath->text(),FileFormat);
     if (OutputFileName!="") {
-        if (ExportMode==MODE_SOUNDTRACK)    Diaporama->ApplicationConfig->LastMusicPath=QFileInfo(OutputFileName).dir().absolutePath();
-            else                            Diaporama->ApplicationConfig->LastRenderVideoPath=QFileInfo(OutputFileName).dir().absolutePath();
+        if (ExportMode==MODE_SOUNDTRACK)    Diaporama->ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_MusicPath,QFileInfo(OutputFileName).dir().absolutePath());
+            else                            Diaporama->ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_RenderVideoPath,QFileInfo(OutputFileName).dir().absolutePath());
         ui->DestinationFilePath->setText(OutputFileName);
         AdjustDestinationFile();
     }
@@ -433,8 +416,6 @@ void DlgRenderVideo::SelectDestinationFile() {
 //====================================================================================================================
 
 void DlgRenderVideo::FileFormatCombo(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::FileFormatCombo");
-
     AdjustDestinationFile();
 
     ui->VideoFormatCB->clear();
@@ -527,8 +508,6 @@ void DlgRenderVideo::FileFormatCombo(int) {
 //====================================================================================================================
 
 void DlgRenderVideo::InitVideoBitRateCB(int ChangeIndex) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::InitVideoBitRateCB");
-
     if (ExportMode==MODE_LOSSLESS) {
         QString Text="Format=\tMKV\nVideo=\tx264 lossless";
         int ImgSize=ImageSize=ui->ImageSizeCombo->itemData(ui->ImageSizeCombo->currentIndex()).toInt();
@@ -569,8 +548,6 @@ void DlgRenderVideo::InitVideoBitRateCB(int ChangeIndex) {
 //====================================================================================================================
 
 void DlgRenderVideo::InitAudioBitRateCB(int ChangeIndex) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::InitAudioBitRateCB");
-
     ui->AudioBitRateCB->clear();
     ui->AudioFreqCB->clear();
 
@@ -618,8 +595,6 @@ void DlgRenderVideo::InitAudioBitRateCB(int ChangeIndex) {
 //====================================================================================================================
 
 void DlgRenderVideo::AdjustDestinationFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::AdjustDestinationFile");
-
     QString FileFormat;
     if (ExportMode==EXPORTMODE_ADVANCED) {
         int OutputFileFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
@@ -651,8 +626,6 @@ void DlgRenderVideo::AdjustDestinationFile() {
 //====================================================================================================================
 
 void DlgRenderVideo::reject() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::reject");
-
     if (IsDestFileOpen) {
         Encoder.StopProcessWanted=true;
         ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Stop rendering"));
@@ -662,8 +635,6 @@ void DlgRenderVideo::reject() {
 //====================================================================================================================
 
 void DlgRenderVideo::s_IncludeSound() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::s_IncludeSound");
-
     ui->AudioFormatLabel->setEnabled(ui->IncludeSoundCB->isChecked());
     ui->AudioFormatCB->setEnabled(ui->IncludeSoundCB->isChecked());
     ui->AudioBitRateLabel->setEnabled(ui->IncludeSoundCB->isChecked());
@@ -681,8 +652,6 @@ void DlgRenderVideo::s_IncludeSound() {
 //====================================================================================================================
 
 void DlgRenderVideo::s_DeviceModelCB(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::s_DeviceModelCB");
-
     QString Device=ui->DeviceModelCB->currentText();
     int i=0;
     while ((i<Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel.count())&&(Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->DeviceName!=Device)) i++;
@@ -796,8 +765,6 @@ void DlgRenderVideo::OnTimer() {
 //====================================================================================================================
 
 void DlgRenderVideo::StartEncode() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::DoAccept");
-
     PrevAdjustedDuration=-1;
     if (IsDestFileOpen) {
         Encoder.StopProcessWanted=true;
@@ -1060,6 +1027,7 @@ void DlgRenderVideo::EndThreadEncode() {
     DisplayTimer.stop();
     Encoder.CloseEncoder();
     OnTimer();  // Latest display
+    IsDestFileOpen=false;
 
     QString ThumbFileName;
     if ((ExportMode!=MODE_SOUNDTRACK)&&(ui->ExportThumbCB->isChecked())) {
@@ -1102,4 +1070,5 @@ void DlgRenderVideo::EndThreadEncode() {
         else if (Encoder.StopProcessWanted) CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job canceled!"));
         else                                CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job error!\nPlease contact ffDiaporama team"));
     if (Continue) accept();
+        else reject();
 }

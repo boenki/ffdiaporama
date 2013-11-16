@@ -154,25 +154,12 @@ int main(int argc, char* argv[]) {
         case 4 :
         default: ToLog(LOGMSG_INFORMATION,"Set LogLevel to CRITICAL");      break;
     }
-
-    QSplashScreen *screen=new QSplashScreen(QPixmap(":/img/splash.png"));
-    //screen->setPixmap(QPixmap(":/img/splash.png"));
-    screen->show();
-    screen->raise();
-    app.processEvents();
+    LogMsgLevel=FuturLogMsgLevel;
 
     // Start GUI
     ToLog(LOGMSG_INFORMATION,"Start GUI ...");
-    MainWindow w;
-    w.InitWindow(ForceLanguage,&app,screen);
-    w.show();
-    delete screen;
-    LogMsgLevel=FuturLogMsgLevel;
-
-    if (AutoLoad!="") {
-        w.FileForIO=AutoLoad;
-        w.DoOpenFileParam();
-    }
+    MainWindow w(ForceLanguage);
+    w.FileForIO=AutoLoad;
 
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Start ..."));
 

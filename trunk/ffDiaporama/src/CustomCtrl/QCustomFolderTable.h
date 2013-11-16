@@ -61,6 +61,7 @@ public:
     QList<MediaFileItem>    MediaList;
     cBaseApplicationConfig  *ApplicationConfig;
 
+    QString                 LASTFOLDERString;
     QString                 CurrentPath;
     int                     AllowedFilter;
     int                     CurrentFilter;
