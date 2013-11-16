@@ -13,14 +13,14 @@ class DlgFileExplorer;
 class DlgFileExplorer : public QCustomDialog {
 Q_OBJECT
 public:
-    QString                 CurrentPath;
+    QString                 CurrentPath,DefaultPath;
     QString                 BoxTitle;
     DlgWorkingTask          *DlgWorkingTaskDialog;
     bool                    CancelAction;
     int                     CurrentDriveCheck;
 
-    explicit                DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowMultipleSelection,bool AllowDragDrop,QString StartupPath,QString BoxTitle,
-                                            cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
+    explicit                DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowMultipleSelection,bool AllowDragDrop,QString LASTFOLDERString,QString DefaultPath,
+                                            QString BoxTitle,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
     virtual                 ~DlgFileExplorer();
     
     // function to be overloaded

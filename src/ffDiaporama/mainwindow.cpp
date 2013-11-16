@@ -64,7 +64,7 @@
 
 //====================================================================================================================
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+MainWindow::MainWindow(QString ForceLanguage,QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ApplicationConfig       =new cBaseApplicationConfig(this,ALLOWEDWEBLANGUAGE);
     CurrentThreadId         =this->thread()->currentThreadId();
     IsFirstInitDone         =false;        // true when first show window was done
@@ -73,59 +73,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     DlgWorkingTaskDialog    =NULL;
     CancelAction            =false;
     CurrentDriveCheck       =0;
+    this->ForceLanguage     =ForceLanguage;
     EventReceiver           =this;          // Connect Event Receiver so now we accept LOG messages
     setAcceptDrops(true);
     ApplicationConfig->ParentWindow=this;
+    QTimer::singleShot(LATENCY,this,SLOT(InitWindow()));
 }
 
 //====================================================================================================================
 
-void MainWindow::InitWindow(QString ForceLanguage,QApplication *App,QSplashScreen *screen) {
-    ApplicationConfig->InitConfigurationValues(ForceLanguage,App);
+void MainWindow::InitWindow() {
 
-    ui->setupUi(this);
-
-    // Prepare title bar depending on running version
-    TitleBar=QString(APPLICATION_NAME)+" "+CurrentAppName;
-    if ((TitleBar.toLower().indexOf("devel")!=-1)||(TitleBar.toLower().indexOf("beta")!=-1)) TitleBar=TitleBar+QString(" - ")+CurrentAppVersion;
-
-    // Update logo image
-    QPixmap     LogoImg(":/img/logo_big.png");
-    QPainter    P;
-    QTextOption QTO;
-    QFont       Font("Serif",20,QFont::Normal,QFont::StyleItalic);
-    QPen        Pen;
-
-    P.begin(&LogoImg);
-    P.setFont(Font);
-
-    int Size         =P.fontMetrics().boundingRect("99/99/9999").width();           // Size should be 150 on standard Linux and 136 on standard Windows
-    ScreenFontAdjust =double(Size)/double(150);                                     // Adjustement for text functions using direct font
-    SCALINGTEXTFACTOR=int(std::floor(double(SCALINGTEXTFACTOR)*ScreenFontAdjust));  // Adjust Windows to correspond to Linux size
-
-    QTO.setAlignment(Qt::AlignRight|Qt::AlignTop);
-    QTO.setWrapMode(QTextOption::NoWrap);
-    QTO.setTextDirection(Qt::LeftToRight);
-
-    Pen.setColor(Qt::yellow);
-    Pen.setWidth(1);
-    Pen.setStyle(Qt::SolidLine);
-    P.setPen(Pen);
-    P.drawText(QRect(0,38,LogoImg.width()-10,LogoImg.height()-38),CurrentAppName,QTO);
-    P.end();
-    ui->TABToolimg->setPixmap(LogoImg);
-
-    ui->timeline->ApplicationConfig=ApplicationConfig;
-    ui->preview->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
-    ui->preview2->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
-    ui->ToolBoxNormal->setCurrentIndex(0);
-
-    Transparent.setTextureImage(QImage(":/img/transparent.png"));  // Load transparent brush
-
-    // Now, we have application settings then we can init all others
+    QSplashScreen screen(QPixmap(":/img/splash.png"));
+    screen.show();
+    screen.raise();
 
     // Init database
-    screen->showMessage(QApplication::translate("MainWindow","Init home user database..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen.showMessage(QApplication::translate("MainWindow","Init home user database..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Init home user database..."));
     ApplicationConfig->Database=new cDatabase(QDir::toNativeSeparators(ApplicationConfig->UserConfigPath+"ffdiaporama.db"));
     ApplicationConfig->Database->ApplicationConfig=ApplicationConfig;
@@ -144,37 +108,78 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App,QSplashScree
             exit(1);
         }
     }
+
+    // Init application config
+    ApplicationConfig->InitConfigurationValues(ForceLanguage);
+
+    // Now, we have application settings then we can init all others
+    ui->setupUi(this);
+
+    // Update logo image
+    QPixmap     LogoImg(":/img/logo_big.png");
+    QPainter    P;
+    QTextOption QTO;
+    QFont       Font("Serif",20,QFont::Normal,QFont::StyleItalic);
+    QPen        Pen;
+
+    P.begin(&LogoImg);
+    P.setFont(Font);
+    int Size         =P.fontMetrics().boundingRect("99/99/9999").width();           // Size should be 150 on standard Linux and 136 on standard Windows
+    ScreenFontAdjust =double(Size)/double(150);                                     // Adjustement for text functions using direct font
+    SCALINGTEXTFACTOR=int(std::floor(double(SCALINGTEXTFACTOR)*ScreenFontAdjust));  // Adjust Windows to correspond to Linux size
+    QTO.setAlignment(Qt::AlignRight|Qt::AlignTop);
+    QTO.setWrapMode(QTextOption::NoWrap);
+    QTO.setTextDirection(Qt::LeftToRight);
+    Pen.setColor(Qt::yellow);
+    Pen.setWidth(1);
+    Pen.setStyle(Qt::SolidLine);
+    P.setPen(Pen);
+    P.drawText(QRect(0,38,LogoImg.width()-10,LogoImg.height()-38),CurrentAppName,QTO);
+    P.end();
+    ui->TABToolimg->setPixmap(LogoImg);
+
+    ui->timeline->ApplicationConfig=ApplicationConfig;
+    ui->preview->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
+    ui->preview2->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
+    ui->ToolBoxNormal->setCurrentIndex(0);
+
+    Transparent.setTextureImage(QImage(":/img/transparent.png"));  // Load transparent brush
+
+    // Prepare title bar depending on running version
+    TitleBar=QString(APPLICATION_NAME)+" "+CurrentAppName;
+    if ((TitleBar.toLower().indexOf("devel")!=-1)||(TitleBar.toLower().indexOf("beta")!=-1)) TitleBar=TitleBar+QString(" - ")+CurrentAppVersion;
+
     ApplicationConfig->SortFile=ApplicationConfig->SettingsTable->GetIntValue("SortOrderFile",ApplicationConfig->SortFile);
     ApplicationConfig->ShowFoldersFirst=ApplicationConfig->SettingsTable->GetIntValue("ShowFoldersFirst",ApplicationConfig->ShowFoldersFirst)==1;
 
-    screen->showMessage(QApplication::translate("MainWindow","Loading system icons..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen.showMessage(QApplication::translate("MainWindow","Loading system icons..."),Qt::AlignHCenter|Qt::AlignBottom);
     ApplicationConfig->PreloadSystemIcons();
 
     // Register SDL
-    screen->showMessage(QApplication::translate("MainWindow","Starting SDL..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen.showMessage(QApplication::translate("MainWindow","Starting SDL..."),Qt::AlignHCenter|Qt::AlignBottom);
     SDLFirstInit(double(1000)/double(ApplicationConfig->PreviewFPS),ApplicationConfig->SDLAudioOldMode,ApplicationConfig->PreviewSamplingRate);
 
     // Register all formats and codecs for libavformat/libavcodec/etc ...
-    screen->showMessage(QApplication::translate("MainWindow","Starting libav..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen.showMessage(QApplication::translate("MainWindow","Starting libav..."),Qt::AlignHCenter|Qt::AlignBottom);
     if (!ApplicationConfig->DeviceModelList.InitLibav()) exit(1);
 
     // Register background library
-    screen->showMessage(QApplication::translate("MainWindow","Loading background library..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen.showMessage(QApplication::translate("MainWindow","Loading background library..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading background library..."));
     BackgroundList.ScanDisk("background",ApplicationConfig);
 
     // Register text frame library
-    screen->showMessage(QApplication::translate("MainWindow","Loading text frame library..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen.showMessage(QApplication::translate("MainWindow","Loading text frame library..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading text frame library..."));
     TextFrameList.DoPreploadList();
 
     // Register non luma library
-    screen->showMessage(QApplication::translate("MainWindow","Loading no-luma transitions..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen.showMessage(QApplication::translate("MainWindow","Loading no-luma transitions..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading no-luma transitions..."));
     RegisterNoLumaTransition();
 
     // Register luma library
-    screen->showMessage(QApplication::translate("MainWindow","Loading luma transitions..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen.showMessage(QApplication::translate("MainWindow","Loading luma transitions..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading luma transitions..."));
     RegisterLumaTransition();
 
@@ -182,12 +187,12 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App,QSplashScree
     ShapeFormDefinitionInit();
 
     // Because now we have local installed, then we can translate drive name
-    screen->showMessage(QApplication::translate("MainWindow","Scan drives in computer..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen.showMessage(QApplication::translate("MainWindow","Scan drives in computer..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Scan drives in computer..."));
     ApplicationConfig->DriveList=new cDriveList(ApplicationConfig);
 
     // Register models
-    screen->showMessage(QApplication::translate("MainWindow","Register models..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen.showMessage(QApplication::translate("MainWindow","Register models..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Register models..."));
     ApplicationConfig->ThumbnailModels=new cModelList(ApplicationConfig,ffd_MODELTYPE_THUMBNAIL,&ApplicationConfig->ThumbnailModelsNextNumber,GEOMETRY_THUMBNAIL,0,"");
     int Cur;
@@ -259,6 +264,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App,QSplashScree
     ui->FolderTree->IsRenameAllowed         =true;
     ui->FolderTree->IsCreateFolderAllowed   =true;
     ui->FolderTable->ApplicationConfig      =ApplicationConfig;
+    ui->FolderTable->LASTFOLDERString       =LASTFOLDER_BrowserPath;
     ApplicationConfig->DriveList->UpdateDriveList();
     ui->FolderTree->InitDrives();
     ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
@@ -275,7 +281,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App,QSplashScree
     ui->ZoomPlusBT->setEnabled(ApplicationConfig->TimelineHeight<TIMELINEMAXHEIGH);
 
     // Init help window
-    screen->showMessage(QApplication::translate("MainWindow","Init WIKI..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen.showMessage(QApplication::translate("MainWindow","Init WIKI..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Init WIKI..."));
     ApplicationConfig->PopupHelp=new HelpPopup(ApplicationConfig);
     ApplicationConfig->PopupHelp->InitDialog();
@@ -424,8 +430,9 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App,QSplashScree
     connect(ui->actionBrowserAddFiles,SIGNAL(triggered()),this,SLOT(s_Browser_AddFiles()));
     connect(ui->actionBrowserAddProject,SIGNAL(triggered()),this,SLOT(s_Browser_AddFiles()));
 
-    ui->FolderTree->SetSelectItemByPath(ui->FolderTree->RealPathToTreePath(ApplicationConfig->CurrentPath));
-    if (ui->FolderTree->GetCurrentFolderPath()!=ApplicationConfig->CurrentPath) ui->FolderTree->SetSelectItemByPath(PersonalFolder);
+    QString CurrentPath=ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_BrowserPath,DefaultBrowserPath);
+    ui->FolderTree->SetSelectItemByPath(ui->FolderTree->RealPathToTreePath(CurrentPath));
+    if (ui->FolderTree->GetCurrentFolderPath()!=CurrentPath) ui->FolderTree->SetSelectItemByPath(DefaultBrowserPath);
 
     // Some other init
     LastLogMessageTime=QTime::currentTime();
@@ -453,8 +460,10 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App,QSplashScree
             }
         }
     }
+    show();
 
     if (ApplicationConfig->CheckConfigAtStartup) QTimer::singleShot(LATENCY,this,SLOT(s_Action_DlgCheckConfig()));
+    if (FileForIO!="") QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
 }
 
 //====================================================================================================================
@@ -544,7 +553,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
 //====================================================================================================================
 
 void MainWindow::ToStatusBar(QString Text) {
-    ui->StatusBar_General->setText(Text);
+    if (IsFirstInitDone) ui->StatusBar_General->setText(Text);
 }
 
 //====================================================================================================================
@@ -1468,7 +1477,7 @@ void MainWindow::s_Action_Open() {
     ui->Action_Open_BT_2->setDown(false);
 
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_FFDFILE,OBJECTTYPE_FFDFILE,
-                        false,false,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastProjectPath:"",
+                        false,false,LASTFOLDER_ProjectPath,DefaultProjectPath,
                         QApplication::translate("MainWindow","Open project"),ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
@@ -1476,17 +1485,11 @@ void MainWindow::s_Action_Open() {
         if (FileList.count()==1) {
             if ((Diaporama->IsModify)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Open project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
                 QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_Action_Save();
-            ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(FileList.at(0)).fileName());
             FileForIO=FileList.at(0);
             QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
         }
     }
     s_Browser_RefreshHere();
-}
-
-void MainWindow::DoOpenFileParam() {
-    ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(FileForIO).fileName());
-    QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
 }
 
 void MainWindow::DoOpenFile() {
@@ -1496,6 +1499,7 @@ void MainWindow::DoOpenFile() {
         QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
         return;
     }
+    ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(FileForIO).fileName());
     bool            Continue=true;
     QDomDocument    domDocument;
     QString         ProjectFileName=QDir::toNativeSeparators(FileForIO);
@@ -1546,10 +1550,10 @@ void MainWindow::DoOpenFile() {
             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes) Continue=false; else {
 
             QString NewFileName=QFileDialog::getOpenFileName(((MainWindow *)ApplicationConfig->TopLevelWindow),QApplication::translate("MainWindow","Select another file for ")+QFileInfo(ProjectFileName).fileName(),
-               ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastProjectPath:"",QString("ffDiaporama (*.ffd)"));
+               ApplicationConfig->RememberLastDirectories?ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_ProjectPath,DefaultProjectPath):DefaultProjectPath,QString("ffDiaporama (*.ffd)"));
             if (NewFileName!="") {
                 ProjectFileName=NewFileName;
-                if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastProjectPath=QFileInfo(ProjectFileName).absolutePath();     // Keep folder for next use
+                if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_ProjectPath,QFileInfo(ProjectFileName).absolutePath());  // Keep folder for next use
             } else Continue=false;
         }
     }
@@ -1589,9 +1593,6 @@ void MainWindow::DoOpenFile() {
                 }
                 ApplicationConfig->RecentFile.append(ProjectFileName);
                 while (ApplicationConfig->RecentFile.count()>10) ApplicationConfig->RecentFile.takeFirst();
-
-                // Manage LastProjectPath
-                ApplicationConfig->LastProjectPath=QFileInfo(ProjectFileName).dir().absolutePath();
 
                 // Load project properties
                 Diaporama->ProjectInfo->LoadFromXML(CurrentLoadingProjectDocument);
@@ -1734,10 +1735,12 @@ void MainWindow::s_Action_Export() {
 
 void MainWindow::s_Action_SaveAs() {
     // Save project
-    Diaporama->ProjectFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Save project as"),Diaporama->ProjectFileName.isEmpty()?ApplicationConfig->LastProjectPath:Diaporama->ProjectFileName,QString("ffDiaporama (*.ffd)"));
+    Diaporama->ProjectFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Save project as"),
+                                                            Diaporama->ProjectFileName.isEmpty()?ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_ProjectPath,DefaultProjectPath):Diaporama->ProjectFileName,
+                                                            QString("ffDiaporama (*.ffd)"));
     if (Diaporama->ProjectFileName!="") {
         if (QFileInfo(Diaporama->ProjectFileName).suffix()!="ffd") Diaporama->ProjectFileName=Diaporama->ProjectFileName+".ffd";
-        ApplicationConfig->LastProjectPath=QFileInfo(Diaporama->ProjectFileName).dir().absolutePath();
+        ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_ProjectPath,QFileInfo(Diaporama->ProjectFileName).dir().absolutePath());
         // Manage Recent files list
         for (int i=0;i<ApplicationConfig->RecentFile.count();i++) if (ApplicationConfig->RecentFile.at(i)==QDir::toNativeSeparators(Diaporama->ProjectFileName)) {
             ApplicationConfig->RecentFile.removeAt(i);
@@ -1870,8 +1873,7 @@ void MainWindow::s_Action_AddFile() {
     ui->ActionAdd_BT_2->setDown(false);
 
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE|FILTERALLOW_OBJECTTYPE_IMAGEVECTORFILE,OBJECTTYPE_MANAGED,
-                        true,true,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
-                        QApplication::translate("MainWindow","Add files"),ApplicationConfig,this);
+                        true,true,LASTFOLDER_Media,DefaultMediaPath,QApplication::translate("MainWindow","Add files"),ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
     s_Browser_RefreshHere();
@@ -1979,7 +1981,7 @@ void MainWindow::s_Action_AddProject() {
     ui->ActionAddProject_BT_2->setDown(false);
 
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_FFDFILE,OBJECTTYPE_FFDFILE,
-                        true,true,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastProjectPath:"",
+                        true,true,LASTFOLDER_ProjectPath,DefaultProjectPath,
                         QApplication::translate("MainWindow","Add a sub project"),ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
@@ -2047,7 +2049,6 @@ void MainWindow::DoAddFile() {
     // if it's a ffDiaporama project file
     if ((QFileInfo(NewFile).suffix()!="")&&(QFileInfo(NewFile).suffix().toLower()=="ffd")) {
 
-        ApplicationConfig->LastProjectPath=QFileInfo(NewFile).dir().absolutePath();
         CurrentAppendingProjectName=NewFile;
 
         QFile    file(CurrentAppendingProjectName);
@@ -2150,7 +2151,6 @@ void MainWindow::DoAddFile() {
         }
         #endif
         if (Continue) {
-            if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 
             //**********************************************
             // Chapter management
@@ -2395,13 +2395,13 @@ void MainWindow::s_VideoPlayer_SaveImageEvent() {
         QString Format=Ret->text().mid(QApplication::translate("MainWindow","Capture the image ").length());
         int Width =Format.left(Format.indexOf("x")).toInt();
         int Height=Format.mid(Format.indexOf("x")+1).toInt();
-        QString OutputFileName=ApplicationConfig->LastCaptureImage;
+        QString OutputFileName=ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_CaptureImagePath,DefaultCaptureImage);
         QString Filter="JPG (*.jpg)";
         if (!OutputFileName.endsWith(QDir::separator())) OutputFileName=OutputFileName+QDir::separator();
         OutputFileName=OutputFileName+QApplication::translate("MainWindow","Capture image");
         OutputFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Select destination file"),OutputFileName,"PNG (*.png);;JPG (*.jpg)",&Filter);
         if (OutputFileName!="") {
-            if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastCaptureImage=QFileInfo(OutputFileName).absolutePath();     // Keep folder for next use
+            if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_CaptureImagePath,QFileInfo(OutputFileName).absolutePath());     // Keep folder for next use
             if ((Filter.toLower().indexOf("png")!=-1)&&(!OutputFileName.endsWith(".png"))) OutputFileName=OutputFileName+".png";
             if ((Filter.toLower().indexOf("jpg")!=-1)&&(!OutputFileName.endsWith(".jpg"))) OutputFileName=OutputFileName+".jpg";
             cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Diaporama->CurrentPosition,Diaporama,1,false);
@@ -2723,7 +2723,9 @@ void MainWindow::AdjustRuller(int CurIndex) {
         ui->preview2->SetStartEndPos(0,0,-1,0,-1,0);
     }
     if (CurIndex!=-1) {
+        FLAGSTOPITEMSELECTION=true;
         ui->timeline->AddObjectToTimeLine(CurIndex);
+        FLAGSTOPITEMSELECTION=false;
         (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
     } else ui->timeline->repaint();
     RefreshControls();
@@ -2733,13 +2735,12 @@ void MainWindow::AdjustRuller(int CurIndex) {
 //====================================================================================================================
 
 void MainWindow::s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *) {
-    ApplicationConfig->CurrentPath=ui->FolderTree->GetFolderPath(current,false);
+    QString Path=ui->FolderTree->GetFolderPath(current,false);
 
     ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(current,true),false);
-    ui->CurrentPathED->setText(ApplicationConfig->CurrentPath);
-    ui->FolderIcon->setPixmap(ApplicationConfig->DriveList->GetFolderIcon(ApplicationConfig->CurrentPath).pixmap(16,16));
+    ui->CurrentPathED->setText(Path);
+    ui->FolderIcon->setPixmap(ApplicationConfig->DriveList->GetFolderIcon(Path).pixmap(16,16));
 
-    QString Path=ApplicationConfig->CurrentPath;
     #ifdef Q_OS_WIN
         Path.replace("%HOMEDRIVE%%HOMEPATH%",ApplicationConfig->DriveList->List[0].Path,Qt::CaseInsensitive);
         Path.replace("%USERPROFILE%",ApplicationConfig->DriveList->List[0].Path,Qt::CaseInsensitive);
@@ -2747,6 +2748,7 @@ void MainWindow::s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,QTreeW
         if (QDir(Path).canonicalPath()!="") Path=QDir(Path).canonicalPath(); // Resolved eventual .lnk files
     #endif
     ui->FolderTable->FillListFolder(Path);
+    ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_BrowserPath,Path);
     DoBrowserRefreshFolderInfo();
 }
 
@@ -2754,7 +2756,7 @@ void MainWindow::s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,QTreeW
 
 void MainWindow::DoBrowserRefreshFolderInfo() {
     ApplicationConfig->DriveList->UpdateDriveList();   // To update free space on drive
-    cDriveDesc *HDD=ui->FolderTree->SearchRealDrive(ApplicationConfig->CurrentPath);
+    cDriveDesc *HDD=ui->FolderTree->SearchRealDrive(ui->FolderTable->CurrentPath);
     if (HDD) {
         // If scan in progress
         if (ui->FolderTable->ScanMediaListProgress) {
@@ -3003,7 +3005,7 @@ void MainWindow::s_Browser_Favorite() {
 
 void MainWindow::s_Browser_AddToFavorite() {
     bool    Ok,Continue=true;
-    QString Text=ApplicationConfig->CurrentPath;
+    QString Text=ui->FolderTable->CurrentPath;
     while (Text.indexOf(QDir::separator())!=-1) Text=Text.mid(Text.indexOf(QDir::separator())+1);
     while (Continue) {
         Continue=false;
@@ -3016,22 +3018,22 @@ void MainWindow::s_Browser_AddToFavorite() {
                 if (CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Add to favorite"),
                                           QApplication::translate("MainWindow","A favorite with this name already exists.\nDo you want to overwrite it?"),
                                           QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)
-                    ApplicationConfig->BrowserFavorites[i]=Text+"###"+ApplicationConfig->CurrentPath;
+                    ApplicationConfig->BrowserFavorites[i]=Text+"###"+ui->FolderTable->CurrentPath;
                 else Continue=true;
 
             } else {
 
                 int i=0;
-                while ((i<ApplicationConfig->BrowserFavorites.count())&&(!ApplicationConfig->BrowserFavorites[i].endsWith("###"+ApplicationConfig->CurrentPath))) i++;
-                if ((i<ApplicationConfig->BrowserFavorites.count())&&(ApplicationConfig->BrowserFavorites[i].endsWith("###"+ApplicationConfig->CurrentPath))) {
+                while ((i<ApplicationConfig->BrowserFavorites.count())&&(!ApplicationConfig->BrowserFavorites[i].endsWith("###"+ui->FolderTable->CurrentPath))) i++;
+                if ((i<ApplicationConfig->BrowserFavorites.count())&&(ApplicationConfig->BrowserFavorites[i].endsWith("###"+ui->FolderTable->CurrentPath))) {
                     if (CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Add to favorite"),
                                               QApplication::translate("MainWindow","A favorite with for this path already exists.\nDo you want to overwrite it?"),
                                               QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)
-                        ApplicationConfig->BrowserFavorites[i]=Text+"###"+ApplicationConfig->CurrentPath;
+                        ApplicationConfig->BrowserFavorites[i]=Text+"###"+ui->FolderTable->CurrentPath;
                     else Continue=true;
 
                 } else {
-                    ApplicationConfig->BrowserFavorites.append(Text+"###"+ApplicationConfig->CurrentPath);
+                    ApplicationConfig->BrowserFavorites.append(Text+"###"+ui->FolderTable->CurrentPath);
                 }
             }
         }

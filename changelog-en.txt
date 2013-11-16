@@ -4,6 +4,17 @@
 * (English version)
 **************************************************
 
+[Commit: 16/11/2013]
+    Bug fixes:
+        -Fix bug in transition dialog which displayed always the same transition [regression 15/11/2013]
+        -Fix a segmentation fault after adding for the first time ONLY ONE title [regression 15/11/2013]
+        -Fix a bug when aborting rendering: After the infowindow came and after clicked then nothing happens more [regression 15/11/2013]
+
+    New features:
+        -Move saving of latest folders used from configuration .xml file to user database
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
 [Commit: 15/11/2013]
     Bug fixes:
         -Fixed selecting multiple files in the browser (no longer select by column)

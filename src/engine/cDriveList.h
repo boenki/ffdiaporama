@@ -64,7 +64,14 @@ private:
     bool                SearchDrive(QString Path);
 };
 
-extern QString PersonalFolder;
+extern QString PersonalFolder;              // Personnal home folder
+extern QString DefaultMediaPath;            // default folder for image/video
+extern QString DefaultMusicPath;            // default folder for music
+extern QString DefaultProjectPath;          // default folder for project
+extern QString DefaultExportPath;           // default folder for project export
+extern QString DefaultRenderVideoPath;      // default folder for render video
+extern QString DefaultCaptureImage;         // default folder for captured image
+extern QString DefaultBrowserPath;          // default folder for integrated browser
 extern QString ClipArtFolder,CAF;
 extern QString ModelFolder,MFD;
 

@@ -297,7 +297,7 @@ void DlgBackgroundProperties::s_SelectFile() {
     QStringList FileList;
     QString     NewFile="";
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_IMAGEFILE,OBJECTTYPE_IMAGEFILE,
-                        false,false,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
+                        false,false,LASTFOLDER_Media,DefaultMediaPath,
                         QApplication::translate("DlgBackgroundProperties","Select a file"),DiaporamaObject->Parent->ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
@@ -306,7 +306,6 @@ void DlgBackgroundProperties::s_SelectFile() {
     }
     if (NewFile=="") return;
     AppendPartialUndo(UNDOACTION_BRUSHFILE,ui->ImageFileBT,true);
-    if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
     QString BrushFileName=QFileInfo(NewFile).absoluteFilePath();
     if (DiaporamaObject->BackgroundBrush->Image) {
         delete DiaporamaObject->BackgroundBrush->Image;

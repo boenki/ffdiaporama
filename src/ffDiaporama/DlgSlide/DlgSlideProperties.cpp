@@ -1927,8 +1927,7 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
     ui->AddFileBlock->setDown(false);
     QStringList FileList;
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MANAGED|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE|FILTERALLOW_OBJECTTYPE_IMAGEVECTORFILE,
-                        OBJECTTYPE_MANAGED,true,false,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
-                        QApplication::translate("MainWindow","Add files"),ApplicationConfig,this);
+                        OBJECTTYPE_MANAGED,true,false,LASTFOLDER_Media,DefaultMediaPath,QApplication::translate("MainWindow","Add files"),ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
     if (FileList.count()==0) return;
@@ -1948,8 +1947,6 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
     for (int i=0;i<FileList.count();i++) {
         QString NewFile=FileList[i];
         QString ErrorMessage=QApplication::translate("MainWindow","Format not supported","Error message");
-
-        if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 
         // Create and append a composition block to the object list
         CurrentSlide->ObjectComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig));

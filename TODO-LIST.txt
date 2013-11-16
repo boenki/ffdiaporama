@@ -43,7 +43,8 @@ Basse       -       Déplacer la sauvegarde des recentlist dans la base de donn�
 
 Basse       -       Déplacer la sauvegarde des favorites du browser dans la base de données
 
-Urgent      -       Déplacer la sauvegarde des derniers répertoires utilisés dans la base de données
+Basse       -       Améliorer le process de mise à jours du cache des répertoires (tout faire dans 1 seule boucle)
+
 
 
 Urgent :

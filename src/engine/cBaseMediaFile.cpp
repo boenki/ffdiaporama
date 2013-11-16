@@ -418,7 +418,6 @@ bool cBaseMediaFile::GetInformationFromFile(QString FileName,QStringList *AliasL
             if (QFileInfo(NewFileName).exists()) {
                 FileName=NewFileName;
                 if (AliasList) AliasList->append(FileName+"####"+NewFileName);
-                if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastMediaPath=QFileInfo(FileName).absolutePath();     // Keep folder for next use
                 if (ModifyFlag) *ModifyFlag=true;
             }
         }
@@ -433,12 +432,12 @@ bool cBaseMediaFile::GetInformationFromFile(QString FileName,QStringList *AliasL
             Continue=false;
         else {
             QString NewFileName=QFileDialog::getOpenFileName(ApplicationConfig->TopLevelWindow,QApplication::translate("cBaseMediaFile","Select another file for ")+QFileInfo(FileName).fileName(),
-               ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
-               ApplicationConfig->GetFilterForMediaFile(ObjectType==OBJECTTYPE_IMAGEFILE?IMAGEFILE:ObjectType==OBJECTTYPE_VIDEOFILE?VIDEOFILE:MUSICFILE));
+                    ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_Media,DefaultMediaPath),
+                    ApplicationConfig->GetFilterForMediaFile(ObjectType==OBJECTTYPE_IMAGEFILE?IMAGEFILE:ObjectType==OBJECTTYPE_VIDEOFILE?VIDEOFILE:MUSICFILE));
             if (NewFileName!="") {
                 if (AliasList) AliasList->append(FileName+"####"+NewFileName);
                 FileName=NewFileName;
-                if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastMediaPath=QFileInfo(FileName).absolutePath();     // Keep folder for next use
+                if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_Media,QFileInfo(FileName).absolutePath());     // Keep folder for next use
                 if (ModifyFlag) *ModifyFlag=true;
             } else Continue=false;
         }

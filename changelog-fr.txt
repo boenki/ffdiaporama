@@ -4,6 +4,17 @@
 * (Version Française)
 **************************************************
 
+[Commit: 16/11/2013]
+    Correction de bug :
+        -Corrige le bug dans la boite transition qui affichait toujours la même transition [regression 15/11/2013]
+        -Corrige un crash (erreur de segmentation) après avoir ajouté un seul slide pour la premiere fois [regression 15/11/2013]
+        -Corrige un bug lors de l'abandon de la génération: Après affichage de l'information et après avoir cliqué sur ok, rien ne se passe plus [regression 15/11/2013]
+
+    Nouveautés :
+        -Déplace la sauvegarde des derniers répertoires utilisés du fichier de configuration .xml vers la base de données
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
 [Commit: 15/11/2013]
     Correction de bug :
         -Corrige la sélection de multiple fichiers dans le browser (ne sélectionne plus par colonne)
