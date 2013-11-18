@@ -272,7 +272,7 @@ void DlgImageCorrection::MakeFormIcon(QComboBox *UICB) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::MakeFormIcon");
 
     for (int i=0;i<UICB->count();i++) {
-        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,ApplicationConfig);
+        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,ApplicationConfig,this);
         Object.x                        =0;
         Object.y                        =0;
         Object.w                        =1;

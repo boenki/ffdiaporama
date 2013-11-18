@@ -36,7 +36,7 @@ void cThumbnailComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem 
             else                                    painter->fillRect(option.rect,Qt::white);
 
         painter->drawImage(option.rect.left()+DECAL,option.rect.top()+DECAL,
-                           ComboBox->ModelTable->List[CurIndex].PrepareImage(0,ComboBox->Diaporama,ComboBox->ModelTable->List[CurIndex].Name=="*"?ComboBox->ProjectThumbnail:NULL));
+                           ComboBox->ModelTable->List[CurIndex]->PrepareImage(0,ComboBox->Diaporama,ComboBox->ModelTable->List[CurIndex]->Name=="*"?ComboBox->ProjectThumbnail:NULL));
 
         if (CurIndex==ComboBox->CurrentSel) {
             painter->setPen(QPen(Qt::red));
@@ -86,14 +86,14 @@ void cThumbnailComboBox::PrepareTable(bool AllowCustomized,cModelList *Table) {
     int CurIndex  =((QTableWidget *)view())->currentRow()*NBRCOLUMN+((QTableWidget *)view())->currentColumn();
     while (count()>0) removeItem(count()-1);
     int NbrItem=ModelTable->List.count();
-    if ((!AllowCustomized)&&(ModelTable->List[ModelTable->List.count()-1].Name=="*")) NbrItem--;
+    if ((!AllowCustomized)&&(ModelTable->List[ModelTable->List.count()-1]->Name=="*")) NbrItem--;
     int NbrRow=NbrItem/NBRCOLUMN;
     if (NbrRow*NBRCOLUMN<NbrItem) NbrRow++;
 
     for (int i=0;i<NBRCOLUMN;i++) ((QTableWidget *)view())->setColumnWidth(i,THUMB_THUMBWITH+DECAL*2);
 
     for (int i=0;i<NbrRow;i++) {
-        addItem(QIcon(QPixmap().fromImage(ModelTable->List[i*NBRCOLUMN].PrepareImage(0,Diaporama,ModelTable->List[i*NBRCOLUMN].Name=="*"?ProjectThumbnail:NULL))),"");
+        addItem(QIcon(QPixmap().fromImage(ModelTable->List[i*NBRCOLUMN]->PrepareImage(0,Diaporama,ModelTable->List[i*NBRCOLUMN]->Name=="*"?ProjectThumbnail:NULL))),"");
         ((QTableWidget *)view())->setRowHeight(i,THUMB_THUMBHEIGHT+DECAL*2);
     }
 
@@ -140,7 +140,7 @@ void cThumbnailComboBox::MakeIcons() {
     int CurrentCol=((QTableWidget *)view())->currentColumn();
     if (CurrentCol<0) CurrentCol=0;
     int CurIndex=CurrentRow*NBRCOLUMN+CurrentCol;
-    if (CurIndex<ModelTable->List.count()) setItemIcon(CurrentRow,QIcon(QPixmap().fromImage(ModelTable->List[CurIndex].PrepareImage(0,Diaporama,ModelTable->List[CurIndex].Name=="*"?ProjectThumbnail:NULL))));
+    if (CurIndex<ModelTable->List.count()) setItemIcon(CurrentRow,QIcon(QPixmap().fromImage(ModelTable->List[CurIndex]->PrepareImage(0,Diaporama,ModelTable->List[CurIndex]->Name=="*"?ProjectThumbnail:NULL))));
 }
 
 //========================================================================================================================
@@ -168,6 +168,6 @@ void cThumbnailComboBox::SetCurrentModel(QString ModelName) {
 QString cThumbnailComboBox::GetCurrentModel() {
     CurrentSel=((QTableWidget *)view())->currentRow()*NBRCOLUMN+((QTableWidget *)view())->currentColumn();
     if (CurrentSel>=ModelTable->List.count()) CurrentSel=ModelTable->List.count()-1;
-    if ((CurrentSel>=0)&&(CurrentSel<ModelTable->List.count())) return ModelTable->List[CurrentSel].Name;
-        else return "";
+    if ((CurrentSel>=0)&&(CurrentSel<ModelTable->List.count())) return ModelTable->List[CurrentSel]->Name;
+    return "";
 }

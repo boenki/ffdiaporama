@@ -135,7 +135,7 @@ void cCShapeComboBox::PrepareFrameShapeTable(bool ResetContent,int Filter,int Cu
         bool ToAdd=ShapeFormDefinition.at(i).Enable;
         if ((i>=SHAPEFORM_TRIANGLEUP)&&(i<=SHAPEFORM_TRIANGLELEFT)) ToAdd=((Filter & FILTERFRAMESHAPE_OLDTRIANGLE)>0);
         if (ToAdd) {
-            cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,/*ApplicationConfig*/NULL);
+            cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,/*ApplicationConfig*/NULL,this);
             Object.x                        =0.1;
             Object.y                        =0.1;
             Object.w                        =0.8;
@@ -203,7 +203,7 @@ int cCShapeComboBox::GetCurrentFrameShape() {
 void cCShapeComboBox::MakeIcons() {
     int CurIndex=((QTableWidget *)view())->currentRow()*AutoFrameShapeComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
     if ((CurIndex>=0)&&(CurIndex<FrameShapeTable.count())) {
-        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,/*ApplicationConfig*/NULL);
+        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,/*ApplicationConfig*/NULL,this);
         Object.x                        =0.05;
         Object.y                        =0.05;
         Object.w                        =0.9;

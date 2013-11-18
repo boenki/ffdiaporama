@@ -4,6 +4,20 @@
 * (English version)
 **************************************************
 
+[Commit: 18/11/2013] + ffDiaporama 2.0 BETA 3
+    Bug fixes:
+        -Fix bug in creating new project thumbnail model if project is empty [regression 15/11/2013]
+        -Fix some memory leaks
+        -Fix positionning of timeline in the mainwindow at program start-up [regression 15/11/2013]
+        -Fix saving of latest folders for Windows version [regression 16/11/2013]
+        -Fix a bug of infinite loop when reading some video files which happens sometimes when duration is incorrect in the file
+        -Fix a bug of display start-end position that was incorrectly displayed in the timeline when adding a slide at the end of the project [regression 15/11/2013]
+
+    New features:
+        -Upgrade ffmpeg version for OpenSuse and Windows packages to version 2.1
+
+--------------------------------------------------------------------------------
+
 [Commit: 16/11/2013]
     Bug fixes:
         -Fix bug in transition dialog which displayed always the same transition [regression 15/11/2013]
@@ -13,7 +27,7 @@
     New features:
         -Move saving of latest folders used from configuration .xml file to user database
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 [Commit: 15/11/2013]
     Bug fixes:
@@ -35,7 +49,7 @@
         -Recognizes signatures of ffmpeg 2.1
         -Update WIKI
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 [Commit: 12/11/2013]
     Bug fixes:
@@ -52,7 +66,8 @@
         -Improve speed of project loading
         -Improve speed of partition mode browsing
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
 [Commit: 09/11/2013] + ffDiaporama 2.0 BETA 2
     Bug fixes:
         -Fixes a crash occurring during simultaneous logging from multiple threads
@@ -77,7 +92,7 @@
     New features:
         -Arranges the data inside objects in order soon to remove them from memory and only have them in the database
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 [Commit: 03/11/2013] + ffDiaporama 2.0 BETA 1
     Bug fixes:
@@ -88,7 +103,7 @@
         -Add a files table and remove filepath information from all objects derivated from cBaseMediaFile
         -Changes the multimedia browser to it use the files table as a cache for faster browsing
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 [Commit: 30/10/2013]
     Bug fixes:
@@ -99,15 +114,15 @@
         -Move Window State and position from memory to the home user database (remove memory used by that)
         -Add a folders table and remove folder path information from all objects derivated from cBaseMediaFile
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 [Commit: 27/10/2013] + ffDiaporama 1.7 BETA 5
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 [Commit: ]
     Bug fixes:
 
     New features:
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------

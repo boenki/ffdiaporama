@@ -54,9 +54,9 @@ void cCustomTitleModelItem::paint(QPainter *painter,const QStyleOptionViewItem &
     if ((CurIndex>=0)&&(CurIndex<Table->ModelTable->List.count())) {
 
         painter->drawImage(option.rect.left()+10,option.rect.top()+10,
-                           Table->ModelTable->List[CurIndex].PrepareImage((Table->TimerPosition % Table->ModelTable->List[CurIndex].Duration),NULL,Table->CurrentSlide));
+                           Table->ModelTable->List[CurIndex]->PrepareImage((Table->TimerPosition % Table->ModelTable->List[CurIndex]->Duration),NULL,Table->CurrentSlide));
 
-        QString ModelDuration=QTime(0,0,0,0).addMSecs(Table->ModelTable->List[CurIndex].Duration).toString("mm:ss.zzz");
+        QString ModelDuration=QTime(0,0,0,0).addMSecs(Table->ModelTable->List[CurIndex]->Duration).toString("mm:ss.zzz");
         int    FontFactor=((Table->ApplicationConfig->TimelineHeight-TIMELINEMINHEIGH)/20)*10;
         QFont  font= QApplication::font();
         QPen   Pen;
@@ -198,5 +198,6 @@ QString cCustomTitleModelTable::GetCurrentModel() {
     if (!ModelTable) return "";
     CurrentSel=currentRow()*columnCount()+currentColumn();
     if (CurrentSel>=ModelTable->List.count()) CurrentSel=ModelTable->List.count()-1;
-    if ((CurrentSel>=0)&&(CurrentSel<ModelTable->List.count())) return ModelTable->List[CurrentSel].Name; else return "";
+    if ((CurrentSel>=0)&&(CurrentSel<ModelTable->List.count())) return ModelTable->List[CurrentSel]->Name;
+    return "";
 }

@@ -102,7 +102,7 @@ Build ffDiaporama for Ubuntu/LinuxMint (Ubuntu based version)
 Build ffDiaporama for openSUSE
 ------------------------------
 
-    Version openSUSE 12.3 (Qt 4.8.4/ffmpeg 2.0.2)
+    Version openSUSE 12.3 (Qt 4.8.4/ffmpeg 2.1)
         Installation prerequisites:
             su -c "zypper in make gcc build kernel-desktop-devel"
             su -c "zypper in libqt4 libqt4-devel"

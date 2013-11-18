@@ -29,7 +29,7 @@
 
 //=============================================================================================================================
 
-cModelListItem::cModelListItem(cModelList *Parent,QString FileName,QSize ThumbnailSize) {
+cModelListItem::cModelListItem(cModelList *Parent,QString FileName,QSize ThumbnailSize):QObject(Parent) {
     this->Parent        =Parent;
     this->FileName      =FileName=="*"?"":FileName;
     this->ThumbnailSize =ThumbnailSize;
@@ -42,7 +42,7 @@ cModelListItem::cModelListItem(cModelList *Parent,QString FileName,QSize Thumbna
     if (Parent->ModelType==ffd_MODELTYPE_THUMBNAIL) {
         Duration=0;
     } else {
-        cDiaporama *Diaporama=new cDiaporama(Parent->ApplicationConfig,false);
+        cDiaporama *Diaporama=new cDiaporama(Parent->ApplicationConfig,false,this);
         Diaporama->List.append(new cDiaporamaObject(Diaporama));
         Diaporama->List[0]->LoadModelFromXMLData(Parent->ModelType,Model);
         Duration=Diaporama->List[0]->GetDuration();
@@ -58,7 +58,7 @@ QImage cModelListItem::PrepareImage(int64_t Position,cDiaporama *DiaporamaToUse,
     cDiaporamaObject    *DiaporamaObject=DiaporamaObjectToUse;
 
     if (!Diaporama) {
-        Diaporama=new cDiaporama(Parent->ApplicationConfig,false);
+        Diaporama=new cDiaporama(Parent->ApplicationConfig,false,this);
         if (!DiaporamaToUse) {
             Diaporama->ProjectInfo->Title  =QApplication::translate("cModelList","Project title");
             Diaporama->ProjectInfo->Album  =QApplication::translate("cModelList","Project album");
@@ -139,31 +139,29 @@ QImage cModelListItem::PrepareImage(int64_t Position,cDiaporama *DiaporamaToUse,
     P.begin(&Thumb);
     P.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
     P.setCompositionMode(QPainter::CompositionMode_SourceOver);
-    QList<cCompositionObjectContext> PreparedBrushList;
+    QList<cCompositionObjectContext *>PreparedBrushList;
 
     int            ShotNumber   =Info->CurrentObject_ShotSequenceNumber;
     cDiaporamaShot *PreviousShot=(ShotNumber>0?DiaporamaObject->List[ShotNumber-1]:NULL);
 
     // Construct collection
     for (int j=0;j<Info->CurrentObject_CurrentShot->ShotComposition.List.count();j++)
-        PreparedBrushList.append(cCompositionObjectContext(j,true,true,Info,Thumb.width(),Thumb.height(),
-                                                           Info->CurrentObject_CurrentShot,PreviousShot,NULL,0,0));
-
+        PreparedBrushList.append(new cCompositionObjectContext(j,true,true,Info,Thumb.width(),Thumb.height(),
+                                                           Info->CurrentObject_CurrentShot,PreviousShot,NULL,0,0,this));
     // Compute each item of the collection
-    QFuture<void> DoCompute = QtConcurrent::map(PreparedBrushList,ComputeCompositionObjectContext);
-    if (DoCompute.isRunning()) DoCompute.waitForFinished();
+    for (int aa=0;aa<PreparedBrushList.count();aa++) PreparedBrushList[aa]->Compute();
 
     // Draw collection
     for (int j=0;j<Info->CurrentObject_CurrentShot->ShotComposition.List.count();j++) {
         Info->CurrentObject_CurrentShot->ShotComposition.List[j]->DrawCompositionObject(DiaporamaObject,&P,double(Thumb.height())/double(1080),
             Thumb.width(),
             Thumb.height(),
-            PreparedBrushList[j].PreviewMode,
-            PreparedBrushList[j].VideoPosition+PreparedBrushList[j].StartPosToAdd,
-            PreparedBrushList[j].SoundTrackMontage,
-            PreparedBrushList[j].BlockPctDone,PreparedBrushList[j].ImagePctDone,
-            PreparedBrushList[j].PrevCompoObject,100,
-            true,false,0,0,0,0,false,&PreparedBrushList[j]);
+            PreparedBrushList[j]->PreviewMode,
+            PreparedBrushList[j]->VideoPosition+PreparedBrushList[j]->StartPosToAdd,
+            PreparedBrushList[j]->SoundTrackMontage,
+            PreparedBrushList[j]->BlockPctDone,PreparedBrushList[j]->ImagePctDone,
+            PreparedBrushList[j]->PrevCompoObject,100,
+            true,false,0,0,0,0,false,PreparedBrushList[j]);
     }
     PreparedBrushList.clear();
 
@@ -229,7 +227,7 @@ QDomDocument cModelListItem::LoadModelFile(ffd_MODELTYPE TypeModel,QString Model
 
 //=============================================================================================================================
 
-cModelList::cModelList(cBaseApplicationConfig *ApplicationConfig,ffd_MODELTYPE ModelType,int64_t *NextNumber,ffd_GEOMETRY ProjectGeometry,int DigitCategorie,QString NameCategorie) {
+cModelList::cModelList(cBaseApplicationConfig *ApplicationConfig,ffd_MODELTYPE ModelType,int64_t *NextNumber,ffd_GEOMETRY ProjectGeometry,int DigitCategorie,QString NameCategorie):QObject(ApplicationConfig) {
     this->ApplicationConfig =ApplicationConfig;
     this->NextNumber        =NextNumber;
     this->ProjectGeometry   =ProjectGeometry;
@@ -312,7 +310,7 @@ void cModelList::FillModelType(ffd_MODELTYPE ModelType) {
         int  iNumber=0;
         bool IsOk=true;
         iNumber=Number.toInt(&IsOk);
-        if ((IsOk)&&(iNumber>=StartNumber)&&(iNumber<=EndNumber)) List.append(cModelListItem(this,QDir::toNativeSeparators(Files[i].absoluteFilePath()),ThumbnailSize));
+        if ((IsOk)&&(iNumber>=StartNumber)&&(iNumber<=EndNumber)) List.append(new cModelListItem(this,QDir::toNativeSeparators(Files[i].absoluteFilePath()),ThumbnailSize));
     }
 
     // Load custom model
@@ -328,7 +326,7 @@ void cModelList::FillModelType(ffd_MODELTYPE ModelType) {
         bool IsOk=true;
         iNumber=Number.toInt(&IsOk);
         if ((IsOk)&&(iNumber>=StartNumber)&&(iNumber<=EndNumber)) {
-            List.append(cModelListItem(this,QDir::toNativeSeparators(Files[i].absoluteFilePath()),ThumbnailSize));
+            List.append(new cModelListItem(this,QDir::toNativeSeparators(Files[i].absoluteFilePath()),ThumbnailSize));
             if (iNumber>*NextNumber) *NextNumber=iNumber;
         }
     }
@@ -338,8 +336,8 @@ void cModelList::FillModelType(ffd_MODELTYPE ModelType) {
 
 int cModelList::SearchModel(QString ModelName) {
     int i=0;
-    while ((i<List.count())&&(List[i].Name!=ModelName)) i++;
-    if ((i<List.count())&&(List[i].Name==ModelName)) return i;
+    while ((i<List.count())&&(List[i]->Name!=ModelName)) i++;
+    if ((i<List.count())&&(List[i]->Name==ModelName)) return i;
         else return 0;
 }
 
@@ -347,20 +345,20 @@ int cModelList::SearchModel(QString ModelName) {
 
 QDomDocument cModelList::GetModelDocument(QString ModelName) {
     int i=0;
-    while ((i<List.count())&&(List[i].Name!=ModelName)) i++;
-    if ((i<List.count())&&(List[i].Name==ModelName)) return List[i].Model;
+    while ((i<List.count())&&(List[i]->Name!=ModelName)) i++;
+    if ((i<List.count())&&(List[i]->Name==ModelName)) return List[i]->Model;
         else return QDomDocument();
 }
 //=============================================================================================================================
 
 cModelListItem *cModelList::AppendCustomModel() {
     RemoveCustomModel();
-    List.append(cModelListItem(this,"*",ThumbnailSize));
-    return &List[List.count()-1];
+    List.append(new cModelListItem(this,"*",ThumbnailSize));
+    return List[List.count()-1];
 }
 
 //=============================================================================================================================
 
 void cModelList::RemoveCustomModel() {
-    if ((List.count()>0)&&(List[List.count()-1].Name=="*")) List.removeLast();
+    if ((List.count()>0)&&(List[List.count()-1]->Name=="*")) List.removeLast();
 }

@@ -94,6 +94,9 @@ public:
     int64_t             RenderedFrame,Position;
     int                 Column,ColumnStart,AdjustedDuration;
 
+    QList<cCompositionObjectContext *> PreparedTransitBrushList;
+    QList<cCompositionObjectContext *> PreparedBrushList;
+
     QFutureWatcher<void> ThreadAssembly;
     QFutureWatcher<void> ThreadEncodeVideo;
     QFutureWatcher<void> ThreadEncodeAudio;

@@ -2469,6 +2469,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
     //*************************************************************************************************************************************
     // Decoding process : Get StreamPacket until endposition is reach (if sound is wanted) or until image is ok (if image only is wanted)
     //*************************************************************************************************************************************
+    bool TryLoop=false;
 
     // AUDIO PART
     while (ContinueAudio) {
@@ -2489,12 +2490,19 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                     av_free(BufferForDecoded);
                     AudioLenDecoded=FPSSize;
                 }
-                SoundTrackBloc->ClearList();      // Clear soundtrack list
-                ResamplingContinue=false;
-                LastAudioReadedPosition=0;
-                dEndFile=AudioFramePosition;
-                if (dEndFile==double(QTime(0,0,0,0).msecsTo(EndPos))) EndPos=QTime(0,0,0).addMSecs(AudioFramePosition*1000);
-                ContinueAudio=SeekFile(NULL,AudioStream,Position-2*FPSDuration); // Seek 2*FPSDuration before and modify var to try to loop again
+                if ((AudioFramePosition*1000000>Position)||(TryLoop)) {
+                    // We have reach the end of file
+                    dEndFile=AudioFramePosition;
+                    if (dEndFile==double(QTime(0,0,0,0).msecsTo(EndPos))) EndPos=QTime(0,0,0).addMSecs(AudioFramePosition*1000);
+                    ContinueAudio=false;
+
+                } else {
+                    SoundTrackBloc->ClearList();      // Clear soundtrack list
+                    ResamplingContinue=false;
+                    LastAudioReadedPosition=0;
+                    ContinueAudio=SeekFile(NULL,AudioStream,Position-2*FPSDuration); // Seek 2*FPSDuration before and modify var to try to loop again
+                    TryLoop=true;
+                }
             } else {
                 int64_t FramePts=StreamPacket->pts!=(int64_t)AV_NOPTS_VALUE?StreamPacket->pts:-1;
                 double  TimeBase=double(LibavAudioFile->streams[StreamPacket->stream_index]->time_base.den)/double(LibavAudioFile->streams[StreamPacket->stream_index]->time_base.num);
@@ -2610,9 +2618,14 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                             IsVideoFind=true;
                             ContinueVideo=false;
                         } else {
-                            dEndFile=VideoFramePosition;
-                            ContinueVideo=SeekFile(VideoStream,NULL,Position-2*FPSDuration);
-                            if (dEndFile==double(QTime(0,0,0,0).msecsTo(EndPos))) EndPos=QTime(0,0,0).addMSecs(VideoFramePosition*1000);
+                            if (AudioFramePosition*1000000>Position) {
+                                // We have reach the end of file
+                                dEndFile=VideoFramePosition;
+                                if (dEndFile==double(QTime(0,0,0,0).msecsTo(EndPos))) EndPos=QTime(0,0,0).addMSecs(VideoFramePosition*1000);
+                                ContinueVideo=false;
+                            } else {
+                                ContinueVideo=SeekFile(VideoStream,NULL,Position-2*FPSDuration);
+                            }
                         }
                     } else {
 

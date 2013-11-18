@@ -236,6 +236,12 @@ cLuLoImageCache::cLuLoImageCache() {
 //===============================================================================
 
 cLuLoImageCache::~cLuLoImageCache() {
+    clear();
+}
+
+//===============================================================================
+
+void cLuLoImageCache::clear() {
     while (List.count()>0) delete List.takeLast();
 }
 

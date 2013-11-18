@@ -89,7 +89,7 @@
 // cBaseApplicationConfig
 //**********************************************************************************************************************
 
-cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QString TheAllowedWEBLanguage) {
+cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QString TheAllowedWEBLanguage):QObject(TheTopLevelWindow) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::cBaseApplicationConfig");
 
     #ifdef Q_OS_WIN
@@ -216,7 +216,6 @@ cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QS
         DefaultRenderVideoPath  = WINDOWS_VIDEO;                // Last folder use for render video
         DefaultCaptureImage     = WINDOWS_PICTURES;             // Last folder use for captured image
         DefaultBrowserPath      = WINDOWS_DOCUMENTS;
-        if (LastRenderVideoPath=="") LastRenderVideoPath=WINDOWS_DOCUMENTS;
     #else
         DefaultMediaPath        = QDir::home().absolutePath();  // Last folder use for image/video
         DefaultMusicPath        = QDir::home().absolutePath();  // Last folder use for music

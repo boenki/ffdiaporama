@@ -499,7 +499,7 @@ void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::MakeFormIcon");
 
     for (int i=0;i<UICB->count();i++) {
-        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,ApplicationConfig);
+        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,ApplicationConfig,this);
         Object.x                        =0;
         Object.y                        =0;
         Object.w                        =1;
@@ -1385,7 +1385,7 @@ void DlgSlideProperties::s_ShotTable_AddShot() {
     // Fill this new shot with copy of all blocks of current shot
     cDiaporamaShot *imagesequence=CurrentSlide->List[CurrentShotNbr+1];
     for (int i=0;i<CompositionList->List.count();i++) {
-        imagesequence->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionList->List[i]->IndexKey,ApplicationConfig));
+        imagesequence->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionList->List[i]->IndexKey,ApplicationConfig,&imagesequence->ShotComposition));
         imagesequence->ShotComposition.List[i]->CopyFromCompositionObject(CompositionList->List[i]);
     }
 
@@ -1784,7 +1784,7 @@ void DlgSlideProperties::s_BlockTable_AddNewSimpleTextBlock() {
     int CurrentShotNbr=ui->ShotTable->currentColumn();
 
     // Create and append a composition block to the object list
-    CurrentSlide->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig));
+    CurrentSlide->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig,&CurrentSlide->ObjectComposition));
     cCompositionObject *CompositionObject=CurrentSlide->ObjectComposition.List[CurrentSlide->ObjectComposition.List.count()-1];
 
     // Apply Styles
@@ -1820,7 +1820,7 @@ void DlgSlideProperties::s_BlockTable_AddNewSimpleTextBlock() {
 
     // Now create and append a shot composition block to all shot
     for (int i=0;i<CurrentSlide->List.count();i++) {
-        CurrentSlide->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig));
+        CurrentSlide->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&CurrentSlide->List[i]->ShotComposition));
         CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
         // Ensure new object is not visible in previous shot
         if (i<CurrentShotNbr) CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->IsVisible=false;
@@ -1849,7 +1849,7 @@ void DlgSlideProperties::s_BlockTable_AddNewClipArtTextBlock() {
     int CurrentShotNbr=ui->ShotTable->currentColumn();
 
     // Create and append a composition block to the object list
-    CurrentSlide->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig));
+    CurrentSlide->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig,&CurrentSlide->ObjectComposition));
     cCompositionObject *CompositionObject=CurrentSlide->ObjectComposition.List[CurrentSlide->ObjectComposition.List.count()-1];
 
     // Apply Styles
@@ -1888,7 +1888,7 @@ void DlgSlideProperties::s_BlockTable_AddNewClipArtTextBlock() {
 
     // Now create and append a shot composition block to all shot
     for (int i=0;i<CurrentSlide->List.count();i++) {
-        CurrentSlide->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig));
+        CurrentSlide->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&CurrentSlide->List[i]->ShotComposition));
         CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
         // Ensure new object is not visible in previous shot
         if (i<CurrentShotNbr) CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->IsVisible=false;
@@ -1949,7 +1949,7 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
         QString ErrorMessage=QApplication::translate("MainWindow","Format not supported","Error message");
 
         // Create and append a composition block to the object list
-        CurrentSlide->ObjectComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig));
+        CurrentSlide->ObjectComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig,&CurrentSlide->ObjectComposition));
         cCompositionObject  *CompositionObject=CurrentSlide->ObjectComposition.List[PositionToInsert];
         cBrushDefinition    *CurrentBrush     =CompositionObject->BackgroundBrush;
 
@@ -2037,7 +2037,7 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
         if (IsValide) {
             // Now create and append a shot composition block to all shot
             for (int i=0;i<CurrentSlide->List.count();i++) {
-                CurrentSlide->List[i]->ShotComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig));
+                CurrentSlide->List[i]->ShotComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&CurrentSlide->List[i]->ShotComposition));
                 CurrentSlide->List[i]->ShotComposition.List[PositionToInsert]->CopyFromCompositionObject(CompositionObject);
                 // Ensure new object is not visible in previous shot
                 if (i<CurrentShotNbr) CurrentSlide->List[i]->ShotComposition.List[PositionToInsert]->IsVisible=false;
@@ -2177,12 +2177,12 @@ void DlgSlideProperties::s_BlockTable_Paste() {
             for (int BlockNum=0;BlockNum<BlockNbr;BlockNum++) if ((root.elementsByTagName(QString("Block-%1").arg(BlockNum)).length()>0)&&(root.elementsByTagName(QString("Block-%1").arg(BlockNum)).item(0).isElement()==true)) {
                 QDomElement Element=root.elementsByTagName(QString("Block-%1").arg(BlockNum)).item(0).toElement();
                 // Create and append a composition block to the object list
-                CurrentSlide->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig));
+                CurrentSlide->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig,&CurrentSlide->ObjectComposition));
                 cCompositionObject *GlobalBlock=CurrentSlide->ObjectComposition.List[CurrentSlide->ObjectComposition.List.count()-1];
                 GlobalBlock->LoadFromXML(Element,"CLIPBOARD-BLOCK-GLOBAL","",NULL,NULL);
                 GlobalBlock->IndexKey=CurrentSlide->NextIndexKey;
 
-                cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,CurrentSlide->NextIndexKey,ApplicationConfig);
+                cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,CurrentSlide->NextIndexKey,ApplicationConfig,this);
                 ShotBlock.LoadFromXML(Element,"CLIPBOARD-BLOCK-SHOT","",NULL,NULL);
                 ShotBlock.IndexKey=CurrentSlide->NextIndexKey;
                 ShotBlock.BackgroundBrush->Image=GlobalBlock->BackgroundBrush->Image;
@@ -2202,7 +2202,7 @@ void DlgSlideProperties::s_BlockTable_Paste() {
                 }
                 // Now create and append a shot composition block to all shot
                 for (int i=0;i<CurrentSlide->List.count();i++) {
-                    CurrentSlide->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CurrentSlide->NextIndexKey,ApplicationConfig));
+                    CurrentSlide->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CurrentSlide->NextIndexKey,ApplicationConfig,&CurrentSlide->List[i]->ShotComposition));
                     CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(&ShotBlock);
                     // Ensure new object is not visible in previous shot
                     if (i<CurrentShotNbr) {

@@ -272,7 +272,7 @@ void MainWindow::InitWindow() {
     ui->FolderTable->DisplayFileName        =ApplicationConfig->DisplayFileName;
 
     // Initialise diaporama
-    Diaporama=new cDiaporama(ApplicationConfig);
+    Diaporama=new cDiaporama(ApplicationConfig,true,this);
     ui->timeline->Diaporama=Diaporama;
     ui->preview->InitDiaporamaPlay(Diaporama);
     ui->preview2->InitDiaporamaPlay(Diaporama);
@@ -430,9 +430,9 @@ void MainWindow::InitWindow() {
     connect(ui->actionBrowserAddFiles,SIGNAL(triggered()),this,SLOT(s_Browser_AddFiles()));
     connect(ui->actionBrowserAddProject,SIGNAL(triggered()),this,SLOT(s_Browser_AddFiles()));
 
-    QString CurrentPath=ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_BrowserPath,DefaultBrowserPath);
+    QString CurrentPath=QDir::toNativeSeparators(ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_BrowserPath,DefaultBrowserPath));
     ui->FolderTree->SetSelectItemByPath(ui->FolderTree->RealPathToTreePath(CurrentPath));
-    if (ui->FolderTree->GetCurrentFolderPath()!=CurrentPath) ui->FolderTree->SetSelectItemByPath(DefaultBrowserPath);
+    if (QDir::toNativeSeparators(ui->FolderTree->GetCurrentFolderPath())!=CurrentPath) ui->FolderTree->SetSelectItemByPath(DefaultBrowserPath);
 
     // Some other init
     LastLogMessageTime=QTime::currentTime();
@@ -706,6 +706,7 @@ void MainWindow::showEvent(QShowEvent *) {
         #endif
         // Set player size and pos
         SetTimelineHeight();
+        ui->timeline->SetTimelineHeight(ApplicationConfig->PartitionMode);
     }
 }
 
@@ -1403,7 +1404,7 @@ void MainWindow::s_Action_New() {
         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_Action_Save();
 
     // Ask user for project option
-    cDiaporama *NewDiaporama=new cDiaporama(ApplicationConfig);
+    cDiaporama *NewDiaporama=new cDiaporama(ApplicationConfig,true,this);
     DlgffDPjrProperties Dlg(true,NewDiaporama,ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
@@ -1528,7 +1529,7 @@ void MainWindow::DoOpenFile() {
     while (ApplicationConfig->ImagesCache.List.count()>0) delete ApplicationConfig->ImagesCache.List.takeLast();
 
     // Create new diaporama
-    Diaporama=new cDiaporama(ApplicationConfig);
+    Diaporama=new cDiaporama(ApplicationConfig,true,this);
     AliasList.clear();
     ui->timeline->Diaporama=Diaporama;
     ui->preview->InitDiaporamaPlay(Diaporama);      // Init GUI for this project
@@ -2179,7 +2180,7 @@ void MainWindow::DoAddFile() {
             DiaporamaObject->Parent                 =Diaporama;
 
             // Create and append a composition block to the object list
-            DiaporamaObject->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey,ApplicationConfig));
+            DiaporamaObject->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey,ApplicationConfig,&DiaporamaObject->ObjectComposition));
             cCompositionObject *CompositionObject   =DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
             cBrushDefinition   *CurrentBrush        =CompositionObject->BackgroundBrush;
 
@@ -2279,7 +2280,7 @@ void MainWindow::DoAddFile() {
             // Now create and append a shot composition block to all shot
             //*************************************************************
             for (int i=0;i<DiaporamaObject->List.count();i++) {
-                DiaporamaObject->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig));
+                DiaporamaObject->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&DiaporamaObject->List[i]->ShotComposition));
                 DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
             }
 
@@ -2405,7 +2406,11 @@ void MainWindow::s_VideoPlayer_SaveImageEvent() {
             if ((Filter.toLower().indexOf("png")!=-1)&&(!OutputFileName.endsWith(".png"))) OutputFileName=OutputFileName+".png";
             if ((Filter.toLower().indexOf("jpg")!=-1)&&(!OutputFileName.endsWith(".jpg"))) OutputFileName=OutputFileName+".jpg";
             cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Diaporama->CurrentPosition,Diaporama,1,false);
-            Diaporama->LoadSources(Frame,Width,Height,false,true);
+            QList<cCompositionObjectContext *> PreparedTransitBrushList;
+            QList<cCompositionObjectContext *> PreparedBrushList;
+            if ((Frame->IsTransition)&&(Frame->TransitObject)) Diaporama->CreateObjectContextList(Frame,Width,Height,false,false,true,PreparedTransitBrushList,Diaporama);
+            Diaporama->CreateObjectContextList(Frame,Width,Height,true,false,true,PreparedBrushList,Diaporama);
+            Diaporama->LoadSources(Frame,Width,Height,false,true,PreparedTransitBrushList,PreparedBrushList);
             Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,Width,Height);
             Frame->RenderedImage.save(OutputFileName,0,100);
             delete Frame;
@@ -2632,7 +2637,6 @@ void MainWindow::s_Action_CopyToClipboard() {
     SlideData->setData("ffDiaporama/slide",Object.toByteArray());
     QApplication::clipboard()->setMimeData(SlideData);
 
-    RefreshControls();
     QApplication::restoreOverrideCursor();
 }
 
@@ -2688,9 +2692,12 @@ void MainWindow::s_Action_PasteFromClipboard() {
 //====================================================================================================================
 
 void MainWindow::s_Event_ClipboardChanged() {
-    ui->ActionPaste_BT->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/slide")));
-    ui->ActionPaste_BT_2->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/slide")));
-    ui->actionPaste->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/slide")));
+    QClipboard      *Clipboard=QApplication::clipboard();
+    const QMimeData *Mime     =Clipboard?Clipboard->mimeData():NULL;
+    bool            Enable    =(Mime)&&(Mime->hasFormat("ffDiaporama/slide"));
+    ui->ActionPaste_BT->setEnabled(Enable);
+    ui->ActionPaste_BT_2->setEnabled(Enable);
+    ui->actionPaste->setEnabled(Enable);
 }
 
 //====================================================================================================================
@@ -2701,6 +2708,12 @@ void MainWindow::AdjustRuller(int CurIndex) {
     Diaporama->UpdateCachedInformation();
     ui->preview->SetActualDuration(Diaporama->GetDuration());
     ui->preview2->SetActualDuration(Diaporama->GetDuration());
+    if (CurIndex!=-1) {
+        FLAGSTOPITEMSELECTION=true;
+        ui->timeline->AddObjectToTimeLine(CurIndex);
+        FLAGSTOPITEMSELECTION=false;
+        (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+    } else ui->timeline->repaint();
     if (Diaporama->List.count()>0)  {
         Diaporama->ProjectInfo->Duration=QTime(0,0,0,0).addMSecs(Diaporama->GetDuration());
         Diaporama->ProjectInfo->NbrSlide=Diaporama->List.count();
@@ -2722,12 +2735,6 @@ void MainWindow::AdjustRuller(int CurIndex) {
         ui->preview->SetStartEndPos(0,0,-1,0,-1,0);
         ui->preview2->SetStartEndPos(0,0,-1,0,-1,0);
     }
-    if (CurIndex!=-1) {
-        FLAGSTOPITEMSELECTION=true;
-        ui->timeline->AddObjectToTimeLine(CurIndex);
-        FLAGSTOPITEMSELECTION=false;
-        (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
-    } else ui->timeline->repaint();
     RefreshControls();
     UpdateChapterInfo();
 }
@@ -2748,7 +2755,7 @@ void MainWindow::s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,QTreeW
         if (QDir(Path).canonicalPath()!="") Path=QDir(Path).canonicalPath(); // Resolved eventual .lnk files
     #endif
     ui->FolderTable->FillListFolder(Path);
-    ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_BrowserPath,Path);
+    ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_BrowserPath,QDir::toNativeSeparators(Path));
     DoBrowserRefreshFolderInfo();
 }
 
