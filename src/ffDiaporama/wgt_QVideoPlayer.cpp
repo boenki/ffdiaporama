@@ -148,7 +148,8 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     ResetPositionWanted     = false;
     Deinterlace             = false;
 
-    this->FileInfo      = FileInfo;
+    this->FileInfo          = FileInfo;
+
     Music.SetFPS(MixedMusic.WantedDuration,MixedMusic.Channels,MixedMusic.SamplingRate,MixedMusic.SampleFormat);
 
     ui->CustomRuller->ActiveSlider(0);
@@ -500,9 +501,19 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             if (ThreadAssembly.isRunning())     ThreadAssembly.waitForFinished();
 
             // Create a frame from actual position
-            PrepareImage(false,true,NULL,Value);         // This will add frame to the ImageList
+            cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,ActualPosition,Diaporama,double(1000)/WantedFPS,false);
+
+            qreal Ratio=qreal(ui->MovieFrame->width())/qreal(ui->MovieFrame->height());
+            int H=ui->MovieFrame->height();
+            int W=int(H*Ratio);
+            if ((Frame->IsTransition)&&(Frame->TransitObject)) Diaporama->CreateObjectContextList(Frame,W,H,false,true,true,PreparedTransitBrushList,Diaporama);
+            Diaporama->CreateObjectContextList(Frame,W,H,true,true,true,PreparedBrushList,Diaporama);
+            PrepareImage(false,true,Frame,W,H);         // This will add frame to the ImageList
+
             if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
-            cDiaporamaObjectInfo *Frame=ImageList.DetachFirstImage();     // Then detach frame from the ImageList
+
+            Frame=ImageList.DetachFirstImage();     // Then detach frame from the ImageList
+
             // Display frame
             ui->MovieFrame->SetImage(Frame->RenderedImage.scaledToHeight(ui->MovieFrame->height()));
 
@@ -592,6 +603,8 @@ void wgt_QVideoPlayer::s_TimerEvent() {
         Mutex.unlock();
     }
 
+    if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
+
     // If no image in the list then create the first
     if (ImageList.List.count()==0) {
 
@@ -608,9 +621,36 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 
         } else {
 
-            PrepareImage(true,true,NULL,NextPosition);
-            if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
+            cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,NextPosition,Diaporama,double(1000)/WantedFPS,true);
 
+            // Ensure MusicTracks are ready
+            if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
+                Frame->CurrentObject_MusicTrack=new cSDLSoundBlockList();
+                Frame->CurrentObject_MusicTrack->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+            }
+            if ((Frame->TransitObject)&&(Frame->TransitObject_MusicTrack==NULL)&&(Frame->TransitObject_MusicObject!=NULL)&&(Frame->TransitObject_MusicObject!=Frame->CurrentObject_MusicObject)) {
+                Frame->TransitObject_MusicTrack=new cSDLSoundBlockList();
+                Frame->TransitObject_MusicTrack->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+            }
+
+            // Ensure SoundTracks are ready
+            if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)) {
+                Frame->CurrentObject_SoundTrackMontage=new cSDLSoundBlockList();
+                Frame->CurrentObject_SoundTrackMontage->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+            }
+            if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)) {
+                Frame->TransitObject_SoundTrackMontage=new cSDLSoundBlockList();
+                Frame->TransitObject_SoundTrackMontage->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+            }
+
+            // Ensure background, image and soundtrack is ready
+            qreal Ratio=qreal(ui->MovieFrame->width())/qreal(ui->MovieFrame->height());
+            int H=ui->MovieFrame->height();
+            int W=int(H*Ratio);
+            if ((Frame->IsTransition)&&(Frame->TransitObject)) Diaporama->CreateObjectContextList(Frame,W,H,false,true,true,PreparedTransitBrushList,Diaporama);
+            Diaporama->CreateObjectContextList(Frame,W,H,true,true,true,PreparedBrushList,Diaporama);
+            PrepareImage(true,true,Frame,W,H);
+            if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
         }
     }
 
@@ -630,8 +670,35 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 
     } else if (((Diaporama)&&(ImageList.List.count()<BUFFERING_NBR_FRAME))&&(!ThreadPrepareImage.isRunning()))  {
 
-        ThreadPrepareImage.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,true,true,PreviousFrame,NextPosition));
+        cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(PreviousFrame,NextPosition,Diaporama,double(1000)/WantedFPS,true);
 
+        // Ensure MusicTracks are ready
+        if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
+            Frame->CurrentObject_MusicTrack=new cSDLSoundBlockList();
+            Frame->CurrentObject_MusicTrack->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+        }
+        if ((Frame->TransitObject)&&(Frame->TransitObject_MusicTrack==NULL)&&(Frame->TransitObject_MusicObject!=NULL)&&(Frame->TransitObject_MusicObject!=Frame->CurrentObject_MusicObject)) {
+            Frame->TransitObject_MusicTrack=new cSDLSoundBlockList();
+            Frame->TransitObject_MusicTrack->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+        }
+
+        // Ensure SoundTracks are ready
+        if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)) {
+            Frame->CurrentObject_SoundTrackMontage=new cSDLSoundBlockList();
+            Frame->CurrentObject_SoundTrackMontage->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+        }
+        if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)) {
+            Frame->TransitObject_SoundTrackMontage=new cSDLSoundBlockList();
+            Frame->TransitObject_SoundTrackMontage->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+        }
+
+        // Ensure background, image and soundtrack is ready
+        qreal Ratio=qreal(ui->MovieFrame->width())/qreal(ui->MovieFrame->height());
+        int H=ui->MovieFrame->height();
+        int W=int(H*Ratio);
+        if ((Frame->IsTransition)&&(Frame->TransitObject)) Diaporama->CreateObjectContextList(Frame,W,H,false,true,true,PreparedTransitBrushList,Diaporama);
+        Diaporama->CreateObjectContextList(Frame,W,H,true,true,true,PreparedBrushList,Diaporama);
+        ThreadPrepareImage.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,true,true,Frame,W,H));
     }
 
     PlayerMutex.unlock();
@@ -653,40 +720,10 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 // Function use directly or with thread to prepare an image number Column at given position
 //============================================================================================
 
-void wgt_QVideoPlayer::PrepareImage(bool SoundWanted,bool AddStartPos,cDiaporamaObjectInfo *PreviousFrame,int64_t NextPosition) {
+void wgt_QVideoPlayer::PrepareImage(bool SoundWanted,bool AddStartPos,cDiaporamaObjectInfo *Frame,int W,int H) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::PrepareImage");
 
-    if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
-
-    cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(PreviousFrame,NextPosition,Diaporama,double(1000)/WantedFPS,true);
-
-    if (SoundWanted) {
-        // Ensure MusicTracks are ready
-        if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
-            Frame->CurrentObject_MusicTrack=new cSDLSoundBlockList();
-            Frame->CurrentObject_MusicTrack->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
-        }
-        if ((Frame->TransitObject)&&(Frame->TransitObject_MusicTrack==NULL)&&(Frame->TransitObject_MusicObject!=NULL)&&(Frame->TransitObject_MusicObject!=Frame->CurrentObject_MusicObject)) {
-            Frame->TransitObject_MusicTrack=new cSDLSoundBlockList();
-            Frame->TransitObject_MusicTrack->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
-        }
-
-        // Ensure SoundTracks are ready
-        if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)) {
-            Frame->CurrentObject_SoundTrackMontage=new cSDLSoundBlockList();
-            Frame->CurrentObject_SoundTrackMontage->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
-        }
-        if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)) {
-            Frame->TransitObject_SoundTrackMontage=new cSDLSoundBlockList();
-            Frame->TransitObject_SoundTrackMontage->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
-        }
-    }
-
-    // Ensure background, image and soundtrack is ready
-    qreal Ratio=qreal(ui->MovieFrame->width())/qreal(ui->MovieFrame->height());
-    int H=ui->MovieFrame->height();
-    int W=int(H*Ratio);
-    Diaporama->LoadSources(Frame,W,H,true,AddStartPos);
+    Diaporama->LoadSources(Frame,W,H,true,AddStartPos,PreparedTransitBrushList,PreparedBrushList);
 
     // Do Assembly
     ThreadAssembly.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::StartThreadAssembly,ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,W,H,SoundWanted));
