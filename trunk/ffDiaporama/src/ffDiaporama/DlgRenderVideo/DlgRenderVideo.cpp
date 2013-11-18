@@ -1035,7 +1035,7 @@ void DlgRenderVideo::EndThreadEncode() {
         int Index=ApplicationConfig->ThumbnailModels->SearchModel(Diaporama->ThumbnailName);
         if (Index>=0) {
             QSize  ForcedThumbnailSize(THUMBWITH,THUMBHEIGHT);
-            QImage Image=ApplicationConfig->ThumbnailModels->List[Index].PrepareImage(0,Diaporama,Diaporama->ProjectThumbnail,&ForcedThumbnailSize);
+            QImage Image=ApplicationConfig->ThumbnailModels->List[Index]->PrepareImage(0,Diaporama,Diaporama->ProjectThumbnail,&ForcedThumbnailSize);
             Image.save(ThumbFileName,0,100);
         }
     }
@@ -1064,6 +1064,8 @@ void DlgRenderVideo::EndThreadEncode() {
             file.close();
         }
     }
+
+    ApplicationConfig->ImagesCache.clear();
 
     // Inform user of success
     if (Continue)                           CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job completed successfully!"));

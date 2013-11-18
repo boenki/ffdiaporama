@@ -96,7 +96,8 @@ class cDiaporamaObject;
 // Base object for composition definition
 //*********************************************************************************************************************************************
 
-class cCompositionObjectContext {
+class cCompositionObjectContext : public QObject {
+Q_OBJECT
 public:
     bool                    NeedPreparedBrush;
     cCompositionObject      *Object;
@@ -122,14 +123,16 @@ public:
     cDiaporamaObjectInfo    *Info;
     int                     ObjectNumber;
 
-    cCompositionObjectContext(int ObjectNumber,bool PreviewMode,bool IsCurrentObject,cDiaporamaObjectInfo *Info,double width,double height,
-                              cDiaporamaShot *CurShot,cDiaporamaShot *PreviousShot,cSoundBlockList *SoundTrackMontage,bool AddStartPos,int64_t ShotDuration);
-    void Compute();
+    explicit                cCompositionObjectContext(int ObjectNumber,bool PreviewMode,bool IsCurrentObject,cDiaporamaObjectInfo *Info,double width,double height,
+                                                      cDiaporamaShot *CurShot,cDiaporamaShot *PreviousShot,cSoundBlockList *SoundTrackMontage,bool AddStartPos,
+                                                      int64_t ShotDuration,QObject *Parent);
+    void                    Compute();
 };
 
 //**********************************
 
-class cCompositionObject {
+class cCompositionObject : public QObject {
+Q_OBJECT
 public:
     int                 TypeComposition;        // Type of composition object (COMPOSITIONTYPE_BACKGROUND, COMPOSITIONTYPE_OBJECT, COMPOSITIONTYPE_SHOT)
     int                 IndexKey;
@@ -186,81 +189,84 @@ public:
 
     cBaseApplicationConfig *ApplicationConfig;
 
-    cCompositionObject(int TypeComposition,int IndexKey,cBaseApplicationConfig *TheApplicationConfig);
-    ~cCompositionObject();
+    explicit            cCompositionObject(int TypeComposition,int IndexKey,cBaseApplicationConfig *TheApplicationConfig,QObject *Parent);
+                        ~cCompositionObject();
 
-    void        InitDefaultValues();
-    void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
-    void        DrawCompositionObject(cDiaporamaObject *Object,QPainter *Painter,double  ADJUST_RATIO,double width,double height,bool PreviewMode,int64_t Position,
+    void                InitDefaultValues();
+    void                CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
+    void                DrawCompositionObject(cDiaporamaObject *Object,QPainter *Painter,double  ADJUST_RATIO,double width,double height,bool PreviewMode,int64_t Position,
                                       cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PreviousCompositionObject,
                                       int64_t ShotDuration,bool EnableAnimation,
                                       bool Transfo=false,double NewX=0,double NewY=0,double NewW=0,double NewH=0,
                                       bool DisplayTextMargin=false,cCompositionObjectContext *PreparedBrush=NULL);
 
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition,cReplaceObjectList *ReplaceList);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition=true);
+    void                SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition,cReplaceObjectList *ReplaceList);
+    bool                LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition=true);
 
-    QRectF      GetTextMargin(QRectF Workspace,double  ADJUST_RATIO);
-    void        ApplyTextMargin(int TMType);
+    QRectF              GetTextMargin(QRectF Workspace,double  ADJUST_RATIO);
+    void                ApplyTextMargin(int TMType);
 
     // Style managment functions
-    int         GetAutoCompoSize(int ffDProjectGeometry);
-    void        ApplyAutoCompoSize(int AutoCompoStyle,int ffDProjectGeometry,bool AllowMove=true);
+    int                 GetAutoCompoSize(int ffDProjectGeometry);
+    void                ApplyAutoCompoSize(int AutoCompoStyle,int ffDProjectGeometry,bool AllowMove=true);
 
-    QString     GetCoordinateStyle();
-    void        ApplyCoordinateStyle(QString StyleDef);
+    QString             GetCoordinateStyle();
+    void                ApplyCoordinateStyle(QString StyleDef);
 
-    QString     GetTextStyle();
-    void        ApplyTextStyle(QString StyleDef);
+    QString             GetTextStyle();
+    void                ApplyTextStyle(QString StyleDef);
 
-    QString     GetBackgroundStyle();
-    void        ApplyBackgroundStyle(QString StyleDef);
+    QString             GetBackgroundStyle();
+    void                ApplyBackgroundStyle(QString StyleDef);
 
-    QString     GetBlockShapeStyle();
-    void        ApplyBlockShapeStyle(QString StyleDef);
+    QString             GetBlockShapeStyle();
+    void                ApplyBlockShapeStyle(QString StyleDef);
 
-    void        ComputeOptimisationFlags(cCompositionObject *Previous);
+    void                ComputeOptimisationFlags(cCompositionObject *Previous);
 
 private:
-    QRectF      GetPrivateTextMargin();
+    QRectF              GetPrivateTextMargin();
 };
 
 //*********************************************************************************************************************************************
 // Global class containing composition list
 //*********************************************************************************************************************************************
 
-class cCompositionList {
+class cCompositionList : public QObject {
+Q_OBJECT
 public:
     int                         TypeComposition;            // Type of composition list
     QList<cCompositionObject*>  List;                       // list of cCompositionObject
 
-    cCompositionList();
-    ~cCompositionList();
+    explicit                    cCompositionList(QObject *Parent);
+                                ~cCompositionList();
 
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,cBaseApplicationConfig *ApplicationConfig);
+    void                        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList);
+    bool                        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,cBaseApplicationConfig *ApplicationConfig);
 };
 
 //*********************************************************************************************************************************************
 // Base object for scene definition
 //*********************************************************************************************************************************************
-class cDiaporamaShot {
+class cDiaporamaShot : public QObject {
+Q_OBJECT
 public:
     cDiaporamaObject        *Parent;
     int64_t                 StaticDuration;         // Duration (in msec) of the static part animation
     cCompositionList        ShotComposition;        // Shot Composition object list
 
-    cDiaporamaShot(cDiaporamaObject *Parent);
-    ~cDiaporamaShot();
+    explicit                cDiaporamaShot(cDiaporamaObject *Parent);
+                            ~cDiaporamaShot();
 
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool LimitedInfo,cReplaceObjectList *ReplaceList);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList);
+    void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool LimitedInfo,cReplaceObjectList *ReplaceList);
+    bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList);
 };
 
 //*********************************************************************************************************************************************
 // class containing one slide
 //*********************************************************************************************************************************************
-class cDiaporamaObject {
+class cDiaporamaObject : public QObject {
+Q_OBJECT
 public:
     cDiaporama              *Parent;                    // Link to global object
     QString                 SlideName;                  // Display name of the slide
@@ -307,8 +313,8 @@ public:
     qlonglong               ThumbnailKey;               // Thumbnail key in the database
     QList<cMusicObject>     MusicList;                  // List of music definition
 
-    cDiaporamaObject(cDiaporama *Parent);
-    ~cDiaporamaObject();
+    explicit                cDiaporamaObject(cDiaporama *Parent);
+                            ~cDiaporamaObject();
 
     void                    InitDefaultValues();
     QString                 GetDisplayName();
@@ -400,7 +406,8 @@ public:
 //*********************************************************************************************************************************************
 // Global class containing the project
 //*********************************************************************************************************************************************
-class cDiaporama {
+class cDiaporama :public QObject {
+Q_OBJECT
 public:
     cBaseApplicationConfig  *ApplicationConfig;
 
@@ -431,8 +438,8 @@ public:
     // slides objects
     QList<cDiaporamaObject *> List;                   // list of all media object
 
-    cDiaporama(cBaseApplicationConfig *ApplicationConfig,bool LoadDefaultModel=true);
-    ~cDiaporama();
+    explicit                cDiaporama(cBaseApplicationConfig *ApplicationConfig,bool LoadDefaultModel,QObject *Parent);
+                            ~cDiaporama();
 
     int                     GetHeightForWidth(int WantedWith);
     int                     GetWidthForHeight(int WantedHeight);
@@ -453,17 +460,14 @@ public:
 
     // Thread functions
     void                    PrepareMusicBloc(bool PreviewMode,int Column,int64_t Position,cSoundBlockList *MusicTrack);
-    void                    LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode,bool AddStartPos);
+    void                    LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode,bool AddStartPos,QList<cCompositionObjectContext *> &PreparedTransitBrushList,QList<cCompositionObjectContext *> &PreparedBrushList);
     void                    DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H,QImage::Format QTFMT=QImage::Format_ARGB32_Premultiplied);
 
     // Memory
     void                    CloseUnusedLibAv(int CurrentCell);
 
-    void                    PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurrentObject,bool PreviewMode,bool AddStartPos);
+    void                    CreateObjectContextList(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurrentObject,bool PreviewMode,bool AddStartPos,QList<cCompositionObjectContext *> &PreparedBrushList,QObject *Parent);
+    void                    PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurrentObject,bool AddStartPos,QList<cCompositionObjectContext *> &PreparedBrushList);
 };
-
-//****************************************************************************
-
-void ComputeCompositionObjectContext(cCompositionObjectContext &PreparedBrush);
 
 #endif // CDIAPORAMA_H

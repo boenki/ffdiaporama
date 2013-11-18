@@ -128,27 +128,26 @@ void cEncodeVideo::CloseEncoder() {
             av_write_trailer(Container);
             avio_close(Container->pb);
         }
+        // Because of memory leak bug in libav/ffmpeg see: https://trac.ffmpeg.org/ticket/2937
         for (unsigned int i=0;i<Container->nb_streams;i++) {
-            if (VideoStream==Container->streams[i]) VideoStream=NULL;
-            if (AudioStream==Container->streams[i]) AudioStream=NULL;
-            av_freep(&Container->streams[i]);
+            av_freep(&Container->streams[i]->index_entries);
+            av_freep(&Container->streams[i]->probe_data.buf);
+            av_dict_free(&Container->streams[i]->metadata);
+            av_freep(&Container->streams[i]->codec->extradata);
+            av_freep(&Container->streams[i]->codec->subtitle_header);
+            av_freep(&Container->streams[i]->priv_data);
+            if (Container->streams[i]->info) av_freep(&Container->streams[i]->info->duration_error);
         }
-        av_free(Container);
+        //=== End of patch
+        avformat_free_context(Container);
         Container=NULL;
     }
-    if (VideoStream) {
-        av_freep(VideoStream);
-        VideoStream=NULL;
-    }
-    if (AudioStream) {
-        av_freep(AudioStream);
-        AudioStream=NULL;
-    }
+    VideoStream=NULL;
+    AudioStream=NULL;
+
     // Audio buffers
-    if (AudioFrame) {
-        av_free(AudioFrame);
-        AudioFrame=NULL;
-    }
+    if (AudioFrame) av_freep(&AudioFrame);
+
     if (AudioResampler) {
         #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
             audio_resample_close(AudioResampler);
@@ -175,16 +174,9 @@ void cEncodeVideo::CloseEncoder() {
         VideoFrameConverter=NULL;
     }
     if (VideoFrame) {
-        if ((VideoFrame->extended_data)&&(VideoFrame->extended_data!=VideoFrame->data)) {
-            av_free(VideoFrame->extended_data);
-            VideoFrame->extended_data=NULL;
-        }
-        if (VideoFrame->data[0]) {
-            av_free(VideoFrame->data[0]);
-            VideoFrame->data[0]=NULL;
-        }
-        av_free(VideoFrame);
-        VideoFrame=NULL;
+        if ((VideoFrame->extended_data)&&(VideoFrame->extended_data!=VideoFrame->data)) av_freep(&VideoFrame->extended_data);
+        if (VideoFrame->data[0]) av_freep(&VideoFrame->data[0]);
+        av_freep(&VideoFrame);
     }
 }
 
@@ -723,6 +715,7 @@ bool cEncodeVideo::DoEncode() {
     cDiaporamaObjectInfo    *PreviousFrame=NULL,*PreviousPreviousFrame=NULL;
     cDiaporamaObjectInfo    *Frame        =NULL;
     int                     FrameSize     =0;
+    QObject                 FakeParentObject(NULL);
 
     IncreasingVideoPts=double(1000)/double(dFPS);
 
@@ -904,7 +897,9 @@ bool cEncodeVideo::DoEncode() {
 
         //Prepare+=Time.elapsed(); Time.restart();
         // Prepare frame (if W=H=0 then soundonly)
-        Diaporama->LoadSources(Frame,InternalWidth,InternalHeight,false,true);                                        // Load source images
+        if ((Frame->IsTransition)&&(Frame->TransitObject)) Diaporama->CreateObjectContextList(Frame,InternalWidth,InternalHeight,false,false,true,PreparedTransitBrushList,&FakeParentObject);
+        Diaporama->CreateObjectContextList(Frame,InternalWidth,InternalHeight,true,false,true,PreparedBrushList,&FakeParentObject);
+        Diaporama->LoadSources(Frame,InternalWidth,InternalHeight,false,true,PreparedTransitBrushList,PreparedBrushList);                       // Load background and image
         //LoadSources+=Time.elapsed(); Time.restart();
 
         // Ensure previous Assembly was ended

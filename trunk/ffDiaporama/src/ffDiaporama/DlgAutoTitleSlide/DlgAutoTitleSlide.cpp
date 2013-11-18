@@ -146,7 +146,7 @@ bool DlgAutoTitleSlide::DoAccept() {
     if (!CurrentModel.isEmpty()) {
         CurrentSlide->SlideName=QString("<%AUTOTS_%1%>").arg(ui->ModelTable->GetCurrentModel());
         CurrentSlide->LoadModelFromXMLData(ui->ModelTable->ModelTable->ModelType,
-                                           ui->ModelTable->ModelTable->List[ui->ModelTable->ModelTable->SearchModel(ui->ModelTable->GetCurrentModel())].Model);
+                                           ui->ModelTable->ModelTable->List[ui->ModelTable->ModelTable->SearchModel(ui->ModelTable->GetCurrentModel())]->Model);
         CurrentSlide->OverrideProjectEventDate=ui->OverrideProjectDateCB->isChecked();
         CurrentSlide->OverrideChapterLongDate =ui->OverrideDateCB->isChecked();
         CurrentSlide->ChapterName             =ui->ChapterNameED->text();

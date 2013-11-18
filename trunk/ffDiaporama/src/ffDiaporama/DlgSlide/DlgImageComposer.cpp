@@ -312,7 +312,7 @@ void DlgImageComposer::MakeFormIcon(QComboBox *UICB) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::MakeFormIcon");
 
     for (int i=0;i<UICB->count();i++) {
-        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,ApplicationConfig);
+        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,ApplicationConfig,this);
         Object.x                        =0;
         Object.y                        =0;
         Object.w                        =1;
@@ -821,12 +821,12 @@ void DlgImageComposer::s_BlockTable_Paste() {
             for (int BlockNum=0;BlockNum<BlockNbr;BlockNum++) if ((root.elementsByTagName(QString("Block-%1").arg(BlockNum)).length()>0)&&(root.elementsByTagName(QString("Block-%1").arg(BlockNum)).item(0).isElement()==true)) {
                 QDomElement Element=root.elementsByTagName(QString("Block-%1").arg(BlockNum)).item(0).toElement();
                 // Create and append a composition block to the object list
-                ffdProject->ProjectThumbnail->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig));
+                ffdProject->ProjectThumbnail->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig,&ffdProject->ProjectThumbnail->ObjectComposition));
                 cCompositionObject *GlobalBlock=ffdProject->ProjectThumbnail->ObjectComposition.List[ffdProject->ProjectThumbnail->ObjectComposition.List.count()-1];
                 GlobalBlock->LoadFromXML(Element,"CLIPBOARD-BLOCK-GLOBAL","",NULL,NULL);
                 GlobalBlock->IndexKey=ffdProject->ProjectThumbnail->NextIndexKey;
 
-                cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig);
+                cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig,this);
                 ShotBlock.LoadFromXML(Element,"CLIPBOARD-BLOCK-SHOT","",NULL,NULL);
                 ShotBlock.IndexKey=ffdProject->ProjectThumbnail->NextIndexKey;
                 ShotBlock.BackgroundBrush->Image=GlobalBlock->BackgroundBrush->Image;
@@ -846,7 +846,7 @@ void DlgImageComposer::s_BlockTable_Paste() {
                 }
                 // Now create and append a shot composition block to all shot
                 for (int i=0;i<ffdProject->ProjectThumbnail->List.count();i++) {
-                    ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig));
+                    ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig,&ffdProject->ProjectThumbnail->List[i]->ShotComposition));
                     ffdProject->ProjectThumbnail->List[i]->ShotComposition.List[ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(&ShotBlock);
                 }
                 // Inc NextIndexKey
@@ -929,7 +929,7 @@ void DlgImageComposer::s_BlockTable_AddNewSimpleTextBlock() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_AddNewTextBlock");
 
     // Create and append a composition block to the object list
-    ffdProject->ProjectThumbnail->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig));
+    ffdProject->ProjectThumbnail->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig,&ffdProject->ProjectThumbnail->ObjectComposition));
     cCompositionObject *CompositionObject=ffdProject->ProjectThumbnail->ObjectComposition.List[ffdProject->ProjectThumbnail->ObjectComposition.List.count()-1];
 
     // Apply Styles
@@ -965,7 +965,7 @@ void DlgImageComposer::s_BlockTable_AddNewSimpleTextBlock() {
 
     // Now create and append a shot composition block to all shot
     for (int i=0;i<ffdProject->ProjectThumbnail->List.count();i++) {
-        ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig));
+        ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&ffdProject->ProjectThumbnail->List[i]->ShotComposition));
         ffdProject->ProjectThumbnail->List[i]->ShotComposition.List[ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
     }
 
@@ -990,7 +990,7 @@ void DlgImageComposer::s_BlockTable_AddNewClipArtTextBlock() {
     if (RessourceName=="") return;
 
     // Create and append a composition block to the object list
-    ffdProject->ProjectThumbnail->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig));
+    ffdProject->ProjectThumbnail->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig,&ffdProject->ProjectThumbnail->ObjectComposition));
     cCompositionObject *CompositionObject=ffdProject->ProjectThumbnail->ObjectComposition.List[ffdProject->ProjectThumbnail->ObjectComposition.List.count()-1];
 
     // Apply Styles
@@ -1029,7 +1029,7 @@ void DlgImageComposer::s_BlockTable_AddNewClipArtTextBlock() {
 
     // Now create and append a shot composition block to all shot
     for (int i=0;i<ffdProject->ProjectThumbnail->List.count();i++) {
-        ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig));
+        ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&ffdProject->ProjectThumbnail->List[i]->ShotComposition));
         ffdProject->ProjectThumbnail->List[i]->ShotComposition.List[ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
     }
 
@@ -1071,7 +1071,7 @@ void DlgImageComposer::s_BlockTable_AddFilesBlock(QStringList FileList,int Posit
         QString ErrorMessage=QApplication::translate("MainWindow","Format not supported","Error message");
 
         // Create and append a composition block to the object list
-        ffdProject->ProjectThumbnail->ObjectComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig));
+        ffdProject->ProjectThumbnail->ObjectComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig,&ffdProject->ProjectThumbnail->ObjectComposition));
         cCompositionObject  *CompositionObject=ffdProject->ProjectThumbnail->ObjectComposition.List[PositionToInsert];
         cBrushDefinition    *CurrentBrush     =CompositionObject->BackgroundBrush;
 
@@ -1154,7 +1154,7 @@ void DlgImageComposer::s_BlockTable_AddFilesBlock(QStringList FileList,int Posit
         if (IsValide) {
             // Now create and append a shot composition block to all shot
             for (int i=0;i<ffdProject->ProjectThumbnail->List.count();i++) {
-                ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig));
+                ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&ffdProject->ProjectThumbnail->List[i]->ShotComposition));
                 ffdProject->ProjectThumbnail->List[i]->ShotComposition.List[PositionToInsert]->CopyFromCompositionObject(CompositionObject);
             }
             // Inc NextIndexKey

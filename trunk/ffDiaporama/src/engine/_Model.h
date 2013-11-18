@@ -41,24 +41,26 @@ class cBaseApplicationConfig;
 class cDiaporama;
 class cDiaporamaObject;
 class cModelList;
-class cModelListItem {
+class cModelListItem : public QObject {
+Q_OBJECT
 public:
-    cModelList      *Parent;
-    QDomDocument    Model;
-    QString         Name;
-    QString         FileName;
-    QSize           ThumbnailSize;
-    bool            IsCustom;
-    int64_t         Duration;
+    cModelList              *Parent;
+    QDomDocument            Model;
+    QString                 Name;
+    QString                 FileName;
+    QSize                   ThumbnailSize;
+    bool                    IsCustom;
+    int64_t                 Duration;
 
-    cModelListItem(cModelList *Parent,QString FileName,QSize ThumbnailSize);
-    ~cModelListItem();
+    explicit                cModelListItem(cModelList *Parent,QString FileName,QSize ThumbnailSize);
+                            ~cModelListItem();
 
     QDomDocument            LoadModelFile(ffd_MODELTYPE TypeModel,QString ModelFileName);
     QImage                  PrepareImage(int64_t Position,cDiaporama *Diaporama,cDiaporamaObject *DiaporamaObjectToUse,QSize *ForcedThumbnailSize=NULL);
 };
 
-class cModelList {
+class cModelList : public QObject {
+Q_OBJECT
 public:
     cBaseApplicationConfig  *ApplicationConfig;
     ffd_MODELTYPE           ModelType;
@@ -66,20 +68,20 @@ public:
     QString                 StandardModelPath;
     QString                 CustomModelPath;
     QString                 ModelSuffix;
-    QList<cModelListItem>   List;
+    QList<cModelListItem *> List;
     QSize                   ThumbnailSize;
     int64_t                 *NextNumber;
     int                     DigitCategorie;
     QString                 NameCategorie;
 
-    cModelList(cBaseApplicationConfig *ApplicationConfig,ffd_MODELTYPE ModelType,int64_t *NextNumber,ffd_GEOMETRY ProjectGeometry,int DigitCategorie,QString NameCategorie);
-    ~cModelList();
+    explicit                cModelList(cBaseApplicationConfig *ApplicationConfig,ffd_MODELTYPE ModelType,int64_t *NextNumber,ffd_GEOMETRY ProjectGeometry,int DigitCategorie,QString NameCategorie);
+                            ~cModelList();
 
-    int             SearchModel(QString ModelName);
-    void            FillModelType(ffd_MODELTYPE ModelType);
-    cModelListItem  *AppendCustomModel();
-    void            RemoveCustomModel();
-    QDomDocument    GetModelDocument(QString ModelName);
+    int                     SearchModel(QString ModelName);
+    void                    FillModelType(ffd_MODELTYPE ModelType);
+    cModelListItem          *AppendCustomModel();
+    void                    RemoveCustomModel();
+    QDomDocument            GetModelDocument(QString ModelName);
 };
 
 #endif // _MODEL_H

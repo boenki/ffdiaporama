@@ -106,6 +106,9 @@ public:
 
     QMutex                  PlayerMutex;
 
+    QList<cCompositionObjectContext *> PreparedTransitBrushList;
+    QList<cCompositionObjectContext *> PreparedBrushList;
+
     // Thread controls
     QFutureWatcher<void>    ThreadPrepareVideo;
     QFutureWatcher<void>    ThreadPrepareImage;
@@ -149,7 +152,7 @@ private slots:
 
 private:
     void    EnableWidget(bool State);
-    void    PrepareImage(bool SoundWanted,bool AddStartPos,cDiaporamaObjectInfo *PreviousFrame,int64_t NextPosition);
+    void    PrepareImage(bool SoundWanted,bool AddStartPos,cDiaporamaObjectInfo *Frame,int W,int H);
     void    PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position);
 
     Ui::wgt_QVideoPlayer *ui;

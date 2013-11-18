@@ -116,7 +116,11 @@ void DlgTransitionProperties::DoInitDialog() {
 
     // Retrieve object information and create PreviousFrame
     PreviousFrame=new cDiaporamaObjectInfo(NULL,TimePosition,DiaporamaObject->Parent,double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS,false);
-    DiaporamaObject->Parent->LoadSources(PreviousFrame,W,H,true,true);                       // Load background and image
+    QList<cCompositionObjectContext *> PreparedTransitBrushList;
+    QList<cCompositionObjectContext *> PreparedBrushList;
+    if ((PreviousFrame->IsTransition)&&(PreviousFrame->TransitObject)) DiaporamaObject->Parent->CreateObjectContextList(PreviousFrame,W,H,false,true,true,PreparedTransitBrushList,DiaporamaObject->Parent);
+    DiaporamaObject->Parent->CreateObjectContextList(PreviousFrame,W,H,true,true,true,PreparedBrushList,DiaporamaObject->Parent);
+    DiaporamaObject->Parent->LoadSources(PreviousFrame,W,H,true,true,PreparedTransitBrushList,PreparedBrushList);                       // Load background and image
 
     // Set old values
     DiaporamaObject->TransitionFamilly  =TransitionFamilly;
@@ -284,7 +288,11 @@ void DlgTransitionProperties::s_ChTransitionCB(int) {
 
     // Retrieve object information and create PreviousFrame
     PreviousFrame=new cDiaporamaObjectInfo(NULL,TimePosition,DiaporamaObject->Parent,double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS,false);
-    DiaporamaObject->Parent->LoadSources(PreviousFrame,W,H,true,true);                       // Load background and image
+    QList<cCompositionObjectContext *> PreparedTransitBrushList;
+    QList<cCompositionObjectContext *> PreparedBrushList;
+    if ((PreviousFrame->IsTransition)&&(PreviousFrame->TransitObject)) DiaporamaObject->Parent->CreateObjectContextList(PreviousFrame,W,H,false,true,true,PreparedTransitBrushList,DiaporamaObject->Parent);
+    DiaporamaObject->Parent->CreateObjectContextList(PreviousFrame,W,H,true,true,true,PreparedBrushList,DiaporamaObject->Parent);
+    DiaporamaObject->Parent->LoadSources(PreviousFrame,W,H,true,true,PreparedTransitBrushList,PreparedBrushList);                       // Load background and image
 
     // Set old values
     DiaporamaObject->TransitionFamilly  =TransitionFamilly;

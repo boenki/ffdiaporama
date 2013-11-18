@@ -81,7 +81,6 @@ public:
     void    RefreshControls();
     void    SetModifyFlag(bool IsModify);
     void    AdjustRuller(int CurIndex=-1);
-    void    SetTimelineHeight();
     void    CheckVersion();
     void    ToStatusBar(QString Text);
     void    SetTimelineCurrentCell(int Cell);
@@ -97,6 +96,7 @@ protected:
 
 private slots:
     void    InitWindow();
+    void    SetTimelineHeight();
 
     void    s_CleanStatusBar();
     void    DoMaximized();                                  // Use on init to force window maximized

@@ -46,7 +46,6 @@
 #define __STDC_CONSTANT_MACROS  // Activate macro for stdint
 #include <stdint.h>             // Include stdint with macro activated
 #include <stdlib.h>
-#include <unistd.h>
 
 //============================================
 // Specific for MSVC
@@ -57,6 +56,7 @@
     #define AVRCAST                     // MSC doesn't allow CAST in struct constant definition
 #else
     #define AVRCAST (AVRational)        // mingw need CAST in struct constant definition
+    #include <unistd.h>
 #endif
 
 //============================================

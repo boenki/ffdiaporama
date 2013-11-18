@@ -249,7 +249,8 @@ struct sDefaultBlockCoord {
 //====================================================================================================================
 
 class HelpPopup;
-class cBaseApplicationConfig {
+class cBaseApplicationConfig : public QObject {
+Q_OBJECT
 public:
     QMainWindow             *TopLevelWindow;                            // Link to MainWindow of the application
     cDeviceModelList        DeviceModelList;                            // List of known rendering device model
@@ -418,8 +419,8 @@ public:
     int                     Music_ThumbWidth,Music_ThumbHeight;         // Thumbnail size in big icon mode for music
     int                     Video_ThumbWidth,Video_ThumbHeight;         // Thumbnail size in big icon mode for video
 
-    cBaseApplicationConfig(QMainWindow *TopLevelWindow,QString AllowedWEBLanguage);
-    virtual ~cBaseApplicationConfig();
+    explicit                cBaseApplicationConfig(QMainWindow *TopLevelWindow,QString AllowedWEBLanguage);
+                            ~cBaseApplicationConfig();
 
     virtual QString         GetFilterForMediaFile(FilterFile type);
     virtual void            InitValues();

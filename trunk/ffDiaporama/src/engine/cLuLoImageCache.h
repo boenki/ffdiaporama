@@ -71,6 +71,7 @@ public:
     cLuLoImageCache();
     ~cLuLoImageCache();
 
+    void                    clear();
     cLuLoImageCacheObject   *FindObject(qlonglong FileKey,QDateTime ModifDateTime,int ImageOrientation,bool Smoothing,bool SetAtTop);
     void                    FreeMemoryToMaxValue(cLuLoImageCacheObject *DontFree);
     int64_t                 MemoryUsed();

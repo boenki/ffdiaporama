@@ -4,6 +4,20 @@
 * (Version Française)
 **************************************************
 
+[Commit: 18/11/2013] + ffDiaporama 2.0 BETA 3
+    Correction de bug :
+        -Corrige un crash lors de la création d'un nouveau modele de vignette si le projet est vide [regression 15/11/2013]
+        -Corrige plusieurs fuites de mémoire
+        -Corrige la positionn de la timeline dans la fenêtre principale au démarrage de l'application [regression 15/11/2013]
+        -Corrige la sauvegarde des derniers répertoires utilisés pour la version Windows [regression 16/11/2013]
+        -Corrige le bug de boucle infinie lors de la lecture de certains fichiers vidéo qui arrive parfois lorsque la durée est incorrect dans le fichier
+        -Corrige le bug d'affichage des positions de début et de fin qui ne s'affichait pas correctement dans la timeline lorsqu'une diapositive était ajoutée à la fin du projet [regression 15/11/2013]
+
+    Nouveautés :
+        -Mets à jours la version de ffmpeg pour les paquets OpenSuse et Windows vers la version 2.1
+
+--------------------------------------------------------------------------------
+
 [Commit: 16/11/2013]
     Correction de bug :
         -Corrige le bug dans la boite transition qui affichait toujours la même transition [regression 15/11/2013]
@@ -13,7 +27,7 @@
     Nouveautés :
         -Déplace la sauvegarde des derniers répertoires utilisés du fichier de configuration .xml vers la base de données
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 [Commit: 15/11/2013]
     Correction de bug :
@@ -35,7 +49,8 @@
         -Reconnait les signatures de ffmpeg 2.1
         -Met à jours le WIKI
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
 [Commit: 12/11/2013]
     Correction de bug :
         -Ne quitte plus l'application en cas d'erreur d'initialisation de SDL (pour SOLARIS voir: http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=641)
@@ -51,7 +66,7 @@
         -Amélioration de la vitesse de chargement des projets
         -Amélioration de la vitesse de navigation en mode partition
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 [Commit: 09/11/2013] + ffDiaporama 2.0 BETA 2
     Correction de bug :
@@ -77,7 +92,7 @@
     Nouveautés :
         - Réorganise les données à l'intérieur des objets afin de pouvoir a terme les supprimer de la mémoire et ne les avoir plus que dans la base de données
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 [Commit: 03/11/2013] + ffDiaporama 2.0 BETA 1
     Correction de bug :
@@ -88,7 +103,7 @@
         -Ajoute une table des fichiers et supprime l'information de chemin de fichier de tous les objects dérivés de cBaseMediaFile
         -Modifie le browser multimédia pour qu'il utilise la table des fichiers comme cache pour accélérer la navigation
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 [Commit: 30/10/2013]
     Correction de bug :
@@ -99,15 +114,15 @@
         -Déplace le stockage des positions des fenetres de la memoire vers la base de données (et supprime la RAM utilisée pour ce stockage)
         -Ajoute une table des répertoires et supprime l'information de répertoire de tous les objects dérivés de cBaseMediaFile
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 [Commit: 27/10/2013] + ffDiaporama 1.7 BETA 5
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 [Commit: ]
     Correction de bug :
 
     Nouveautés :
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
