@@ -4,6 +4,11 @@
 * (English version)
 **************************************************
 
+[Commit: 19/11/2013 - again]
+    Merged libav 0.9.x patch from Olivier Laurentain
+
+--------------------------------------------------------------------------------
+
 [Commit: 19/11/2013]
     Bug fixes:
         -Remove garbage sound played at the end of some videos
