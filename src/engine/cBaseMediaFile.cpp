@@ -2042,13 +2042,7 @@ int cVideoFile::VideoFilter_Open() {
         std::vector<PixelFormat> m_formats;
         m_formats.push_back(PIX_FMT_YUVJ420P);
         m_formats.push_back(PIX_FMT_NONE);      /* always add none to get a terminated list in Libav world */
-        AVBufferSinkParams *buffersink_params=av_buffersink_params_alloc();
-        buffersink_params->pixel_fmts=&m_formats[0];
-        #ifdef FF_API_OLD_VSINK_API
-        if ((result=avfilter_graph_create_filter(&VideoFilterOut,outFilter,"out",NULL,(void*)buffersink_params->pixel_fmts,VideoFilterGraph))<0) {
-        #else
-        if ((result=avfilter_graph_create_filter(&VideoFilterOut,outFilter,"out",NULL,buffersink_params,VideoFilterGraph))<0) {
-        #endif
+        if ((result=avfilter_graph_create_filter(&VideoFilterOut,outFilter,"out",NULL,NULL,VideoFilterGraph))<0) {
             ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::VideoFilter_Open : avfilter_graph_create_filter: out"));
             return result;
         }
@@ -2094,8 +2088,10 @@ int cVideoFile::VideoFilter_Open() {
 
     #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
     if ((result=avfilter_graph_parse(VideoFilterGraph,QString("yadif=1:-1").toLocal8Bit().constData(),inputs,outputs,NULL))<0) {
-    #elif (defined(LIBAV) && (LIBAVVERSIONINT<=9)) || (defined(FFMPEG)&&(FFMPEGVERSIONINT<201))
-        if ((result=avfilter_graph_parse(VideoFilterGraph,QString("yadif=deint=interlaced:mode=send_frame:parity=auto").toLocal8Bit().constData(),&inputs,&outputs,NULL))<0) {
+    #elif (defined(LIBAV) && (LIBAVVERSIONINT<=9))
+    if ((result=avfilter_graph_parse(VideoFilterGraph,QString("yadif=deint=interlaced:mode=send_frame:parity=auto").toLocal8Bit().constData(),inputs,outputs,NULL))<0) {
+    #elif (defined(FFMPEG)&&(FFMPEGVERSIONINT<201))
+    if ((result=avfilter_graph_parse(VideoFilterGraph,QString("yadif=deint=interlaced:mode=send_frame:parity=auto").toLocal8Bit().constData(),&inputs,&outputs,NULL))<0) {
     #elif defined(FFMPEG)&&(FFMPEGVERSIONINT>=201)
     if ((result=avfilter_graph_parse_ptr(VideoFilterGraph,QString("yadif=deint=interlaced:mode=send_frame:parity=auto").toLocal8Bit().constData(),&inputs,&outputs,NULL))<0) {
     #endif
@@ -2153,8 +2149,15 @@ void cVideoFile::VideoFilter_Close() {
                 FrameBufferYUV->opaque=(void *)avfilter_ref_buffer(VideoFilterOut->inputs[0]->cur_buf,AV_PERM_READ);
             }
 
+        #elif defined(LIBAV) && (LIBAVVERSIONINT<=9)
+            // LIBAV9
+            int Ret=av_buffersrc_write_frame(VideoFilterIn,FrameBufferYUV);
+            if (Ret<0) {
+                ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::VideoFilter_Process : av_buffersrc_write_frame"));
+                return VC_ERROR;
+            }
         #else
-            // LIBAV9 AND FFMPEG 1.2
+            // FFMPEG 1.2
             int Ret=av_buffersrc_add_frame(VideoFilterIn,FrameBufferYUV,0);
             if (Ret<0) {
                 ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::VideoFilter_Process : av_buffersrc_add_frame"));

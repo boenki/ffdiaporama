@@ -70,7 +70,6 @@ extern "C" {
         #define LIBAVVERSIONINT     9
         #include "libavresample/avresample.h"
         #define RESAMPLE_MAX_CHANNELS AVRESAMPLE_MAX_CHANNELS
-        #include "libavfilter/avcodec.h"
         #include "libavfilter/buffersink.h"
         #include "libavfilter/buffersrc.h"
     #elif ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(51,22,1))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(53,35,0))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(53,21,1))&&(LIBAVDEVICE_VERSION_INT>=AV_VERSION_INT(53,2,0))&&(LIBAVFILTER_VERSION_INT>=AV_VERSION_INT(2,15,0))&&(LIBSWSCALE_VERSION_INT>=AV_VERSION_INT(2,1,0)))
