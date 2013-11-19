@@ -43,8 +43,6 @@ int  LUMADLG_WIDTH=0;
 //*********************************************************************************************************************************************
 
 cIconObject::cIconObject(int TheTransitionFamilly,int TheTransitionSubType) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cIconObject::cIconObject");
-
     TransitionFamilly=TheTransitionFamilly;
     TransitionSubType=TheTransitionSubType;
     QString Familly=QString("%1").arg(TransitionFamilly);   if (Familly.length()<2) Familly="0"+Familly;
@@ -60,8 +58,6 @@ cIconObject::cIconObject(int TheTransitionFamilly,int TheTransitionSubType) {
 //====================================================================================================================
 
 cIconObject::cIconObject(int TheTransitionFamilly,int TheTransitionSubType,QImage LumaImage) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cIconObject::cIconObject");
-
     TransitionFamilly=TheTransitionFamilly;
     TransitionSubType=TheTransitionSubType;
     Icon=LumaImage.scaled(QSize(32,32),Qt::IgnoreAspectRatio/*,Qt::SmoothTransformation*/);
@@ -72,21 +68,17 @@ cIconObject::cIconObject(int TheTransitionFamilly,int TheTransitionSubType,QImag
 //*********************************************************************************************************************************************
 
 cIconList::cIconList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cIconList::cIconList");
 }
 
 //====================================================================================================================
 
 cIconList::~cIconList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cIconList::~cIconList");
     List.clear();
 }
 
 //====================================================================================================================
 
 QImage *cIconList::GetIcon(int TransitionFamilly,int TransitionSubType) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cIconList::GetIcon");
-
     int i=0;
     while ((i<List.count())&&((List[i].TransitionFamilly!=TransitionFamilly)||(List[i].TransitionSubType!=TransitionSubType))) i++;
     if (i<List.count()) return new QImage(List[i].Icon);
@@ -97,8 +89,6 @@ QImage *cIconList::GetIcon(int TransitionFamilly,int TransitionSubType) {
 // Global class for luma object
 //*********************************************************************************************************************************************
 cLumaListObject::cLumaListObject(QString FileName) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cLumaListObject::cLumaListObject");
-
     OriginalLuma=QImage(FileName);
     DlgLumaImage=QImage(OriginalLuma.scaled(LUMADLG_WIDTH,LUMADLG_HEIGHT,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)).convertToFormat(QImage::Format_ARGB32_Premultiplied);
     Name        =QFileInfo(FileName).baseName();
@@ -109,8 +99,6 @@ cLumaListObject::cLumaListObject(QString FileName) {
 //*********************************************************************************************************************************************
 
 cLumaList::cLumaList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cLumaList::cLumaList");
-
     Geometry=GEOMETRY_16_9;
     LUMADLG_WIDTH=int((double(LUMADLG_HEIGHT)/double(9))*double(16));
 }
@@ -118,16 +106,12 @@ cLumaList::cLumaList() {
 //====================================================================================================================
 
 cLumaList::~cLumaList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cLumaList::~cLumaList");
-
     List.clear();
 }
 
 //====================================================================================================================
 
 void cLumaList::ScanDisk(QString Path,int TransitionFamilly) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cLumaList::ScanDisk");
-
     QDir                Folder(Path);
     QFileInfoList       Files=Folder.entryInfoList();;
 
@@ -142,8 +126,6 @@ void cLumaList::ScanDisk(QString Path,int TransitionFamilly) {
 //====================================================================================================================
 
 void cLumaList::SetGeometry(ffd_GEOMETRY TheGeometry) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cLumaList::SetGeometry");
-
     if (Geometry==TheGeometry) return;
     Geometry=TheGeometry;
     switch (Geometry) {
@@ -161,8 +143,6 @@ void cLumaList::SetGeometry(ffd_GEOMETRY TheGeometry) {
 //============================================================================================
 
 int RegisterNoLumaTransition() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:_Transition::RegisterNoLumaTransition");
-
     for (int i=0;i<TRANSITIONMAXSUBTYPE_BASE;i++)       IconList.List.append(cIconObject(TRANSITIONFAMILLY_BASE,i));
     for (int i=0;i<TRANSITIONMAXSUBTYPE_ZOOMINOUT;i++)  IconList.List.append(cIconObject(TRANSITIONFAMILLY_ZOOMINOUT,i));
     for (int i=0;i<TRANSITIONMAXSUBTYPE_SLIDE;i++)      IconList.List.append(cIconObject(TRANSITIONFAMILLY_SLIDE,i));
@@ -172,7 +152,6 @@ int RegisterNoLumaTransition() {
 }
 
 int RegisterLumaTransition() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:_Transition::RegisterLumaTransition");
     int     PreviousListNumber=IconList.List.count();
     QString Path;
 
@@ -190,8 +169,6 @@ int RegisterLumaTransition() {
 //============================================================================================
 
 QImage RotateImage(double TheRotateXAxis,double TheRotateYAxis,double TheRotateZAxis,QImage *OldImg) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:_Transition::RotateImage");
-
     double dw=double(OldImg->width());
     double dh=double(OldImg->height());
     double hyp=sqrt(dw*dw+dh*dh);
@@ -227,7 +204,6 @@ QImage RotateImage(double TheRotateXAxis,double TheRotateYAxis,double TheRotateZ
 //============================================================================================
 
 void Transition_Basic(int TransitionSubType,double PCT,QImage *ImageA,QImage *ImageB,QPainter *WorkingPainter,int,int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:_Transition::Transition_Basic");
     QImage  ImgA,ImgB;
     int     DestImageWith  =ImageA->width();
     int     DestImageHeight=ImageA->height();
@@ -309,8 +285,6 @@ void Transition_Basic(int TransitionSubType,double PCT,QImage *ImageA,QImage *Im
 //============================================================================================
 
 void Transition_Zoom(int TransitionSubType,double PCT,QImage *ImageA,QImage *ImageB,QPainter *WorkingPainter,int DestImageWith,int DestImageHeight) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:_Transition::Transition_Zoom");
-
     bool    Reverse=(TransitionSubType & 0x1)==1;
     QPoint  box;
     int     wt= int(double(DestImageWith)*(Reverse?(1-PCT):PCT));
@@ -379,8 +353,6 @@ void Transition_Zoom(int TransitionSubType,double PCT,QImage *ImageA,QImage *Ima
 //============================================================================================
 
 void Transition_Slide(int TransitionSubType,double PCT,QImage *ImageA,QImage *ImageB,QPainter *WorkingPainter,int DestImageWith,int DestImageHeight) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:_Transition::Transition_Slide");
-
     bool    Reverse=((TransitionSubType<16) &&(TransitionSubType>=8))||
                     ((TransitionSubType>=16)&&((TransitionSubType & 0x1)>0));
     if (Reverse) PCT=(1-PCT);
@@ -473,8 +445,6 @@ void Transition_Slide(int TransitionSubType,double PCT,QImage *ImageA,QImage *Im
 //============================================================================================
 
 void Transition_Push(int TransitionSubType,double PCT,QImage *ImageA,QImage *ImageB,QPainter *WorkingPainter,int DestImageWith,int DestImageHeight) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:_Transition::Transition_Push");
-
     QRect       box1,box2;
     QRect       box3,box4;
     QPoint      box;
@@ -691,8 +661,6 @@ void Transition_Push(int TransitionSubType,double PCT,QImage *ImageA,QImage *Ima
 //============================================================================================
 
 void Transition_Deform(int TransitionSubType,double PCT,QImage *ImageA,QImage *ImageB,QPainter *WorkingPainter,int DestImageWith,int DestImageHeight) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:_Transition::Transition_Deform");
-
     int         PCTW=int(PCT*double(DestImageWith));
     int         PCTH=int(PCT*double(DestImageHeight));
     int         PCTWB=int((1-PCT)*double(DestImageWith));
@@ -723,8 +691,6 @@ void Transition_Deform(int TransitionSubType,double PCT,QImage *ImageA,QImage *I
 //============================================================================================
 
 void Transition_Luma(cLumaList *LumaList,int TransitionSubType,double PCT,QImage *ImageA,QImage *ImageB,QPainter *WorkingPainter,int DestImageWith,int DestImageHeight) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:_Transition::Transition_Luma");
-
     QImage  Img=ImageB->copy();
     if (TransitionSubType<LumaList->List.count()) {
         // Get a copy of luma image scaled to correct size

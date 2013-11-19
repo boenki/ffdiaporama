@@ -35,8 +35,6 @@
 
 #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
     bool SearchRasterMode() {
-        ToLog(LOGMSG_DEBUGTRACE,"IN:SearchRasterMode");
-
         QString UserConfigPath;    // Path and filename to user profil path
         QString UserConfigFile;    // Path and filename to user configuration file
         QString GlobalConfigFile;  // Path and filename to global configuration file (in binary directory)
@@ -90,8 +88,6 @@
 //**********************************************************************************************************************
 
 cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QString TheAllowedWEBLanguage):QObject(TheTopLevelWindow) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::cBaseApplicationConfig");
-
     #ifdef Q_OS_WIN
         // Options for windows only
         // registry value for specific Windows Folder
@@ -230,8 +226,6 @@ cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QS
 //====================================================================================================================
 
 cBaseApplicationConfig::~cBaseApplicationConfig() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::~cBaseApplicationConfig");
-
     delete PopupHelp;
     delete DriveList;
     delete ThumbnailModels;
@@ -247,8 +241,6 @@ cBaseApplicationConfig::~cBaseApplicationConfig() {
 //====================================================================================================================
 
 QString cBaseApplicationConfig::GetValideWEBLanguage(QString Language) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::GetValideWEBLanguage");
-
     if (!AllowedWEBLanguage.contains(Language)) Language="en";
     return Language;
 }
@@ -256,8 +248,6 @@ QString cBaseApplicationConfig::GetValideWEBLanguage(QString Language) {
 //====================================================================================================================
 // Preload system icon images
 void cBaseApplicationConfig::PreloadSystemIcons() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::PreloadSystemIcons");
-
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading system icons..."));
     #ifdef Q_OS_WIN
     if (QSysInfo().WindowsVersion>=0x0090) { // At least Windows 7
@@ -289,8 +279,6 @@ void cBaseApplicationConfig::PreloadSystemIcons() {
 //====================================================================================================================
 
 QString cBaseApplicationConfig::GetFilterForMediaFile(FilterFile type) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::GetFilterForMediaFile");
-
     // enum FilterFile {ALLFILE,IMAGEFILE,VIDEOFILE,MUSICFILE};
     QString ReturnFile="";
     if (type==ALLFILE) {
@@ -323,8 +311,6 @@ QString cBaseApplicationConfig::GetFilterForMediaFile(FilterFile type) {
 //====================================================================================================================
 
 bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::InitConfigurationValues");
-
     //************************************
     // Prepare lists of allowed extension
     //************************************
@@ -413,8 +399,6 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage) {
 //====================================================================================================================
 
 bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfigFile) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::LoadConfigurationValues"+(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
-
     QFile           file(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile);
     QDomDocument    domDocument;
     QDomElement     root;
@@ -651,8 +635,6 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
 //====================================================================================================================
 
 bool cBaseApplicationConfig::SaveConfigurationFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::SaveConfigurationValues");
-
     // Save all option to the configuration file
     QFile           file(UserConfigFile);
     QDomDocument    domDocument(QString(APPLICATION_NAME));   domDocument.appendChild(domDocument.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\""));
@@ -836,8 +818,6 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
 //====================================================================================================================
 
 void cBaseApplicationConfig::InitValues() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::InitValues");
-
     // Initialise all variables and set them default value
     WindowDisplayMode           = DISPLAYWINDOWMODE_PLAYER; // Mainwindow display mode
     PartitionMode               = false;                    // If true, partition mode is on (timeline with multiple row)

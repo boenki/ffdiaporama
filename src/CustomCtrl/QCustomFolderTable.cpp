@@ -332,14 +332,15 @@ QString QCustomFolderTable::GetTextForColumn(int Col,cBaseMediaFile *MediaObject
     else if (ColName==QApplication::translate("QCustomFolderTable","Audio Channels","Column header"))   TextToDisplay=GetCumulInfoStr(ExtendedProperties,"Audio","Channels");
     else if (ColName==QApplication::translate("QCustomFolderTable","Audio Bitrate","Column header"))    TextToDisplay=GetCumulInfoStr(ExtendedProperties,"Audio","Bitrate");
     else if (ColName==QApplication::translate("QCustomFolderTable","Audio Frequency","Column header"))  TextToDisplay=GetCumulInfoStr(ExtendedProperties,"Audio","Frequency");
-    else if (ColName==QApplication::translate("QCustomFolderTable","Title","Column header"))            TextToDisplay=GetInformationValue("title",ExtendedProperties);
-    else if (ColName==QApplication::translate("QCustomFolderTable","Artist","Column header"))           TextToDisplay=GetInformationValue("artist",ExtendedProperties);
-    else if (ColName==QApplication::translate("QCustomFolderTable","Album","Column header"))            TextToDisplay=GetInformationValue("album",ExtendedProperties);
-    else if (ColName==QApplication::translate("QCustomFolderTable","Year","Column header"))             TextToDisplay=GetInformationValue("date",ExtendedProperties);
+    else if (ColName==QApplication::translate("QCustomFolderTable","Title","Column header"))            TextToDisplay=MediaObject->ObjectType!=OBJECTTYPE_FFDFILE?GetInformationValue("title",ExtendedProperties):((cffDProjectFile *)MediaObject)->Title;
+    else if (ColName==QApplication::translate("QCustomFolderTable","Artist","Column header"))           TextToDisplay=MediaObject->ObjectType!=OBJECTTYPE_FFDFILE?GetInformationValue("artist",ExtendedProperties):((cffDProjectFile *)MediaObject)->Author;
+    else if (ColName==QApplication::translate("QCustomFolderTable","Author","Column header"))           TextToDisplay=MediaObject->ObjectType!=OBJECTTYPE_FFDFILE?GetInformationValue("artist",ExtendedProperties):((cffDProjectFile *)MediaObject)->Author;
+    else if (ColName==QApplication::translate("QCustomFolderTable","Album","Column header"))            TextToDisplay=MediaObject->ObjectType!=OBJECTTYPE_FFDFILE?GetInformationValue("album",ExtendedProperties):((cffDProjectFile *)MediaObject)->Album;
+    else if (ColName==QApplication::translate("QCustomFolderTable","Year","Column header"))             TextToDisplay=MediaObject->ObjectType!=OBJECTTYPE_FFDFILE?GetInformationValue("date",ExtendedProperties):((cffDProjectFile *)MediaObject)->EventDate.toString(ApplicationConfig->ShortDateFormat);
     else if (ColName==QApplication::translate("QCustomFolderTable","Track","Column header"))            TextToDisplay=GetInformationValue("track",ExtendedProperties);
     else if (ColName==QApplication::translate("QCustomFolderTable","Genre","Column header"))            TextToDisplay=GetInformationValue("genre",ExtendedProperties);
-    else if (ColName==QApplication::translate("QCustomFolderTable","Comment","Column header"))          TextToDisplay=GetInformationValue("comment",ExtendedProperties);
-    else if (ColName==QApplication::translate("QCustomFolderTable","Composer","Column header"))         TextToDisplay=GetInformationValue("composer",ExtendedProperties);
+    else if (ColName==QApplication::translate("QCustomFolderTable","Comment","Column header"))          TextToDisplay=MediaObject->ObjectType!=OBJECTTYPE_FFDFILE?GetInformationValue("comment",ExtendedProperties):((cffDProjectFile *)MediaObject)->Comment;
+    else if (ColName==QApplication::translate("QCustomFolderTable","Composer","Column header"))         TextToDisplay=MediaObject->ObjectType!=OBJECTTYPE_FFDFILE?GetInformationValue("composer",ExtendedProperties):((cffDProjectFile *)MediaObject)->Composer;
     else if (ColName==QApplication::translate("QCustomFolderTable","Encoder","Column header"))          TextToDisplay=GetInformationValue("encoder",ExtendedProperties);
     else if (ColName==QApplication::translate("QCustomFolderTable","Chapters","Column header")) {
         int NbrChapter=0;

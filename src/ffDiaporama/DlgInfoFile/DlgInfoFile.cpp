@@ -64,10 +64,12 @@ void DlgInfoFile::DoInitDialog() {
         } else ui->FileIconLabel->setPixmap(QPixmap().fromImage(MediaFile->GetIcon(cCustomIcon::ICON100,false)));
 
         ui->FileNameValue->setText(MediaFile->ShortName());
-        ui->FileTypeValue->setText(MediaFile->GetFileTypeStr()+QString("(%1)").arg(GetInformationValue("Long Format",&TempExtProperties)));
         ui->FileSizeValue->setText(MediaFile->GetFileSizeStr());
         ui->FileCreatedValue->setText(MediaFile->GetFileDateTimeStr(true));
         ui->FileModifyValue->setText(MediaFile->GetFileDateTimeStr(false));
+        QString ExtType=GetInformationValue("Long Format",&TempExtProperties);
+        if (ExtType.isEmpty()) ui->FileTypeValue->setText(MediaFile->GetFileTypeStr());
+            else ui->FileTypeValue->setText(MediaFile->GetFileTypeStr()+QString("(%1)").arg(ExtType));
 
         //**************** Video
         if ((MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->VideoTrackNbr>0)) {
@@ -165,6 +167,16 @@ void DlgInfoFile::DoInitDialog() {
         #else
         ui->tableWidget->verticalHeader()->setResizeMode(QHeaderView::ResizeToContents);
         #endif
+        if (MediaFile->ObjectType==OBJECTTYPE_FFDFILE) {
+            TempExtProperties.append(QString("%1##%2").arg(QApplication::translate("QCustomFolderTable","Image Geometry","Column header")).arg(MediaFile->GetImageSizeStr(cBaseMediaFile::GEOONLY)));
+            TempExtProperties.append(QString("%1##%2").arg(QApplication::translate("QCustomFolderTable","Title","Column header")).arg(((cffDProjectFile *)MediaFile)->Title));
+            TempExtProperties.append(QString("%1##%2").arg(QApplication::translate("QCustomFolderTable","Artist","Column header")).arg(((cffDProjectFile *)MediaFile)->Author));
+            TempExtProperties.append(QString("%1##%2").arg(QApplication::translate("QCustomFolderTable","Album","Column header")).arg(((cffDProjectFile *)MediaFile)->Album));
+            TempExtProperties.append(QString("%1##%2").arg(QApplication::translate("QCustomFolderTable","Comment","Column header")).arg(((cffDProjectFile *)MediaFile)->Comment));
+            TempExtProperties.append(QString("%1##%2 (%3)").arg(QApplication::translate("QCustomFolderTable","Composer","Column header")).arg(((cffDProjectFile *)MediaFile)->Composer).arg(((cffDProjectFile *)MediaFile)->ffDRevision));
+            TempExtProperties.append(QString("%1##%2").arg(QApplication::translate("Variables","Project slide count")).arg(((cffDProjectFile *)MediaFile)->NbrSlide));
+            TempExtProperties.append(QString("%1##%2").arg(QApplication::translate("Variables","Short date")).arg(((cffDProjectFile *)MediaFile)->EventDate.toString(ApplicationConfig->ShortDateFormat)));
+        }
         for (int i=0;i<TempExtProperties.count();i++)
           if ((!((QString)TempExtProperties[i]).startsWith("Chapter_"))
               &&(!((QString)TempExtProperties[i]).startsWith("Video_"))
