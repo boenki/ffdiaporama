@@ -75,8 +75,6 @@ public:
 //========================================================================================================================
 
 QCustomThumbItemDelegate::QCustomThumbItemDelegate(QObject *parent):QStyledItemDelegate(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomThumbItemDelegate::QCustomThumbItemDelegate");
-
     ParentTable=(cCustomSlideTable *)parent;
 }
 
@@ -106,8 +104,6 @@ void DrawThumbnailsBox(int Xa,int Ya,int Width,int Height,QPainter *Painter,QIma
 //========================================================================================================================
 
 void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomThumbItemDelegate::paint");
-
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     Painter->save();
 
@@ -355,13 +351,14 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
 
         int             CurrentCountObjet   =0;
         int64_t         StartPosition       =0;
+        int64_t         PrevStartPosition   =0;
         int64_t         NextStartPosition   =0;
 
         int             OwnerObjectMusic    =0;
         int             OwnerObjectNextMusic=0;
         cMusicObject    *CurMusic           =Object->Parent->GetMusicObject(ItemIndex,StartPosition,&CurrentCountObjet,&OwnerObjectMusic);
         double          CurrentFactor       =Object->MusicPause?0:Object->MusicReduceVolume?Object->MusicReduceFactor:1;
-        cMusicObject    *PrevMusique        =ItemIndex>0?Object->Parent->GetMusicObject(ItemIndex-1,StartPosition):NULL;
+        cMusicObject    *PrevMusique        =ItemIndex>0?Object->Parent->GetMusicObject(ItemIndex-1,PrevStartPosition):NULL;
         double          PreviousFactor      =PrevMusique?((Object->Parent->List[ItemIndex-1]->MusicPause)?0:(Object->Parent->List[ItemIndex-1]->MusicReduceVolume)?Object->Parent->List[ItemIndex-1]->MusicReduceFactor:1):0;
         cMusicObject    *NextMusic          =(ItemIndex+1)<ParentTable->columnCount()?Object->Parent->GetMusicObject(ItemIndex+1,NextStartPosition,NULL,&OwnerObjectNextMusic):NULL;
         bool            EndMusic            =true;
@@ -463,6 +460,7 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
             QString Artist   =GetInformationValue("artist",&TempExtProperties);
             QString Title    =GetInformationValue("title",&TempExtProperties);
             QString MusicName=((Artist!="")&&(Title!="")?Artist+"\n"+Title:QFileInfo(CurMusic->FileName()).baseName());
+
             Pen.setWidth(1);
             Pen.setStyle(Qt::SolidLine);
             Pen.setColor(Qt::black);
@@ -561,8 +559,6 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
 //********************************************************************************************************************
 
 cCustomSlideTable::cCustomSlideTable(QWidget *parent):QTableWidget(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::cCustomSlideTable");
-
     Diaporama        =NULL;             // Link to current diaporama
     ApplicationConfig=NULL;             // Link to current application config
     PartitionMode    =false;            // True if multiple line
@@ -585,15 +581,12 @@ cCustomSlideTable::cCustomSlideTable(QWidget *parent):QTableWidget(parent) {
 //====================================================================================================================
 
 void cCustomSlideTable::dokeyReleaseEvent(QKeyEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::dokeyReleaseEvent");
     QTableWidget::keyReleaseEvent(event);
 }
 
 //====================================================================================================================
 
 void cCustomSlideTable::dragEnterEvent(QDragEnterEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::dragEnterEvent");
-
     // Construct file list
     QList<QUrl> urlList;
     QString     fName;
@@ -652,7 +645,6 @@ void cCustomSlideTable::dragEnterEvent(QDragEnterEvent *event) {
 //====================================================================================================================
 
 void cCustomSlideTable::dragLeaveEvent(QDragLeaveEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::dragLeaveEvent");
     if (IsDragOn==DRAGMODE_EXTERNALADD_SLIDE) {
         // Clear previous selected slide
         int NbrX=columnCount();
@@ -671,8 +663,6 @@ void cCustomSlideTable::dragLeaveEvent(QDragLeaveEvent *event) {
 //====================================================================================================================
 
 void cCustomSlideTable::dropEvent(QDropEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::dropEvent");
-
     IsDragOn=DRAGMODE_NOACTION;
     ((MainWindow *)ApplicationConfig->TopLevelWindow)->FileList.clear();
 
@@ -695,8 +685,6 @@ void cCustomSlideTable::dropEvent(QDropEvent *event) {
 //====================================================================================================================
 
 void cCustomSlideTable::dragMoveEvent(QDragMoveEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::dragMoveEvent");
-
     if ((IsDragOn==DRAGMODE_EXTERNALADD_SLIDE)||(IsDragOn==DRAGMODE_EXTERNALADD_MUSIC)) {
 
         int ThumbWidth  =columnWidth(0);
@@ -745,8 +733,6 @@ void cCustomSlideTable::dragMoveEvent(QDragMoveEvent *event) {
 //====================================================================================================================
 
 void cCustomSlideTable::mouseMoveEvent(QMouseEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::mouseMoveEvent");
-
     if (IsDragOn!=DRAGMODE_INTERNALMOVE_SLIDE) {
         setCursor(Qt::ArrowCursor);
         QTableWidget::mouseMoveEvent(event);
@@ -794,8 +780,6 @@ void cCustomSlideTable::mouseMoveEvent(QMouseEvent *event) {
 //====================================================================================================================
 
 void cCustomSlideTable::mousePressEvent(QMouseEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::mousePressEvent");
-
     if (event->button()!=Qt::LeftButton) {
         QTableWidget::mousePressEvent(event);
         IsDragOn=DRAGMODE_NOACTION;
@@ -843,8 +827,6 @@ void cCustomSlideTable::mousePressEvent(QMouseEvent *event) {
 //====================================================================================================================
 
 void cCustomSlideTable::mouseReleaseEvent(QMouseEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::mouseReleaseEvent");
-
     setCursor(Qt::ArrowCursor);
     if (event->button()==Qt::RightButton) {
         emit RightClickEvent(event);
@@ -865,7 +847,6 @@ void cCustomSlideTable::mouseReleaseEvent(QMouseEvent *event) {
 //====================================================================================================================
 
 void cCustomSlideTable::mouseDoubleClickEvent(QMouseEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::mouseDoubleClickEvent");
     if (columnCount()==0) return;
     int ThumbWidth =columnWidth(0);
     int ThumbHeight=rowHeight(0);
@@ -895,7 +876,6 @@ void cCustomSlideTable::mouseDoubleClickEvent(QMouseEvent *event) {
 //====================================================================================================================
 
 void cCustomSlideTable::wheelEvent(QWheelEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::wheelEvent");
     if (!PartitionMode) {
         int numDegrees = event->delta() / 8;
         int numSteps = numDegrees / 15;
@@ -908,8 +888,6 @@ void cCustomSlideTable::wheelEvent(QWheelEvent *event) {
 //====================================================================================================================
 
 void cCustomSlideTable::AddObjectToTimeLine(int CurIndex) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::AddObjectToTimeLine");
-
     int ThumbWidth =Diaporama->GetWidthForHeight(ApplicationConfig->TimelineHeight/2-4)+36+5;
     int ThumbHeight=ApplicationConfig->TimelineHeight;
     int NbrX       =viewport()->width()/ThumbWidth;
@@ -937,7 +915,6 @@ void cCustomSlideTable::AddObjectToTimeLine(int CurIndex) {
 //====================================================================================================================
 
 void cCustomSlideTable::ResetDisplay(int Selected) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::ResetDisplay");
     int ThumbWidth =Diaporama->GetWidthForHeight(ApplicationConfig->TimelineHeight/2-4)+36+5;
     int ThumbHeight=ApplicationConfig->TimelineHeight;
     int NbrX       =viewport()->width()/ThumbWidth;
@@ -974,7 +951,6 @@ void cCustomSlideTable::ResetDisplay(int Selected) {
 //====================================================================================================================
 
 void cCustomSlideTable::SetTimelineHeight(bool NewPartitionMode) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::SetTimelineHeight");
     PartitionMode=NewPartitionMode;
     int Selected=CurrentSelected();
     if (!PartitionMode) {
@@ -1019,7 +995,6 @@ void cCustomSlideTable::CurrentSelectionList(QList<int> *List) {
 //====================================================================================================================
 
 void cCustomSlideTable::SetCurrentCell(int Index) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::SetCurrentCell");
     if (columnCount()==0) return;
     setUpdatesEnabled(false);
     selectionModel()->clear();      // Clear selection
@@ -1032,7 +1007,6 @@ void cCustomSlideTable::SetCurrentCell(int Index) {
 //====================================================================================================================
 
 void cCustomSlideTable::CleanAll() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::CleanAll");
     setUpdatesEnabled(false);
     for (int Row=0;Row<rowCount();Row++) for (int Col=0;Col<columnCount();Col++) if (cellWidget(Row,Col)!=NULL) removeCellWidget(Row,Col);
     while (columnCount()>0) removeColumn(columnCount()-1);

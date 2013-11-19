@@ -4,6 +4,19 @@
 * (English version)
 **************************************************
 
+[Commit: 19/11/2013]
+    Bug fixes:
+        -Remove garbage sound played at the end of some videos
+        -Fix bug of reversal chapters order when inserting video including chapter and choose to create a slide by chapter [regression 12/11/2013]
+        -Fix display bug that sometimes prevents the title/author of the music to appear on the slide that defined it on the timeline [regression 16/11/2013]
+        -Fix the bug of not selecting a slide if its duration is equal to the duration of the incoming and outgoing transition [regression 18/11/2013]
+        -Fix the read and display of .ffd file properties in multimedia files explorer and in the file information dialog box [regression 12/11/2013]
+        -Fix the bug of not reading the image data (EXIF) when opening project whose images are not already in the cache [regression 12/11/2013]
+
+    New features:
+
+--------------------------------------------------------------------------------
+
 [Commit: 18/11/2013] + ffDiaporama 2.0 BETA 3
     Bug fixes:
         -Fix bug in creating new project thumbnail model if project is empty [regression 15/11/2013]

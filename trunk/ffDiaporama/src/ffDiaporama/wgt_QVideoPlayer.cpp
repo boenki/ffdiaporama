@@ -31,31 +31,25 @@
 // Base object for Movie frame
 //*********************************************************************************************************************************************
 QMovieLabel::QMovieLabel(QWidget *parent):QLabel(parent) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QMovieLabel::QMovieLabel");
 }
 
 QMovieLabel::~QMovieLabel() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QMovieLabel::~QMovieLabel");
 }
 
 void QMovieLabel::mouseDoubleClickEvent(QMouseEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QMovieLabel::mouseDoubleClickEvent");
     emit DoubleClick();
 }
 
 void QMovieLabel::mouseReleaseEvent(QMouseEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QMovieLabel::mousePressEvent");
     if (event->button()==Qt::RightButton) emit RightClickEvent(event);  else QLabel::mouseReleaseEvent(event);
 }
 
 void QMovieLabel::SetImage(QImage Image) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QMovieLabel::SetImage");
     CurrentImage=Image;
     repaint();
 }
 
 void QMovieLabel::SetImage(QImage *Image) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QMovieLabel::SetImage");
     CurrentImage=Image->copy();
     repaint();
 }
@@ -73,13 +67,11 @@ void QMovieLabel::paintEvent(QPaintEvent * /*event*/) {
 //*********************************************************************************************************************************************
 
 cImageList::cImageList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cImageList::cImageList");
 }
 
 //====================================================================================================================
 
 cImageList::~cImageList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cImageList::~cImageList");
     ClearList();
 }
 
@@ -87,7 +79,6 @@ cImageList::~cImageList() {
 // Clear the list (make av_free of each packet)
 //====================================================================================================================
 void cImageList::ClearList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cImageList::ClearList");
     while (List.count()>0) {
         cDiaporamaObjectInfo *Frame=DetachFirstImage();
         if (Frame) delete(Frame);
@@ -98,7 +89,6 @@ void cImageList::ClearList() {
 // Detach the first image of the list (do not make delete)
 //====================================================================================================================
 cDiaporamaObjectInfo *cImageList::DetachFirstImage() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cImageList::DetachFirstImage");
     if (List.count()>0) return (cDiaporamaObjectInfo *)List.takeFirst(); else return NULL;
 }
 
@@ -106,7 +96,6 @@ cDiaporamaObjectInfo *cImageList::DetachFirstImage() {
 // Retreve a link to the first frame in the list
 //====================================================================================================================
 cDiaporamaObjectInfo *cImageList::GetFirstImage() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cImageList::GetFirstImage");
     if (List.count()>0) return (cDiaporamaObjectInfo *)List[0]; else return NULL;
 }
 
@@ -114,7 +103,6 @@ cDiaporamaObjectInfo *cImageList::GetFirstImage() {
 // Retreve a link to the last frame in the list
 //====================================================================================================================
 cDiaporamaObjectInfo *cImageList::GetLastImage() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cImageList::GetLastImage");
     if (List.count()>0) return (cDiaporamaObjectInfo *)List[List.count()-1]; else return NULL;
 }
 
@@ -122,14 +110,12 @@ cDiaporamaObjectInfo *cImageList::GetLastImage() {
 // Append a packet to the end of the list
 //====================================================================================================================
 void cImageList::AppendImage(cDiaporamaObjectInfo *Frame) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cImageList::AppendImage");
     List.append(Frame);
 }
 
 //====================================================================================================================
 
 wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui::wgt_QVideoPlayer) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::wgt_QVideoPlayer");
     ui->setupUi(this);
     FLAGSTOPITEMSELECTION   = NULL;
     FileInfo                = NULL;
@@ -182,7 +168,6 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
 //============================================================================================
 
 wgt_QVideoPlayer::~wgt_QVideoPlayer() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::~wgt_QVideoPlayer");
     SetPlayerToPause();         // Ensure player is correctly stoped
     delete ui;
 }
@@ -190,14 +175,12 @@ wgt_QVideoPlayer::~wgt_QVideoPlayer() {
 //============================================================================================
 
 void wgt_QVideoPlayer::closeEvent(QCloseEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::closeEvent");
     SetPlayerToPause();
 }
 
 //====================================================================================================================
 
 void wgt_QVideoPlayer::showEvent(QShowEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::showEvent");
     if ((!IsInit)&&(Diaporama==NULL)) {
         SetPlayerToPlay();
         IsInit=true;
@@ -207,21 +190,18 @@ void wgt_QVideoPlayer::showEvent(QShowEvent *) {
 //============================================================================================
 
 void wgt_QVideoPlayer::s_SaveImage() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::s_SaveImage");
     emit SaveImageEvent();
 }
 
 //============================================================================================
 
 void wgt_QVideoPlayer::s_DoubleClick() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::s_DoubleClick");
     emit DoubleClick();
 }
 
 //============================================================================================
 
 void wgt_QVideoPlayer::s_RightClickEvent(QMouseEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::s_RightClickEvent");
     emit RightClickEvent(event);
 }
 
@@ -234,13 +214,10 @@ int wgt_QVideoPlayer::GetButtonBarHeight() {
 //============================================================================================
 
 void wgt_QVideoPlayer::resizeEvent(QResizeEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::resizeEvent");
     Resize();
 }
 
 void wgt_QVideoPlayer::Resize() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::Resize");
-
     if ((FileInfo==NULL)&&(Diaporama==NULL)) return;
     SetPlayerToPause();
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -283,16 +260,12 @@ void wgt_QVideoPlayer::Resize() {
 //============================================================================================
 
 void wgt_QVideoPlayer::SetBackgroundColor(QColor Background) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::SetBackgroundColor");
-
     QString Sheet=QString("background-color: rgb(%1,%2,%3);").arg(Background.red(),10).arg(Background.green(),10).arg(Background.blue(),10);
 }
 
 //============================================================================================
 
 void wgt_QVideoPlayer::EnableWidget(bool State) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::EnableWidget");
-
     if (ui->CustomRuller!=NULL) ui->CustomRuller->setEnabled(State);
 }
 
@@ -301,8 +274,6 @@ void wgt_QVideoPlayer::EnableWidget(bool State) {
 //============================================================================================
 
 bool wgt_QVideoPlayer::InitDiaporamaPlay(cDiaporama *Diaporama) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::InitDiaporamaPlay");
-
     if (Diaporama==NULL) return false;
     ApplicationConfig   =Diaporama->ApplicationConfig;
     this->Diaporama     =Diaporama;
@@ -323,8 +294,6 @@ bool wgt_QVideoPlayer::InitDiaporamaPlay(cDiaporama *Diaporama) {
 //============================================================================================
 
 bool wgt_QVideoPlayer::StartPlay(cVideoFile *theFileInfo,double theWantedFPS) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::StartPlay");
-
     if (theFileInfo==NULL) return false;
     FileInfo =theFileInfo;
     WantedFPS=theWantedFPS;
@@ -346,7 +315,6 @@ bool wgt_QVideoPlayer::StartPlay(cVideoFile *theFileInfo,double theWantedFPS) {
 //============================================================================================
 
 void wgt_QVideoPlayer::SetPlayerToPlay() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::SetPlayerToPlay");
     if (!(PlayerPlayMode && PlayerPauseMode)) return;
     PlayerPlayMode  = true;
     PlayerPauseMode = false;
@@ -365,7 +333,6 @@ void wgt_QVideoPlayer::SetPlayerToPlay() {
 //============================================================================================
 
 void wgt_QVideoPlayer::SetPlayerToPause() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::SetPlayerToPause");
     if (!(PlayerPlayMode && !PlayerPauseMode)) return;
     Timer.stop();                                   // Stop Timer
     if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
@@ -389,7 +356,6 @@ void wgt_QVideoPlayer::SetPlayerToPause() {
 //============================================================================================
 
 void wgt_QVideoPlayer::s_VideoPlayerPlayPauseBT() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::s_VideoPlayerPlayPauseBT");
     if ((!PlayerPlayMode)||((PlayerPlayMode && PlayerPauseMode)))    SetPlayerToPlay();      // Stop/Pause -> play
         else if (PlayerPlayMode && !PlayerPauseMode)                 SetPlayerToPause();     // Pause -> play
 }
@@ -399,7 +365,6 @@ void wgt_QVideoPlayer::s_VideoPlayerPlayPauseBT() {
 //============================================================================================
 
 void wgt_QVideoPlayer::s_SliderPressed() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::s_SliderPressed");
     PreviousPause    = PlayerPauseMode;    // Save pause state
     IsSliderProcess  = true;
     SetPlayerToPause();
@@ -410,7 +375,6 @@ void wgt_QVideoPlayer::s_SliderPressed() {
 //============================================================================================
 
 void wgt_QVideoPlayer::s_SliderReleased() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::s_SliderReleased");
     IsSliderProcess  = false;
     s_SliderMoved(ActualPosition);
     // Restore saved pause state
@@ -424,7 +388,6 @@ void wgt_QVideoPlayer::s_SliderReleased() {
 //============================================================================================
 
 void wgt_QVideoPlayer::s_SliderMoved(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::s_SliderMoved");
     if (((MainWindow *)ApplicationConfig->TopLevelWindow)->InPlayerUpdate) return;
     ((MainWindow *)ApplicationConfig->TopLevelWindow)->InPlayerUpdate=true;
 
@@ -518,7 +481,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             ui->MovieFrame->SetImage(Frame->RenderedImage.scaledToHeight(ui->MovieFrame->height()));
 
             // If needed, set Diaporama to another object
-            if (Diaporama->CurrentCol!=Frame->CurrentObject_Number) {
+            if ((Diaporama->CurrentCol!=Frame->CurrentObject_Number)&&((!Frame->IsTransition)||(Diaporama->CurrentCol!=Frame->TransitObject_Number))) {
                 if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=true;    // Ensure mainwindow no modify player widget position
                 Diaporama->CurrentCol=Frame->CurrentObject_Number;
                 ((MainWindow *)ApplicationConfig->TopLevelWindow)->SetTimelineCurrentCell(Frame->CurrentObject_Number);
@@ -550,8 +513,6 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 //============================================================================================
 
 void wgt_QVideoPlayer::s_TimerEvent() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::s_TimerEvent");
-
     if (IsSliderProcess)                            return;     // No re-entrance
     if (!(PlayerPlayMode && !PlayerPauseMode))      return;     // Only if play mode
 
@@ -721,8 +682,6 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 //============================================================================================
 
 void wgt_QVideoPlayer::PrepareImage(bool SoundWanted,bool AddStartPos,cDiaporamaObjectInfo *Frame,int W,int H) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::PrepareImage");
-
     Diaporama->LoadSources(Frame,W,H,true,AddStartPos,PreparedTransitBrushList,PreparedBrushList);
 
     // Do Assembly
@@ -745,7 +704,6 @@ void wgt_QVideoPlayer::StartThreadAssembly(double PCT,cDiaporamaObjectInfo *Fram
 }
 
 void wgt_QVideoPlayer::PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::PrepareVideoFrame");
     QImage *Temp=FileInfo->ImageAt(true,Position,&Music,Deinterlace,1,false,true);
     if (Temp) {
         NewFrame->RenderedImage=QImage(Temp->scaledToHeight(ui->MovieFrame->height()));
@@ -760,7 +718,6 @@ void wgt_QVideoPlayer::PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Posi
 //============================================================================================
 
 void wgt_QVideoPlayer::SetStartEndPos(int StartPos,int Duration,int PreviousStartPos,int PrevisousDuration,int NextStartPos,int NextDuration) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::SetStartEndPos");
     ui->CustomRuller->StartPos          =StartPos;
     ui->CustomRuller->EndPos            =StartPos+Duration;
     ui->CustomRuller->PreviousStartPos  =PreviousStartPos;
@@ -775,7 +732,6 @@ void wgt_QVideoPlayer::SetStartEndPos(int StartPos,int Duration,int PreviousStar
 //============================================================================================
 
 void wgt_QVideoPlayer::SeekPlayer(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::SeekPlayer");
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ActualPosition=-1;
     s_SliderMoved(Value);
@@ -787,7 +743,6 @@ void wgt_QVideoPlayer::SeekPlayer(int Value) {
 //============================================================================================
 
 QTime wgt_QVideoPlayer::GetCurrentPos() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::GetCurrentPos");
     if (ActualPosition!=-1) {
         int     TimeMSec    =ActualPosition-(ActualPosition/1000)*1000;
         int     TimeSec     =int(ActualPosition/1000);
@@ -804,7 +759,6 @@ QTime wgt_QVideoPlayer::GetCurrentPos() {
 //============================================================================================
 
 QTime wgt_QVideoPlayer::GetActualDuration() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::GetActualDuration");
     return tDuration;
 }
 
@@ -813,7 +767,6 @@ QTime wgt_QVideoPlayer::GetActualDuration() {
 //============================================================================================
 
 void wgt_QVideoPlayer::SetActualDuration(int Duration) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::SetActualDuration");
     if (ui->CustomRuller!=NULL) {
         ui->CustomRuller->setMaximum(Duration-1);
         //ui->CustomRuller->repaint();
@@ -832,6 +785,5 @@ void wgt_QVideoPlayer::SetActualDuration(int Duration) {
 //============================================================================================
 
 void wgt_QVideoPlayer::s_PositionChangeByUser() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::s_PositionChangeByUser");
     ResetPositionWanted=true;
 }

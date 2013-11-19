@@ -2103,6 +2103,7 @@ void MainWindow::DoAddFile() {
 
         // Chapter adjustement
         if (NewFile.contains("#CHAP_")) {
+            CurIndex++;
             ChapterNum=NewFile.mid(NewFile.indexOf("#CHAP_")+QString("#CHAP_").length()).toInt();
             NewFile   =NewFile.left(NewFile.indexOf("#CHAP_"));
         }

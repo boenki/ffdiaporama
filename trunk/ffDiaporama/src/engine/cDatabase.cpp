@@ -21,7 +21,7 @@
 #include "cDatabase.h"
 #include "cBaseApplicationConfig.h"
 
-#define DATABASEVERSION 2       // Current database version
+#define DATABASEVERSION 3       // Current database version
 
 void DisplayLastSQLError(QSqlQuery *Query) {
     ToLog(LOGMSG_CRITICAL,Query->lastQuery());
@@ -752,7 +752,10 @@ bool cFilesTable::GetThumbs(qlonglong FileKey,QImage *Icon16,QImage *Icon100) {
 bool cFilesTable::DoUpgradeTableVersion(qlonglong OldVersion) {
     QSqlQuery Query(Database->db);
     bool Ret=true;
-    if (OldVersion==1) Ret=Query.exec("DROP TABLE MediaFiles");
+
+    if          (OldVersion==1) Ret=Query.exec("DROP TABLE MediaFiles");
+        else if (OldVersion==2) Ret=Query.exec("DELETE FROM MediaFiles WHERE MediaFileType=3");
+
     if (!Ret) {
         if (Query.lastError().number()==1) Ret=true;    // If table not existed then ignore error
             else DisplayLastSQLError(&Query);

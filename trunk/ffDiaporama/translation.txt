@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 2.0 - Trunk
 *
-* Translation state on 03/11/2013
+* Translation state on 19/11/2013
 **************************************************
 
 Local     Interface       /   WIKI
@@ -11,7 +11,7 @@ FR        100% - 1697     /   100% - 2249   Finished
 RU         99% - 1685     /    99% - 2234   Finished
 PT         99% - 1685     /    99% - 2234   Finished
 IT         99% - 1685     /    99% - 2234   Finished
-ES         99% - 1685     /    99% - 2234   Finished
+ES        100% - 1697     /   100% - 2249   Finished
 DE         99% - 1685     /    99% - 2234   Finished
 EL         99% - 1685     /    31% -  685   Waiting for Dimitrios
 

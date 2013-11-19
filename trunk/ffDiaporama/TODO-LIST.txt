@@ -46,14 +46,6 @@ Basse       -       Déplacer la sauvegarde des favorites du browser dans la bas
 Basse       -       Améliorer le process de mise à jours du cache des répertoires (tout faire dans 1 seule boucle)
 
 
-
-Urgent :
---------
-    prendre en compte le passage en ffmpeg 2.1.x pour Suse
-    test sous win/8 à faire pour Gerold
-    test.mov sestay à faire
-    test pause norbert à faire
-
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité
 NF  : New Feature

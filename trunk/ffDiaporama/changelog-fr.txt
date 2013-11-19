@@ -4,6 +4,19 @@
 * (Version Française)
 **************************************************
 
+[Commit: 19/11/2013]
+    Correction de bug :
+        -Enleve les crachotis sonore lue à la fin de certaines vidéos
+        -Corrige le bug d'inversion des chapitres lors de l'insertion de vidéo comprenant des chapitre et choix de créer une diapositive par chapitre [regression 12/11/2013]
+        -Corrige le bug d'affichage qui empêche parfois les titre/auteur de la musique d'apparaitre sur le slide qui les définie sur la timeline [regression 16/11/2013]
+        -Corrige le bug de sélection impossible d'un slide si sa durée est égale au durée des transition entrante et sortante [regression 18/11/2013]
+        -Corrige la lecture et l'affichage des propriétés des fichiers .ffd dans l'explorateur de fichiers multimédia et dans la boite d'information sur les fichiers [regression 12/11/2013]
+        -Corrige le bug de non lecture des données d'images (EXIF) lors d'ouverture de projet dont les images ne sont pas déjà dans le cache [regression 12/11/2013]
+
+    Nouveautés :
+
+--------------------------------------------------------------------------------
+
 [Commit: 18/11/2013] + ffDiaporama 2.0 BETA 3
     Correction de bug :
         -Corrige un crash lors de la création d'un nouveau modele de vignette si le projet est vide [regression 15/11/2013]

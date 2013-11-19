@@ -90,8 +90,6 @@ void AutoFramingDefInit() {
 //*********************************************************************************************************************************************
 
 QBrush *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QString ColorD,QString ColorF,QString ColorIntermed,double Intermediate) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:GetGradientBrush");
-
     QGradient Gradient;
     switch (GradientOrientation) {
         case GRADIENTORIENTATION_UPLEFT:        Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()),QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()));                                                                                             break;          // Up-Left
@@ -115,8 +113,6 @@ QBrush *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QStri
 //*********************************************************************************************************************************************
 
 cBackgroundObject::cBackgroundObject(QString FileName,cBaseApplicationConfig *AppConfig) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundObject::cBackgroundObject");
-
     ApplicationConfig   =AppConfig;
     qlonglong FolderKey =ApplicationConfig->FoldersTable->GetFolderKey(QFileInfo(FileName).absolutePath());
     IsValide            =false;
@@ -176,14 +172,11 @@ QImage cBackgroundObject::GetBackgroundThumb(int Geometry) {
 // Global class containing background library
 //*********************************************************************************************************************************************
 cBackgroundList::cBackgroundList() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundList::cBackgroundList");
 }
 
 //====================================================================================================================
 
 void cBackgroundList::ScanDisk(QString Path,cBaseApplicationConfig *ApplicationConfig) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundList::ScanDisk");
-
     QDir                Folder(Path);
     QFileInfoList       Files=Folder.entryInfoList();;
 
@@ -199,8 +192,6 @@ void cBackgroundList::ScanDisk(QString Path,cBaseApplicationConfig *ApplicationC
 //====================================================================================================================
 
 int cBackgroundList::SearchImage(QString NameToFind) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundList::SearchImage");
-
     int Ret=-1;
     int j=0;
     while ((j<List.count())&&(Ret==-1)) if (List[j].Name==NameToFind) Ret=j; else j++;
@@ -213,8 +204,6 @@ int cBackgroundList::SearchImage(QString NameToFind) {
 //*********************************************************************************************************************************************
 
 cBrushDefinition::cBrushDefinition(cBaseApplicationConfig *TheApplicationConfig,cBackgroundList *TheBackgroundList) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::cBrushDefinition");
-
     TypeComposition         =COMPOSITIONTYPE_BACKGROUND;
     BrushImage              ="";                            // Image name if image from library
     Image                   =NULL;
@@ -266,8 +255,6 @@ void cBrushDefinition::InitDefaultValues() {
 //====================================================================================================================
 
 cBrushDefinition::~cBrushDefinition() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::~cBrushDefinition");
-
     if (Image) {
         if (TypeComposition!=COMPOSITIONTYPE_SHOT) delete Image;
         Image=NULL;
@@ -281,8 +268,6 @@ cBrushDefinition::~cBrushDefinition() {
 //====================================================================================================================
 
 QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetBrush");
-
     QBrush  *Br=NULL;
     QImage  Img;
 
@@ -365,8 +350,6 @@ QImage cBrushDefinition::ApplyFilters(QImage NewRenderImage,double TheBrightness
 //====================================================================================================================
 
 QImage cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetImageDiskBrush");
-
     // If not an image or a video or filename is empty then return
     if ((Image?Image->FileName():Video?Video->FileName():"")=="") {
         QImage Ret(Rect.width(),Rect.height(),QImage::Format_ARGB32_Premultiplied);
@@ -530,8 +513,6 @@ QImage cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t 
 //====================================================================================================================
 // Note:This function is use only by cBrushDefinition !
 QImage cBrushDefinition::ApplyFilter(QImage Image) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::ApplyFilter");
-
     if (Image.isNull()) return Image;
     if (Brightness!=0)                                          FltBrightness(Image,Brightness);
     if ((Contrast!=0)&&((OnOffFilter & FilterNormalize)==0))    FltContrast(Image,Contrast);
@@ -560,8 +541,6 @@ QImage cBrushDefinition::ApplyFilter(QImage Image) {
 //====================================================================================================================
 
 QBrush *cBrushDefinition::GetLibraryBrush(QRectF Rect) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetLibraryBrush");
-
     if (!BackgroundList) return NULL;
     int BackgroundImageNumber=BackgroundList->SearchImage(BrushImage);
     if ((BackgroundImageNumber>=0)&&(BackgroundImageNumber<BackgroundList->List.count())) {
@@ -584,8 +563,6 @@ QBrush *cBrushDefinition::GetLibraryBrush(QRectF Rect) {
 //====================================================================================================================
 // Return height for width depending on Rect geometry
 int cBrushDefinition::GetHeightForWidth(int WantedWith,QRectF Rect) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetHeightForWidth");
-
     double   Ratio=Rect.width()/Rect.height();
     return int(double(double(WantedWith)/Ratio));
 }
@@ -593,8 +570,6 @@ int cBrushDefinition::GetHeightForWidth(int WantedWith,QRectF Rect) {
 //====================================================================================================================
 // Return width for height depending on Rect geometry
 int cBrushDefinition::GetWidthForHeight(int WantedHeight,QRectF Rect) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetWidthForHeight");
-
     double   Ratio=Rect.height()/Rect.width();
     return int(double(double(WantedHeight)/Ratio));
 }
@@ -603,8 +578,6 @@ int cBrushDefinition::GetWidthForHeight(int WantedHeight,QRectF Rect) {
 // create a COMPOSITIONTYPE_SHOT brush as a copy of a given brush
 
 void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::CopyFromBrushDefinition");
-
     TypeComposition         =COMPOSITIONTYPE_SHOT;
     BrushType               =BrushToCopy->BrushType;
     PatternType             =BrushToCopy->PatternType;
@@ -647,8 +620,6 @@ void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
 //====================================================================================================================
 
 void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::SaveToXML");
-
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     QString         BrushFileName=(Image?Image->FileName():Video?Video->FileName():"");
@@ -750,8 +721,6 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 //====================================================================================================================
 
 bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::LoadFromXML");
-
     InitDefaultValues();
 
     if (ModifyFlag) *ModifyFlag=false;
@@ -797,7 +766,7 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                     for (int i=0;i<ApplicationConfig->AllowImageExtension.count();i++) if (ApplicationConfig->AllowImageExtension[i]==Extension) {
                         Image=new cImageFile(ApplicationConfig);
                         Image->ImageOrientation=Element.attribute("ImageOrientation").toInt();
-                        IsValide=Image->GetInformationFromFile(BrushFileName,AliasList,ModifyFlag,-1);
+                        IsValide=Image->GetInformationFromFile(BrushFileName,AliasList,ModifyFlag,-1) && Image->GetFullInformationFromFile();
                         if (!IsValide) {
                             delete Image;
                             Image=NULL;
@@ -891,7 +860,6 @@ int cBrushDefinition::GetImageType() {
 //====================================================================================================================
 
 void cBrushDefinition::ApplyMaskToImageToWorkspace(QImage *SrcImage,QRectF CurSelRect,int BackgroundForm,int AutoFramingStyle) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::ApplyMaskToImageToWorkspace");
     // Create shape mask
     int RowHeight=SrcImage->width();
     QImage Image(RowHeight,RowHeight,QImage::Format_ARGB32_Premultiplied);
@@ -987,7 +955,6 @@ int cBrushDefinition::GetCurrentFramingStyle(qreal ProjectGeometry) {
 //====================================================================================================================
 
 QImage *cBrushDefinition::ImageToWorkspace(QImage *SrcImage,int WantedSize,qreal &maxw,qreal &maxh,qreal &minw,qreal &minh,qreal &x1,qreal &x2,qreal &x3,qreal &x4,qreal &y1,qreal &y2,qreal &y3,qreal &y4) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::ImageToWorkspace");
     QImage  *RetImage   =NULL;
     QImage  *SourceImage=NULL;
     qreal   Hyp         =sqrt(qreal(SrcImage->width())*qreal(SrcImage->width())+qreal(SrcImage->height())*qreal(SrcImage->height()));   // Calc hypothenuse of the image to define full canvas
@@ -1061,8 +1028,6 @@ QImage *cBrushDefinition::ImageToWorkspace(QImage *SrcImage,int WantedSize,qreal
 //====================================================================================================================
 
 bool cBrushDefinition::CalcWorkspace(qreal &dmax,qreal &maxw,qreal &maxh,qreal &minw,qreal &minh,qreal &x1,qreal &x2,qreal &x3,qreal &x4,qreal &y1,qreal &y2,qreal &y3,qreal &y4) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::CalcWorkspace");
-
     int     ImgWidth =Image?Image->ImageWidth:Video?Video->ImageWidth:0;
     int     ImgHeight=Image?Image->ImageHeight:Video?Video->ImageHeight:0;
 
@@ -1123,8 +1088,6 @@ void cBrushDefinition::ApplyAutoFraming(int AutoAdjust,qreal ProjectGeometry) {
 }
 
 void cBrushDefinition::s_AdjustWTop(qreal ProjectGeometry) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustWTop");
-
     qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
     if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
 
@@ -1138,8 +1101,6 @@ void cBrushDefinition::s_AdjustWTop(qreal ProjectGeometry) {
 }
 
 void cBrushDefinition::s_AdjustMinWTop(qreal ProjectGeometry) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustMinWTop");
-
     qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
     if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
 
@@ -1153,8 +1114,6 @@ void cBrushDefinition::s_AdjustMinWTop(qreal ProjectGeometry) {
 }
 
 void cBrushDefinition::s_AdjustWMidle(qreal ProjectGeometry) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustWMidle");
-
     qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
     if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
 
@@ -1168,8 +1127,6 @@ void cBrushDefinition::s_AdjustWMidle(qreal ProjectGeometry) {
 }
 
 void cBrushDefinition::s_AdjustMinWMidle(qreal ProjectGeometry) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustMinWMidle");
-
     qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
     if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
 
@@ -1183,8 +1140,6 @@ void cBrushDefinition::s_AdjustMinWMidle(qreal ProjectGeometry) {
 }
 
 void cBrushDefinition::s_AdjustWBottom(qreal ProjectGeometry) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustWBottom");
-
     qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
     if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
 
@@ -1198,8 +1153,6 @@ void cBrushDefinition::s_AdjustWBottom(qreal ProjectGeometry) {
 }
 
 void cBrushDefinition::s_AdjustMinWBottom(qreal ProjectGeometry) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustMinWBottom");
-
     qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
     if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
 
@@ -1215,8 +1168,6 @@ void cBrushDefinition::s_AdjustMinWBottom(qreal ProjectGeometry) {
 //====================================================================================================================
 
 void cBrushDefinition::s_AdjustHLeft(qreal ProjectGeometry) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustHLeft");
-
     qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
     if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
 
@@ -1230,8 +1181,6 @@ void cBrushDefinition::s_AdjustHLeft(qreal ProjectGeometry) {
 }
 
 void cBrushDefinition::s_AdjustMinHLeft(qreal ProjectGeometry) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustMinHLeft");
-
     qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
     if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
 
@@ -1245,8 +1194,6 @@ void cBrushDefinition::s_AdjustMinHLeft(qreal ProjectGeometry) {
 }
 
 void cBrushDefinition::s_AdjustHMidle(qreal ProjectGeometry) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustHMidle");
-
     qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
     if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
 
@@ -1260,8 +1207,6 @@ void cBrushDefinition::s_AdjustHMidle(qreal ProjectGeometry) {
 }
 
 void cBrushDefinition::s_AdjustMinHMidle(qreal ProjectGeometry) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustMinHMidle");
-
     qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
     if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
 
@@ -1275,8 +1220,6 @@ void cBrushDefinition::s_AdjustMinHMidle(qreal ProjectGeometry) {
 }
 
 void cBrushDefinition::s_AdjustHRight(qreal ProjectGeometry) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustHRight");
-
     qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
     if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
 
@@ -1290,8 +1233,6 @@ void cBrushDefinition::s_AdjustHRight(qreal ProjectGeometry) {
 }
 
 void cBrushDefinition::s_AdjustMinHRight(qreal ProjectGeometry) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustMinHRight");
-
     qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
     if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
 
@@ -1307,8 +1248,6 @@ void cBrushDefinition::s_AdjustMinHRight(qreal ProjectGeometry) {
 //====================================================================================================================
 
 void cBrushDefinition::s_AdjustWH() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustWH");
-
     qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
     if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
 
@@ -1322,8 +1261,6 @@ void cBrushDefinition::s_AdjustWH() {
 }
 
 void cBrushDefinition::s_AdjustMinWH() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustMinWH");
-
     qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
     if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
 
