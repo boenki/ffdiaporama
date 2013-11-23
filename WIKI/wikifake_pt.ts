@@ -1588,7 +1588,7 @@
     </message>
     <message>
         <source>Note: Each selected file is added to the project using sort order specified in the configuration menu of the multimedia file explorer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: Cada arquivo seleccionado é adicionado ao projecto usando ordem de classificação especificada no menu de configuração do gestor de arquivos multimédia.</translation>
     </message>
 </context>
 <context>
@@ -2222,39 +2222,39 @@
     </message>
     <message>
         <source>Sort by number</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordenar por número</translation>
     </message>
     <message>
         <source>This option sorts the files in order of their numerical suffix : Example: if you select IMG_0025, IMG_0032, MVI_0029 and MVI_0040, the files will be inserted as follows : IMG_0025, MVI_0029, IMG_0032 and MVI_0040</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta opção ordena os arquivos por ordem de seu sufixo numérico: Exemplo: se você selecionar IMG_0025, IMG_0032, MVI_0029 e MVI_0040, os arquivos serão inseridos os seguintes: IMG_0025, MVI_0029, IMG_0032 e MVI_0040</translation>
     </message>
     <message>
         <source>Sort by name</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordenar por nome</translation>
     </message>
     <message>
         <source>This option sorts the files in alphabetical order</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta opção ordena os arquivos por ordem alfabética</translation>
     </message>
     <message>
         <source>Sort by date</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordenar por data</translation>
     </message>
     <message>
         <source>This option sorts the files in order of last modification date</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta opção ordena os arquivos por ordem da data da última modificação</translation>
     </message>
     <message>
         <source>Show folder first</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar pasta primeiro</translation>
     </message>
     <message>
         <source>If this option is enabled, the directories will be displayed first</source>
-        <translation type="unfinished"></translation>
+        <translation>Se esta opção estiver activada, os diretórios serão exibidos em  primeiro lugar</translation>
     </message>
     <message>
         <source>Settings of the sort order</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurações da ordem de classificação</translation>
     </message>
 </context>
 <context>
@@ -4040,23 +4040,23 @@
     </message>
     <message>
         <source>In order to work, the application needs two configuration files and one database. The two configuration files consists of a pair of files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para funcionar, o aplicativo precisa de dois arquivos de configuração e de um banco de dados. Os dois arquivos de configuração consistem de um par de arquivos.</translation>
     </message>
     <message>
         <source> When the application is launched for the first time, the user configuration files and the database are created if they dont already exist. </source>
-        <translation type="unfinished"></translation>
+        <translation>Quando o aplicativo é iniciado pela primeira vez, os arquivos configuração do utilizador e o banco de dados são criados, se eles já não existirem.</translation>
     </message>
     <message>
         <source>If ffDiaporama is used by several users on the same PC, there will be separate configuration files and database for each user.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se ffDiaporama é usado por vários utilizadores no mesmo PC, haverá arquivos de configuração separados e banco de dados do para cada um.</translation>
     </message>
     <message>
         <source>ffDiaporama.db</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama.db</translation>
     </message>
     <message>
         <source>Is a SQLite3 database containing cached objects and some configuration options.</source>
-        <translation type="unfinished"></translation>
+        <translation>É um banco de dados SQLite3 contendo objetos armazenados na cache (memória) e algumas opções de configuração.</translation>
     </message>
 </context>
 <context>

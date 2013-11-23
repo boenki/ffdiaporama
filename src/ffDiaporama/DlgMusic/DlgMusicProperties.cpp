@@ -231,9 +231,7 @@ void DlgMusicProperties::RefreshControl(bool RefreshList) {
 void DlgMusicProperties::s_AddMusic() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::s_AddMusic");
     QStringList FileList;
-    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MUSICFILE,OBJECTTYPE_MUSICFILE,
-                        true,false,LASTFOLDER_MusicPath,DefaultMusicPath,
-                        QApplication::translate("DlgMusicProperties","Add music files"),DiaporamaObject->Parent->ApplicationConfig,this);
+    DlgFileExplorer Dlg(BROWSER_TYPE_SOUNDONLY,true,false,QApplication::translate("DlgMusicProperties","Add music files"),DiaporamaObject->Parent->ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
 

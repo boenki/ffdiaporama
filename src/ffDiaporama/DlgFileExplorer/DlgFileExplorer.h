@@ -3,7 +3,10 @@
 
 // Basic inclusions (common to all files)
 #include "../../CustomCtrl/_QCustomDialog.h"
+
 #include "../../engine/cDriveList.h"
+#include "../../CustomCtrl/QCustomFolderTable.h"
+#include "../../CustomCtrl/QCustomFolderTree.h"
 #include "../DlgWorkingTask/DlgWorkingTask.h"
 
 namespace Ui {
@@ -13,14 +16,12 @@ class DlgFileExplorer;
 class DlgFileExplorer : public QCustomDialog {
 Q_OBJECT
 public:
-    QString                 CurrentPath,DefaultPath;
     QString                 BoxTitle;
     DlgWorkingTask          *DlgWorkingTaskDialog;
     bool                    CancelAction;
     int                     CurrentDriveCheck;
 
-    explicit                DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowMultipleSelection,bool AllowDragDrop,QString LASTFOLDERString,QString DefaultPath,
-                                            QString BoxTitle,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
+    explicit                DlgFileExplorer(BROWSER_TYPE_ID BrowserType,bool AllowMultipleSelection,bool AllowDragDrop,QString BoxTitle,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
     virtual                 ~DlgFileExplorer();
     
     // function to be overloaded

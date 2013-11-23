@@ -42,6 +42,7 @@
 
 QCustomFolderTree::QCustomFolderTree(QWidget *parent):QTreeWidget(parent) {
     ApplicationConfig       =NULL;
+    FolderTable             =NULL;
     IsRemoveAllowed         =false;
     IsRenameAllowed         =false;
     IsCreateFolderAllowed   =false;
@@ -60,7 +61,7 @@ void QCustomFolderTree::InitDrives() {
             ||(HDD.Path=="/")
             ||(HDD.Label==PersonalFolder)
             ||(HDD.Label==QApplication::translate("QCustomFolderTree","Clipart"))
-            ||(HDD.Path.startsWith("/mnt/")&&ApplicationConfig->ShowMntDrive)
+            ||(HDD.Path.startsWith("/mnt/")&&FolderTable->ShowMntDrive)
         )
     #endif
             addTopLevelItem(CreateItem(HDD.Label,HDD.Path,QIcon(QPixmap().fromImage(HDD.IconDrive))));
@@ -157,8 +158,8 @@ bool QCustomFolderTree::IsFolderHaveChild(QString FilePath) {
         if (FilePath.startsWith(PersonalFolder)) FilePath=QDir::homePath()+FilePath.mid(PersonalFolder.length());
         FilePath=QDir::toNativeSeparators(FilePath);
     #endif
-    QFileInfoList List=QDir(FilePath).entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot|(ApplicationConfig->ShowHiddenFilesAndDir?QDir::Hidden:QDir::Dirs));
-    int i=0; while (i<List.count()) if ((ApplicationConfig->ShowHiddenFilesAndDir)||(!List[i].fileName().startsWith("."))) i++; else List.removeAt(i);
+    QFileInfoList List=QDir(FilePath).entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot|(FolderTable->ShowHiddenFilesAndDir?QDir::Hidden:QDir::Dirs));
+    int i=0; while (i<List.count()) if ((FolderTable->ShowHiddenFilesAndDir)||(!List[i].fileName().startsWith("."))) i++; else List.removeAt(i);
     return List.count()>0;
 }
 
@@ -274,8 +275,8 @@ void QCustomFolderTree::s_itemExpanded(QTreeWidgetItem *item) {
             if (IsPersonalFolder) Folder=QDir::homePath()+Folder.mid(PersonalFolder.length());
             Folder=QDir::toNativeSeparators(Folder);
         #endif
-        Directorys=QDir(Folder).entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot|(ApplicationConfig->ShowHiddenFilesAndDir?QDir::Hidden:QDir::Dirs));
-        i=0; while (i<Directorys.count()) if ((ApplicationConfig->ShowHiddenFilesAndDir)||(!Directorys[i].fileName().startsWith("."))) i++; else Directorys.removeAt(i);
+        Directorys=QDir(Folder).entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot|(FolderTable->ShowHiddenFilesAndDir?QDir::Hidden:QDir::Dirs));
+        i=0; while (i<Directorys.count()) if ((FolderTable->ShowHiddenFilesAndDir)||(!Directorys[i].fileName().startsWith("."))) i++; else Directorys.removeAt(i);
         for (k=0;k<Directorys.count();k++)
             if (Directorys[k].isDir()) {
                 #ifdef Q_OS_WIN
@@ -412,8 +413,8 @@ void QCustomFolderTree::SetSelectItemByPath(QString Path) {
                 if (RealPath.startsWith(PersonalFolder)) RealPath=QDir::homePath()+RealPath.mid(PersonalFolder.length());
                 RealPath=QDir::toNativeSeparators(RealPath);
                 #endif
-                Directorys=QDir(RealPath).entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot|(ApplicationConfig->ShowHiddenFilesAndDir?QDir::Hidden:QDir::Dirs));
-                int z=0; while (z<Directorys.count()) if ((ApplicationConfig->ShowHiddenFilesAndDir)||(!Directorys[z].fileName().startsWith("."))) z++; else Directorys.removeAt(z);
+                Directorys=QDir(RealPath).entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot|(FolderTable->ShowHiddenFilesAndDir?QDir::Hidden:QDir::Dirs));
+                int z=0; while (z<Directorys.count()) if ((FolderTable->ShowHiddenFilesAndDir)||(!Directorys[z].fileName().startsWith("."))) z++; else Directorys.removeAt(z);
                 for (k=0;k<Directorys.count();k++) Current->addChild(CreateItem(Directorys[k].fileName(),Directorys[k].absoluteFilePath(),ApplicationConfig->DriveList->GetFolderIcon(Directorys[k].absoluteFilePath())));
             }
             Current->setExpanded(true);
@@ -547,8 +548,8 @@ void QCustomFolderTree::RefreshItemByPath(QString Path,bool RefreshAll,int Level
         for (i=0;i<Current->childCount();i++) CurrentList.append(cTreeItemDescriptor(Current->child(i)));
 
         // Construct a second list for real folders
-        QFileInfoList   Directorys=QDir(RealPath).entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot|(ApplicationConfig->ShowHiddenFilesAndDir?QDir::Hidden:QDir::Dirs));
-        int z=0; while (z<Directorys.count()) if ((ApplicationConfig->ShowHiddenFilesAndDir)||(!Directorys[z].fileName().startsWith("."))) z++; else Directorys.removeAt(z);
+        QFileInfoList   Directorys=QDir(RealPath).entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot|(FolderTable->ShowHiddenFilesAndDir?QDir::Hidden:QDir::Dirs));
+        int z=0; while (z<Directorys.count()) if ((FolderTable->ShowHiddenFilesAndDir)||(!Directorys[z].fileName().startsWith("."))) z++; else Directorys.removeAt(z);
 
         QStringList     FolderToAdd;
         bool            isFound;
@@ -642,7 +643,7 @@ void QCustomFolderTree::RefreshDriveList() {
                 if ((j<topLevelItemCount())&&(topLevelItem(j)->text(0)==ApplicationConfig->DriveList->List[i].Label)) {
                     // if drive is not a /mnt/ drive and if we not continu to display them, then delete it
                     if ((ApplicationConfig->DriveList->List[i].Path.startsWith("/mnt/"))&&
-                        (!ApplicationConfig->ShowMntDrive)&&
+                        (!FolderTable->ShowMntDrive)&&
                         (ApplicationConfig->DriveList->List[i].Label!=QApplication::translate("QCustomFolderTree","Clipart"))) {
                         QTreeWidgetItem *Item=takeTopLevelItem(j);
                         DeleteChildItem(Item);                      // Delete item in tree
@@ -650,7 +651,7 @@ void QCustomFolderTree::RefreshDriveList() {
                     }
                 } else {
                     // ShowMntDrive have changed, we have to create it
-                    if ((!ApplicationConfig->DriveList->List[i].Path.startsWith("/mnt/"))||(ApplicationConfig->ShowMntDrive))
+                    if ((!ApplicationConfig->DriveList->List[i].Path.startsWith("/mnt/"))||(FolderTable->ShowMntDrive))
                         addTopLevelItem(CreateItem(ApplicationConfig->DriveList->List[i].Label,ApplicationConfig->DriveList->List[i].Path,QIcon(QPixmap().fromImage(ApplicationConfig->DriveList->List[i].IconDrive))));
                 }
             #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
@@ -659,7 +660,7 @@ void QCustomFolderTree::RefreshDriveList() {
             i++;
         } else {
             // It's a new drive
-            if ((!ApplicationConfig->DriveList->List[i].Path.startsWith("/mnt/"))||(ApplicationConfig->ShowMntDrive))
+            if ((!ApplicationConfig->DriveList->List[i].Path.startsWith("/mnt/"))||(FolderTable->ShowMntDrive))
                 addTopLevelItem(CreateItem(ApplicationConfig->DriveList->List[i].Label,ApplicationConfig->DriveList->List[i].Path,QIcon(QPixmap().fromImage(ApplicationConfig->DriveList->List[i].IconDrive))));
             i++;
         }

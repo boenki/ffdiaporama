@@ -1,7 +1,7 @@
 **************************************************
-* FFDIAPORAMA 2.0 - Trunk
+* FFDIAPORAMA 2.0 - Final
 *
-* readme.txt on 15/11/2013
+* readme.txt on 23/11/2013
 **************************************************
 
 ffDiaporama is a tools to make diaporama as video

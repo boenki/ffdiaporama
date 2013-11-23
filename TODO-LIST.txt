@@ -1,7 +1,7 @@
 **************************************************
-* FFDIAPORAMA 2.0 - Trunk
+* FFDIAPORAMA 2.0 - Final
 *
-* TODO LIST on 15/11/2013
+* TODO LIST on 23/11/2013
 **************************************************
 
 TODO :
@@ -42,8 +42,6 @@ Basse       -       Se serait pas mal de pouvoir se créer de modèles couleurs 
 Basse       -       Déplacer la sauvegarde des recentlist dans la base de données
 
 Basse       -       Déplacer la sauvegarde des favorites du browser dans la base de données
-
-Basse       -       Améliorer le process de mise à jours du cache des répertoires (tout faire dans 1 seule boucle)
 
 
 ----------- ------- -------------------------------------------------------------------------------------------------------

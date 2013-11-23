@@ -33,18 +33,19 @@
     #include <lmcons.h>
 #endif
 
-QString PersonalFolder          ="";
-QString DefaultMediaPath        ="";        // default folder for image/video
-QString DefaultMusicPath        ="";        // default folder for music
-QString DefaultProjectPath      ="";        // default folder for project
-QString DefaultExportPath       ="";        // default folder for project export
-QString DefaultRenderVideoPath  ="";        // default folder for render video
-QString DefaultCaptureImage     ="";        // default folder for captured image
-QString DefaultBrowserPath      ="";        // default folder for integrated browser
-QString ClipArtFolder           ="";
-QString ModelFolder             ="";
-QString CAF                     ="";
-QString MFD                     ="";
+QString PersonalFolder        ="";
+QString DefaultMediaPath      ="";           // default folder for image/video
+QString DefaultMusicPath      ="";           // default folder for music
+QString DefaultProjectPath    ="";           // default folder for project
+QString DefaultExportPath     ="";           // default folder for project export
+QString DefaultRenderVideoPath="";           // default folder for render video
+QString DefaultRenderAudioPath="";           // default folder for render audio
+QString DefaultCaptureImage   ="";           // default folder for captured image
+QString DefaultBrowserPath    ="";           // default folder for integrated browser
+QString ClipArtFolder         ="";
+QString ModelFolder           ="";
+QString CAF                   ="";
+QString MFD                   ="";
 
 //*******************************************************************************************************************************************************
 

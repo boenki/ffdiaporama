@@ -366,18 +366,43 @@ qlonglong cFolderTable::GetFolderKey(QString FolderPath) {
             Key=Query.value(0).toLongLong(&Ret);
         }
         if (!Ret) {
-            // Path not found : then add it to the table
-            qlonglong Timestamp=QFileInfo(FolderPath).lastModified().toMSecsSinceEpoch();
-            Query.prepare(QString("INSERT INTO %1 (Key,Name,ParentKey,Timestamp) VALUES (:Key,:Name,:ParentKey,:Timestamp)").arg(TableName));
+            // Path not found : then add it to the table without timestamp
+            Query.prepare(QString("INSERT INTO %1 (Key,Name,ParentKey) VALUES (:Key,:Name,:ParentKey)").arg(TableName));
             Query.bindValue(":Key",      ++NextIndex,QSql::In);
             Query.bindValue(":Name",     FolderList.last(), QSql::In);
             Query.bindValue(":ParentKey",ParentKey,         QSql::In);
-            Query.bindValue(":Timestamp",Timestamp,         QSql::In);
             Ret=Query.exec();
             if (!Ret) DisplayLastSQLError(&Query); else Key=NextIndex;
         }
     }
     return Key;
+}
+
+//=====================================================================================================
+// Check if folder timestamp is the same
+
+bool cFolderTable::CheckFolderTimestamp(QDir Folder,qlonglong FolderKey) {
+    qlonglong   TimeStamp=0;
+    QSqlQuery Query(Database->db);
+    Query.prepare(QString("SELECT Timestamp FROM %1 WHERE Key=:Key").arg(TableName));
+    Query.bindValue(":Key",FolderKey,QSql::In);
+    if (!Query.exec()) DisplayLastSQLError(&Query); else while (Query.next()) {
+        bool Ret;
+        TimeStamp=Query.value(0).toLongLong(&Ret);
+        if (!Ret) TimeStamp=0;
+    }
+    return TimeStamp==QFileInfo(Folder.absolutePath()).lastModified().toMSecsSinceEpoch();
+}
+
+//=====================================================================================================
+// Update folder timestamp
+
+void cFolderTable::UpdateFolderTimestamp(QDir Folder,qlonglong FolderKey) {
+    QSqlQuery Query(Database->db);
+    Query.prepare(QString("UPDATE %1 SET Timestamp=:Timestamp WHERE Key=:Key").arg(TableName));
+    Query.bindValue(":Timestamp",QFileInfo(Folder.absolutePath()).lastModified().toMSecsSinceEpoch(),QSql::In);
+    Query.bindValue(":Key",FolderKey,QSql::In);
+    if (!Query.exec()) DisplayLastSQLError(&Query);
 }
 
 //=====================================================================================================
@@ -512,7 +537,7 @@ QString cFilesTable::GetFileName(qlonglong FileKey) {
 //  - set data field to null for modified files (different timestamp)
 
 int cFilesTable::CleanTableForFolder(qlonglong FolderKey) {
-    int         NbrModif=0;
+    int         NbrModif=0,Count=0;
     QSqlQuery   Query(Database->db);
     QSqlQuery   Query2(Database->db);
     QString     FolderPath=((cFolderTable *)Database->GetTable(TypeTable_FolderTable))->GetFolderPath(FolderKey);
@@ -529,9 +554,11 @@ int cFilesTable::CleanTableForFolder(qlonglong FolderKey) {
             FileKey=Query.value(0).toLongLong(&Ret);
         }
         if (Ret) ShortName=Query.value(1).toString();
-        if ((Ret)&&(!Query.value(2).isNull())) {
-            Ret=true;
-            Timestamp=Query.value(2).toLongLong(&Ret);
+        if (Ret) {
+            if (!Query.value(2).isNull()) {
+                Ret=true;
+                Timestamp=Query.value(2).toLongLong(&Ret);
+            } else NbrModif++;
         }
 
         if (Ret) {
@@ -556,18 +583,21 @@ int cFilesTable::CleanTableForFolder(qlonglong FolderKey) {
                 }
             }
         }
+        Count++;
     }
+    if (Count==0) NbrModif++;
     return NbrModif;
 }
 
 //=====================================================================================================
 // scan all files for a given folderkey and add new one to the table
 
-void cFilesTable::UpdateTableForFolder(qlonglong FolderKey) {
-    if (CleanTableForFolder(FolderKey)>0) {
-    }
-        QString         FolderPath=((cFolderTable *)Database->GetTable(TypeTable_FolderTable))->GetFolderPath(FolderKey);
-        QDir            Folder(FolderPath);
+void cFilesTable::UpdateTableForFolder(qlonglong FolderKey,bool ForceRefresh) {
+    QString FolderPath=((cFolderTable *)Database->GetTable(TypeTable_FolderTable))->GetFolderPath(FolderKey);
+    QDir    Folder(FolderPath);
+    bool    NeedRefresh=(CleanTableForFolder(FolderKey)>0) || (!((cFolderTable *)Database->GetTable(TypeTable_FolderTable))->CheckFolderTimestamp(Folder,FolderKey));
+
+    if (NeedRefresh || ForceRefresh) {
         QFileInfoList   Files=Folder.entryInfoList(QDir::Dirs|QDir::AllDirs|QDir::Files|QDir::Hidden);
         foreach(QFileInfo File,Files) {
             QString ShortName=File.fileName();
@@ -598,7 +628,8 @@ void cFilesTable::UpdateTableForFolder(qlonglong FolderKey) {
                 GetFileKey(FolderKey,File.fileName(),ObjectType);
             }
         }
-//    }
+        ((cFolderTable *)Database->GetTable(TypeTable_FolderTable))->UpdateFolderTimestamp(Folder,FolderKey);
+    }
 }
 
 //=====================================================================================================

@@ -33,7 +33,7 @@ DlgExportProject::DlgExportProject(cDiaporama *ffdProject,cBaseApplicationConfig
     HelpFile="0107";
 
     this->ffdProject=ffdProject;
-    DestinationPath =ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_ExportPath,DefaultExportPath);
+    DestinationPath =ApplicationConfig->SettingsTable->GetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_EXPORT].BROWSERString),DefaultExportPath);
     JobStarted      =false;
     JobCancel       =false;
 
@@ -87,7 +87,7 @@ bool DlgExportProject::DoAccept() {
         ui->ProjectSubfolderED->setFocus();
         return false;
     }
-    ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_ExportPath,DestinationPath);
+    ApplicationConfig->SettingsTable->SetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_EXPORT].BROWSERString),DestinationPath);
     JobStarted=true;
     ui->OkBt->setEnabled(false);
     ThreadCopy.setFuture(QtConcurrent::run(this,&DlgExportProject::DoProcessCopy));

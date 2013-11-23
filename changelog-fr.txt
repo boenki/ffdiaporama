@@ -1,8 +1,22 @@
 **************************************************
-* FFDIAPORAMA 2.0 - Trunk
+* FFDIAPORAMA 2.0 - Final
 * changelog since ffDiaporama 1.7
 * (Version Française)
 **************************************************
+
+[Commit: 23/11/2013] + ffDiaporama 2.0 stable
+    Correction de bug :
+        -Corrige un bug de lecture de la dernière version de ffDiaporama depuis le site web
+        -Corrige un bug dans les transitions de fond d'écran
+        -Corrige un bug en lecture de video avec libav 0.9
+
+    Nouveautés :
+        -Mise à jours des traductions
+        -Améliore le processus de mise à jour de la mémoire cache du navigateur pour l'accélérer
+        -Transfert la sauvegarde des paramètres de l'explorateur de fichier du fichier xml vers la base de données et le décompose par type de navigation
+            => une configuration par type au lieu d'une configuration globale
+
+--------------------------------------------------------------------------------
 
 [Commit: 19/11/2013 - encore]
     Intègre le path libav 0.9.x d'Olivier Laurentain

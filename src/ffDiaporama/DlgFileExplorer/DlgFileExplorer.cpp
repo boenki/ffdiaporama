@@ -20,60 +20,47 @@
 
 #include "DlgFileExplorer.h"
 #include "ui_DlgFileExplorer.h"
-#include "../../CustomCtrl/QCustomFolderTable.h"
 #include "../../CustomCtrl/QCustomFolderTree.h"
 #include "../DlgInfoFile/DlgInfoFile.h"
 #include "../DlgManageFavorite/DlgManageFavorite.h"
 
 #define LATENCY 5
 
-DlgFileExplorer::DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowMultipleSelection,bool AllowDragDrop,
-                QString LASTFOLDERString,QString DefaultPath,QString TheBoxTitle,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+DlgFileExplorer::DlgFileExplorer(BROWSER_TYPE_ID BrowserType,bool AllowMultipleSelection,bool AllowDragDrop,QString TheBoxTitle,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
                 QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgFileExplorer) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::DlgFileExplorer");
 
     // Initialise UI
     ui->setupUi(this);
-
-    this->DefaultPath       =DefaultPath;
-    TypeWindowState         =TypeWindowState_withsplitterpos;
-    Splitter                =ui->BrowserWidget;
-    CurrentPath             =ApplicationConfig->RememberLastDirectories?ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDERString,DefaultPath):DefaultPath;
-    DlgWorkingTaskDialog    =NULL;
-    CancelAction            =false;
-    CurrentDriveCheck       =0;
-
     OkBt        =ui->OKBT;
     CancelBt    =ui->CancelBt;
     HelpBt      =ui->HelpBT;
     HelpFile    ="0109";
     UndoBt      =NULL;
 
+    TypeWindowState         =TypeWindowState_withsplitterpos;
+    Splitter                =ui->BrowserWidget;
+    DlgWorkingTaskDialog    =NULL;
+    CancelAction            =false;
+    CurrentDriveCheck       =0;
+
     BoxTitle    =TheBoxTitle;
     setWindowTitle(BoxTitle);
-
-    // Initialise integrated browser
-    ui->FolderTable->LASTFOLDERString       =LASTFOLDERString;
-    ui->FolderTable->AllowedFilter          =AllowedFilter;
-    ui->FolderTable->ShowHiddenFilesAndDir  =ApplicationConfig->ShowHiddenFilesAndDir;
-    ui->FolderTable->DisplayFileName        =ApplicationConfig->DisplayFileName;
-
-    ui->FolderTree->ApplicationConfig       =ApplicationConfig;
-    ui->FolderTable->ApplicationConfig      =ApplicationConfig;
-
-    ui->FolderTree->IsRemoveAllowed         =false;
-    ui->FolderTree->IsRenameAllowed         =false;
-    ui->FolderTree->IsCreateFolderAllowed   =false;
-
-    ApplicationConfig->DriveList->UpdateDriveList();
-    ui->FolderTree->InitDrives();
 
     ui->RefreshBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_BrowserReload));
     ui->UpFolderBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_FileDialogToParent));
     ui->PreviousFolderBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_ArrowBack));
 
-    ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,CurrentFilter);
+    ui->FolderTree->ApplicationConfig       =ApplicationConfig;
+    ui->FolderTree->FolderTable             =ui->FolderTable;
+    ui->FolderTree->IsRemoveAllowed         =false;
+    ui->FolderTree->IsRenameAllowed         =false;
+    ui->FolderTree->IsCreateFolderAllowed   =false;
+    ApplicationConfig->DriveList->UpdateDriveList();
+    ui->FolderTree->InitDrives();
+
+    ui->FolderTable->InitSettings(ApplicationConfig,BrowserType);
     ui->FolderTable->setDragDropMode(AllowDragDrop?QAbstractItemView::DragOnly:QAbstractItemView::NoDragDrop);
     ui->FolderTable->setSelectionMode(AllowMultipleSelection?QAbstractItemView::ExtendedSelection:QAbstractItemView::SingleSelection);
 }
@@ -114,11 +101,7 @@ void DlgFileExplorer::DoInitDialog() {
     connect(ui->actionManageFavorite,SIGNAL(triggered()),this,SLOT(s_Browser_ManageFavorite()));
     connect(ui->ActionModeBt,SIGNAL(pressed()),this,SLOT(s_Browser_ChangeDisplayMode()));
 
-    if (CurrentPath!="") ui->FolderTree->SetSelectItemByPath(ui->FolderTree->RealPathToTreePath(CurrentPath));
-    if ((CurrentPath=="")||(ui->FolderTree->GetCurrentFolderPath()!=CurrentPath)) {
-        CurrentPath=DefaultPath;
-        ui->FolderTree->SetSelectItemByPath(CurrentPath);
-    }
+    ui->FolderTree->SetSelectItemByPath(ui->FolderTree->RealPathToTreePath(ui->FolderTable->CurrentPath));
 }
 
 //====================================================================================================================
@@ -138,13 +121,13 @@ void DlgFileExplorer::DoGlobalUndo() {
 void DlgFileExplorer::s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_FolderTreeItemChanged");
 
-    CurrentPath=ui->FolderTree->GetFolderPath(current,false);
+    ui->FolderTable->CurrentPath=ui->FolderTree->GetFolderPath(current,false);
 
     ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(current,true),false);
-    ui->CurrentPathED->setText(CurrentPath);
-    ui->FolderIcon->setPixmap(ApplicationConfig->DriveList->GetFolderIcon(CurrentPath).pixmap(16,16));
+    ui->CurrentPathED->setText(ui->FolderTable->CurrentPath);
+    ui->FolderIcon->setPixmap(ApplicationConfig->DriveList->GetFolderIcon(ui->FolderTable->CurrentPath).pixmap(16,16));
 
-    QString Path=CurrentPath;
+    QString Path=ui->FolderTable->CurrentPath;
     #ifdef Q_OS_WIN
         Path.replace("%HOMEDRIVE%%HOMEPATH%",ApplicationConfig->DriveList->List[0].Path,Qt::CaseInsensitive);
         Path.replace("%USERPROFILE%",ApplicationConfig->DriveList->List[0].Path,Qt::CaseInsensitive);
@@ -161,7 +144,7 @@ void DlgFileExplorer::s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,Q
 void DlgFileExplorer::DoBrowserRefreshFolderInfo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_FolderTreeItemChanged");
     ApplicationConfig->DriveList->UpdateDriveList();   // To update free space on drive
-    cDriveDesc *HDD=ui->FolderTree->SearchRealDrive(CurrentPath);
+    cDriveDesc *HDD=ui->FolderTree->SearchRealDrive(ui->FolderTable->CurrentPath);
     if (HDD) {
         // If scan in progress
         if (ui->FolderTable->ScanMediaListProgress) {
@@ -381,6 +364,12 @@ void DlgFileExplorer::s_Browser_RefreshDrive() {
 
 void DlgFileExplorer::s_Browser_RefreshHere() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_RefreshHere");
+
+    // Force a new scan of folder
+    qlonglong FolderKey=ApplicationConfig->FoldersTable->GetFolderKey(ui->FolderTable->CurrentPath);
+    ApplicationConfig->FilesTable->UpdateTableForFolder(FolderKey,true);
+
+    // Refresh display
     s_Browser_FolderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
     if (DlgWorkingTaskDialog) {
         DlgWorkingTaskDialog->close();
@@ -408,7 +397,6 @@ bool DlgFileExplorer::DoAccept() {
         }
     }
     while (!MediaList.isEmpty()) delete MediaList.takeLast();
-    if (Ret) ApplicationConfig->SettingsTable->SetTextValue(ui->FolderTable->LASTFOLDERString,CurrentPath);
     return Ret;
 }
 
@@ -520,7 +508,7 @@ void DlgFileExplorer::s_Browser_AddToFavorite() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_AddToFavorite");
 
     bool    Ok,Continue=true;
-    QString Text=CurrentPath;
+    QString Text=ui->FolderTable->CurrentPath;
     while (Text.indexOf(QDir::separator())!=-1) Text=Text.mid(Text.indexOf(QDir::separator())+1);
     while (Continue) {
         Continue=false;
@@ -533,22 +521,22 @@ void DlgFileExplorer::s_Browser_AddToFavorite() {
                 if (CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Add to favorite"),
                                           QApplication::translate("MainWindow","A favorite with this name already exists.\nDo you want to overwrite it?"),
                                           QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)
-                    ApplicationConfig->BrowserFavorites[i]=Text+"###"+CurrentPath;
+                    ApplicationConfig->BrowserFavorites[i]=Text+"###"+ui->FolderTable->CurrentPath;
                 else Continue=true;
 
             } else {
 
                 int i=0;
-                while ((i<ApplicationConfig->BrowserFavorites.count())&&(!ApplicationConfig->BrowserFavorites[i].endsWith("###"+CurrentPath))) i++;
-                if ((i<ApplicationConfig->BrowserFavorites.count())&&(ApplicationConfig->BrowserFavorites[i].endsWith("###"+CurrentPath))) {
+                while ((i<ApplicationConfig->BrowserFavorites.count())&&(!ApplicationConfig->BrowserFavorites[i].endsWith("###"+ui->FolderTable->CurrentPath))) i++;
+                if ((i<ApplicationConfig->BrowserFavorites.count())&&(ApplicationConfig->BrowserFavorites[i].endsWith("###"+ui->FolderTable->CurrentPath))) {
                     if (CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Add to favorite"),
                                               QApplication::translate("MainWindow","A favorite with for this path already exists.\nDo you want to overwrite it?"),
                                               QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)
-                        ApplicationConfig->BrowserFavorites[i]=Text+"###"+CurrentPath;
+                        ApplicationConfig->BrowserFavorites[i]=Text+"###"+ui->FolderTable->CurrentPath;
                     else Continue=true;
 
                 } else {
-                    ApplicationConfig->BrowserFavorites.append(Text+"###"+CurrentPath);
+                    ApplicationConfig->BrowserFavorites.append(Text+"###"+ui->FolderTable->CurrentPath);
                 }
             }
         }
@@ -585,10 +573,10 @@ void DlgFileExplorer::s_Browser_ChangeDisplayMode() {
     ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_DATA.png"),   QApplication::translate("MainWindow","Details view"),    ACTIONTYPE_DISPLAYMODE|DISPLAY_DATA,    true,ui->FolderTable->CurrentMode==DISPLAY_DATA));
     ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_JUKEBOX.png"),QApplication::translate("MainWindow","Icon view"),       ACTIONTYPE_DISPLAYMODE|DISPLAY_ICON100, true,ui->FolderTable->CurrentMode==DISPLAY_ICON100));
     ContextMenu->addSeparator();
-    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/SortByNumber.png"),   QApplication::translate("MainWindow","Sort by number"),  ACTIONTYPE_SORTORDER|SORTORDER_BYNUMBER,true,ApplicationConfig->SortFile==SORTORDER_BYNUMBER));
-    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/SortByName.png"),     QApplication::translate("MainWindow","Sort by name"),    ACTIONTYPE_SORTORDER|SORTORDER_BYNAME,  true,ApplicationConfig->SortFile==SORTORDER_BYNAME));
-    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/SortByDate.png"),     QApplication::translate("MainWindow","Sort by date"),    ACTIONTYPE_SORTORDER|SORTORDER_BYDATE,  true,ApplicationConfig->SortFile==SORTORDER_BYDATE));
-    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFOLDERIcon.GetIcon(cCustomIcon::ICON16),  QApplication::translate("MainWindow","Show folder first"),         ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_SHOWFOLDERFIRST,   true,ApplicationConfig->ShowFoldersFirst));
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/SortByNumber.png"),   QApplication::translate("MainWindow","Sort by number"),  ACTIONTYPE_SORTORDER|SORTORDER_BYNUMBER,true,ui->FolderTable->SortFile==SORTORDER_BYNUMBER));
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/SortByName.png"),     QApplication::translate("MainWindow","Sort by name"),    ACTIONTYPE_SORTORDER|SORTORDER_BYNAME,  true,ui->FolderTable->SortFile==SORTORDER_BYNAME));
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/SortByDate.png"),     QApplication::translate("MainWindow","Sort by date"),    ACTIONTYPE_SORTORDER|SORTORDER_BYDATE,  true,ui->FolderTable->SortFile==SORTORDER_BYDATE));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFOLDERIcon.GetIcon(cCustomIcon::ICON16),  QApplication::translate("MainWindow","Show folder first"),         ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_SHOWFOLDERFIRST,   true,ui->FolderTable->ShowFoldersFirst));
     ContextMenu->addSeparator();
     if ((ui->FolderTable->AllowedFilter&FILTERALLOW_OBJECTTYPE_UNMANAGED)!=0) ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16), QApplication::translate("MainWindow","All files"),                 ACTIONTYPE_FILTERMODE|OBJECTTYPE_UNMANAGED,true,ui->FolderTable->CurrentFilter==OBJECTTYPE_UNMANAGED));
     if ((ui->FolderTable->AllowedFilter&FILTERALLOW_OBJECTTYPE_MANAGED)!=0)   ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16), QApplication::translate("MainWindow","Managed files"),             ACTIONTYPE_FILTERMODE|OBJECTTYPE_MANAGED,  true,ui->FolderTable->CurrentFilter==OBJECTTYPE_MANAGED));
@@ -598,10 +586,10 @@ void DlgFileExplorer::s_Browser_ChangeDisplayMode() {
     if ((ui->FolderTable->AllowedFilter&FILTERALLOW_OBJECTTYPE_FFDFILE)!=0)   ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFFDIcon.GetIcon(cCustomIcon::ICON16),  QApplication::translate("MainWindow","ffDiaporama project files"), ACTIONTYPE_FILTERMODE|OBJECTTYPE_FFDFILE,  true,ui->FolderTable->CurrentFilter==OBJECTTYPE_FFDFILE));
     ContextMenu->addSeparator();
     if (ui->FolderTable->ShowHiddenFilesAndDir) ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_KO.png"),  QApplication::translate("MainWindow","Hide hidden files and folders"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_HIDEHIDDEN,  true,false));
-        else                   ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_OK.png"),  QApplication::translate("MainWindow","Show hidden files and folders"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_SHOWHIDDEN,  true,false));
+        else ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_OK.png"),  QApplication::translate("MainWindow","Show hidden files and folders"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_SHOWHIDDEN,  true,false));
     if (ui->FolderTable->CurrentMode==DISPLAY_ICON100) {
         if (ui->FolderTable->DisplayFileName)   ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_KO.png"),  QApplication::translate("MainWindow","Hide files name"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_HIDEFILENAME,  true,false));
-            else               ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_OK.png"),  QApplication::translate("MainWindow","Show files name"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_SHOWFILENAME,  true,false));
+            else ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_OK.png"),  QApplication::translate("MainWindow","Show files name"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_SHOWFILENAME,  true,false));
     }
 
     // Exec menu
@@ -612,13 +600,13 @@ void DlgFileExplorer::s_Browser_ChangeDisplayMode() {
         if (ActionType==ACTIONTYPE_DISPLAYMODE) {
             if (ui->FolderTable->CurrentMode!=SubAction) {
                 ui->FolderTable->CurrentMode=SubAction;
-                ui->FolderTable->SetMode(ui->FolderTable->CurrentMode,ui->FolderTable->CurrentFilter);
+                ui->FolderTable->SetMode();
                 s_Browser_FolderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
             }
         } else if (ActionType==ACTIONTYPE_FILTERMODE) {
             if (ui->FolderTable->CurrentFilter!=SubAction) {
                 ui->FolderTable->CurrentFilter=SubAction;
-                ui->FolderTable->SetMode(ui->FolderTable->CurrentMode,ui->FolderTable->CurrentFilter);
+                ui->FolderTable->SetMode();
                 s_Browser_FolderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
             }
         } else if (ActionType==ACTIONTYPE_ONOFFOPTIONS) {
@@ -629,13 +617,11 @@ void DlgFileExplorer::s_Browser_ChangeDisplayMode() {
                 ui->FolderTable->DisplayFileName=(SubAction==ONOFFOPTIONS_SHOWFILENAME);
                 s_Browser_RefreshAll();
             } else if (SubAction==ONOFFOPTIONS_SHOWFOLDERFIRST) {
-                ApplicationConfig->ShowFoldersFirst=!ApplicationConfig->ShowFoldersFirst;
-                ApplicationConfig->SettingsTable->SetIntValue("ShowFoldersFirst",ApplicationConfig->ShowFoldersFirst?1:0);
+                ui->FolderTable->ShowFoldersFirst=!ui->FolderTable->ShowFoldersFirst;
                 s_Browser_RefreshHere();
             }
         } else if (ActionType==ACTIONTYPE_SORTORDER) {
-            ApplicationConfig->SortFile=SubAction;
-            ApplicationConfig->SettingsTable->SetIntValue("SortOrderFile",ApplicationConfig->SortFile);
+            ui->FolderTable->SortFile=SubAction;
             s_Browser_RefreshHere();
         }
     }

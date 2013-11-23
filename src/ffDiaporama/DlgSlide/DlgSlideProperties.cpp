@@ -1926,8 +1926,7 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
 
     ui->AddFileBlock->setDown(false);
     QStringList FileList;
-    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MANAGED|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE|FILTERALLOW_OBJECTTYPE_IMAGEVECTORFILE,
-                        OBJECTTYPE_MANAGED,true,false,LASTFOLDER_Media,DefaultMediaPath,QApplication::translate("MainWindow","Add files"),ApplicationConfig,this);
+    DlgFileExplorer Dlg(BROWSER_TYPE_MEDIAFILES,true,false,QApplication::translate("MainWindow","Add files"),ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
     if (FileList.count()==0) return;
