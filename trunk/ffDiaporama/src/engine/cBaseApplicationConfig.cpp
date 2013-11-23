@@ -31,6 +31,21 @@
 #include <QTextDocument>
 #include "../ffDiaporama/HelpPopup/HelpPopup.h"
 
+struct sBrowserTypeDef BrowserTypeDef[BROWSER_TYPE_NBR]={
+    // BROWSERString/DefaultPath/SortFile/ShowFoldersFirst/ShowHiddenFilesAndDir/ShowMntDrive/AllowedFilter/CurrentFilter/CurrentMode/DisplayFileName
+     {"Browser",     &DefaultBrowserPath,    SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_ALL,                                             OBJECTTYPE_MANAGED,  DISPLAY_ICON100,true}     // BROWSER_TYPE_MainWindow
+    ,{"ImageOnly",   &DefaultMediaPath,      SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_IMAGEVECTORFILE,OBJECTTYPE_IMAGEFILE,DISPLAY_ICON100,true}     // BROWSER_TYPE_IMAGEONLY
+    ,{"VideoOnly",   &DefaultMediaPath,      SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_VIDEOFILE,                                       OBJECTTYPE_VIDEOFILE,DISPLAY_ICON100,true}     // BROWSER_TYPE_VIDEOONLY
+    ,{"SoundOnly",   &DefaultMusicPath,      SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_MUSICFILE,                                       OBJECTTYPE_MUSICFILE,DISPLAY_ICON100,true}     // BROWSER_TYPE_SOUNDONLY
+    ,{"MediaFiles",  &DefaultMediaPath,      SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_MANAGED|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE,      OBJECTTYPE_MANAGED,  DISPLAY_ICON100,true}     // BROWSER_TYPE_MEDIAFILES
+
+    ,{"Project",     &DefaultProjectPath,    SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_FFDFILE,                                         OBJECTTYPE_FFDFILE,  DISPLAY_ICON100,true}     // BROWSER_TYPE_PROJECT
+    ,{"Export",      &DefaultExportPath,     SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_FOLDER,                                          OBJECTTYPE_FOLDER,   DISPLAY_ICON100,true}     // BROWSER_TYPE_EXPORT
+    ,{"RenderVideo", &DefaultRenderVideoPath,SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_VIDEOFILE,                                       OBJECTTYPE_VIDEOFILE,DISPLAY_ICON100,true}     // BROWSER_TYPE_RENDERVIDEO
+    ,{"RenderAudio", &DefaultRenderAudioPath,SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_MUSICFILE,                                       OBJECTTYPE_MUSICFILE,DISPLAY_ICON100,true}     // BROWSER_TYPE_RENDERAUDIO
+    ,{"CaptureImage",&DefaultCaptureImage,   SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_IMAGEFILE,                                       OBJECTTYPE_IMAGEFILE,DISPLAY_ICON100,true}     // BROWSER_TYPE_CAPTUREIMAGE
+};
+
 //*****************************************************************************************************************************************
 
 #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
@@ -133,19 +148,6 @@ cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QS
     Deinterlace             =false;
     Smoothing               =true;                                                         // True do smoothing in preview
     RememberLastDirectories =true;
-    ShowHiddenFilesAndDir   =false;
-    ShowMntDrive            =false;
-    ShowFoldersFirst        =true;
-    CurrentFilter           =OBJECTTYPE_MANAGED;
-    CurrentMode             =DISPLAY_ICON100;
-    DisplayFileName         =true;
-    MinimumEXIFHeight       =100;
-    Image_ThumbWidth        =300;
-    Image_ThumbHeight       =200;
-    Music_ThumbWidth        =200;
-    Music_ThumbHeight       =200;
-    Video_ThumbWidth        =162;
-    Video_ThumbHeight       =216;
 
     //*********************************************************************
     // Search plateforme and define specific value depending on plateforme
@@ -210,6 +212,7 @@ cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QS
         DefaultProjectPath      = WINDOWS_DOCUMENTS;            // Last folder use for project
         DefaultExportPath       = WINDOWS_DOCUMENTS;            // Last folder use for project export
         DefaultRenderVideoPath  = WINDOWS_VIDEO;                // Last folder use for render video
+        DefaultRenderAudioPath  = WINDOWS_MUSIC;                // Last folder use for render audio
         DefaultCaptureImage     = WINDOWS_PICTURES;             // Last folder use for captured image
         DefaultBrowserPath      = WINDOWS_DOCUMENTS;
     #else
@@ -218,6 +221,7 @@ cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QS
         DefaultProjectPath      = QDir::home().absolutePath();  // Last folder use for project
         DefaultExportPath       = QDir::home().absolutePath();  // Last folder use for project
         DefaultRenderVideoPath  = QDir::home().absolutePath();  // Last folder use for render video
+        DefaultRenderAudioPath  = QDir::home().absolutePath();  // Last folder use for render audio
         DefaultCaptureImage     = QDir::home().absolutePath();  // Last folder use for captured image
         DefaultBrowserPath      = "~";   // User home folder
     #endif
@@ -448,36 +452,6 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
             if (Element.hasAttribute("CheckConfigAtStartup"))       CheckConfigAtStartup    =Element.attribute("CheckConfigAtStartup")=="1";
         }
 
-        // Compatibility with version prior to 20131116
-        if ((domDocument.elementsByTagName("LastDirectories").length()>0)&&(domDocument.elementsByTagName("LastDirectories").item(0).isElement()==true)) {
-            QDomElement Element=domDocument.elementsByTagName("LastDirectories").item(0).toElement();
-            if (Element.hasAttribute("RememberLastDirectories"))    RememberLastDirectories=Element.attribute("RememberLastDirectories")=="1";
-            if (Element.hasAttribute("LastMediaPath"))              SettingsTable->SetTextValue(LASTFOLDER_Media,           Element.attribute("LastMediaPath"));
-            if (Element.hasAttribute("LastMusicPath"))              SettingsTable->SetTextValue(LASTFOLDER_MusicPath,       Element.attribute("LastMusicPath"));
-            if (Element.hasAttribute("LastProjectPath"))            SettingsTable->SetTextValue(LASTFOLDER_ProjectPath,     Element.attribute("LastProjectPath"));
-            if (Element.hasAttribute("LastExportPath"))             SettingsTable->SetTextValue(LASTFOLDER_ExportPath,      Element.attribute("LastExportPath"));
-            if (Element.hasAttribute("LastRenderVideoPath"))        SettingsTable->SetTextValue(LASTFOLDER_RenderVideoPath, Element.attribute("LastRenderVideoPath"));
-            if (Element.hasAttribute("LastCaptureImage"))           SettingsTable->SetTextValue(LASTFOLDER_CaptureImagePath,Element.attribute("LastCaptureImage"));
-            if (Element.hasAttribute("CurrentBrowserPath"))         SettingsTable->SetTextValue(LASTFOLDER_BrowserPath,     Element.attribute("CurrentBrowserPath"));
-        }
-
-        if ((domDocument.elementsByTagName("MMFiler").length()>0)&&(domDocument.elementsByTagName("MMFiler").item(0).isElement()==true)) {
-            QDomElement Element=domDocument.elementsByTagName("MMFiler").item(0).toElement();
-            if (Element.hasAttribute("ShowHiddenFilesAndDir"))      ShowHiddenFilesAndDir=Element.attribute("ShowHiddenFilesAndDir")=="1";
-            if (Element.hasAttribute("ShowMntDrive"))               ShowMntDrive=Element.attribute("ShowMntDrive")=="1";
-            if (Element.hasAttribute("ShowFoldersFirst"))           ShowFoldersFirst=Element.attribute("ShowFoldersFirst")=="1";
-            if (Element.hasAttribute("CurrentFilter"))              CurrentFilter=Element.attribute("CurrentFilter").toInt();
-            if (Element.hasAttribute("CurrentMode"))                CurrentMode=Element.attribute("CurrentMode").toInt();
-            if (Element.hasAttribute("DisplayFileName"))            DisplayFileName=Element.attribute("DisplayFileName")=="1";
-            if (Element.hasAttribute("MinimumEXIFHeight"))          MinimumEXIFHeight=Element.attribute("MinimumEXIFHeight").toInt();
-            if (Element.hasAttribute("Image_ThumbWidth"))           Image_ThumbWidth=Element.attribute("Image_ThumbWidth").toInt();
-            if (Element.hasAttribute("Image_ThumbHeight"))          Image_ThumbHeight=Element.attribute("Image_ThumbHeight").toInt();
-            if (Element.hasAttribute("Music_ThumbWidth"))           Music_ThumbWidth=Element.attribute("Music_ThumbWidth").toInt();
-            if (Element.hasAttribute("Music_ThumbHeight"))          Music_ThumbHeight=Element.attribute("Music_ThumbHeight").toInt();
-            if (Element.hasAttribute("Video_ThumbWidth"))           Video_ThumbWidth=Element.attribute("Video_ThumbWidth").toInt();
-            if (Element.hasAttribute("Video_ThumbHeight"))          Video_ThumbHeight=Element.attribute("Video_ThumbHeight").toInt();
-        }
-
         if ((domDocument.elementsByTagName("CacheMemory").length()>0)&&(domDocument.elementsByTagName("CacheMemory").item(0).isElement()==true)) {
             QDomElement Element=domDocument.elementsByTagName("CacheMemory").item(0).toElement();
             if (Element.hasAttribute("MemCacheMaxValue"))           MemCacheMaxValue=int64_t(Element.attribute("MemCacheMaxValue").toInt())*int64_t(1024*1024);
@@ -494,7 +468,6 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
             if (Element.hasAttribute("PartitionMode"))              PartitionMode               =Element.attribute("PartitionMode")=="1";
             if (Element.hasAttribute("WindowDisplayMode"))          WindowDisplayMode           =Element.attribute("WindowDisplayMode").toInt();
             if (Element.hasAttribute("DisplayUnit"))                DisplayUnit                 =Element.attribute("DisplayUnit").toInt();
-            if (Element.hasAttribute("SortFileOrder"))              SortFile                    =Element.attribute("SortFile").toInt();
             if (Element.hasAttribute("NewTimelineHeight"))          TimelineHeight              =Element.attribute("NewTimelineHeight").toInt();
             if (TimelineHeight<TIMELINEMINHEIGH) TimelineHeight=TIMELINEMINHEIGH;
             if (TimelineHeight>TIMELINEMAXHEIGH) TimelineHeight=TIMELINEMAXHEIGH;
@@ -653,37 +626,21 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
     QDomElement     Element,SubElement,SubSubElement;
     Element=domDocument.createElement("GlobalPreferences");
     #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
-    Element.setAttribute("RasterMode",              RasterMode?"1":"0");
+    Element.setAttribute("RasterMode",                  RasterMode?"1":"0");
     #endif
-    Element.setAttribute("OpenWEBNewVersion",       OpenWEBNewVersion?"1":"0");
-    Element.setAttribute("RestoreWindow",           RestoreWindow?"1":"0");
-    Element.setAttribute("RememberLastDirectories", RememberLastDirectories?"1":"0");
-    Element.setAttribute("DisableTooltips",         DisableTooltips?"1":"0");
-    Element.setAttribute("ForceLanguage",           ForceLanguage);
-    Element.setAttribute("Crop1088To1080",          Crop1088To1080?"1":"0");
-    Element.setAttribute("Deinterlace",             Deinterlace?"1":"0");
-    Element.setAttribute("Smoothing",               Smoothing?"1":0);
-    Element.setAttribute("CheckConfigAtStartup",    CheckConfigAtStartup?"1":"0");
-    root.appendChild(Element);
-
-    Element=domDocument.createElement("MMFiler");
-    Element.setAttribute("ShowHiddenFilesAndDir",   ShowHiddenFilesAndDir?"1":"0");
-    Element.setAttribute("ShowMntDrive",            ShowMntDrive?"1":"0");
-    Element.setAttribute("ShowFoldersFirst",        ShowFoldersFirst?"1":"0");
-    Element.setAttribute("CurrentFilter",           CurrentFilter);
-    Element.setAttribute("CurrentMode",             CurrentMode);
-    Element.setAttribute("DisplayFileName",         DisplayFileName?"1":"0");
-    Element.setAttribute("MinimumEXIFHeight",       MinimumEXIFHeight);
-    Element.setAttribute("Image_ThumbWidth",        Image_ThumbWidth);
-    Element.setAttribute("Image_ThumbHeight",       Image_ThumbHeight);
-    Element.setAttribute("Music_ThumbWidth",        Music_ThumbWidth);
-    Element.setAttribute("Music_ThumbHeight",       Music_ThumbHeight);
-    Element.setAttribute("Video_ThumbWidth",        Video_ThumbWidth);
-    Element.setAttribute("Video_ThumbHeight",       Video_ThumbHeight);
+    Element.setAttribute("OpenWEBNewVersion",           OpenWEBNewVersion?"1":"0");
+    Element.setAttribute("RestoreWindow",               RestoreWindow?"1":"0");
+    Element.setAttribute("RememberLastDirectories",     RememberLastDirectories?"1":"0");
+    Element.setAttribute("DisableTooltips",             DisableTooltips?"1":"0");
+    Element.setAttribute("ForceLanguage",               ForceLanguage);
+    Element.setAttribute("Crop1088To1080",              Crop1088To1080?"1":"0");
+    Element.setAttribute("Deinterlace",                 Deinterlace?"1":"0");
+    Element.setAttribute("Smoothing",                   Smoothing?"1":0);
+    Element.setAttribute("CheckConfigAtStartup",        CheckConfigAtStartup?"1":"0");
     root.appendChild(Element);
 
     Element=domDocument.createElement("CacheMemory");
-    Element.setAttribute("MemCacheMaxValue",        qlonglong(MemCacheMaxValue/(1024*1024)));
+    Element.setAttribute("MemCacheMaxValue",            qlonglong(MemCacheMaxValue/(1024*1024)));
     root.appendChild(Element);
 
     // Save preferences
@@ -693,7 +650,6 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
     Element.setAttribute("DisplayUnit",                 DisplayUnit);
     Element.setAttribute("PartitionMode",               PartitionMode?"1":"0");
     Element.setAttribute("WindowDisplayMode",           WindowDisplayMode);
-    Element.setAttribute("SortFileOrder",               SortFile);
     Element.setAttribute("NewTimelineHeight",           TimelineHeight);
     Element.setAttribute("DefaultFraming",              DefaultFraming);
     Element.setAttribute("PreviewFPS",                  (QString("%1").arg(PreviewFPS,0,'f')));
@@ -823,7 +779,6 @@ void cBaseApplicationConfig::InitValues() {
     PartitionMode               = false;                    // If true, partition mode is on (timeline with multiple row)
     MemCacheMaxValue            = int64_t(512*1024*1024);
     AskUserToRemove             = true;                     // If true, user must answer to a confirmation dialog box to remove slide
-    SortFile                    = SORTORDER_BYNAME;
     AppendObject                = false;                    // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
     WikiFollowInterface         = true;
     DisplayUnit                 = 1;                        // Display coordinates unit

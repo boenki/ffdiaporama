@@ -98,7 +98,7 @@ void DlgRenderVideo::DoInitDialog() {
     if (ExportMode==MODE_SOUNDTRACK) {
         ui->ExportThumbCB->setVisible(false);
         ui->ExportXBMCNfoCB->setVisible(false);
-        QString MusicPath=Diaporama->ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_MusicPath,DefaultMusicPath);
+        QString MusicPath=Diaporama->ApplicationConfig->SettingsTable->GetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_RENDERAUDIO].BROWSERString),DefaultMusicPath);
         OutputFileName=MusicPath+(MusicPath.endsWith(QDir::separator())?"":QString(QDir::separator()))+
             (Diaporama->ProjectFileName!=""?
                  (Diaporama->ApplicationConfig->DefaultNameProjectName==1?QFileInfo(Diaporama->ProjectFileName).baseName():
@@ -109,7 +109,7 @@ void DlgRenderVideo::DoInitDialog() {
         AudioFrequency      = Diaporama->ApplicationConfig->DefaultSoundtrackFreq;
         AudioBitRate        = Diaporama->ApplicationConfig->DefaultSoundtrackBitRate;
     } else {
-        QString RenderPath=Diaporama->ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_RenderVideoPath,DefaultRenderVideoPath);
+        QString RenderPath=Diaporama->ApplicationConfig->SettingsTable->GetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_RENDERVIDEO].BROWSERString),DefaultRenderVideoPath);
         OutputFileName=RenderPath+(RenderPath.endsWith(QDir::separator())?"":QString(QDir::separator()))+
             (Diaporama->ProjectFileName!=""?
                  (Diaporama->ApplicationConfig->DefaultNameProjectName==1?QFileInfo(Diaporama->ProjectFileName).baseName():
@@ -406,8 +406,8 @@ void DlgRenderVideo::SelectDestinationFile() {
     }
     QString OutputFileName  =QFileDialog::getSaveFileName(this,QApplication::translate("DlgRenderVideo","Select destination file"),ui->DestinationFilePath->text(),FileFormat);
     if (OutputFileName!="") {
-        if (ExportMode==MODE_SOUNDTRACK)    Diaporama->ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_MusicPath,QFileInfo(OutputFileName).dir().absolutePath());
-            else                            Diaporama->ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_RenderVideoPath,QFileInfo(OutputFileName).dir().absolutePath());
+        if (ExportMode==MODE_SOUNDTRACK)    Diaporama->ApplicationConfig->SettingsTable->SetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_RENDERAUDIO].BROWSERString),QFileInfo(OutputFileName).dir().absolutePath());
+            else                            Diaporama->ApplicationConfig->SettingsTable->SetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_RENDERVIDEO].BROWSERString),QFileInfo(OutputFileName).dir().absolutePath());
         ui->DestinationFilePath->setText(OutputFileName);
         AdjustDestinationFile();
     }

@@ -149,9 +149,6 @@ void MainWindow::InitWindow() {
     TitleBar=QString(APPLICATION_NAME)+" "+CurrentAppName;
     if ((TitleBar.toLower().indexOf("devel")!=-1)||(TitleBar.toLower().indexOf("beta")!=-1)) TitleBar=TitleBar+QString(" - ")+CurrentAppVersion;
 
-    ApplicationConfig->SortFile=ApplicationConfig->SettingsTable->GetIntValue("SortOrderFile",ApplicationConfig->SortFile);
-    ApplicationConfig->ShowFoldersFirst=ApplicationConfig->SettingsTable->GetIntValue("ShowFoldersFirst",ApplicationConfig->ShowFoldersFirst)==1;
-
     screen.showMessage(QApplication::translate("MainWindow","Loading system icons..."),Qt::AlignHCenter|Qt::AlignBottom);
     ApplicationConfig->PreloadSystemIcons();
 
@@ -259,17 +256,15 @@ void MainWindow::InitWindow() {
     ui->PreviousFolderBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_ArrowBack));
 
     // Initialise integrated browser
+    ApplicationConfig->DriveList->UpdateDriveList();
     ui->FolderTree->ApplicationConfig       =ApplicationConfig;
+    ui->FolderTree->FolderTable             =ui->FolderTable;
     ui->FolderTree->IsRemoveAllowed         =true;
     ui->FolderTree->IsRenameAllowed         =true;
     ui->FolderTree->IsCreateFolderAllowed   =true;
-    ui->FolderTable->ApplicationConfig      =ApplicationConfig;
-    ui->FolderTable->LASTFOLDERString       =LASTFOLDER_BrowserPath;
-    ApplicationConfig->DriveList->UpdateDriveList();
     ui->FolderTree->InitDrives();
-    ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
-    ui->FolderTable->ShowHiddenFilesAndDir  =ApplicationConfig->ShowHiddenFilesAndDir;
-    ui->FolderTable->DisplayFileName        =ApplicationConfig->DisplayFileName;
+
+    ui->FolderTable->InitSettings(ApplicationConfig,BROWSER_TYPE_MainWindow);
 
     // Initialise diaporama
     Diaporama=new cDiaporama(ApplicationConfig,true,this);
@@ -430,9 +425,7 @@ void MainWindow::InitWindow() {
     connect(ui->actionBrowserAddFiles,SIGNAL(triggered()),this,SLOT(s_Browser_AddFiles()));
     connect(ui->actionBrowserAddProject,SIGNAL(triggered()),this,SLOT(s_Browser_AddFiles()));
 
-    QString CurrentPath=QDir::toNativeSeparators(ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_BrowserPath,DefaultBrowserPath));
-    ui->FolderTree->SetSelectItemByPath(ui->FolderTree->RealPathToTreePath(CurrentPath));
-    if (QDir::toNativeSeparators(ui->FolderTree->GetCurrentFolderPath())!=CurrentPath) ui->FolderTree->SetSelectItemByPath(DefaultBrowserPath);
+    ui->FolderTree->SetSelectItemByPath(ui->FolderTree->RealPathToTreePath(ui->FolderTable->CurrentPath));
 
     // Some other init
     LastLogMessageTime=QTime::currentTime();
@@ -696,14 +689,12 @@ void MainWindow::showEvent(QShowEvent *) {
         IsFirstInitDone=true;  // do this only one time
 
         // Check BUILDVERSION to propose to the user to upgrade the application if a new one is available on internet
-        #ifndef DEBUG_MODE // Check it only if release mode
         // Start a network process to give last ffdiaporama version from internet web site
         QNetworkAccessManager *mNetworkManager=new QNetworkAccessManager(this);
         connect(mNetworkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(DoCheckBUILDVERSION(QNetworkReply*)));
         QUrl            url(BUILDVERSION_WEBURL);
-        QNetworkReply   *reply  = mNetworkManager->get(QNetworkRequest(url));
-        reply->deleteLater();
-        #endif
+        mNetworkManager->get(QNetworkRequest(url));
+
         // Set player size and pos
         SetTimelineHeight();
         ui->timeline->SetTimelineHeight(ApplicationConfig->PartitionMode);
@@ -753,6 +744,7 @@ void MainWindow::DoCheckBUILDVERSION(QNetworkReply* reply) {
         } else InternetBUILDVERSION="";
     } else InternetBUILDVERSION="";
     ToStatusBar(InternetBUILDVERSION);
+    reply->deleteLater();
 }
 
 //====================================================================================================================
@@ -1477,9 +1469,7 @@ void MainWindow::s_Action_Open() {
     ui->Action_Open_BT->setDown(false);
     ui->Action_Open_BT_2->setDown(false);
 
-    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_FFDFILE,OBJECTTYPE_FFDFILE,
-                        false,false,LASTFOLDER_ProjectPath,DefaultProjectPath,
-                        QApplication::translate("MainWindow","Open project"),ApplicationConfig,this);
+    DlgFileExplorer Dlg(BROWSER_TYPE_PROJECT,false,false,QApplication::translate("MainWindow","Open project"),ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         FileList=Dlg.GetCurrentSelectedFiles();
@@ -1551,11 +1541,8 @@ void MainWindow::DoOpenFile() {
             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes) Continue=false; else {
 
             QString NewFileName=QFileDialog::getOpenFileName(((MainWindow *)ApplicationConfig->TopLevelWindow),QApplication::translate("MainWindow","Select another file for ")+QFileInfo(ProjectFileName).fileName(),
-               ApplicationConfig->RememberLastDirectories?ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_ProjectPath,DefaultProjectPath):DefaultProjectPath,QString("ffDiaporama (*.ffd)"));
-            if (NewFileName!="") {
-                ProjectFileName=NewFileName;
-                if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_ProjectPath,QFileInfo(ProjectFileName).absolutePath());  // Keep folder for next use
-            } else Continue=false;
+               ApplicationConfig->RememberLastDirectories?QDir::toNativeSeparators(ApplicationConfig->SettingsTable->GetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_PROJECT].BROWSERString),DefaultProjectPath)):DefaultProjectPath,QString("ffDiaporama (*.ffd)"));
+            if (NewFileName!="") ProjectFileName=NewFileName; else Continue=false;
         }
     }
     if (!Continue) ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Impossible to open project file %1").arg(ProjectFileName)); else {
@@ -1737,11 +1724,11 @@ void MainWindow::s_Action_Export() {
 void MainWindow::s_Action_SaveAs() {
     // Save project
     Diaporama->ProjectFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Save project as"),
-                                                            Diaporama->ProjectFileName.isEmpty()?ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_ProjectPath,DefaultProjectPath):Diaporama->ProjectFileName,
+                                                            Diaporama->ProjectFileName.isEmpty()?QDir::toNativeSeparators(ApplicationConfig->SettingsTable->GetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_PROJECT].BROWSERString),DefaultProjectPath)):Diaporama->ProjectFileName,
                                                             QString("ffDiaporama (*.ffd)"));
     if (Diaporama->ProjectFileName!="") {
         if (QFileInfo(Diaporama->ProjectFileName).suffix()!="ffd") Diaporama->ProjectFileName=Diaporama->ProjectFileName+".ffd";
-        ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_ProjectPath,QFileInfo(Diaporama->ProjectFileName).dir().absolutePath());
+        ApplicationConfig->SettingsTable->SetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_PROJECT].BROWSERString),QFileInfo(Diaporama->ProjectFileName).dir().absolutePath());
         // Manage Recent files list
         for (int i=0;i<ApplicationConfig->RecentFile.count();i++) if (ApplicationConfig->RecentFile.at(i)==QDir::toNativeSeparators(Diaporama->ProjectFileName)) {
             ApplicationConfig->RecentFile.removeAt(i);
@@ -1873,8 +1860,7 @@ void MainWindow::s_Action_AddFile() {
     ui->ActionAdd_BT->setDown(false);
     ui->ActionAdd_BT_2->setDown(false);
 
-    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE|FILTERALLOW_OBJECTTYPE_IMAGEVECTORFILE,OBJECTTYPE_MANAGED,
-                        true,true,LASTFOLDER_Media,DefaultMediaPath,QApplication::translate("MainWindow","Add files"),ApplicationConfig,this);
+    DlgFileExplorer Dlg(BROWSER_TYPE_MEDIAFILES,true,true,QApplication::translate("MainWindow","Add files"),ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
     s_Browser_RefreshHere();
@@ -1981,9 +1967,7 @@ void MainWindow::s_Action_AddProject() {
     ui->ActionAddProject_BT->setDown(false);
     ui->ActionAddProject_BT_2->setDown(false);
 
-    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_FFDFILE,OBJECTTYPE_FFDFILE,
-                        true,true,LASTFOLDER_ProjectPath,DefaultProjectPath,
-                        QApplication::translate("MainWindow","Add a sub project"),ApplicationConfig,this);
+    DlgFileExplorer Dlg(BROWSER_TYPE_PROJECT,true,true,QApplication::translate("MainWindow","Add a sub project"),ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
     s_Browser_RefreshHere();
@@ -2397,13 +2381,13 @@ void MainWindow::s_VideoPlayer_SaveImageEvent() {
         QString Format=Ret->text().mid(QApplication::translate("MainWindow","Capture the image ").length());
         int Width =Format.left(Format.indexOf("x")).toInt();
         int Height=Format.mid(Format.indexOf("x")+1).toInt();
-        QString OutputFileName=ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_CaptureImagePath,DefaultCaptureImage);
+        QString OutputFileName=QDir::toNativeSeparators(ApplicationConfig->SettingsTable->GetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_CAPTUREIMAGE].BROWSERString),DefaultProjectPath));
         QString Filter="JPG (*.jpg)";
         if (!OutputFileName.endsWith(QDir::separator())) OutputFileName=OutputFileName+QDir::separator();
         OutputFileName=OutputFileName+QApplication::translate("MainWindow","Capture image");
         OutputFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Select destination file"),OutputFileName,"PNG (*.png);;JPG (*.jpg)",&Filter);
         if (OutputFileName!="") {
-            if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_CaptureImagePath,QFileInfo(OutputFileName).absolutePath());     // Keep folder for next use
+            if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->SettingsTable->SetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_CAPTUREIMAGE].BROWSERString),QFileInfo(OutputFileName).absolutePath());     // Keep folder for next use
             if ((Filter.toLower().indexOf("png")!=-1)&&(!OutputFileName.endsWith(".png"))) OutputFileName=OutputFileName+".png";
             if ((Filter.toLower().indexOf("jpg")!=-1)&&(!OutputFileName.endsWith(".jpg"))) OutputFileName=OutputFileName+".jpg";
             cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Diaporama->CurrentPosition,Diaporama,1,false);
@@ -2756,7 +2740,6 @@ void MainWindow::s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,QTreeW
         if (QDir(Path).canonicalPath()!="") Path=QDir(Path).canonicalPath(); // Resolved eventual .lnk files
     #endif
     ui->FolderTable->FillListFolder(Path);
-    ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_BrowserPath,QDir::toNativeSeparators(Path));
     DoBrowserRefreshFolderInfo();
 }
 
@@ -2962,6 +2945,11 @@ void MainWindow::s_Browser_RefreshDrive() {
 //====================================================================================================================
 
 void MainWindow::s_Browser_RefreshHere() {
+    // Force a new scan of folder
+    qlonglong FolderKey=ApplicationConfig->FoldersTable->GetFolderKey(ui->FolderTable->CurrentPath);
+    ApplicationConfig->FilesTable->UpdateTableForFolder(FolderKey,true);
+
+    // Refresh display
     s_Browser_FolderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
     if (DlgWorkingTaskDialog) {
         DlgWorkingTaskDialog->close();
@@ -3160,26 +3148,26 @@ void MainWindow::s_Browser_RenameFolder() {
 void MainWindow::s_Browser_ChangeDisplayMode() {
     // Create menu
     QMenu *ContextMenu=new QMenu(this);
-    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_DATA.png"),                                    QApplication::translate("MainWindow","Details view"),              ACTIONTYPE_DISPLAYMODE|DISPLAY_DATA,                    true,ApplicationConfig->CurrentMode==DISPLAY_DATA));
-    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_JUKEBOX.png"),                                 QApplication::translate("MainWindow","Icon view"),                 ACTIONTYPE_DISPLAYMODE|DISPLAY_ICON100,                 true,ApplicationConfig->CurrentMode==DISPLAY_ICON100));
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_DATA.png"),                                    QApplication::translate("MainWindow","Details view"),              ACTIONTYPE_DISPLAYMODE|DISPLAY_DATA,                    true,ui->FolderTable->CurrentMode==DISPLAY_DATA));
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_JUKEBOX.png"),                                 QApplication::translate("MainWindow","Icon view"),                 ACTIONTYPE_DISPLAYMODE|DISPLAY_ICON100,                 true,ui->FolderTable->CurrentMode==DISPLAY_ICON100));
     ContextMenu->addSeparator();
-    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/SortByNumber.png"),                                    QApplication::translate("MainWindow","Sort by number"),            ACTIONTYPE_SORTORDER|SORTORDER_BYNUMBER,                true,ApplicationConfig->SortFile==SORTORDER_BYNUMBER));
-    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/SortByName.png"),                                      QApplication::translate("MainWindow","Sort by name"),              ACTIONTYPE_SORTORDER|SORTORDER_BYNAME,                  true,ApplicationConfig->SortFile==SORTORDER_BYNAME));
-    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/SortByDate.png"),                                      QApplication::translate("MainWindow","Sort by date"),              ACTIONTYPE_SORTORDER|SORTORDER_BYDATE,                  true,ApplicationConfig->SortFile==SORTORDER_BYDATE));
-    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFOLDERIcon.GetIcon(cCustomIcon::ICON16),  QApplication::translate("MainWindow","Show folder first"),         ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_SHOWFOLDERFIRST,   true,ApplicationConfig->ShowFoldersFirst));
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/SortByNumber.png"),                                    QApplication::translate("MainWindow","Sort by number"),            ACTIONTYPE_SORTORDER|SORTORDER_BYNUMBER,                true,ui->FolderTable->SortFile==SORTORDER_BYNUMBER));
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/SortByName.png"),                                      QApplication::translate("MainWindow","Sort by name"),              ACTIONTYPE_SORTORDER|SORTORDER_BYNAME,                  true,ui->FolderTable->SortFile==SORTORDER_BYNAME));
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/SortByDate.png"),                                      QApplication::translate("MainWindow","Sort by date"),              ACTIONTYPE_SORTORDER|SORTORDER_BYDATE,                  true,ui->FolderTable->SortFile==SORTORDER_BYDATE));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFOLDERIcon.GetIcon(cCustomIcon::ICON16),  QApplication::translate("MainWindow","Show folder first"),         ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_SHOWFOLDERFIRST,   true,ui->FolderTable->ShowFoldersFirst));
     ContextMenu->addSeparator();
-    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16),    QApplication::translate("MainWindow","All files"),                 ACTIONTYPE_FILTERMODE|OBJECTTYPE_UNMANAGED,             true,ApplicationConfig->CurrentFilter==OBJECTTYPE_UNMANAGED));
-    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16),    QApplication::translate("MainWindow","Managed files"),             ACTIONTYPE_FILTERMODE|OBJECTTYPE_MANAGED,               true,ApplicationConfig->CurrentFilter==OBJECTTYPE_MANAGED));
-    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultIMAGEIcon.GetIcon(cCustomIcon::ICON16),   QApplication::translate("MainWindow","Image files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_IMAGEFILE,             true,ApplicationConfig->CurrentFilter==OBJECTTYPE_IMAGEFILE));
-    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultVIDEOIcon.GetIcon(cCustomIcon::ICON16),   QApplication::translate("MainWindow","Video files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_VIDEOFILE,             true,ApplicationConfig->CurrentFilter==OBJECTTYPE_VIDEOFILE));
-    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultMUSICIcon.GetIcon(cCustomIcon::ICON16),   QApplication::translate("MainWindow","Music files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_MUSICFILE,             true,ApplicationConfig->CurrentFilter==OBJECTTYPE_MUSICFILE));
-    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFFDIcon.GetIcon(cCustomIcon::ICON16),     QApplication::translate("MainWindow","ffDiaporama project files"), ACTIONTYPE_FILTERMODE|OBJECTTYPE_FFDFILE,               true,ApplicationConfig->CurrentFilter==OBJECTTYPE_FFDFILE));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16),    QApplication::translate("MainWindow","All files"),                 ACTIONTYPE_FILTERMODE|OBJECTTYPE_UNMANAGED,             true,ui->FolderTable->CurrentFilter==OBJECTTYPE_UNMANAGED));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16),    QApplication::translate("MainWindow","Managed files"),             ACTIONTYPE_FILTERMODE|OBJECTTYPE_MANAGED,               true,ui->FolderTable->CurrentFilter==OBJECTTYPE_MANAGED));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultIMAGEIcon.GetIcon(cCustomIcon::ICON16),   QApplication::translate("MainWindow","Image files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_IMAGEFILE,             true,ui->FolderTable->CurrentFilter==OBJECTTYPE_IMAGEFILE));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultVIDEOIcon.GetIcon(cCustomIcon::ICON16),   QApplication::translate("MainWindow","Video files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_VIDEOFILE,             true,ui->FolderTable->CurrentFilter==OBJECTTYPE_VIDEOFILE));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultMUSICIcon.GetIcon(cCustomIcon::ICON16),   QApplication::translate("MainWindow","Music files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_MUSICFILE,             true,ui->FolderTable->CurrentFilter==OBJECTTYPE_MUSICFILE));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFFDIcon.GetIcon(cCustomIcon::ICON16),     QApplication::translate("MainWindow","ffDiaporama project files"), ACTIONTYPE_FILTERMODE|OBJECTTYPE_FFDFILE,               true,ui->FolderTable->CurrentFilter==OBJECTTYPE_FFDFILE));
     ContextMenu->addSeparator();
-    if (ApplicationConfig->ShowHiddenFilesAndDir) ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_KO.png"),  QApplication::translate("MainWindow","Hide hidden files and folders"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_HIDEHIDDEN,  true,false));
-        else                                      ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_OK.png"),  QApplication::translate("MainWindow","Show hidden files and folders"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_SHOWHIDDEN,  true,false));
-    if (ApplicationConfig->CurrentMode==DISPLAY_ICON100) {
-        if (ApplicationConfig->DisplayFileName)   ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_KO.png"),  QApplication::translate("MainWindow","Hide files name"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_HIDEFILENAME,  true,false));
-            else                                  ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_OK.png"),  QApplication::translate("MainWindow","Show files name"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_SHOWFILENAME,  true,false));
+    if (ui->FolderTable->ShowHiddenFilesAndDir) ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_KO.png"),  QApplication::translate("MainWindow","Hide hidden files and folders"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_HIDEHIDDEN,  true,false));
+        else                                    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_OK.png"),  QApplication::translate("MainWindow","Show hidden files and folders"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_SHOWHIDDEN,  true,false));
+    if (ui->FolderTable->CurrentMode==DISPLAY_ICON100) {
+        if (ui->FolderTable->DisplayFileName)   ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_KO.png"),  QApplication::translate("MainWindow","Hide files name"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_HIDEFILENAME,  true,false));
+            else                                ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_OK.png"),  QApplication::translate("MainWindow","Show files name"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_SHOWFILENAME,  true,false));
     }
 
     // Exec menu
@@ -3188,34 +3176,30 @@ void MainWindow::s_Browser_ChangeDisplayMode() {
         int ActionType=Action->data().toInt() & ACTIONTYPE_ACTIONTYPE;
         int SubAction =Action->data().toInt() & (~ACTIONTYPE_ACTIONTYPE);
         if (ActionType==ACTIONTYPE_DISPLAYMODE) {
-            if (ApplicationConfig->CurrentMode!=SubAction) {
-                ApplicationConfig->CurrentMode=SubAction;
-                ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
+            if (ui->FolderTable->CurrentMode!=SubAction) {
+                ui->FolderTable->CurrentMode=SubAction;
+                ui->FolderTable->SetMode();
                 s_Browser_FolderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
             }
         } else if (ActionType==ACTIONTYPE_FILTERMODE) {
-            if (ApplicationConfig->CurrentFilter!=SubAction) {
-                ApplicationConfig->CurrentFilter=SubAction;
-                ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
+            if (ui->FolderTable->CurrentFilter!=SubAction) {
+                ui->FolderTable->CurrentFilter=SubAction;
+                ui->FolderTable->SetMode();
                 s_Browser_FolderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
             }
         } else if (ActionType==ACTIONTYPE_ONOFFOPTIONS) {
             if ((SubAction==ONOFFOPTIONS_SHOWHIDDEN)||(SubAction==ONOFFOPTIONS_HIDEHIDDEN)) {
-                ApplicationConfig->ShowHiddenFilesAndDir=(SubAction==ONOFFOPTIONS_SHOWHIDDEN);
-                ui->FolderTable->ShowHiddenFilesAndDir=ApplicationConfig->ShowHiddenFilesAndDir;
+                ui->FolderTable->ShowHiddenFilesAndDir=(SubAction==ONOFFOPTIONS_SHOWHIDDEN);
                 s_Browser_RefreshAll();
             } else if ((SubAction==ONOFFOPTIONS_SHOWFILENAME)||(SubAction==ONOFFOPTIONS_HIDEFILENAME)) {
-                ApplicationConfig->DisplayFileName=(SubAction==ONOFFOPTIONS_SHOWFILENAME);
-                ui->FolderTable->DisplayFileName=ApplicationConfig->DisplayFileName;
+                ui->FolderTable->DisplayFileName=(SubAction==ONOFFOPTIONS_SHOWFILENAME);
                 s_Browser_RefreshAll();
             } else if (SubAction==ONOFFOPTIONS_SHOWFOLDERFIRST) {
-                ApplicationConfig->ShowFoldersFirst=!ApplicationConfig->ShowFoldersFirst;
-                ApplicationConfig->SettingsTable->SetIntValue("ShowFoldersFirst",ApplicationConfig->ShowFoldersFirst?1:0);
+                ui->FolderTable->ShowFoldersFirst=!ui->FolderTable->ShowFoldersFirst;
                 s_Browser_RefreshHere();
             }
         } else if (ActionType==ACTIONTYPE_SORTORDER) {
-            ApplicationConfig->SortFile=SubAction;
-            ApplicationConfig->SettingsTable->SetIntValue("SortOrderFile",ApplicationConfig->SortFile);
+            ui->FolderTable->SortFile=SubAction;
             s_Browser_RefreshHere();
         }
     }
@@ -3678,7 +3662,7 @@ bool ByDate(const QString &Item1,const QString &Item2) {
 
 void MainWindow::SortFileList() {
     // Sort files in the fileList
-    if          (Diaporama->ApplicationConfig->SortFile==SORTORDER_BYNUMBER)    qSort(FileList.begin(),FileList.end(),ByNumber);
-        else if (Diaporama->ApplicationConfig->SortFile==SORTORDER_BYNAME)      qSort(FileList.begin(),FileList.end(),ByName);
-        else if (Diaporama->ApplicationConfig->SortFile==SORTORDER_BYDATE)      qSort(FileList.begin(),FileList.end(),ByDate);
+    if          (ui->FolderTable->SortFile==SORTORDER_BYNUMBER)    qSort(FileList.begin(),FileList.end(),ByNumber);
+        else if (ui->FolderTable->SortFile==SORTORDER_BYNAME)      qSort(FileList.begin(),FileList.end(),ByName);
+        else if (ui->FolderTable->SortFile==SORTORDER_BYDATE)      qSort(FileList.begin(),FileList.end(),ByDate);
 }

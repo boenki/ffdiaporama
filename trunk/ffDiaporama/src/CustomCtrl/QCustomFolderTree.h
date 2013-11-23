@@ -26,11 +26,14 @@
 
 // Include some common various class
 #include "../engine/cDriveList.h"
+#include "QCustomFolderTable.h"
 
 class QCustomFolderTree : public QTreeWidget {
 Q_OBJECT
 public:
     cBaseApplicationConfig  *ApplicationConfig;
+    QCustomFolderTable      *FolderTable;
+
     explicit                QCustomFolderTree(QWidget *parent=0);
     bool                    IsRemoveAllowed;
     bool                    IsRenameAllowed;

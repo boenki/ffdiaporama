@@ -423,12 +423,12 @@ bool cBaseMediaFile::GetInformationFromFile(QString FileName,QStringList *AliasL
             Continue=false;
         else {
             QString NewFileName=QFileDialog::getOpenFileName(ApplicationConfig->TopLevelWindow,QApplication::translate("cBaseMediaFile","Select another file for ")+QFileInfo(FileName).fileName(),
-                    ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_Media,DefaultMediaPath),
+                    ApplicationConfig->RememberLastDirectories?QDir::toNativeSeparators(ApplicationConfig->SettingsTable->GetTextValue(QString("%1_path").arg(BrowserTypeDef[ObjectType==OBJECTTYPE_IMAGEFILE?BROWSER_TYPE_IMAGEONLY:ObjectType==OBJECTTYPE_VIDEOFILE?BROWSER_TYPE_VIDEOONLY:BROWSER_TYPE_SOUNDONLY].BROWSERString),DefaultMediaPath)):DefaultMediaPath,
                     ApplicationConfig->GetFilterForMediaFile(ObjectType==OBJECTTYPE_IMAGEFILE?IMAGEFILE:ObjectType==OBJECTTYPE_VIDEOFILE?VIDEOFILE:MUSICFILE));
             if (NewFileName!="") {
                 if (AliasList) AliasList->append(FileName+"####"+NewFileName);
                 FileName=NewFileName;
-                if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_Media,QFileInfo(FileName).absolutePath());     // Keep folder for next use
+                if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->SettingsTable->SetTextValue(QString("%1_path").arg(BrowserTypeDef[ObjectType==OBJECTTYPE_IMAGEFILE?BROWSER_TYPE_IMAGEONLY:ObjectType==OBJECTTYPE_VIDEOFILE?BROWSER_TYPE_VIDEOONLY:BROWSER_TYPE_SOUNDONLY].BROWSERString),QFileInfo(FileName).absolutePath());     // Keep folder for next use
                 if (ModifyFlag) *ModifyFlag=true;
             } else Continue=false;
         }
@@ -1012,7 +1012,7 @@ bool cImageFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *
                                     delete IconImage;
                                     IconImage=NewImage;
                                     // if preview Icon have a really small size, then don't use it
-                                    if (IconImage->width()>=ApplicationConfig->MinimumEXIFHeight) Icon->LoadIcons(IconImage);
+                                    if (IconImage->width()>=MinimumEXIFHeight) Icon->LoadIcons(IconImage);
                                 } else {
                                     int RealWidth=int((double(IconImage->height())*double(ImageWidth))/double(ImageHeight));
                                     int Delta     =IconImage->width()-RealWidth;
@@ -1020,7 +1020,7 @@ bool cImageFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *
                                     delete IconImage;
                                     IconImage=NewImage;
                                     // if preview Icon have a really small size, then don't use it
-                                    if (IconImage->height()>=ApplicationConfig->MinimumEXIFHeight) Icon->LoadIcons(IconImage);
+                                    if (IconImage->height()>=MinimumEXIFHeight) Icon->LoadIcons(IconImage);
                                 }
                             }
 
@@ -1661,10 +1661,10 @@ bool cVideoFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *
                         else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
                         // Icon
                         if (Icon->Icon16.isNull()) {
-                            QImage Final=(ApplicationConfig->Video_ThumbWidth==162?ApplicationConfig->VideoMask_162:ApplicationConfig->Video_ThumbWidth==150?ApplicationConfig->VideoMask_150:ApplicationConfig->VideoMask_120).copy();
+                            QImage Final=(Video_ThumbWidth==162?ApplicationConfig->VideoMask_162:Video_ThumbWidth==150?ApplicationConfig->VideoMask_150:ApplicationConfig->VideoMask_120).copy();
                             QImage ImgF;
-                            if (Img->width()>Img->height()) ImgF=Img->scaledToWidth(ApplicationConfig->Video_ThumbWidth-2,Qt::SmoothTransformation);
-                                else                        ImgF=Img->scaledToHeight(ApplicationConfig->Video_ThumbHeight*0.7,Qt::SmoothTransformation);
+                            if (Img->width()>Img->height()) ImgF=Img->scaledToWidth(Video_ThumbWidth-2,Qt::SmoothTransformation);
+                                else                        ImgF=Img->scaledToHeight(Video_ThumbHeight*0.7,Qt::SmoothTransformation);
                             QPainter Painter;
                             Painter.begin(&Final);
                             Painter.drawImage(QRect((Final.width()-ImgF.width())/2,(Final.height()-ImgF.height())/2,ImgF.width(),ImgF.height()),ImgF);
@@ -2046,7 +2046,6 @@ int cVideoFile::VideoFilter_Open() {
             ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::VideoFilter_Open : avfilter_graph_create_filter: out"));
             return result;
         }
-        av_free(buffersink_params);
         AVFilterInOut *outputs=avfilter_inout_alloc();
         AVFilterInOut *inputs =avfilter_inout_alloc();
 

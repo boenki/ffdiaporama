@@ -296,9 +296,7 @@ void DlgBackgroundProperties::s_SelectFile() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_SelectFile");
     QStringList FileList;
     QString     NewFile="";
-    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_IMAGEFILE,OBJECTTYPE_IMAGEFILE,
-                        false,false,LASTFOLDER_Media,DefaultMediaPath,
-                        QApplication::translate("DlgBackgroundProperties","Select a file"),DiaporamaObject->Parent->ApplicationConfig,this);
+    DlgFileExplorer Dlg(BROWSER_TYPE_IMAGEONLY,false,false,QApplication::translate("DlgBackgroundProperties","Select a file"),DiaporamaObject->Parent->ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         FileList=Dlg.GetCurrentSelectedFiles();

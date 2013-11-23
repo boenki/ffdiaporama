@@ -2,8 +2,8 @@
 IDI_CON1 ICON        DISCARDABLE "ffdiaporama.ico"
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION	2,0,13,1118
-PRODUCTVERSION 	2,0,13,1118
+FILEVERSION	2,0,13,1123
+PRODUCTVERSION 	2,0,13,1123
 FILEFLAGSMASK  	0
 FILEFLAGS      	0
 FILEOS         	VOS__WINDOWS32
@@ -14,12 +14,12 @@ FILESUBTYPE    	0
         BLOCK "040904E4" {  // 0409 for english 0x409 and 04E4 for 1252 code page
             VALUE "CompanyName",      "."
             VALUE "LegalCopyright",   "(c) 2011-2013 Dominique LEVRAY"
-            VALUE "FileDescription",  "ffDiaporama b3"
-            VALUE "FileVersion",      "2.0.b3.2013.1118"
+            VALUE "FileDescription",  "ffDiaporama "
+            VALUE "FileVersion",      "2.0.2013.1123"
             VALUE "InternalName",     "ffDiaporama"
             VALUE "OriginalFilename", "ffDiaporama.exe"
             VALUE "ProductName",      "ffDiaporama"
-            VALUE "ProductVersion",   "2.0.b3.2013.1118"
+            VALUE "ProductVersion",   "2.0.2013.1123"
         }
     }
     BLOCK "VarFileInfo" {

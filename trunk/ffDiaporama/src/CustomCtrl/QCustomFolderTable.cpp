@@ -31,7 +31,6 @@
 #include <QModelIndexList>
 
 #include "QCustomFolderTable.h"
-#include "QCustomFolderTree.h"
 
 #include "../engine/_ImageFilters.h"
 
@@ -93,14 +92,16 @@ QImage MediaFileItem::GetIcon(cCustomIcon::IconSize Size,bool useDelayed) {
     ApplicationConfig->FilesTable->GetThumbs(FileKey,&Icon16,&Icon100);
     if (Size==cCustomIcon::ICON16) {
         if (Icon16.isNull()) {
-            if (useDelayed) Icon16=ApplicationConfig->DefaultDelayedIcon.GetIcon(cCustomIcon::ICON16)->copy();
-                else Icon16=DefaultTypeIcon16->copy();
+            if (ObjectType==OBJECTTYPE_UNMANAGED)   Icon16=ApplicationConfig->DefaultFILEIcon.Icon16.copy();
+                else if (useDelayed)                Icon16=ApplicationConfig->DefaultDelayedIcon.GetIcon(cCustomIcon::ICON16)->copy();
+                else                                Icon16=DefaultTypeIcon16->copy();
         }
         return Icon16;
     } else {
         if (Icon100.isNull()) {
-            if (useDelayed) Icon100=ApplicationConfig->DefaultDelayedIcon.GetIcon(cCustomIcon::ICON100)->copy();
-                else Icon100=DefaultTypeIcon100->copy();
+            if (ObjectType==OBJECTTYPE_UNMANAGED)   Icon100=ApplicationConfig->DefaultFILEIcon.Icon100.copy();
+                else if (useDelayed)                Icon100=ApplicationConfig->DefaultDelayedIcon.GetIcon(cCustomIcon::ICON100)->copy();
+                else                                Icon100=DefaultTypeIcon100->copy();
         }
         return Icon100;
     }
@@ -249,10 +250,6 @@ QCustomFolderTable::QCustomFolderTable(QWidget *parent):QTableWidget(parent) {
     IconDelegate            =(QAbstractItemDelegate *)new QCustomStyledItemDelegate(this);
     ApplicationConfig       =NULL;
     StopAllEvent            =false;
-    CurrentPath             ="";
-    AllowedFilter           =FILTERALLOW_OBJECTTYPE_ALL;
-    CurrentMode             =0;
-    CurrentFilter           =0;
     CurrentShowFolderNumber =0;
     CurrentShowFilesNumber  =0;
     CurrentShowFolderNumber =0;
@@ -261,8 +258,6 @@ QCustomFolderTable::QCustomFolderTable(QWidget *parent):QTableWidget(parent) {
     CurrentTotalFolderSize  =0;
     CurrentDisplayItem      =0;
     CurrentShowDuration     =0;
-    ShowHiddenFilesAndDir   =false;
-    DisplayFileName         =true;
     StopScanMediaList       =false;
     ScanMediaListProgress   =false;
     InScanMediaFunction     =false;
@@ -277,6 +272,41 @@ QCustomFolderTable::~QCustomFolderTable() {
     EnsureThreadIsStopped();
     // Clear MediaList
     while (!MediaList.isEmpty()) MediaList.removeLast();
+}
+
+//====================================================================================================================
+
+void QCustomFolderTable::InitSettings(cBaseApplicationConfig *ApplicationConfig,BROWSER_TYPE_ID BrowserType) {
+    this->ApplicationConfig =ApplicationConfig;
+    this->BrowserType       =BrowserType;
+
+    BROWSERString           =BrowserTypeDef[BrowserType].BROWSERString;
+    DefaultPath             =*BrowserTypeDef[BrowserType].DefaultPath;
+    AllowedFilter           =BrowserTypeDef[BrowserType].AllowedFilter|FILTERALLOW_OBJECTTYPE_FOLDER;
+
+    SortFile                =ApplicationConfig->SettingsTable->GetIntValue(QString("%1_SortFile")             .arg(BROWSERString),BrowserTypeDef[BrowserType].SortFile);
+    ShowFoldersFirst        =ApplicationConfig->SettingsTable->GetIntValue(QString("%1_ShowFoldersFirst")     .arg(BROWSERString),BrowserTypeDef[BrowserType].ShowFoldersFirst)==1;
+    ShowHiddenFilesAndDir   =ApplicationConfig->SettingsTable->GetIntValue(QString("%1_ShowHiddenFilesAndDir").arg(BROWSERString),BrowserTypeDef[BrowserType].ShowHiddenFilesAndDir)==1;
+    ShowMntDrive            =ApplicationConfig->SettingsTable->GetIntValue(QString("%1_ShowMntDrive")         .arg(BROWSERString),BrowserTypeDef[BrowserType].ShowMntDrive)==1;
+    DisplayFileName         =ApplicationConfig->SettingsTable->GetIntValue(QString("%1_DisplayFileName")      .arg(BROWSERString),BrowserTypeDef[BrowserType].DisplayFileName)==1;
+    CurrentFilter           =ApplicationConfig->SettingsTable->GetIntValue(QString("%1_CurrentFilter")        .arg(BROWSERString),BrowserTypeDef[BrowserType].CurrentFilter);
+    CurrentMode             =ApplicationConfig->SettingsTable->GetIntValue(QString("%1_CurrentMode")          .arg(BROWSERString),BrowserTypeDef[BrowserType].CurrentMode);
+    CurrentPath             =ApplicationConfig->RememberLastDirectories?QDir::toNativeSeparators(ApplicationConfig->SettingsTable->GetTextValue(QString("%1_path").arg(BROWSERString),DefaultPath)):DefaultPath;
+
+    SetMode();
+}
+
+//====================================================================================================================
+
+void QCustomFolderTable::SaveSettings() {
+    ApplicationConfig->SettingsTable->SetIntValue(QString("%1_SortFile")             .arg(BROWSERString),SortFile);
+    ApplicationConfig->SettingsTable->SetIntValue(QString("%1_ShowFoldersFirst")     .arg(BROWSERString),ShowFoldersFirst?1:0);
+    ApplicationConfig->SettingsTable->SetIntValue(QString("%1_ShowHiddenFilesAndDir").arg(BROWSERString),ShowHiddenFilesAndDir?1:0);
+    ApplicationConfig->SettingsTable->SetIntValue(QString("%1_ShowMntDrive")         .arg(BROWSERString),ShowMntDrive?1:0);
+    ApplicationConfig->SettingsTable->SetIntValue(QString("%1_DisplayFileName")      .arg(BROWSERString),DisplayFileName?1:0);
+    ApplicationConfig->SettingsTable->SetIntValue(QString("%1_CurrentFilter")        .arg(BROWSERString),CurrentFilter);
+    ApplicationConfig->SettingsTable->SetIntValue(QString("%1_CurrentMode")          .arg(BROWSERString),CurrentMode);
+    if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->SettingsTable->SetTextValue(QString("%1_path").arg(BROWSERString),QDir::toNativeSeparators(CurrentPath));
 }
 
 //====================================================================================================================
@@ -408,12 +438,12 @@ int QCustomFolderTable::GetWidthForIcon() {
     if (CurrentMode==DISPLAY_ICON100) {
         SizeColumn=100+CELLBORDER;
     } else {
-        if (CurrentFilter==OBJECTTYPE_VIDEOFILE)          SizeColumn=ApplicationConfig->Video_ThumbWidth+CELLBORDER;
-            else if (CurrentFilter==OBJECTTYPE_IMAGEFILE) SizeColumn=ApplicationConfig->Image_ThumbWidth+CELLBORDER;
+        if (CurrentFilter==OBJECTTYPE_VIDEOFILE)          SizeColumn=Video_ThumbWidth+CELLBORDER;
+            else if (CurrentFilter==OBJECTTYPE_IMAGEFILE) SizeColumn=Image_ThumbWidth+CELLBORDER;
             else {
-            SizeColumn=ApplicationConfig->Image_ThumbWidth;
-            if (SizeColumn<ApplicationConfig->Music_ThumbWidth) SizeColumn=ApplicationConfig->Music_ThumbWidth;
-            if (SizeColumn<ApplicationConfig->Video_ThumbWidth) SizeColumn=ApplicationConfig->Video_ThumbWidth;
+            SizeColumn=Image_ThumbWidth;
+            if (SizeColumn<Music_ThumbWidth) SizeColumn=Music_ThumbWidth;
+            if (SizeColumn<Video_ThumbWidth) SizeColumn=Video_ThumbWidth;
             SizeColumn+=CELLBORDER;
         }
     }
@@ -457,13 +487,10 @@ void QCustomFolderTable::resizeEvent(QResizeEvent *ev) {
 
 //====================================================================================================================
 
-void QCustomFolderTable::SetMode(int Mode,int Filter) {
+void QCustomFolderTable::SetMode() {
     // Ensure scan thread is stoped
     EnsureThreadIsStopped();
-    if (Mode>DISPLAY_ICON100) Mode=DISPLAY_ICON100;
-    CurrentMode  =Mode;
-    CurrentFilter=Filter;
-
+    if (CurrentMode>DISPLAY_ICON100) CurrentMode=DISPLAY_ICON100;
     if (CurrentMode==DISPLAY_ICON100) {
         // Compute DISPLAYFILENAMEHEIGHT
         QImage      Img(100,100,QImage::Format_ARGB32);
@@ -656,6 +683,10 @@ void QCustomFolderTable::mouseDoubleClickEvent(QMouseEvent *ev) {
 //====================================================================================================================
 
 void QCustomFolderTable::mouseReleaseEvent(QMouseEvent *event) {
+    if ((columnCount()==0)||(rowCount()==0)) {
+        QTableWidget::mouseReleaseEvent(event);
+        return;
+    }
     if ((CurrentMode==DISPLAY_ICON100)&&(event->button()==Qt::LeftButton)&&(event->modifiers()!=Qt::ShiftModifier)&&(event->modifiers()!=Qt::ControlModifier)) {
         // Get item number under mouse
         int ThumbWidth  =columnWidth(0);
@@ -676,7 +707,7 @@ void QCustomFolderTable::mouseReleaseEvent(QMouseEvent *event) {
 void QCustomFolderTable::mousePressEvent(QMouseEvent *event) {
     if ((CurrentMode!=DISPLAY_ICON100)||(event->button()!=Qt::LeftButton)) {
         QTableWidget::mousePressEvent(event);
-    } else {
+    } else if ((rowCount()>0)&&(columnCount()>0)) {
         // Get item number under mouse
         int ThumbWidth  =columnWidth(0);
         int ThumbHeight =rowHeight(0);
@@ -699,10 +730,11 @@ void QCustomFolderTable::mousePressEvent(QMouseEvent *event) {
 }
 
 //====================================================================================================================
+bool bShowFoldersFirst=true;
 
 bool ByNumber(const MediaFileItem &Item1,const MediaFileItem &Item2) {
-    int NmA=(((Item1.ApplicationConfig->ShowFoldersFirst)&&(Item1.ObjectType==OBJECTTYPE_FOLDER))?0:1);
-    int NmB=(((Item1.ApplicationConfig->ShowFoldersFirst)&&(Item2.ObjectType==OBJECTTYPE_FOLDER))?0:1);
+    int NmA=(((bShowFoldersFirst)&&(Item1.ObjectType==OBJECTTYPE_FOLDER))?0:1);
+    int NmB=(((bShowFoldersFirst)&&(Item2.ObjectType==OBJECTTYPE_FOLDER))?0:1);
     if (NmA<NmB) return true; else if (NmA>NmB) return false;
 
     bool ok1,ok2;
@@ -729,16 +761,16 @@ bool ByNumber(const MediaFileItem &Item1,const MediaFileItem &Item2) {
 }
 
 bool ByName(const MediaFileItem &Item1,const MediaFileItem &Item2) {
-    int NmA=(((Item1.ApplicationConfig->ShowFoldersFirst)&&(Item1.ObjectType==OBJECTTYPE_FOLDER))?0:1);
-    int NmB=(((Item1.ApplicationConfig->ShowFoldersFirst)&&(Item2.ObjectType==OBJECTTYPE_FOLDER))?0:1);
+    int NmA=(((bShowFoldersFirst)&&(Item1.ObjectType==OBJECTTYPE_FOLDER))?0:1);
+    int NmB=(((bShowFoldersFirst)&&(Item2.ObjectType==OBJECTTYPE_FOLDER))?0:1);
     if (NmA<NmB) return true; else if (NmA>NmB) return false;
     return Item1.ShortName<Item2.ShortName;
 }
 
 //LessThan
 bool ByDate(const MediaFileItem &Item1,const MediaFileItem &Item2) {
-    int NmA=(((Item1.ApplicationConfig->ShowFoldersFirst)&&(Item1.ObjectType==OBJECTTYPE_FOLDER))?0:1);
-    int NmB=(((Item1.ApplicationConfig->ShowFoldersFirst)&&(Item2.ObjectType==OBJECTTYPE_FOLDER))?0:1);
+    int NmA=(((bShowFoldersFirst)&&(Item1.ObjectType==OBJECTTYPE_FOLDER))?0:1);
+    int NmB=(((bShowFoldersFirst)&&(Item2.ObjectType==OBJECTTYPE_FOLDER))?0:1);
     if (NmA<NmB) return true; else if (NmA>NmB) return false;
     if (Item1.Modified==Item2.Modified) return Item1.ShortName<Item2.ShortName;
     return Item1.Modified<Item2.Modified;
@@ -789,7 +821,7 @@ void QCustomFolderTable::FillListFolder(QString Path) {
 
     // Scan files and add them to table
     qlonglong FolderKey=ApplicationConfig->FoldersTable->GetFolderKey(Path);
-    ApplicationConfig->FilesTable->UpdateTableForFolder(FolderKey);
+    ApplicationConfig->FilesTable->UpdateTableForFolder(FolderKey,false);
 
     // request database for files to display
     QSqlQuery   Query(ApplicationConfig->Database->db);
@@ -801,7 +833,7 @@ void QCustomFolderTable::FillListFolder(QString Path) {
         case OBJECTTYPE_VIDEOFILE:
         case OBJECTTYPE_MUSICFILE:
         case OBJECTTYPE_FFDFILE:
-            QueryString=QueryString+QString(" AND MediaFileType=%1").arg(CurrentFilter);
+            QueryString=QueryString+QString(" AND (MediaFileType=%1 OR MediaFileType=%2)").arg(CurrentFilter).arg(OBJECTTYPE_FOLDER);;
             break;
         case OBJECTTYPE_MANAGED:
             QueryString=QueryString+QString(" AND MediaFileType<>%1 AND MediaFileType<>%2").arg(OBJECTTYPE_UNMANAGED).arg(OBJECTTYPE_THUMBNAIL);
@@ -855,10 +887,10 @@ void QCustomFolderTable::FillListFolder(QString Path) {
     }
 
     // Sort files in the fileList
-    if          (ApplicationConfig->SortFile==SORTORDER_BYNUMBER)    qSort(MediaList.begin(),MediaList.end(),ByNumber);
-        else if (ApplicationConfig->SortFile==SORTORDER_BYNAME)      qSort(MediaList.begin(),MediaList.end(),ByName);
-        else if (ApplicationConfig->SortFile==SORTORDER_BYDATE)      qSort(MediaList.begin(),MediaList.end(),ByDate);
-
+    bShowFoldersFirst=ShowFoldersFirst;
+    if          (SortFile==SORTORDER_BYNUMBER)    qSort(MediaList.begin(),MediaList.end(),ByNumber);
+        else if (SortFile==SORTORDER_BYNAME)      qSort(MediaList.begin(),MediaList.end(),ByName);
+        else if (SortFile==SORTORDER_BYDATE)      qSort(MediaList.begin(),MediaList.end(),ByDate);
 
     //**********************************************************
 
@@ -871,7 +903,7 @@ void QCustomFolderTable::FillListFolder(QString Path) {
     ScanMediaList.setFuture(QtConcurrent::run(this,&QCustomFolderTable::DoScanMediaList));
 
     QApplication::restoreOverrideCursor();
-
+    SaveSettings();
 }
 
 //====================================================================================================================

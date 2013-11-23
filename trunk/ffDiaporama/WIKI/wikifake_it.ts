@@ -148,7 +148,7 @@
     </message>
     <message>
         <source>Each slide comprises one or more shots. The shots are represented on the diagram by rectangles C1, C2, C3, etc...</source>
-        <translation>Ogni diapositiva comprende una o più riprese. Le riprese sono rappresentate sul diagramma dai rettangoli C1, C2, C3, ecc.</translation>
+        <translation>Ogni diapositiva comprende una o più riprese. Le riprese sono rappresentate sul diagramma dai rettangoli C1, C2, C3, ecc...</translation>
     </message>
     <message>
         <source>Each shot has its own duration (symbolized on the diagram by the lengths C1 &apos;, C2 &apos;, C3 &apos;, etc.). Some shots can last only seconds while others can last several minutes. Some shots can have a duration of zero. (The durations are expressed in seconds but are not necessarily whole numbers: A shot can very well last 12.234 seconds).</source>
@@ -907,7 +907,7 @@
     </message>
     <message>
         <source>Controlling text background, which includes the parameters of background (color, brush, etc.).</source>
-        <translation>Controllo sfondo testo, che include i parametri di sfondo (colore, pennello, ecc.)</translation>
+        <translation>Controllo sfondo testo, che include i parametri di sfondo (colore, pennello, ecc.).</translation>
     </message>
     <message>
         <source> Open the style menu:</source>
@@ -943,7 +943,7 @@
     </message>
     <message>
         <source>Manage styles: opens the Manage style dialog.</source>
-        <translation>Gestione stili: apre la finestra Gestione stili</translation>
+        <translation>Gestione stili: apre la finestra Gestione stili.</translation>
     </message>
 </context>
 <context>
@@ -1588,7 +1588,7 @@
     </message>
     <message>
         <source>Note: Each selected file is added to the project using sort order specified in the configuration menu of the multimedia file explorer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: Ogni file selezionato viene aggiunto al progetto utilizzando l&apos;ordinamento specificato nel menu di configurazione del navigatore di file multimediali.</translation>
     </message>
 </context>
 <context>
@@ -2222,39 +2222,39 @@
     </message>
     <message>
         <source>Sort by number</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordina per numero</translation>
     </message>
     <message>
         <source>This option sorts the files in order of their numerical suffix : Example: if you select IMG_0025, IMG_0032, MVI_0029 and MVI_0040, the files will be inserted as follows : IMG_0025, MVI_0029, IMG_0032 and MVI_0040</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa opzione ordina i file in ordine del loro suffisso numerico: Esempio: Se hai selezionato IMG_0025, IMG_0032, MVI_0029 e MVI_0040,i file saranno inseriti come segue :  IMG_0025, MVI_0029, IMG_0032 and MVI_0040</translation>
     </message>
     <message>
         <source>Sort by name</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordina per nome</translation>
     </message>
     <message>
         <source>This option sorts the files in alphabetical order</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa opzione ordina i file in ordine alfabetico</translation>
     </message>
     <message>
         <source>Sort by date</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordina per data</translation>
     </message>
     <message>
         <source>This option sorts the files in order of last modification date</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa opzione ordina i file in ordine di data ultima modifica</translation>
     </message>
     <message>
         <source>Show folder first</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra prima cartella</translation>
     </message>
     <message>
         <source>If this option is enabled, the directories will be displayed first</source>
-        <translation type="unfinished"></translation>
+        <translation>Se questa opzione è abilitata, la directory verrà mostrata prima</translation>
     </message>
     <message>
         <source>Settings of the sort order</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazioni di ordinamento</translation>
     </message>
 </context>
 <context>
@@ -2793,7 +2793,7 @@
     </message>
     <message>
         <source>Copy your video files to a USB pendrive or an external hard disk and use the multimedia player integrated into the menu of the decoder</source>
-        <translation>Copia i tuoi file video in un pendrive USB o in un hard disk esterno e utilizza il riproduttore multimediale integrato nel menu del decoder.</translation>
+        <translation>Copia i tuoi file video in un pendrive USB o in un hard disk esterno e utilizza il riproduttore multimediale integrato nel menu del decoder</translation>
     </message>
     <message>
         <source>France - Freebox</source>
@@ -4039,23 +4039,23 @@
     </message>
     <message>
         <source>In order to work, the application needs two configuration files and one database. The two configuration files consists of a pair of files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per funzionare, l&apos;applicazione ha bisogno di due file di configurazione e un database. I due file di configurazione sono costituiti da una coppia di file.</translation>
     </message>
     <message>
         <source> When the application is launched for the first time, the user configuration files and the database are created if they dont already exist. </source>
-        <translation type="unfinished"></translation>
+        <translation> Quando l&apos;applicazione viene avviata per la prima volta, i file di configurazione utente e il database vengono creati se essi non esistono già. </translation>
     </message>
     <message>
         <source>If ffDiaporama is used by several users on the same PC, there will be separate configuration files and database for each user.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se ffDiaporama è utilizzato da più utenti sullo stesso PC, ci saranno i file di configurazione e database separati per ciascun utente.</translation>
     </message>
     <message>
         <source>ffDiaporama.db</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama.db</translation>
     </message>
     <message>
         <source>Is a SQLite3 database containing cached objects and some configuration options.</source>
-        <translation type="unfinished"></translation>
+        <translation>E&apos; un database SQLite3 contenente oggetti cachati e alcune opzioni di configurazione.</translation>
     </message>
 </context>
 <context>
@@ -4201,7 +4201,7 @@
     </message>
     <message>
         <source>&lt;B&gt;For the users Linux only: &lt;/B&gt;if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</source>
-        <translation>&lt;B&gt;Solo per utenti Linux: &lt;/B&gt; se questa casella è selezionata, la veccha modalità di settaggi viene utilizzata con Audio SDL. Questa opzione è utile in qualche distribuzione Linux che utilizzano ancora i vecchi pacchetti SDL (ad esempio: Ubuntu 10.10 e 11.04, Fedora 14 e 15, ecc.)</translation>
+        <translation>&lt;B&gt;Solo per utenti Linux: &lt;/B&gt; se questa casella è selezionata, la veccha modalità di settaggi viene utilizzata con Audio SDL. Questa opzione è utile in qualche distribuzione Linux che utilizzano ancora i vecchi pacchetti SDL (ad esempio: Ubuntu 10.10 e 11.04, Fedora 14 e 15, ecc.).</translation>
     </message>
     <message>
         <source>Memory profil</source>
@@ -4845,7 +4845,7 @@
     </message>
     <message>
         <source>Fill with project folder name when project save : The title will take the same name as the folder in which is save the .ffd file</source>
-        <translation>Compila con il nome della cartella del progetto quando il progetto è salvo: Il titolo avrà lo stesso nome della cartella in cui si salva il file .ffd.</translation>
+        <translation>Compila con il nome della cartella del progetto quando il progetto è salvo: Il titolo avrà lo stesso nome della cartella in cui si salva il file .ffd</translation>
     </message>
 </context>
 <context>
@@ -5031,7 +5031,7 @@
     </message>
     <message>
         <source>This type lists the templates that you saved with the &lt;B&gt;&lt;I&gt;Save as model&lt;/I&gt;&lt;/B&gt; function of the &lt;a href=&quot;0119.html&quot;&gt;Slide properties&lt;/a&gt; dialog box.</source>
-        <translation>Questo tipo di lista elenca i modelli che hai salvato con il &lt;B&gt;&lt;I&gt;Salva come modello&lt;/I&gt;&lt;/B&gt; funzione della finestra &lt;a href=&quot;0119.html&quot;&gt;Proprietà diapositiva&lt;/a&gt;</translation>
+        <translation>Questo tipo di lista elenca i modelli che hai salvato con il &lt;B&gt;&lt;I&gt;Salva come modello&lt;/I&gt;&lt;/B&gt; funzione della finestra &lt;a href=&quot;0119.html&quot;&gt;Proprietà diapositiva&lt;/a&gt;.</translation>
     </message>
     <message>
         <source> The selection area display models corresponding to the current Type and Category you previously selected.</source>
@@ -5654,7 +5654,7 @@
     </message>
     <message>
         <source>.</source>
-        <translation> </translation>
+        <translation>.</translation>
     </message>
     <message>
         <source>Remark:</source>
@@ -5698,7 +5698,7 @@
     </message>
     <message>
         <source> under the term Artist.</source>
-        <translation> sotto il termine Artista</translation>
+        <translation> sotto il termine Artista.</translation>
     </message>
     <message>
         <source>The album of the project </source>
@@ -6148,7 +6148,7 @@
     </message>
     <message>
         <source>Allows you to activate the grayscale (black &amp; white) filter.</source>
-        <translation>Consente di attivare il filtro scala di grigi (bianco e nero).</translation>
+        <translation>Consente di attivare il filtro scala di grigi (bianco &amp; nero).</translation>
     </message>
     <message>
         <source>Allows you to activate the equalize (Histogram equalization) filter.</source>
@@ -6879,7 +6879,7 @@
     </message>
     <message>
         <source>By checking the option &lt;B&gt;All slides&lt;/B&gt; to render the video of the whole project</source>
-        <translation>Selezionando l&apos;opzione &lt;B&gt;Tutte le diapositive&lt;/B&gt; per rendere il video dell&apos;intero progetto.</translation>
+        <translation>Selezionando l&apos;opzione &lt;B&gt;Tutte le diapositive&lt;/B&gt; per rendere il video dell&apos;intero progetto</translation>
     </message>
     <message>
         <source>Or by checking the option &lt;B&gt;From&lt;/B&gt; and then entering the numbers of the start and end slides to generate a video of only a part of the project.</source>
@@ -6976,7 +6976,7 @@
     </message>
     <message>
         <source>Select the video compression ratio from the displayed list</source>
-        <translation>Selezionare il rapporto di compressione video dall&apos;elenco visualizzato.</translation>
+        <translation>Selezionare il rapporto di compressione video dall&apos;elenco visualizzato</translation>
     </message>
     <message>
         <source>Audio codec</source>
@@ -7287,7 +7287,7 @@
     </message>
     <message>
         <source>Display information on active block. (Remark: This function is available only for &quot;image&quot; or &quot;video&quot; blocks.)</source>
-        <translation>Visualizza informazioni sul blocco attivo. (Nota: Questa funzione è disponibile solo per i blocchi &quot;immagine&quot; o &quot;video&quot;).</translation>
+        <translation>Visualizza informazioni sul blocco attivo. (Nota: Questa funzione è disponibile solo per i blocchi &quot;immagine&quot; o &quot;video&quot;.)</translation>
     </message>
     <message>
         <source>Allows you to open the &lt;a href=&quot;0116.html&quot;&gt;Ruler properties dialog&lt;/a&gt;</source>
@@ -7507,7 +7507,7 @@
     </message>
     <message>
         <source>&lt;B&gt;For image or video blocks: &lt;/B&gt;Allows you to select a reframing style for the image. It has the same effect as selecting a style in the dialog: &lt;a href=&quot;0110.html&quot;&gt;Correct, reframe or cut image or video&lt;/a&gt;.</source>
-        <translation>&lt;B&gt;Per i blocchi immagine o video:&lt;/B&gt;Consente di selezionare una riformulazione stile per le immagini. Ha lo stesso effetto come la selezione di uno stile nella finestra &lt;a href=&quot;0110.html&quot;&gt;Correzione, riformulazione o tagliare immagine o video&lt;/B&gt;</translation>
+        <translation>&lt;B&gt;Per i blocchi immagine o video:&lt;/B&gt;Consente di selezionare una riformulazione stile per le immagini. Ha lo stesso effetto come la selezione di uno stile nella finestra &lt;a href=&quot;0110.html&quot;&gt;Correzione, riformulazione o tagliare immagine o video&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>&lt;B&gt;For text blocks: &lt;/B&gt;Allows you to select the geometrical constraints to be applied to the block. Three type of constraint are available:</source>
@@ -7519,7 +7519,7 @@
     </message>
     <message>
         <source>Lock selection rectangle to the actual geometry. It has no meaning until you have defined a shape in &quot;no constraint&quot; mode.</source>
-        <translation>Blocca la selezione rettangolo alla geometria attuale. Non ha senso fino a quando non definisci una forma in modalità &quot;nessuna regola&quot;</translation>
+        <translation>Blocca la selezione rettangolo alla geometria attuale. Non ha senso fino a quando non definisci una forma in modalità &quot;nessuna regola&quot;.</translation>
     </message>
     <message>
         <source>Lock selection rectangle to the same geometry as the project, such that, if you place the image in full screen, the reframed part will correspond to the whole screen.</source>
@@ -7627,7 +7627,7 @@
     </message>
     <message>
         <source>Defines in which corner the shadow will be positioned (Note: the position of the shadow is independent of rotation of the block: the right lower corner is always the right lower corner, whatever rotation is applied).</source>
-        <translation>Definisce in quale angolo l&apos;ombra verrà posizionata (Nota: la posizione dell&apos;ombra è indipendente dalla rotazione del blocco: l&apos;angolo in basso a destra è sempre l&apos;angolo in basso a destra,qualsiasi rotazione è applicata)</translation>
+        <translation>Definisce in quale angolo l&apos;ombra verrà posizionata (Nota: la posizione dell&apos;ombra è indipendente dalla rotazione del blocco: l&apos;angolo in basso a destra è sempre l&apos;angolo in basso a destra,qualsiasi rotazione è applicata).</translation>
     </message>
     <message>
         <source>Distance of the shadow</source>
@@ -7777,7 +7777,7 @@
     </message>
     <message>
         <source>Display information on active block. (Remark: This function is available only for &quot;image&quot; or &quot;video&quot; blocks.)</source>
-        <translation>Visualizza informazioni sul blocco attivo. (Nota: Questa funzione è disponibile solo per i blocchi &quot;immagine&quot; o &quot;video&quot;).</translation>
+        <translation>Visualizza informazioni sul blocco attivo. (Nota: Questa funzione è disponibile solo per i blocchi &quot;immagine&quot; o &quot;video&quot;.)</translation>
     </message>
     <message>
         <source>Align to top</source>
@@ -8113,7 +8113,7 @@
     </message>
     <message>
         <source>&lt;B&gt;For image or video blocks: &lt;/B&gt;Allows you to select a reframing style for the image. It has the same effect as selecting a style in the dialog: &lt;a href=&quot;0110.html&quot;&gt;Correct, reframe or cut image or video&lt;/a&gt;.</source>
-        <translation>&lt;B&gt;Per i blocchi immagine o video:&lt;/B&gt;Consente di selezionare una riformulazione stile per le immagini. Ha lo stesso effetto come la selezione di uno stile nella finestra &lt;a href=&quot;0110.html&quot;&gt;Correzione, riformulazione o tagliare immagine o video&lt;/B&gt;</translation>
+        <translation>&lt;B&gt;Per i blocchi immagine o video:&lt;/B&gt;Consente di selezionare una riformulazione stile per le immagini. Ha lo stesso effetto come la selezione di uno stile nella finestra &lt;a href=&quot;0110.html&quot;&gt;Correzione, riformulazione o tagliare immagine o video&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>&lt;B&gt;For text blocks: &lt;/B&gt;Allows you to select the geometrical constraints to be applied to the block. Three type of constraint are available:</source>
@@ -8125,7 +8125,7 @@
     </message>
     <message>
         <source>Lock selection rectangle to the actual geometry. It has no meaning until you have defined a shape in &quot;no constraint&quot; mode.</source>
-        <translation>Blocca la selezione rettangolo alla geometria attuale. Non ha senso fino a quando non definisci una forma in modalità &quot;nessuna regola&quot;</translation>
+        <translation>Blocca la selezione rettangolo alla geometria attuale. Non ha senso fino a quando non definisci una forma in modalità &quot;nessuna regola&quot;.</translation>
     </message>
     <message>
         <source>Lock selection rectangle to the same geometry as the project, such that, if you place the image in full screen, the reframed part will correspond to the whole screen.</source>
@@ -8233,7 +8233,7 @@
     </message>
     <message>
         <source>Defines in which corner the shadow will be positioned (Note: the position of the shadow is independent of rotation of the block: the right lower corner is always the right lower corner, whatever rotation is applied).</source>
-        <translation>Definisce in quale angolo l&apos;ombra verrà posizionata (Nota: la posizione dell&apos;ombra è indipendente dalla rotazione del blocco: l&apos;angolo in basso a destra è sempre l&apos;angolo in basso a destra,qualsiasi rotazione è applicata)</translation>
+        <translation>Definisce in quale angolo l&apos;ombra verrà posizionata (Nota: la posizione dell&apos;ombra è indipendente dalla rotazione del blocco: l&apos;angolo in basso a destra è sempre l&apos;angolo in basso a destra,qualsiasi rotazione è applicata).</translation>
     </message>
     <message>
         <source>Distance of the shadow</source>

@@ -92,6 +92,17 @@
 #define DISPLAY_DATA                            0
 #define DISPLAY_ICON100                         1
 
+// Multimedia file explorer thumbs size
+#define Image_ThumbWidth                        300
+#define Image_ThumbHeight                       200
+#define Music_ThumbWidth                        200
+#define Music_ThumbHeight                       200
+#define Video_ThumbWidth                        162
+#define Video_ThumbHeight                       216
+
+// Minimum height of EXIF preview image for use it
+#define MinimumEXIFHeight                       100
+
 //============================================
 
 // Mainwindow display mode
@@ -216,16 +227,38 @@
 #define FilterOil                           0x0200
 
 //============================================
-// Last folder used string in settings table
+// Last folder used and browser settings
 //============================================
 
-#define LASTFOLDER_Media                    "Path_Media"
-#define LASTFOLDER_MusicPath                "Path_Music"
-#define LASTFOLDER_ProjectPath              "Path_Project"
-#define LASTFOLDER_ExportPath               "Path_Export"
-#define LASTFOLDER_RenderVideoPath          "Path_RenderVideo"
-#define LASTFOLDER_CaptureImagePath         "Path_CaptureImage"
-#define LASTFOLDER_BrowserPath              "Path_Browser"
+enum BROWSER_TYPE_ID {
+    BROWSER_TYPE_MainWindow,
+    BROWSER_TYPE_IMAGEONLY,
+    BROWSER_TYPE_VIDEOONLY,
+    BROWSER_TYPE_SOUNDONLY,
+    BROWSER_TYPE_MEDIAFILES,
+
+    BROWSER_TYPE_PROJECT,
+    BROWSER_TYPE_EXPORT,
+    BROWSER_TYPE_RENDERVIDEO,
+    BROWSER_TYPE_RENDERAUDIO,
+    BROWSER_TYPE_CAPTUREIMAGE,
+
+    BROWSER_TYPE_NBR
+};
+
+struct sBrowserTypeDef {
+    char        BROWSERString[20];
+    QString     *DefaultPath;                               // ptr to DefaultPath string
+    int         SortFile;                                   // Sort order for file insertion and file display in browser
+    bool        ShowFoldersFirst;                           // If true, display folders at first in table list
+    bool        ShowHiddenFilesAndDir;                      // If true, hidden files will be show
+    bool        ShowMntDrive;                               // If true, show drives under /mnt/ [Linux only]
+    int         AllowedFilter;
+    int         CurrentFilter;                              // Currently selected filter
+    int         CurrentMode;                                // Currently selected display mode
+    bool        DisplayFileName;                            // If true Display File Name in icon views
+};
+extern struct sBrowserTypeDef BrowserTypeDef[BROWSER_TYPE_NBR];
 
 //============================================
 // Sort order of files definition
@@ -295,7 +328,6 @@ public:
 
     // Editor options
     bool                    AppendObject;                               // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
-    int                     SortFile;                                   // Sort order for file insertion and file display in browser
     int                     DisplayUnit;                                // Display coordinates unit
     int                     DefaultFraming;                             // 0=Width, 1=Height
     int                     TimelineHeight;                             // Height of the timeline
@@ -406,18 +438,6 @@ public:
     cCustomIcon             DefaultVIDEOIcon,DefaultMUSICIcon;
     cCustomIcon             DefaultFFDIcon;
     QImage                  VideoMask_120,VideoMask_150,VideoMask_162;
-
-    // Multimedia file explorer specific options
-    bool                    ShowHiddenFilesAndDir;                      // If true, hidden files will be show
-    bool                    ShowMntDrive;                               // If true, show drives under /mnt/ [Linux only]
-    bool                    ShowFoldersFirst;                           // If true, display folders at first in table list
-    int                     CurrentFilter;                              // Currently selected filter
-    int                     CurrentMode;                                // Currently selected display mode
-    bool                    DisplayFileName;                            // If true Display File Name in icon views
-    int                     MinimumEXIFHeight;                          // Minimum height of EXIF preview image for use it
-    int                     Image_ThumbWidth,Image_ThumbHeight;         // Thumbnail size in big icon mode for image
-    int                     Music_ThumbWidth,Music_ThumbHeight;         // Thumbnail size in big icon mode for music
-    int                     Video_ThumbWidth,Video_ThumbHeight;         // Thumbnail size in big icon mode for video
 
     explicit                cBaseApplicationConfig(QMainWindow *TopLevelWindow,QString AllowedWEBLanguage);
                             ~cBaseApplicationConfig();

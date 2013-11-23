@@ -2475,11 +2475,7 @@ void cDiaporama::DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H,QI
     // Draw background
     if ((Info->IsTransition)&&((Info->CurrentObject_Number==0)||(Info->CurrentObject_BackgroundIndex!=Info->TransitObject_BackgroundIndex))) {
         double Opacity;
-        if ((Info->TransitObject)&&(!Info->TransitObject_PreparedBackground.isNull())) {
-            Opacity=1-ComputePCT(Info->CurrentObject->GetSpeedWave(),Info->TransitionPCTDone);
-            P.setOpacity(Opacity);
-            P.drawImage(0,0,Info->TransitObject_PreparedBackground);
-        }
+        if ((Info->TransitObject)&&(!Info->TransitObject_PreparedBackground.isNull())) P.drawImage(0,0,Info->TransitObject_PreparedBackground);
         if (!Info->CurrentObject_PreparedBackground.isNull()) {
             Opacity=ComputePCT(Info->CurrentObject->GetSpeedWave(),Info->TransitionPCTDone);
             if (Info->TransitObject) P.setOpacity(Opacity);

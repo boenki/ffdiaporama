@@ -1594,7 +1594,7 @@
     </message>
     <message>
         <source>Note: Each selected file is added to the project using sort order specified in the configuration menu of the multimedia file explorer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: каждый выделенный файл добавляется в проект, используя порядок сортировки, указанный в меню настроек Мультимедиа Проводника.</translation>
     </message>
 </context>
 <context>
@@ -2228,39 +2228,39 @@
     </message>
     <message>
         <source>Sort by number</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортировать по номеру</translation>
     </message>
     <message>
         <source>This option sorts the files in order of their numerical suffix : Example: if you select IMG_0025, IMG_0032, MVI_0029 and MVI_0040, the files will be inserted as follows : IMG_0025, MVI_0029, IMG_0032 and MVI_0040</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортирует файлы по их численным суффиксам. Например, если вы выберите IMG_0025, IMG_0032, MVI_0029 и MVI_0040, то файлы будут вставлены следующим образом: IMG_0025, MVI_0029, IMG_0032 и MVI_0040</translation>
     </message>
     <message>
         <source>Sort by name</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортировать по имени</translation>
     </message>
     <message>
         <source>This option sorts the files in alphabetical order</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортирует файлы в алфавитном порядке</translation>
     </message>
     <message>
         <source>Sort by date</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортировать по дате</translation>
     </message>
     <message>
         <source>This option sorts the files in order of last modification date</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортирует файлы по дате последнего изменения</translation>
     </message>
     <message>
         <source>Show folder first</source>
-        <translation type="unfinished"></translation>
+        <translation>Сначала показывать папки</translation>
     </message>
     <message>
         <source>If this option is enabled, the directories will be displayed first</source>
-        <translation type="unfinished"></translation>
+        <translation>Если установлен этот параметр, то сначала будут показаны папки, а потом файлы</translation>
     </message>
     <message>
         <source>Settings of the sort order</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки порядка сортировки</translation>
     </message>
 </context>
 <context>
@@ -4045,23 +4045,23 @@
     </message>
     <message>
         <source>In order to work, the application needs two configuration files and one database. The two configuration files consists of a pair of files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Для работы приложения требуется два файла конфигурации и одна база данных. Файлы конфигурации представлены двумя файлами.</translation>
     </message>
     <message>
         <source> When the application is launched for the first time, the user configuration files and the database are created if they dont already exist. </source>
-        <translation type="unfinished"></translation>
+        <translation>При запуске приложения в первый раз создаются  пользовательские файлы конфигурации и база данных, если они еще не существуют. </translation>
     </message>
     <message>
         <source>If ffDiaporama is used by several users on the same PC, there will be separate configuration files and database for each user.</source>
-        <translation type="unfinished"></translation>
+        <translation>Если ffDiaporama используется несколькими пользователями на одном компьютере, то для каждого пользователя будут созданы отдельные конфигурационные файлы и базы данных.</translation>
     </message>
     <message>
         <source>ffDiaporama.db</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama.db</translation>
     </message>
     <message>
         <source>Is a SQLite3 database containing cached objects and some configuration options.</source>
-        <translation type="unfinished"></translation>
+        <translation>SQLite3 база данных, содержащая кэшированные объекты и некоторые параметры конфигурации.</translation>
     </message>
 </context>
 <context>

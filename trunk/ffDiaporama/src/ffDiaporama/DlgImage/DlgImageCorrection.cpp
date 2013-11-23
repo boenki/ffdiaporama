@@ -728,10 +728,8 @@ void DlgImageCorrection::s_ChangeFile() {
     QStringList FileList;
     QString     NewFile="";
 
-    ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_Media,ActualFilePath);
-    DlgFileExplorer Dlg(CurrentBrush->Image?FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_IMAGEFILE:FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_VIDEOFILE,
-                        CurrentBrush->Image?OBJECTTYPE_IMAGEFILE:OBJECTTYPE_VIDEOFILE,false,false,
-                        LASTFOLDER_Media,DefaultMediaPath,QApplication::translate("CommonInfoMsg","Select a file"),ApplicationConfig,this);
+    if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->SettingsTable->SetTextValue(QString("%1_path").arg(BrowserTypeDef[CurrentBrush->Image?BROWSER_TYPE_IMAGEONLY:BROWSER_TYPE_VIDEOONLY].BROWSERString),QDir::toNativeSeparators(ActualFilePath));
+    DlgFileExplorer Dlg(CurrentBrush->Image?BROWSER_TYPE_IMAGEONLY:BROWSER_TYPE_VIDEOONLY,false,false,QApplication::translate("CommonInfoMsg","Select a file"),ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         FileList=Dlg.GetCurrentSelectedFiles();
@@ -1289,13 +1287,13 @@ void DlgImageCorrection::s_Event_SaveImageEvent() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_Event_SaveImageEvent");
     if (!IsVideo) return;
     ui->VideoPlayer->SetPlayerToPause();
-    QString OutputFileName=ApplicationConfig->SettingsTable->GetTextValue(LASTFOLDER_CaptureImagePath,DefaultCaptureImage);
+    QString OutputFileName=ApplicationConfig->SettingsTable->GetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_CAPTUREIMAGE].BROWSERString),DefaultCaptureImage);
     QString Filter="JPG (*.jpg)";
     if (!OutputFileName.endsWith(QDir::separator())) OutputFileName=OutputFileName+QDir::separator();
     OutputFileName=OutputFileName+QApplication::translate("MainWindow","Capture image");
     OutputFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Select destination file"),OutputFileName,"PNG (*.png);;JPG (*.jpg)",&Filter);
     if (OutputFileName!="") {
-        if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->SettingsTable->SetTextValue(LASTFOLDER_CaptureImagePath,QFileInfo(OutputFileName).absolutePath());     // Keep folder for next use
+        if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->SettingsTable->SetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_CAPTUREIMAGE].BROWSERString),QFileInfo(OutputFileName).absolutePath());     // Keep folder for next use
         if ((Filter.toLower().indexOf("png")!=-1)&&(!OutputFileName.endsWith(".png"))) OutputFileName=OutputFileName+".png";
         if ((Filter.toLower().indexOf("jpg")!=-1)&&(!OutputFileName.endsWith(".jpg"))) OutputFileName=OutputFileName+".jpg";
 

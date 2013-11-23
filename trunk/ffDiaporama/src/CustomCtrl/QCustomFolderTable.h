@@ -61,14 +61,21 @@ public:
     QList<MediaFileItem>    MediaList;
     cBaseApplicationConfig  *ApplicationConfig;
 
-    QString                 LASTFOLDERString;
+    // Settings
+    BROWSER_TYPE_ID         BrowserType;
+    QString                 BROWSERString;
     QString                 CurrentPath;
+    QString                 DefaultPath;
+    int                     SortFile;                                   // Sort order for file insertion and file display in browser
+    bool                    ShowFoldersFirst;                           // If true, display folders at first in table list
+    bool                    ShowHiddenFilesAndDir;                      // If true, hidden files will be show
+    bool                    ShowMntDrive;                               // If true, show drives under /mnt/ [Linux only]
     int                     AllowedFilter;
-    int                     CurrentFilter;
-    int                     CurrentMode;
-    bool                    ShowHiddenFilesAndDir;
-    bool                    DisplayFileName;
+    int                     CurrentFilter;                              // Currently selected filter
+    int                     CurrentMode;                                // Currently selected display mode
+    bool                    DisplayFileName;                            // If true Display File Name in icon views
 
+    // Actual values
     int                     CurrentShowFolderNumber;
     int                     CurrentTotalFilesNumber;
     int                     CurrentShowFilesNumber;
@@ -92,6 +99,8 @@ public:
     explicit                QCustomFolderTable(QWidget *parent = 0);
                             ~QCustomFolderTable();
 
+    virtual void            InitSettings(cBaseApplicationConfig *ApplicationConfig,BROWSER_TYPE_ID BrowserType);
+    virtual void            SaveSettings();
     virtual void            EnsureThreadIsStopped();
 
     virtual void            resizeEvent(QResizeEvent *);
@@ -99,7 +108,7 @@ public:
     virtual void            mouseReleaseEvent(QMouseEvent *);
     virtual void            mousePressEvent(QMouseEvent *event);
 
-    virtual void            SetMode(int Mode,int Filter);
+    virtual void            SetMode();
     virtual void            FillListFolder(QString Path);
 
     virtual void            AppendMediaToTable(cBaseMediaFile *MediaObject);

@@ -861,7 +861,7 @@ Al di là di questa altezza, i video vengono automaticamente ridotti per la crea
     </message>
     <message>
         <source>Join XBMC .nfo file to rendered file</source>
-        <translation>Unisci file XBMC .nfo al file generato.</translation>
+        <translation>Unisci file XBMC .nfo al file generato</translation>
     </message>
     <message>
         <source>If this box is checked, a dialog box will appear at startup the next time a new version will be available.</source>
@@ -1004,7 +1004,7 @@ Diapositive standard sono tutte personalizzabili.</translation>
     </message>
     <message>
         <source>Enter here the title of the chapter (if the &quot;Chapter name different from slide name&quot; box is checked).</source>
-        <translation>Inserisci qui il titolo del capitolo (se il &quot;nome capitolo è differente dal nome diapositiva&quot; casella è selezionata)</translation>
+        <translation>Inserisci qui il titolo del capitolo (se il &quot;nome capitolo è differente dal nome diapositiva&quot; casella è selezionata).</translation>
     </message>
     <message>
         <source>This button allows you to open project properties dialog.</source>
@@ -3661,7 +3661,7 @@ Nota: le proprietà del progetto vengono salvate nel video come TAG (metadati) c
     </message>
     <message>
         <source>Join XBMC .nfo file to rendered file</source>
-        <translation>Unisci file XBMC .nfo al file generato.</translation>
+        <translation>Unisci file XBMC .nfo al file generato</translation>
     </message>
     <message>
         <source>Select destination folder</source>
@@ -6546,54 +6546,56 @@ traccia audio</translation>
     <message>
         <source>Error reading window state of %1 from home user database</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Errore durante la lettura della finestra di stato %1 dal database dell&apos;utente</translation>
     </message>
     <message>
         <source>Init home user database...</source>
-        <translation type="unfinished"></translation>
+        <translation>Inizializzazione database utente...</translation>
     </message>
     <message>
         <source>Error initialising home user database...</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore inizializzazione database utente...</translation>
     </message>
     <message>
         <source>Error initialising home user database
 ffDiaporama can&apos;t start</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Errore inizializzazione database utente
+ffDiaporama non piò avviarsi</translation>
     </message>
     <message>
         <source>Loading text frame library...</source>
-        <translation type="unfinished"></translation>
+        <translation>Caricamento libreria inquadratura testo...</translation>
     </message>
     <message>
         <source>Sort by number</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordina per numero</translation>
     </message>
     <message>
         <source>Sort by name</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordina per nome</translation>
     </message>
     <message>
         <source>Sort by date</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordina per data</translation>
     </message>
     <message>
         <source>Show folder first</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra prima cartella</translation>
     </message>
     <message>
         <source>A new release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !</source>
-        <translation type="unfinished"></translation>
+        <translation>Un nuovo rilascio è disponibile nel sito WEB. Per favore aggiorna da  http://ffdiaporama.tuxfamily.org !</translation>
     </message>
     <message>
         <source>Your version of %1 is up to day</source>
-        <translation type="unfinished"></translation>
+        <translation>La tua versione di %1 è aggiornata</translation>
     </message>
     <message>
         <source>A new version is available from WEB site.
 Do you want to download it now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Una nuova versione è disponibile sul sito WEB.
+Vuoi scaricarla ora?</translation>
     </message>
 </context>
 <context>

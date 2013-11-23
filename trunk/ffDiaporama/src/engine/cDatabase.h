@@ -126,6 +126,8 @@ public:
 
     qlonglong               GetFolderKey(QString FolderPath);
     QString                 GetFolderPath(qlonglong FolderKey);
+    void                    UpdateFolderTimestamp(QDir Folder,qlonglong FolderKey);
+    bool                    CheckFolderTimestamp(QDir Folder,qlonglong FolderKey);
 };
 
 //**********************************************************************************************
@@ -141,7 +143,7 @@ public:
     qlonglong               GetFileKey(qlonglong FolderKey,QString ShortName,int MediaFileType);
     QString                 GetShortName(qlonglong FileKey);
     QString                 GetFileName(qlonglong FileKey);
-    void                    UpdateTableForFolder(qlonglong FolderKey);
+    void                    UpdateTableForFolder(qlonglong FolderKey,bool ForceRefresh);
     int                     CleanTableForFolder(qlonglong FolderKey);
 
     virtual bool            SetBasicProperties(qlonglong FileKey,QString Properties);
