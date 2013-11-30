@@ -274,7 +274,7 @@ void DlgSlideProperties::DoInitDialog() {
     // Force icon in contextual menu
     ui->actionAddTextBlock->setIconVisibleInMenu(true);
     ui->actionAddFile->setIconVisibleInMenu(true);
-    ui->actionAddGMapsMap->setIconVisibleInMenu(true);
+    //ui->actionAddGMapsMap->setIconVisibleInMenu(true);
     ui->actionEditText->setIconVisibleInMenu(true);
     ui->actionEditImage->setIconVisibleInMenu(true);
     ui->actionUpBlock->setIconVisibleInMenu(true);
@@ -402,9 +402,11 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->actionAddClipArtTextBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewClipArtTextBlock()));
     connect(ui->AddFileBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddNewFileBlock()));
     connect(ui->actionAddFile,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewFileBlock()));
-    connect(ui->AddSpecialBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddSpecialBlock()));
-    connect(ui->actionAddGMapsMap,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddGMapsMapBlock()));
     connect(ui->actionRemoveBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_RemoveBlock()));
+
+    //connect(ui->AddSpecialBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddSpecialBlock()));
+    //connect(ui->actionAddGMapsMap,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddGMapsMapBlock()));
+    ui->AddSpecialBlock->setVisible(false);
 
     // Style buttons
     connect(ui->FramingStyleCB,SIGNAL(itemSelectionHaveChanged()),this,SLOT(s_ChangeFramingStyle()));
@@ -1724,7 +1726,7 @@ void DlgSlideProperties::s_BlockTable_ItemRightClicked(QMouseEvent *) {
         ContextMenu->addSeparator();
         ContextMenu->addAction(ui->actionAddTextBlock);
         ContextMenu->addAction(ui->actionAddFile);
-        ContextMenu->addAction(ui->actionAddGMapsMap);
+        //ContextMenu->addAction(ui->actionAddGMapsMap);
         ContextMenu->exec(QCursor::pos());
         delete ContextMenu;
     } else if (BlockSelectMode==SELECTMODE_ONE) {
@@ -2054,7 +2056,7 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
 
 void DlgSlideProperties::s_BlockTable_AddSpecialBlock() {
     QMenu *ContextMenu=new QMenu(this);
-    ContextMenu->addAction(ui->actionAddGMapsMap);
+    //ContextMenu->addAction(ui->actionAddGMapsMap);
     ContextMenu->exec(QCursor::pos());
     delete ContextMenu;
     ui->AddSpecialBlock->setDown(false);

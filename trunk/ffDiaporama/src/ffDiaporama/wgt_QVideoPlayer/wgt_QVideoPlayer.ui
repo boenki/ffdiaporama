@@ -17,7 +17,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string notr="true">Form</string>
+   <string notr="true"/>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="spacing">
@@ -133,7 +133,7 @@
           <string notr="true">...</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../RSCffDiaporama.qrc">
            <normaloff>:/img/player_play.png</normaloff>:/img/player_play.png</iconset>
          </property>
          <property name="iconSize">
@@ -354,7 +354,7 @@ font-size: 10px;
           <string notr="true">...</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../RSCffDiaporama.qrc">
            <normaloff>:/img/Camera.png</normaloff>:/img/Camera.png</iconset>
          </property>
          <property name="iconSize">
@@ -390,6 +390,8 @@ font-size: 10px;
    <header>wgt_QVideoPlayer/QCustomRuller.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../RSCffDiaporama.qrc"/>
+ </resources>
  <connections/>
 </ui>

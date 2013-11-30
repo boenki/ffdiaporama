@@ -2,30 +2,10 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="zh_TW">
 <context>
-    <name>CommonErrorMsg</name>
-    <message>
-        <source>Format not supported</source>
-        <translation>格式不支援</translation>
-    </message>
-    <message>
-        <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
-        <translation>這個應用程式只支援具有無正負 8 位元或帶正負 16 位元採樣格式的音訊軌段</translation>
-    </message>
-    <message>
-        <source>This application support only mono or stereo audio track</source>
-        <translation>這個應用程式只支援單聲道或立體的音效訊軌段</translation>
-    </message>
-</context>
-<context>
     <name>CommonInfoMsg</name>
     <message>
         <source>Select a file</source>
         <translation>選取檔案</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <comment>Title of dialog box displaying an error</comment>
-        <translation>錯誤</translation>
     </message>
 </context>
 <context>
@@ -1477,26 +1457,6 @@ Yellow: The component works partially
 <context>
     <name>DlgFileExplorer</name>
     <message>
-        <source>Adjust display mode and file filtering</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Change to upper folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Change to previous folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Refresh folder table</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Use or manage favorite path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
         <translation>採納修改然後離開對話方塊</translation>
     </message>
@@ -1519,42 +1479,6 @@ Yellow: The component works partially
     <message>
         <source>F1</source>
         <translation>F1</translation>
-    </message>
-    <message>
-        <source>Add to favorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add current path to favorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Manage favorites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Manage favorites (rename or remove)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open file with system associated application</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Properties</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display information on file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The selection can&apos;t include folders.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
@@ -2208,60 +2132,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
         <translation>速度波動：</translation>
     </message>
     <message>
-        <source>Start :</source>
-        <translation>開始：</translation>
-    </message>
-    <message>
-        <source>Move to start position</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>移動開始位置</translation>
-    </message>
-    <message>
-        <source>Use current position as start position</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>使用現行位置做為開始位置</translation>
-    </message>
-    <message>
-        <source>Define the start position to use</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>End :</source>
-        <translation>結束：</translation>
-    </message>
-    <message>
-        <source>Define the end position to use</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Use current position as end position</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>使用現行位置做為結束位置</translation>
-    </message>
-    <message>
-        <source>Move to end position</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>移動到結束位置</translation>
-    </message>
-    <message>
-        <source>Duration :</source>
-        <translation>持續時間：</translation>
-    </message>
-    <message>
-        <source>Volume :</source>
-        <translation>音量：</translation>
-    </message>
-    <message>
-        <source>Select the &quot; Master Volume &quot; for the movie</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Deinterlace video</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Rulers</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2311,14 +2181,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     </message>
     <message>
         <source>Custom size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to define the beginning and end of a video sequence.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to activate the deinterlace filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3050,16 +2912,6 @@ It concerns as well the name of the style as the associated settings.</source>
         <translation>加入音樂檔案</translation>
     </message>
     <message>
-        <source>Error</source>
-        <comment>Error message</comment>
-        <translation>錯誤</translation>
-    </message>
-    <message>
-        <source>Format not supported</source>
-        <comment>Error message</comment>
-        <translation>格式不支援</translation>
-    </message>
-    <message>
         <source>You can continue the playlist defined in a previous slide</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3373,10 +3225,6 @@ Do you want to overwrite it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Job completed successfully!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Job canceled!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3485,6 +3333,11 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
     </message>
     <message>
         <source>Select the frequency to use for audio during the rendering.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Job completed successfully!
+Do you want to open the video now?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4431,6 +4284,44 @@ model</source>
     <message>
         <source>&amp;Help</source>
         <translation>求助(&amp;H)</translation>
+    </message>
+    <message>
+        <source>Add
+special</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a GMaps map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a map from Google maps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Correct, reframe or cut a Google Maps map</source>
+        <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reframe image vector</source>
+        <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define framing and correction of image vector</source>
+        <comment>Tooltip</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modify Google Maps map</source>
+        <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define Modify Google Maps map and framing and correction of map</source>
+        <comment>Tooltip</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5785,26 +5676,6 @@ Soundtrack</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Adjust display mode and file filtering</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Change to upper folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Change to previous folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Refresh folder table</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Use or manage favorite path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Latest version number of ffDiaporama is indeterminable</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5833,15 +5704,7 @@ Soundtrack</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add current path to favorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Manage favorites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Manage favorites (rename or remove)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5849,19 +5712,7 @@ Soundtrack</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Open file with system associated application</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display information on file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete file (Warning: file will not be moved to trash!)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5869,15 +5720,7 @@ Soundtrack</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Define a new playlist for current slide</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Add files to project</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add project to current project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5988,14 +5831,6 @@ Do you want to overwrite it?</source>
     <message>
         <source>A favorite with for this path already exists.
 Do you want to overwrite it?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Details view</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Icon view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6270,6 +6105,36 @@ ffDiaporama can&apos;t start</source>
     <message>
         <source>A new version is available from WEB site.
 Do you want to download it now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorry, but ffDiaporama is already started on this computer and can&apos;t be started several time.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image vector file (</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to read one image from the file</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No audio track found</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image vector files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select this file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 image vector files</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7198,6 +7063,15 @@ Do you want to download it now?</source>
         <comment>File type</comment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Google Maps map</source>
+        <comment>File type</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 location(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>cDeviceModelList</name>
@@ -7375,6 +7249,110 @@ Do you want to download it now?</source>
     <message>
         <source>Error reading title model file</source>
         <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>wgt_QEditVideo</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start :</source>
+        <translation type="unfinished">開始：</translation>
+    </message>
+    <message>
+        <source>Move to start position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">移動開始位置</translation>
+    </message>
+    <message>
+        <source>Use current position as start position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">使用現行位置做為開始位置</translation>
+    </message>
+    <message>
+        <source>Define the start position to use</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>End :</source>
+        <translation type="unfinished">結束：</translation>
+    </message>
+    <message>
+        <source>Define the end position to use</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use current position as end position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">使用現行位置做為結束位置</translation>
+    </message>
+    <message>
+        <source>Move to end position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">移動到結束位置</translation>
+    </message>
+    <message>
+        <source>Duration :</source>
+        <translation type="unfinished">持續時間：</translation>
+    </message>
+    <message>
+        <source>Volume :</source>
+        <translation type="unfinished">音量：</translation>
+    </message>
+    <message>
+        <source>Select the &quot; Master Volume &quot; for the movie</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the deinterlace filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Deinterlace video</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>wgt_QMultimediaBrowser</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Refresh folder table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Detail view in browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Icon view in browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use or manage favorite path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change to previous folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change to upper folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust display mode and file filtering</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selection can&apos;t include folders.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

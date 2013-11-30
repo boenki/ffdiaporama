@@ -356,8 +356,8 @@ SOURCES +=  MainWindow/cCustomSlideTable.cpp \
             DlgBackground/DlgBackgroundProperties.cpp \
             DlgAppSettings/DlgManageDevices/DlgManageDevices.cpp \
             DlgAppSettings/DlgApplicationSettings.cpp \
-            DlgImage/wgt_QGMapsMap/DlgMaps/DlgGMapsLocation.cpp \
-            DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp \
+            #DlgImage/wgt_QGMapsMap/DlgMaps/DlgGMapsLocation.cpp \
+            #DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp \
             DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp \
             DlgImage/cImgInteractiveZone.cpp \
             DlgImage/DlgImageCorrection.cpp \
@@ -437,8 +437,8 @@ HEADERS  += MainWindow/cCustomSlideTable.h \
             DlgBackground/DlgBackgroundProperties.h \
             DlgAppSettings/DlgManageDevices/DlgManageDevices.h \
             DlgAppSettings/DlgApplicationSettings.h \
-            DlgImage/wgt_QGMapsMap/DlgMaps/DlgGMapsLocation.h \
-            DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.h \
+            #DlgImage/wgt_QGMapsMap/DlgMaps/DlgGMapsLocation.h \
+            #DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.h \
             DlgImage/wgt_QEditVideo/wgt_QEditVideo.h \
             DlgImage/cImgInteractiveZone.h \
             DlgImage/DlgImageCorrection.h \
@@ -516,8 +516,8 @@ FORMS    += MainWindow/mainwindow.ui \
             DlgBackground/DlgBackgroundProperties.ui \
             DlgAppSettings/DlgManageDevices/DlgManageDevices.ui \
             DlgAppSettings/DlgApplicationSettings.ui \
-            DlgImage/wgt_QGMapsMap/DlgMaps/DlgGMapsLocation.ui \
-            DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui \
+            #DlgImage/wgt_QGMapsMap/DlgMaps/DlgGMapsLocation.ui \
+            #DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui \
             DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui \
             DlgImage/DlgImageCorrection.ui \
             DlgSlide/DlgSlideProperties.ui \

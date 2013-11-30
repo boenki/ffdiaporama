@@ -2,30 +2,10 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="it_IT" sourcelanguage="en">
 <context>
-    <name>CommonErrorMsg</name>
-    <message>
-        <source>Format not supported</source>
-        <translation>Formato non supportato</translation>
-    </message>
-    <message>
-        <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
-        <translation>Questa applicazione supporta solo traccie audio con o senza segno a 8 bit e con segno a 16 bit in formato campione</translation>
-    </message>
-    <message>
-        <source>This application support only mono or stereo audio track</source>
-        <translation>Questa applicazione supporta solo le traccie audio mono o stereo</translation>
-    </message>
-</context>
-<context>
     <name>CommonInfoMsg</name>
     <message>
         <source>Select a file</source>
         <translation>Seleziona un file</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <comment>Title of dialog box displaying an error</comment>
-        <translation>Errore</translation>
     </message>
 </context>
 <context>
@@ -1554,26 +1534,6 @@ Giallo: il componente funziona parzialmente
 <context>
     <name>DlgFileExplorer</name>
     <message>
-        <source>Adjust display mode and file filtering</source>
-        <translation>Agiusta modalità visualizzazione e filtro su file</translation>
-    </message>
-    <message>
-        <source>Change to upper folder</source>
-        <translation>Cambia alla cartella superiore</translation>
-    </message>
-    <message>
-        <source>Change to previous folder</source>
-        <translation>Cambia alla cartella precedente</translation>
-    </message>
-    <message>
-        <source>Refresh folder table</source>
-        <translation>Aggiorna tabella cartella</translation>
-    </message>
-    <message>
-        <source>Use or manage favorite path</source>
-        <translation>Utilizza o gestisci path preferiti</translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
         <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
@@ -1596,42 +1556,6 @@ Giallo: il componente funziona parzialmente
     <message>
         <source>F1</source>
         <translation>F1</translation>
-    </message>
-    <message>
-        <source>Add to favorite</source>
-        <translation>Aggiungi ai favoriti</translation>
-    </message>
-    <message>
-        <source>Add current path to favorite</source>
-        <translation>Aggiungi il percorso corrente ai preferiti</translation>
-    </message>
-    <message>
-        <source>Manage favorites</source>
-        <translation>Gestione preferiti</translation>
-    </message>
-    <message>
-        <source>Manage favorites (rename or remove)</source>
-        <translation>Gestione preferiti (rinomina o rimuovi)</translation>
-    </message>
-    <message>
-        <source>Open</source>
-        <translation>Apri</translation>
-    </message>
-    <message>
-        <source>Open file with system associated application</source>
-        <translation>Aprire il file con l&apos;applicazione associata al sistema</translation>
-    </message>
-    <message>
-        <source>Properties</source>
-        <translation>Propietà</translation>
-    </message>
-    <message>
-        <source>Display information on file</source>
-        <translation>Visualizza informazioni sul file</translation>
-    </message>
-    <message>
-        <source>The selection can&apos;t include folders.</source>
-        <translation>La selezione non può includere le cartelle.</translation>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
@@ -2257,60 +2181,6 @@ Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quin
         <translation>Selezionare una forma per il blocco corrente</translation>
     </message>
     <message>
-        <source>Start :</source>
-        <translation>Partenza :</translation>
-    </message>
-    <message>
-        <source>Move to start position</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Sposta alla posizione iniziale</translation>
-    </message>
-    <message>
-        <source>Use current position as start position</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Usa la posizione corrente come posizione iniziale</translation>
-    </message>
-    <message>
-        <source>Define the start position to use</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Definire la posizione iniziale da utilizzare</translation>
-    </message>
-    <message>
-        <source>End :</source>
-        <translation>Fine :</translation>
-    </message>
-    <message>
-        <source>Define the end position to use</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Definire la posizione finale da utilizzare</translation>
-    </message>
-    <message>
-        <source>Use current position as end position</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Usa la posizione corrente come posizione finale</translation>
-    </message>
-    <message>
-        <source>Move to end position</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Sposta alla posizione finale</translation>
-    </message>
-    <message>
-        <source>Duration :</source>
-        <translation>Durata :</translation>
-    </message>
-    <message>
-        <source>Volume :</source>
-        <translation>Volume :</translation>
-    </message>
-    <message>
-        <source>Select the &quot; Master Volume &quot; for the movie</source>
-        <translation>Selezionare il &quot; Volume Master &quot; per il filmato</translation>
-    </message>
-    <message>
-        <source>Deinterlace video</source>
-        <translation>Deinterlacciamento video</translation>
-    </message>
-    <message>
         <source>Video position :</source>
         <translation>Posizione video :</translation>
     </message>
@@ -2587,14 +2457,6 @@ Con la tastiera:
 Osservazioni:
 Quando l&apos;immagine non corrisponde alla geometria del video da produrre, zone trasparenti appaiono.
 Per esempio: un&apos;immagine 4:03 utilizzato in un progetto 16:9 vengono visualizzate per impostazione predefinita con una zona trasparente su ogni lato.</translation>
-    </message>
-    <message>
-        <source>Allows you to define the beginning and end of a video sequence.</source>
-        <translation>Consente di definire l&apos;inizio e la fine di una sequenza video.</translation>
-    </message>
-    <message>
-        <source>Allows you to activate the deinterlace filter</source>
-        <translation>Consente di attivare il filtro di deinterlacciamento</translation>
     </message>
     <message>
         <source>Allows you to enable or disable the magnetic rulers.
@@ -3231,16 +3093,6 @@ Essa riguarda anche il nome dello stile come impostazioni associate.</translatio
         <translation>Aggiungi files musicali</translation>
     </message>
     <message>
-        <source>Error</source>
-        <comment>Error message</comment>
-        <translation>Errore</translation>
-    </message>
-    <message>
-        <source>Format not supported</source>
-        <comment>Error message</comment>
-        <translation>Formato non supportata</translation>
-    </message>
-    <message>
         <source>You can continue the playlist defined in a previous slide</source>
         <translation>Puoi continuare la lista di riproduzione definita nella precedente diapositiva</translation>
     </message>
@@ -3533,10 +3385,6 @@ Vuoi sovrascriverlo?</translation>
         <translation> - Tempo stimato rimanente :</translation>
     </message>
     <message>
-        <source>Job completed successfully!</source>
-        <translation>Lavoro completato con successo! </translation>
-    </message>
-    <message>
         <source>Stop rendering process and exit dialog box</source>
         <translation>Ferma il processo di rendering e esci dalla finestra</translation>
     </message>
@@ -3682,6 +3530,11 @@ Nota: le proprietà del progetto vengono salvate nel video come TAG (metadati) c
     <message>
         <source>Select the frequency to use for audio during the rendering.</source>
         <translation>Selezionare la frequenza da utilizzare per l&apos;audio durante il rendering.</translation>
+    </message>
+    <message>
+        <source>Job completed successfully!
+Do you want to open the video now?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4703,6 +4556,44 @@ modello</translation>
     <message>
         <source>&amp;Help</source>
         <translation>A&amp;iuto</translation>
+    </message>
+    <message>
+        <source>Add
+special</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a GMaps map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a map from Google maps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Correct, reframe or cut a Google Maps map</source>
+        <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reframe image vector</source>
+        <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define framing and correction of image vector</source>
+        <comment>Tooltip</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modify Google Maps map</source>
+        <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define Modify Google Maps map and framing and correction of map</source>
+        <comment>Tooltip</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6130,26 +6021,6 @@ Vuoi aprirlo comunque?</translation>
         <translation>Avvio libav...</translation>
     </message>
     <message>
-        <source>Adjust display mode and file filtering</source>
-        <translation>Agiusta la modalità di visualizzazione e il filtro sui file</translation>
-    </message>
-    <message>
-        <source>Change to upper folder</source>
-        <translation>Cambia la cartella superiore</translation>
-    </message>
-    <message>
-        <source>Change to previous folder</source>
-        <translation>Cambia la cartella precedente</translation>
-    </message>
-    <message>
-        <source>Refresh folder table</source>
-        <translation>Aggiorna la tabella cartella</translation>
-    </message>
-    <message>
-        <source>Use or manage favorite path</source>
-        <translation>Utilizza o gestisci il path preferiti</translation>
-    </message>
-    <message>
         <source>Switch display to file explorer mode</source>
         <translation>Cambia visualizzazione a modalità esplora file</translation>
     </message>
@@ -6158,16 +6029,8 @@ Vuoi aprirlo comunque?</translation>
         <translation>Aggiungi ai favoriti</translation>
     </message>
     <message>
-        <source>Add current path to favorite</source>
-        <translation>Aggiungi il path corrente ai preferiti</translation>
-    </message>
-    <message>
         <source>Manage favorites</source>
         <translation>Gestione preferiti</translation>
-    </message>
-    <message>
-        <source>Manage favorites (rename or remove)</source>
-        <translation>Gestione preferiti (rinomina o rimuovi)</translation>
     </message>
     <message>
         <source>Total duration:</source>
@@ -6176,14 +6039,6 @@ Vuoi aprirlo comunque?</translation>
     <message>
         <source>Favorite name:</source>
         <translation>Nome preferiti:</translation>
-    </message>
-    <message>
-        <source>Details view</source>
-        <translation>Vista dettagli</translation>
-    </message>
-    <message>
-        <source>Icon view</source>
-        <translation>Vista icone</translation>
     </message>
     <message>
         <source>All files</source>
@@ -6230,32 +6085,16 @@ Vuoi aprirlo comunque?</translation>
         <translation>Apri</translation>
     </message>
     <message>
-        <source>Open file with system associated application</source>
-        <translation>Aprire il file con l&apos;applicazione associata del sistema</translation>
-    </message>
-    <message>
         <source>Properties</source>
         <translation>Propietà</translation>
-    </message>
-    <message>
-        <source>Display information on file</source>
-        <translation>Visualizza informazioni file</translation>
     </message>
     <message>
         <source>Use as new playlist</source>
         <translation>Utilizza come nuova lista di riproduzione</translation>
     </message>
     <message>
-        <source>Define a new playlist for current slide</source>
-        <translation>Definisce una nuova lista di riproduzione per la diapositiva corrente</translation>
-    </message>
-    <message>
         <source>Add files to project</source>
         <translation>Aggiungi file al progetto</translation>
-    </message>
-    <message>
-        <source>Add project to current project</source>
-        <translation>Aggiungi il progetto al progetto corrente</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -6385,10 +6224,6 @@ Vuoi aprirlo comunque?</translation>
     <message>
         <source>Reset background to &quot;Same as previous&quot;</source>
         <translation>Ripristina lo sfondo a &quot;Come il precedente&quot;</translation>
-    </message>
-    <message>
-        <source>Delete file (Warning: file will not be moved to trash!)</source>
-        <translation>Cancella file (Attenzione: il file non sara spostato nel cestino!)</translation>
     </message>
     <message>
         <source>Remove transitions</source>
@@ -6596,6 +6431,36 @@ ffDiaporama non piò avviarsi</translation>
 Do you want to download it now?</source>
         <translation>Una nuova versione è disponibile sul sito WEB.
 Vuoi scaricarla ora?</translation>
+    </message>
+    <message>
+        <source>Sorry, but ffDiaporama is already started on this computer and can&apos;t be started several time.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image vector file (</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to read one image from the file</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No audio track found</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image vector files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select this file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 image vector files</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7525,6 +7390,15 @@ Vuoi scaricarla ora?</translation>
         <comment>File type</comment>
         <translation>Immagine vettoriale</translation>
     </message>
+    <message>
+        <source>Google Maps map</source>
+        <comment>File type</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 location(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>cDeviceModelList</name>
@@ -7703,6 +7577,110 @@ Vuoi scaricarla ora?</translation>
         <source>Error reading title model file</source>
         <comment>Error message</comment>
         <translation>Errore lettura del file modello titolo</translation>
+    </message>
+</context>
+<context>
+    <name>wgt_QEditVideo</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start :</source>
+        <translation type="unfinished">Partenza :</translation>
+    </message>
+    <message>
+        <source>Move to start position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Sposta alla posizione iniziale</translation>
+    </message>
+    <message>
+        <source>Use current position as start position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Usa la posizione corrente come posizione iniziale</translation>
+    </message>
+    <message>
+        <source>Define the start position to use</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Definire la posizione iniziale da utilizzare</translation>
+    </message>
+    <message>
+        <source>End :</source>
+        <translation type="unfinished">Fine :</translation>
+    </message>
+    <message>
+        <source>Define the end position to use</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Definire la posizione finale da utilizzare</translation>
+    </message>
+    <message>
+        <source>Use current position as end position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Usa la posizione corrente come posizione finale</translation>
+    </message>
+    <message>
+        <source>Move to end position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Sposta alla posizione finale</translation>
+    </message>
+    <message>
+        <source>Duration :</source>
+        <translation type="unfinished">Durata :</translation>
+    </message>
+    <message>
+        <source>Volume :</source>
+        <translation type="unfinished">Volume :</translation>
+    </message>
+    <message>
+        <source>Select the &quot; Master Volume &quot; for the movie</source>
+        <translation type="unfinished">Selezionare il &quot; Volume Master &quot; per il filmato</translation>
+    </message>
+    <message>
+        <source>Allows you to activate the deinterlace filter</source>
+        <translation type="unfinished">Consente di attivare il filtro di deinterlacciamento</translation>
+    </message>
+    <message>
+        <source>Deinterlace video</source>
+        <translation type="unfinished">Deinterlacciamento video</translation>
+    </message>
+</context>
+<context>
+    <name>wgt_QMultimediaBrowser</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Refresh folder table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Detail view in browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Icon view in browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use or manage favorite path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change to previous folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change to upper folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust display mode and file filtering</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selection can&apos;t include folders.</source>
+        <translation type="unfinished">La selezione non può includere le cartelle.</translation>
     </message>
 </context>
 <context>
