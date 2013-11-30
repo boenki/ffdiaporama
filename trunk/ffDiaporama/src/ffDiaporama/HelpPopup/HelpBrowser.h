@@ -21,7 +21,7 @@
 #ifndef HELPBROWSER_H
 #define HELPBROWSER_H
 
-#include "../../engine/_GlobalDefines.h"
+#include "engine/_GlobalDefines.h"
 #include <QTextBrowser>
 #include <QtHelp/QHelpEngine>
 #include <QLabel>

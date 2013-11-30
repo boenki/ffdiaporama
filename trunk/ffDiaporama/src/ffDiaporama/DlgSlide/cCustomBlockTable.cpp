@@ -23,7 +23,7 @@
 #include <QHeaderView>
 #include <QTextDocument>
 #include <QScrollBar>
-#include "../../engine/cTextFrame.h"
+#include "engine/cTextFrame.h"
 
 #define ICON_VISIBLE_OK                     ":/img/Visible_OK.png"
 #define ICON_VISIBLE_KO                     ":/img/Visible_KO.png"
@@ -70,27 +70,24 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
     if (!ParentTable->CompositionList->List[index.row()]->IsVisible) Painter->setOpacity(0.5);
 
 
-    cBaseMediaFile *MediaFile=(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Image!=NULL)?(cBaseMediaFile *)ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Image:
-                              (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video!=NULL)?(cBaseMediaFile *)ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video:
-                              NULL;
+    cBaseMediaFile *MediaFile=ParentTable->CompositionList->List[index.row()]->BackgroundBrush->MediaObject;
 
     QImage Icon;
 
     if (MediaFile!=NULL) {
 
-        int Position=0;
+        QImage  *RenderImage=NULL;
+        int     Position    =0;
+
         // Compute position of video
-        if (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video)
+        if (MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE) {
             for (int i=0;i<ParentTable->CurrentShotNbr;i++)
                 for (int j=0;j<ParentTable->CurrentSlide->List[i]->ShotComposition.List.count();j++)
-            if (ParentTable->CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey==ParentTable->CompositionList->List[index.row()]->IndexKey) {
-                if (ParentTable->CurrentSlide->List[i]->ShotComposition.List[j]->IsVisible) Position+=ParentTable->CurrentSlide->List[i]->StaticDuration;
-        }
-
-
-        QImage *RenderImage=(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Image!=NULL)?ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Image->ImageAt(true):
-                            (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video!=NULL)?ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video->ImageAt(true,Position+QTime(0,0,0,0).msecsTo(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video->StartPos),NULL,ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Deinterlace,1,false,false):
-                            NULL;
+                    if (ParentTable->CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey==ParentTable->CompositionList->List[index.row()]->IndexKey) {
+                        if (ParentTable->CurrentSlide->List[i]->ShotComposition.List[j]->IsVisible) Position+=ParentTable->CurrentSlide->List[i]->StaticDuration;
+            }
+            RenderImage=((cVideoFile *)MediaFile)->ImageAt(true,Position+QTime(0,0,0,0).msecsTo(((cVideoFile *)MediaFile)->StartPos),NULL,ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Deinterlace,1,false,false);
+        } else RenderImage=MediaFile->ImageAt(true);
 
         if (RenderImage!=NULL) {
             // Create square workspace image
@@ -137,7 +134,7 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
     if (ParentTable->CurrentShotNbr>0) Painter->drawImage(QRectF(option.rect.x()+1+RowHeight,option.rect.y()+1,16,16),QImage(ParentTable->CompositionList->List[index.row()]->SameAsPrevShot?ICON_HAVELOCK:ICON_HAVENOLOCK));
 
     // With sound ?
-    if (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video!=NULL)
+    if (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)
         Painter->drawImage(QRectF(option.rect.x()+1+RowHeight,option.rect.y()+1+RowHeight/3,16,16),QImage((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->SoundVolume!=0)?ICON_SOUND_OK:ICON_SOUND_KO));
 
     // With filter ?

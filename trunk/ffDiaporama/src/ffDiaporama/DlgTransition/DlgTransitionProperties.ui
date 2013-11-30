@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>515</width>
+    <width>517</width>
     <height>282</height>
    </rect>
   </property>
@@ -277,7 +277,7 @@ The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -291,7 +291,7 @@ The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -305,7 +305,7 @@ The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
       </widget>
@@ -318,11 +318,9 @@ The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</
   <customwidget>
    <class>cCSpeedWaveComboBox</class>
    <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCSpeedWaveComboBox.h</header>
+   <header>CustomCtrl/cCSpeedWaveComboBox.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../../../RSCffDiaporama.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

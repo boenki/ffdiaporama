@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>925</width>
+    <width>927</width>
     <height>385</height>
    </rect>
   </property>
@@ -122,7 +122,7 @@ QToolButton:pressed {
          <string>Backward</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../RSCffDiaporama.qrc">
+         <iconset>
           <normaloff>:/img/arrow_left.png</normaloff>:/img/arrow_left.png</iconset>
         </property>
         <property name="iconSize">
@@ -162,7 +162,7 @@ QToolButton:pressed {
          <string>Home</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../RSCffDiaporama.qrc">
+         <iconset>
           <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
         </property>
         <property name="iconSize">
@@ -202,7 +202,7 @@ QToolButton:pressed {
          <string>Forward</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../RSCffDiaporama.qrc">
+         <iconset>
           <normaloff>:/img/arrow_right.png</normaloff>:/img/arrow_right.png</iconset>
         </property>
         <property name="iconSize">
@@ -249,7 +249,7 @@ QToolButton:pressed {
          <string>Web Site</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../RSCffDiaporama.qrc">
+         <iconset>
           <normaloff>:/img/logo.xpm</normaloff>:/img/logo.xpm</iconset>
         </property>
         <property name="iconSize">
@@ -289,7 +289,7 @@ QToolButton:pressed {
          <string>Forum</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../RSCffDiaporama.qrc">
+         <iconset>
           <normaloff>:/img/forum.png</normaloff>:/img/forum.png</iconset>
         </property>
         <property name="iconSize">
@@ -342,7 +342,7 @@ QToolButton:pressed {
          <string>Exit</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../RSCffDiaporama.qrc">
+         <iconset>
           <normaloff>:/img/exit.png</normaloff>:/img/exit.png</iconset>
         </property>
         <property name="iconSize">
@@ -594,7 +594,7 @@ QToolButton:pressed {
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Opensource.png</pixmap>
+                <pixmap>:/img/Opensource.png</pixmap>
                </property>
               </widget>
              </item>
@@ -674,7 +674,7 @@ QToolButton:pressed {
                     <string notr="true"/>
                    </property>
                    <property name="icon">
-                    <iconset resource="../../../RSCffDiaporama.qrc">
+                    <iconset>
                      <normaloff>:/img/ccbysa.png</normaloff>:/img/ccbysa.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -726,8 +726,6 @@ QToolButton:pressed {
    <header>HelpPopup/HelpContent.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../../../RSCffDiaporama.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

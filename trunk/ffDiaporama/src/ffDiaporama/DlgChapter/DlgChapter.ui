@@ -105,7 +105,7 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -119,7 +119,7 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -133,7 +133,7 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
       </widget>
@@ -233,8 +233,6 @@ Remarks : This box cannot be deactivated for the first slide of the project.</st
   <tabstop>OKBT</tabstop>
   <tabstop>CancelBt</tabstop>
  </tabstops>
- <resources>
-  <include location="../../../RSCffDiaporama.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

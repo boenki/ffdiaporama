@@ -118,7 +118,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/color.png</pixmap>
+            <pixmap>:/img/color.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -144,7 +144,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/color_fill.png</pixmap>
+            <pixmap>:/img/color_fill.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -226,7 +226,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/object_image.png</pixmap>
+            <pixmap>:/img/object_image.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -283,7 +283,7 @@
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap resource="../../../RSCffDiaporama.qrc">:/img/object_image.png</pixmap>
+              <pixmap>:/img/object_image.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -308,7 +308,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Distance.png</pixmap>
+            <pixmap>:/img/Distance.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -357,7 +357,7 @@
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset resource="../../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/EditImage.png</normaloff>:/img/EditImage.png</iconset>
              </property>
             </widget>
@@ -648,7 +648,7 @@
               <string notr="true">...</string>
              </property>
              <property name="icon">
-              <iconset resource="../../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/FolderOpen.png</normaloff>:/img/FolderOpen.png</iconset>
              </property>
             </widget>
@@ -701,7 +701,7 @@
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -740,7 +740,7 @@
         <string>Undo</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/undo24.png</normaloff>:/img/undo24.png</iconset>
        </property>
        <property name="shortcut">
@@ -757,7 +757,7 @@
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -771,7 +771,7 @@
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
       </widget>
@@ -784,21 +784,19 @@
   <customwidget>
    <class>cCColorComboBox</class>
    <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCColorComboBox.h</header>
+   <header>CustomCtrl/cCColorComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cCGrdOrientationComboBox</class>
    <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCGrdOrientationComboBox.h</header>
+   <header>CustomCtrl/cCGrdOrientationComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cBackgroundComboBox</class>
    <extends>QComboBox</extends>
-   <header>../CustomCtrl/cBackgroundComboBox.h</header>
+   <header>CustomCtrl/cBackgroundComboBox.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../../../RSCffDiaporama.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

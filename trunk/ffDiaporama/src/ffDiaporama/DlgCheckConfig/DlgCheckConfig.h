@@ -22,12 +22,12 @@
 #define DLGCHECKCONFIG_H
 
 // Basic inclusions (common to all files)
-#include "../../CustomCtrl/_QCustomDialog.h"
+#include "CustomCtrl/_QCustomDialog.h"
 
 // Include some common various class
-#include "../../engine/cBaseApplicationConfig.h"
-#include "../../engine/cDeviceModelDef.h"
-#include "../../engine/cSaveWindowPosition.h"
+#include "engine/cBaseApplicationConfig.h"
+#include "engine/cDeviceModelDef.h"
+#include "engine/cSaveWindowPosition.h"
 
 namespace Ui {
     class DlgCheckConfig;

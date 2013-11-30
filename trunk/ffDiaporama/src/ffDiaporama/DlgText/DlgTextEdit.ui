@@ -107,7 +107,7 @@
             <string notr="true"/>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/db_menu.png</normaloff>:/img/db_menu.png</iconset>
            </property>
            <property name="arrowType">
@@ -200,7 +200,7 @@ This setting applies to the paragraphs of the current selection.</string>
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/Text/text_list.png</normaloff>:/img/Text/text_list.png</iconset>
            </property>
            <property name="checkable">
@@ -235,7 +235,7 @@ This setting applies to the paragraphs of the current selection.</string>
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/Text/text_list_nbr.png</normaloff>:/img/Text/text_list_nbr.png</iconset>
            </property>
            <property name="checkable">
@@ -289,7 +289,7 @@ This setting applies to the paragraphs of the current selection.</string>
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/Text/text_align_left.png</normaloff>:/img/Text/text_align_left.png</iconset>
            </property>
            <property name="checkable">
@@ -324,7 +324,7 @@ This setting applies to the paragraphs of the current selection.</string>
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/Text/text_align_justif.png</normaloff>:/img/Text/text_align_justif.png</iconset>
            </property>
            <property name="checkable">
@@ -356,7 +356,7 @@ This setting applies to the paragraphs of the current selection.</string>
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/Text/text_align_center.png</normaloff>:/img/Text/text_align_center.png</iconset>
            </property>
            <property name="checkable">
@@ -388,7 +388,7 @@ This setting applies to the paragraphs of the current selection.</string>
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/Text/text_align_right.png</normaloff>:/img/Text/text_align_right.png</iconset>
            </property>
            <property name="checkable">
@@ -496,7 +496,7 @@ Remark: This setting applies to the block (to the whole text).</string>
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/Text/text_bold.png</normaloff>:/img/Text/text_bold.png</iconset>
            </property>
            <property name="checkable">
@@ -528,7 +528,7 @@ Remark: This setting applies to the block (to the whole text).</string>
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/Text/text_italic.png</normaloff>:/img/Text/text_italic.png</iconset>
            </property>
            <property name="checkable">
@@ -557,7 +557,7 @@ Remark: This setting applies to the block (to the whole text).</string>
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/Text/text_underline.png</normaloff>:/img/Text/text_underline.png</iconset>
            </property>
            <property name="checkable">
@@ -586,7 +586,7 @@ Remark: This setting applies to the block (to the whole text).</string>
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/Text/text_super.png</normaloff>:/img/Text/text_super.png</iconset>
            </property>
            <property name="checkable">
@@ -615,7 +615,7 @@ Remark: This setting applies to the block (to the whole text).</string>
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/Text/text_sub.png</normaloff>:/img/Text/text_sub.png</iconset>
            </property>
            <property name="checkable">
@@ -663,7 +663,7 @@ Remark: This setting applies to the block (to the whole text).</string>
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/Text/text_indent_in.png</normaloff>:/img/Text/text_indent_in.png</iconset>
            </property>
            <property name="autoExclusive">
@@ -692,7 +692,7 @@ Remark: This setting applies to the block (to the whole text).</string>
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/Text/text_indent_out.png</normaloff>:/img/Text/text_indent_out.png</iconset>
            </property>
            <property name="autoExclusive">
@@ -740,7 +740,7 @@ Remark: This setting applies to the block (to the whole text).</string>
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/Text/text_align_vup.png</normaloff>:/img/Text/text_align_vup.png</iconset>
            </property>
            <property name="checkable">
@@ -772,7 +772,7 @@ Remark: This setting applies to the block (to the whole text).</string>
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/Text/text_align_vcenter.png</normaloff>:/img/Text/text_align_vcenter.png</iconset>
            </property>
            <property name="checkable">
@@ -804,7 +804,7 @@ Remark: This setting applies to the block (to the whole text).</string>
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/Text/text_align_vbottom.png</normaloff>:/img/Text/text_align_vbottom.png</iconset>
            </property>
            <property name="checkable">
@@ -858,7 +858,7 @@ Remark: This setting applies to the block (to the whole text).</string>
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/Action_Wizard.png</normaloff>:/img/Action_Wizard.png</iconset>
            </property>
            <property name="checkable">
@@ -930,8 +930,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>465</width>
-            <height>212</height>
+            <width>290</width>
+            <height>209</height>
            </rect>
           </property>
           <layout class="QFormLayout" name="formLayout">
@@ -991,7 +991,7 @@ p, li { white-space: pre-wrap; }
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset resource="../../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/db_menu.png</normaloff>:/img/db_menu.png</iconset>
              </property>
              <property name="arrowType">
@@ -1031,7 +1031,7 @@ Image from library 	Allows you to select an image from the library.</string>
               <string notr="true"/>
              </property>
              <property name="pixmap">
-              <pixmap resource="../../../RSCffDiaporama.qrc">:/img/color.png</pixmap>
+              <pixmap>:/img/color.png</pixmap>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1162,7 +1162,7 @@ Image from library 	Allows you to select an image from the library.</string>
               <string notr="true"/>
              </property>
              <property name="pixmap">
-              <pixmap resource="../../../RSCffDiaporama.qrc">:/img/pattern_fill.png</pixmap>
+              <pixmap>:/img/pattern_fill.png</pixmap>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1215,7 +1215,7 @@ Image from library 	Allows you to select an image from the library.</string>
               <string notr="true"/>
              </property>
              <property name="pixmap">
-              <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Distance.png</pixmap>
+              <pixmap>:/img/Distance.png</pixmap>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1369,7 +1369,7 @@ If the Gradient has 3 colors, additional controls allow to define the position (
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/object_image.png</pixmap>
+                <pixmap>:/img/object_image.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -1470,7 +1470,7 @@ If the Gradient has 3 colors, additional controls allow to define the position (
           <string notr="true"/>
          </property>
          <property name="pixmap">
-          <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Width.png</pixmap>
+          <pixmap>:/img/PosSize_Width.png</pixmap>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1552,7 +1552,7 @@ This value is expressed in % of the width of the block.</string>
           <string notr="true"/>
          </property>
          <property name="pixmap">
-          <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_X.png</pixmap>
+          <pixmap>:/img/PosSize_X.png</pixmap>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1577,7 +1577,7 @@ This value is expressed in % of the width of the block.</string>
           <string notr="true"/>
          </property>
          <property name="pixmap">
-          <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Y.png</pixmap>
+          <pixmap>:/img/PosSize_Y.png</pixmap>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1602,7 +1602,7 @@ This value is expressed in % of the width of the block.</string>
           <string notr="true"/>
          </property>
          <property name="pixmap">
-          <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Height.png</pixmap>
+          <pixmap>:/img/PosSize_Height.png</pixmap>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1714,7 +1714,7 @@ This value is expressed in % of the width of the block.</string>
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -1753,7 +1753,7 @@ This value is expressed in % of the width of the block.</string>
         <string>Undo</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/undo24.png</normaloff>:/img/undo24.png</iconset>
        </property>
        <property name="shortcut">
@@ -1770,7 +1770,7 @@ This value is expressed in % of the width of the block.</string>
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -1784,7 +1784,7 @@ This value is expressed in % of the width of the block.</string>
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
       </widget>
@@ -1797,17 +1797,17 @@ This value is expressed in % of the width of the block.</string>
   <customwidget>
    <class>cCColorComboBox</class>
    <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCColorComboBox.h</header>
+   <header>CustomCtrl/cCColorComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cCGrdOrientationComboBox</class>
    <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCGrdOrientationComboBox.h</header>
+   <header>CustomCtrl/cCGrdOrientationComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cBackgroundComboBox</class>
    <extends>QComboBox</extends>
-   <header>../CustomCtrl/cBackgroundComboBox.h</header>
+   <header>CustomCtrl/cBackgroundComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cCustomTextEdit</class>
@@ -1817,12 +1817,12 @@ This value is expressed in % of the width of the block.</string>
   <customwidget>
    <class>cCBrushComboBox</class>
    <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCBrushComboBox.h</header>
+   <header>CustomCtrl/cCBrushComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>QCustomComboBox</class>
    <extends>QComboBox</extends>
-   <header>../CustomCtrl/_QCustomComboBox.h</header>
+   <header>CustomCtrl/_QCustomComboBox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -1872,8 +1872,6 @@ This value is expressed in % of the width of the block.</string>
   <tabstop>IntermPosSlider</tabstop>
   <tabstop>UndoBT</tabstop>
  </tabstops>
- <resources>
-  <include location="../../../RSCffDiaporama.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

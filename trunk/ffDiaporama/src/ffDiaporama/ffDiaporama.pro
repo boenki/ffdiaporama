@@ -254,7 +254,7 @@ LIBS        += -lavformat -lavcodec -lavutil -lswscale -lavfilter           #---
 # Ressource files
 win32:RC_FILE    += ../../ffDiaporama.rc
 unix:OTHER_FILES += ../../ffDiaporama.rc
-RESOURCES        += ../../RSCffDiaporama.qrc
+RESOURCES        += RSCffDiaporama.qrc
 
 # Translation files
 TRANSLATIONS += ../../locale/ffDiaporama_fr.ts \
@@ -346,10 +346,8 @@ OTHER_FILES += \
     ../../changelog-en.txt
 
 # Source files
-SOURCES +=  wgt_QVideoPlayer.cpp \
-            mainwindow.cpp \
-            main.cpp \
-            cCustomSlideTable.cpp \
+SOURCES +=  MainWindow/cCustomSlideTable.cpp \
+            MainWindow/mainwindow.cpp \
             DlgRenderVideo/DlgRenderVideo.cpp \
             DlgManageStyle/DlgManageStyle.cpp \
             DlgAbout/DlgAbout.cpp \
@@ -358,6 +356,9 @@ SOURCES +=  wgt_QVideoPlayer.cpp \
             DlgBackground/DlgBackgroundProperties.cpp \
             DlgAppSettings/DlgManageDevices/DlgManageDevices.cpp \
             DlgAppSettings/DlgApplicationSettings.cpp \
+            DlgImage/wgt_QGMapsMap/DlgMaps/DlgGMapsLocation.cpp \
+            DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp \
+            DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp \
             DlgImage/cImgInteractiveZone.cpp \
             DlgImage/DlgImageCorrection.cpp \
             DlgSlide/cCustomBlockTable.cpp \
@@ -377,54 +378,57 @@ SOURCES +=  wgt_QVideoPlayer.cpp \
             DlgTransition/DlgTransitionDuration.cpp \
             DlgFileExplorer/DlgFileExplorer.cpp \
             DlgChapter/DlgChapter.cpp \
+            DlgAutoTitleSlide/cCustomTitleModelTable.cpp \
             DlgAutoTitleSlide/DlgAutoTitleSlide.cpp \
             DlgExportProject/DlgExportProject.cpp \
             HelpPopup/HelpPopup.cpp \
             HelpPopup/HelpBrowser.cpp \
-            ../engine/_GlobalDefines.cpp \
-            ../engine/QCustomRuller.cpp \
-            ../engine/cSaveWindowPosition.cpp \
-            ../engine/cBaseApplicationConfig.cpp \
-            ../engine/cLuLoImageCache.cpp \
-            ../engine/cDeviceModelDef.cpp \
-            ../engine/cSoundBlockList.cpp \
-            ../engine/cBaseMediaFile.cpp \
-            ../engine/_SDL_Support.cpp \
-            ../engine/_ImageFilters.cpp \
-            ../engine/cBrushDefinition.cpp \
-            ../engine/cCustomIcon.cpp \
-            ../engine/cDriveList.cpp \
-            ../engine/_Transition.cpp \
-            ../engine/_SpeedWave.cpp \
-            ../engine/_Shape.cpp \
-            ../engine/cTextFrame.cpp \
-            ../engine/_EncodeVideo.cpp \
-            ../engine/_StyleDefinitions.cpp \
-            ../engine/_Diaporama.cpp \
-            ../engine/_Variables.cpp \
-            ../engine/_Model.cpp \
-            ../engine/cDatabase.cpp \
-            ../CustomCtrl/_QCustomDialog.cpp \
-            ../CustomCtrl/cCColorComboBox.cpp \
-            ../CustomCtrl/cCBrushComboBox.cpp \
-            ../CustomCtrl/cCSpeedWaveComboBox.cpp \
-            ../CustomCtrl/cCGrdOrientationComboBox.cpp \
-            ../CustomCtrl/cCFramingComboBox.cpp \
-            ../CustomCtrl/cCShapeComboBox.cpp \
-            ../CustomCtrl/cBackgroundComboBox.cpp \
-            ../CustomCtrl/QCustomFolderTable.cpp \
-            ../CustomCtrl/QCustomHorizSplitter.cpp \
-            ../CustomCtrl/QCustomFolderTree.cpp \
-            ../CustomCtrl/cCTexteFrameComboBox.cpp \
-            ../CustomCtrl/cThumbnailComboBox.cpp \
-            ../CustomCtrl/cCustomTitleModelTable.cpp \
-            ../CustomCtrl/_QCustomComboBox.cpp \
-            HelpPopup/HelpContent.cpp
+            engine/_GlobalDefines.cpp \
+            engine/cSaveWindowPosition.cpp \
+            engine/cBaseApplicationConfig.cpp \
+            engine/cLuLoImageCache.cpp \
+            engine/cDeviceModelDef.cpp \
+            engine/cSoundBlockList.cpp \
+            engine/cBaseMediaFile.cpp \
+            engine/_SDL_Support.cpp \
+            engine/_ImageFilters.cpp \
+            engine/cBrushDefinition.cpp \
+            engine/cCustomIcon.cpp \
+            engine/cDriveList.cpp \
+            engine/_Transition.cpp \
+            engine/_SpeedWave.cpp \
+            engine/_Shape.cpp \
+            engine/cTextFrame.cpp \
+            engine/_EncodeVideo.cpp \
+            engine/_StyleDefinitions.cpp \
+            engine/_Diaporama.cpp \
+            engine/_Variables.cpp \
+            engine/_Model.cpp \
+            engine/cDatabase.cpp \
+            engine/cLocation.cpp \
+            CustomCtrl/_QCustomDialog.cpp \
+            CustomCtrl/cCColorComboBox.cpp \
+            CustomCtrl/cCBrushComboBox.cpp \
+            CustomCtrl/cCSpeedWaveComboBox.cpp \
+            CustomCtrl/cCGrdOrientationComboBox.cpp \
+            CustomCtrl/cCFramingComboBox.cpp \
+            CustomCtrl/cCShapeComboBox.cpp \
+            CustomCtrl/cBackgroundComboBox.cpp \
+            CustomCtrl/QCustomHorizSplitter.cpp \
+            CustomCtrl/cCTexteFrameComboBox.cpp \
+            CustomCtrl/cThumbnailComboBox.cpp \
+            CustomCtrl/_QCustomComboBox.cpp \
+            wgt_QMultimediaBrowser/QCustomFolderTable.cpp \
+            wgt_QMultimediaBrowser/QCustomFolderTree.cpp \
+            wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp \
+            wgt_QVideoPlayer/QCustomRuller.cpp \
+            wgt_QVideoPlayer/wgt_QVideoPlayer.cpp \
+            HelpPopup/HelpContent.cpp \
+            main.cpp
 
 # Header files
-HEADERS  += wgt_QVideoPlayer.h \
-            cCustomSlideTable.h \
-            mainwindow.h \
+HEADERS  += MainWindow/cCustomSlideTable.h \
+            MainWindow/mainwindow.h \
             DlgRenderVideo/DlgRenderVideo.h \
             DlgManageStyle/DlgManageStyle.h \
             DlgAbout/DlgAbout.h \
@@ -433,6 +437,9 @@ HEADERS  += wgt_QVideoPlayer.h \
             DlgBackground/DlgBackgroundProperties.h \
             DlgAppSettings/DlgManageDevices/DlgManageDevices.h \
             DlgAppSettings/DlgApplicationSettings.h \
+            DlgImage/wgt_QGMapsMap/DlgMaps/DlgGMapsLocation.h \
+            DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.h \
+            DlgImage/wgt_QEditVideo/wgt_QEditVideo.h \
             DlgImage/cImgInteractiveZone.h \
             DlgImage/DlgImageCorrection.h \
             DlgSlide/DlgSlideProperties.h \
@@ -452,53 +459,55 @@ HEADERS  += wgt_QVideoPlayer.h \
             DlgTransition/DlgTransitionDuration.h \
             DlgFileExplorer/DlgFileExplorer.h \
             DlgChapter/DlgChapter.h \
+            DlgAutoTitleSlide/cCustomTitleModelTable.h \
             DlgAutoTitleSlide/DlgAutoTitleSlide.h \
             DlgExportProject/DlgExportProject.h \
             HelpPopup/HelpPopup.h \
             HelpPopup/HelpBrowser.h \
-            ../engine/QCustomRuller.h \
-            ../engine/cSaveWindowPosition.h \
-            ../engine/cBaseApplicationConfig.h \
-            ../engine/cLuLoImageCache.h \
-            ../engine/cDeviceModelDef.h \
-            ../engine/_GlobalDefines.h \
-            ../engine/cSoundBlockList.h \
-            ../engine/cBaseMediaFile.h \
-            ../engine/_SDL_Support.h \
-            ../engine/_ImageFilters.h \
-            ../engine/cBrushDefinition.h \
-            ../engine/cCustomIcon.h \
-            ../engine/cDriveList.h \
-            ../engine/_Transition.h \
-            ../engine/_SpeedWave.h \
-            ../engine/_Shape.h \
-            ../engine/cTextFrame.h \
-            ../engine/_EncodeVideo.h \
-            ../engine/_StyleDefinitions.h \
-            ../engine/_Diaporama.h \
-            ../engine/_Variables.h \
-            ../engine/_Model.h \
-            ../engine/cDatabase.h \
-            ../CustomCtrl/_QCustomDialog.h \
-            ../CustomCtrl/cCColorComboBox.h \
-            ../CustomCtrl/cCBrushComboBox.h \
-            ../CustomCtrl/cCSpeedWaveComboBox.h \
-            ../CustomCtrl/cCGrdOrientationComboBox.h \
-            ../CustomCtrl/cCFramingComboBox.h \
-            ../CustomCtrl/cCShapeComboBox.h \
-            ../CustomCtrl/cBackgroundComboBox.h \
-            ../CustomCtrl/QCustomFolderTable.h \
-            ../CustomCtrl/QCustomHorizSplitter.h \
-            ../CustomCtrl/QCustomFolderTree.h \
-            ../CustomCtrl/cCTexteFrameComboBox.h \
-            ../CustomCtrl/cThumbnailComboBox.h \
-            ../CustomCtrl/cCustomTitleModelTable.h \
-            ../CustomCtrl/_QCustomComboBox.h \
+            engine/cSaveWindowPosition.h \
+            engine/cBaseApplicationConfig.h \
+            engine/cLuLoImageCache.h \
+            engine/cDeviceModelDef.h \
+            engine/_GlobalDefines.h \
+            engine/cSoundBlockList.h \
+            engine/cBaseMediaFile.h \
+            engine/_SDL_Support.h \
+            engine/_ImageFilters.h \
+            engine/cBrushDefinition.h \
+            engine/cCustomIcon.h \
+            engine/cDriveList.h \
+            engine/_Transition.h \
+            engine/_SpeedWave.h \
+            engine/_Shape.h \
+            engine/cTextFrame.h \
+            engine/_EncodeVideo.h \
+            engine/_StyleDefinitions.h \
+            engine/_Diaporama.h \
+            engine/_Variables.h \
+            engine/_Model.h \
+            engine/cDatabase.h \
+            engine/cLocation.h \
+            CustomCtrl/_QCustomDialog.h \
+            CustomCtrl/cCColorComboBox.h \
+            CustomCtrl/cCBrushComboBox.h \
+            CustomCtrl/cCSpeedWaveComboBox.h \
+            CustomCtrl/cCGrdOrientationComboBox.h \
+            CustomCtrl/cCFramingComboBox.h \
+            CustomCtrl/cCShapeComboBox.h \
+            CustomCtrl/cBackgroundComboBox.h \
+            CustomCtrl/QCustomHorizSplitter.h \
+            CustomCtrl/cCTexteFrameComboBox.h \
+            CustomCtrl/cThumbnailComboBox.h \
+            CustomCtrl/_QCustomComboBox.h \
+            wgt_QMultimediaBrowser/QCustomFolderTable.h \
+            wgt_QMultimediaBrowser/QCustomFolderTree.h \
+            wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.h \
+            wgt_QVideoPlayer/QCustomRuller.h \
+            wgt_QVideoPlayer/wgt_QVideoPlayer.h \
             HelpPopup/HelpContent.h
 
 # Forms files
-FORMS    += mainwindow.ui \
-            wgt_QVideoPlayer.ui \
+FORMS    += MainWindow/mainwindow.ui \
             DlgRenderVideo/DlgRenderVideo.ui \
             DlgManageStyle/DlgManageStyle.ui \
             DlgAbout/DlgAbout.ui \
@@ -507,6 +516,9 @@ FORMS    += mainwindow.ui \
             DlgBackground/DlgBackgroundProperties.ui \
             DlgAppSettings/DlgManageDevices/DlgManageDevices.ui \
             DlgAppSettings/DlgApplicationSettings.ui \
+            DlgImage/wgt_QGMapsMap/DlgMaps/DlgGMapsLocation.ui \
+            DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui \
+            DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui \
             DlgImage/DlgImageCorrection.ui \
             DlgSlide/DlgSlideProperties.ui \
             DlgSlide/DlgRuler/DlgRulerDef.ui \
@@ -523,6 +535,8 @@ FORMS    += mainwindow.ui \
             DlgChapter/DlgChapter.ui \
             DlgAutoTitleSlide/DlgAutoTitleSlide.ui \
             DlgExportProject/DlgExportProject.ui \
+            wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui \
+            wgt_QVideoPlayer/wgt_QVideoPlayer.ui \
             HelpPopup/HelpPopup.ui
 
 #--------------------------------------------------------------

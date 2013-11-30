@@ -188,8 +188,8 @@ void cInteractiveZone::RefreshDisplay() {
 
         for (int i=0;i<BlockTable->CompositionList->List.count();i++) if (BlockTable->CompositionList->List[i]->IsVisible) {
             // If it's a video block, calc video position
-            if (BlockTable->CompositionList->List[i]->BackgroundBrush->Video) {
-                StartVideoPos=QTime(0,0,0,0).msecsTo(BlockTable->CompositionList->List[i]->BackgroundBrush->Video->StartPos);
+            if (BlockTable->CompositionList->List[i]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
+                StartVideoPos=QTime(0,0,0,0).msecsTo(((cVideoFile *)BlockTable->CompositionList->List[i]->BackgroundBrush->MediaObject)->StartPos);
                 for (int k=0;k<CurrentShotNbr;k++) {
                     for (int l=0;l<DiaporamaObject->List[k]->ShotComposition.List.count();l++) {
                         if (DiaporamaObject->List[k]->ShotComposition.List[l]->IndexKey==BlockTable->CompositionList->List[i]->IndexKey) {
@@ -417,9 +417,7 @@ void cInteractiveZone::UpdateIsSelected() {
 
     for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
         NbrSelected++;
-        if ((BlockTable->CompositionList->List[i]->BackgroundBrush->LockGeometry)||
-            (BlockTable->CompositionList->List[i]->BackgroundBrush->Image!=NULL)||
-            (BlockTable->CompositionList->List[i]->BackgroundBrush->Video!=NULL)) LockGeometry=true;
+        if (BlockTable->CompositionList->List[i]->BackgroundBrush->LockGeometry) LockGeometry=true;
         if ((CurrentShotNbr>0)&&(BlockTable->CompositionList->List[i]->SameAsPrevShot)) SelectionHaveLockBlock=true;
     }
 }

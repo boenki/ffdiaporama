@@ -22,7 +22,7 @@
 #define HELPPOPUP_H
 
 #include <QtHelp/QHelpEngine>
-#include <../CustomCtrl/_QCustomDialog.h>
+#include <CustomCtrl/_QCustomDialog.h>
 #include "HelpBrowser.h"
 
 namespace Ui {

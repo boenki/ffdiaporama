@@ -79,15 +79,24 @@ void cImgInteractiveZone::InitCachedImage(cCompositionObject *TheCompoObject,int
         CachedImage=NULL;
     }
 
-    if (CurrentBrush->Image) {
-        CachedImage=CurrentBrush->Image->ImageAt(false);
-     } else if (CurrentBrush->Video) {
-        CachedImage=CurrentBrush->Video->ImageAt(false,VideoPosition+QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,CurrentBrush->Deinterlace,1,false,false);
-        if (CachedImage->format()!=QImage::Format_ARGB32_Premultiplied) {
-            QImage *NewCachedImage=new QImage(CachedImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
-            delete CachedImage;
-            CachedImage=NewCachedImage;
-        }
+    cVideoFile *Video=NULL;
+    if (CurrentBrush->MediaObject) switch (CurrentBrush->MediaObject->ObjectType) {
+        case OBJECTTYPE_IMAGEFILE:
+        case OBJECTTYPE_IMAGEVECTOR:
+        case OBJECTTYPE_IMAGECLIPBOARD:
+        case OBJECTTYPE_GMAPSMAP:
+            CachedImage=CurrentBrush->MediaObject->ImageAt(false);
+            break;
+        case OBJECTTYPE_VIDEOFILE:
+            Video=(cVideoFile *)CurrentBrush->MediaObject;
+            CachedImage=Video->ImageAt(false,VideoPosition+QTime(0,0,0,0).msecsTo(Video->StartPos),NULL,CurrentBrush->Deinterlace,1,false,false);
+            break;
+        default: break; // to avoid warning
+    }
+    if ((CachedImage)&&(CachedImage->format()!=QImage::Format_ARGB32_Premultiplied)) {
+        QImage *NewCachedImage=new QImage(CachedImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
+        delete CachedImage;
+        CachedImage=NewCachedImage;
     }
 }
 
@@ -195,7 +204,7 @@ void cImgInteractiveZone::DrawSelect(QPainter &Painter,QRectF Rect,bool WithHand
 //====================================================================================================================
 
 void cImgInteractiveZone::RefreshDisplay() {
-    if (!CurrentBrush) return;
+    if (!CurrentBrush || !CachedImage) return;
     int         ImgWidth =CachedImage->width();     //CurrentBrush->Image?CurrentBrush->Image->ImageWidth :CurrentBrush->Video?CurrentBrush->Video->ImageWidth:0;
     int         ImgHeight=CachedImage->height();    //CurrentBrush->Image?CurrentBrush->Image->ImageHeight:CurrentBrush->Video?CurrentBrush->Video->ImageHeight:0;
     sDualQReal  x1,x2,x3,x4,y1,y2,y3,y4,Center;
@@ -203,7 +212,7 @@ void cImgInteractiveZone::RefreshDisplay() {
     sDualQReal  rx,ry,xtab[4],ytab[4];
     qreal       a,DstX,DstY,DstW,DstH;
 
-    if ((CurrentBrush->Video!=NULL)&&(ImgWidth==1920)&&(ImgHeight=1088)&&(CurrentBrush->Video->ApplicationConfig->Crop1088To1080)) ImgHeight=1080;
+    if ((CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)&&(ImgWidth==1920)&&(ImgHeight=1088)&&(CurrentBrush->ApplicationConfig->Crop1088To1080)) ImgHeight=1080;
     if ((ImgWidth==0)||(ImgHeight==0)) return;
 
     if (ForegroundImage!=NULL) {

@@ -25,16 +25,17 @@
 #include "DlgSlideProperties.h"
 #include "ui_DlgSlideProperties.h"
 
-#include "../../engine/cTextFrame.h"
-#include "../../CustomCtrl/cCTexteFrameComboBox.h"
+#include "engine/cTextFrame.h"
+#include "engine/cLocation.h"
 
-#include "../DlgInfoFile/DlgInfoFile.h"
-#include "../DlgImage/DlgImageCorrection.h"
-#include "../DlgText/DlgTextEdit.h"
-#include "../DlgFileExplorer/DlgFileExplorer.h"
+#include "CustomCtrl/cCTexteFrameComboBox.h"
 
+#include "DlgInfoFile/DlgInfoFile.h"
+#include "DlgImage/DlgImageCorrection.h"
+#include "DlgText/DlgTextEdit.h"
+#include "DlgFileExplorer/DlgFileExplorer.h"
 #include "DlgRuler/DlgRulerDef.h"
-#include "../DlgChapter/DlgChapter.h"
+#include "DlgChapter/DlgChapter.h"
 
 #include <QClipboard>
 #include <QMimeData>
@@ -273,6 +274,7 @@ void DlgSlideProperties::DoInitDialog() {
     // Force icon in contextual menu
     ui->actionAddTextBlock->setIconVisibleInMenu(true);
     ui->actionAddFile->setIconVisibleInMenu(true);
+    ui->actionAddGMapsMap->setIconVisibleInMenu(true);
     ui->actionEditText->setIconVisibleInMenu(true);
     ui->actionEditImage->setIconVisibleInMenu(true);
     ui->actionUpBlock->setIconVisibleInMenu(true);
@@ -400,6 +402,8 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->actionAddClipArtTextBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewClipArtTextBlock()));
     connect(ui->AddFileBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddNewFileBlock()));
     connect(ui->actionAddFile,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewFileBlock()));
+    connect(ui->AddSpecialBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddSpecialBlock()));
+    connect(ui->actionAddGMapsMap,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddGMapsMapBlock()));
     connect(ui->actionRemoveBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_RemoveBlock()));
 
     // Style buttons
@@ -801,7 +805,6 @@ void DlgSlideProperties::RefreshStyleControls() {
     InRefreshStyleControls=true;
 
     bool IsVisible=(BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->IsVisible);
-    bool IsVectorImg=((CurrentCompoObject)&&(CurrentCompoObject->BackgroundBrush)&&(CurrentCompoObject->BackgroundBrush->Image)&&(CurrentCompoObject->BackgroundBrush->Image->IsVectorImg));
     ui->BlockShapeStyleBT ->setEnabled(IsVisible && !SelectionHaveLockBlock);
     ui->BlockShapeStyleED ->setEnabled(IsVisible && !SelectionHaveLockBlock);
     ui->FramingStyleCB    ->setEnabled(IsVisible && !SelectionHaveLockBlock);
@@ -839,7 +842,7 @@ void DlgSlideProperties::RefreshStyleControls() {
         ui->ShapeSizePosCB->setUpdatesEnabled(true);
 
         StopMajFramingStyle=true;
-        if ((CurrentCompoObject->BackgroundBrush->Video==NULL)&&(CurrentCompoObject->BackgroundBrush->Image==NULL)) {
+        if (CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_UNMANAGED) {
             // It's a text block
 
             if (ui->FramingStyleCB->isVisible())         ui->FramingStyleCB->setVisible(false);
@@ -859,31 +862,28 @@ void DlgSlideProperties::RefreshStyleControls() {
             if (!ui->TextFramingStyleCB->updatesEnabled()) ui->TextFramingStyleCB->setUpdatesEnabled(true);
 
         } else {
-            // It's Image or video
-
-            if (ui->FramingStyleCB->isVisible()!=(!IsVectorImg))        ui->FramingStyleCB->setVisible(!IsVectorImg);
-            if (ui->TextFramingStyleLabel->isVisible()!=(!IsVectorImg)) ui->TextFramingStyleLabel->setVisible(!IsVectorImg);
-            if (ui->TextFramingStyleCB->isVisible())                    ui->TextFramingStyleCB->setVisible(false);
+            // It's Image or video or ...
+            if (ui->TextFramingStyleCB->isVisible()) ui->TextFramingStyleCB->setVisible(false);
+            if (!ui->FramingStyleCB->isVisible())    ui->FramingStyleCB->setVisible(true);
 
             if ((FramingCB_CurrentBrush!=CurrentCompoObject->BackgroundBrush)||(FramingCB_CurrentShot!=CurrentShotNbr)) {
 
                 int Position=0;
                 // Compute position of video
-                if (CurrentCompoObject->BackgroundBrush->Video) for (int i=0;i<ui->ShotTable->currentColumn();i++) for (int j=0;j<CurrentSlide->List[i]->ShotComposition.List.count();j++)
-                    if (CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey==CurrentCompoObject->IndexKey) {
-                        if (CurrentSlide->List[i]->ShotComposition.List[j]->IsVisible) Position+=CurrentSlide->List[i]->StaticDuration;
+                if (CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
+                    for (int i=0;i<ui->ShotTable->currentColumn();i++) for (int j=0;j<CurrentSlide->List[i]->ShotComposition.List.count();j++)
+                        if (CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey==CurrentCompoObject->IndexKey) {
+                            if (CurrentSlide->List[i]->ShotComposition.List[j]->IsVisible) Position+=CurrentSlide->List[i]->StaticDuration;
+                        }
                 }
 
                 QImage *CachedImage=NULL;
-                if (CurrentCompoObject->BackgroundBrush->Image) {
-                    CachedImage=CurrentCompoObject->BackgroundBrush->Image->ImageAt(true);
-                 } else if (CurrentCompoObject->BackgroundBrush->Video) {
-                    CachedImage=CurrentCompoObject->BackgroundBrush->Video->ImageAt(true,Position+QTime(0,0,0,0).msecsTo(CurrentCompoObject->BackgroundBrush->Video->StartPos),NULL,CurrentCompoObject->BackgroundBrush->Deinterlace,1,false,false);
-                    if ((CachedImage)&&(CachedImage->format()!=QImage::Format_ARGB32_Premultiplied)) {
-                        QImage *NewCachedImage=new QImage(CachedImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
-                        delete CachedImage;
-                        CachedImage=NewCachedImage;
-                    }
+                if (CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType!=OBJECTTYPE_VIDEOFILE) CachedImage=CurrentCompoObject->BackgroundBrush->MediaObject->ImageAt(true);
+                    else CachedImage=((cVideoFile *)CurrentCompoObject->BackgroundBrush->MediaObject)->ImageAt(true,Position+QTime(0,0,0,0).msecsTo(((cVideoFile *)CurrentCompoObject->BackgroundBrush->MediaObject)->StartPos),NULL,CurrentCompoObject->BackgroundBrush->Deinterlace,1,false,false);
+                if ((CachedImage)&&(CachedImage->format()!=QImage::Format_ARGB32_Premultiplied)) {
+                    QImage *NewCachedImage=new QImage(CachedImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
+                    delete CachedImage;
+                    CachedImage=NewCachedImage;
                 }
 
                 if (CachedImage) {
@@ -949,8 +949,8 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
     ui->actionDistributeVert->  setEnabled((NbrSelected>=3)&&(!SelectionHaveLockBlock));
     ui->actionSetVisible->      setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock));
     ui->actionSetHide->         setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock));
-    ui->actionTakeSound->       setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible) &&(CurrentCompoObject->BackgroundBrush->Video!=NULL)&&(CurrentCompoObject->BackgroundBrush->SoundVolume==0));
-    ui->actionEditImage->       setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible) &&(CurrentCompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&((CurrentCompoObject->BackgroundBrush->Video)||((CurrentCompoObject->BackgroundBrush->Image)&&(!CurrentCompoObject->BackgroundBrush->Image->IsVectorImg))));
+    ui->actionTakeSound->       setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible) &&(CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)&&(CurrentCompoObject->BackgroundBrush->SoundVolume==0));
+    ui->actionEditImage->       setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible) &&(CurrentCompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
     ui->actionEditText->        setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible));
     ui->actionInfo->            setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
     ui->actionRemoveBlock->     setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
@@ -960,15 +960,31 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
     ui->actionCut->             setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
 
     if (ui->actionEditImage->isEnabled()) {
-        ui->actionEditImage->setIcon(QIcon(CurrentCompoObject->BackgroundBrush->Image!=NULL?ICON_EDIT_IMAGE:ICON_EDIT_MOVIE));
-        ui->actionEditImage->setText(CurrentCompoObject->BackgroundBrush->Image!=NULL?   QApplication::translate("DlgSlideProperties","Correct or reframe image","Action title in slide edit dialog + dialog title of image edit dialog"):
-                                                                                         QApplication::translate("DlgSlideProperties","Correct, reframe or cut video","Action title in slide edit dialog + dialog title of image edit dialog"));
-        ui->actionEditImage->setToolTip(CurrentCompoObject->BackgroundBrush->Image!=NULL?QApplication::translate("DlgSlideProperties","Define framing and correction of image","Tooltip"):
-                                                                                         QApplication::translate("DlgSlideProperties","Define framing and correction of image or cut video","Tooltip"));
+        ui->actionEditImage->setIcon(QIcon(CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType!=OBJECTTYPE_VIDEOFILE?ICON_EDIT_IMAGE:ICON_EDIT_MOVIE));
+        switch (CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType) {
+            case OBJECTTYPE_VIDEOFILE:
+                ui->actionEditImage->setText(QApplication::translate("DlgSlideProperties","Correct, reframe or cut video","Action title in slide edit dialog + dialog title of image edit dialog"));
+                ui->actionEditImage->setToolTip(QApplication::translate("DlgSlideProperties","Define framing and correction of image or cut video","Tooltip"));
+                break;
+            case OBJECTTYPE_IMAGEFILE:
+            case OBJECTTYPE_IMAGECLIPBOARD:
+                ui->actionEditImage->setText(QApplication::translate("DlgSlideProperties","Correct or reframe image","Action title in slide edit dialog + dialog title of image edit dialog"));
+                ui->actionEditImage->setToolTip(QApplication::translate("DlgSlideProperties","Define framing and correction of image","Tooltip"));
+                break;
+            case OBJECTTYPE_IMAGEVECTOR:
+                ui->actionEditImage->setText(QApplication::translate("DlgSlideProperties","Reframe image vector","Action title in slide edit dialog + dialog title of image edit dialog"));
+                ui->actionEditImage->setToolTip(QApplication::translate("DlgSlideProperties","Define framing and correction of image vector","Tooltip"));
+                break;
+            case OBJECTTYPE_GMAPSMAP:
+                ui->actionEditImage->setText(QApplication::translate("DlgSlideProperties","Modify Google Maps map","Action title in slide edit dialog + dialog title of image edit dialog"));
+                ui->actionEditImage->setToolTip(QApplication::translate("DlgSlideProperties","Define Modify Google Maps map and framing and correction of map","Tooltip"));
+                break;
+            default:    break;  // avoid warning
+        }
     }
 
     // Change icons for visible and getsound buttons/actions
-    if (BlockSelectMode==SELECTMODE_ONE) ui->actionTakeSound->setIcon(QIcon(QString((CurrentCompoObject==NULL)||(CurrentCompoObject->BackgroundBrush->Video==NULL)||(CurrentCompoObject->BackgroundBrush->SoundVolume==0)?ICON_SOUND_OK:ICON_SOUND_KO)));
+    if (BlockSelectMode==SELECTMODE_ONE) ui->actionTakeSound->setIcon(QIcon(QString(CurrentCompoObject->BackgroundBrush->SoundVolume==0?ICON_SOUND_OK:ICON_SOUND_KO)));
 
     //*****************************
     // Position, size and rotation
@@ -1068,16 +1084,15 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
     }
 
     // Set control visible or hide depending on TextClipArt
-    bool IsVectorImg=((CurrentCompoObject)&&(CurrentCompoObject->BackgroundBrush)&&(CurrentCompoObject->BackgroundBrush->Image)&&(CurrentCompoObject->BackgroundBrush->Image->IsVectorImg));
-    ui->BlockShapeStyleBT->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""))&&(!IsVectorImg));
-    ui->BlockShapeStyleSpacer->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""))&&(!IsVectorImg));
-    ui->BlockShapeStyleED->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""))&&(!IsVectorImg));
-    ui->BackgroundFormCB->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""))&&(!IsVectorImg));
-    ui->BackgroundFormLabel->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""))&&(!IsVectorImg));
-    ui->PenSizeEd->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""))&&(!IsVectorImg));
-    ui->PenColorCB->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""))&&(!IsVectorImg));
-    ui->PenStyleCB->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""))&&(!IsVectorImg));
-    ui->PenLabel->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""))&&(!IsVectorImg));
+    ui->BlockShapeStyleBT->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
+    ui->BlockShapeStyleSpacer->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
+    ui->BlockShapeStyleED->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
+    ui->BackgroundFormCB->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
+    ui->BackgroundFormLabel->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
+    ui->PenSizeEd->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
+    ui->PenColorCB->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
+    ui->PenStyleCB->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
+    ui->PenLabel->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
     ui->TextClipArtCB->setVisible((CurrentCompoObject)&&(CurrentCompoObject->TextClipArtName!=""));
     ui->TextClipArtLabel->setVisible((CurrentCompoObject)&&(CurrentCompoObject->TextClipArtName!=""));
     if ((CurrentCompoObject)&&(CurrentCompoObject->TextClipArtName!="")) ui->TextClipArtCB->SetCurrentTextFrame(CurrentCompoObject->TextClipArtName);
@@ -1233,7 +1248,10 @@ void DlgSlideProperties::ApplyToContexte(bool ApplyGlobal) {
                 ShotObject=CurrentSlide->List[ShotNum]->ShotComposition.List[i];
         if ((ShotObject!=NULL)&&(ShotObject->SameAsPrevShot)) ShotObject->CopyFromCompositionObject(CurrentSlide->List[CurrentShotNbr]->ShotComposition.List[Block]);
     }
-    for (int i=CurrentShotNbr;i<CurrentSlide->List.count();i++) ui->ShotTable->RepaintCell(i);
+    for (int i=CurrentShotNbr;i<CurrentSlide->List.count();i++) {
+        if (i==0) ApplicationConfig->SlideThumbsTable->ClearThumbs(CurrentSlide->ThumbnailKey);
+        ui->ShotTable->RepaintCell(i);
+    }
     RefreshControls();
 }
 
@@ -1637,8 +1655,8 @@ void DlgSlideProperties::s_BlockTable_ItemDoubleClicked(QMouseEvent *) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_ItemDoubleClicked");
 
     if ((BlockSelectMode!=SELECTMODE_ONE)||(SelectionHaveLockBlock)) return;
-    if (CurrentCompoObject->BackgroundBrush->BrushType!=BRUSHTYPE_IMAGEDISK)                                            s_BlockSettings_TextEditor();
-    else if ((CurrentCompoObject->BackgroundBrush->Image!=NULL)||(CurrentCompoObject->BackgroundBrush->Video!=NULL))    s_BlockSettings_ImageEditCorrect();
+    if (CurrentCompoObject->BackgroundBrush->BrushType!=BRUSHTYPE_IMAGEDISK)    s_BlockSettings_TextEditor();
+        else                                                                    s_BlockSettings_ImageEditCorrect();
 }
 
 //====================================================================================================================
@@ -1668,8 +1686,6 @@ void DlgSlideProperties::s_BlockSettings_Arrange() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockSettings_Edit() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_Arrange");
-
     QMenu *ContextMenu=new QMenu(this);
     ContextMenu->addAction(ui->actionCut);
     ContextMenu->addAction(ui->actionCopy);
@@ -1687,7 +1703,7 @@ void DlgSlideProperties::s_BlockSettings_Edit() {
             if (CurrentCompoObject->SameAsPrevShot) ContextMenu->addAction(ui->actionUnlockSameAsPreviousShot);
                 else ContextMenu->addAction(ui->actionSameAsPreviousShot);
         }
-        if (CurrentCompoObject->BackgroundBrush->Video!=NULL) ContextMenu->addAction(ui->actionTakeSound);
+        if (CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) ContextMenu->addAction(ui->actionTakeSound);
     }
     ContextMenu->exec(QCursor::pos());
     delete ContextMenu;
@@ -1708,6 +1724,7 @@ void DlgSlideProperties::s_BlockTable_ItemRightClicked(QMouseEvent *) {
         ContextMenu->addSeparator();
         ContextMenu->addAction(ui->actionAddTextBlock);
         ContextMenu->addAction(ui->actionAddFile);
+        ContextMenu->addAction(ui->actionAddGMapsMap);
         ContextMenu->exec(QCursor::pos());
         delete ContextMenu;
     } else if (BlockSelectMode==SELECTMODE_ONE) {
@@ -1727,7 +1744,7 @@ void DlgSlideProperties::s_BlockTable_ItemRightClicked(QMouseEvent *) {
             if (CurrentCompoObject->SameAsPrevShot) ContextMenu->addAction(ui->actionUnlockSameAsPreviousShot);
             else ContextMenu->addAction(ui->actionSameAsPreviousShot);
         }
-        if (CurrentCompoObject->BackgroundBrush->Video!=NULL) ContextMenu->addAction(ui->actionTakeSound);
+        if (CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) ContextMenu->addAction(ui->actionTakeSound);
         ContextMenu->addSeparator();
         ContextMenu->addAction(ui->actionInfo);
         ContextMenu->addSeparator();
@@ -1915,18 +1932,20 @@ void DlgSlideProperties::s_BlockTable_DragDropFiles(QList<QUrl> urlList) {
             info.setFile(fName);                        // information about file
             if (info.isFile()) FileList.append(fName);  // append file
         }
-        if (FileList.count()>0) s_BlockTable_AddFilesBlock(FileList,ui->BlockTable->DragItemDest);
+        if (FileList.count()>0) {
+            if (ui->BlockTable->DragItemDest<0)                          ui->BlockTable->DragItemDest=0;
+            if (ui->BlockTable->DragItemDest>ui->BlockTable->rowCount()) ui->BlockTable->DragItemDest=ui->BlockTable->rowCount();
+            s_BlockTable_AddFilesBlock(FileList,ui->BlockTable->DragItemDest);
+        }
     }
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AddNewFileBlock");
-
     ui->AddFileBlock->setDown(false);
     QStringList FileList;
-    DlgFileExplorer Dlg(BROWSER_TYPE_MEDIAFILES,true,false,QApplication::translate("MainWindow","Add files"),ApplicationConfig,this);
+    DlgFileExplorer Dlg(BROWSER_TYPE_MEDIAFILES,true,false,true,QApplication::translate("MainWindow","Add files"),ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
     if (FileList.count()==0) return;
@@ -1942,7 +1961,6 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
     AppendPartialUndo(UNDOACTION_BLOCKTABLE_ADDFILEBLOCK,ui->BlockTable,true);
 
     // Add files
-    QStringList AliasList;
     for (int i=0;i<FileList.count();i++) {
         QString NewFile=FileList[i];
         QString ErrorMessage=QApplication::translate("MainWindow","Format not supported","Error message");
@@ -1961,79 +1979,41 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
         bool    IsValide =false;
         QString Extension=QFileInfo(BrushFileName).suffix().toLower();
 
-        // Search if file is an image
-        for (int i=0;i<ApplicationConfig->AllowImageExtension.count();i++) if (ApplicationConfig->AllowImageExtension[i]==Extension) {
-            // Create an image wrapper
-            CurrentBrush->Image=new cImageFile(ApplicationConfig);
-            bool ModifyFlag=false;
-            IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName,&AliasList,&ModifyFlag,-1);
-            if (!IsValide) {
-                delete CurrentBrush->Image;
-                CurrentBrush->Image=NULL;
-            } else if (ModifyFlag) emit SetModifyFlag();
-            break;
-        }
-        // If it's not an image : search if file is a video
-        if (CurrentBrush->Image==NULL) for (int i=0;i<ApplicationConfig->AllowVideoExtension.count();i++) if (ApplicationConfig->AllowVideoExtension[i]==Extension) {
-            // Create a video wrapper
-            CurrentBrush->Video=new cVideoFile(OBJECTTYPE_VIDEOFILE,ApplicationConfig);
-            bool ModifyFlag=false;
-            IsValide=(CurrentBrush->Video->GetInformationFromFile(BrushFileName,&AliasList,&ModifyFlag,-1))&&(CurrentBrush->Video->OpenCodecAndFile());
-            if (IsValide) {
-                // Check if file have at least one sound track compatible
-                if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(!(
-                    (CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
-                    (CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
-                ))) {
-                    ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with unsigned 8 bits or signed 16 bits sample format","Error message");
-                    IsValide=false;
-                }
-                #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
-                if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
-                    ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
-                    IsValide=false;
-                }
-                #endif
-            }
-            if (!IsValide) {
-                delete CurrentBrush->Video;
-                CurrentBrush->Video=NULL;
-            } else {
-                if (ModifyFlag) emit SetModifyFlag();
-                CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
-                if (CurrentBrush->Video->LibavVideoFile->start_time>0) CurrentBrush->Video->StartPos=QTime(0,0,0,0).addMSecs(int64_t((double(CurrentBrush->Video->LibavVideoFile->start_time)/AV_TIME_BASE)*1000));
-                //CurrentSlide->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
-            }
-            break;
-        }
+        if (ApplicationConfig->AllowImageExtension.contains(Extension))                 CurrentBrush->MediaObject=new cImageFile(ApplicationConfig);
+            else if (ApplicationConfig->AllowImageVectorExtension.contains(Extension))  CurrentBrush->MediaObject=new cImageFile(ApplicationConfig);
+            else if (ApplicationConfig->AllowVideoExtension.contains(Extension))        CurrentBrush->MediaObject=new cVideoFile(ApplicationConfig);
+
+        IsValide=((CurrentBrush->MediaObject->GetInformationFromFile(BrushFileName,NULL,NULL,-1)&&(CurrentBrush->MediaObject->CheckFormatValide(this))));
+
         if (IsValide) {
 
-            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true):
-                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,CurrentBrush->Deinterlace,1,false,false):
-                           NULL);
-            if (!Image) {
-                IsValide=false;
-                if (CurrentBrush->Image) {
-                    delete CurrentBrush->Image;
-                    CurrentBrush->Image=NULL;
-                } else if (CurrentBrush->Video) {
-                    delete CurrentBrush->Video;
-                    CurrentBrush->Video=NULL;
-                }
-            } else {
-
-                // Apply Styles
-                CompositionObject->ApplyTextStyle(ApplicationConfig->StyleTextCollection.GetStyleDef(ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_TextST)));
-                CompositionObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_ShapeST)));
-                // Apply styles for coordinates
-                //qreal ProjectGeometry=qreal(CurrentSlide->Parent->ImageGeometry==GEOMETRY_4_3?1440:CurrentSlide->Parent->ImageGeometry==GEOMETRY_16_9?1080:CurrentSlide->Parent->ImageGeometry==GEOMETRY_40_17?816:1920)/qreal(1920);
-                CompositionObject->BackgroundBrush->ApplyAutoFraming(ApplicationConfig->DefaultBlockBA[CompositionObject->BackgroundBrush->GetImageType()].AutoFraming,ProjectGeometry);
-                if ((CurrentBrush->Image)&&(CurrentBrush->Image->IsVectorImg)) CompositionObject->ApplyAutoCompoSize(AUTOCOMPOSIZE_REALSIZE,CurrentSlide->Parent->ImageGeometry);
-                    else CompositionObject->ApplyAutoCompoSize(ApplicationConfig->DefaultBlockBA[CompositionObject->BackgroundBrush->GetImageType()].AutoCompo,CurrentSlide->Parent->ImageGeometry);
-                delete Image;
+            if (CurrentBrush->MediaObject->ObjectType!=OBJECTTYPE_VIDEOFILE) {
+                cVideoFile *Video=(cVideoFile *)CurrentBrush->MediaObject;
+                Video->EndPos=Video->Duration;
+                if (Video->LibavStartTime>0) Video->StartPos=QTime(0,0,0,0).addMSecs(int64_t((double(Video->LibavStartTime)/AV_TIME_BASE)*1000));
             }
-        }
-        if (IsValide) {
+
+            // Apply Styles for texte
+            CompositionObject->ApplyTextStyle(ApplicationConfig->StyleTextCollection.GetStyleDef(ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_TextST)));
+
+            // Apply Styles for shape
+            CompositionObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_ShapeST)));
+
+            // Apply styles for coordinates
+            CurrentBrush->ApplyAutoFraming(ApplicationConfig->DefaultBlockBA[CurrentBrush->GetImageType()].AutoFraming,ProjectGeometry);
+            if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_IMAGEVECTOR) {
+                CompositionObject->ApplyAutoCompoSize(AUTOCOMPOSIZE_REALSIZE,CurrentSlide->Parent->ImageGeometry);
+                // adjust for image was not too small !
+                if ((CompositionObject->w<0.2)&&(CompositionObject->h<0.2)) {
+                    while ((CompositionObject->w<0.2)&&(CompositionObject->h<0.2)) {
+                        CompositionObject->w=CompositionObject->w*2;
+                        CompositionObject->h=CompositionObject->h*2;
+                    }
+                    CompositionObject->x=(1-CompositionObject->w)/2;
+                    CompositionObject->y=(1-CompositionObject->h)/2;
+                }
+            } else CompositionObject->ApplyAutoCompoSize(ApplicationConfig->DefaultBlockBA[CurrentBrush->GetImageType()].AutoCompo,CurrentSlide->Parent->ImageGeometry);
+
             // Now create and append a shot composition block to all shot
             for (int i=0;i<CurrentSlide->List.count();i++) {
                 CurrentSlide->List[i]->ShotComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&CurrentSlide->List[i]->ShotComposition));
@@ -2043,16 +2023,16 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
             }
 
             // If this object is a video will gain sound from this shots !
-            if (CurrentBrush->Video!=NULL) for (int k=0;k<CurrentSlide->List.count();k++) for (int l=0;l<CurrentSlide->List[k]->ShotComposition.List.count();l++)
+            if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) for (int k=0;k<CurrentSlide->List.count();k++) for (int l=0;l<CurrentSlide->List[k]->ShotComposition.List.count();l++)
                 if ((CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&
-                    (CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->Video)) {
+                    (CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)) {
                     if (k<CurrentShotNbr) {
                         // Set this new block to SoundVolume=0
-                        if (CurrentBrush->Video==CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->Video)
+                        if (CurrentBrush->MediaObject->FileKey==CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->MediaObject->FileKey)
                             CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->SoundVolume=0;
                     } else {
                         // Set all other block to SoundVolume=0 and this block to SoundVolume=1
-                        if (CurrentBrush->Video!=CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->Video)
+                        if (CurrentBrush->MediaObject->FileKey!=CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->MediaObject->FileKey)
                             CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->SoundVolume=0;
                         else CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->SoundVolume=1;
                     }
@@ -2068,6 +2048,79 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
         }
     }
     RefreshBlockTable(PositionToInsert-1);
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_BlockTable_AddSpecialBlock() {
+    QMenu *ContextMenu=new QMenu(this);
+    ContextMenu->addAction(ui->actionAddGMapsMap);
+    ContextMenu->exec(QCursor::pos());
+    delete ContextMenu;
+    ui->AddSpecialBlock->setDown(false);
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_BlockTable_AddGMapsMapBlock() {
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ADDFILEBLOCK,ui->BlockTable,true);
+
+    // Create and append a composition block to the object list
+    int PositionToInsert=ui->BlockTable->rowCount();
+    CurrentSlide->ObjectComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig,&CurrentSlide->ObjectComposition));
+    cCompositionObject  *CompositionObject=CurrentSlide->ObjectComposition.List[PositionToInsert];
+    cBrushDefinition    *CurrentBrush     =CompositionObject->BackgroundBrush;
+
+    CompositionObject->Text     ="";
+    CompositionObject->PenSize  =0;
+    CurrentBrush->BrushType     =BRUSHTYPE_IMAGEDISK;
+
+    // Create an GMapsMap wrapper
+    CurrentBrush->MediaObject=new cGMapsMap(ApplicationConfig);
+    CurrentBrush->MediaObject->GetInformationFromFile("",NULL,NULL,-1);
+
+    QImage *Image=CurrentBrush->MediaObject->ImageAt(true);
+    if (!Image) {
+        delete CurrentSlide->ObjectComposition.List.takeAt(PositionToInsert);
+    } else {
+        // Apply Styles
+        CompositionObject->ApplyTextStyle(ApplicationConfig->StyleTextCollection.GetStyleDef(ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_TextST)));
+        CompositionObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_ShapeST)));
+        // Apply styles for coordinates
+        //qreal ProjectGeometry=qreal(CurrentSlide->Parent->ImageGeometry==GEOMETRY_4_3?1440:CurrentSlide->Parent->ImageGeometry==GEOMETRY_16_9?1080:CurrentSlide->Parent->ImageGeometry==GEOMETRY_40_17?816:1920)/qreal(1920);
+        CompositionObject->BackgroundBrush->ApplyAutoFraming(ApplicationConfig->DefaultBlockBA[CompositionObject->BackgroundBrush->GetImageType()].AutoFraming,ProjectGeometry);
+        CompositionObject->ApplyAutoCompoSize(ApplicationConfig->DefaultBlockBA[CompositionObject->BackgroundBrush->GetImageType()].AutoCompo,CurrentSlide->Parent->ImageGeometry);
+        delete Image;
+        // Now create and append a shot composition block to all shot
+        for (int i=0;i<CurrentSlide->List.count();i++) {
+            CurrentSlide->List[i]->ShotComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&CurrentSlide->List[i]->ShotComposition));
+            CurrentSlide->List[i]->ShotComposition.List[PositionToInsert]->CopyFromCompositionObject(CompositionObject);
+            // Ensure new object is not visible in previous shot
+            if (i<CurrentShotNbr) CurrentSlide->List[i]->ShotComposition.List[PositionToInsert]->IsVisible=false;
+        }
+        // Inc NextIndexKey
+        CurrentSlide->NextIndexKey++;
+        // Compute current position in the slide
+        int Position=0;
+        for (int i=0;i<ui->ShotTable->currentColumn();i++) for (int j=0;j<CurrentSlide->List[i]->ShotComposition.List.count();j++)
+          if ((CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey==CompositionObject->IndexKey)&&
+              (CurrentSlide->List[i]->ShotComposition.List[j]->IsVisible)
+             ) Position+=CurrentSlide->List[i]->StaticDuration;
+
+        RefreshBlockTable(PositionToInsert);
+        DlgImageCorrection Dlg(CompositionObject,&CompositionObject->BackgroundForm,CompositionObject->BackgroundBrush,Position,
+                               CurrentSlide->Parent->ImageGeometry,CurrentSlide->Parent->ImageAnimSpeedWave,ApplicationConfig,this);
+        Dlg.InitDialog();
+        if (Dlg.exec()==0) {
+            RefreshBlockTable(PositionToInsert);
+        } else {
+            for (int i=0;i<CurrentSlide->List.count();i++) delete CurrentSlide->List[i]->ShotComposition.List.takeAt(PositionToInsert);
+            delete CurrentSlide->ObjectComposition.List.takeAt(PositionToInsert);
+            // Ensure nothing is selected
+            ui->BlockTable->clearSelection();
+            RefreshBlockTable(PositionToInsert-1);
+        }
+    }
 }
 
 //====================================================================================================================
@@ -2184,8 +2237,8 @@ void DlgSlideProperties::s_BlockTable_Paste() {
                 cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,CurrentSlide->NextIndexKey,ApplicationConfig,this);
                 ShotBlock.LoadFromXML(Element,"CLIPBOARD-BLOCK-SHOT","",NULL,NULL);
                 ShotBlock.IndexKey=CurrentSlide->NextIndexKey;
-                ShotBlock.BackgroundBrush->Image=GlobalBlock->BackgroundBrush->Image;
-                ShotBlock.BackgroundBrush->Video=GlobalBlock->BackgroundBrush->Video;
+                ShotBlock.BackgroundBrush->MediaObject=GlobalBlock->BackgroundBrush->MediaObject;
+                ShotBlock.BackgroundBrush->DeleteMediaObject=false;
                 ShotBlock.Text=GlobalBlock->Text;
                 if (ShotBlock.Text!="") {
                     ShotBlock.FontName        =GlobalBlock->FontName;
@@ -2207,7 +2260,7 @@ void DlgSlideProperties::s_BlockTable_Paste() {
                     if (i<CurrentShotNbr) {
                         CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->IsVisible=false;
                         // Ensure unvisible video have no sound !
-                        if (CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->BackgroundBrush->Video!=NULL)
+                        if (CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)
                             CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->BackgroundBrush->SoundVolume=0;
                     }
                 }
@@ -2409,41 +2462,33 @@ void DlgSlideProperties::s_BlockSettings_TextEditor() {
 void DlgSlideProperties::s_BlockSettings_Information() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_Information");
 
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||
-        ((!CurrentCompoObject->BackgroundBrush->Video)&&(!CurrentCompoObject->BackgroundBrush->Image))) return;
+    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
 
-    cBaseMediaFile *Media=NULL;
-    if (CurrentCompoObject->BackgroundBrush->Image!=NULL)            Media=CurrentCompoObject->BackgroundBrush->Image;
-        else if (CurrentCompoObject->BackgroundBrush->Video!=NULL)   Media=CurrentCompoObject->BackgroundBrush->Video;
-
-    if (Media) {
-        DlgInfoFile Dlg(Media,ApplicationConfig,this);
-        Dlg.InitDialog();
-        Dlg.exec();
-    }
+    DlgInfoFile Dlg(CurrentCompoObject->BackgroundBrush->MediaObject,ApplicationConfig,this);
+    Dlg.InitDialog();
+    Dlg.exec();
 }
 
 //========= Open image/video correction editor
 void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ImageEditCorrect");
 
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)||
-        ((!CurrentCompoObject->BackgroundBrush->Video)&&(!CurrentCompoObject->BackgroundBrush->Image))||(!ui->actionEditImage->isEnabled())) return;
+    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)||(!ui->actionEditImage->isEnabled())) return;
 
     AppendPartialUndo(UNDOACTION_BLOCKTABLE_EDITIMAGE,ui->InteractiveZone,true);
     cBrushDefinition *CurrentBrush=CurrentCompoObject->BackgroundBrush;
 
     int Position=0;
     // Compute position of video
-    if (CurrentBrush->Video) {
-        Position=QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos);
+    if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
+        Position=QTime(0,0,0,0).msecsTo(((cVideoFile*)&CurrentBrush->MediaObject)->StartPos);
         for (int i=0;i<ui->ShotTable->currentColumn();i++) for (int j=0;j<CurrentSlide->List[i]->ShotComposition.List.count();j++)
           if ((CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey==CurrentCompoObject->IndexKey)&&
               (CurrentSlide->List[i]->ShotComposition.List[j]->IsVisible)
              ) Position+=CurrentSlide->List[i]->StaticDuration;
     }
 
-    QString FileName    =CurrentBrush->Image?CurrentBrush->Image->ShortName():CurrentBrush->Video->ShortName();
+    QString FileName    =CurrentBrush->MediaObject->ShortName();
     bool UpdateSlideName=(CurrentSlide->SlideName==FileName);
 
     DlgImageCorrection Dlg(CurrentCompoObject,&CurrentCompoObject->BackgroundForm,CurrentCompoObject->BackgroundBrush,Position,
@@ -2463,13 +2508,12 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
 
         // if Slide name is name of this file
         if (UpdateSlideName) {
-            CurrentSlide->SlideName=CurrentBrush->Image?CurrentBrush->Image->ShortName():CurrentBrush->Video->ShortName();
+            CurrentSlide->SlideName=CurrentBrush->MediaObject->ShortName();
             ui->SlideNameED->setText(CurrentSlide->SlideName);
         }
 
         // Lulo object for image and video must be remove
-        if (CurrentCompoObject->BackgroundBrush->Video) ApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Video->FileKey);
-        else if (CurrentCompoObject->BackgroundBrush->Image) ApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Image->FileKey);
+        ApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->MediaObject->FileKey);
 
         ApplyToContexte(true);
         s_ShotTable_DisplayDuration();
@@ -2490,14 +2534,14 @@ void DlgSlideProperties::s_BlockSettings_ToggleVisibleState() {
     CurrentCompoObject->IsVisible=!CurrentCompoObject->IsVisible;
 
     // Special case for video : ensure only this video have sound
-    if (CurrentCompoObject->BackgroundBrush->Video!=NULL) {
+    if (CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
         if (!CurrentCompoObject->IsVisible) {
             CurrentCompoObject->BackgroundBrush->SoundVolume=0;
         } else {
             bool SomeOneHaveSound=false;
             // Parse table to know if a block have sound for this shot
             for (int i=0;i<CompositionList->List.count();i++)
-                if ((CompositionList->List[i]->BackgroundBrush->Video!=NULL)&&(CompositionList->List[i]->BackgroundBrush->SoundVolume!=0)) SomeOneHaveSound=true;
+                if ((CompositionList->List[i]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)&&(CompositionList->List[i]->BackgroundBrush->SoundVolume!=0)) SomeOneHaveSound=true;
             // If no block have sound => get sound to this video
             if (!SomeOneHaveSound) CurrentCompoObject->BackgroundBrush->SoundVolume=1;
         }
@@ -2556,13 +2600,13 @@ void DlgSlideProperties::s_BlockSettings_UnsetSameAsPreviousShot() {
 void DlgSlideProperties::s_BlockSettings_GetSound() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_GetSound");
 
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)||(!CurrentCompoObject->BackgroundBrush->Video)) return;
+    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
     AppendPartialUndo(UNDOACTION_BLOCKTABLE_SOUNDSTATE,ui->InteractiveZone,true);
 
     // Only if this block is a video and don't have sound yet
     if (CurrentCompoObject->BackgroundBrush->SoundVolume==0) {
         for (int i=0;i<CompositionList->List.count();i++)
-            if ((CurrentCompoObject!=CompositionList->List[i])&&(CompositionList->List[i]->BackgroundBrush->Video)) CompositionList->List[i]->BackgroundBrush->SoundVolume=0;
+            if ((CurrentCompoObject!=CompositionList->List[i])&&(CompositionList->List[i]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)) CompositionList->List[i]->BackgroundBrush->SoundVolume=0;
         CurrentCompoObject->BackgroundBrush->SoundVolume=1;
         RefreshBlockTable(CurrentCompoObjectNbr);
     }
@@ -2615,8 +2659,7 @@ void DlgSlideProperties::s_BlockSettings_PosWidthValue(double Value) {
 
     if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->w=(Value/100)*Ratio_X;
         else CurrentCompoObject->w=(Value/DisplayW)*Ratio_X;
-    if ((CurrentCompoObject->BackgroundBrush->LockGeometry)||(CurrentCompoObject->BackgroundBrush->Image!=NULL)||(CurrentCompoObject->BackgroundBrush->Video!=NULL))
-            CurrentCompoObject->h=((CurrentCompoObject->w*DisplayW)*CurrentCompoObject->BackgroundBrush->AspectRatio)/DisplayH;
+    if (CurrentCompoObject->BackgroundBrush->LockGeometry) CurrentCompoObject->h=((CurrentCompoObject->w*DisplayW)*CurrentCompoObject->BackgroundBrush->AspectRatio)/DisplayH;
         else CurrentCompoObject->BackgroundBrush->AspectRatio=(CurrentCompoObject->h*DisplayH)/(CurrentCompoObject->w*DisplayW);
     ApplyToContexte(false);
 }
@@ -2632,8 +2675,7 @@ void DlgSlideProperties::s_BlockSettings_PosHeightValue(double Value) {
 
     if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->h=(Value/100)*Ratio_Y;
         else CurrentCompoObject->h=(Value/DisplayH)*Ratio_Y;
-    if ((CurrentCompoObject->BackgroundBrush->LockGeometry)||(CurrentCompoObject->BackgroundBrush->Image!=NULL)||(CurrentCompoObject->BackgroundBrush->Video!=NULL))
-        CurrentCompoObject->w=((CurrentCompoObject->h*DisplayH)/CurrentCompoObject->BackgroundBrush->AspectRatio)/DisplayW;
+    if (CurrentCompoObject->BackgroundBrush->LockGeometry) CurrentCompoObject->w=((CurrentCompoObject->h*DisplayH)/CurrentCompoObject->BackgroundBrush->AspectRatio)/DisplayW;
         else CurrentCompoObject->BackgroundBrush->AspectRatio=(CurrentCompoObject->h*DisplayH)/(CurrentCompoObject->w*DisplayW);
     ApplyToContexte(false);
 }

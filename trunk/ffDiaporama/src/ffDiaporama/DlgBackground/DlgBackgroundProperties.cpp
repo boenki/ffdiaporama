@@ -18,10 +18,10 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include "../DlgImage/DlgImageCorrection.h"
+#include "DlgImage/DlgImageCorrection.h"
 #include "DlgBackgroundProperties.h"
 #include "ui_DlgBackgroundProperties.h"
-#include "../DlgFileExplorer/DlgFileExplorer.h"
+#include "DlgFileExplorer/DlgFileExplorer.h"
 
 // Undo actions
 #define UNDOACTION_BACKGROUNDTYPE       1
@@ -215,10 +215,15 @@ void DlgBackgroundProperties::RefreshControls() {
         ui->ImageEditCorrectBT->setVisible(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK);
         ui->KeepRatioRB->setVisible(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK);
 
-        ui->ImageEditCorrectBT->setEnabled((DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(DiaporamaObject->BackgroundBrush->Image!=NULL)&&(!DiaporamaObject->BackgroundBrush->FullFilling));
+        ui->ImageEditCorrectBT->setEnabled((DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(!DiaporamaObject->BackgroundBrush->FullFilling)&&(DiaporamaObject->BackgroundBrush->MediaObject)
+                                           &&((DiaporamaObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_IMAGEFILE)||
+                                              (DiaporamaObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_IMAGEVECTOR)||
+                                              (DiaporamaObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_IMAGECLIPBOARD)||
+                                              (DiaporamaObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP)||
+                                              (DiaporamaObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)));
 
         ui->FullFillRB->setVisible(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK);
-        ui->ImageFileED->setText(DiaporamaObject->BackgroundBrush->Image?DiaporamaObject->BackgroundBrush->Image->FileName():"");
+        ui->ImageFileED->setText(DiaporamaObject->BackgroundBrush->MediaObject?DiaporamaObject->BackgroundBrush->MediaObject->FileName():"");
 
     } else {
 
@@ -296,7 +301,7 @@ void DlgBackgroundProperties::s_SelectFile() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_SelectFile");
     QStringList FileList;
     QString     NewFile="";
-    DlgFileExplorer Dlg(BROWSER_TYPE_IMAGEONLY,false,false,QApplication::translate("DlgBackgroundProperties","Select a file"),DiaporamaObject->Parent->ApplicationConfig,this);
+    DlgFileExplorer Dlg(BROWSER_TYPE_IMAGEONLY,false,false,false,QApplication::translate("DlgBackgroundProperties","Select a file"),DiaporamaObject->Parent->ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         FileList=Dlg.GetCurrentSelectedFiles();
@@ -305,23 +310,21 @@ void DlgBackgroundProperties::s_SelectFile() {
     if (NewFile=="") return;
     AppendPartialUndo(UNDOACTION_BRUSHFILE,ui->ImageFileBT,true);
     QString BrushFileName=QFileInfo(NewFile).absoluteFilePath();
-    if (DiaporamaObject->BackgroundBrush->Image) {
-        delete DiaporamaObject->BackgroundBrush->Image;
-        DiaporamaObject->BackgroundBrush->Image=NULL;
-    }
-    DiaporamaObject->BackgroundBrush->Image=new cImageFile(ApplicationConfig);
-    bool IsValide=DiaporamaObject->BackgroundBrush->Image->GetInformationFromFile(BrushFileName,NULL,NULL,-1);
+    delete DiaporamaObject->BackgroundBrush->MediaObject;
+    DiaporamaObject->BackgroundBrush->MediaObject=NULL;
+    DiaporamaObject->BackgroundBrush->MediaObject=new cImageFile(ApplicationConfig);
+    bool IsValide=DiaporamaObject->BackgroundBrush->MediaObject->GetInformationFromFile(BrushFileName,NULL,NULL,-1);
     if (!IsValide) {
-        delete DiaporamaObject->BackgroundBrush->Image;
-        DiaporamaObject->BackgroundBrush->Image=NULL;
+        delete DiaporamaObject->BackgroundBrush->MediaObject;
+        DiaporamaObject->BackgroundBrush->MediaObject=NULL;
     } else {
-        QImage *Image=DiaporamaObject->BackgroundBrush->Image->ImageAt(true);
+        QImage *Image=DiaporamaObject->BackgroundBrush->MediaObject->ImageAt(true);
         if (Image) {
             DiaporamaObject->BackgroundBrush->ApplyAutoFraming(AUTOFRAMING_FULLMAX,1);
             delete Image;
         } else {
-            delete DiaporamaObject->BackgroundBrush->Image;
-            DiaporamaObject->BackgroundBrush->Image=NULL;
+            delete DiaporamaObject->BackgroundBrush->MediaObject;
+            DiaporamaObject->BackgroundBrush->MediaObject=NULL;
         }
     }
     RefreshControls();
@@ -399,16 +402,14 @@ void DlgBackgroundProperties::s_ChIndexBackgroundCombo() {
 //========= Image file correction
 void DlgBackgroundProperties::s_ImageEditCorrect() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ImageEditCorrect");
-    if (DiaporamaObject->BackgroundBrush->Image) {
-        AppendPartialUndo(UNDOACTION_EDITIMG,ui->ImageEditCorrectBT,false);
+    AppendPartialUndo(UNDOACTION_EDITIMG,ui->ImageEditCorrectBT,false);
 
-        DlgImageCorrection Dlg(NULL,NULL,DiaporamaObject->BackgroundBrush,0,DiaporamaObject->Parent->ImageGeometry,SPEEDWAVE_DISABLE,ApplicationConfig,this);
-        Dlg.InitDialog();
-        if (Dlg.exec()==0) {
-            RefreshControls();
-        } else {
-            RemoveLastPartialUndo();
-        }
+    DlgImageCorrection Dlg(NULL,NULL,DiaporamaObject->BackgroundBrush,0,DiaporamaObject->Parent->ImageGeometry,SPEEDWAVE_DISABLE,ApplicationConfig,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) {
+        RefreshControls();
+    } else {
+        RemoveLastPartialUndo();
     }
 }
 
@@ -416,20 +417,16 @@ void DlgBackgroundProperties::s_ImageEditCorrect() {
 
 void DlgBackgroundProperties::s_FullFill() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_FullFill");
-    if (DiaporamaObject->BackgroundBrush->Image) {
-        AppendPartialUndo(UNDOACTION_FULLFILL,ui->FullFillRB,true);
-        DiaporamaObject->BackgroundBrush->FullFilling=true;
-        RefreshControls();
-    }
+    AppendPartialUndo(UNDOACTION_FULLFILL,ui->FullFillRB,true);
+    DiaporamaObject->BackgroundBrush->FullFilling=true;
+    RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgBackgroundProperties::s_KeepRatio() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_KeepRatio");
-    if (DiaporamaObject->BackgroundBrush->Image) {
-        AppendPartialUndo(UNDOACTION_KEEPRATIO,ui->KeepRatioRB,true);
-        DiaporamaObject->BackgroundBrush->FullFilling=false;
-        RefreshControls();
-    }
+    AppendPartialUndo(UNDOACTION_KEEPRATIO,ui->KeepRatioRB,true);
+    DiaporamaObject->BackgroundBrush->FullFilling=false;
+    RefreshControls();
 }

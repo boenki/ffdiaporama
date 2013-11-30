@@ -22,8 +22,8 @@
 #define DLGIMAGECOMPOSER_H
 
 // Basic inclusions (common to all files)
-#include "../../CustomCtrl/_QCustomDialog.h"
-#include "../../engine/_Diaporama.h"
+#include "CustomCtrl/_QCustomDialog.h"
+#include "engine/_Diaporama.h"
 
 namespace Ui {
     class DlgImageComposer;

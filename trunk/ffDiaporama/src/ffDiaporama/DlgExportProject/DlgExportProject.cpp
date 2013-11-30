@@ -21,8 +21,6 @@
 #include "DlgExportProject.h"
 #include "ui_DlgExportProject.h"
 
-#define LATENCY 5
-
 DlgExportProject::DlgExportProject(cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent)
     :QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgExportProject) {
 
@@ -169,8 +167,8 @@ void DlgExportProject::SearchAppendObject(QString FileName) {
 void DlgExportProject::ScanDiaporama() {
     // ProjectThumbnail
     for (int j=0;j<ffdProject->ProjectThumbnail->ObjectComposition.List.count();j++) if (ffdProject->ProjectThumbnail->ObjectComposition.List[j]->BackgroundBrush) {
-        if (ffdProject->ProjectThumbnail->ObjectComposition.List[j]->BackgroundBrush->Image)            SearchAppendObject(ffdProject->ProjectThumbnail->ObjectComposition.List[j]->BackgroundBrush->Image->FileName());
-        else if (ffdProject->ProjectThumbnail->ObjectComposition.List[j]->BackgroundBrush->Video)   SearchAppendObject(ffdProject->ProjectThumbnail->ObjectComposition.List[j]->BackgroundBrush->Video->FileName());
+        if (ffdProject->ProjectThumbnail->ObjectComposition.List[j]->BackgroundBrush->MediaObject)
+            SearchAppendObject(ffdProject->ProjectThumbnail->ObjectComposition.List[j]->BackgroundBrush->MediaObject->FileName());
     }
     // Objects
     for (int i=0;i<ffdProject->List.count();i++) {
@@ -180,13 +178,13 @@ void DlgExportProject::ScanDiaporama() {
         }
         // BackgroundBrush of object
         if ((ffdProject->List[i]->BackgroundType)&&(ffdProject->List[i]->BackgroundBrush)) {
-            if (ffdProject->List[i]->BackgroundBrush->Image)            SearchAppendObject(ffdProject->List[i]->BackgroundBrush->Image->FileName());
-            else if (ffdProject->List[i]->BackgroundBrush->Video)   SearchAppendObject(ffdProject->List[i]->BackgroundBrush->Video->FileName());
+            if (ffdProject->List[i]->BackgroundBrush->MediaObject)
+                SearchAppendObject(ffdProject->List[i]->BackgroundBrush->MediaObject->FileName());
         }
         // BackgroundBrush of shots
         for (int j=0;j<ffdProject->List[i]->ObjectComposition.List.count();j++) if (ffdProject->List[i]->ObjectComposition.List[j]->BackgroundBrush) {
-            if (ffdProject->List[i]->ObjectComposition.List[j]->BackgroundBrush->Image)            SearchAppendObject(ffdProject->List[i]->ObjectComposition.List[j]->BackgroundBrush->Image->FileName());
-            else if (ffdProject->List[i]->ObjectComposition.List[j]->BackgroundBrush->Video)   SearchAppendObject(ffdProject->List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->FileName());
+            if (ffdProject->List[i]->ObjectComposition.List[j]->BackgroundBrush->MediaObject)
+                SearchAppendObject(ffdProject->List[i]->ObjectComposition.List[j]->BackgroundBrush->MediaObject->FileName());
         }
     }
     int Nbr=ReplaceList.List.count();

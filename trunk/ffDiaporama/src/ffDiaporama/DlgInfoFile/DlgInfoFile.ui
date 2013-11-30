@@ -54,8 +54,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>425</width>
-        <height>531</height>
+        <width>424</width>
+        <height>511</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
@@ -505,7 +505,7 @@ At least the information about the duration of the video will be shown, but a lo
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -519,7 +519,7 @@ At least the information about the duration of the video will be shown, but a lo
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
       </widget>
@@ -536,8 +536,6 @@ At least the information about the duration of the video will be shown, but a lo
   <tabstop>tableWidget</tabstop>
   <tabstop>OkBt</tabstop>
  </tabstops>
- <resources>
-  <include location="../../../RSCffDiaporama.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

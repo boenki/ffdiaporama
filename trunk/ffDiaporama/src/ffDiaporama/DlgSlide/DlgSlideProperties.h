@@ -22,8 +22,8 @@
 #define DLGSLIDEPROPERTIES_H
 
 // Basic inclusions (common to all files)
-#include "../../CustomCtrl/_QCustomDialog.h"
-#include "../../engine/_Diaporama.h"
+#include "CustomCtrl/_QCustomDialog.h"
+#include "engine/_Diaporama.h"
 
 namespace Ui {
     class DlgSlideProperties;
@@ -132,6 +132,8 @@ private slots:
     void            s_BlockTable_AddNewSimpleTextBlock();
     void            s_BlockTable_AddNewClipArtTextBlock();
     void            s_BlockTable_AddNewFileBlock();
+    void            s_BlockTable_AddSpecialBlock();
+    void            s_BlockTable_AddGMapsMapBlock();
     void            s_BlockTable_RemoveBlock();
     void            s_BlockTable_Copy();
     void            s_BlockTable_Cut();

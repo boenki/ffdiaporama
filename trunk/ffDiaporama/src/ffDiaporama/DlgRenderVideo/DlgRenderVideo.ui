@@ -53,9 +53,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-145</y>
-        <width>607</width>
-        <height>502</height>
+        <y>0</y>
+        <width>606</width>
+        <height>490</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -268,7 +268,7 @@
             <string notr="true"/>
            </property>
            <property name="icon">
-            <iconset resource="../../../RSCffDiaporama.qrc">
+            <iconset>
              <normaloff>:/img/FolderOpen.png</normaloff>:/img/FolderOpen.png</iconset>
            </property>
           </widget>
@@ -1097,7 +1097,7 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
         <string>&amp;Properties</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/PrjProperties.png</normaloff>:/img/PrjProperties.png</iconset>
        </property>
       </widget>
@@ -1124,7 +1124,7 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -1138,7 +1138,7 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -1152,7 +1152,7 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
       </widget>
@@ -1171,8 +1171,6 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
   <tabstop>CancelBt</tabstop>
   <tabstop>SelectDestScroll</tabstop>
  </tabstops>
- <resources>
-  <include location="../../../RSCffDiaporama.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
