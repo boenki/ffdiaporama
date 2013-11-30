@@ -26,9 +26,10 @@
 #include <stdint.h>             // Include stdint with macro activated
 #include <iostream>
 
-#include "mainwindow.h"
+#include "MainWindow/mainwindow.h"
 #include <QTranslator>
 #include <QtDebug>
+#include <QSharedMemory>
 
 //====================================================================================================================
 

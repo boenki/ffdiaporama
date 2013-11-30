@@ -22,8 +22,8 @@
 #define CCUSTOMSHOTTABLE_H
 
 // Basic inclusions (common to all files)
-#include "../../CustomCtrl/_QCustomDialog.h"
-#include "../../engine/_Diaporama.h"
+#include "CustomCtrl/_QCustomDialog.h"
+#include "engine/_Diaporama.h"
 
 class cCustomShotTable : public QTableWidget {
 Q_OBJECT

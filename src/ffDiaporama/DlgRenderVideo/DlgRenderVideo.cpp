@@ -18,7 +18,7 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include "../DlgffDPjrProperties/DlgffDPjrProperties.h"
+#include "DlgffDPjrProperties/DlgffDPjrProperties.h"
 
 #include "DlgRenderVideo.h"
 #include "ui_DlgRenderVideo.h"
@@ -1068,8 +1068,10 @@ void DlgRenderVideo::EndThreadEncode() {
     ApplicationConfig->ImagesCache.clear();
 
     // Inform user of success
-    if (Continue)                           CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job completed successfully!"));
-        else if (Encoder.StopProcessWanted) CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job canceled!"));
+    if (Continue) {
+        if (CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job completed successfully!\nDo you want to open the video now?"),QMessageBox::Yes|QMessageBox::Ok,QMessageBox::Yes)==QMessageBox::Yes)
+            QDesktopServices::openUrl(QUrl().fromLocalFile(OutputFileName));
+    } else if (Encoder.StopProcessWanted) CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job canceled!"));
         else                                CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job error!\nPlease contact ffDiaporama team"));
     if (Continue) accept();
         else reject();

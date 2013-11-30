@@ -132,7 +132,7 @@ QToolButton:pressed {
 Information</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../RSCffDiaporama.qrc">
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/Chapter_big.png</normaloff>:/img/Chapter_big.png</iconset>
         </property>
         <property name="iconSize">
@@ -186,7 +186,7 @@ Information</string>
 shot</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../RSCffDiaporama.qrc">
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/add_project.png</normaloff>:/img/add_project.png</iconset>
         </property>
         <property name="iconSize">
@@ -233,7 +233,7 @@ shot</string>
 shot</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../RSCffDiaporama.qrc">
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
         </property>
         <property name="iconSize">
@@ -281,7 +281,7 @@ shot</string>
 text</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../RSCffDiaporama.qrc">
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/add_text.png</normaloff>:/img/add_text.png</iconset>
         </property>
         <property name="iconSize">
@@ -327,8 +327,54 @@ Note: in case of multiple selection, files are added in the alphabetical order o
 file</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../RSCffDiaporama.qrc">
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/add_image.png</normaloff>:/img/add_image.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+        <property name="shortcut">
+         <string>Ins</string>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="AddSpecialBlock">
+        <property name="minimumSize">
+         <size>
+          <width>60</width>
+          <height>56</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>60</width>
+          <height>56</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>-1</pointsize>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>Add one or several new blocks of images or video. A file selection dialog appears allowing you to select files.
+
+Note: in case of multiple selection, files are added in the alphabetical order of the filenames or in the digital order of shots (according to the option selected in the configuration dialog).</string>
+        </property>
+        <property name="text">
+         <string>Add
+special</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../RSCffDiaporama.qrc">
+          <normaloff>:/img/Action_Wizard.png</normaloff>:/img/Action_Wizard.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -378,7 +424,7 @@ file</string>
 block</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../RSCffDiaporama.qrc">
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/edit.png</normaloff>:/img/edit.png</iconset>
         </property>
         <property name="iconSize">
@@ -419,7 +465,7 @@ block</string>
 block</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../RSCffDiaporama.qrc">
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/Arrange/arrange.png</normaloff>:/img/Arrange/arrange.png</iconset>
         </property>
         <property name="iconSize">
@@ -460,7 +506,7 @@ block</string>
 information</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../RSCffDiaporama.qrc">
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/Action_Info.png</normaloff>:/img/Action_Info.png</iconset>
         </property>
         <property name="iconSize">
@@ -508,7 +554,7 @@ information</string>
 model</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../RSCffDiaporama.qrc">
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/db_menu_big.png</normaloff>:/img/db_menu_big.png</iconset>
         </property>
         <property name="iconSize">
@@ -1061,8 +1107,8 @@ If you specify a duration lower than the minimum calculated duration for the sho
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>294</width>
-              <height>857</height>
+              <width>281</width>
+              <height>764</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1188,7 +1234,7 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset resource="../../../RSCffDiaporama.qrc">
+                  <iconset resource="../RSCffDiaporama.qrc">
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -1219,7 +1265,7 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/ScrollX.png</pixmap>
+                <pixmap resource="../RSCffDiaporama.qrc">:/img/ScrollX.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1238,7 +1284,7 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_X.png</pixmap>
+                <pixmap resource="../RSCffDiaporama.qrc">:/img/PosSize_X.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1350,7 +1396,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset resource="../../../RSCffDiaporama.qrc">
+                  <iconset resource="../RSCffDiaporama.qrc">
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -1458,7 +1504,7 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset resource="../../../RSCffDiaporama.qrc">
+                  <iconset resource="../RSCffDiaporama.qrc">
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -1566,7 +1612,7 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset resource="../../../RSCffDiaporama.qrc">
+                  <iconset resource="../RSCffDiaporama.qrc">
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -1585,7 +1631,7 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/RotateX.png</pixmap>
+                <pixmap resource="../RSCffDiaporama.qrc">:/img/RotateX.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1687,7 +1733,7 @@ This position is defined as a percentage (%) of the total width of the image or 
                   <string notr="true"/>
                  </property>
                  <property name="pixmap">
-                  <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Y.png</pixmap>
+                  <pixmap resource="../RSCffDiaporama.qrc">:/img/PosSize_Y.png</pixmap>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1819,7 +1865,7 @@ This position is defined as a percentage (%) of the total height of the image or
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset resource="../../../RSCffDiaporama.qrc">
+                  <iconset resource="../RSCffDiaporama.qrc">
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -1893,7 +1939,7 @@ This value is defined as a percentage (%) of the total width of the image or in 
                   <string notr="true"/>
                  </property>
                  <property name="pixmap">
-                  <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Height.png</pixmap>
+                  <pixmap resource="../RSCffDiaporama.qrc">:/img/PosSize_Height.png</pixmap>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2141,7 +2187,7 @@ color: #000000;
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Geometry.png</pixmap>
+                <pixmap resource="../RSCffDiaporama.qrc">:/img/Geometry.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2270,7 +2316,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset resource="../../../RSCffDiaporama.qrc">
+                  <iconset resource="../RSCffDiaporama.qrc">
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -2305,7 +2351,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/RotateY.png</pixmap>
+                <pixmap resource="../RSCffDiaporama.qrc">:/img/RotateY.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2340,7 +2386,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/RotateY.png</pixmap>
+                <pixmap resource="../RSCffDiaporama.qrc">:/img/RotateY.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2435,7 +2481,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset resource="../../../RSCffDiaporama.qrc">
+                  <iconset resource="../RSCffDiaporama.qrc">
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -2566,7 +2612,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset resource="../../../RSCffDiaporama.qrc">
+                  <iconset resource="../RSCffDiaporama.qrc">
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -2692,7 +2738,7 @@ You can define different animations for every shot!
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/RotateZ.png</pixmap>
+                <pixmap resource="../RSCffDiaporama.qrc">:/img/RotateZ.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2743,7 +2789,7 @@ You can define different animations for every shot!
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/RotateX.png</pixmap>
+                <pixmap resource="../RSCffDiaporama.qrc">:/img/RotateX.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2762,7 +2808,7 @@ You can define different animations for every shot!
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/ScrollY.png</pixmap>
+                <pixmap resource="../RSCffDiaporama.qrc">:/img/ScrollY.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2858,7 +2904,7 @@ Three type of constraint are available:
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset resource="../../../RSCffDiaporama.qrc">
+                  <iconset resource="../RSCffDiaporama.qrc">
                    <normaloff>:/img/db_menu.png</normaloff>:/img/db_menu.png</iconset>
                  </property>
                  <property name="arrowType">
@@ -2901,7 +2947,7 @@ Three type of constraint are available:
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Width.png</pixmap>
+                <pixmap resource="../RSCffDiaporama.qrc">:/img/PosSize_Width.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2935,7 +2981,7 @@ Blink: The block will blink during the shot (appear then disappear). 4 speeds ar
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Geometry.png</pixmap>
+                <pixmap resource="../RSCffDiaporama.qrc">:/img/Geometry.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -3050,7 +3096,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset resource="../../../RSCffDiaporama.qrc">
+                  <iconset resource="../RSCffDiaporama.qrc">
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -3069,7 +3115,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/RotateZ.png</pixmap>
+                <pixmap resource="../RSCffDiaporama.qrc">:/img/RotateZ.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -3253,7 +3299,7 @@ color: #000000;
         <string>Rulers</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/ruler_ok.png</normaloff>:/img/ruler_ok.png</iconset>
        </property>
       </widget>
@@ -3280,7 +3326,7 @@ color: #000000;
         <string>Previous</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/arrow_left.png</normaloff>:/img/arrow_left.png</iconset>
        </property>
       </widget>
@@ -3294,7 +3340,7 @@ color: #000000;
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -3308,7 +3354,7 @@ color: #000000;
         <string>Next</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/arrow_right.png</normaloff>:/img/arrow_right.png</iconset>
        </property>
       </widget>
@@ -3335,7 +3381,7 @@ color: #000000;
         <string>Undo</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/undo24.png</normaloff>:/img/undo24.png</iconset>
        </property>
        <property name="shortcut">
@@ -3352,7 +3398,7 @@ color: #000000;
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -3366,7 +3412,7 @@ color: #000000;
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
       </widget>
@@ -3376,7 +3422,7 @@ color: #000000;
   </layout>
   <action name="actionEditText">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/EditText.png</normaloff>:/img/EditText.png</iconset>
    </property>
    <property name="text">
@@ -3386,15 +3432,12 @@ color: #000000;
     <string>Define the properties of the text block</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionEditImage">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/EditImage.png</normaloff>:/img/EditImage.png</iconset>
    </property>
    <property name="text">
@@ -3404,15 +3447,12 @@ color: #000000;
     <string>Define framing and correction of image or movie</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionUpBlock">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/arrow_up.png</normaloff>:/img/arrow_up.png</iconset>
    </property>
    <property name="text">
@@ -3422,15 +3462,12 @@ color: #000000;
     <string>Change the order of blocks by moving the active block towards the background</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionDownBlock">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/arrow_down.png</normaloff>:/img/arrow_down.png</iconset>
    </property>
    <property name="text">
@@ -3440,15 +3477,12 @@ color: #000000;
     <string>Change the order of blocks by moving the active block towards the foreground</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionSetVisible">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/Visible_OK.png</normaloff>:/img/Visible_OK.png</iconset>
    </property>
    <property name="text">
@@ -3459,15 +3493,12 @@ color: #000000;
 Note: Hidden video blocks are automatically paused</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionTakeSound">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/object_sound.png</normaloff>:/img/object_sound.png</iconset>
    </property>
    <property name="text">
@@ -3477,15 +3508,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Give the sound, during this shot, to the current video block</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionInfo">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/Action_Info.png</normaloff>:/img/Action_Info.png</iconset>
    </property>
    <property name="text">
@@ -3495,15 +3523,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Display detailed information on current block</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionCopy">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/editcopy.png</normaloff>:/img/editcopy.png</iconset>
    </property>
    <property name="text">
@@ -3513,10 +3538,7 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Copy the current block to the ffDiaporama clipboard</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
    <property name="shortcut">
     <string>Ctrl+C</string>
@@ -3524,7 +3546,7 @@ Note: Hidden video blocks are automatically paused</string>
   </action>
   <action name="actionCut">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/editcut.png</normaloff>:/img/editcut.png</iconset>
    </property>
    <property name="text">
@@ -3534,10 +3556,7 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Copy the current block to the ffDiaporama clipboard and remove it from the slide</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
    <property name="shortcut">
     <string>Ctrl+X</string>
@@ -3545,7 +3564,7 @@ Note: Hidden video blocks are automatically paused</string>
   </action>
   <action name="actionRemoveBlock">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
    </property>
    <property name="text">
@@ -3555,10 +3574,7 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Remove current block(s)</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
    <property name="shortcut">
     <string>Del</string>
@@ -3566,7 +3582,7 @@ Note: Hidden video blocks are automatically paused</string>
   </action>
   <action name="actionPaste">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/editpaste.png</normaloff>:/img/editpaste.png</iconset>
    </property>
    <property name="text">
@@ -3576,10 +3592,7 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Paste block from the ffDiaporama clipboard and insert it</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
    <property name="shortcut">
     <string>Ctrl+V</string>
@@ -3587,7 +3600,7 @@ Note: Hidden video blocks are automatically paused</string>
   </action>
   <action name="actionTop">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/Arrange/aotop.png</normaloff>:/img/Arrange/aotop.png</iconset>
    </property>
    <property name="text">
@@ -3597,15 +3610,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Align blocks to the top</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionMiddle">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/Arrange/aocenterv.png</normaloff>:/img/Arrange/aocenterv.png</iconset>
    </property>
    <property name="text">
@@ -3615,15 +3625,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Align blocks to the middle</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionBottom">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/Arrange/aobottom.png</normaloff>:/img/Arrange/aobottom.png</iconset>
    </property>
    <property name="text">
@@ -3633,15 +3640,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Align blocks to the bottom</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionLeft">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/Arrange/aoleft.png</normaloff>:/img/Arrange/aoleft.png</iconset>
    </property>
    <property name="text">
@@ -3651,15 +3655,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Align blocks to the left</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionCenter">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/Arrange/aocenterh.png</normaloff>:/img/Arrange/aocenterh.png</iconset>
    </property>
    <property name="text">
@@ -3669,15 +3670,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Align blocks to the center</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionRight">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/Arrange/aoright.png</normaloff>:/img/Arrange/aoright.png</iconset>
    </property>
    <property name="text">
@@ -3687,15 +3685,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Align blocks to the right</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionAddTextBlock">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/add_text.png</normaloff>:/img/add_text.png</iconset>
    </property>
    <property name="text">
@@ -3705,15 +3700,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Add a new text block</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionAddFile">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/add_image.png</normaloff>:/img/add_image.png</iconset>
    </property>
    <property name="text">
@@ -3723,15 +3715,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Add a new block of type image or video</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionAddShot">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/add_project.png</normaloff>:/img/add_project.png</iconset>
    </property>
    <property name="text">
@@ -3741,15 +3730,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Append a shot at the end of the timeline</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionRemoveShot">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
    </property>
    <property name="text">
@@ -3759,10 +3745,7 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Remove current selected shot</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
    <property name="shortcut">
     <string>Del</string>
@@ -3770,7 +3753,7 @@ Note: Hidden video blocks are automatically paused</string>
   </action>
   <action name="actionMoveLeft">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/arrow_left.png</normaloff>:/img/arrow_left.png</iconset>
    </property>
    <property name="text">
@@ -3780,15 +3763,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Change the order of the shots by moving the current selected shot a notch towards the left</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionMoveRight">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/arrow_right.png</normaloff>:/img/arrow_right.png</iconset>
    </property>
    <property name="text">
@@ -3798,15 +3778,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Change the order of the shots by moving the current selected shot a notch towards the right</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionSameAsPreviousShot">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/Geometry_Lock.png</normaloff>:/img/Geometry_Lock.png</iconset>
    </property>
    <property name="text">
@@ -3816,15 +3793,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Lock properties to the same values as defined for the previous shot</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionUnlockSameAsPreviousShot">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/Geometry_Unlock.png</normaloff>:/img/Geometry_Unlock.png</iconset>
    </property>
    <property name="text">
@@ -3834,15 +3808,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Define properties of this shot</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionSetHide">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/Visible_KO.png</normaloff>:/img/Visible_KO.png</iconset>
    </property>
    <property name="text">
@@ -3852,15 +3823,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Hide the active block</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionDistributeHoriz">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/Arrange/aodistH.png</normaloff>:/img/Arrange/aodistH.png</iconset>
    </property>
    <property name="text">
@@ -3870,15 +3838,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Place each block so as to have the same space between each</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionDistributeVert">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/Arrange/aodistV.png</normaloff>:/img/Arrange/aodistV.png</iconset>
    </property>
    <property name="text">
@@ -3888,15 +3853,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Place each block so as to have the same space between each</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionAddSimpleTextBlock">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/object_text.png</normaloff>:/img/object_text.png</iconset>
    </property>
    <property name="text">
@@ -3906,15 +3868,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Add a new simple text block</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionAddClipArtTextBlock">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/add_cliparttext.png</normaloff>:/img/add_cliparttext.png</iconset>
    </property>
    <property name="text">
@@ -3924,15 +3883,12 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Add a new ClipArt text block</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionSaveAsProjectTitleModel">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/object_text.png</normaloff>:/img/object_text.png</iconset>
    </property>
    <property name="text">
@@ -3941,7 +3897,7 @@ Note: Hidden video blocks are automatically paused</string>
   </action>
   <action name="actionSaveAsCptTitleModels">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/Chapter_big.png</normaloff>:/img/Chapter_big.png</iconset>
    </property>
    <property name="text">
@@ -3950,7 +3906,7 @@ Note: Hidden video blocks are automatically paused</string>
   </action>
   <action name="actionSaveAsCreditTitleModels">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset resource="../RSCffDiaporama.qrc">
      <normaloff>:/img/medal.png</normaloff>:/img/medal.png</iconset>
    </property>
    <property name="text">
@@ -3960,32 +3916,44 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Append to credit title models</string>
    </property>
   </action>
+  <action name="actionAddGMapsMap">
+   <property name="icon">
+    <iconset resource="../RSCffDiaporama.qrc">
+     <normaloff>:/img/gmap.png</normaloff>:/img/gmap.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add a GMaps map</string>
+   </property>
+   <property name="toolTip">
+    <string>Add a map from Google maps</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
+   <class>cCSpeedWaveComboBox</class>
+   <extends>QComboBox</extends>
+   <header>CustomCtrl/cCSpeedWaveComboBox.h</header>
+  </customwidget>
+  <customwidget>
    <class>cCColorComboBox</class>
    <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCColorComboBox.h</header>
+   <header>CustomCtrl/cCColorComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>QCustomComboBox</class>
    <extends>QComboBox</extends>
-   <header>../CustomCtrl/_QCustomComboBox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>cCSpeedWaveComboBox</class>
-   <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCSpeedWaveComboBox.h</header>
+   <header>CustomCtrl/_QCustomComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cCFramingComboBox</class>
    <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCFramingComboBox.h</header>
+   <header>CustomCtrl/cCFramingComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cCShapeComboBox</class>
    <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCShapeComboBox.h</header>
+   <header>CustomCtrl/cCShapeComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cCustomBlockTable</class>
@@ -4001,7 +3969,7 @@ Note: Hidden video blocks are automatically paused</string>
   <customwidget>
    <class>cCTexteFrameComboBox</class>
    <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCTexteFrameComboBox.h</header>
+   <header>CustomCtrl/cCTexteFrameComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cCustomShotTable</class>
@@ -4030,7 +3998,7 @@ Note: Hidden video blocks are automatically paused</string>
   <tabstop>CancelBt</tabstop>
  </tabstops>
  <resources>
-  <include location="../../../RSCffDiaporama.qrc"/>
+  <include location="../RSCffDiaporama.qrc"/>
  </resources>
  <connections/>
 </ui>

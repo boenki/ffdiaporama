@@ -2,7 +2,7 @@
 #define DLGRULERDEF_H
 
 // Basic inclusions (common to all files)
-#include "../../../CustomCtrl/_QCustomDialog.h"
+#include "CustomCtrl/_QCustomDialog.h"
 
 namespace Ui {
     class DlgRulerDef;

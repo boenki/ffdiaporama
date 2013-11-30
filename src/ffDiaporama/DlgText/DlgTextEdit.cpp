@@ -21,8 +21,8 @@
 #include "DlgTextEdit.h"
 #include "ui_DlgTextEdit.h"
 #include "cCustomTextEdit.h"
-#include "../../engine/cTextFrame.h"
-#include "../../engine/_Variables.h"
+#include "engine/cTextFrame.h"
+#include "engine/_Variables.h"
 
 #include <QTextCharFormat>
 #include <QTextList>

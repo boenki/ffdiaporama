@@ -21,8 +21,8 @@
 #ifndef CIMGINTERACTIVEZONE_H
 #define CIMGINTERACTIVEZONE_H
 
-#include "../../engine/_GlobalDefines.h"
-#include "../../engine/_Diaporama.h"
+#include "engine/_GlobalDefines.h"
+#include "engine/_Diaporama.h"
 
 #include <QWidget>
 

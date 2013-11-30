@@ -82,8 +82,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>679</width>
-            <height>413</height>
+            <width>678</width>
+            <height>409</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
@@ -426,7 +426,7 @@ Remark: This field is often shown by indexing system and jukeboxes under the ter
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>466</width>
+            <width>468</width>
             <height>226</height>
            </rect>
           </property>
@@ -721,7 +721,7 @@ QToolButton:pressed {
 thumbnail</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="../../../RSCffDiaporama.qrc">
+                   <iconset>
                     <normaloff>:/img/action_edit.png</normaloff>:/img/action_edit.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -762,7 +762,7 @@ thumbnail</string>
                    <string>Customize</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="../../../RSCffDiaporama.qrc">
+                   <iconset>
                     <normaloff>:/img/action_edit.png</normaloff>:/img/action_edit.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -804,7 +804,7 @@ thumbnail</string>
 thumbnail</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="../../../RSCffDiaporama.qrc">
+                   <iconset>
                     <normaloff>:/img/filesave.png</normaloff>:/img/filesave.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -912,7 +912,7 @@ Options for joined ressources</string>
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -926,7 +926,7 @@ Options for joined ressources</string>
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -940,7 +940,7 @@ Options for joined ressources</string>
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
       </widget>
@@ -953,12 +953,12 @@ Options for joined ressources</string>
   <customwidget>
    <class>cCSpeedWaveComboBox</class>
    <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCSpeedWaveComboBox.h</header>
+   <header>CustomCtrl/cCSpeedWaveComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cThumbnailComboBox</class>
    <extends>QComboBox</extends>
-   <header>../CustomCtrl/cThumbnailComboBox.h</header>
+   <header>CustomCtrl/cThumbnailComboBox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -985,8 +985,6 @@ Options for joined ressources</string>
   <tabstop>OkBt</tabstop>
   <tabstop>CancelBt</tabstop>
  </tabstops>
- <resources>
-  <include location="../../../RSCffDiaporama.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

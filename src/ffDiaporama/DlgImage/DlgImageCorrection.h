@@ -22,8 +22,10 @@
 #define DLGIMAGECORRECTION_H
 
 // Basic inclusions (common to all files)
-#include "../../CustomCtrl/_QCustomDialog.h"
-#include "../../engine/_Diaporama.h"
+#include "CustomCtrl/_QCustomDialog.h"
+#include "engine/_Diaporama.h"
+
+#include "DlgImage/wgt_QEditVideo/wgt_QEditVideo.h"
 
 namespace Ui {
     class DlgImageCorrection;
@@ -32,19 +34,22 @@ namespace Ui {
 class DlgImageCorrection : public QCustomDialog {
 Q_OBJECT
 public:
+    enum UNDOACTION_ID {
+        UNDOACTION_INTERACTIVEMOVERESIZE,
+        UNDOACTION_IMAGEEDITZONE,
+        UNDOACTION_VIDEOPART
+    };
+
     cBrushDefinition        *CurrentBrush;
     cCompositionObject      *CompoObject;
     ffd_GEOMETRY            ffDPrjGeometry;                 // Project image geometry define in ffDiaporama project
     bool                    UndoReloadImage;                // True if image change and undo must reload it
     QString                 UndoBrushFileName;              // Name of previous file is undo
-    bool                    FLAGSTOPED;                     // Flag to stop spin box during settings
-    bool                    FLAGSTOPSPIN;                   // Flag to stop spin box during blur change
     qreal                   ImageGeometry;
     qreal                   ProjectGeometry;
     QString                 InitialFilteredString;
     int                     CurrentFramingStyle;
     int                     *BackgroundForm;
-    bool                    IsVideo;
     bool                    StopMaj;
     int                     DefaultSpeedWave;
 
@@ -59,15 +64,18 @@ public:
     virtual void            PrepareGlobalUndo();                        // Initiale Undo
     virtual void            DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
 
+    virtual void            AppendPartialUndo(int ActionType,QWidget *FocusWindow,bool ForceAdd);
     virtual void            PreparePartialUndo(int ActionType,QDomElement root);
     virtual void            ApplyPartialUndo(int ActionType,QDomElement root);
-    virtual void            RestoreWindowState();
 
     virtual void            RefreshControls();
 
 protected:
     virtual void            resizeEvent(QResizeEvent *);
     virtual void            showEvent(QShowEvent *);
+
+protected slots:
+    virtual void            DoPartialUndo();
 
 private slots:
     void            s_TabWidgetChanged(int);
@@ -79,7 +87,7 @@ private slots:
     void            s_HValueEDChanged(double Value);
     void            s_RotateLeft();
     void            s_RotateRight();
-    void            s_ItemSelectionHaveChanged();
+    void            s_FramingStyleChanged();
     void            s_BrightnessSliderMoved(int Value);
     void            s_ContrastSliderMoved(int Value);
     void            s_GammaSliderMoved(int Value);
@@ -88,13 +96,6 @@ private slots:
     void            s_GreenSliderMoved(int Value);
     void            s_BlueSliderMoved(int Value);
     void            s_DesatSliderMoved(int Value);
-    void            s_BrightnessReset();
-    void            s_ContrastReset();
-    void            s_GammaReset();
-    void            s_RedReset();
-    void            s_GreenReset();
-    void            s_BlueReset();
-    void            s_DesatReset();
     void            s_OnOffFilter_Gray_Changed(int);
     void            s_OnOffFilter_Equalize_Changed(int);
     void            s_OnOffFilter_Despeckle_Changed(int);
@@ -106,42 +107,43 @@ private slots:
     void            s_OnOffFilter_Charcoal_Changed(int);
     void            s_OnOffFilter_Oil_Changed(int);
     void            s_SwirlSliderMoved(int Value);
-    void            s_SwirlReset();
     void            s_ImplodeSliderMoved(int Value);
-    void            s_ImplodeReset();
+
+    void            s_BrightnessReset()                     { s_BrightnessSliderMoved(0);   }
+    void            s_ContrastReset()                       { s_ContrastSliderMoved(0);     }
+    void            s_GammaReset()                          { s_GammaValueED(1);            }
+    void            s_RedReset()                            { s_RedSliderMoved(0);          }
+    void            s_GreenReset()                          { s_GreenSliderMoved(0);        }
+    void            s_BlueReset()                           { s_BlueSliderMoved(0);         }
+    void            s_DesatReset()                          { s_DesatSliderMoved(0);        }
+    void            s_SwirlReset()                          { s_SwirlSliderMoved(0);        }
+    void            s_ImplodeReset()                        { s_ImplodeSliderMoved(0);      }
 
     // BlurSharpen
     void            s_BlurSharpenTypeChanged(int);
     void            s_BlurSharpenSigmaSliderMoved(int Value);
     void            s_BlurSharpenSigmaValueED(double Value);
-    void            s_BlurSharpenSigmaReset();
     void            s_QuickBlurSharpenSigmaSliderMoved(int Value);
-    void            s_QuickBlurSharpenSigmaReset();
     void            s_BlurSharpenRadiusSliderMoved(int Value);
-    void            s_BlurSharpenRadiusReset();
+
+    void            s_BlurSharpenSigmaReset()               { s_BlurSharpenSigmaSliderMoved(0);         }
+    void            s_QuickBlurSharpenSigmaReset()          { s_QuickBlurSharpenSigmaSliderMoved(0);    }
+    void            s_BlurSharpenRadiusReset()              { s_BlurSharpenRadiusSliderMoved(5);        }
 
     void            s_ChangeFile();
     void            s_IntZoneTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y);
     void            s_DisplayIntZoneTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y);
     void            s_ShapeBackgroundForm();
 
-    void            s_Event_SaveImageEvent();
-    void            s_DefStartPos();
-    void            s_DefEndPos();
-    void            s_SeekLeft();
-    void            s_SeekRight();
-    void            s_EditStartPos(QTime NewValue);
-    void            s_EditEndPos(QTime NewValue);
-    void            MusicReduceFactorChange(int);
-    void            s_Deinterlace(int);
-
     void            s_SpeedWaveChanged(int);
 
 private:
-    void            UpdateFramingStyleCB(bool Reset=false);
     void            MakeFormIcon(QComboBox *UICB);
 
+    void            CreateVideoTag();
+
     Ui::DlgImageCorrection *ui;
+    wgt_QEditVideo *VideoWidget;
 };
 
 #endif // DLGIMAGECORRECTION_H

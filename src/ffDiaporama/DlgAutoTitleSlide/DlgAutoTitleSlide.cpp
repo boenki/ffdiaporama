@@ -20,7 +20,7 @@
 
 #include "DlgAutoTitleSlide.h"
 #include "ui_DlgAutoTitleSlide.h"
-#include "../DlgffDPjrProperties/DlgffDPjrProperties.h"
+#include "DlgffDPjrProperties/DlgffDPjrProperties.h"
 
 #define TIMERFREQ   200
 

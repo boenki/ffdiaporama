@@ -22,8 +22,8 @@
 #define DLGRENDERVIDEO_H
 
 // Basic inclusions (common to all files)
-#include "../../CustomCtrl/_QCustomDialog.h"
-#include "../../engine/_EncodeVideo.h"
+#include "CustomCtrl/_QCustomDialog.h"
+#include "engine/_EncodeVideo.h"
 
 namespace Ui {
     class DlgRenderVideo;

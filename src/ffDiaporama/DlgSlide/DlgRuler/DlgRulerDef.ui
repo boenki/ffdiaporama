@@ -46,7 +46,7 @@
         <x>0</x>
         <y>0</y>
         <width>383</width>
-        <height>153</height>
+        <height>163</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
@@ -288,7 +288,7 @@ In ffDiaporama, the TV margins are of type &quot;Title safe area&quot; and are d
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -302,7 +302,7 @@ In ffDiaporama, the TV margins are of type &quot;Title safe area&quot; and are d
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -316,7 +316,7 @@ In ffDiaporama, the TV margins are of type &quot;Title safe area&quot; and are d
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
       </widget>
@@ -325,8 +325,6 @@ In ffDiaporama, the TV margins are of type &quot;Title safe area&quot; and are d
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../../../RSCffDiaporama.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

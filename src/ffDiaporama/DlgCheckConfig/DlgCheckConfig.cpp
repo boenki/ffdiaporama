@@ -20,10 +20,10 @@
 
 #include "DlgCheckConfig.h"
 #include "ui_DlgCheckConfig.h"
-#include "../../engine/cBaseMediaFile.h"
-#include "../../engine/_Transition.h"
-#include "../../engine/cBrushDefinition.h"
-#include "../../engine/_SDL_Support.h"
+#include "engine/cBaseMediaFile.h"
+#include "engine/_Transition.h"
+#include "engine/cBrushDefinition.h"
+#include "engine/_SDL_Support.h"
 
 #define ICON_GREEN      ":/img/SmallGreen.png"
 #define ICON_RED        ":/img/SmallRed.png"

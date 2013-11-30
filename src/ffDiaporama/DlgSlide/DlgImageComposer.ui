@@ -139,7 +139,7 @@ QToolButton:pressed {
 text</string>
             </property>
             <property name="icon">
-             <iconset resource="../../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/add_text.png</normaloff>:/img/add_text.png</iconset>
             </property>
             <property name="iconSize">
@@ -185,7 +185,7 @@ Note: in case of multiple selection, files are added in the alphabetical order o
 file</string>
             </property>
             <property name="icon">
-             <iconset resource="../../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/add_image.png</normaloff>:/img/add_image.png</iconset>
             </property>
             <property name="iconSize">
@@ -236,7 +236,7 @@ file</string>
 block</string>
             </property>
             <property name="icon">
-             <iconset resource="../../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/edit.png</normaloff>:/img/edit.png</iconset>
             </property>
             <property name="iconSize">
@@ -277,7 +277,7 @@ block</string>
 block</string>
             </property>
             <property name="icon">
-             <iconset resource="../../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/Arrange/arrange.png</normaloff>:/img/Arrange/arrange.png</iconset>
             </property>
             <property name="iconSize">
@@ -318,7 +318,7 @@ block</string>
 information</string>
             </property>
             <property name="icon">
-             <iconset resource="../../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/Action_Info.png</normaloff>:/img/Action_Info.png</iconset>
             </property>
             <property name="iconSize">
@@ -365,7 +365,7 @@ information</string>
              <string>Rulers</string>
             </property>
             <property name="icon">
-             <iconset resource="../../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/ruler_ok.png</normaloff>:/img/ruler_ok.png</iconset>
             </property>
             <property name="iconSize">
@@ -585,8 +585,8 @@ information</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>265</width>
-              <height>485</height>
+              <width>257</width>
+              <height>432</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -644,7 +644,7 @@ information</string>
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/RotateY.png</pixmap>
+                <pixmap>:/img/RotateY.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -718,7 +718,7 @@ This value is defined as a percentage (%) of the total width of the image or in 
                   <string notr="true"/>
                  </property>
                  <property name="pixmap">
-                  <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Height.png</pixmap>
+                  <pixmap>:/img/PosSize_Height.png</pixmap>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -847,7 +847,7 @@ This value is defined as a percentage (%) of the total height of the image or in
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset resource="../../../RSCffDiaporama.qrc">
+                  <iconset>
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -866,7 +866,7 @@ This value is defined as a percentage (%) of the total height of the image or in
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/RotateZ.png</pixmap>
+                <pixmap>:/img/RotateZ.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -966,7 +966,7 @@ This position is defined as a percentage (%) of the total width of the image or 
                   <string notr="true"/>
                  </property>
                  <property name="pixmap">
-                  <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Y.png</pixmap>
+                  <pixmap>:/img/PosSize_Y.png</pixmap>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1096,7 +1096,7 @@ Remark: the position of the shadow is independent of rotation of the block: the 
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset resource="../../../RSCffDiaporama.qrc">
+                  <iconset>
                    <normaloff>:/img/db_menu.png</normaloff>:/img/db_menu.png</iconset>
                  </property>
                  <property name="arrowType">
@@ -1194,7 +1194,7 @@ Remark: the position of the shadow is independent of rotation of the block: the 
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset resource="../../../RSCffDiaporama.qrc">
+                  <iconset>
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -1355,7 +1355,7 @@ color: #000000;
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/RotateX.png</pixmap>
+                <pixmap>:/img/RotateX.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1434,7 +1434,7 @@ color: #000000;
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_X.png</pixmap>
+                <pixmap>:/img/PosSize_X.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1611,7 +1611,7 @@ color: #000000;
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset resource="../../../RSCffDiaporama.qrc">
+                  <iconset>
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -1664,7 +1664,7 @@ color: #000000;
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Width.png</pixmap>
+                <pixmap>:/img/PosSize_Width.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1799,7 +1799,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset resource="../../../RSCffDiaporama.qrc">
+                  <iconset>
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -1886,7 +1886,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -1900,7 +1900,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -1914,7 +1914,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
       </widget>
@@ -1924,7 +1924,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
   </layout>
   <action name="actionEditText">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/EditText.png</normaloff>:/img/EditText.png</iconset>
    </property>
    <property name="text">
@@ -1934,15 +1934,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Define the properties of the text block</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionEditImage">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/EditImage.png</normaloff>:/img/EditImage.png</iconset>
    </property>
    <property name="text">
@@ -1952,15 +1949,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Define framing and correction of image or movie</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionUpBlock">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/arrow_up.png</normaloff>:/img/arrow_up.png</iconset>
    </property>
    <property name="text">
@@ -1970,15 +1964,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Change the order of blocks by moving the active block towards the background</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionDownBlock">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/arrow_down.png</normaloff>:/img/arrow_down.png</iconset>
    </property>
    <property name="text">
@@ -1988,15 +1979,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Change the order of blocks by moving the active block towards the foreground</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionInfo">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/Action_Info.png</normaloff>:/img/Action_Info.png</iconset>
    </property>
    <property name="text">
@@ -2006,15 +1994,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Display detailed information on current block</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionCopy">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/editcopy.png</normaloff>:/img/editcopy.png</iconset>
    </property>
    <property name="text">
@@ -2024,10 +2009,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Copy the current block to the ffDiaporama clipboard</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
    <property name="shortcut">
     <string>Ctrl+C</string>
@@ -2035,7 +2017,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
   </action>
   <action name="actionCut">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/editcut.png</normaloff>:/img/editcut.png</iconset>
    </property>
    <property name="text">
@@ -2045,10 +2027,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Copy the current block to the ffDiaporama clipboard and remove it from the slide</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
    <property name="shortcut">
     <string>Ctrl+X</string>
@@ -2056,7 +2035,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
   </action>
   <action name="actionRemoveBlock">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
    </property>
    <property name="text">
@@ -2066,10 +2045,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Remove current block(s)</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
    <property name="shortcut">
     <string>Del</string>
@@ -2077,7 +2053,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
   </action>
   <action name="actionPaste">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/editpaste.png</normaloff>:/img/editpaste.png</iconset>
    </property>
    <property name="text">
@@ -2087,10 +2063,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Paste block from the ffDiaporama clipboard and insert it</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
    <property name="shortcut">
     <string>Ctrl+V</string>
@@ -2098,7 +2071,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
   </action>
   <action name="actionTop">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/Arrange/aotop.png</normaloff>:/img/Arrange/aotop.png</iconset>
    </property>
    <property name="text">
@@ -2108,15 +2081,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Align blocks to the top</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionMiddle">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/Arrange/aocenterv.png</normaloff>:/img/Arrange/aocenterv.png</iconset>
    </property>
    <property name="text">
@@ -2126,15 +2096,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Align blocks to the middle</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionBottom">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/Arrange/aobottom.png</normaloff>:/img/Arrange/aobottom.png</iconset>
    </property>
    <property name="text">
@@ -2144,15 +2111,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Align blocks to the bottom</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionLeft">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/Arrange/aoleft.png</normaloff>:/img/Arrange/aoleft.png</iconset>
    </property>
    <property name="text">
@@ -2162,15 +2126,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Align blocks to the left</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionCenter">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/Arrange/aocenterh.png</normaloff>:/img/Arrange/aocenterh.png</iconset>
    </property>
    <property name="text">
@@ -2180,15 +2141,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Align blocks to the center</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionRight">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/Arrange/aoright.png</normaloff>:/img/Arrange/aoright.png</iconset>
    </property>
    <property name="text">
@@ -2198,15 +2156,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Align blocks to the right</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionAddTextBlock">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/add_text.png</normaloff>:/img/add_text.png</iconset>
    </property>
    <property name="text">
@@ -2216,15 +2171,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Add a new text block</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionAddFile">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/add_image.png</normaloff>:/img/add_image.png</iconset>
    </property>
    <property name="text">
@@ -2234,15 +2186,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Add a new block of type image or video</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionDistributeHoriz">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/Arrange/aodistH.png</normaloff>:/img/Arrange/aodistH.png</iconset>
    </property>
    <property name="text">
@@ -2252,15 +2201,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Place each block so as to have the same space between each</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionDistributeVert">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/Arrange/aodistV.png</normaloff>:/img/Arrange/aodistV.png</iconset>
    </property>
    <property name="text">
@@ -2270,15 +2216,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Place each block so as to have the same space between each</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionAddSimpleTextBlock">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/object_text.png</normaloff>:/img/object_text.png</iconset>
    </property>
    <property name="text">
@@ -2288,15 +2231,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Add a new simple text block</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionAddClipArtTextBlock">
    <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/add_cliparttext.png</normaloff>:/img/add_cliparttext.png</iconset>
    </property>
    <property name="text">
@@ -2306,23 +2246,20 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <string>Add a new ClipArt text block</string>
    </property>
    <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
+    <font/>
    </property>
   </action>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>cCShapeComboBox</class>
-   <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCShapeComboBox.h</header>
-  </customwidget>
-  <customwidget>
    <class>cCColorComboBox</class>
    <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCColorComboBox.h</header>
+   <header>CustomCtrl/cCColorComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>cCShapeComboBox</class>
+   <extends>QComboBox</extends>
+   <header>CustomCtrl/cCShapeComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cCustomBlockTable</class>
@@ -2338,11 +2275,9 @@ Remark: To make animations of text, you have to create at least 2 shots then:
   <customwidget>
    <class>cCTexteFrameComboBox</class>
    <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCTexteFrameComboBox.h</header>
+   <header>CustomCtrl/cCTexteFrameComboBox.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../../../RSCffDiaporama.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

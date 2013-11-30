@@ -229,7 +229,7 @@ A file selection dialog appears, allowing you to select a file</string>
         <string notr="true"/>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/object_sound.png</normaloff>:/img/object_sound.png</iconset>
        </property>
       </widget>
@@ -243,7 +243,7 @@ A file selection dialog appears, allowing you to select a file</string>
         <string notr="true"/>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
        </property>
       </widget>
@@ -258,7 +258,7 @@ Moves the currently selected file one step up.</string>
         <string notr="true"/>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/arrow_up.png</normaloff>:/img/arrow_up.png</iconset>
        </property>
       </widget>
@@ -273,7 +273,7 @@ Moves the currently selected file one step down</string>
         <string notr="true"/>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/arrow_down.png</normaloff>:/img/arrow_down.png</iconset>
        </property>
       </widget>
@@ -410,7 +410,7 @@ This volume is independent of any reductions in the volume that you define in th
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -424,7 +424,7 @@ This volume is independent of any reductions in the volume that you define in th
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -438,7 +438,7 @@ This volume is independent of any reductions in the volume that you define in th
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
       </widget>
@@ -462,9 +462,7 @@ This volume is independent of any reductions in the volume that you define in th
   <tabstop>OKBT</tabstop>
   <tabstop>CancelBt</tabstop>
  </tabstops>
- <resources>
-  <include location="../../../RSCffDiaporama.qrc"/>
- </resources>
+ <resources/>
  <connections/>
  <buttongroups>
   <buttongroup name="buttonGroup"/>

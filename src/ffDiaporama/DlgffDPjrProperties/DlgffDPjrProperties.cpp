@@ -21,10 +21,10 @@
 #include "DlgffDPjrProperties.h"
 #include "ui_DlgffDPjrProperties.h"
 
-#include "../../engine/cTextFrame.h"
-#include "../../CustomCtrl/cCTexteFrameComboBox.h"
+#include "engine/cTextFrame.h"
+#include "CustomCtrl/cCTexteFrameComboBox.h"
 
-#include "../DlgSlide/DlgImageComposer.h"
+#include "DlgSlide/DlgImageComposer.h"
 
 //====================================================================================================================
 

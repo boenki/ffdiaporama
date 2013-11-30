@@ -22,8 +22,8 @@
 #define DLGMANAGESTYLE_H
 
 // Basic inclusions (common to all files)
-#include "../../CustomCtrl/_QCustomDialog.h"
-#include "../../engine/_StyleDefinitions.h"
+#include "CustomCtrl/_QCustomDialog.h"
+#include "engine/_StyleDefinitions.h"
 
 //=====================
 // Manage style dialog

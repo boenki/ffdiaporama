@@ -21,7 +21,7 @@
 #ifndef HELPCONTENT_H
 #define HELPCONTENT_H
 
-#include "../../engine/_GlobalDefines.h"
+#include "engine/_GlobalDefines.h"
 #include <QtHelp/QHelpEngine>
 #include <QtHelp/QHelpContentWidget>
 #include <QUrl>

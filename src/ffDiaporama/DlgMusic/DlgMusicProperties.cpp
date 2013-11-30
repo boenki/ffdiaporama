@@ -21,7 +21,7 @@
 #include "DlgMusicProperties.h"
 #include "ui_DlgMusicProperties.h"
 
-#include "../DlgFileExplorer/DlgFileExplorer.h"
+#include "DlgFileExplorer/DlgFileExplorer.h"
 #include <QMessageBox>
 
 DlgMusicProperties::DlgMusicProperties(cDiaporamaObject *TheDiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
@@ -231,7 +231,7 @@ void DlgMusicProperties::RefreshControl(bool RefreshList) {
 void DlgMusicProperties::s_AddMusic() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::s_AddMusic");
     QStringList FileList;
-    DlgFileExplorer Dlg(BROWSER_TYPE_SOUNDONLY,true,false,QApplication::translate("DlgMusicProperties","Add music files"),DiaporamaObject->Parent->ApplicationConfig,this);
+    DlgFileExplorer Dlg(BROWSER_TYPE_SOUNDONLY,true,false,false,QApplication::translate("DlgMusicProperties","Add music files"),DiaporamaObject->Parent->ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
 
@@ -243,7 +243,7 @@ void DlgMusicProperties::s_AddMusic() {
         QString NewFile=FileList[i];
         DiaporamaObject->MusicList.insert(CurIndex,cMusicObject(ApplicationConfig));
         bool        ModifyFlag=false;
-        if (DiaporamaObject->MusicList[CurIndex].LoadMedia(NewFile,NULL,&ModifyFlag)) {
+        if (DiaporamaObject->MusicList[CurIndex].GetInformationFromFile(NewFile,NULL,&ModifyFlag)&&(DiaporamaObject->MusicList[CurIndex].CheckFormatValide(this))) {
             if (ModifyFlag) emit SetModifyFlag();
 
             // Add music to PlayListTable
@@ -264,8 +264,6 @@ void DlgMusicProperties::s_AddMusic() {
             #endif
             CurIndex++;
         } else {
-            CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("DlgMusicProperties","Error","Error message"),
-                                  NewFile+"\n\n"+QApplication::translate("DlgMusicProperties","Format not supported","Error message"),QMessageBox::Close);
             DiaporamaObject->MusicList.removeAt(CurIndex);
         }
     }
