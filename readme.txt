@@ -1,7 +1,7 @@
 **************************************************
-* FFDIAPORAMA 2.0 - Final
+* FFDIAPORAMA 2.1 - trunk
 *
-* readme.txt on 23/11/2013
+* readme.txt on 24/11/2013
 **************************************************
 
 ffDiaporama is a tools to make diaporama as video
@@ -104,19 +104,30 @@ Build ffDiaporama for openSUSE
 
     Version openSUSE 12.3 (Qt 4.8.4/ffmpeg 2.1)
         Installation prerequisites:
-            su -c "zypper in make gcc build kernel-desktop-devel"
-            su -c "zypper in libqt4 libqt4-devel"
-            su -c "zypper in libSDL-1_2-0 libSDL_mixer-1_2-0 libSDL_mixer-devel"
-            su -c "zypper in ffmpeg libffmpeg-devel libSDL-devel"
-            su -c "zypper in exiv2 libexiv2-devel"
+            sudo zypper in make gcc build kernel-desktop-devel
+            sudo zypper in libSDL-1_2-0 libSDL_mixer-1_2-0 libSDL_mixer-devel
+            sudo zypper in ffmpeg libffmpeg-devel libSDL-devel
+            sudo zypper in exiv2 libexiv2-devel
+            sudo zypper in libqt4 libqt4-devel
         Compilation:
             qmake ffDiaporama.pro /PREFIX=/opt
             make
         Installation:
             sudo make install
 
-
-
+    Version openSUSE 13.1 (Qt 5.1.1/ffmpeg 2.1)
+        Installation prerequisites:
+            sudo zypper in make gcc build kernel-desktop-devel
+            sudo zypper in libSDL-1_2-0 libSDL_mixer-1_2-0 libSDL_mixer-devel
+            sudo zypper in ffmpeg libffmpeg-devel libSDL-devel
+            sudo zypper in exiv2 libexiv2-devel
+            sudo zypper in libqt5-qtbase libQt5Gui5 libQt5Widgets5 libQt5Svg5 libQt5Sql5 libqt5-sql-sqlite libqt5-qtimageformats
+            sudo zypper in libqt5-qtbase-devel libqt5-qttools libqt5-qttools-devel
+        Compilation:
+            qmake-qt5 ffDiaporama.pro /PREFIX=/opt
+            make
+        Installation:
+            sudo make install
 
 
 Build ffDiaporama for Fedora

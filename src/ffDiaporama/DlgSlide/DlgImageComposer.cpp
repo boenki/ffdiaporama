@@ -1319,7 +1319,11 @@ void DlgImageComposer::s_BlockTable_DragDropFiles(QList<QUrl> urlList) {
             info.setFile(fName);                        // information about file
             if (info.isFile()) FileList.append(fName);  // append file
         }
-        if (FileList.count()>0) s_BlockTable_AddFilesBlock(FileList,ui->BlockTable->DragItemDest);
+        if (FileList.count()>0) {
+            if (ui->BlockTable->DragItemDest<0)                          ui->BlockTable->DragItemDest=0;
+            if (ui->BlockTable->DragItemDest>ui->BlockTable->rowCount()) ui->BlockTable->DragItemDest=ui->BlockTable->rowCount();
+            s_BlockTable_AddFilesBlock(FileList,ui->BlockTable->DragItemDest);
+        }
     }
 }
 

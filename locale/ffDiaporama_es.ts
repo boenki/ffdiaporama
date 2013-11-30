@@ -2,35 +2,11 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="es_ES">
 <context>
-    <name>CommonErrorMsg</name>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="755"/>
-        <source>Format not supported</source>
-        <translation>Formato no soportado</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="763"/>
-        <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
-        <translation>Esta aplicación sólo soporta pistas de audio con 8 bits unsigned o 16 bits signed</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="768"/>
-        <source>This application support only mono or stereo audio track</source>
-        <translation>Esta aplicación soporta pista de audio mono o estéreo</translation>
-    </message>
-</context>
-<context>
     <name>CommonInfoMsg</name>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="732"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="621"/>
         <source>Select a file</source>
         <translation>Selecciona archivo</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="773"/>
-        <source>Error</source>
-        <comment>Title of dialog box displaying an error</comment>
-        <translation>Error</translation>
     </message>
 </context>
 <context>
@@ -1124,7 +1100,7 @@ See help for more details!</source>
 ¡Ver ayuda para más detalles!</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="803"/>
+        <location filename="../src/ffDiaporama/engine/cBaseApplicationConfig.cpp" line="810"/>
         <source>MM/dd/yyyy</source>
         <comment>Default Date format : dd/MM/yyyy or MM/dd/yyyy or yyyy/MM/dd or dd.MM.yyyy and so on...</comment>
         <translation>MM/dd/aaaa</translation>
@@ -1475,7 +1451,7 @@ Por ejemplo, si el proyecto es &quot;Mis vacaciones del 1 al 15&quot;, el capít
         <translation>Imagen desde disco</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgBackground/DlgBackgroundProperties.cpp" line="299"/>
+        <location filename="../src/ffDiaporama/DlgBackground/DlgBackgroundProperties.cpp" line="304"/>
         <source>Select a file</source>
         <translation>Selecciona archivo</translation>
     </message>
@@ -1888,70 +1864,70 @@ Amarillo: el componente funciona parcialmente
         <translation>&amp;Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="58"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="56"/>
         <source>% done;Destination file;Source file</source>
         <translation>% hecho;Destino archivo;Origen archivo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="86"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="84"/>
         <source>Error: Project subfolder can&apos;t be empty</source>
         <comment>Error message</comment>
         <translation>Error:subcarpeta del proyecto no puede estar vacío</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="102"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="100"/>
         <source>Export done</source>
         <comment>Error message</comment>
         <translation>Exportación realizada</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="128"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="126"/>
         <source>Export cancel</source>
         <comment>Error message</comment>
         <translation>Exportación cancelada</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="162"/>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="196"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="160"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="194"/>
         <source>not started</source>
         <translation>no iniciado</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="193"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="191"/>
         <source>Project file</source>
         <translation>Archivo de proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="210"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="208"/>
         <source>Error during the creation of the %1 folder</source>
         <comment>Error message</comment>
         <translation>Error durante la creación de carpeta %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="216"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="214"/>
         <source>started</source>
         <translation>iniciado</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="219"/>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="231"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="217"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="229"/>
         <source>done</source>
         <translation>Hecho</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="220"/>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="229"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="218"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="227"/>
         <source>error</source>
         <translation>error</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="222"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="220"/>
         <source>Error during the export of the project file</source>
         <comment>Error message</comment>
         <translation>Error durante el proceso de exportación</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="228"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="226"/>
         <source>Error during the copy of %1 to %2</source>
         <comment>Error message</comment>
         <translation>Error durante la copia de %1 a %2</translation>
@@ -1960,109 +1936,39 @@ Amarillo: el componente funciona parcialmente
 <context>
     <name>DlgFileExplorer</name>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="267"/>
-        <source>Adjust display mode and file filtering</source>
-        <translation>Ajustar modo de visualización y filtrado de archivos</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="307"/>
-        <source>Change to upper folder</source>
-        <translation>Cambiar a carpeta superior</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="347"/>
-        <source>Change to previous folder</source>
-        <translation>Cambiar a la carpeta anterior</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="387"/>
-        <source>Refresh folder table</source>
-        <translation>Refrescar árbol de carpertas</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="427"/>
-        <source>Use or manage favorite path</source>
-        <translation>Usar o gestionar ruta de favoritos</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="949"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="76"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Aceptar modificaciones y salir</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="952"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="79"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="963"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="90"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Cancelar modificaciones y salir</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="966"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="93"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="977"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="104"/>
         <source>Show help about this dialogue box</source>
         <translation>Muestra la ayuda sobre este tema</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="980"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="107"/>
         <source>&amp;Help</source>
         <translation>&amp;Ayuda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="987"/>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="114"/>
         <source>F1</source>
         <translation>F1</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="1000"/>
-        <source>Add to favorite</source>
-        <translation>Añadir favorito</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="1003"/>
-        <source>Add current path to favorite</source>
-        <translation>Añadir ruta actual a favoritos</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="1018"/>
-        <source>Manage favorites</source>
-        <translation>Gestionar favoritos</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="1021"/>
-        <source>Manage favorites (rename or remove)</source>
-        <translation>Gestionar favoritos (renombrar o eliminar)</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="1036"/>
-        <source>Open</source>
-        <translation>Abrir</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="1039"/>
-        <source>Open file with system associated application</source>
-        <translation>Abrir archivo con aplicacióna asociada</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="1054"/>
-        <source>Properties</source>
-        <translation>Propiedades</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="1057"/>
-        <source>Display information on file</source>
-        <translation>Mostrar información en archivo</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="395"/>
-        <source>The selection can&apos;t include folders.</source>
-        <translation>La selección no puede incluir carpetas.</translation>
     </message>
 </context>
 <context>
@@ -2074,7 +1980,7 @@ Amarillo: el componente funciona parcialmente
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="135"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2216"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2171"/>
         <source>Add a new text block</source>
         <translation>Añadir un nuevo bloque de texto</translation>
     </message>
@@ -2384,264 +2290,264 @@ Observación: Para hacer animaciones de texto, debe crear al menos 2 tomas, ento
         <translation>Definir propiedades del bloque de texto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1949"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1946"/>
         <source>Correct or reframe image</source>
         <translation>Corregir o reencuadrar imagen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1952"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1949"/>
         <source>Define framing and correction of image or movie</source>
         <translation>Definir encuadre y corrección de imagen o video</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1967"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1961"/>
         <source>Move to background</source>
         <translation>Mover hacia el fondo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1970"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1964"/>
         <source>Change the order of blocks by moving the active block towards the background</source>
         <translation>Cambiar el orden de bloques moviendo bloque activo hacia el fondo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1985"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1976"/>
         <source>Move to foreground</source>
         <translation>Mover a primer plano</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1988"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1979"/>
         <source>Change the order of blocks by moving the active block towards the foreground</source>
         <translation>Cambiar el orden de bloques moviendo bloque activo al primer plano</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2003"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1991"/>
         <source>Display information</source>
         <translation>Mostrar información</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2006"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1994"/>
         <source>Display detailed information on current block</source>
         <translation>Mostrar información detallada en bloque actual</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2021"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2006"/>
         <source>Copy block</source>
         <translation>Copiar bloque</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2024"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2009"/>
         <source>Copy the current block to the ffDiaporama clipboard</source>
         <translation>Copiar bloque actual al portapapeles de ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2033"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2015"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2042"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2024"/>
         <source>Cut block</source>
         <translation>Cortar bloque</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2045"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2027"/>
         <source>Copy the current block to the ffDiaporama clipboard and remove it from the slide</source>
         <translation>Copiar el bloque actual en el portapapeles de ffDiaporama y eliminarlo desde la presentación</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2054"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2033"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2063"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2042"/>
         <source>Remove</source>
         <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2066"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2045"/>
         <source>Remove current block(s)</source>
         <translation>Eliminar bloque(s) actual(es)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2075"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2051"/>
         <source>Del</source>
         <translation>Del</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2084"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2060"/>
         <source>Paste block</source>
         <translation>Pegar bloque</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2087"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2063"/>
         <source>Paste block from the ffDiaporama clipboard and insert it</source>
         <translation>Pegar bloque desde el portapapeles de ffDiaporama e insertarlo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2096"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2069"/>
         <source>Ctrl+V</source>
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2105"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2078"/>
         <source>Align top</source>
         <translation>Alinear arriba</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2108"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2081"/>
         <source>Align blocks to the top</source>
         <translation>Alinear bloques hacia arriba</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2123"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2093"/>
         <source>Align middle</source>
         <translation>Alinear al medio</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2126"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2096"/>
         <source>Align blocks to the middle</source>
         <translation>Alinear bloques al medio</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2141"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2108"/>
         <source>Align bottom</source>
         <translation>Alinear abajo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2144"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2111"/>
         <source>Align blocks to the bottom</source>
         <translation>Alinear bloques hacia abajo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2159"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2123"/>
         <source>Align left</source>
         <translation>Alinear a la izquierda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2162"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2126"/>
         <source>Align blocks to the left</source>
         <translation>Alinear bloques a la izquieda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2177"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2138"/>
         <source>Align center</source>
         <translation>Alinear al centro</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2180"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2141"/>
         <source>Align blocks to the center</source>
         <translation>Alinear bloques al centro</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2195"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2153"/>
         <source>Align right</source>
         <translation>Alinear a la derecha</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2198"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2156"/>
         <source>Align blocks to the right</source>
         <translation>Alinear bloques a la derecha</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2213"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2168"/>
         <source>Add text block</source>
         <translation>Añadir bloque de texto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2231"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2183"/>
         <source>Add file</source>
         <translation>Añadir archivo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2234"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2186"/>
         <source>Add a new block of type image or video</source>
         <translation>Añadir nuevo bloque para nuevo tipo de imagen o video</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2249"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2198"/>
         <source>distribute horizontally</source>
         <translation>Distribuir horizontalmente</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2252"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2270"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2201"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2216"/>
         <source>Place each block so as to have the same space between each</source>
         <translation>Colocar cada bloque a fin de tener el mismo espacio entre ellos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2267"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2213"/>
         <source>distribute vertically</source>
         <translation>Distribuir verticalmente</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2285"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2228"/>
         <source>Add simple text block</source>
         <translation>Añadir bloque simple de texto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2288"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2231"/>
         <source>Add a new simple text block</source>
         <translation>Añadir nuevo bloque simple de texto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2303"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2243"/>
         <source>Add ClipArt text block</source>
         <translation>Añadir ClipArt bloque de texto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2306"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="2246"/>
         <source>Add a new ClipArt text block</source>
         <translation>Añadir nuevo ClipArt bloque de texto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="142"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="141"/>
         <source>None</source>
         <translation>Nada</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="143"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="142"/>
         <source>Shadow upper left</source>
         <translation>Sombra superior izquierda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="144"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="143"/>
         <source>Shadow upper right</source>
         <translation>Sombra superior-derecha</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="145"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="144"/>
         <source>Shadow bottom left</source>
         <translation>Sombra inferior izquierda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="146"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="145"/>
         <source>Shadow bottom right</source>
         <translation>Sombra inferior derecha</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="877"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="891"/>
         <source>Remove block</source>
         <translation>Eliminar bloque</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="877"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="891"/>
         <source>Are you sure you want to delete this block?</source>
         <translation>¿Seguro que quieres eliminar este bloque?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="880"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="894"/>
         <source>Remove blocks</source>
         <translation>Eliminar bloques</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="880"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="894"/>
         <source>Are you sure you want to delete these blocks?</source>
         <translation>¿Seguro que quieres eliminar estos bloques?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="945"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1009"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="959"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1023"/>
         <source>Text</source>
         <comment>Default text value</comment>
         <translation>Texto</translation>
@@ -2660,12 +2566,12 @@ Observación: Para hacer animaciones de texto, debe crear al menos 2 tomas, ento
         <translation>Selecciona otro archivo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3251"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2967"/>
         <source>Undo</source>
         <translation>Deshacer</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3258"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2974"/>
         <source>Ctrl+Z</source>
         <translation>Ctrl+Z</translation>
     </message>
@@ -2724,12 +2630,12 @@ Observación: Para hacer animaciones de texto, debe crear al menos 2 tomas, ento
         <translation>Nombre de imagen/vídeo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3248"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2964"/>
         <source>Undo last action (CTRL+Z)</source>
         <translation>Deshacer última acción (CTRL+Z)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3206"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2922"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Aceptar modificación y salir</translation>
     </message>
@@ -2772,7 +2678,7 @@ Observación: Para hacer animaciones de texto, debe crear al menos 2 tomas, ento
         <translation>Ajustar canal azul</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3182"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2898"/>
         <source>Rulers</source>
         <translation>Guías</translation>
     </message>
@@ -3113,110 +3019,34 @@ Cuando la imagen no se corresponde con la geometría del video que va a ser gene
 Por ejemplo: una imagen 4:03 utilizado en un proyecto de 16:9 se muestra de forma predeterminada con una zona transparente en cada lado.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2865"/>
-        <source>Allows you to define the beginning and end of a video sequence.</source>
-        <translation>Permite definir el principio y el final de una secuencia de vídeo.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2913"/>
-        <source>Start :</source>
-        <translation>Inicio :</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2920"/>
-        <source>Move to start position</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Mueve a la posición inicial</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2934"/>
-        <source>Use current position as start position</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Utilizar posición actual como inicial</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2954"/>
-        <source>Define the start position to use</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Definir posición de inicio a utilizar</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2976"/>
-        <source>End :</source>
-        <translation>Final :</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2992"/>
-        <source>Define the end position to use</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Definir posición final a utilizar</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3011"/>
-        <source>Use current position as end position</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Utilizar posición actual como posición final</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3025"/>
-        <source>Move to end position</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Mover a la posición final</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3045"/>
-        <source>Duration :</source>
-        <translation>Duración :</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3090"/>
-        <source>Volume :</source>
-        <translation>Volumen :</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3106"/>
-        <source>Select the &quot; Master Volume &quot; for the movie</source>
-        <translation>Seleccionar el &quot; Volumen Maestro &quot; para el video</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3129"/>
-        <source>Allows you to activate the deinterlace filter</source>
-        <translation>Activar el filtro de desentrelazado</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3132"/>
-        <source>Deinterlace video</source>
-        <translation>Video desentrelazado</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3279"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2995"/>
         <source>Show help about this dialogue box</source>
         <translation>Muestra la ayuda sobre este tema</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3282"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2998"/>
         <source>&amp;Help</source>
         <translation>&amp;Ayuda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3178"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2894"/>
         <source>Allows you to enable or disable the magnetic rulers.
 When rulers are enabled, the mouse will automatically snap to the edges of the photo, facilitating the framing.</source>
         <translation>Permite activar o desactivar las guías magnéticas.
 Cuando las guías están habilitadas, el ratón se ajustará automáticamente a los bordes de la foto, lo que facilita el encuadre.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3209"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2925"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3265"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2981"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Cancelar modificación y salir</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3268"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2984"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Cancelar</translation>
     </message>
@@ -3224,7 +3054,7 @@ Cuando las guías están habilitadas, el ratón se ajustará automáticamente a 
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="149"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="196"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="214"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="827"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="832"/>
         <source>Full screen size</source>
         <translation>Pantalla completa</translation>
     </message>
@@ -3232,7 +3062,7 @@ Cuando las guías están habilitadas, el ratón se ajustará automáticamente a 
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="150"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="197"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="215"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="829"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="834"/>
         <source>TV margins</source>
         <translation>Márgenes de TV</translation>
     </message>
@@ -3240,7 +3070,7 @@ Cuando las guías están habilitadas, el ratón se ajustará automáticamente a 
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="151"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="198"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="216"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="831"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="836"/>
         <source>Two thirds screen</source>
         <translation>Dos terceras partes de pantalla</translation>
     </message>
@@ -3248,7 +3078,7 @@ Cuando las guías están habilitadas, el ratón se ajustará automáticamente a 
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="152"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="199"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="217"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="833"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="838"/>
         <source>Half screen</source>
         <translation>Mitad de pantalla</translation>
     </message>
@@ -3256,7 +3086,7 @@ Cuando las guías están habilitadas, el ratón se ajustará automáticamente a 
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="153"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="200"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="218"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="835"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="840"/>
         <source>Third screen</source>
         <translation>Tercera parte de pantalla</translation>
     </message>
@@ -3264,42 +3094,42 @@ Cuando las guías están habilitadas, el ratón se ajustará automáticamente a 
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="154"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="201"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="219"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="837"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="842"/>
         <source>Quarter screen</source>
         <translation>Cuarta parte de pantalla</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="156"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="849"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="852"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="854"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="857"/>
         <source>Unlock</source>
         <translation>Desbloquear</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="195"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="213"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="824"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="829"/>
         <source>Real image size</source>
         <translation>Tamaño real de imagen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="820"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="825"/>
         <source>Custom size</source>
         <translation>Tamaño personalizado</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="853"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="858"/>
         <source>Lock to this geometry</source>
         <translation>Bloquear esta geometría</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="158"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="854"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="859"/>
         <source>Lock to project geometry</source>
         <translation>Bloquear esta geometría del proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="711"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="584"/>
         <source>Video position :</source>
         <translation>Video posición :</translation>
     </message>
@@ -3842,116 +3672,116 @@ Se refiere también el nombre del estilo con los ajustes asociados.</translation
         <translation>&amp;Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="171"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="171"/>
         <source>Custom style</source>
         <translation>Estilo predeterminado</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="274"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="274"/>
         <source>Big black text with white outlines</source>
         <translation>Texto grande negro con contorno blanco</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="275"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="275"/>
         <source>Big light yellow text with dark brown shadow</source>
         <translation>Texto grande de color amarillo claro con sombra marrón oscuro</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="276"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="276"/>
         <source>Medium black text with white outlines</source>
         <translation>Texto mediano negro con contorno blanco</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="277"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="277"/>
         <source>Medium light yellow text with dark brown shadow</source>
         <translation>Texto mediano de color amarillo claro con sombra marrón oscuro</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="278"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="278"/>
         <source>Small white text with black outlines</source>
         <translation>Texto pequeño con contorno blanco</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="279"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="279"/>
         <source>Centered Blue Gradient</source>
         <translation>Gradiente Azul centrado</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="280"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="280"/>
         <source>Centered Brown Gradient</source>
         <translation>Gradiente Marrón centrado</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="281"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="281"/>
         <source>Centered Dark-Gray Gradient</source>
         <translation>Gradiente Gris oscuro centrado</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="282"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="282"/>
         <source>Centered Green Gradient</source>
         <translation>Gradiente Verde centrado</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="283"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="283"/>
         <source>Centered Light-Gray Gradient</source>
         <translation>Gradiente Gris claro centrado</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="284"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="284"/>
         <source>Centered Red Gradient</source>
         <translation>Gadiente Rojo centrado</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="285"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="285"/>
         <source>Transparent block (no brush)</source>
         <translation>Bloque transparente (sin fondo)</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="286"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="286"/>
         <source>Rounded rectangle with small brown border</source>
         <translation>Rectángulo redondeado con borde marron</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="287"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="287"/>
         <source>Rectangle with no effect</source>
         <translation>Rectángulo sin efecto</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="313"/>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="387"/>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="393"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="313"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="387"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="393"/>
         <source>Create new style</source>
         <translation>Crear un  nuevo estilo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="314"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="314"/>
         <source>Manage existing style</source>
         <translation>Manejar estilo existente</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="319"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="319"/>
         <source>Update existing style</source>
         <translation>Actualizar estilo existente</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="331"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="331"/>
         <source>Select this style</source>
         <translatorcomment>Selecciona este estilo</translatorcomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="340"/>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="358"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="340"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="358"/>
         <source>Update this style</source>
         <translation>Actualiza este estilo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="387"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="387"/>
         <source>Style name:</source>
         <translation>Nombre del estilo:</translation>
     </message>
     <message>
-        <location filename="../src/engine/_StyleDefinitions.cpp" line="394"/>
+        <location filename="../src/ffDiaporama/engine/_StyleDefinitions.cpp" line="394"/>
         <source>A style with this name already exist.
 Do you want to overwrite-it ?</source>
         <translation>Ya existe un estilo con ese nombre.
@@ -4132,20 +3962,6 @@ Este volumen es independiente de cualquier disminución en el volumen que se def
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.cpp" line="234"/>
         <source>Add music files</source>
         <translation>Añadir archivos de música</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.cpp" line="267"/>
-        <source>Error</source>
-        <comment>Error message</comment>
-        <translatorcomment>Mensaje de error</translatorcomment>
-        <translation>Error</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.cpp" line="268"/>
-        <source>Format not supported</source>
-        <comment>Error message</comment>
-        <translatorcomment>Mensaje de error</translatorcomment>
-        <translation>Formato no soportado</translation>
     </message>
 </context>
 <context>
@@ -4572,11 +4388,17 @@ Do you want to overwrite it ?</source>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1072"/>
+        <source>Job completed successfully!
+Do you want to open the video now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1074"/>
         <source>Job canceled!</source>
         <translation>¡Trabajo cancelado!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1073"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1075"/>
         <source>Job error!
 Please contact ffDiaporama team</source>
         <translation>¡Error de trabajo!
@@ -4598,9 +4420,9 @@ Por favor, contacta con ele equipo de ffDiaporama</translation>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="823"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="844"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="930"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1071"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1072"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1073"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1074"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1075"/>
         <source>Render video</source>
         <translation>Generar video</translation>
     </message>
@@ -4625,12 +4447,7 @@ Por favor, contacta con ele equipo de ffDiaporama</translation>
         <translation> - Tiempo estimado restante : </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1071"/>
-        <source>Job completed successfully!</source>
-        <translation>¡Trabajo finalizado!</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="135"/>
+        <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="133"/>
         <source>Select destination folder</source>
         <translation>Selecccionar carpeta de destino</translation>
     </message>
@@ -4817,59 +4634,59 @@ En ffDiaporama, los márgenes de TV son de tipo &quot;zona segura&quot; y se def
         <translation>Añadir una toma al final de la línea de tiempo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3720"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3712"/>
         <source>Add file</source>
         <translation>Añadir archivo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3723"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3715"/>
         <source>Add a new block of type image or video</source>
         <translation>Añadir nuevo bloque para nuevo tipo de imagen o video</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3738"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3727"/>
         <source>Add shot</source>
         <translation>Añadir toma</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="229"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3759"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3745"/>
         <source>Remove current selected shot</source>
         <translation>Eliminar toma actual seleccionada</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3552"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3571"/>
         <source>Remove</source>
         <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3777"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3760"/>
         <source>Move left</source>
         <translation>Mover a la izquierda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3795"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3775"/>
         <source>Move right</source>
         <translation>Mover a la derecha</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="839"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="885"/>
         <source>HH:mm:ss.zzz</source>
         <translation>HH:mm:ss.zzz</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="792"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="838"/>
         <source>Shot duration :</source>
         <translation>Duración de la toma :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="277"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3705"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3700"/>
         <source>Add a new text block</source>
         <translation>Añadir un nuevo bloque de texto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3335"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3381"/>
         <source>Undo</source>
         <translation>Deshacer</translation>
     </message>
@@ -4888,158 +4705,158 @@ file</source>
 archivo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="377"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="423"/>
         <source>Edit
 block</source>
         <translation>Editar
 bloque</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="415"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="461"/>
         <source>Arrange blocks</source>
         <translation>Organizar bloques</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="418"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="464"/>
         <source>Arrange
 block</source>
         <translation>Organizar
 bloque</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="459"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="505"/>
         <source>Block
 information</source>
         <translation>Bloque
 información</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2454"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2500"/>
         <source>Zoom :</source>
         <translation>Zoom :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3047"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3093"/>
         <source>Reset to 100%</source>
         <translation>reajustar a 100%</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2818"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2864"/>
         <source>Type :</source>
         <translation>Tipo :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2657"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2703"/>
         <source>Dissolve :</source>
         <translation>Disolver :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2888"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2934"/>
         <source>Block coordinates :</source>
         <translation>Coordenadas del bloque :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="616"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="662"/>
         <source>Total duration :</source>
         <translation>Dirección total :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3383"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3429"/>
         <source>Edit text</source>
         <translation>Editar texto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3813"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3790"/>
         <source>Lock properties</source>
         <translation>Fijar propiedades</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3831"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3805"/>
         <source>Unlock properties</source>
         <translation>Propiedades desbloqueo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3849"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3820"/>
         <source>Hide</source>
         <translation>Oculto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="456"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="502"/>
         <source>Display information on image or video file</source>
         <translation>Mostrar información en archivo de imagen o video</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="602"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="648"/>
         <source>Define a name for the slide. It is this name which will appear on the thumbnail in the main window timeline</source>
         <translation>Definir un nombre para la diapositiva. Este es el nombre que aparecerá en la miniatura de la linea de tiempo de la ventana principal</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1763"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1791"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1809"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1837"/>
         <source>Define the angle of rotation about the z-axis (expressed in degrees)</source>
         <translation>Definir el ángulo de rotación para el eje Z (en grados)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1185"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1347"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1455"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1563"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1816"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2267"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2432"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2563"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1231"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1393"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1501"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1609"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1862"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2313"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2478"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2609"/>
         <source>Reset to zero</source>
         <translation>Restablecer a cero</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2513"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2541"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2559"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2587"/>
         <source>Define the angle of rotation about the x-axis (expressed in degrees)</source>
         <translation>Definir el ángulo de rotación para el eje X (en grados)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2382"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2410"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2428"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2456"/>
         <source>Define the angle of rotation about the y-axis (expressed in degrees)</source>
         <translation>Definir el ángulo de rotación para el eje Y (en grados)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1608"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1654"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Block shape :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Forma del bloque :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2644"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2690"/>
         <source>Select the opaqueness of the block</source>
         <translation>Selecciona la opacidad para el bloque</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1994"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2040"/>
         <source>Select the color of the line to be used to draw the border</source>
         <translation>Seleccionar el color de la linea que se usará para dibujar el bloque</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2019"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2065"/>
         <source>Select the type of line (solid, dotted line, etc.)</source>
         <translation>Seleccionar el tipo de línea (sólido, punteado, etc.)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2085"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2131"/>
         <source>Define the distance between the block and its shadow</source>
         <translation>Definir la distancia entre el bloque y su sombra</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2107"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2153"/>
         <source>Select the color of the shadow</source>
         <translation>Seleccionar el color de la sombra</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2606"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2652"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Text animation :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Animación del texto :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2474"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2520"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Animation settings:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Configurar animación:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -5056,241 +4873,257 @@ Information</source>
 Información</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="504"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="372"/>
+        <source>Add
+special</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="550"/>
         <source>Save this slide as a model</source>
         <translation>Guardar esta diapositiva como modelo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="507"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="553"/>
         <source>Save as
 model</source>
         <translation>Guardar
 modelo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="580"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="626"/>
         <source>Slide name:</source>
         <translation>Nombre de diaositiva:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1628"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1674"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Block animation :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Animación del bloque :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2622"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2668"/>
         <source>Speed wave :</source>
         <translation>nivel de velocidad:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3147"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3193"/>
         <source>Clip-Art :</source>
         <translation>Clip-Art :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3253"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3299"/>
         <source>Rulers</source>
         <translation>Guías</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3363"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3409"/>
         <source>Show help about this dialogue box</source>
         <translation>Muestra la ayuda sobre este tema</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3366"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3412"/>
         <source>&amp;Help</source>
         <translation>&amp;Ayuda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3401"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3444"/>
         <source>Correct or reframe image</source>
         <translation>Corregir o reencuadrar imagen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3404"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3447"/>
         <source>Define framing and correction of image or movie</source>
         <translation>Definir encuadre y corrección de imagen o video</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3474"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3505"/>
         <source>Take the sound</source>
         <translation>Activar sonido</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3492"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3520"/>
         <source>Display information</source>
         <translation>Mostrar información</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3495"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3523"/>
         <source>Display detailed information on current block</source>
         <translation>Mostrar información detallada en bloque actual</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3513"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3538"/>
         <source>Copy the current block to the ffDiaporama clipboard</source>
         <translation>Copiar bloque actual al portapapeles de ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3555"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3574"/>
         <source>Remove current block(s)</source>
         <translation>Eliminar bloque(s) actual(es)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3576"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3592"/>
         <source>Paste block from the ffDiaporama clipboard and insert it</source>
         <translation>Pegar bloque desde el portapapeles de ffDiaporama e insertarlo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3594"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3607"/>
         <source>Align top</source>
         <translation>Alinear arriba</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3597"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3610"/>
         <source>Align blocks to the top</source>
         <translation>Alinear bloques hacia arriba</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3612"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3622"/>
         <source>Align middle</source>
         <translation>Alinear al medio</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3615"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3625"/>
         <source>Align blocks to the middle</source>
         <translation>Alinear bloques al medio</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3630"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3637"/>
         <source>Align bottom</source>
         <translation>Alinear abajo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3633"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3640"/>
         <source>Align blocks to the bottom</source>
         <translation>Alinear bloques hacia abajo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3648"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3652"/>
         <source>Align left</source>
         <translation>Alinear a la izquierda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3651"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3655"/>
         <source>Align blocks to the left</source>
         <translation>Alinear bloques a la izquieda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3666"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3667"/>
         <source>Align center</source>
         <translation>Alinear al centro</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3669"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3670"/>
         <source>Align blocks to the center</source>
         <translation>Alinear bloques al centro</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3684"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3682"/>
         <source>Align right</source>
         <translation>Alinear a la derecha</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3687"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3685"/>
         <source>Align blocks to the right</source>
         <translation>Alinear bloques a la derecha</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3702"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3697"/>
         <source>Add text block</source>
         <translation>Añadir bloque de texto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3741"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3730"/>
         <source>Append a shot at the end of the timeline</source>
         <translation>Añadir una toma al final de la línea de tiempo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3780"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3763"/>
         <source>Change the order of the shots by moving the current selected shot a notch towards the left</source>
         <translation>Cambiar el orden de las tomas moviendo la toma actual seleccionada un nivel hacia la izquierda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3798"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3778"/>
         <source>Change the order of the shots by moving the current selected shot a notch towards the right</source>
         <translation>Cambiar el orden de las tomas moviendo la toma actual seleccionada un nivel hacia la derecha</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3816"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3793"/>
         <source>Lock properties to the same values as defined for the previous shot</source>
         <translation>Bloqueo de las propiedades a los mismos valores definidos para la toma anterior</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3834"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3808"/>
         <source>Define properties of this shot</source>
         <translation>Definir propiedades de esta toma</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3852"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3823"/>
         <source>Hide the active block</source>
         <translation>Ocultar bloque activo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3867"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3835"/>
         <source>distribute horizontally</source>
         <translation>Distribuir horizontalmente</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3870"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3888"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3838"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3853"/>
         <source>Place each block so as to have the same space between each</source>
         <translation>Colocar cada bloque a fin de tener el mismo espacio entre ellos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3885"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3850"/>
         <source>distribute vertically</source>
         <translation>Distribuir verticalmente</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3903"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3865"/>
         <source>Add simple text block</source>
         <translation>Añadir bloque simple de texto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3906"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3868"/>
         <source>Add a new simple text block</source>
         <translation>Añadir nuevo bloque simple de texto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3921"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3880"/>
         <source>Add ClipArt text block</source>
         <translation>Añadir ClipArt bloque de texto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3924"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3883"/>
         <source>Add a new ClipArt text block</source>
         <translation>Añadir nuevo ClipArt bloque de texto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3939"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3895"/>
         <source>Append to project title models</source>
         <translation>Añadir a los modelos de título del proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3948"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3904"/>
         <source>Append to chapter title models</source>
         <translation>Añadir a los modelos de capítulo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3957"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3960"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3913"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3916"/>
         <source>Append to credit title models</source>
         <translation>Añadir a los modelos de título de crédito</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2080"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3925"/>
+        <source>Add a GMaps map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3928"/>
+        <source>Add a map from Google maps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2135"/>
         <source>Remove block</source>
         <translation>Eliminar bloque</translation>
     </message>
@@ -5301,22 +5134,24 @@ modelo</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="340"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="386"/>
         <source>Ins</source>
         <translation>Ins</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3564"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3768"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3580"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3751"/>
         <source>Del</source>
         <translation>Del</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3419"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3459"/>
         <source>Move to background</source>
         <translation>Mover hacia el fondo</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="321"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="367"/>
         <source>Add one or several new blocks of images or video. A file selection dialog appears allowing you to select files.
 
 Note: in case of multiple selection, files are added in the alphabetical order of the filenames or in the digital order of shots (according to the option selected in the configuration dialog).</source>
@@ -5325,12 +5160,12 @@ Note: in case of multiple selection, files are added in the alphabetical order o
 Nota: en caso de selección múltiple, se agregan los archivos en el orden alfabético de los nombres de archivo o en la orden digital de las tomas (de acuerdo con la opción seleccionada en el cuadro de diálogo de configuración).</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="626"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="672"/>
         <source>The total slide duration is displayed here. This duration takes into account possible adjustments for minimal duration of the shot.</source>
         <translation>La duración total la diapositiva se muestra aquí. Esta duración tiene en cuenta los posibles ajustes para la mínima duración de la toma.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="691"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="737"/>
         <source>The shots table shows the shots as thumbnails, in the order in which they will be played (from left to right).
 
 For each shot, the thumbnail shows:
@@ -5351,7 +5186,7 @@ Observación:
 - El orden de las tomas se puede cambiar mediante Drag &amp; Drop.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="807"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="853"/>
         <source>Indicate here the duration of the currently selected shot
 
 For the last shot of the slide, there is a minimum duration.
@@ -5374,8 +5209,8 @@ Las siguientes reglas se utilizan para calcular la duración mínima de la toma:
 Si se especifica una duración inferior a la duración mínima calculada para la toma, es esta duración mínima la que se utiliza en lugar del valor que ha especificado.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1122"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1158"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1168"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1204"/>
         <source>Define the number of rotations around the X axis that is to be made during this shot.
 
 Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction.</source>
@@ -5384,13 +5219,13 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
 Observación: la dirección de rotación se define por un signo, por lo que +5 le dará 5 vueltas en una dirección mientras -5 dará 5 vueltas en el sentido contrario.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1206"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1252"/>
         <source>Allows you to select a pre-defined block size</source>
         <translation>Permite seleccionar tamaño predefinido del bloque</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1280"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1315"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1326"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1361"/>
         <source>Scroll text from bottom to top.
 
 Remark: To make animations of text, you have to create at least 2 shots then:
@@ -5403,8 +5238,8 @@ Observación: Para hacer animaciones de texto, debe crear al menos 2 tomas, ento
 -Definir valores diferentes para el zoom y el desplazamiento de la segunda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1392"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1428"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1438"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1474"/>
         <source>Define the number of rotations around the Z axis that is to be made during this shot.
 
 Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction.</source>
@@ -5413,8 +5248,8 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
 Observación: la dirección de rotación se define por un signo, por lo que +5 le dará 5 vueltas en una dirección mientras -5 dará 5 vueltas en el sentido contrario.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1500"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1536"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1546"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1582"/>
         <source>Define the number of rotations around the Y axis that is to be made during this shot.
 
 Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction.</source>
@@ -5423,35 +5258,35 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
 Observación: la dirección de rotación se define por un signo, por lo que +5 le dará 5 vueltas en una dirección mientras -5 dará 5 vueltas en el sentido contrario.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1655"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1701"/>
         <source>Represents the horizontal offset of the block from the left.
 This position is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
         <translation>Representa el desplazamiento horizontal del bloque desde la izquierda.
 Esta posición se define como un porcentaje (%) de la anchura total de la imagen o en píxeles (para una pantalla de 1080p) de acuerdo con la unidad definida en el cuadro de diálogo de configuración.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1712"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1758"/>
         <source>Represents the vertical offset of the block from the top.
 This position is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
         <translation>Representa el desplazamiento vertical del bloque desde arriba.
 Esta posición se define como un porcentaje (%) de la anchura total de la imagen o en píxeles (para una pantalla de 1080p) de acuerdo con la unidad definida en el cuadro de diálogo de configuración.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1861"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1907"/>
         <source>Represents the width of the block.
 This value is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog box.</source>
         <translation>Representa la anchura del bloque.
 Este valor se define como un porcentaje (%) de la anchura total de la imagen o en píxeles (para una pantalla de 1080p) de acuerdo con la unidad definida en el cuadro de diálogo de configuración.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1918"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1964"/>
         <source>Represents the height of the block.
 This value is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
         <translation>Representa la altura del bloque.
 Este valor se define como un porcentaje (%) de la anchura total de la imagen o en píxeles (para una pantalla de 1080p) de acuerdo con la unidad definida en el cuadro de diálogo de configuración.</translation>
     </message>
     <message utf8="true">
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1969"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2015"/>
         <source>Defines the thickness of the border.
 
 Remark: This value is defined as 1/1080 of the height of the screen.
@@ -5462,12 +5297,12 @@ Observación: Este valor se define como 1/1080 de la altura de la pantalla.
 Un valor de 10 corresponde a 10 puntos en una pantalla de 1920 × 1080 FullHD, pero sólo 6 puntos en una pantalla de 1280 × 720.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2046"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2092"/>
         <source>This settings group deals with style management.</source>
         <translation>Esta configuración de grupo se ocupa de la gestión de estilo.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2159"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2205"/>
         <source>Selects a speed curve for block animations (movement, resizing and rotating of blocks, animation of text and blocks)
 
 Remark: To change the velocity curve for image animation (graphic effect and framing), edit the image or video and select a velocity in the Image framing and correction dialog.</source>
@@ -5476,8 +5311,8 @@ Remark: To change the velocity curve for image animation (graphic effect and fra
 Nota: Para cambiar la curva de velocidad de la animación de imagen (efecto gráfico y encuadre), editar la imagen o vídeo y seleccionar una velocidad en el diálogo de imagen y corrección.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2200"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2235"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2246"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2281"/>
         <source>Scroll text from left to right.
 
 Remark: To make animations of text, you have to create at least 2 shots then:
@@ -5490,7 +5325,7 @@ Observación: Para hacer animaciones de texto, debe crear al menos 2 tomas enton
 -Definir valores diferentes para el zoom y el desplazamiento de la segunda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2585"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2631"/>
         <source>The block animations define which animations will run during the current shot.
 
 You can define different animations for every shot!
@@ -5504,14 +5339,14 @@ You can define different animations for every shot!
 </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2785"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2831"/>
         <source>Allows you to select a reframing style for the image.
 It has the same effect as selecting a style in the Image framing and correction dialog.</source>
         <translation>Permite seleccionar un estilo de reencuadre para la imagen.
 Tiene el mismo efecto que seleccionar un estilo en el diálogo de imagen y corrección.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2798"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2844"/>
         <source>Allows you to select the geometrical constraints to be applied to the block.
 
 Three type of constraint are available:
@@ -5526,7 +5361,7 @@ Tres tipo de restricciones están disponibles:
 - Bloquear selección rectangular para la misma geometría que el proyecto, de tal manera que, si coloca la imagen en pantalla completa, la parte reencuadrada corresponderá a toda la pantalla.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2920"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2966"/>
         <source>Appear: The block will appear during the shot
 Disappear: The block will disappear during the shot
 Blink: The block will blink during the shot (appear then disappear). 4 speeds are proposed (from slow to very fast).</source>
@@ -5535,8 +5370,8 @@ Desaparecer: El bloque desaparecerá durante la toma
 Blink: El bloque parpadea durante la toma (aparecerá y luego desaparecerá). Se proponen 4 velocidades (de lento a muy rápido).</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2977"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3012"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3023"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3058"/>
         <source>Define a zoom value for the text.
 
 Remark: To make animations of text, you have to create at least 2 shots then:
@@ -5549,7 +5384,7 @@ Observación: Para hacer animaciones de texto, debe crear al menos 2 tomas, ento
 -Definir valores diferentes para el zoom y el desplazamiento de la segunda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3094"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3140"/>
         <source>Select in which corner the shadow will be positioned (or no shadow).
 
 Remark: the position of the shadow is independent of rotation of the block: the right lower corner is always the right lower corner, whatever rotation is applied.</source>
@@ -5558,7 +5393,7 @@ Remark: the position of the shadow is independent of rotation of the block: the 
 Nota: la posición de la sombra es independiente de la rotación del bloque: la esquina inferior derecha es siempre la esquina inferior derecha, sea cual sea la rotación que es aplicada.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3115"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3161"/>
         <source>Allows you to select a shape for the block.
 
 The selected shape will be used as:
@@ -5572,104 +5407,104 @@ La forma seleccionada se utiliza como:
 </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3169"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3215"/>
         <source>Select a clip-art</source>
         <translation>Selecciona un clip-art</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3250"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3296"/>
         <source>Allows you to open the rulers settings dialog.</source>
         <translation>Permite abrir diálogo de configuración de guías.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3422"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3462"/>
         <source>Change the order of blocks by moving the active block towards the background</source>
         <translation>Cambiar el orden de bloques moviendo bloque activo hacia el fondo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3437"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3474"/>
         <source>Move to foreground</source>
         <translation>Mover a primer plano</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3440"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3477"/>
         <source>Change the order of blocks by moving the active block towards the foreground</source>
         <translation>Cambiar el orden de bloques moviendo bloque activo al primer plano</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3455"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3489"/>
         <source>Visible</source>
         <translation>Visible</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3458"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3492"/>
         <source>Make the active block visible.
 Note: Hidden video blocks are automatically paused</source>
         <translation>Hacer el bloque activo visible.
 Nota: Los bloques de vídeo ocultos se detendrán automáticamente</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3510"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3535"/>
         <source>Copy block</source>
         <translation>Copiar bloque</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3522"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3544"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3531"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3553"/>
         <source>Cut block</source>
         <translation>Cortar bloque</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3534"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3556"/>
         <source>Copy the current block to the ffDiaporama clipboard and remove it from the slide</source>
         <translation>Copiar el bloque actual en el portapapeles de ffDiaporama y eliminarlo desde la presentación</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3543"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3562"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3573"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3589"/>
         <source>Paste block</source>
         <translation>Pegar bloque</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3585"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3598"/>
         <source>Ctrl+V</source>
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3477"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3508"/>
         <source>Give the sound, during this shot, to the current video block</source>
         <translation>Dar sonido, en esta toma, en el bloque del vídeo actual</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3386"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3432"/>
         <source>Define the properties of the text block</source>
         <translation>Definir propiedades del bloque de texto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2289"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2335"/>
         <source>Border :</source>
         <translation>Borde :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2711"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2757"/>
         <source>Shape :</source>
         <translation>Forma :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3332"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3378"/>
         <source>Undo last action (CTRL+Z)</source>
         <translation>Deshacer última acción (CTRL+Z)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3342"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3388"/>
         <source>Ctrl+Z</source>
         <translation>Ctrl+Z</translation>
     </message>
@@ -5688,220 +5523,254 @@ shot</source>
 toma</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="374"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="420"/>
         <source>Edit block</source>
         <translation>Editar bloque</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2324"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2370"/>
         <source>Opacity :</source>
         <translation>Opacidad :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2727"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2773"/>
         <source>Shadow :</source>
         <translation>Sombra :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3277"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3323"/>
         <source>Accept modification and go to previous slide</source>
         <translation>Aceptar modifición e ir a la diapositiva anterior</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3280"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3326"/>
         <source>Previous</source>
         <translation>Anterior</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3291"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3337"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Aceptar modificación y salir</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3294"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3340"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3305"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3351"/>
         <source>Accept modification and go to next slide</source>
         <translation>Aceptar modifición e ir a la diapositiva siguiente</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3308"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3354"/>
         <source>Next</source>
         <translation>Siguiente</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3349"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3395"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Cancelar modificación y salir</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3352"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3398"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Cancelar</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.cpp" line="69"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="179"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="180"/>
         <source>Slide</source>
         <translation>Presentación</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="216"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="261"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="217"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="262"/>
         <source>None</source>
         <translation>Nada</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="217"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="218"/>
         <source>Shadow upper left</source>
         <translation>Sombra arriba izquierda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="218"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="219"/>
         <source>Shadow upper right</source>
         <translation>Sombra arriba derecha</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="219"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="220"/>
         <source>Shadow bottom left</source>
         <translation>Sombra abajo izquierda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="220"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="221"/>
         <source>Shadow bottom right</source>
         <translation>Sombra abajo derecha</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="262"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="263"/>
         <source>Multiple block turn</source>
         <translation>Múltiple giro de bloque</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="263"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="264"/>
         <source>Dissolve</source>
         <translation>Disolver</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="266"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="267"/>
         <source>Appear</source>
         <translation>Aparece</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="267"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="268"/>
         <source>Disappear</source>
         <translation>Desaparece</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="268"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="269"/>
         <source>Blink at slow speed</source>
         <translation>Intermitencia a velocidad lenta</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="269"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="270"/>
         <source>Blink at medium speed</source>
         <translation>Intermitencia a velocidad media</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="270"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="271"/>
         <source>Blink at fast speed</source>
         <translation>Intermitencia a velocidad rápida</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="271"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="272"/>
         <source>Blink at very fast speed</source>
         <translation>Intermitencia a velocidad muy rápida</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1341"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1361"/>
         <source>Slide added in Project title models collection</source>
         <comment>Information message</comment>
         <translation>Diapositiva añadida a colección de modelos de títulos de Proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1350"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1370"/>
         <source>Slide added in Chapter title models collection</source>
         <comment>Information message</comment>
         <translation>Diapositiva añadida a colección de modelos de títulos de Capítulo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1359"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1379"/>
         <source>Slide added in Credit title models collection</source>
         <comment>Information message</comment>
         <translation>Diapositiva añadida a colección de modelos de títulos de Crédito</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1407"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1427"/>
         <source>Are you sure you want to delete this shot?</source>
         <translation>¿Seguro que quieres eliminar esta toma?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1548"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1568"/>
         <source>Lengthened to %1</source>
         <translation>Alargado al %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2080"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2135"/>
         <source>Are you sure you want to delete this block?</source>
         <translation>¿Seguro que quieres eliminar este bloque?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2083"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2138"/>
         <source>Are you sure you want to delete these blocks?</source>
         <translation>¿Seguro que quieres eliminar estos bloques?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2083"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2138"/>
         <source>Remove blocks</source>
         <translation>Eliminar bloques</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3756"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1407"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3742"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1427"/>
         <source>Remove shot</source>
         <translation>Eliminar toma</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1800"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1868"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1819"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1887"/>
         <source>Text</source>
         <comment>Default text value</comment>
         <translatorcomment>Valor por defecto del texto</translatorcomment>
         <translation>TextO</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="549"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="556"/>
         <source>Duration:</source>
         <translation>Duración:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="132"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="626"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="964"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="96"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="632"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="973"/>
         <source>Correct or reframe image</source>
         <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
         <translation>Corregir o reencuadrar imagen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="133"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="97"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="627"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="965"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="968"/>
         <source>Correct, reframe or cut video</source>
         <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
         <translation>Corregir, encuadrar o cortar video</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="628"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="966"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="98"/>
+        <source>Correct, reframe or cut a Google Maps map</source>
+        <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="633"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="974"/>
         <source>Define framing and correction of image</source>
         <comment>Tooltip</comment>
         <translation>Definir encuadre y corrección de imagen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="629"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="967"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="636"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="977"/>
+        <source>Reframe image vector</source>
+        <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="637"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="978"/>
+        <source>Define framing and correction of image vector</source>
+        <comment>Tooltip</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="640"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="981"/>
+        <source>Modify Google Maps map</source>
+        <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="641"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="982"/>
+        <source>Define Modify Google Maps map and framing and correction of map</source>
+        <comment>Tooltip</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="628"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="969"/>
         <source>Define framing and correction of image or cut video</source>
         <comment>Tooltip</comment>
         <translation>Definir encuadre y corrección de imagen o cortar video</translation>
@@ -6483,7 +6352,7 @@ Las posibles opciones son de 0,5 segundos (muy rápido) y 10 segundos (muy lento
 <context>
     <name>DlgWorkingTask</name>
     <message>
-        <location filename="../src/ffDiaporama/DlgWorkingTask/DlgWorkingTask.ui" line="62"/>
+        <location filename="../src/ffDiaporama/DlgWorkingTask/DlgWorkingTask.ui" line="71"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
@@ -6776,7 +6645,7 @@ Observación: Los formatos de vídeo no son compatibles con todos los capítulos
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="55"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1395"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1361"/>
         <source>New project</source>
         <translation>Nuevo proyecto</translation>
     </message>
@@ -6820,92 +6689,92 @@ modelo</translation>
 <context>
     <name>Framing styles</name>
     <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="67"/>
+        <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="67"/>
         <source>Custom geometry - unlocked</source>
         <translation>Geometría personalizada - desbloqueado</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="68"/>
+        <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="68"/>
         <source>Custom geometry - locked</source>
         <translation>Geometría personalizada - bloqueado</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="69"/>
+        <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="69"/>
         <source>Custom size - Image geometry</source>
         <translation>Tamaño personalizado - geometría de imagen</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="70"/>
+        <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="70"/>
         <source>Custom size - Project geometry</source>
         <translation>Tamaño personalizado - geometría de proyecto</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="71"/>
+        <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="71"/>
         <source>Full image</source>
         <translation>Imagen completa</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="72"/>
+        <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="72"/>
         <source>Full inner image</source>
         <translation>Imagen interna completa</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="74"/>
+        <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="74"/>
         <source>Project inner height - to the left</source>
         <translation>Altura interna proyecto - a la izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="76"/>
+        <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="76"/>
         <source>Project inner height - in the center</source>
         <translation>Altura interna proyecto - al centro</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="78"/>
+        <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="78"/>
         <source>Project inner height - to the right</source>
         <translation>Altura interna proyecto - a la derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="80"/>
+        <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="80"/>
         <source>Project inner width - at the top</source>
         <translation>Anchura interna proyecto - hacia arriba</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="82"/>
+        <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="82"/>
         <source>Project inner width - in the middle</source>
         <translation>Anchura interna proyecto - hacia el medio</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="84"/>
+        <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="84"/>
         <source>Project inner width - at the bottom</source>
         <translation>Anchura interna proyecto - hacia abajo</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="73"/>
+        <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="73"/>
         <source>Project height - to the left</source>
         <translation>Proyecto altura - a la izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="75"/>
+        <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="75"/>
         <source>Project height - in the center</source>
         <translation>Proyecto altura - en el centro</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="77"/>
+        <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="77"/>
         <source>Project height - to the right</source>
         <translation>Proyecto altura - a la derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="79"/>
+        <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="79"/>
         <source>Project width - at the top</source>
         <translation>Proyecto anchura - hacia arriba</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="81"/>
+        <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="81"/>
         <source>Project width - in the middle</source>
         <translation>Proyecto anchura - en el medio</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="83"/>
+        <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="83"/>
         <source>Project width - at the bottom</source>
         <translation>Proyecto anchura - hacia abajo</translation>
     </message>
@@ -6996,837 +6865,789 @@ modelo</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="127"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="127"/>
         <source>File</source>
         <translation>Archivo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="171"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1583"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="171"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1583"/>
         <source>Create a new empty project (Ctrl+N)</source>
         <translation>Crear un nuevo proyecto vacío (Ctrl+N)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="174"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1586"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="174"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1586"/>
         <source>New
 project</source>
         <translation>Nuevo
 proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="218"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1630"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="218"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1630"/>
         <source>Open a previously saved project (Ctrl+O)</source>
         <translation>Abrir un proyecto guardado previamente (Ctrl+O)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="221"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1633"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="221"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1633"/>
         <source>Open
 project</source>
         <translation>Abrir
 proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="265"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1677"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="265"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1677"/>
         <source>Open a recently used project file</source>
         <translation>Abrir un proyecto usado recientemente</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="268"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1680"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="268"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1680"/>
         <source>Open
 recent</source>
         <translation>Abrir
 reciente</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="312"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1724"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="312"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1724"/>
         <source>Save current project (Ctrl+S)</source>
         <translation>Guardar proyecto actual (Ctrl+S)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="315"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1727"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="315"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1727"/>
         <source>Save
 project</source>
         <translation>Guardar
 proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="359"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1771"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4791"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="359"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1771"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3710"/>
         <source>Save current project to a new project file</source>
         <translation>Guardar proyecto actual con otro nombre</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="362"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1774"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="362"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1774"/>
         <source>Save
 project as</source>
         <translation>Guardar
 proyecto como</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="401"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1813"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="401"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1813"/>
         <source>Define project properties</source>
         <translation>Definir propiedades del proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="404"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1816"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="404"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1816"/>
         <source>Project
 properties</source>
         <translation>Propiedades
 proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="442"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1854"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="442"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1854"/>
         <source>Change application and project settings</source>
         <translation>Cambiar configuración del proyecto y de la aplicación</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="445"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1857"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="445"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1857"/>
         <source>Settings</source>
         <translation>Configuración</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="489"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="916"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1259"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1473"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1894"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="489"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="916"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1259"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1473"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1894"/>
         <source>Exit application (Ctrl+W)</source>
         <translation>Salir de la Aplicación (Ctrl+W)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="492"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="919"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1262"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1476"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1897"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="492"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="919"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1262"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1476"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1897"/>
         <source>Exit</source>
         <translation>Salir</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="519"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="519"/>
         <source>Project</source>
         <translation>Proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="563"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1964"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4440"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4767"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4770"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="563"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1964"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3548"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3686"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3689"/>
         <source>Add an empty slide</source>
         <translation>Añadir una diapositiva vacía</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="566"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1967"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="566"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1967"/>
         <source>Add
 title</source>
         <translation>Añadir
 título</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="610"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2011"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4458"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="610"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2011"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3563"/>
         <source>Add image or video as slide (INS)</source>
         <translation>Añade Imagen o vídeo como diapositiva (INS)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="613"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2014"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="613"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2014"/>
         <source>Add
 files</source>
         <translation>Añadir
 archivos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="651"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2052"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4476"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="651"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2052"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3578"/>
         <source>Add a previously saved project at the end of this project</source>
         <translation>Añadir un proyecto previamente guardado, al final de este proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="654"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2055"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="654"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2055"/>
         <source>Add
 project</source>
         <translation>Añadir
 proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="699"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2100"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4376"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="699"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2100"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3494"/>
         <source>Copy current slide to clipboard and remove it (Ctrl+X)</source>
         <translation>Copia diapositiva actual al portapapeles y cortalo (Ctrl+X)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="702"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2103"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4373"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="702"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2103"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3491"/>
         <source>Cut</source>
         <translation>Cortar</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="739"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2140"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4398"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="739"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2140"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3512"/>
         <source>Copy current slide to clipboard (Ctrl+C)</source>
         <translation>Copia diapositiva actual al portapapeles (Ctrl+C)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="742"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2143"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4395"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="742"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2143"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3509"/>
         <source>Copy</source>
         <translation>Copiar</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="779"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2180"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4419"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="779"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2180"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3530"/>
         <source>Paste current slide from clipboard (Ctrl+V)</source>
         <translation>Pega diapositiva actual desde el portapapeles (Ctrl+V)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="782"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2183"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4416"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="782"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2183"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3527"/>
         <source>Paste</source>
         <translation>Pegar</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="832"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2233"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="832"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2233"/>
         <source>Edit</source>
         <translation>Editar</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="869"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2270"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4355"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="869"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2270"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3476"/>
         <source>Remove current slide (DEL)</source>
         <translation>Elimina diapositiva actual (DEL)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="872"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2273"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4352"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4563"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="872"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2273"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3473"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1220"/>
         <source>Remove</source>
         <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="946"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="946"/>
         <source>Render video</source>
         <translation>Generar video</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="990"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1037"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1078"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2340"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2387"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2428"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="990"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1037"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1078"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2340"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2387"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2428"/>
         <source>Render project as a video using a predefined model</source>
         <translation>Generar proyecto como un video usando un modelo predefinido</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="993"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2343"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="993"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2343"/>
         <source>Player and
 smartphone</source>
         <translation>Reproductor y
 Smartphone</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1040"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2390"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1040"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2390"/>
         <source>Multimedia
 system</source>
         <translation>Sistema
 Multimedia</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1081"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2431"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1081"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2431"/>
         <source>For the
 WEB</source>
         <translation>Para la
 WEB</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1122"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2472"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1122"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2472"/>
         <source>Lossless</source>
         <translation>Sin
 pérdidas</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1165"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2515"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1165"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2515"/>
         <source>Render project as a video</source>
         <translation>Generar proyecto como video</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1168"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2518"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1168"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2518"/>
         <source>Advanced</source>
         <translation>Avanzado</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1214"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2564"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1214"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2564"/>
         <source>Export
 Soundtrack</source>
         <translation>Exportar
 Pista de audio</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1289"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1289"/>
         <source>Help</source>
         <translation>Ayuda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1333"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2615"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1333"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2615"/>
         <source>Display information about ffDiaporama</source>
         <translation>Muestra información sobre ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1336"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2618"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1336"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2618"/>
         <source>About</source>
         <translation>Acerca de</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1379"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2661"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1379"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2661"/>
         <source>Call ffDiaporama WIKI</source>
         <translation>Abrir WIKI de ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1382"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2664"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1382"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2664"/>
         <source>Support
 and help</source>
         <translation>Soporte
 y Ayuda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1426"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1426"/>
         <source>Display blog/news page from internet WEB site</source>
         <translation>Muestra blog/página de noticias desde el sitio WEB</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1429"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1429"/>
         <source>What&apos;s new</source>
         <translation>Actualidad</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="3239"/>
-        <source>Adjust display mode and file filtering</source>
-        <translation>Ajustar modo de visualización y filtrado de archivos</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="3279"/>
-        <source>Change to upper folder</source>
-        <translation>Cambiar a carpeta superior</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="3319"/>
-        <source>Change to previous folder</source>
-        <translation>Cambiar a la carpeta anterior</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="3359"/>
-        <source>Refresh folder table</source>
-        <translation>Refrescar árbol de carpertas</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="3399"/>
-        <source>Use or manage favorite path</source>
-        <translation>Usar o gestionar ruta de favoritos</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4165"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3298"/>
         <source>Switch display to preview mode</source>
         <translation>Cambiar ventana a modo previsualización y pestañas</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4364"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3482"/>
         <source>Del</source>
         <translation>Del</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4386"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3500"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4407"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3518"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4428"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3536"/>
         <source>Ctrl+V</source>
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4491"/>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="515"/>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="521"/>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="532"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3008"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3014"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3025"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="409"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="443"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="449"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="460"/>
         <source>Add to favorite</source>
         <translation>Añadir favorito</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4494"/>
-        <source>Add current path to favorite</source>
-        <translation>Añadir ruta actual a favoritos</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4509"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="418"/>
         <source>Manage favorites</source>
         <translation>Gestionar favoritos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4512"/>
-        <source>Manage favorites (rename or remove)</source>
-        <translation>Gestionar favoritos (renombrar o eliminar)</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4527"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1214"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1215"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4530"/>
-        <source>Open file with system associated application</source>
-        <translation>Abrir archivo con aplicacióna asociada</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4545"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1216"/>
         <source>Properties</source>
         <translation>Propiedades</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4548"/>
-        <source>Display information on file</source>
-        <translation>Mostrar información en archivo</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4566"/>
-        <source>Delete file (Warning: file will not be moved to trash!)</source>
-        <translation>Eliminar archivo (¡Advertencia: el archivo no se moverá a la papelera)</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4650"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4653"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3590"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3593"/>
         <source>Remove transitions</source>
         <translation>Eliminar transiciones</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4668"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4671"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3605"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3608"/>
         <source>Select transitions</source>
         <translation>Seleccionar transiciones</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4701"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4704"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3632"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3635"/>
         <source>Randomize transitions</source>
         <translation>Transiciones aleatorias</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4749"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4752"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3671"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3674"/>
         <source>Reset music to &quot;Same as previous&quot;</source>
         <translation>Restablecer la música a &quot;Igual que el anterior&quot;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4779"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3698"/>
         <source>Add a predefined title slide</source>
         <translation>Añade un título predefinido de diapositiva</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4800"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3719"/>
         <source>Export project</source>
         <translation>Exportar proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4803"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3722"/>
         <source>Export current project and all used files in a new folder</source>
         <translation>Exportar proyecto actual y todos sus archivos a una nueva carpeta</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4581"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1213"/>
         <source>Use as new playlist</source>
         <translation>Usar como nueva lista de reproducción</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4584"/>
-        <source>Define a new playlist for current slide</source>
-        <translation>Definir una nueva lista de reproducción para la diapositiva actual</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4599"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4614"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1988"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3357"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1971"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2704"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1211"/>
         <source>Add files to project</source>
         <translation>Añadir archivo al proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4617"/>
-        <source>Add project to current project</source>
-        <translation>Añadir proyecto al proyecto actual</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4632"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1219"/>
         <source>Rename</source>
         <translation>Renombrar</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4635"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3428"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3431"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="687"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="690"/>
         <source>Rename file</source>
         <translation>Renombrar archivo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4686"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3620"/>
         <source>Set transition duration</source>
         <translation>Definir duración de transición</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4719"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3647"/>
         <source>Set first shot duration</source>
         <translation>Definir duración de primera toma</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4734"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3659"/>
         <source>Reset background to &quot;Same as previous&quot;</source>
         <translation>Restablecer fondo a &quot;Igual que el anterior&quot;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="3256"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="3296"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="3336"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="3376"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="3416"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4182"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3315"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4125"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3258"/>
         <source>Switch display to sheet mode</source>
         <translation>Cambiar la ventana a modo de hoja completa</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4085"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3218"/>
         <source>Switch display to file explorer mode</source>
         <translation>Cambiar ventana a modo explorador de archivos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1119"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2469"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1119"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2469"/>
         <source>Render project as a lossless video</source>
         <translation>Generar proyecto como video sin pérdida</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="1211"/>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="2561"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="1211"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="2561"/>
         <source>Render sound trak of project</source>
         <translation>Generar pista de sonido del proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="3925"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3058"/>
         <source>Latest version number of ffDiaporama is indeterminable</source>
         <translation>No se puede determinar la última versión de ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="3986"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3119"/>
         <source>Slide: xx/xxx</source>
         <translation>Diapositiva:xx/xxx</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4026"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3159"/>
         <source>Chapter: xx/xxx</source>
         <translation>Capítulo:xx/xxx</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4205"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3338"/>
         <source>Enlarge thumbnails</source>
         <translation>Ampliar las miniaturas</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4245"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3378"/>
         <source>Reduce thumbnails</source>
         <translation>Reducir las miniaturas</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4280"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3413"/>
         <source>Edit background</source>
         <translation>Editar fondo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4283"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3416"/>
         <source>Edit the background image for the slide</source>
         <translation>Editar el fondo de imagen para la diapositiva</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4298"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3428"/>
         <source>Edit slide</source>
         <translation>Editar diapositiva</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4301"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3431"/>
         <source>Edit the slide</source>
         <translation>Editar diapositiva</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4316"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3443"/>
         <source>Edit music</source>
         <translation>Editar música</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4319"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3446"/>
         <source>Edit the slide musical playlist</source>
         <translation>Editar lista de reproducción musical de la diapositiva</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4334"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3458"/>
         <source>Edit object transition</source>
         <translation>Editar transición del objeto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4337"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3461"/>
         <source>Edit entering transition for the slide</source>
         <translation>Editar transición de entrada para la diapositiva</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4437"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3545"/>
         <source>Add title</source>
         <translation>Añadir título</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4473"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3575"/>
         <source>Add project</source>
         <translation>Añadir proyecto</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="75"/>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="89"/>
+        <location filename="../src/ffDiaporama/engine/cBaseApplicationConfig.cpp" line="75"/>
+        <location filename="../src/ffDiaporama/engine/cBaseApplicationConfig.cpp" line="89"/>
         <source>Search Raster mode in configuration file</source>
         <translation>Buscar el modo Raster en el archivo de configuración</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="289"/>
+        <location filename="../src/ffDiaporama/engine/cBaseApplicationConfig.cpp" line="290"/>
         <source>All suported file (</source>
         <translation>Todos los archivos soportados (</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="296"/>
+        <location filename="../src/ffDiaporama/engine/cBaseApplicationConfig.cpp" line="297"/>
         <source>Image file (</source>
         <translation>Imagen de archivo (</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="302"/>
+        <location filename="../src/ffDiaporama/engine/cBaseApplicationConfig.cpp" line="302"/>
+        <source>Image vector file (</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/engine/cBaseApplicationConfig.cpp" line="307"/>
         <source>Video file (</source>
         <translation>Archivo de vídeo (</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="308"/>
+        <location filename="../src/ffDiaporama/engine/cBaseApplicationConfig.cpp" line="312"/>
         <source>Music file (</source>
         <translation>Archivo de música (</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="413"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="567"/>
+        <location filename="../src/ffDiaporama/engine/cBaseApplicationConfig.cpp" line="419"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="578"/>
         <source>Read configuration file</source>
         <translation>Leyendo archivo de configuración</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1108"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1988"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2120"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="915"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1515"/>
+        <source>Impossible to read one image from the file</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1494"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3204"/>
         <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
         <comment>Error message</comment>
         <translation>Esta aplicación sólo soporta pistas de audio con 8 bits unsigned o 16 bits signed</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1113"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1993"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2130"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1502"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3212"/>
         <source>This application support only mono or stereo audio track</source>
         <comment>Error message</comment>
         <translation>Esta aplicación soporta pista de audio mono o estéreo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="1595"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3198"/>
+        <source>No audio track found</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1568"/>
         <source>The file is not a valid title model file</source>
         <comment>Error message</comment>
         <translation>El archivo no es un archivo de modelo de título válido</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="1598"/>
-        <location filename="../src/engine/_Diaporama.cpp" line="1627"/>
-        <location filename="../src/engine/_Diaporama.cpp" line="2303"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1165"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2067"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="106"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1556"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1560"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1571"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2050"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2058"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2076"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2081"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2107"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2121"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2131"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2218"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1146"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2049"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="106"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1522"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1526"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1537"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2033"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2041"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2059"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2064"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1571"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1600"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2274"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="916"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1487"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1495"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1503"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1516"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3192"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3199"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3205"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3213"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="1627"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1600"/>
         <source>Error creating model file</source>
         <comment>Error message</comment>
         <translation>Error creando archivo de modelo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="1589"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1562"/>
         <source>The file is not a valid thumbnail file</source>
         <comment>Error message</comment>
         <translation>El archivo no es un archivo de miniatura válido</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="415"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="577"/>
+        <location filename="../src/ffDiaporama/engine/cBaseApplicationConfig.cpp" line="421"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="588"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
         <translation>Error al leer el archivo de configuración</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="423"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="582"/>
+        <location filename="../src/ffDiaporama/engine/cBaseApplicationConfig.cpp" line="429"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="593"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
         <translation>Error de lectura de contenido del archivo de configuración</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="433"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="589"/>
+        <location filename="../src/ffDiaporama/engine/cBaseApplicationConfig.cpp" line="439"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="600"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
         <translation>El archivo no es un archivo de configuración válido</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="763"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="634"/>
+        <location filename="../src/ffDiaporama/engine/cBaseApplicationConfig.cpp" line="770"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="645"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
         <translation>Error al crear el archivo de configuración</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="1406"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1376"/>
         <source>Title</source>
         <comment>Default slide name when no file</comment>
         <translatorcomment>Título, por defecto, cuando no hay archivo</translatorcomment>
         <translation>Título</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1682"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1648"/>
         <source>Saving project file ...</source>
         <translation>Guardando archivo de proyecto ...</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2303"/>
-        <location filename="../src/engine/_Diaporama.cpp" line="2304"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2274"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2275"/>
         <source>Error creating data file</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
         <translation>Error al crear el archivo de datos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1539"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1607"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1505"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1573"/>
         <source>Open project file</source>
         <translation>Abrir archivo de proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1540"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1506"/>
         <source>Impossible to open file </source>
         <translation>Imposible abrir archivo </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1540"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1506"/>
         <source>Do you want to select another file ?</source>
         <translation>¿ Quiere seleccionar otro achivo ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1543"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1509"/>
         <source>Select another file for </source>
         <translation>Selecciona otro archivo de</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1548"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1514"/>
         <source>Impossible to open project file %1</source>
         <translation>Imposible abrir archivo de proyecto %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1555"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2081"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1521"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2064"/>
         <source>Error reading project file</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
         <translation>Error al leer archivo de proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1560"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2076"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1526"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2059"/>
         <source>Error reading content of project file</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
         <translation>Error al leer contenido del archivo del proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1571"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2050"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1537"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2033"/>
         <source>The file is not a valid project file</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
         <translation>El archivo de proyecto no es válido</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2058"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2041"/>
         <source>Impossible to import this file :
 Image geometry in this file is not the same than the current project</source>
         <comment>Error message</comment>
@@ -7835,35 +7656,35 @@ Image geometry in this file is not the same than the current project</source>
 La geometría de la imagen de este archivo no es igual que la del proyecto actual</translation>
     </message>
     <message>
-        <location filename="../src/engine/cLuLoImageCache.cpp" line="71"/>
-        <location filename="../src/engine/cLuLoImageCache.cpp" line="157"/>
+        <location filename="../src/ffDiaporama/engine/cLuLoImageCache.cpp" line="71"/>
+        <location filename="../src/ffDiaporama/engine/cLuLoImageCache.cpp" line="157"/>
         <source>Loading file :</source>
         <translation>Cargando archivo :</translation>
     </message>
     <message>
-        <location filename="../src/engine/cLuLoImageCache.cpp" line="79"/>
+        <location filename="../src/ffDiaporama/engine/cLuLoImageCache.cpp" line="79"/>
         <source>Error allocating memory for render image</source>
         <translation>Error al asignar memoria para procesar imagen</translation>
     </message>
     <message>
-        <location filename="../src/engine/cLuLoImageCache.cpp" line="82"/>
-        <location filename="../src/engine/cLuLoImageCache.cpp" line="173"/>
+        <location filename="../src/ffDiaporama/engine/cLuLoImageCache.cpp" line="82"/>
+        <location filename="../src/ffDiaporama/engine/cLuLoImageCache.cpp" line="173"/>
         <source>Error loading file :</source>
         <translation>Error cargando archivo :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="92"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="93"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="91"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="92"/>
         <source>Init home user database...</source>
         <translation>Iniciando base de datos de usuario...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="105"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="105"/>
         <source>Error initialising home user database...</source>
         <translation>Error al iniciar base de datos de usuario...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="107"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="107"/>
         <source>Error initialising home user database
 ffDiaporama can&apos;t start</source>
         <comment>Error message</comment>
@@ -7871,488 +7692,462 @@ ffDiaporama can&apos;t start</source>
 ffDiaporama no puede iniciarse</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="156"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="119"/>
+        <source>Sorry, but ffDiaporama is already started on this computer and can&apos;t be started several time.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="169"/>
         <source>Starting SDL...</source>
         <translation>Iniciando SDL...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="164"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="165"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="177"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="178"/>
         <source>Loading background library...</source>
         <translation>Cargando biblioteca de fondo ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="169"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="170"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="182"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="183"/>
         <source>Loading text frame library...</source>
         <translation>Cargando librería cuadro de texto...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="174"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="175"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="187"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="188"/>
         <source>Loading no-luma transitions...</source>
         <translation>Cargando transiciones no luma...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="179"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="180"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="192"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="193"/>
         <source>Loading luma transitions...</source>
         <translation>Cargando transiciones luma...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="187"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="188"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="200"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="201"/>
         <source>Scan drives in computer...</source>
         <translation>Explorar unidades en equipo ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="192"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="193"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="205"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="206"/>
         <source>Register models...</source>
         <translation>Registrar modelos...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="279"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="280"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="274"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="275"/>
         <source>Init WIKI...</source>
         <translation>Iniciar WIKI...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="644"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="611"/>
         <source>Close application</source>
         <translation>Cerrar aplicación</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="644"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="611"/>
         <source>Want to save the project before closing?</source>
         <translation>¿Desea guardar el proyecto antes de cerrar?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="730"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="697"/>
         <source>A new release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !</source>
         <translation>¡Una nueva versión está disponible en el sitio WEB. Por favor, actualice desde http://ffdiaporama.tuxfamily.org!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="735"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="702"/>
         <source>A new version is available from WEB site.
 Do you want to download it now?</source>
         <translation>Una nueva versión está disponible en el sitio WEB.
 ¿Desea descargarlo ahora?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="742"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="709"/>
         <source>Your version of %1 is up to day</source>
         <translation>Tu versión de %1 está actualizada</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1196"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1162"/>
         <source>&lt;html&gt;&lt;body&gt;Visit the ffDiaporama Web site to use the forum,&lt;br&gt;consult tutorials and learn the lastest news:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Visitar el sitio de  ffDiaporama para usar el Foro,&lt;br&gt;consultar tutoriales y últimas noticias:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1365"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1331"/>
         <source>Saving configuration file and applying new configuration ...</source>
         <translation>Guardando el archivo configuración y aplicando nueva confiuración ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1395"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1453"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1477"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3238"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1361"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1419"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1443"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2657"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
         <translation>El proyecto actual ha sido modificado
 ¿Desea guardar el proyecto antes de cerrar?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1630"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1596"/>
         <source>Loading slide %1/%2</source>
         <translation>Cargando diapositiva %1/%2</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1877"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1922"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1843"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1905"/>
         <source>Add file to project</source>
         <translation>Añadir archivo al proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2146"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2092"/>
         <source>This video files contains more than one chapter.
 Do you want to create one slide for each chapters ?</source>
         <translation>ESte video contiene más de un capítulo.
 ¿Quieres crear una diapositiva por cada capítulo ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2523"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2441"/>
         <source>Are you sure you want to remove this slide?</source>
         <translation>¿Seguro que quieres eliminar esta diapositiva?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2527"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2445"/>
         <source>Remove multiple slides</source>
         <translation>Eliminar múltiples diapositivas</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3411"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="670"/>
         <source>Are you sure to delete this file or folder ?
 (Warning: Content will not be moved to trash)</source>
         <translation>¿ Seguro que quieres eliminar este archivo o carpeta ?
 (Advertencia: No será movido a la papelera)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3413"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="672"/>
         <source>Impossible to delete folder!
 Are you sure it is empty?</source>
         <translation>¡Imposible eliminar carpeta!
 ¿Estás seguro que está vacía?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3415"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="674"/>
         <source>Impossible to delete file!</source>
         <translation>¡Imposible eliminar archivo!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="252"/>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="253"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2853"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2854"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="258"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="259"/>
         <source>Total duration:</source>
         <translation>Duración total:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="432"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="806"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="397"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="772"/>
         <source>Slide: </source>
         <translation>Diapositiva: </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="433"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="568"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="576"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="398"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="535"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="543"/>
         <source>Chapter: </source>
         <translation>Capítulo: </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="256"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2857"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="262"/>
         <source>Total size:%1</source>
         <translation>Tamaño total:%1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="263"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2864"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="269"/>
         <source>%1 audio files</source>
         <translation>%1 archivos de audio</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="267"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2868"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="273"/>
         <source>%1 video files</source>
         <translation>%1 archivos de video</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="271"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2872"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="277"/>
         <source>%1 image files</source>
         <translation>%1 archivos de imagen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="275"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2876"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="281"/>
+        <source>%1 image vector files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="285"/>
         <source>%1 ffDiaporama project files</source>
         <translation>%1 archivos de proyecto de ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="279"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2880"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="289"/>
         <source>%1 folders</source>
         <translation>%1 carpetas</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="283"/>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="291"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2884"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2892"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="293"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="301"/>
         <source>%1 files</source>
         <translation>%1 archivos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="284"/>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="292"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2885"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2893"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="294"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="302"/>
         <source>Multiple file types</source>
         <translation>Múltiples tipos de archivos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="326"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2910"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="333"/>
         <source>Refresh All</source>
         <translation>Refrescar todo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="329"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2913"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="336"/>
         <source>update drive list</source>
         <translation>actualizar lista de unidad</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="341"/>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="353"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2924"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2935"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="347"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="358"/>
         <source>update drive (%1)</source>
         <translation>actualizar unidad (%1)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="357"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2939"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="362"/>
         <source>update current folder</source>
         <translation>actualizar carpeta actual</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="515"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3008"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="443"/>
         <source>Favorite name:</source>
         <translation>Nombre de favorito:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3060"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="551"/>
         <source>Impossible to remove file %1 - error %2:%3</source>
         <translation>Imposible eliminar archivo %1 - error %2:%3</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3065"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="556"/>
         <source>Impossible to remove folder %1 - error %2:%3</source>
         <translation>Imposible eliminar carpeta %1 - error %2:%3</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3087"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="578"/>
         <source>Are you sure to remove this folder ?
 (Warning: Content will not be moved to trash)</source>
         <translation>¿Desea eliminar esta carpeta ?
 (Peligro: El contenido no será movido a la papelera)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3118"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3120"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="609"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="611"/>
         <source>Rename folder</source>
         <translation>Renombrar carpeta</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3118"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="609"/>
         <source>Folder:</source>
         <translation>Carpeta:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3120"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="611"/>
         <source>Impossible to rename folder!</source>
         <translation>¡Imposible renombrar carpeta!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="591"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3169"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1165"/>
         <source>Hide files name</source>
         <translation>Ocultar nombres de archivos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="592"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3170"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1166"/>
         <source>Show files name</source>
         <translation>Mostrar nombre de archivos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3383"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="643"/>
         <source>Remove files</source>
         <translation>Eliminar archivos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3406"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="665"/>
         <source>Remove file :</source>
         <translation>Eliminar archivo :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3413"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="672"/>
         <source>Remove folder</source>
         <translation>Eliminar carpeta</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3415"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="674"/>
         <source>Remove file</source>
         <translation>Eliminar archivo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3428"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="687"/>
         <source>New name:</source>
         <translation>Nuevo nombre:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3431"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="690"/>
         <source>Impossible to rename file!</source>
         <translation>¡Imposible renombrar archivo!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="573"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3151"/>
-        <source>Details view</source>
-        <translation>Vista detallada</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2527"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2445"/>
         <source>Are you sure you want to remove these %1 slides?</source>
         <translation>¿Estás seguro que deseas eliminar estas %1 diapositivas?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="522"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3015"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="450"/>
         <source>A favorite with this name already exists.
 Do you want to overwrite it?</source>
         <translation>Ya existe un favorito con ese nombre.
 ¿Quieres sobreescribirlo?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="533"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3026"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="461"/>
         <source>A favorite with for this path already exists.
 Do you want to overwrite it?</source>
         <translation>Ya existe un favorito para esa ruta.
 ¿Quieres sobreescribirlo?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3068"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="559"/>
         <source>Successfully deleted folder (and all its content) %1</source>
         <translation>Carpeta eliminada correctamente (y todo su contenido) %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="574"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3152"/>
-        <source>Icon view</source>
-        <translation>Vista de icono</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="576"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3154"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1144"/>
         <source>Sort by number</source>
         <translation>Ordenar por número</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="577"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3155"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1145"/>
         <source>Sort by name</source>
         <translation>Ordenar por nombre</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="578"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3156"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1146"/>
         <source>Sort by date</source>
         <translation>Ordenar por fecha</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="579"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3157"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1147"/>
         <source>Show folder first</source>
         <translation>Ordenar por carpeta</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="581"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3159"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1154"/>
         <source>All files</source>
         <translation>Todos los archivos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="582"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3160"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1155"/>
         <source>Managed files</source>
         <translation>Gestionar archivos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="583"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3161"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1156"/>
         <source>Image files</source>
         <translation>Archivos de imágenes</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="584"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3162"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1157"/>
+        <source>Image vector files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1158"/>
         <source>Video files</source>
         <translation>Archivos de video</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="585"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3163"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1159"/>
         <source>Music files</source>
         <translation>Archivos de música</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="586"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3164"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1160"/>
         <source>ffDiaporama project files</source>
         <translation>Archivos de proyecto de ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="588"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3166"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1162"/>
         <source>Hide hidden files and folders</source>
         <translation>Ocultar archivos y carpetas ocultos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="589"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3167"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1163"/>
         <source>Show hidden files and folders</source>
         <translation>Mostrar los archivos y carpetas ocultos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="814"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1212"/>
+        <source>Select this file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="780"/>
         <source>&lt;new project&gt;</source>
         <comment>when project have no name define</comment>
         <translatorcomment>cuando un nuevo proyecto aún no ha sido definido</translatorcomment>
         <translation>&lt;nuevo proyecto&gt;</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="255"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="152"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="165"/>
+        <location filename="../src/ffDiaporama/engine/cBaseApplicationConfig.cpp" line="255"/>
         <source>Loading system icons...</source>
         <translation>Cargando iconos del sistema...</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="701"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="160"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="173"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="712"/>
         <source>Starting libav...</source>
         <translation>Iniciando libav...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1184"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1150"/>
         <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Selecciona abrir un proyecto o crear uno nuevo&lt;br&gt;Para descubrir ffDiaporama:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consulta el WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1188"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1154"/>
         <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Agregar diapositivas vacías o diapositivas basadas en fotos o videos&lt;br&gt;Para descubrir cómo construir tu presentación y para animar diapositivas:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Los principios de funcionamiento de ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1192"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1158"/>
         <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Seleccione el tipo de equipo que deseas utilizar para tu video&lt;br&gt;Descubre cómo generar videos:&lt;br&gt;Consulta la página del WIKI : &lt;a href=&quot;%1&quot;&gt;Generación de videos&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1453"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1472"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1477"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1502"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3237"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1419"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1438"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1443"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1468"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2656"/>
         <source>Open project</source>
         <translation>Abrir proyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1456"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1493"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3243"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1422"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1459"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2662"/>
         <source>Open file :</source>
         <translation>Abrir archivo :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1503"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1469"/>
         <source>This project was created with a newer version of ffDiaporama.
 If you continue, you take the risk of losing data!
 Do you want to open it nevertheless?</source>
@@ -8361,88 +8156,89 @@ Si continúas, se corre el riesgo de perder datos!
 ¿Quieres abrirlo de todas formas?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4788"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1726"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3707"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1692"/>
         <source>Save project as</source>
         <translation>Guardar proyecto como</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.ui" line="4455"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1051"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1929"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1863"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3560"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1065"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1950"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1829"/>
         <source>Add files</source>
         <translation>Añadir archivos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1070"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1948"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2097"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1084"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1968"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1486"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3191"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translatorcomment>mensaje de error</translatorcomment>
         <translation>Formato no soportado</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1970"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1953"/>
         <source>Add a sub project</source>
         <translation>Añadir subproyecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1996"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1979"/>
         <source>Add project file :</source>
         <translation>Añadir archivo de proyecto :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2375"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2381"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2293"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2299"/>
         <source>Capture the image </source>
         <translation>Capturar la imagen </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2523"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2441"/>
         <source>Remove slide</source>
         <translation>Eliminar diapositiva</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2026"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3360"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2009"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2707"/>
         <source>Add file to project :</source>
         <translation>Añadir archivo al proyecto :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="1293"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2387"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="111"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2305"/>
         <source>Capture image</source>
         <translation>Capturar imagen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="1294"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="112"/>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="204"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2388"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2306"/>
         <source>Select destination file</source>
         <translation>Seleccione el archivo de destino</translation>
     </message>
     <message>
-        <location filename="../src/engine/_SDL_Support.cpp" line="70"/>
-        <location filename="../src/engine/_SDL_Support.cpp" line="121"/>
+        <location filename="../src/ffDiaporama/engine/_SDL_Support.cpp" line="70"/>
+        <location filename="../src/ffDiaporama/engine/_SDL_Support.cpp" line="121"/>
         <source>Error during startup</source>
         <translation>Error al iniciar</translation>
     </message>
     <message>
-        <location filename="../src/engine/_SDL_Support.cpp" line="71"/>
-        <location filename="../src/engine/_SDL_Support.cpp" line="122"/>
+        <location filename="../src/ffDiaporama/engine/_SDL_Support.cpp" line="71"/>
+        <location filename="../src/ffDiaporama/engine/_SDL_Support.cpp" line="122"/>
         <source>Error during initialisation of sound system. Check your configuration and try again</source>
         <translation>Error al iniciar el sistema de sonido. Comprobar la configuración e intentarr otra vez</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/main.cpp" line="164"/>
+        <location filename="../src/ffDiaporama/main.cpp" line="165"/>
         <source>Start ...</source>
         <translation>Iniciando ...</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/_QCustomDialog.cpp" line="213"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="446"/>
+        <location filename="../src/ffDiaporama/CustomCtrl/_QCustomDialog.cpp" line="213"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="411"/>
         <source>Error reading window state of %1 from home user database</source>
         <comment>Error message</comment>
         <translation>Error al leer estado de ventana %1 desde base de datos de usuario</translation>
@@ -8451,281 +8247,281 @@ Si continúas, se corre el riesgo de perder datos!
 <context>
     <name>QCustomFolderTable</name>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="349"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="392"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="567"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="596"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="608"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="617"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="645"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="351"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="394"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="570"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="599"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="612"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="621"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="649"/>
         <source>File</source>
         <comment>Column header</comment>
         <translation>Archivo</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="350"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="393"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="568"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="352"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="395"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="571"/>
         <source>File Type</source>
         <comment>Column header</comment>
         <translation>Tipo de Archivo</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="351"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="394"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="569"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="597"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="609"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="618"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="646"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="353"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="396"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="572"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="600"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="613"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="622"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="650"/>
         <source>File Size</source>
         <comment>Column header</comment>
         <translation>Tamaño de Archivo</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="352"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="395"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="570"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="598"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="610"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="619"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="647"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="354"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="397"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="573"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="601"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="614"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="623"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="651"/>
         <source>File Date</source>
         <comment>Column header</comment>
         <translation>Fecha de Archivo</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="353"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="396"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="571"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="599"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="620"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="648"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="355"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="398"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="574"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="602"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="624"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="652"/>
         <source>Duration</source>
         <comment>Column header</comment>
         <translation>Duración</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="354"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="397"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="573"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="611"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="622"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="356"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="399"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="576"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="615"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="626"/>
         <source>Image Size</source>
         <comment>Column header</comment>
         <translation>Tamaño de Imagen</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="355"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="398"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="574"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="612"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="623"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="357"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="400"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="577"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="616"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="627"/>
         <source>Image Format</source>
         <comment>Column header</comment>
         <translation>Formato de Imagen</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="356"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="400"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="575"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="613"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="624"/>
         <location filename="../src/ffDiaporama/DlgInfoFile/DlgInfoFile.cpp" line="171"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="358"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="402"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="578"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="617"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="628"/>
         <source>Image Geometry</source>
         <comment>Column header</comment>
         <translation>Geometría de Imagen</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="357"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="401"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="576"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="625"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="359"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="403"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="579"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="629"/>
         <source>Video Codec</source>
         <comment>Column header</comment>
         <translation>Codec de Video</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="358"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="402"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="577"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="626"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="360"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="404"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="580"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="630"/>
         <source>Frame Rate</source>
         <comment>Column header</comment>
         <translation>Velocidad de Cuadros</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="359"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="403"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="578"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="627"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="361"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="405"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="581"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="631"/>
         <source>Video Bitrate</source>
         <comment>Column header</comment>
         <translation>Video Bitrate</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="360"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="404"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="579"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="628"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="362"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="406"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="582"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="632"/>
         <source>Audio Language</source>
         <comment>Column header</comment>
         <translation>Idioma de Audio</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="361"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="405"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="580"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="629"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="649"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="363"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="407"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="583"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="633"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="653"/>
         <source>Audio Codec</source>
         <comment>Column header</comment>
         <translation>Codec de Audio</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="362"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="406"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="581"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="630"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="650"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="364"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="408"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="584"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="634"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="654"/>
         <source>Audio Channels</source>
         <comment>Column header</comment>
         <translation>Canales de Audio</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="363"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="407"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="582"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="631"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="651"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="365"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="409"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="585"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="635"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="655"/>
         <source>Audio Bitrate</source>
         <comment>Column header</comment>
         <translation>Audio Bitrate</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="364"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="408"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="583"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="632"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="652"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="366"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="410"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="586"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="636"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="656"/>
         <source>Audio Frequency</source>
         <comment>Column header</comment>
         <translation>Frecuencia de Audio</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="365"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="409"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="584"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="600"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="633"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="653"/>
         <location filename="../src/ffDiaporama/DlgInfoFile/DlgInfoFile.cpp" line="172"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="367"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="411"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="587"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="603"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="637"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="657"/>
         <source>Title</source>
         <comment>Column header</comment>
         <translation>Título</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="366"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="410"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="585"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="634"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="654"/>
         <location filename="../src/ffDiaporama/DlgInfoFile/DlgInfoFile.cpp" line="173"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="368"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="412"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="588"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="638"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="658"/>
         <source>Artist</source>
         <comment>Column header</comment>
         <translation>Artista</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="368"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="411"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="586"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="602"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="635"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="655"/>
         <location filename="../src/ffDiaporama/DlgInfoFile/DlgInfoFile.cpp" line="174"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="370"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="413"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="589"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="605"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="639"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="659"/>
         <source>Album</source>
         <comment>Column header</comment>
         <translation>Album</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="369"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="412"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="587"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="603"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="636"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="656"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="371"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="414"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="590"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="606"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="640"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="660"/>
         <source>Year</source>
         <comment>Column header</comment>
         <translation>Año</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="370"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="413"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="588"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="637"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="657"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="372"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="415"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="591"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="641"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="661"/>
         <source>Track</source>
         <comment>Column header</comment>
         <translation>Pista</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="371"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="414"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="589"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="638"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="658"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="373"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="416"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="592"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="642"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="662"/>
         <source>Genre</source>
         <comment>Column header</comment>
         <translation>Género</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="372"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="415"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="590"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="639"/>
         <location filename="../src/ffDiaporama/DlgInfoFile/DlgInfoFile.cpp" line="175"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="374"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="417"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="593"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="643"/>
         <source>Comment</source>
         <comment>Column header</comment>
         <translation>Comentario</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="373"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="416"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="591"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="604"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="640"/>
         <location filename="../src/ffDiaporama/DlgInfoFile/DlgInfoFile.cpp" line="176"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="375"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="418"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="594"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="607"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="644"/>
         <source>Composer</source>
         <comment>Column header</comment>
         <translation>Compositor</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="374"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="417"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="592"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="641"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="376"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="419"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="595"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="645"/>
         <source>Encoder</source>
         <comment>Column header</comment>
         <translation>Encoder</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="375"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="399"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="572"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="621"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="377"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="401"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="575"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="625"/>
         <source>Chapters</source>
         <comment>Column header</comment>
         <translation>Capítulos</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="367"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="601"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="369"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="604"/>
         <source>Author</source>
         <comment>Column header</comment>
         <translation>Autor</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="780"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="783"/>
         <source>Reading directory content (%1)</source>
         <translation>Leyendo contenido de directorio (%1)</translation>
     </message>
@@ -8733,106 +8529,108 @@ Si continúas, se corre el riesgo de perder datos!
 <context>
     <name>QCustomFolderTree</name>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="292"/>
+        <location filename="../src/ffDiaporama/engine/_GlobalDefines.cpp" line="292"/>
         <source>Kb</source>
         <comment>Unit Kb</comment>
         <translation>Kb</translation>
     </message>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="293"/>
+        <location filename="../src/ffDiaporama/engine/_GlobalDefines.cpp" line="293"/>
         <source>Mb</source>
         <comment>Unit Mb</comment>
         <translation>Mb</translation>
     </message>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="294"/>
+        <location filename="../src/ffDiaporama/engine/_GlobalDefines.cpp" line="294"/>
         <source>Gb</source>
         <comment>Unit Gb</comment>
         <translation>Gb</translation>
     </message>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="295"/>
+        <location filename="../src/ffDiaporama/engine/_GlobalDefines.cpp" line="295"/>
         <source>Tb</source>
         <comment>Unit Tb</comment>
         <translation>Tb</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="103"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="82"/>
         <source>Refresh all</source>
         <translation>Refrescar todo</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="104"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="83"/>
         <source>Refresh from here</source>
         <translation>Refrescar aquí</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="105"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="84"/>
         <source>Create new subfolder</source>
         <translation>Crear nueva subcarpeta</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="106"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1218"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="85"/>
         <source>Remove folder</source>
         <translation>Eliminar carpeta</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="107"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1217"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="86"/>
         <source>Rename folder</source>
         <translation>Renombrar carpeta</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="122"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="133"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="101"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="112"/>
         <source>Create folder</source>
         <translation>Crear carpeta</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="122"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="101"/>
         <source>Folder:</source>
         <translation>Carpeta:</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="132"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="111"/>
         <source>Error %1:</source>
         <translation>Error %1:</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="134"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="113"/>
         <source>Impossible to create folder !</source>
         <translation>¡Imposible crear carpeta !</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="379"/>
-        <location filename="../src/engine/cDriveList.cpp" line="388"/>
+        <location filename="../src/ffDiaporama/engine/cDriveList.cpp" line="388"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="359"/>
         <source>System files</source>
         <translation>Archivos del Sistema</translation>
     </message>
     <message>
-        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="803"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="63"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="154"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="217"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="221"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="260"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="409"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="486"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="618"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="637"/>
-        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="647"/>
-        <location filename="../src/engine/cDriveList.cpp" line="70"/>
-        <location filename="../src/engine/cDriveList.cpp" line="109"/>
-        <location filename="../src/engine/cDriveList.cpp" line="376"/>
+        <location filename="../src/ffDiaporama/engine/cDriveList.cpp" line="70"/>
+        <location filename="../src/ffDiaporama/engine/cDriveList.cpp" line="109"/>
+        <location filename="../src/ffDiaporama/engine/cDriveList.cpp" line="376"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="806"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="63"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="132"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="195"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="199"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="238"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="389"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="466"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="598"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="617"/>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTree.cpp" line="627"/>
         <source>Clipart</source>
         <translation>Clipart</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDriveList.cpp" line="110"/>
+        <location filename="../src/ffDiaporama/engine/cDriveList.cpp" line="110"/>
         <source>Empty drive...</source>
         <translation>Unidad vacía...</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDriveList.cpp" line="347"/>
+        <location filename="../src/ffDiaporama/engine/cDriveList.cpp" line="347"/>
         <source>Personal folder</source>
         <translation>Carpeta personal</translation>
     </message>
@@ -8840,467 +8638,467 @@ Si continúas, se corre el riesgo de perder datos!
 <context>
     <name>Shape forms</name>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="60"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="60"/>
         <source>No shape</source>
         <translation>Sin forma</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="61"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="61"/>
         <source>Rectangle</source>
         <translation>Rectángulo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="62"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="62"/>
         <source>Rounded rectangle</source>
         <translation>Rectángulo redondeado</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="63"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="63"/>
         <source>Bubble</source>
         <translation>Burbuja</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="64"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="64"/>
         <source>Ellipse</source>
         <translation>Elipse</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="65"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="65"/>
         <source>Old Triangle up version</source>
         <translation>Versión Antiguo Triángulo superior</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="66"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="66"/>
         <source>Old Triangle right version</source>
         <translation>Versión Antiguo Triángulo derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="67"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="67"/>
         <source>Old Triangle down version</source>
         <translation>Versión Antiguo Triángulo abajo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="68"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="68"/>
         <source>Old Triangle left version</source>
         <translation>Versión Antiguo Triángulo izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="69"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="69"/>
         <source>Rhombus</source>
         <translation>Rombo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="70"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="70"/>
         <source>Pentagon</source>
         <translation>Pentágono</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="71"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="71"/>
         <source>Hexagon</source>
         <translation>Hexágono</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="72"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="72"/>
         <source>Octogon</source>
         <translation>Octógono</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="73"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="73"/>
         <source>Simple arrow up</source>
         <translation>Simple flecha hacia arriba</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="74"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="74"/>
         <source>Simple arrow right</source>
         <translation>Simple flecha derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="75"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="75"/>
         <source>Simple arrow down</source>
         <translation>Simple flecha abajo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="76"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="76"/>
         <source>Simple arrow left</source>
         <translation>Simple flecha izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="77"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="77"/>
         <source>Heart</source>
         <translation>Corazón</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="78"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="78"/>
         <source>Puzzle Up-Left</source>
         <translation>Puzzle Superior-Izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="79"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="79"/>
         <source>Puzzle Up-Center</source>
         <translation>Puzzle Superior-Centro</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="80"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="80"/>
         <source>Puzzle Up-Right</source>
         <translation>Puzzle Superior-Derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="81"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="81"/>
         <source>Double vertical arrows</source>
         <translation>Dobles flechas verticales</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="82"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="82"/>
         <source>Double horizontal arrows</source>
         <translation>Dobles flechas horizontales</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="83"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="83"/>
         <source>Double diagonal arrows 1</source>
         <translation>Dobles flechas diagonal 1</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="84"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="84"/>
         <source>Double diagonal arrows 2</source>
         <translation>Dobles flechas diagonal 2</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="85"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="85"/>
         <source>Spade</source>
         <translation>Espada</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="86"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="86"/>
         <source>Puzzle Middle-Left</source>
         <translation>Puzzle Medio-Izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="87"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="87"/>
         <source>Puzzle Middle-Center</source>
         <translation>Puzzle Medio-Centro</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="88"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="88"/>
         <source>Puzzle Middle-Right</source>
         <translation>Puzzle Medio-Derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="89"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="89"/>
         <source>Right triangle Up-Left</source>
         <translation>Triángulo rectángulo Superior-Izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="90"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="90"/>
         <source>Right triangle Up-Right</source>
         <translation>Triángulo rectángulo Superior-Derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="91"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="91"/>
         <source>Right triangle Down-Left</source>
         <translation>Triángulo rectángulo Inferior-Izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="92"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="92"/>
         <source>Right triangle Down-Right</source>
         <translation>Triángulo rectángulo Inferior-Derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="93"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="93"/>
         <source>Club</source>
         <translation>Club</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="94"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="94"/>
         <source>Puzzle Down-Left</source>
         <translation>Puzzle Abajo-Izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="95"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="95"/>
         <source>Puzzle Down-Center</source>
         <translation>Puzzle Abajo-Centro</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="96"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="96"/>
         <source>Puzzle Down-Right</source>
         <translation>Puzzle Abajo-Derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="97"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="97"/>
         <source>Single triangle up</source>
         <translation>Triángulo sencillo hacia arriba</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="98"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="98"/>
         <source>Single triangle right</source>
         <translation>Triángulo sencillo hacia derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="99"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="99"/>
         <source>Single triangle down</source>
         <translation>Triángulo sencillo hacia abajo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="100"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="100"/>
         <source>Single triangle left</source>
         <translation>Triángulo sencillo hacia izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="101"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="101"/>
         <source>Pushed up</source>
         <translation>Empuje hacia arriba</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="102"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="102"/>
         <source>Sharp down</source>
         <translation>Punta hacia abajo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="103"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="103"/>
         <source>Four-pointed stars</source>
         <translation>Estrella de cuatro puntas</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="104"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="104"/>
         <source>Five-pointed stars</source>
         <translation>Estrella de cinco puntas</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="105"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="105"/>
         <source>Double triangle up</source>
         <translation>Triángulo doble hacia arriba</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="106"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="106"/>
         <source>Double triangle right</source>
         <translation>Triángulo doble hacia derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="107"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="107"/>
         <source>Double triangle down</source>
         <translation>Triángulo doble hacia abajo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="108"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="108"/>
         <source>Double triangle left</source>
         <translation>Triángulo doble hacia izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="109"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="109"/>
         <source>Double chevron up</source>
         <translation>Doble chevron hacia arriba</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="110"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="110"/>
         <source>Single chevron down</source>
         <translation>Sencillo chevron hacia abajo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="111"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="111"/>
         <source>Six-pointed stars</source>
         <translation>Estrella de seis puntas</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="112"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="112"/>
         <source>Height-pointed stars</source>
         <translation>Estrellas de ocho puntas</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="113"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="113"/>
         <source>Pushed left</source>
         <translation>Empuje hacia izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="114"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="114"/>
         <source>Double chevron left</source>
         <translation>Doble chevron hacia izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="115"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="115"/>
         <source>Single chevron left</source>
         <translation>Sencillo chevron hacia izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="116"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="116"/>
         <source>Sharp left</source>
         <translation>Punta hacia la izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="117"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="117"/>
         <source>Single chevron up</source>
         <translation>Sencillo chevron hacia arriba</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="118"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="118"/>
         <source>Double chevron down</source>
         <translation>Doble chevron hacia abajo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="119"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="119"/>
         <source>Six tooth gear</source>
         <translation>Engranaje de seis dientes</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="120"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="120"/>
         <source>Eight tooth gear</source>
         <translation>Engranaje de ocho dientes</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="121"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="121"/>
         <source>Sharp right</source>
         <translation>Punta hacia la derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="122"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="122"/>
         <source>Single chevron right</source>
         <translation>Sencillo chevron hacia la derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="123"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="123"/>
         <source>Double chevron right</source>
         <translation>Doble chevron hacia la derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="124"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="124"/>
         <source>Pushed right</source>
         <translation>Empuje hacia la derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="125"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="125"/>
         <source>Sharp up</source>
         <translation>Punta hacia arriba</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="126"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="126"/>
         <source>Pushed down</source>
         <translation>Empuje hacia abajo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="127"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="127"/>
         <source>Ten tooth gear</source>
         <translation>Diez dientes de engranaje</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="128"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="128"/>
         <source>Twelve tooth gear</source>
         <translation>Doce dientes de engranaje</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="129"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="129"/>
         <source>Vertical Binoculars</source>
         <translation>Binoculares Vertical</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="130"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="130"/>
         <source>Vertical Trinoculars</source>
         <translation>Trinoculares Vertical</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="131"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="131"/>
         <source>Trapezoid Down-Right</source>
         <translation>Trapezoide Abajo-Derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="132"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="132"/>
         <source>Trapezoid Up</source>
         <translation>Trapezoide Arriba</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="133"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="133"/>
         <source>Trapezoid Down-Left</source>
         <translation>Trapezoide Abajo-Izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="134"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="134"/>
         <source>Trapezoid Right-Down</source>
         <translation>Trapezoide Derecha-Abajo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="135"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="135"/>
         <source>Trapezoid Left-Down</source>
         <translation>Trapezoide Izquierda-Abajo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="136"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="136"/>
         <source>Keyhole</source>
         <translation>Ojo de cerradura</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="137"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="137"/>
         <source>Horizontal Binoculars</source>
         <translation>Binoculares Horizontal</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="138"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="138"/>
         <source>Horizontal Trinoculars</source>
         <translation>Trinoculares Horizontal</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="139"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="139"/>
         <source>Trapezoid Up-Right</source>
         <translation>Trapezoide Arriba-Derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="140"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="140"/>
         <source>Trapezoid Down</source>
         <translation>Trapezoide Abajo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="141"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="141"/>
         <source>Trapezoid Up-Left</source>
         <translation>Trapezoide Arriba-Izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="142"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="142"/>
         <source>Trapezoid Left</source>
         <translation>Trapezoide Izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="143"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="143"/>
         <source>Trapezoid Right</source>
         <translation>Trapezoide Derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="144"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="144"/>
         <source>Plus</source>
         <translation>Más</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="145"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="145"/>
         <source>Four oculars</source>
         <translation>Cuatro oculares</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="146"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="146"/>
         <source>Parallelogram Left</source>
         <translation>Paralelogramo Izquierda</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="147"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="147"/>
         <source>Parallelogram Right</source>
         <translation>Paralelogramo Derecha</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="148"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="148"/>
         <source>Parallelogram Up</source>
         <translation>Paralelogramo Arriba</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="149"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="149"/>
         <source>Parallelogram Down</source>
         <translation>Paralelogramo Abajo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="150"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="150"/>
         <source>Trapezoid Right-Up</source>
         <translation>Trapezoide Derecha-Arriba</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="151"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="151"/>
         <source>Trapezoid Left-Up</source>
         <translation>Trapezoide Izquierda-Arriba</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="152"/>
+        <location filename="../src/ffDiaporama/engine/_Shape.cpp" line="152"/>
         <source>Hourglass</source>
         <translation>Reloj de arena</translation>
     </message>
@@ -9308,32 +9106,32 @@ Si continúas, se corre el riesgo de perder datos!
 <context>
     <name>Speed wave</name>
     <message>
-        <location filename="../src/engine/_SpeedWave.cpp" line="42"/>
+        <location filename="../src/ffDiaporama/engine/_SpeedWave.cpp" line="42"/>
         <source>Project default (%1)</source>
         <translation>Proyecto predeterminado (%1)</translation>
     </message>
     <message>
-        <location filename="../src/engine/_SpeedWave.cpp" line="43"/>
+        <location filename="../src/ffDiaporama/engine/_SpeedWave.cpp" line="43"/>
         <source>Constant speed</source>
         <translation>Velocidad constante</translation>
     </message>
     <message>
-        <location filename="../src/engine/_SpeedWave.cpp" line="44"/>
+        <location filename="../src/ffDiaporama/engine/_SpeedWave.cpp" line="44"/>
         <source>Fast then slow</source>
         <translation>Rápido y después lento</translation>
     </message>
     <message>
-        <location filename="../src/engine/_SpeedWave.cpp" line="45"/>
+        <location filename="../src/ffDiaporama/engine/_SpeedWave.cpp" line="45"/>
         <source>Slow then fast</source>
         <translation>Lento y después rápido</translation>
     </message>
     <message>
-        <location filename="../src/engine/_SpeedWave.cpp" line="46"/>
+        <location filename="../src/ffDiaporama/engine/_SpeedWave.cpp" line="46"/>
         <source>Faster and faster</source>
         <translation>Rápido y rápido</translation>
     </message>
     <message>
-        <location filename="../src/engine/_SpeedWave.cpp" line="47"/>
+        <location filename="../src/ffDiaporama/engine/_SpeedWave.cpp" line="47"/>
         <source>Slower and slower</source>
         <translation>Lento y lento</translation>
     </message>
@@ -9341,22 +9139,22 @@ Si continúas, se corre el riesgo de perder datos!
 <context>
     <name>Variables</name>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="172"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="172"/>
         <source>%1 presents</source>
         <translation>%1 presenta</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="173"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="173"/>
         <source>A %1 production</source>
         <translation>Una producción %1</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="195"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="195"/>
         <source>Chapter %1</source>
         <translation>Capítulo %1</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="212"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="212"/>
         <source>Project done the %1:
 	Â·with Â«%2 (%3)Â»
 	Â·on a %4 (%5 Core/CPU) computer</source>
@@ -9365,263 +9163,263 @@ Si continúas, se corre el riesgo de perder datos!
 	Â·en un PC %4 (%5 Core/CPU)</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="217"/>
-        <location filename="../src/engine/_Variables.cpp" line="309"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="217"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="309"/>
         <source>The end</source>
         <translation>Fin</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="258"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="258"/>
         <source>Select this variable</source>
         <translation>Selecciona esta variable</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="264"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="264"/>
         <source>Project properties values</source>
         <translation>Valores de propiedades del proyecto</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="265"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="265"/>
         <source>Project date values</source>
         <translation>Valores de fecha del proyecto</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="266"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="266"/>
         <source>Current slide values</source>
         <translation>Valores de diapositiva actual</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="267"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="267"/>
         <source>Chapters values</source>
         <translation>Valores de capítulos</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="268"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="268"/>
         <source>Current chapter date values</source>
         <translation>Valores de fecha del capítulo actual</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="269"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="269"/>
         <source>Various values</source>
         <translation>Varios valores</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="270"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="270"/>
         <source>Today date values</source>
         <translation>Valores de fecha de hoy</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="273"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="273"/>
         <source>Project title</source>
         <translation>Título del proyecto</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="274"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="274"/>
         <source>Project author</source>
         <translation>Autor del proyecto</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="275"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="275"/>
         <source>Project author as &lt;Author presents&gt;</source>
         <translation>Autor del proyecto bajo la forma &lt;Autor presenta&gt;</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="276"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="276"/>
         <source>Project author as &lt;A Author production&gt;</source>
         <translation>Autor del proyecto bajo la forma &lt;Una producción Autor&gt;</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="277"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="277"/>
         <source>Project album</source>
         <translation>Album del proyecto</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="278"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="278"/>
         <source>Project comment</source>
         <translation>Comentario del proyecto</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="279"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="279"/>
         <source>Project duration</source>
         <translation>Duración del proyecto</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="280"/>
         <location filename="../src/ffDiaporama/DlgInfoFile/DlgInfoFile.cpp" line="177"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="280"/>
         <source>Project slide count</source>
         <translation>Número de diapositiva del proyecto</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="282"/>
-        <location filename="../src/engine/_Variables.cpp" line="299"/>
-        <location filename="../src/engine/_Variables.cpp" line="314"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="282"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="299"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="314"/>
         <source>Long date</source>
         <translation>Fecha larga</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="283"/>
-        <location filename="../src/engine/_Variables.cpp" line="300"/>
-        <location filename="../src/engine/_Variables.cpp" line="315"/>
         <location filename="../src/ffDiaporama/DlgInfoFile/DlgInfoFile.cpp" line="178"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="283"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="300"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="315"/>
         <source>Short date</source>
         <translation>Fecha corta</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="284"/>
-        <location filename="../src/engine/_Variables.cpp" line="301"/>
-        <location filename="../src/engine/_Variables.cpp" line="316"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="284"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="301"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="316"/>
         <source>Year</source>
         <translation>Año</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="285"/>
-        <location filename="../src/engine/_Variables.cpp" line="302"/>
-        <location filename="../src/engine/_Variables.cpp" line="317"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="285"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="302"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="317"/>
         <source>Month</source>
         <translation>Mes</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="286"/>
-        <location filename="../src/engine/_Variables.cpp" line="303"/>
-        <location filename="../src/engine/_Variables.cpp" line="318"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="286"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="303"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="318"/>
         <source>Month as number</source>
         <translation>Mes como número</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="287"/>
-        <location filename="../src/engine/_Variables.cpp" line="304"/>
-        <location filename="../src/engine/_Variables.cpp" line="319"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="287"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="304"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="319"/>
         <source>Day</source>
         <translation>Día</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="288"/>
-        <location filename="../src/engine/_Variables.cpp" line="305"/>
-        <location filename="../src/engine/_Variables.cpp" line="320"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="288"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="305"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="320"/>
         <source>Day of week</source>
         <translation>Día de la semana</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="290"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="290"/>
         <source>Current slide name</source>
         <translation>Nombre de la diapositiva actual</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="291"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="291"/>
         <source>Current slide number</source>
         <translation>Número de la diapositiva actual</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="293"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="293"/>
         <source>Current chapter name</source>
         <translation>Nombre del capítulo actual</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="294"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="294"/>
         <source>Current chapter number</source>
         <translation>Número del capítulo actual</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="295"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="295"/>
         <source>Current chapter number as &quot;Chapter NÂ°&quot;</source>
         <translation>Número de capítulo actual bajo la forma &quot;Capítulo nº&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="296"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="296"/>
         <source>Current chapter duration</source>
         <translation>Duración del capítulo actual</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="297"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="297"/>
         <source>Chapter count</source>
         <translation>Número de capítulo</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="307"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="307"/>
         <source>ffDiaporama version</source>
         <translation>Versión de ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="308"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="308"/>
         <source>Copyright</source>
         <translation>Copyright</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="310"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="310"/>
         <source>Project made</source>
         <translation>Proyecto realizado</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="311"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="311"/>
         <source>Content</source>
         <translation>Contenido</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Variables.cpp" line="312"/>
+        <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="312"/>
         <source>Musical content</source>
         <translation>Contenido musical</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2010"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1976"/>
         <source>Content:</source>
         <comment>Project statistics</comment>
         <translation>Contenido:</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2011"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1977"/>
         <source>%1 slides (%2)</source>
         <translation>%1 diapositivas (%2)</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2012"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1978"/>
         <source>%1 chapters</source>
         <translation>%1 capítulos</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2013"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1979"/>
         <source>%1 videos (%2)</source>
         <translation>%1 videos (%2)</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2014"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1980"/>
         <source>%3 vector images</source>
         <translation>%3 imágenes vectoriales</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2015"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1981"/>
         <source>%4 photos</source>
         <translation>%4 fotos</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2016"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1982"/>
         <source>%5 text blocks</source>
         <translation>%5 bloques de texto</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2017"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1983"/>
         <source>%6 automatic slides</source>
         <translation>%6 diapositivas automáticas</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2025"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1991"/>
         <source>Musical content:</source>
         <comment>Project statistics</comment>
         <translation>Contenido musicalt:</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2035"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2001"/>
         <source> - Â© %1 (%2)</source>
         <comment>Project statistics-Music</comment>
         <translation> - © %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2036"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2002"/>
         <source> - Â© %1</source>
         <comment>Project statistics-Music</comment>
         <translation> - © %1</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="2038"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2004"/>
         <source> from Â«%1Â»</source>
         <comment>Project statistics-Music</comment>
         <translation> de «%1»</translation>
@@ -9630,107 +9428,118 @@ Si continúas, se corre el riesgo de perder datos!
 <context>
     <name>cBaseMediaFile</name>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="421"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="425"/>
         <source>Impossible to open file </source>
         <translation>Imposible abrir archivo </translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="421"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="425"/>
         <source>Do you want to select another file ?</source>
         <translation>¿ Quiere seleccionar otro achivo ?</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="425"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="429"/>
         <source>Select another file for </source>
         <translation>Selecciona otro archivo de</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="438"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="445"/>
         <source>Impossible to open file %1</source>
         <translation>Imposible abrir archivo %1</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="514"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="521"/>
         <source>MPix</source>
         <translation>MPix</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="565"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="572"/>
         <source>Unmanaged</source>
         <comment>File type</comment>
         <translation>Sin gestionar</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="828"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="835"/>
         <source>Slides</source>
         <translation>Diapositivas</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="829"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="836"/>
         <source>Chapters</source>
         <translation>Capítulos</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="872"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="878"/>
         <source>Image</source>
         <comment>File type</comment>
         <translation>Imagen</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="873"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="879"/>
         <source>Vector image</source>
         <comment>File type</comment>
         <translation>Imagen vectorial</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="874"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="880"/>
         <source>Thumbnail</source>
         <comment>File type</comment>
         <translation>Miniatura</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="1773"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1268"/>
+        <source>Google Maps map</source>
+        <comment>File type</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1329"/>
+        <source>%1 location(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1959"/>
         <source>Video</source>
         <comment>File type</comment>
         <translation>Video</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="1772"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1958"/>
         <source>Music</source>
         <comment>File type</comment>
         <translation>Música</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="1477"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1663"/>
         <source>Mono</source>
         <comment>Audio channels mode</comment>
         <translation>Mono</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="420"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="424"/>
         <source>Open file</source>
         <translation>Abrir archivo</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="846"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="853"/>
         <source>ffDiaporama</source>
         <comment>File type</comment>
         <translation>ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="1478"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1664"/>
         <source>Stereo</source>
         <comment>Audio channels mode</comment>
         <translation>Estéreo</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="659"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="666"/>
         <source>Folder</source>
         <comment>File type</comment>
         <translation>Directorio</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2145"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2091"/>
         <source>Add video file</source>
         <translation>Añadir archivo de video</translation>
     </message>
@@ -9738,98 +9547,98 @@ Si continúas, se corre el riesgo de perder datos!
 <context>
     <name>cDeviceModelList</name>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="678"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="689"/>
         <source>Advanced</source>
         <comment>Device database type</comment>
         <translation>Avanzado</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="679"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="683"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="690"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="694"/>
         <source>Smartphone</source>
         <comment>Device database type</comment>
         <translation>Smartphone</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="680"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="691"/>
         <source>Multimedia system</source>
         <comment>Device database type</comment>
         <translation>Sistema Multimedia</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="681"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="692"/>
         <source>For the WEB</source>
         <comment>Device database type</comment>
         <translation>Para la WEB</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="682"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="693"/>
         <source>Lossless</source>
         <comment>Device database type</comment>
         <translation>Lossless</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="684"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="695"/>
         <source>Portable Player</source>
         <comment>Device database type</comment>
         <translation>Reproductor portátil</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="685"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="696"/>
         <source>Netbook/NetPC</source>
         <comment>Device database type</comment>
         <translation>Netbook/NetPC</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="686"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="697"/>
         <source>Handheld game console</source>
         <comment>Device database type</comment>
         <translation>Consola de juegos portátil</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="687"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="698"/>
         <source>Tablet computer</source>
         <comment>Device database type</comment>
         <translation>Tablet PC</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="688"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="699"/>
         <source>Multimedia hard drive and gateway</source>
         <comment>Device database type</comment>
         <translation>Disco duro multimedia y pasarela</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="689"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="700"/>
         <source>Player</source>
         <comment>Device database type</comment>
         <translation>Reproductor</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="690"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="701"/>
         <source>ADSL Box</source>
         <comment>Device database type</comment>
         <translation>ADSL Box</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="691"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="702"/>
         <source>Game console</source>
         <comment>Device database type</comment>
         <translation>Consola de Juegos</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="692"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="703"/>
         <source>SWF Flash Player</source>
         <comment>Device database type</comment>
         <translation>Reproductor SWF Flash</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="693"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="704"/>
         <source>Video-sharing and social WebSite</source>
         <comment>Device database type</comment>
         <translation>Intercambio de videos y Web Social</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="694"/>
+        <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="705"/>
         <source>HTML 5</source>
         <comment>Device database type</comment>
         <translation>HTML 5</translation>
@@ -9838,139 +9647,266 @@ Si continúas, se corre el riesgo de perder datos!
 <context>
     <name>cModelList</name>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="63"/>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="677"/>
+        <location filename="../src/ffDiaporama/engine/_Model.cpp" line="63"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="684"/>
         <source>Project title</source>
         <translation>Título del proyecto</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="64"/>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="679"/>
+        <location filename="../src/ffDiaporama/engine/_Model.cpp" line="64"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="686"/>
         <source>Project album</source>
         <translation>Album del proyecto</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="65"/>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="678"/>
+        <location filename="../src/ffDiaporama/engine/_Model.cpp" line="65"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="685"/>
         <source>Project author</source>
         <translation>Autor del proyecto</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="66"/>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="683"/>
+        <location filename="../src/ffDiaporama/engine/_Model.cpp" line="66"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="690"/>
         <source>Project comment</source>
         <translation>Comentario del proyecto</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="200"/>
+        <location filename="../src/ffDiaporama/engine/_Model.cpp" line="200"/>
         <source>Error reading default thumbnail file</source>
         <comment>Error message</comment>
         <translation>Error leyendo archivo de miniatura predeterminada</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="217"/>
+        <location filename="../src/ffDiaporama/engine/_Model.cpp" line="217"/>
         <source>Error reading content of title model file</source>
         <comment>Error message</comment>
         <translation>Error leyendo contenido del archivo del modelo de título</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="272"/>
+        <location filename="../src/ffDiaporama/engine/_Model.cpp" line="272"/>
         <source>Register Credit title slide models (%1)...</source>
         <translation>Registro de modelos de título de Crédito (%1)...</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="209"/>
-        <location filename="../src/engine/_Model.cpp" line="221"/>
+        <location filename="../src/ffDiaporama/engine/_Model.cpp" line="209"/>
+        <location filename="../src/ffDiaporama/engine/_Model.cpp" line="221"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="205"/>
+        <location filename="../src/ffDiaporama/engine/_Model.cpp" line="205"/>
         <source>Error reading title model file</source>
         <comment>Error message</comment>
         <translation>Error leyendo archivo de modelo de título</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="213"/>
+        <location filename="../src/ffDiaporama/engine/_Model.cpp" line="213"/>
         <source>Error reading content of default thumbnail file</source>
         <comment>Error message</comment>
         <translation>Error leyendo contenido de archivo de miniatura predeterminada</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="281"/>
+        <location filename="../src/ffDiaporama/engine/_Model.cpp" line="281"/>
         <source>Register thumbnail models...</source>
         <translation>Registrar modelos de miniatura ...</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="256"/>
+        <location filename="../src/ffDiaporama/engine/_Model.cpp" line="256"/>
         <source>Register Project title slide models (%1)...</source>
         <translation>Registro de modelos de título de Proyecto (%1)...</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Model.cpp" line="264"/>
+        <location filename="../src/ffDiaporama/engine/_Model.cpp" line="264"/>
         <source>Register Chapter title slide models (%1)...</source>
         <translation>Registro de modelos de título de Capítulo (%1)...</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Diaporama.cpp" line="1429"/>
-        <location filename="../src/engine/_Model.cpp" line="89"/>
-        <location filename="../src/engine/_Model.cpp" line="97"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1399"/>
+        <location filename="../src/ffDiaporama/engine/_Model.cpp" line="89"/>
+        <location filename="../src/ffDiaporama/engine/_Model.cpp" line="97"/>
         <source>Chapter title</source>
         <translation>Título de capítulo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="198"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="211"/>
         <source>Simple titles without animation</source>
         <translation>Títulos sin animación</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="199"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="212"/>
         <source>Animated titles</source>
         <translation>Títulos animados</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="201"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="214"/>
         <source>Custom titles</source>
         <translation>Títulos personalizados</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="203"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="216"/>
         <source>Simple chapter titles without animation</source>
         <translation>Títulos de capítulo sin animación</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="204"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="217"/>
         <source>Animated chapter titles</source>
         <translation>Títulos de capítulo animados</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="206"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="219"/>
         <source>Custom chapter titles</source>
         <translation>Títulos de capitulo personalizados</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="208"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="221"/>
         <source>Simple credit titles</source>
         <translation>Títulos de crédito simples</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="209"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="222"/>
         <source>Custom credit titles</source>
         <translation>Títulos de crédito personalizados</translation>
     </message>
 </context>
 <context>
+    <name>wgt_QEditVideo</name>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="62"/>
+        <source>Start :</source>
+        <translation type="unfinished">Inicio :</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="69"/>
+        <source>Move to start position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Mueve a la posición inicial</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="83"/>
+        <source>Use current position as start position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Utilizar posición actual como inicial</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="103"/>
+        <source>Define the start position to use</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Definir posición de inicio a utilizar</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="125"/>
+        <source>End :</source>
+        <translation type="unfinished">Final :</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="141"/>
+        <source>Define the end position to use</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Definir posición final a utilizar</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="160"/>
+        <source>Use current position as end position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Utilizar posición actual como posición final</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="174"/>
+        <source>Move to end position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Mover a la posición final</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="194"/>
+        <source>Duration :</source>
+        <translation type="unfinished">Duración :</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="239"/>
+        <source>Volume :</source>
+        <translation type="unfinished">Volumen :</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="255"/>
+        <source>Select the &quot; Master Volume &quot; for the movie</source>
+        <translation type="unfinished">Seleccionar el &quot; Volumen Maestro &quot; para el video</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="278"/>
+        <source>Allows you to activate the deinterlace filter</source>
+        <translation type="unfinished">Activar el filtro de desentrelazado</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="281"/>
+        <source>Deinterlace video</source>
+        <translation type="unfinished">Video desentrelazado</translation>
+    </message>
+</context>
+<context>
+    <name>wgt_QMultimediaBrowser</name>
+    <message>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="93"/>
+        <source>Refresh folder table</source>
+        <translation type="unfinished">Refrescar árbol de carpertas</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="165"/>
+        <source>Use Detail view in browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="205"/>
+        <source>Use Icon view in browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="245"/>
+        <source>Use or manage favorite path</source>
+        <translation type="unfinished">Usar o gestionar ruta de favoritos</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="285"/>
+        <source>Change to previous folder</source>
+        <translation type="unfinished">Cambiar a la carpeta anterior</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="325"/>
+        <source>Change to upper folder</source>
+        <translation type="unfinished">Cambiar a carpeta superior</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="365"/>
+        <source>Adjust display mode and file filtering</source>
+        <translation type="unfinished">Ajustar modo de visualización y filtrado de archivos</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="83"/>
+        <source>The selection can&apos;t include folders.</source>
+        <translation type="unfinished">La selección no puede incluir carpetas.</translation>
+    </message>
+</context>
+<context>
     <name>wgt_QVideoPlayer</name>
     <message>
-        <location filename="../src/ffDiaporama/wgt_QVideoPlayer.ui" line="84"/>
+        <location filename="../src/ffDiaporama/wgt_QVideoPlayer/wgt_QVideoPlayer.ui" line="111"/>
         <source>Click to start play, click again to pause the movie</source>
         <extracomment>Tooltip in dialog box</extracomment>
         <translatorcomment>Mensaje en ventana</translatorcomment>
         <translation>Haga clic para empezar a reproducir, haga clic de nuevo para detener el vídeo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/wgt_QVideoPlayer.ui" line="129"/>
+        <location filename="../src/ffDiaporama/wgt_QVideoPlayer/wgt_QVideoPlayer.ui" line="156"/>
         <source>The progress bar allows you to set the video display to a specific position.
 Remark : The length of the ruler is increased in proportion to the duration of the video.
 The blue part represents the part of the video which is selected (which will be used in the assembly).</source>
@@ -9979,7 +9915,7 @@ Observación: La longitud de la regla se incrementa en proporción a la duració
 La parte azul representa la parte del vídeo que se selecciona (que será utilizado en el montaje).</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/wgt_QVideoPlayer.ui" line="296"/>
+        <location filename="../src/ffDiaporama/wgt_QVideoPlayer/wgt_QVideoPlayer.ui" line="332"/>
         <source>Save this image of the movie</source>
         <extracomment>Tooltip in dialog box</extracomment>
         <translation>Guardar esta imagen del video</translation>

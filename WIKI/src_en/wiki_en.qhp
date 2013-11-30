@@ -76,12 +76,12 @@
         </toc>
         <files>
             <file>*.html</file>
-            <file>img/*.png</file>
-            <file>img/Transitions/*.png</file>
-            <file>img/Arrange/*.png</file>
-            <file>img/Filter/*.png</file>
-            <file>img/Text/*.png</file>
-            <file>img/MediaIcons/16x16/*.png</file>
+            <file>../../src/ffDiaporama/img/*.png</file>
+            <file>../../src/ffDiaporama/img/Transitions/*.png</file>
+            <file>../../src/ffDiaporama/img/Arrange/*.png</file>
+            <file>../../src/ffDiaporama/img/Filter/*.png</file>
+            <file>../../src/ffDiaporama/img/Text/*.png</file>
+            <file>../../src/ffDiaporama/img/MediaIcons/16x16/*.png</file>
             <file>wiki_img/*.png</file>
             <file>wiki.css</file>
         </files>
