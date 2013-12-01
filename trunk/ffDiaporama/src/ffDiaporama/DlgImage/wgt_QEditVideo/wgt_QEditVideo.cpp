@@ -69,6 +69,10 @@ void wgt_QEditVideo::DoInitDialog() {
 
 //====================================================================================================================
 
+void wgt_QEditVideo::WinFocus() {
+    ui->VideoPlayer->SetPlayerToPlay();
+}
+
 void wgt_QEditVideo::LostFocus() {
     ui->VideoPlayer->SetPlayerToPause();
 }

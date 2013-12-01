@@ -1246,7 +1246,7 @@ QImage *cImageFile::ImageAt(bool PreviewMode) {
 //*********************************************************************************************************************************************
 // Google maps map
 //*********************************************************************************************************************************************
-
+/*
 cGMapsMap::cGMapsMap(cBaseApplicationConfig *ApplicationConfig):cImageFile(ApplicationConfig) {
     ObjectType  =OBJECTTYPE_GMAPSMAP;
     VectorImage =NULL;
@@ -1337,7 +1337,7 @@ QString cGMapsMap::GetTAGInfo(QStringList *) {
 
 //====================================================================================================================
 
-QImage *cGMapsMap::ImageAt(bool /*PreviewMode*/) {
+QImage *cGMapsMap::ImageAt(bool) {
     if (!IsValide) return NULL;
     //if (!IsInformationValide) GetFullInformationFromFile();
 
@@ -1352,7 +1352,7 @@ QImage *cGMapsMap::ImageAt(bool /*PreviewMode*/) {
     // return wanted image
     return RetImage;
 }
-
+*/
 /*************************************************************************************************************************************
     CLASS cVideoFile
 *************************************************************************************************************************************/

@@ -1936,40 +1936,8 @@ Remark: To make animations of text, you have to create at least 2 shots then:
         <translation>圖像影格化和校正</translation>
     </message>
     <message>
-        <source>Reset to 5</source>
-        <translation>重置為 5</translation>
-    </message>
-    <message>
-        <source>Define the width</source>
-        <translation>定義寬度</translation>
-    </message>
-    <message>
-        <source>Define the height</source>
-        <translation>定義高度</translation>
-    </message>
-    <message>
-        <source>Adjust luminosity</source>
-        <translation>調整亮度</translation>
-    </message>
-    <message>
-        <source>Adjust contrast</source>
-        <translation>調整對比</translation>
-    </message>
-    <message>
-        <source>Adjust gamma</source>
-        <translation>調整γ值</translation>
-    </message>
-    <message>
-        <source>Reset to zero</source>
-        <translation>重置為零</translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
         <translation>採納修改然後離開對話方塊</translation>
-    </message>
-    <message>
-        <source>Name of image/video file</source>
-        <translation>圖像/視訊檔案的名稱</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
@@ -1994,142 +1962,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <message>
         <source>Lock to project geometry</source>
         <translation>鎖定到專案位置與尺寸</translation>
-    </message>
-    <message>
-        <source>Select another file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Adjust blur/sharpen radius</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Charcoal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Adjust green channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Grayscale</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Adjust blue channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Oilpaint</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image rotation:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Color enhancement:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select a shape for the current block</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Adjust red channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reset to 1</source>
-        <translation>重置為 1</translation>
-    </message>
-    <message>
-        <source>Image distortion:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Luminosity, contrast and gamma:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Despeckle</source>
-        <translation>除斑</translation>
-    </message>
-    <message>
-        <source>Adjust desaturat level</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Adjust blur/sharpen sigma</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image enhancement:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Framing and form:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Artistic effects:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Fast</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Gaussian</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Emboss</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Edge</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Negative</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Equalize</source>
-        <translation>均化</translation>
-    </message>
-    <message>
-        <source>Antialias</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Annimation settings:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message utf8="true">
-        <source>Turn the image to the left (on the next multiple of 90°)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Define the rotation angle for the z axis</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message utf8="true">
-        <source>Turn the image to the right (on the next multiple of 90°)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Automatic contrast (normalize)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Speed wave:</source>
-        <translation>速度波動：</translation>
     </message>
     <message>
         <source>Rulers</source>
@@ -2176,149 +2008,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video position :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Custom size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to:
-- Change image framing (select a part of the image),
-- Rotate image (change or restore the orientation portrait/landscape)
-- Correct image (change the color and/or exposure parameters) but also applying graphical filters.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Adjust value for frequency of wave transformation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to activate the charcoal filter.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to activate the grayscale (black &amp; white) filter.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Adjust value for implode transformation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to activate the oilpaint filter.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to activate the despeckle (Noise reduction) filter.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Adjust value for amplitude of wave transformation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to define the width.
-This value is expressed as a percentage (%) of the original width of the image.
-Example: if Width=33 %, the re-framed image will represent 1/3 of the original.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to define the height.
-This value is expressed as a percentage (%) of the original height of the image.
-Example: if Height=33 %, the re-framed image will represent 1/3 of the original.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Adjust value for swirl transformation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select the blur/sharpen algorythm</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to activate the emboss filter.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to activate the edge filter.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to select a framing from a list of predefined framings.
-According to the image format, various choices will be proposed to you.
-
-The framings are classified in different categories:
-
-- Lock on the project geometry: 
-Lock the image framing selection rectangle to the same geometry as the project.
-If you place the image in full screen, the reframed part will correspond to the whole screen.
-
-- Lock on the image geometry:
-Lock the image framing selection rectangle to the same geometry as the image.
-
-- No constraint:
-No constraint is applied to the image framing selection rectangle.
-
-- Lock on this geometry:
-Lock image framing selection rectangle to the actual geometry.
-This only has meaning when a shape has been defined in &quot;no constraint&quot; mode.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to activate the negative filter.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to define the horizontal position from the left (X).
-This position is expressed as a percentage (%) of the width of the image.
-Example: if X=25 % then the 1st quarter to the left of the image is eliminated.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to define the vertical position from the top of the image ( Y ).
-This position is expressed as a percentage (%) of the height of the image.
-Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to activate the equalize (Histogram equalization) filter.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to activate the antialias (minimizing the distortion artifacts) filter.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to activate the normalize filter.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message utf8="true">
-        <source>You can use the + and – buttons in each input field to change the settings, or directly enter values for the five parameters.
-Alternatively, you can use the interactive zone to set the framing with the mouse or the keyboard.
- 
-With the mouse:
-- Click one of the handles and, with the mouse button down, drag the mouse to modify the size (to increase or reduce the part of the image to be kept).
-- Click the image and, with the mouse button down, drag the mouse to modify the part of the image which will be kept.
-
-With the keyboard:
-- Use the arrows to move the part of the image which will be kept.
-- Use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle, to change the size of the part of the image which will be kept.
-
-Remark: 
-When the image does not correspond to the geometry of the video to be produced, transparent zones appear.
-For example: an 4:3 image used in a 16:9 project will be shown by default with a transparent zone on each side.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Allows you to enable or disable the magnetic rulers.
 When rulers are enabled, the mouse will automatically snap to the edges of the photo, facilitating the framing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Defined speed curve for image animations.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6137,6 +5832,10 @@ Do you want to download it now?</source>
         <source>%1 image vector files</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Restore from a previous crash...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTable</name>
@@ -7063,15 +6762,6 @@ Do you want to download it now?</source>
         <comment>File type</comment>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Google Maps map</source>
-        <comment>File type</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 location(s)</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>cDeviceModelList</name>
@@ -7253,11 +6943,308 @@ Do you want to download it now?</source>
     </message>
 </context>
 <context>
-    <name>wgt_QEditVideo</name>
+    <name>wgt_QEditImage</name>
     <message>
-        <source>Form</source>
+        <source>Name of image/video file</source>
+        <translation type="unfinished">圖像/視訊檔案的名稱</translation>
+    </message>
+    <message>
+        <source>Select another file</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Reset to zero</source>
+        <translation type="unfinished">重置為零</translation>
+    </message>
+    <message>
+        <source>Reset to 5</source>
+        <translation type="unfinished">重置為 5</translation>
+    </message>
+    <message>
+        <source>Allows you to activate the charcoal filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Charcoal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust value for frequency of wave transformation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the grayscale (black &amp; white) filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Grayscale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust green channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust value for implode transformation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the oilpaint filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Oilpaint</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image rotation:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Color enhancement:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust blue channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust luminosity</source>
+        <translation type="unfinished">調整亮度</translation>
+    </message>
+    <message>
+        <source>Adjust red channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset to 1</source>
+        <translation type="unfinished">重置為 1</translation>
+    </message>
+    <message>
+        <source>Image distortion:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Luminosity, contrast and gamma:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust blur/sharpen sigma</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the despeckle (Noise reduction) filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Despeckle</source>
+        <translation type="unfinished">除斑</translation>
+    </message>
+    <message>
+        <source>Adjust desaturat level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image enhancement:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust value for amplitude of wave transformation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Artistic effects:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to define the width.
+This value is expressed as a percentage (%) of the original width of the image.
+Example: if Width=33 %, the re-framed image will represent 1/3 of the original.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the height</source>
+        <translation type="unfinished">定義高度</translation>
+    </message>
+    <message>
+        <source>Allows you to define the height.
+This value is expressed as a percentage (%) of the original height of the image.
+Example: if Height=33 %, the re-framed image will represent 1/3 of the original.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defined speed curve for image animations.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust value for swirl transformation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust gamma</source>
+        <translation type="unfinished">調整γ值</translation>
+    </message>
+    <message>
+        <source>Adjust contrast</source>
+        <translation type="unfinished">調整對比</translation>
+    </message>
+    <message>
+        <source>Type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the blur/sharpen algorythm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gaussian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the emboss filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Emboss</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust blur/sharpen radius</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the edge filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edge</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select a framing from a list of predefined framings.
+According to the image format, various choices will be proposed to you.
+
+The framings are classified in different categories:
+
+- Lock on the project geometry: 
+Lock the image framing selection rectangle to the same geometry as the project.
+If you place the image in full screen, the reframed part will correspond to the whole screen.
+
+- Lock on the image geometry:
+Lock the image framing selection rectangle to the same geometry as the image.
+
+- No constraint:
+No constraint is applied to the image framing selection rectangle.
+
+- Lock on this geometry:
+Lock image framing selection rectangle to the actual geometry.
+This only has meaning when a shape has been defined in &quot;no constraint&quot; mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the negative filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Negative</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the equalize (Histogram equalization) filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Equalize</source>
+        <translation type="unfinished">均化</translation>
+    </message>
+    <message>
+        <source>Allows you to define the horizontal position from the left (X).
+This position is expressed as a percentage (%) of the width of the image.
+Example: if X=25 % then the 1st quarter to the left of the image is eliminated.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to define the vertical position from the top of the image ( Y ).
+This position is expressed as a percentage (%) of the height of the image.
+Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the antialias (minimizing the distortion artifacts) filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Antialias</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Annimation settings:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the width</source>
+        <translation type="unfinished">定義寬度</translation>
+    </message>
+    <message>
+        <source>Allows you to activate the normalize filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Automatic contrast (normalize)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>Turn the image to the left (on the next multiple of 90°)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the rotation angle for the z axis</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>Turn the image to the right (on the next multiple of 90°)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Speed wave:</source>
+        <translation type="unfinished">速度波動：</translation>
+    </message>
+    <message utf8="true">
+        <source>You can use the + and – buttons in each input field to change the settings, or directly enter values for the five parameters.
+Alternatively, you can use the interactive zone to set the framing with the mouse or the keyboard.
+ 
+With the mouse:
+- Click one of the handles and, with the mouse button down, drag the mouse to modify the size (to increase or reduce the part of the image to be kept).
+- Click the image and, with the mouse button down, drag the mouse to modify the part of the image which will be kept.
+
+With the keyboard:
+- Use the arrows to move the part of the image which will be kept.
+- Use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle, to change the size of the part of the image which will be kept.
+
+Remark: 
+When the image does not correspond to the geometry of the video to be produced, transparent zones appear.
+For example: an 4:3 image used in a 16:9 project will be shown by default with a transparent zone on each side.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Framing and form:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a shape for the current block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video position :</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>wgt_QEditVideo</name>
     <message>
         <source>Start :</source>
         <translation type="unfinished">開始：</translation>

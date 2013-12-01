@@ -31,7 +31,8 @@
 #include "DlgWorkingTask/DlgWorkingTask.h"
 
 #include <QNetworkReply>
-#include <QTreeWidgetItem>
+#include <QLocalSocket>
+#include <QLocalServer>
 
 namespace Ui {
     class MainWindow;
@@ -189,6 +190,9 @@ private slots:
     void    s_Browser_OpenFile();
     void    s_Browser_AddFiles();
 
+    // To avoid multiple instance of the application
+    void    MonoInstanceSocketConnection() {}
+
 private:
 
     // Utility functions
@@ -196,7 +200,10 @@ private:
     void    toolTipTowhatsThis(QObject *StartObj);
 
     Ui::MainWindow  *ui;
-    QSharedMemory   Shared; // To avoid multiple instance of the application
+
+     // To avoid multiple instance of the application
+    QLocalSocket    MonoInstanceSocket;
+    QLocalServer    MonoInstanceServer;
 };
 
 #endif // MAINWINDOW_H

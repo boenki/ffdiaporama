@@ -242,7 +242,7 @@ public:
 //*********************************************************************************************************************************************
 // Google maps map
 //*********************************************************************************************************************************************
-class cGMapsMap : public cImageFile {
+/*class cGMapsMap : public cImageFile {
 public:
     QList<void *>           List;       // should be QList<cLocation *> but use void* because of .h chain
     GMapsMapType            MapType;
@@ -264,7 +264,7 @@ public:
     virtual QStringList     GetSummaryText(QStringList *ExtendedProperties);   // return 3 lines to display Summary of media file in dialog box which need them
     virtual QString         GetTechInfo(QStringList *ExtendedProperties);
     virtual QString         GetTAGInfo(QStringList *ExtendedProperties);
-};
+};*/
 
 //*********************************************************************************************************************************************
 // Video file

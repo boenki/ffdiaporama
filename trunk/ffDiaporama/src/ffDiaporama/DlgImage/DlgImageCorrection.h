@@ -25,6 +25,7 @@
 #include "CustomCtrl/_QCustomDialog.h"
 #include "engine/_Diaporama.h"
 
+#include "DlgImage/wgt_QEditImage/wgt_QEditImage.h"
 #include "DlgImage/wgt_QEditVideo/wgt_QEditVideo.h"
 
 namespace Ui {
@@ -43,24 +44,22 @@ public:
     cBrushDefinition        *CurrentBrush;
     cCompositionObject      *CompoObject;
     ffd_GEOMETRY            ffDPrjGeometry;                 // Project image geometry define in ffDiaporama project
-    bool                    UndoReloadImage;                // True if image change and undo must reload it
-    QString                 UndoBrushFileName;              // Name of previous file is undo
-    qreal                   ImageGeometry;
-    qreal                   ProjectGeometry;
+    int                     VideoPosition;
     QString                 InitialFilteredString;
-    int                     CurrentFramingStyle;
     int                     *BackgroundForm;
     bool                    StopMaj;
     int                     DefaultSpeedWave;
+    QString                 UndoBrushFileName;
+    int                     SavedBackgroundForm;
 
-    explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int *BackgroundForm,cBrushDefinition *CurrentBrush,int TheVideoPosition,ffd_GEOMETRY TheProjectGeometry,int DefaultSpeedWave,
+    explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int *BackgroundForm,cBrushDefinition *CurrentBrush,int TheVideoPosition,ffd_GEOMETRY TheffDPrjGeometry,int DefaultSpeedWave,
                                 cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
     ~DlgImageCorrection();
 
     // function to be overloaded
     virtual void            DoInitDialog();                             // Initialise dialog
     virtual bool            DoAccept();                                 // Call when user click on Ok button
-    virtual void            DoRejet() { /* Nothing to do */ }           // Call when user click on Cancel button
+    virtual void            DoRejet();                                  // Call when user click on Cancel button
     virtual void            PrepareGlobalUndo();                        // Initiale Undo
     virtual void            DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
 
@@ -78,72 +77,16 @@ protected slots:
     virtual void            DoPartialUndo();
 
 private slots:
-    void            s_TabWidgetChanged(int);
-    void            s_RulersBT();
-    void            s_RotationEDChanged(double Value);
-    void            s_XValueEDChanged(double Value);
-    void            s_YValueEDChanged(double Value);
-    void            s_WValueEDChanged(double Value);
-    void            s_HValueEDChanged(double Value);
-    void            s_RotateLeft();
-    void            s_RotateRight();
-    void            s_FramingStyleChanged();
-    void            s_BrightnessSliderMoved(int Value);
-    void            s_ContrastSliderMoved(int Value);
-    void            s_GammaSliderMoved(int Value);
-    void            s_GammaValueED(double Value);
-    void            s_RedSliderMoved(int Value);
-    void            s_GreenSliderMoved(int Value);
-    void            s_BlueSliderMoved(int Value);
-    void            s_DesatSliderMoved(int Value);
-    void            s_OnOffFilter_Gray_Changed(int);
-    void            s_OnOffFilter_Equalize_Changed(int);
-    void            s_OnOffFilter_Despeckle_Changed(int);
-    void            s_OnOffFilter_Negative_Changed(int);
-    void            s_OnOffFilter_Emboss_Changed(int);
-    void            s_OnOffFilter_Edge_Changed(int);
-    void            s_OnOffFilter_Antialias_Changed(int);
-    void            s_OnOffFilter_Normalize_Changed(int);
-    void            s_OnOffFilter_Charcoal_Changed(int);
-    void            s_OnOffFilter_Oil_Changed(int);
-    void            s_SwirlSliderMoved(int Value);
-    void            s_ImplodeSliderMoved(int Value);
-
-    void            s_BrightnessReset()                     { s_BrightnessSliderMoved(0);   }
-    void            s_ContrastReset()                       { s_ContrastSliderMoved(0);     }
-    void            s_GammaReset()                          { s_GammaValueED(1);            }
-    void            s_RedReset()                            { s_RedSliderMoved(0);          }
-    void            s_GreenReset()                          { s_GreenSliderMoved(0);        }
-    void            s_BlueReset()                           { s_BlueSliderMoved(0);         }
-    void            s_DesatReset()                          { s_DesatSliderMoved(0);        }
-    void            s_SwirlReset()                          { s_SwirlSliderMoved(0);        }
-    void            s_ImplodeReset()                        { s_ImplodeSliderMoved(0);      }
-
-    // BlurSharpen
-    void            s_BlurSharpenTypeChanged(int);
-    void            s_BlurSharpenSigmaSliderMoved(int Value);
-    void            s_BlurSharpenSigmaValueED(double Value);
-    void            s_QuickBlurSharpenSigmaSliderMoved(int Value);
-    void            s_BlurSharpenRadiusSliderMoved(int Value);
-
-    void            s_BlurSharpenSigmaReset()               { s_BlurSharpenSigmaSliderMoved(0);         }
-    void            s_QuickBlurSharpenSigmaReset()          { s_QuickBlurSharpenSigmaSliderMoved(0);    }
-    void            s_BlurSharpenRadiusReset()              { s_BlurSharpenRadiusSliderMoved(5);        }
-
-    void            s_ChangeFile();
-    void            s_IntZoneTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y);
-    void            s_DisplayIntZoneTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y);
-    void            s_ShapeBackgroundForm();
-
-    void            s_SpeedWaveChanged(int);
+    void                    s_TabWidgetChanged(int);
 
 private:
-    void            MakeFormIcon(QComboBox *UICB);
+    void                    CreateImageTag(bool AllowChangeFile);
+    void                    CreateVideoTag();
 
-    void            CreateVideoTag();
-
-    Ui::DlgImageCorrection *ui;
-    wgt_QEditVideo *VideoWidget;
+    Ui::DlgImageCorrection  *ui;
+    QHBoxLayout             *TabLayout;
+    wgt_QEditImage          *ImageWidget;
+    wgt_QEditVideo          *VideoWidget;
 };
 
 #endif // DLGIMAGECORRECTION_H

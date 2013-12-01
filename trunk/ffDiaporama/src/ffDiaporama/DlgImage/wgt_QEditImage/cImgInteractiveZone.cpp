@@ -40,7 +40,7 @@ cImgInteractiveZone::cImgInteractiveZone(QWidget *parent):QWidget(parent) {
     TransfoType     =NOTYETDEFINED;
 
     CompoObject     =NULL;
-    BackgroundForm  =0;
+    BackgroundForm  =NULL;
     CurrentBrush    =NULL;
     VideoPosition   =0;
 
@@ -68,7 +68,7 @@ cImgInteractiveZone::~cImgInteractiveZone() {
 
 //====================================================================================================================
 
-void cImgInteractiveZone::InitCachedImage(cCompositionObject *TheCompoObject,int TheBackgroundForm,cBrushDefinition *TheCurrentBrush,int TheVideoPosition) {
+void cImgInteractiveZone::InitCachedImage(cCompositionObject *TheCompoObject,int *TheBackgroundForm,cBrushDefinition *TheCurrentBrush,int TheVideoPosition) {
     CompoObject     =TheCompoObject;
     BackgroundForm  =TheBackgroundForm;
     CurrentBrush    =TheCurrentBrush;
@@ -119,14 +119,14 @@ void cImgInteractiveZone::paintEvent(QPaintEvent *) {
     // Refresh CurImgSelRect and CurScrSelRect
     QRectF TmpImgSelRect=QRectF(CurrentBrush->X*Hyp.Image, CurrentBrush->Y*Hyp.Image, CurrentBrush->ZoomFactor*Hyp.Image, CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio*Hyp.Image);
     QRectF TmpScrSelRect=QRectF(CurrentBrush->X*Hyp.Screen,CurrentBrush->Y*Hyp.Screen,CurrentBrush->ZoomFactor*Hyp.Screen,CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio*Hyp.Screen);
-    CurImgSelRect=PolygonToRectF(ComputePolygon(BackgroundForm,TmpImgSelRect.left(),TmpImgSelRect.top(),TmpImgSelRect.width(),TmpImgSelRect.height()));
-    CurScrSelRect=PolygonToRectF(ComputePolygon(BackgroundForm,TmpScrSelRect.left(),TmpScrSelRect.top(),TmpScrSelRect.width(),TmpScrSelRect.height()));
+    CurImgSelRect=PolygonToRectF(ComputePolygon(*BackgroundForm,TmpImgSelRect.left(),TmpImgSelRect.top(),TmpImgSelRect.width(),TmpImgSelRect.height()));
+    CurScrSelRect=PolygonToRectF(ComputePolygon(*BackgroundForm,TmpScrSelRect.left(),TmpScrSelRect.top(),TmpScrSelRect.width(),TmpScrSelRect.height()));
     Ratio_X=TmpImgSelRect.width()/CurImgSelRect.width();
     Ratio_Y=TmpImgSelRect.height()/CurImgSelRect.height();
 
     // Compute new ImgSelRect and ScrSelRect
     TmpScrSelRect        =QRectF((CurrentBrush->X+Move_X)*Hyp.Screen,(CurrentBrush->Y+Move_Y)*Hyp.Screen,(CurrentBrush->ZoomFactor+Scale_X)*Hyp.Screen,(CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio+Scale_Y)*Hyp.Screen);
-    QList<QPolygonF> List=ComputePolygon(BackgroundForm,TmpScrSelRect.left(),TmpScrSelRect.top(),TmpScrSelRect.width(),TmpScrSelRect.height());
+    QList<QPolygonF> List=ComputePolygon(*BackgroundForm,TmpScrSelRect.left(),TmpScrSelRect.top(),TmpScrSelRect.width(),TmpScrSelRect.height());
     QRectF  ScrSelRect   =PolygonToRectF(List);
 
     //**************************
@@ -354,9 +354,9 @@ void cImgInteractiveZone::ManageCursor(QPoint Posi,Qt::KeyboardModifiers Modifie
 
 void cImgInteractiveZone::ComputeNewCurSelRect(QRectF &ScrRect,QRectF &ImgRect) {
     QRectF TmpRect=QRectF((CurrentBrush->X+Move_X)*Hyp.Screen,(CurrentBrush->Y+Move_Y)*Hyp.Screen,(CurrentBrush->ZoomFactor+Scale_X)*Hyp.Screen,(CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio+Scale_Y)*Hyp.Screen);
-    ScrRect       =PolygonToRectF(ComputePolygon(BackgroundForm,TmpRect.left(),TmpRect.top(),TmpRect.width(),TmpRect.height()));
+    ScrRect       =PolygonToRectF(ComputePolygon(*BackgroundForm,TmpRect.left(),TmpRect.top(),TmpRect.width(),TmpRect.height()));
     TmpRect       =QRectF((CurrentBrush->X+Move_X)*Hyp.Image,(CurrentBrush->Y+Move_Y)*Hyp.Image,(CurrentBrush->ZoomFactor+Scale_X)*Hyp.Image,(CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio+Scale_Y)*Hyp.Image);
-    ImgRect       =PolygonToRectF(ComputePolygon(BackgroundForm,TmpRect.left(),TmpRect.top(),TmpRect.width(),TmpRect.height()));
+    ImgRect       =PolygonToRectF(ComputePolygon(*BackgroundForm,TmpRect.left(),TmpRect.top(),TmpRect.width(),TmpRect.height()));
 }
 
 
@@ -721,8 +721,8 @@ void cImgInteractiveZone::mousePressEvent(QMouseEvent *event) {
     if ((event->button()==Qt::LeftButton)&&(event->modifiers()==Qt::NoModifier)) {
         QRectF CurImgSelRect=QRectF(CurrentBrush->X*Hyp.Image, CurrentBrush->Y*Hyp.Image, CurrentBrush->ZoomFactor*Hyp.Image, CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio*Hyp.Image);
         QRectF CurScrSelRect=QRectF(CurrentBrush->X*Hyp.Screen,CurrentBrush->Y*Hyp.Screen,CurrentBrush->ZoomFactor*Hyp.Screen,CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio*Hyp.Screen);
-        CurImgSelRect=PolygonToRectF(ComputePolygon(BackgroundForm,CurImgSelRect.left(),CurImgSelRect.top(),CurImgSelRect.width(),CurImgSelRect.height()));
-        CurScrSelRect=PolygonToRectF(ComputePolygon(BackgroundForm,CurScrSelRect.left(),CurScrSelRect.top(),CurScrSelRect.width(),CurScrSelRect.height()));
+        CurImgSelRect=PolygonToRectF(ComputePolygon(*BackgroundForm,CurImgSelRect.left(),CurImgSelRect.top(),CurImgSelRect.width(),CurImgSelRect.height()));
+        CurScrSelRect=PolygonToRectF(ComputePolygon(*BackgroundForm,CurScrSelRect.left(),CurScrSelRect.top(),CurScrSelRect.width(),CurScrSelRect.height()));
         TransfoType  =NOTYETDEFINED;
         Move_X       =0;
         Scale_X      =0;

@@ -295,7 +295,7 @@ QString cBaseApplicationConfig::GetFilterForMediaFile(FilterFile type) {
     } else if (type==IMAGEFILE) {
         if (ReturnFile!="") ReturnFile=ReturnFile+";;";
         ReturnFile=ReturnFile+QApplication::translate("MainWindow","Image file (");
-        for (int i=0;i<AllowImageVectorExtension.count();i++)   ReturnFile=ReturnFile+(i>0?" *":"*.")+AllowImageVectorExtension[i];
+        for (int i=0;i<AllowImageExtension.count();i++)   ReturnFile=ReturnFile+(i>0?" *":"*.")+AllowImageExtension[i];
         ReturnFile=ReturnFile+")";
     } else if (type==IMAGEVECTORFILE) {
         if (ReturnFile!="") ReturnFile=ReturnFile+";;";

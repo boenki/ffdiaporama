@@ -358,8 +358,9 @@ SOURCES +=  MainWindow/cCustomSlideTable.cpp \
             DlgAppSettings/DlgApplicationSettings.cpp \
             #DlgImage/wgt_QGMapsMap/DlgMaps/DlgGMapsLocation.cpp \
             #DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp \
+            DlgImage/wgt_QEditImage/cImgInteractiveZone.cpp \
+            DlgImage/wgt_QEditImage/wgt_QEditImage.cpp \
             DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp \
-            DlgImage/cImgInteractiveZone.cpp \
             DlgImage/DlgImageCorrection.cpp \
             DlgSlide/cCustomBlockTable.cpp \
             DlgSlide/DlgSlideProperties.cpp \
@@ -421,7 +422,7 @@ SOURCES +=  MainWindow/cCustomSlideTable.cpp \
             wgt_QMultimediaBrowser/QCustomFolderTable.cpp \
             wgt_QMultimediaBrowser/QCustomFolderTree.cpp \
             wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp \
-            wgt_QVideoPlayer/QCustomRuller.cpp \
+            wgt_QVideoPlayer/QCustomRuler.cpp \
             wgt_QVideoPlayer/wgt_QVideoPlayer.cpp \
             HelpPopup/HelpContent.cpp \
             main.cpp
@@ -439,8 +440,9 @@ HEADERS  += MainWindow/cCustomSlideTable.h \
             DlgAppSettings/DlgApplicationSettings.h \
             #DlgImage/wgt_QGMapsMap/DlgMaps/DlgGMapsLocation.h \
             #DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.h \
+            DlgImage/wgt_QEditImage/cImgInteractiveZone.h \
+            DlgImage/wgt_QEditImage/wgt_QEditImage.h \
             DlgImage/wgt_QEditVideo/wgt_QEditVideo.h \
-            DlgImage/cImgInteractiveZone.h \
             DlgImage/DlgImageCorrection.h \
             DlgSlide/DlgSlideProperties.h \
             DlgSlide/cCustomBlockTable.h \
@@ -502,7 +504,7 @@ HEADERS  += MainWindow/cCustomSlideTable.h \
             wgt_QMultimediaBrowser/QCustomFolderTable.h \
             wgt_QMultimediaBrowser/QCustomFolderTree.h \
             wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.h \
-            wgt_QVideoPlayer/QCustomRuller.h \
+            wgt_QVideoPlayer/QCustomRuler.h \
             wgt_QVideoPlayer/wgt_QVideoPlayer.h \
             HelpPopup/HelpContent.h
 
@@ -518,6 +520,7 @@ FORMS    += MainWindow/mainwindow.ui \
             DlgAppSettings/DlgApplicationSettings.ui \
             #DlgImage/wgt_QGMapsMap/DlgMaps/DlgGMapsLocation.ui \
             #DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui \
+            DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui \
             DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui \
             DlgImage/DlgImageCorrection.ui \
             DlgSlide/DlgSlideProperties.ui \

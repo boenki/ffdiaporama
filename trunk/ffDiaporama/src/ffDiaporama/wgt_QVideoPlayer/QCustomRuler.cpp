@@ -18,7 +18,7 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include "QCustomRuller.h"
+#include "QCustomRuler.h"
 
 #include <QPainter>
 #include <QFont>
@@ -37,7 +37,7 @@
 
 //====================================================================================================================
 
-QCustomRuller::QCustomRuller(QWidget *parent):QSlider(parent) {
+QCustomRuler::QCustomRuler(QWidget *parent):QSlider(parent) {
     StartPos=0;
     EndPos  =0;
     //setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
@@ -46,19 +46,19 @@ QCustomRuller::QCustomRuller(QWidget *parent):QSlider(parent) {
 
 //====================================================================================================================
 
-void QCustomRuller::ActiveSlider(int TotalDuration) {
+void QCustomRuler::ActiveSlider(int TotalDuration) {
     this->TotalDuration=TotalDuration;
 }
 
 //====================================================================================================================
 
-void QCustomRuller::resizeEvent(QResizeEvent *) {
+void QCustomRuler::resizeEvent(QResizeEvent *) {
 //    if (Slider!=NULL) Slider->setMinimumWidth(this->width());
 }
 
 //====================================================================================================================
 
-void QCustomRuller::mousePressEvent(QMouseEvent *ev) {
+void QCustomRuler::mousePressEvent(QMouseEvent *ev) {
     if (ev->button()==Qt::LeftButton) {
         emit PositionChangeByUser();
         int x1 =int(double(this->width()-TAQUET_SIZE*2)*(double(value())/double(maximum())))+TAQUET_SIZE;
@@ -70,7 +70,7 @@ void QCustomRuller::mousePressEvent(QMouseEvent *ev) {
 
 //====================================================================================================================
 
-void QCustomRuller::paintEvent(QPaintEvent *) {
+void QCustomRuler::paintEvent(QPaintEvent *) {
     QPainter    Painter(this);
     QFont       font= QApplication::font();
     Painter.setFont(font);

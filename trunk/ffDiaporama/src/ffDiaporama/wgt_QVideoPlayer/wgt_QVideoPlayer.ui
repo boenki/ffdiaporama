@@ -145,7 +145,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCustomRuller" name="CustomRuller">
+        <widget class="QCustomRuler" name="CustomRuler">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -385,9 +385,9 @@ font-size: 10px;
    <header>wgt_QVideoPlayer/wgt_QVideoPlayer.h</header>
   </customwidget>
   <customwidget>
-   <class>QCustomRuller</class>
+   <class>QCustomRuler</class>
    <extends>QSlider</extends>
-   <header>wgt_QVideoPlayer/QCustomRuller.h</header>
+   <header>wgt_QVideoPlayer/QCustomRuler.h</header>
   </customwidget>
  </customwidgets>
  <resources>
