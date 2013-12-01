@@ -4,7 +4,7 @@
 <context>
     <name>CommonInfoMsg</name>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="621"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImage.cpp" line="802"/>
         <source>Select a file</source>
         <translation>Seleccione um ficheiro</translation>
     </message>
@@ -2561,493 +2561,59 @@ Observação: Para fazer animações de texto, você tem que criar pelo menos do
         <translation>Imagem - enquadramento e correção</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="190"/>
-        <source>Select another file</source>
-        <translation>Seleccione outro ficheiro</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2967"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="164"/>
         <source>Undo</source>
         <translation>Desfazer</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2974"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="171"/>
         <source>Ctrl+Z</source>
         <translation>Ctrl+Z</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2522"/>
-        <source>Define the width</source>
-        <translation>Definir a largura</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1328"/>
-        <source>Define the height</source>
-        <translation>Definir a altura</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="604"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="635"/>
-        <source>Adjust luminosity</source>
-        <translation>Ajustar a luminosidade</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1667"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1890"/>
-        <source>Adjust contrast</source>
-        <translation>Ajustar o contraste</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1471"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2324"/>
-        <source>Adjust gamma</source>
-        <translation>Ajustar gama</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="293"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="359"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="480"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="716"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="801"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="875"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="889"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1107"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1496"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1835"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1937"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2548"/>
-        <source>Reset to zero</source>
-        <translation>Repor a zero</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="307"/>
-        <source>Reset to 5</source>
-        <translation>Repor para 5</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="180"/>
-        <source>Name of image/video file</source>
-        <translation>Nome do ficheiro de imagem / vídeo</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2964"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="161"/>
         <source>Undo last action (CTRL+Z)</source>
         <translation>Desfazer ultima acção (CTRL+Z)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2922"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="119"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Aceitar modificação e sair da caixa de diálogo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="730"/>
-        <source>Reset to 1</source>
-        <translation>Repor para 1</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="669"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2264"/>
-        <source>Adjust red channel</source>
-        <translation>Ajustar canal vermelho</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="395"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1642"/>
-        <source>Adjust green channel</source>
-        <translation>Ajustar canal verde</translation>
-    </message>
-    <message utf8="true">
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2579"/>
-        <source>Turn the image to the left (on the next multiple of 90°)</source>
-        <translation>Rode a imagem para a esquerda (no próximo múltiplo de 90 °)</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2604"/>
-        <source>Define the rotation angle for the z axis</source>
-        <translation>Definir o ângulo de rotação para o eixo z</translation>
-    </message>
-    <message utf8="true">
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2644"/>
-        <source>Turn the image to the right (on the next multiple of 90°)</source>
-        <translation>Rode a imagem para a direita (no próximo múltiplo de 90 °)</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="551"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1554"/>
-        <source>Adjust blue channel</source>
-        <translation>Ajustar canal azul</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2898"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="95"/>
         <source>Rulers</source>
         <translation>Réguas</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1174"/>
-        <source>Artistic effects:</source>
-        <translation>Efeitos artistícos:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2311"/>
-        <source>Antialias</source>
-        <translation>Suavização contornos</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1757"/>
-        <source>Emboss</source>
-        <translation>Relevo</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2076"/>
-        <source>Equalize</source>
-        <translation>Equalizar</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2028"/>
-        <source>Negative</source>
-        <translation>Negativo</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="473"/>
-        <source>Oilpaint</source>
-        <translation>Pintura a óleo</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1852"/>
-        <source>Edge</source>
-        <translation>Borda</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1722"/>
-        <source>Type:</source>
-        <translation>Tipo:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1739"/>
-        <source>Fast</source>
-        <translation>Rápido</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1744"/>
-        <source>Gaussian</source>
-        <translation>Gaussian</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1805"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2089"/>
-        <source>Adjust blur/sharpen radius</source>
-        <translation>Ajustar raio desfocar/aguçar</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="853"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1079"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1243"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1579"/>
-        <source>Adjust blur/sharpen sigma</source>
-        <translation>Ajustar sigma desfocar/aguçar</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="376"/>
-        <source>Grayscale</source>
-        <translation>Escala de cinzentos</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="532"/>
-        <source>Color enhancement:</source>
-        <translation>Reforço de cor:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2788"/>
-        <source>Framing and form:</source>
-        <translation>Enquadramento e forma:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2541"/>
-        <source>Automatic contrast (normalize)</source>
-        <translation>Contraste automático (normalizar)</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2809"/>
-        <source>Select a shape for the current block</source>
-        <translation>Seleccionar uma forma para o bloco atual</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="906"/>
-        <source>Despeckle</source>
-        <translation>Redução ruído</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="775"/>
-        <source>Image distortion:</source>
-        <translation>Distorção da imagem:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="972"/>
-        <source>Image enhancement:</source>
-        <translation>Aprimoramento da imagem:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="840"/>
-        <source>Luminosity, contrast and gamma:</source>
-        <translation>Luminosidade, contraste e gama:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="324"/>
-        <source>Charcoal</source>
-        <translation>Carvão</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="944"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1957"/>
-        <source>Adjust desaturat level</source>
-        <translation>Ajustar o nível de dessaturação</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="500"/>
-        <source>Image rotation:</source>
-        <translation>Rotação da imagem:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="75"/>
-        <source>Allows you to:
-- Change image framing (select a part of the image),
-- Rotate image (change or restore the orientation portrait/landscape)
-- Correct image (change the color and/or exposure parameters) but also applying graphical filters.</source>
-        <translation>Permite:
-- Mudar o enquadramento de imagem (seleciona uma parte da imagem)
-- Rodar imagem (mudar ou restaurar a orientação retrato / paisagem)
-- Corrigir imagem (mudar a cor e / ou parâmetros de exposição), mas também a aplicação de filtros gráficos.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="337"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1012"/>
-        <source>Adjust value for frequency of wave transformation</source>
-        <translation>Ajuste o valor para a freqüência de transformação da onda</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="321"/>
-        <source>Allows you to activate the charcoal filter.</source>
-        <translation>Permite activar o filtro de carvão.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="373"/>
-        <source>Allows you to activate the grayscale (black &amp; white) filter.</source>
-        <translatorcomment>I can not found the mistake given on Warnings: Accelerator possibly missing in translation.</translatorcomment>
-        <translation>Permite activar o filtro Escala de cinzentos (preto e branco).</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="448"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1692"/>
-        <source>Adjust value for implode transformation</source>
-        <translation>Ajuste o valor da transformação implode</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="470"/>
-        <source>Allows you to activate the oilpaint filter.</source>
-        <translation>Permite activar o filtro de tinta a óleo.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="903"/>
-        <source>Allows you to activate the despeckle (Noise reduction) filter.</source>
-        <translation>Permite activar o filtro despeckle (redução de ruído).</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1146"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2144"/>
-        <source>Adjust value for amplitude of wave transformation</source>
-        <translation>Ajuste o valor de amplitude de transformação da onda</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1304"/>
-        <source>Allows you to define the width.
-This value is expressed as a percentage (%) of the original width of the image.
-Example: if Width=33 %, the re-framed image will represent 1/3 of the original.</source>
-        <translation>Permite definir a largura.
-Este valor é expresso como uma percentagem (%) da largura original da imagem.
-Exemplo: se a largura = 33 %, a imagem reenquadrada irá representar 1/3 do original.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1350"/>
-        <source>Allows you to define the height.
-This value is expressed as a percentage (%) of the original height of the image.
-Example: if Height=33 %, the re-framed image will represent 1/3 of the original.</source>
-        <translation>Permite definir a altura.
-Este valor é expresso como uma percentagem (%) da altura original da imagem.
-Exemplo: se a altura = 33 %, a imagem reenquadrada irá representar 1/3 do original.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1440"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2685"/>
-        <source>Adjust value for swirl transformation</source>
-        <translation>Ajuste o valor da transformação redemoinho</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1735"/>
-        <source>Select the blur/sharpen algorythm</source>
-        <translation>Selecione o algoritmo de desfocar / aguçar</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1754"/>
-        <source>Allows you to activate the emboss filter.</source>
-        <translation>Permite activar o filtro de relevo.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1849"/>
-        <source>Allows you to activate the edge filter.</source>
-        <translation>Permite activar o filtro da borda.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1976"/>
-        <source>Allows you to select a framing from a list of predefined framings.
-According to the image format, various choices will be proposed to you.
-
-The framings are classified in different categories:
-
-- Lock on the project geometry: 
-Lock the image framing selection rectangle to the same geometry as the project.
-If you place the image in full screen, the reframed part will correspond to the whole screen.
-
-- Lock on the image geometry:
-Lock the image framing selection rectangle to the same geometry as the image.
-
-- No constraint:
-No constraint is applied to the image framing selection rectangle.
-
-- Lock on this geometry:
-Lock image framing selection rectangle to the actual geometry.
-This only has meaning when a shape has been defined in &quot;no constraint&quot; mode.</source>
-        <translation>Permite que você selecione um enquadramento de uma lista de enquadramentos pré-definidos.
-De acordo com o formato de imagem, várias opções serão propostas .
-
-Os enquadramentos são classificados em diferentes categorias:
-
-- Bloqueio da geometria do projeto:
-Bloqueie a imagem retângulo de seleção enquadramento para a mesma geometria como o projeto.
-Se você colocar a imagem em tela cheia, a parte renquadrada corresponderá a toda a tela.
-
-- Bloqueio da geometria da imagem:
-Bloqueie a imagem retângulo de seleção enquadramento para a mesma geometria da imagem.
-
-- Não há restrição:
-Sem restrição é aplicada à imagem retângulo de seleção enquadramento.
-
-- Bloquear a esta geometria:
-Bloquear imagem retângulo de seleção enquadramento para a geometria real.
-Isso só tem sentido quando a forma foi definida no modo &quot;nenhum constrangimento&quot;.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2025"/>
-        <source>Allows you to activate the negative filter.</source>
-        <translation>Permite activar do filtro de negativo.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2182"/>
-        <source>Allows you to define the horizontal position from the left (X).
-This position is expressed as a percentage (%) of the width of the image.
-Example: if X=25 % then the 1st quarter to the left of the image is eliminated.</source>
-        <translation>Permite definir a posição horizontal a partir da esquerda (X).
-Esta posição é expressa como uma percentagem (%) da largura da imagem.
-Exemplo: se X = 25%, em seguida, o primeiro quadrante para o lado esquerdo da imagem é eliminado.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2225"/>
-        <source>Allows you to define the vertical position from the top of the image ( Y ).
-This position is expressed as a percentage (%) of the height of the image.
-Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</source>
-        <translation>Permite definir a posição vertical a partir do topo da imagem (Y).
-Esta posição é expressa como uma percentagem (%) da altura da imagem.
-Exemplo: se Y = 25% o primeiro quadrante com a parte superior da imagem é eliminado.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2073"/>
-        <source>Allows you to activate the equalize (Histogram equalization) filter.</source>
-        <translation>Permite activar o filtro equalização (equalização do histograma).</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2308"/>
-        <source>Allows you to activate the antialias (minimizing the distortion artifacts) filter.</source>
-        <translation>Permite activar o filtro suavização de contornos (minimizando os artefatos de distorção).</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2352"/>
-        <source>Annimation settings:</source>
-        <translation>Configurações de animação:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2538"/>
-        <source>Allows you to activate the normalize filter.</source>
-        <translation>Permite activar do filtro de normalizar.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2726"/>
-        <source>Speed wave:</source>
-        <translation>Velocidade da onda:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1408"/>
-        <source>Defined speed curve for image animations.</source>
-        <translation>Definido a curva de velocidade para animações de imagem.</translation>
-    </message>
-    <message utf8="true">
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2750"/>
-        <source>You can use the + and – buttons in each input field to change the settings, or directly enter values for the five parameters.
-Alternatively, you can use the interactive zone to set the framing with the mouse or the keyboard.
- 
-With the mouse:
-- Click one of the handles and, with the mouse button down, drag the mouse to modify the size (to increase or reduce the part of the image to be kept).
-- Click the image and, with the mouse button down, drag the mouse to modify the part of the image which will be kept.
-
-With the keyboard:
-- Use the arrows to move the part of the image which will be kept.
-- Use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle, to change the size of the part of the image which will be kept.
-
-Remark: 
-When the image does not correspond to the geometry of the video to be produced, transparent zones appear.
-For example: an 4:3 image used in a 16:9 project will be shown by default with a transparent zone on each side.</source>
-        <translation>Você pode usar os botões + e - em cada campo de entrada para alterar as configurações ou inserir diretamente os valores para os cinco parâmetros.
-Alternativamente, você pode usar a zona interativa para definir o enquadramento com o rato ou o teclado.
-
-Com o rato:
-- Clique numa das alças e, com o botão do rato pressionado, arraste o rato para modificar o tamanho (para aumentar ou reduzir a parte da imagem a ser mantido).
-- Clique na imagem e, com o botão do rato pressionado, arraste o rato para modificar a parte da imagem que será mantida.
-
-Com o teclado:
-- Use as setas para mover a parte da imagem que será mantida.
-- Use SHIFT + setas para mover a alça do canto superior esquerdo ou CTRL + setas para mover a alça do canto inferior direito, para alterar o tamanho da parte da imagem que será mantida.
-
-Observação:
-Quando a imagem não corresponde à geometria do vídeo a ser produzido, as zonas transparentes aparecem.
-Por exemplo: uma imagem 4:3 usada num projecto 16:9 será exibida por defeito com uma zona transparente em cada lado.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2995"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="192"/>
         <source>Show help about this dialogue box</source>
         <translation>Visualizar ajuda sobre esta caixa de diálogo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2998"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="195"/>
         <source>&amp;Help</source>
         <translation>&amp;Ajuda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2894"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="91"/>
         <source>Allows you to enable or disable the magnetic rulers.
 When rulers are enabled, the mouse will automatically snap to the edges of the photo, facilitating the framing.</source>
         <translation>Permite activar ou desactivar as réguas magnéticas.
 Quando as réguas estão habilitados, o rato irá ajustar-se automaticamente para as bordas da foto, facilitando o enquadramento.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2925"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="122"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2981"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="178"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Cancelar modificação e sair da caixa de diálogo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2984"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="181"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Cancelar</translation>
     </message>
@@ -3128,11 +2694,6 @@ Quando as réguas estão habilitados, o rato irá ajustar-se automaticamente par
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="859"/>
         <source>Lock to project geometry</source>
         <translation>Bloquear a geometria do projeto</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="584"/>
-        <source>Video position :</source>
-        <translation>Posição do vídeo:</translation>
     </message>
 </context>
 <context>
@@ -5708,7 +5269,7 @@ disparo</translation>
         <translation>Duração:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="96"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="68"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="632"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="973"/>
         <source>Correct or reframe image</source>
@@ -5716,7 +5277,7 @@ disparo</translation>
         <translation>Corrigir imagem ou reenquadramento</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="97"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="69"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="627"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="968"/>
         <source>Correct, reframe or cut video</source>
@@ -5724,7 +5285,7 @@ disparo</translation>
         <translation>Corrigir reenquadramento ou cortar vídeo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="98"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="70"/>
         <source>Correct, reframe or cut a Google Maps map</source>
         <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
         <translation type="unfinished"></translation>
@@ -6641,7 +6202,7 @@ Observação: Os formatos de vídeo não suportam todos os capítulos da mesma f
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="55"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1361"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1375"/>
         <source>New project</source>
         <translation>Novo projecto</translation>
     </message>
@@ -7295,8 +6856,8 @@ e Ajuda</translation>
         <translation>Use como nova lista de reprodução</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1971"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2704"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1985"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2718"/>
         <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1211"/>
         <source>Add files to project</source>
         <translation>Adicionar ficheiro ao projecto</translation>
@@ -7502,14 +7063,14 @@ e Ajuda</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1146"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2049"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="106"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1522"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1526"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1537"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2033"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2041"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2059"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2064"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="107"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1536"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1540"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1551"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2047"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2055"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2073"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2078"/>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1571"/>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1600"/>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2274"/>
@@ -7573,7 +7134,7 @@ e Ajuda</translation>
         <translation>Título</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1648"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1662"/>
         <source>Saving project file ...</source>
         <translation>Slavando o arquivo do projecto ...</translation>
     </message>
@@ -7585,54 +7146,54 @@ e Ajuda</translation>
         <translation>Erro na criação do arquivo de dados</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1505"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1573"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1519"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1587"/>
         <source>Open project file</source>
         <translation>Abrir arquivo de projecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1506"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1520"/>
         <source>Impossible to open file </source>
         <translation>Impossível abrir ficheiro </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1506"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1520"/>
         <source>Do you want to select another file ?</source>
         <translation>Você quer seleccionar outro ficheiro?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1509"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1523"/>
         <source>Select another file for </source>
         <translation>Selecione outro ficheiro para </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1514"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1528"/>
         <source>Impossible to open project file %1</source>
         <translation>Impossível abrir arquivo do projecto %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1521"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2064"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1535"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2078"/>
         <source>Error reading project file</source>
         <comment>Error message</comment>
         <translation>Erro de leitura do arquivo de projecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1526"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2059"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1540"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2073"/>
         <source>Error reading content of project file</source>
         <comment>Error message</comment>
         <translation>Erro de leitura do conteudo do arquivo de projecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1537"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2033"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1551"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2047"/>
         <source>The file is not a valid project file</source>
         <comment>Error message</comment>
         <translation>O ficheiro não é um arquivo de projecto válido</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2041"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2055"/>
         <source>Impossible to import this file :
 Image geometry in this file is not the same than the current project</source>
         <comment>Error message</comment>
@@ -7657,18 +7218,18 @@ Geometria da imagem neste arquivo não é o mesmo do que o projeto atual</transl
         <translation>Erro no carregamento do arquivo:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="91"/>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="92"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="93"/>
         <source>Init home user database...</source>
         <translation>Init banco de dados do utilizador doméstico...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="105"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="106"/>
         <source>Error initialising home user database...</source>
         <translation>Erro na inicialização do banco de dados do utilizador doméstico...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="107"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="108"/>
         <source>Error initialising home user database
 ffDiaporama can&apos;t start</source>
         <comment>Error message</comment>
@@ -7676,129 +7237,134 @@ ffDiaporama can&apos;t start</source>
 ffDiaporama não pode iniciar</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="119"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="123"/>
+        <source>Restore from a previous crash...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="129"/>
         <source>Sorry, but ffDiaporama is already started on this computer and can&apos;t be started several time.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="169"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="180"/>
         <source>Starting SDL...</source>
         <translation>Iniciando SDL ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="177"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="178"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="188"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="189"/>
         <source>Loading background library...</source>
         <translation>Carregando biblioteca de fundos ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="182"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="183"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="193"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="194"/>
         <source>Loading text frame library...</source>
         <translation>Carregando biblioteca moldura de texto ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="187"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="188"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="198"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="199"/>
         <source>Loading no-luma transitions...</source>
         <translation>Carregando transições não-Luma...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="192"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="193"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="203"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="204"/>
         <source>Loading luma transitions...</source>
         <translation>Carregando transições Luma...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="200"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="201"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="211"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="212"/>
         <source>Scan drives in computer...</source>
         <translation>Procurando unidades no computador...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="205"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="206"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="216"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="217"/>
         <source>Register models...</source>
         <translation>Registrando modelos...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="274"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="275"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="285"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="286"/>
         <source>Init WIKI...</source>
         <translation>WIKI inicialização ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="611"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="625"/>
         <source>Close application</source>
         <translation>Fechar aplicação</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="611"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="625"/>
         <source>Want to save the project before closing?</source>
         <translation>Quer salvar o projeto antes de fechar?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="697"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="711"/>
         <source>A new release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !</source>
         <translation>Uma nova versão está disponível no site WEB. Por favor actualize a partir de http://ffdiaporama.tuxfamily.org!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="702"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="716"/>
         <source>A new version is available from WEB site.
 Do you want to download it now?</source>
         <translation>Uma nova versão está disponível no site WEB.
 Você quer baixá-la agora?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="709"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="723"/>
         <source>Your version of %1 is up to day</source>
         <translation>A sua versão de 1% está actual</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1162"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1176"/>
         <source>&lt;html&gt;&lt;body&gt;Visit the ffDiaporama Web site to use the forum,&lt;br&gt;consult tutorials and learn the lastest news:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Visite o site da ffDiaporama para usar o fórum,&lt;br&gt;consulte tutoriais e saiba as últimas notícias:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1331"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1345"/>
         <source>Saving configuration file and applying new configuration ...</source>
         <translation>Salvando arquivo de configuração e aplicando nova configuração ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1361"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1419"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1443"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2657"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1375"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1433"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1457"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2671"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
         <translation>Projeto atual foi modificado.
 Você quer salva-lo?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1596"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1610"/>
         <source>Loading slide %1/%2</source>
         <translation>Carregando slide %1/%2</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1843"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1905"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1857"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1919"/>
         <source>Add file to project</source>
         <translation>Adicionar ficheiro ao projecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2092"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2106"/>
         <source>This video files contains more than one chapter.
 Do you want to create one slide for each chapters ?</source>
         <translation>Estes ficheiros de vídeo contém mais de um capítulo.
 Você quer criar um slide para cada um dos capítulos?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2441"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2455"/>
         <source>Are you sure you want to remove this slide?</source>
         <translation>Tem certeza de que deseja apagar este slide?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2445"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2459"/>
         <source>Remove multiple slides</source>
         <translation>Apagar múltiplos slides</translation>
     </message>
@@ -7828,15 +7394,15 @@ Tem certeza de que está vazia?</translation>
         <translation>Duração total :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="397"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="772"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="408"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="786"/>
         <source>Slide: </source>
         <translation>Slide: </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="398"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="535"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="543"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="409"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="549"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="557"/>
         <source>Chapter: </source>
         <translation>Capítulo: </translation>
     </message>
@@ -7987,7 +7553,7 @@ Tem certeza de que está vazia?</translation>
         <translation>Impossível  renomear ficheiro!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2445"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2459"/>
         <source>Are you sure you want to remove these %1 slides?</source>
         <translation>Tem certeza de que deseja apagar estes %1 slides?</translation>
     </message>
@@ -8081,56 +7647,56 @@ Você quer substituí-lo?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="780"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="794"/>
         <source>&lt;new project&gt;</source>
         <comment>when project have no name define</comment>
         <translation>&lt;new projecto&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="165"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="176"/>
         <location filename="../src/ffDiaporama/engine/cBaseApplicationConfig.cpp" line="255"/>
         <source>Loading system icons...</source>
         <translation>Carregando ícones do sistema ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="173"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="184"/>
         <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="712"/>
         <source>Starting libav...</source>
         <translation>Iniciando libav ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1150"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1164"/>
         <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Selecione um projeto para abrir ou crie um novo projeto&lt;br&gt;Para descobrir ffDiaporama:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consulte WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1154"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1168"/>
         <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Adicione slides vazios ou slides com base em fotos ou vídeos&lt;br&gt;Para descobrir como construir a sua apresentação de slides e como animar os slides:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Como trabalha ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1158"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1172"/>
         <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Selecione o tipo de equipamento que você pretende usar para o seu vídeo&lt;br&gt;Para descobrir como renderizar vídeos:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consulte a página WIKI - Renderização de vídeos &lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1419"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1438"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1443"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1468"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2656"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1433"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1452"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1457"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1482"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2670"/>
         <source>Open project</source>
         <translation>Abrir projecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1422"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1459"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2662"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1436"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1473"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2676"/>
         <source>Open file :</source>
         <translation>Abrir ficheiro :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1469"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1483"/>
         <source>This project was created with a newer version of ffDiaporama.
 If you continue, you take the risk of losing data!
 Do you want to open it nevertheless?</source>
@@ -8140,7 +7706,7 @@ Você quer abri-lo mesmo assim?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3707"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1692"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1706"/>
         <source>Save project as</source>
         <translation>Salvar projecto como</translation>
     </message>
@@ -8148,7 +7714,7 @@ Você quer abri-lo mesmo assim?</translation>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3560"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1065"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1950"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1829"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1843"/>
         <source>Add files</source>
         <translation>Adicionar ficheiros</translation>
     </message>
@@ -8162,42 +7728,42 @@ Você quer abri-lo mesmo assim?</translation>
         <translation>Formato não suportado</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1953"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1967"/>
         <source>Add a sub project</source>
         <translation>Adicionar um sub-projecto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1979"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1993"/>
         <source>Add project file :</source>
         <translation>Adicionar arquivo de projeto:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2293"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2299"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2307"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2313"/>
         <source>Capture the image </source>
         <translation>Capturar a imagem </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2441"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2455"/>
         <source>Remove slide</source>
         <translation>Apagar slide</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2009"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2707"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2023"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2721"/>
         <source>Add file to project :</source>
         <translation>Adicionar ficheiro ao projecto :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="111"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2305"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="115"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2319"/>
         <source>Capture image</source>
         <translation>Capturar a imagem</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="112"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="116"/>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="204"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2306"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2320"/>
         <source>Select destination file</source>
         <translation>Selecione o arquivo de destino</translation>
     </message>
@@ -8220,7 +7786,7 @@ Você quer abri-lo mesmo assim?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/CustomCtrl/_QCustomDialog.cpp" line="213"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="411"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="422"/>
         <source>Error reading window state of %1 from home user database</source>
         <comment>Error message</comment>
         <translation>Erro ao ler estado da janela de 1% a partir do banco de dados do utilizador doméstico</translation>
@@ -9471,17 +9037,6 @@ Você quer abri-lo mesmo assim?</translation>
         <translation>Miniaturas</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1268"/>
-        <source>Google Maps map</source>
-        <comment>File type</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1329"/>
-        <source>%1 location(s)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1959"/>
         <source>Video</source>
         <comment>File type</comment>
@@ -9523,7 +9078,7 @@ Você quer abri-lo mesmo assim?</translation>
         <translation>Pasta</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2091"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2105"/>
         <source>Add video file</source>
         <translation>Adicionar ficheiro vídeo</translation>
     </message>
@@ -9713,123 +9268,548 @@ Você quer abri-lo mesmo assim?</translation>
         <translation>Título do capítulo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="211"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="222"/>
         <source>Simple titles without animation</source>
         <translation>Títulos simples sem animação</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="212"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="223"/>
         <source>Animated titles</source>
         <translation>Títulos animados</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="214"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="225"/>
         <source>Custom titles</source>
         <translation>Títulos personalizados</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="216"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="227"/>
         <source>Simple chapter titles without animation</source>
         <translation>Títulos de capítulo simples sem animações</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="217"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="228"/>
         <source>Animated chapter titles</source>
         <translation>Títulos de capítulo animados</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="219"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="230"/>
         <source>Custom chapter titles</source>
         <translation>Títulos de capítulo personalizados</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="221"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="232"/>
         <source>Simple credit titles</source>
         <translation>Título dos créditos simples</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="222"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="233"/>
         <source>Custom credit titles</source>
         <translation>Título dos créditos personalizados</translation>
     </message>
 </context>
 <context>
-    <name>wgt_QEditVideo</name>
+    <name>wgt_QEditImage</name>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="116"/>
+        <source>Name of image/video file</source>
+        <translation>Nome do ficheiro de imagem / vídeo</translation>
     </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="126"/>
+        <source>Select another file</source>
+        <translation>Seleccione outro ficheiro</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="229"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="295"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="416"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="652"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="737"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="811"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="825"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1043"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1432"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1771"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1873"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2484"/>
+        <source>Reset to zero</source>
+        <translation>Repor a zero</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="243"/>
+        <source>Reset to 5</source>
+        <translation>Repor para 5</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="257"/>
+        <source>Allows you to activate the charcoal filter.</source>
+        <translation>Permite activar o filtro de carvão.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="260"/>
+        <source>Charcoal</source>
+        <translation>Carvão</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="273"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="948"/>
+        <source>Adjust value for frequency of wave transformation</source>
+        <translation>Ajuste o valor para a freqüência de transformação da onda</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="309"/>
+        <source>Allows you to activate the grayscale (black &amp; white) filter.</source>
+        <translation>Permite activar o filtro Escala de cinzentos (preto e branco).</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="312"/>
+        <source>Grayscale</source>
+        <translation>Escala de cinzentos</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="331"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1578"/>
+        <source>Adjust green channel</source>
+        <translation>Ajustar canal verde</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="384"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1628"/>
+        <source>Adjust value for implode transformation</source>
+        <translation>Ajuste o valor da transformação implode</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="406"/>
+        <source>Allows you to activate the oilpaint filter.</source>
+        <translation>Permite activar o filtro de tinta a óleo.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="409"/>
+        <source>Oilpaint</source>
+        <translation>Pintura a óleo</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="436"/>
+        <source>Image rotation:</source>
+        <translation>Rotação da imagem:</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="468"/>
+        <source>Color enhancement:</source>
+        <translation>Reforço de cor:</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="487"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1490"/>
+        <source>Adjust blue channel</source>
+        <translation>Ajustar canal azul</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="540"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="571"/>
+        <source>Adjust luminosity</source>
+        <translation>Ajustar a luminosidade</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="605"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2200"/>
+        <source>Adjust red channel</source>
+        <translation>Ajustar canal vermelho</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="666"/>
+        <source>Reset to 1</source>
+        <translation>Repor para 1</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="711"/>
+        <source>Image distortion:</source>
+        <translation>Distorção da imagem:</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="776"/>
+        <source>Luminosity, contrast and gamma:</source>
+        <translation>Luminosidade, contraste e gama:</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="789"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1015"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1179"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1515"/>
+        <source>Adjust blur/sharpen sigma</source>
+        <translation>Ajustar sigma desfocar/aguçar</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="839"/>
+        <source>Allows you to activate the despeckle (Noise reduction) filter.</source>
+        <translation>Permite activar o filtro despeckle (redução de ruído).</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="842"/>
+        <source>Despeckle</source>
+        <translation>Redução ruído</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="880"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1893"/>
+        <source>Adjust desaturat level</source>
+        <translation>Ajustar o nível de dessaturação</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="908"/>
+        <source>Image enhancement:</source>
+        <translation>Aprimoramento da imagem:</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1082"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2080"/>
+        <source>Adjust value for amplitude of wave transformation</source>
+        <translation>Ajuste o valor de amplitude de transformação da onda</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1110"/>
+        <source>Artistic effects:</source>
+        <translation>Efeitos artistícos:</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1240"/>
+        <source>Allows you to define the width.
+This value is expressed as a percentage (%) of the original width of the image.
+Example: if Width=33 %, the re-framed image will represent 1/3 of the original.</source>
+        <translation>Permite definir a largura.
+Este valor é expresso como uma percentagem (%) da largura original da imagem.
+Exemplo: se a largura = 33 %, a imagem reenquadrada irá representar 1/3 do original.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1264"/>
+        <source>Define the height</source>
+        <translation>Definir a altura</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1286"/>
+        <source>Allows you to define the height.
+This value is expressed as a percentage (%) of the original height of the image.
+Example: if Height=33 %, the re-framed image will represent 1/3 of the original.</source>
+        <translation>Permite definir a altura.
+Este valor é expresso como uma percentagem (%) da altura original da imagem.
+Exemplo: se a altura = 33 %, a imagem reenquadrada irá representar 1/3 do original.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1344"/>
+        <source>Defined speed curve for image animations.</source>
+        <translation>Definido a curva de velocidade para animações de imagem.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1376"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2621"/>
+        <source>Adjust value for swirl transformation</source>
+        <translation>Ajuste o valor da transformação redemoinho</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1407"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2260"/>
+        <source>Adjust gamma</source>
+        <translation>Ajustar gama</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1603"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1826"/>
+        <source>Adjust contrast</source>
+        <translation>Ajustar o contraste</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1658"/>
+        <source>Type:</source>
+        <translation>Tipo:</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1671"/>
+        <source>Select the blur/sharpen algorythm</source>
+        <translation>Selecione o algoritmo de desfocar / aguçar</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1675"/>
+        <source>Fast</source>
+        <translation>Rápido</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1680"/>
+        <source>Gaussian</source>
+        <translation>Gaussian</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1690"/>
+        <source>Allows you to activate the emboss filter.</source>
+        <translation>Permite activar o filtro de relevo.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1693"/>
+        <source>Emboss</source>
+        <translation>Relevo</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1741"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2025"/>
+        <source>Adjust blur/sharpen radius</source>
+        <translation>Ajustar raio desfocar/aguçar</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1785"/>
+        <source>Allows you to activate the edge filter.</source>
+        <translation>Permite activar o filtro da borda.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1788"/>
+        <source>Edge</source>
+        <translation>Borda</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1912"/>
+        <source>Allows you to select a framing from a list of predefined framings.
+According to the image format, various choices will be proposed to you.
+
+The framings are classified in different categories:
+
+- Lock on the project geometry: 
+Lock the image framing selection rectangle to the same geometry as the project.
+If you place the image in full screen, the reframed part will correspond to the whole screen.
+
+- Lock on the image geometry:
+Lock the image framing selection rectangle to the same geometry as the image.
+
+- No constraint:
+No constraint is applied to the image framing selection rectangle.
+
+- Lock on this geometry:
+Lock image framing selection rectangle to the actual geometry.
+This only has meaning when a shape has been defined in &quot;no constraint&quot; mode.</source>
+        <translation>Permite que você selecione um enquadramento de uma lista de enquadramentos pré-definidos.
+De acordo com o formato de imagem, várias opções serão propostas .
+
+Os enquadramentos são classificados em diferentes categorias:
+
+- Bloqueio da geometria do projeto:
+Bloqueie a imagem retângulo de seleção enquadramento para a mesma geometria como o projeto.
+Se você colocar a imagem em tela cheia, a parte renquadrada corresponderá a toda a tela.
+
+- Bloqueio da geometria da imagem:
+Bloqueie a imagem retângulo de seleção enquadramento para a mesma geometria da imagem.
+
+- Não há restrição:
+Sem restrição é aplicada à imagem retângulo de seleção enquadramento.
+
+- Bloquear a esta geometria:
+Bloquear imagem retângulo de seleção enquadramento para a geometria real.
+Isso só tem sentido quando a forma foi definida no modo &quot;nenhum constrangimento&quot;.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1961"/>
+        <source>Allows you to activate the negative filter.</source>
+        <translation>Permite activar do filtro de negativo.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1964"/>
+        <source>Negative</source>
+        <translation>Negativo</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2009"/>
+        <source>Allows you to activate the equalize (Histogram equalization) filter.</source>
+        <translation>Permite activar o filtro equalização (equalização do histograma).</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2012"/>
+        <source>Equalize</source>
+        <translation>Equalizar</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2118"/>
+        <source>Allows you to define the horizontal position from the left (X).
+This position is expressed as a percentage (%) of the width of the image.
+Example: if X=25 % then the 1st quarter to the left of the image is eliminated.</source>
+        <translation>Permite definir a posição horizontal a partir da esquerda (X).
+Esta posição é expressa como uma percentagem (%) da largura da imagem.
+Exemplo: se X = 25%, em seguida, o primeiro quadrante para o lado esquerdo da imagem é eliminado.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2161"/>
+        <source>Allows you to define the vertical position from the top of the image ( Y ).
+This position is expressed as a percentage (%) of the height of the image.
+Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</source>
+        <translation>Permite definir a posição vertical a partir do topo da imagem (Y).
+Esta posição é expressa como uma percentagem (%) da altura da imagem.
+Exemplo: se Y = 25% o primeiro quadrante com a parte superior da imagem é eliminado.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2244"/>
+        <source>Allows you to activate the antialias (minimizing the distortion artifacts) filter.</source>
+        <translation>Permite activar o filtro suavização de contornos (minimizando os artefatos de distorção).</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2247"/>
+        <source>Antialias</source>
+        <translation>Suavização contornos</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2288"/>
+        <source>Annimation settings:</source>
+        <translation>Configurações de animação:</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2458"/>
+        <source>Define the width</source>
+        <translation>Definir a largura</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2474"/>
+        <source>Allows you to activate the normalize filter.</source>
+        <translation>Permite activar do filtro de normalizar.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2477"/>
+        <source>Automatic contrast (normalize)</source>
+        <translation>Contraste automático (normalizar)</translation>
+    </message>
+    <message utf8="true">
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2515"/>
+        <source>Turn the image to the left (on the next multiple of 90°)</source>
+        <translation>Rode a imagem para a esquerda (no próximo múltiplo de 90 °)</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2540"/>
+        <source>Define the rotation angle for the z axis</source>
+        <translation>Definir o ângulo de rotação para o eixo z</translation>
+    </message>
+    <message utf8="true">
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2580"/>
+        <source>Turn the image to the right (on the next multiple of 90°)</source>
+        <translation>Rode a imagem para a direita (no próximo múltiplo de 90 °)</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2662"/>
+        <source>Speed wave:</source>
+        <translation>Velocidade da onda:</translation>
+    </message>
+    <message utf8="true">
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2686"/>
+        <source>You can use the + and – buttons in each input field to change the settings, or directly enter values for the five parameters.
+Alternatively, you can use the interactive zone to set the framing with the mouse or the keyboard.
+ 
+With the mouse:
+- Click one of the handles and, with the mouse button down, drag the mouse to modify the size (to increase or reduce the part of the image to be kept).
+- Click the image and, with the mouse button down, drag the mouse to modify the part of the image which will be kept.
+
+With the keyboard:
+- Use the arrows to move the part of the image which will be kept.
+- Use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle, to change the size of the part of the image which will be kept.
+
+Remark: 
+When the image does not correspond to the geometry of the video to be produced, transparent zones appear.
+For example: an 4:3 image used in a 16:9 project will be shown by default with a transparent zone on each side.</source>
+        <translation>Você pode usar os botões + e - em cada campo de entrada para alterar as configurações ou inserir diretamente os valores para os cinco parâmetros.
+Alternativamente, você pode usar a zona interativa para definir o enquadramento com o rato ou o teclado.
+
+Com o rato:
+- Clique numa das alças e, com o botão do rato pressionado, arraste o rato para modificar o tamanho (para aumentar ou reduzir a parte da imagem a ser mantido).
+- Clique na imagem e, com o botão do rato pressionado, arraste o rato para modificar a parte da imagem que será mantida.
+
+Com o teclado:
+- Use as setas para mover a parte da imagem que será mantida.
+- Use SHIFT + setas para mover a alça do canto superior esquerdo ou CTRL + setas para mover a alça do canto inferior direito, para alterar o tamanho da parte da imagem que será mantida.
+
+Observação:
+Quando a imagem não corresponde à geometria do vídeo a ser produzido, as zonas transparentes aparecem.
+Por exemplo: uma imagem 4:3 usada num projecto 16:9 será exibida por defeito com uma zona transparente em cada lado.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2724"/>
+        <source>Framing and form:</source>
+        <translation>Enquadramento e forma:</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2745"/>
+        <source>Select a shape for the current block</source>
+        <translation>Seleccionar uma forma para o bloco atual</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImage.cpp" line="287"/>
+        <source>Video position :</source>
+        <translation>Posição do vídeo:</translation>
+    </message>
+</context>
+<context>
+    <name>wgt_QEditVideo</name>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="62"/>
         <source>Start :</source>
-        <translation type="unfinished">Início:</translation>
+        <translation>Início:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="69"/>
         <source>Move to start position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Mover para a posição inicio</translation>
+        <translation>Mover para a posição inicio</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="83"/>
         <source>Use current position as start position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Usar posição atual como posição de início</translation>
+        <translation>Usar posição atual como posição de início</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="103"/>
         <source>Define the start position to use</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Definir a posição de início para usar</translation>
+        <translation>Definir a posição de início para usar</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="125"/>
         <source>End :</source>
-        <translation type="unfinished">Fim:</translation>
+        <translation>Fim:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="141"/>
         <source>Define the end position to use</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Definir a posição de fim para usar</translation>
+        <translation>Definir a posição de fim para usar</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="160"/>
         <source>Use current position as end position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Usar a posição atual como a posição final</translation>
+        <translation>Usar a posição atual como a posição final</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="174"/>
         <source>Move to end position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Mover para a posição final</translation>
+        <translation>Mover para a posição final</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="194"/>
         <source>Duration :</source>
-        <translation type="unfinished">Duração:</translation>
+        <translation>Duração:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="239"/>
         <source>Volume :</source>
-        <translation type="unfinished">Volume: </translation>
+        <translation>Volume: </translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="255"/>
         <source>Select the &quot; Master Volume &quot; for the movie</source>
-        <translation type="unfinished">Selecione a opção &quot;Master Volume&quot; para o filme</translation>
+        <translation>Selecione a opção &quot;Master Volume&quot; para o filme</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="278"/>
         <source>Allows you to activate the deinterlace filter</source>
-        <translation type="unfinished">Permite activar o filtro de desentrelaçamento</translation>
+        <translation>Permite activar o filtro de desentrelaçamento</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="281"/>
         <source>Deinterlace video</source>
-        <translation type="unfinished">Desentrelaçamento vídeo</translation>
+        <translation>Desentrelaçamento vídeo</translation>
     </message>
 </context>
 <context>
@@ -9842,7 +9822,7 @@ Você quer abri-lo mesmo assim?</translation>
     <message>
         <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="93"/>
         <source>Refresh folder table</source>
-        <translation type="unfinished">Atualizar tabela de pastas</translation>
+        <translation>Atualizar tabela de pastas</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="165"/>
@@ -9857,27 +9837,27 @@ Você quer abri-lo mesmo assim?</translation>
     <message>
         <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="245"/>
         <source>Use or manage favorite path</source>
-        <translation type="unfinished">Usar ou gerir caminho favorito</translation>
+        <translation>Usar ou gerir caminho favorito</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="285"/>
         <source>Change to previous folder</source>
-        <translation type="unfinished">Mudar para a pasta anterior</translation>
+        <translation>Mudar para a pasta anterior</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="325"/>
         <source>Change to upper folder</source>
-        <translation type="unfinished">Mudar para a pasta superior</translation>
+        <translation>Mudar para a pasta superior</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="365"/>
         <source>Adjust display mode and file filtering</source>
-        <translation type="unfinished">Ajuste o modo de exibição e a filtragem de arquivo</translation>
+        <translation>Ajuste o modo de exibição e a filtragem de arquivo</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="83"/>
         <source>The selection can&apos;t include folders.</source>
-        <translation type="unfinished">Esta selecção não pode incluir pastas.</translation>
+        <translation>Esta selecção não pode incluir pastas.</translation>
     </message>
 </context>
 <context>

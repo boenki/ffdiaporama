@@ -44,6 +44,7 @@ public:
     void                    DoInitWidget(QCustomDialog *ParentDialog,cBrushDefinition *CurrentBrush);
     void                    DoInitDialog();
     void                    RefreshControls(bool EmitToParent=true);
+    void                    WinFocus();
     void                    LostFocus();
 
 private slots:

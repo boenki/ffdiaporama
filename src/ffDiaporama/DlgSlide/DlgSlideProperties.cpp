@@ -2063,7 +2063,7 @@ void DlgSlideProperties::s_BlockTable_AddSpecialBlock() {
 }
 
 //====================================================================================================================
-
+/*
 void DlgSlideProperties::s_BlockTable_AddGMapsMapBlock() {
     AppendPartialUndo(UNDOACTION_BLOCKTABLE_ADDFILEBLOCK,ui->BlockTable,true);
 
@@ -2124,7 +2124,7 @@ void DlgSlideProperties::s_BlockTable_AddGMapsMapBlock() {
         }
     }
 }
-
+*/
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_RemoveBlock() {

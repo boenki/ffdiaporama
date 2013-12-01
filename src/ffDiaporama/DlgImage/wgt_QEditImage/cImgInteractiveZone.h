@@ -39,7 +39,7 @@ public:
     int                 MagneticRuler;
 
     cCompositionObject  *CompoObject;
-    int                 BackgroundForm;
+    int                 *BackgroundForm;
     cBrushDefinition    *CurrentBrush;
     int                 VideoPosition;
 
@@ -66,7 +66,7 @@ public:
                         ~cImgInteractiveZone();
 
     void                RefreshDisplay();
-    void                InitCachedImage(cCompositionObject *TheCompoObject,int TheBackgroundForm,cBrushDefinition *TheCurrentBrush,int TheVideoPosition);
+    void                InitCachedImage(cCompositionObject *TheCompoObject,int *TheBackgroundForm,cBrushDefinition *TheCurrentBrush,int TheVideoPosition);
 
 protected:
     virtual void        paintEvent(QPaintEvent *event);

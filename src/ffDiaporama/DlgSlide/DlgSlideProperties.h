@@ -133,7 +133,7 @@ private slots:
     void            s_BlockTable_AddNewClipArtTextBlock();
     void            s_BlockTable_AddNewFileBlock();
     void            s_BlockTable_AddSpecialBlock();
-    void            s_BlockTable_AddGMapsMapBlock();
+    //void            s_BlockTable_AddGMapsMapBlock();
     void            s_BlockTable_RemoveBlock();
     void            s_BlockTable_Copy();
     void            s_BlockTable_Cut();

@@ -777,9 +777,9 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                             IsValide=MediaObject->GetInformationFromFile(BrushFileName,AliasList,ModifyFlag,-1) && MediaObject->GetFullInformationFromFile();
                             break;
                         case OBJECTTYPE_GMAPSMAP:
-                            MediaObject=new cGMapsMap(ApplicationConfig);
-                            MediaObject->LoadBasicInformationFromDatabase(Element);
-                            IsValide=MediaObject->GetInformationFromFile("",NULL,NULL,-1);
+                            //MediaObject=new cGMapsMap(ApplicationConfig);
+                            //MediaObject->LoadBasicInformationFromDatabase(Element);
+                            //IsValide=MediaObject->GetInformationFromFile("",NULL,NULL,-1);
                             break;
                         case OBJECTTYPE_UNMANAGED:
                         default:

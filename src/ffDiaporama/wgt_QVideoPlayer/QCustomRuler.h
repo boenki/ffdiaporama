@@ -18,8 +18,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef QCUSTOMRULLER_H
-#define QCUSTOMRULLER_H
+#ifndef QCustomRuler_H
+#define QCustomRuler_H
 
 // Basic inclusions (common to all files)
 #include "engine/_GlobalDefines.h"
@@ -30,7 +30,7 @@
 #include <QResizeEvent>
 #include <QMouseEvent>
 
-class QCustomRuller : public QSlider {
+class QCustomRuler : public QSlider {
 Q_OBJECT
 public:
     int     TotalDuration;      // Total duration in MSec of the movie
@@ -41,7 +41,7 @@ public:
     int     NextStartPos;       // Start position of the next slide
     int     NextEndPos;         // End position of the next slide
 
-    explicit QCustomRuller(QWidget *parent = 0);
+    explicit QCustomRuler(QWidget *parent = 0);
 
     void    ActiveSlider(int TotalDuration);
 
@@ -57,4 +57,4 @@ public slots:
 
 };
 
-#endif // QCUSTOMRULLER_H
+#endif // QCustomRuler_H

@@ -58,11 +58,12 @@
 
 #include <cmath>
 
-//====================================================================================================================
 // Note: GUID from http://www.guidgenerator.com/online-guid-generator.aspx
+#define GUID_SERVERNAME  "4b8b9da3-bb03-4771-a43f-90ebe9d0a3c3"
 
-MainWindow::MainWindow(QString ForceLanguage,QWidget *parent):QMainWindow(parent),
-    ui(new Ui::MainWindow), Shared("4b8b9da3-bb03-4771-a43f-90ebe9d0a3c3")  {
+//====================================================================================================================
+
+MainWindow::MainWindow(QString ForceLanguage,QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow) {
 
     ApplicationConfig       =new cBaseApplicationConfig(this,ALLOWEDWEBLANGUAGE);
     CurrentThreadId         =this->thread()->currentThreadId();
@@ -112,15 +113,25 @@ void MainWindow::InitWindow() {
     // Init application config
     ApplicationConfig->InitConfigurationValues(ForceLanguage);
 
-    #ifndef QT_DEBUG
     // Test if another instance of ffDiaporama is already started on the computer
-    if (!Shared.create(512,QSharedMemory::ReadWrite)) {
+    MonoInstanceSocket.connectToServer(GUID_SERVERNAME);
+    bool AlreadyStarted=MonoInstanceSocket.waitForConnected(2000);
+
+    // No other instance reply, so try to open a server
+    if ((!AlreadyStarted)&&(!MonoInstanceServer.listen(GUID_SERVERNAME))) {
+        // Impossible to start new server so probably another instance crashed on this computer, then try to remove crashed server
+        ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Restore from a previous crash..."));
+        MonoInstanceServer.removeServer(GUID_SERVERNAME);
+        AlreadyStarted=!MonoInstanceServer.listen(GUID_SERVERNAME);
+    }
+    if (AlreadyStarted) {
         CustomMessageBox(NULL,QMessageBox::Critical,"ffDiaporama",
                          QApplication::translate("MainWindow","Sorry, but ffDiaporama is already started on this computer and can't be started several time."),
                          QMessageBox::Close);
         exit(1);
     }
-    #endif
+    // Create MonoInstanceServer to answer to next instance
+    connect(&MonoInstanceServer,SIGNAL(newConnection()),this,SLOT(MonoInstanceSocketConnection()));
 
     // Reset database cache of thumbnails
     ApplicationConfig->SlideThumbsTable->ClearTable();
@@ -450,6 +461,9 @@ MainWindow::~MainWindow() {
     avfilter_uninit();
     #endif
     avformat_network_deinit();
+
+    // Close Mono Instance Server
+    MonoInstanceServer.close();
 }
 
 //====================================================================================================================

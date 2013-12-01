@@ -4,7 +4,7 @@
 <context>
     <name>CommonInfoMsg</name>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="621"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImage.cpp" line="802"/>
         <source>Select a file</source>
         <translation>Выбор файла</translation>
     </message>
@@ -2564,491 +2564,59 @@ Remark: To make animations of text, you have to create at least 2 shots then:
         <translation>Кадрирование и коррекция изображения</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2522"/>
-        <source>Define the width</source>
-        <translation>Определить ширину</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1328"/>
-        <source>Define the height</source>
-        <translation>Определить высоту</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="604"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="635"/>
-        <source>Adjust luminosity</source>
-        <translation>Настройка яркости</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1667"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1890"/>
-        <source>Adjust contrast</source>
-        <translation>Настройка контрастности</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1471"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2324"/>
-        <source>Adjust gamma</source>
-        <translation>Настройка гаммы</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="293"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="359"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="480"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="716"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="801"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="875"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="889"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1107"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1496"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1835"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1937"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2548"/>
-        <source>Reset to zero</source>
-        <translation>Сбросить на 0</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="307"/>
-        <source>Reset to 5</source>
-        <translation>Сбросить на 5</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="180"/>
-        <source>Name of image/video file</source>
-        <translation>Имя файла изображения/видео</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2964"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="161"/>
         <source>Undo last action (CTRL+Z)</source>
         <translation>Отменить последнее действие (Ctrl + Z)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2967"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="164"/>
         <source>Undo</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2974"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="171"/>
         <source>Ctrl+Z</source>
         <translation>Ctrl+Z</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2922"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="119"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Применить изменения и выйти из диалогового окна</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="730"/>
-        <source>Reset to 1</source>
-        <translation>Сбросить на 1</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="669"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2264"/>
-        <source>Adjust red channel</source>
-        <translation>Настроить красный канал</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="190"/>
-        <source>Select another file</source>
-        <translation>Выбрать другой файл</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="395"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1642"/>
-        <source>Adjust green channel</source>
-        <translation>Настроить зеленый канал</translation>
-    </message>
-    <message utf8="true">
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2579"/>
-        <source>Turn the image to the left (on the next multiple of 90°)</source>
-        <translation>Повернуть изображение влево (на 90°)</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2604"/>
-        <source>Define the rotation angle for the z axis</source>
-        <translation>Определить угол вращения по оси z</translation>
-    </message>
-    <message utf8="true">
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2644"/>
-        <source>Turn the image to the right (on the next multiple of 90°)</source>
-        <translation>Повернуть изображение вправо (на 90°)</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="551"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1554"/>
-        <source>Adjust blue channel</source>
-        <translation>Настроить синий канал</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2898"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="95"/>
         <source>Rulers</source>
         <translation>Линейки</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1174"/>
-        <source>Artistic effects:</source>
-        <translation>Художественные эффекты:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2311"/>
-        <source>Antialias</source>
-        <translation>Сглаживание</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1757"/>
-        <source>Emboss</source>
-        <translation>Тиснение</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2076"/>
-        <source>Equalize</source>
-        <translation>Выравнивание</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2028"/>
-        <source>Negative</source>
-        <translation>Негатив</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="473"/>
-        <source>Oilpaint</source>
-        <translation>Рисунок маслом</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1852"/>
-        <source>Edge</source>
-        <translation>Контур</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1722"/>
-        <source>Type:</source>
-        <translation>Тип:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1739"/>
-        <source>Fast</source>
-        <translation>быстрый</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1744"/>
-        <source>Gaussian</source>
-        <translation>размытие по Гауссу</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1805"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2089"/>
-        <source>Adjust blur/sharpen radius</source>
-        <translation>Настроить радиус размытия/резкости</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="853"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1079"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1243"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1579"/>
-        <source>Adjust blur/sharpen sigma</source>
-        <translation>Настроить сигму размытия/резкости</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="376"/>
-        <source>Grayscale</source>
-        <translation>Оттенки серого</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="532"/>
-        <source>Color enhancement:</source>
-        <translation>Улучшение цвета:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2788"/>
-        <source>Framing and form:</source>
-        <translation>Кадрирование и форма:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2541"/>
-        <source>Automatic contrast (normalize)</source>
-        <translation>Автоконстрастность (нормализация)</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2809"/>
-        <source>Select a shape for the current block</source>
-        <translation>Выбрать форму данного блока</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="906"/>
-        <source>Despeckle</source>
-        <translation>Удаление пятен</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="775"/>
-        <source>Image distortion:</source>
-        <translation>Искажение изображения:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="972"/>
-        <source>Image enhancement:</source>
-        <translation>Улучшение изображения:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="840"/>
-        <source>Luminosity, contrast and gamma:</source>
-        <translation>Яркость, контрастность и гамма:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="324"/>
-        <source>Charcoal</source>
-        <translation>Рисунок углем</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="944"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1957"/>
-        <source>Adjust desaturat level</source>
-        <translation>Настроить уровень обесцвечивания</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="500"/>
-        <source>Image rotation:</source>
-        <translation>Поворот изображения:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="75"/>
-        <source>Allows you to:
-- Change image framing (select a part of the image),
-- Rotate image (change or restore the orientation portrait/landscape)
-- Correct image (change the color and/or exposure parameters) but also applying graphical filters.</source>
-        <translation>Позволяет:
-- настроить кадрирование изображения (выбрать часть изображения),
-- повернуть изображение (изменить или восстановить книжную / альбомную ориентацию)
-- подкорректировать изображение (изменить цвета и / или  экспозицию), а также применить графические фильтры.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="337"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1012"/>
-        <source>Adjust value for frequency of wave transformation</source>
-        <translation>Настроить частоту волновой трансформации</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="321"/>
-        <source>Allows you to activate the charcoal filter.</source>
-        <translation>Активировать угольный фильтр.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="373"/>
-        <source>Allows you to activate the grayscale (black &amp; white) filter.</source>
-        <translation>Активировать фильтр градации серого (черно-белый).</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="448"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1692"/>
-        <source>Adjust value for implode transformation</source>
-        <translation>Настроить значение имплозии (взрыв направленный внутрь)</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="470"/>
-        <source>Allows you to activate the oilpaint filter.</source>
-        <translation>Активировать маслянный фильтр.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="903"/>
-        <source>Allows you to activate the despeckle (Noise reduction) filter.</source>
-        <translation>Активировать фильтр удаления пятен (подавления шумов).</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1146"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2144"/>
-        <source>Adjust value for amplitude of wave transformation</source>
-        <translation>Настроить амплитуду волновой трансформации</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1304"/>
-        <source>Allows you to define the width.
-This value is expressed as a percentage (%) of the original width of the image.
-Example: if Width=33 %, the re-framed image will represent 1/3 of the original.</source>
-        <translation>Позволяет задать ширину.
-Это значение, выраженное в процентах (%) от исходной ширины изображения.
-Пример: если ширина = 33 %, кадрированное изображение составит 1/3 оригинала.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1350"/>
-        <source>Allows you to define the height.
-This value is expressed as a percentage (%) of the original height of the image.
-Example: if Height=33 %, the re-framed image will represent 1/3 of the original.</source>
-        <translation>Позволяет задать высоту.
-Это значение, выраженное в процентах (%) от исходной высоты изображения.
-Пример: если высота = 33 %, кадрированное изображение составит 1/3 оригинала.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1440"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2685"/>
-        <source>Adjust value for swirl transformation</source>
-        <translation>Настроить значение трансформации кручения</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1735"/>
-        <source>Select the blur/sharpen algorythm</source>
-        <translation>Выберите алгоритм размытия/резкости</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1754"/>
-        <source>Allows you to activate the emboss filter.</source>
-        <translation>Активировать фильтр тиснения.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1849"/>
-        <source>Allows you to activate the edge filter.</source>
-        <translation>Активировать фильтр контура.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1976"/>
-        <source>Allows you to select a framing from a list of predefined framings.
-According to the image format, various choices will be proposed to you.
-
-The framings are classified in different categories:
-
-- Lock on the project geometry: 
-Lock the image framing selection rectangle to the same geometry as the project.
-If you place the image in full screen, the reframed part will correspond to the whole screen.
-
-- Lock on the image geometry:
-Lock the image framing selection rectangle to the same geometry as the image.
-
-- No constraint:
-No constraint is applied to the image framing selection rectangle.
-
-- Lock on this geometry:
-Lock image framing selection rectangle to the actual geometry.
-This only has meaning when a shape has been defined in &quot;no constraint&quot; mode.</source>
-        <translation>Позволяет выбрать тип кадрирования из предопределенного списка.
-В соответствии с форматом изображения, вам будут доступны различные варианты.
-
-Кадрирование подразделяется на следующие категории: 
-- Блокировка геометрии проекта:
-Означает, что прямоугольник выделения при кадрировании изображения будет той же геометрии, что и сам проект.
-Если вы откроете изображение в полноэкранном режиме, то выбранная часть будет соответствовать всему экрану.
-
-- Блокировка геометрии изображения:
-Означает, что прямоугольник выделения при кадрировании изображения будет той же геометрии, что и изображение.
-
-- Без ограничений:
-Означает, что к прямоугольнику выделения при кадрировании изображения не применяются ограничения.
-
-- Блокировка геометрии:
-Означает, что прямоугольник выделения при кадрировании изображения будет той же геометрии, что и в настоящее время.
-Это имеет смысл только когда форма была определена в режиме &quot;без ограничений&quot;.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2025"/>
-        <source>Allows you to activate the negative filter.</source>
-        <translation>Активировать фильтр негатива.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2182"/>
-        <source>Allows you to define the horizontal position from the left (X).
-This position is expressed as a percentage (%) of the width of the image.
-Example: if X=25 % then the 1st quarter to the left of the image is eliminated.</source>
-        <translation>Позволяет задать горизонтальное положение от левого края (X).
-Это положение, выраженное в процентах (%) от ширины изображения.
-Например: если Х = 25 %, то левая четверть изображения будет обрезана.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2225"/>
-        <source>Allows you to define the vertical position from the top of the image ( Y ).
-This position is expressed as a percentage (%) of the height of the image.
-Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</source>
-        <translation>Позволяет задать вертикальное положение от верхнего края (Y).
-Это положение, выраженное в процентах (%) от высоты изображения.
-Например: если Y = 25 %, то верхняя четверть изображения будет обрезана.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2073"/>
-        <source>Allows you to activate the equalize (Histogram equalization) filter.</source>
-        <translation>Активировать фильтр выравнивания (выравнивание гистограммы).</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2308"/>
-        <source>Allows you to activate the antialias (minimizing the distortion artifacts) filter.</source>
-        <translation>Активировать фильтр сглаживания (сведение к минимуму артефактов искажения).</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2352"/>
-        <source>Annimation settings:</source>
-        <translation>Настройки анимации:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2538"/>
-        <source>Allows you to activate the normalize filter.</source>
-        <translation>Активировать фильтр нормализации.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2726"/>
-        <source>Speed wave:</source>
-        <translation>Скорость:</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1408"/>
-        <source>Defined speed curve for image animations.</source>
-        <translation>Задать скорость анимации изображений.</translation>
-    </message>
-    <message utf8="true">
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2750"/>
-        <source>You can use the + and – buttons in each input field to change the settings, or directly enter values for the five parameters.
-Alternatively, you can use the interactive zone to set the framing with the mouse or the keyboard.
- 
-With the mouse:
-- Click one of the handles and, with the mouse button down, drag the mouse to modify the size (to increase or reduce the part of the image to be kept).
-- Click the image and, with the mouse button down, drag the mouse to modify the part of the image which will be kept.
-
-With the keyboard:
-- Use the arrows to move the part of the image which will be kept.
-- Use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle, to change the size of the part of the image which will be kept.
-
-Remark: 
-When the image does not correspond to the geometry of the video to be produced, transparent zones appear.
-For example: an 4:3 image used in a 16:9 project will be shown by default with a transparent zone on each side.</source>
-        <translation>Вы можете использовать кнопки + и - в каждом поле ввода, чтобы изменить настройки или непосредственно ввести значения всех пяти параметров.
-Кроме того, вы можете воспользоваться интерактивной зоной для кадрирования с помощью мыши или клавиатуры.
-
-С помощью мыши:
-- выберите один из маркеров и зажав кнопку мыши перетащите, чтобы изменить размер.
-- нажмите на изображение и зажав кнопку перетащите, чтобы изменить часть изображения, которая будет сохранена.
-
-С помощью клавиатуры:
- - используйте стрелки, чтобы переместить часть изображения, которая будет сохранена.
- - воспользуйтесь сочетанием клавиш SHIFT + стрелки для перемещения к верхнему левому углу или CTRL + стрелки для перемещения к нижнему правому углу, чтобы изменить размер части изображения, которая будет сохранена.
-
-Примечание:
-Если изображение не соответствует геометрии видео, появляются прозрачные зоны.
-Например: изображение 4:3, используемое в проекте 16:9, будет показано по умолчанию в прозрачной зоне.</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2995"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="192"/>
         <source>Show help about this dialogue box</source>
         <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2998"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="195"/>
         <source>&amp;Help</source>
         <translation>&amp;Справка</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2894"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="91"/>
         <source>Allows you to enable or disable the magnetic rulers.
 When rulers are enabled, the mouse will automatically snap to the edges of the photo, facilitating the framing.</source>
         <translation>Позволяет включить или отключить магнитные линейки.
 Когда линейки включены, мышь будет автоматически привязываться к краям фотографии, содействуя выравниванию.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2925"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="122"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ок</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2981"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="178"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Отменить изменения и выйти из диалогового окна</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2984"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="181"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Отмена</translation>
     </message>
@@ -3129,11 +2697,6 @@ When rulers are enabled, the mouse will automatically snap to the edges of the p
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="859"/>
         <source>Lock to project geometry</source>
         <translation>Заблокировать геометрию проекта</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="584"/>
-        <source>Video position :</source>
-        <translation>Позиция видео :</translation>
     </message>
 </context>
 <context>
@@ -5707,7 +5270,7 @@ Information</source>
         <translation>Продолжительность:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="96"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="68"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="632"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="973"/>
         <source>Correct or reframe image</source>
@@ -5715,7 +5278,7 @@ Information</source>
         <translation>Кадрирование и коррекция изображения</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="97"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="69"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="627"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="968"/>
         <source>Correct, reframe or cut video</source>
@@ -5723,7 +5286,7 @@ Information</source>
         <translation>Коррекция, кадрирование или обрезка видео</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="98"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="70"/>
         <source>Correct, reframe or cut a Google Maps map</source>
         <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
         <translation type="unfinished"></translation>
@@ -6656,7 +6219,7 @@ thumbnail</source>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="55"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1361"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1375"/>
         <source>New project</source>
         <translation>Новый проект</translation>
     </message>
@@ -7309,8 +6872,8 @@ and help</source>
         <translation>Использовать как новый плейлист</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1971"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2704"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1985"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2718"/>
         <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/QCustomFolderTable.cpp" line="1211"/>
         <source>Add files to project</source>
         <translation>Добавить файлы в проект</translation>
@@ -7510,14 +7073,14 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1146"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2049"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="106"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1522"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1526"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1537"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2033"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2041"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2059"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2064"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="107"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1536"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1540"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1551"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2047"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2055"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2073"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2078"/>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1571"/>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1600"/>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2274"/>
@@ -7594,54 +7157,54 @@ and help</source>
         <translation>Ошибка создания файла данных</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1505"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1573"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1519"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1587"/>
         <source>Open project file</source>
         <translation>Открыть файл проекта</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1506"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1520"/>
         <source>Impossible to open file </source>
         <translation>Невозможно открыть файл</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1506"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1520"/>
         <source>Do you want to select another file ?</source>
         <translation>Хотите выбрать другой файл?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1509"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1523"/>
         <source>Select another file for </source>
         <translation>Выбрать другой файл</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1514"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1528"/>
         <source>Impossible to open project file %1</source>
         <translation>Невозможно открыть файл проекта %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1521"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2064"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1535"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2078"/>
         <source>Error reading project file</source>
         <comment>Error message</comment>
         <translation>Ошибка чтения файла проекта</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1526"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2059"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1540"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2073"/>
         <source>Error reading content of project file</source>
         <comment>Error message</comment>
         <translation>Ошибка чтения содержимого файла проекта</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1537"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2033"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1551"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2047"/>
         <source>The file is not a valid project file</source>
         <comment>Error message</comment>
         <translation>Этот файл не является файлом проекта</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2041"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2055"/>
         <source>Impossible to import this file :
 Image geometry in this file is not the same than the current project</source>
         <comment>Error message</comment>
@@ -7666,18 +7229,18 @@ Image geometry in this file is not the same than the current project</source>
         <translation>Ошибка загрузки файла:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="91"/>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="92"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="93"/>
         <source>Init home user database...</source>
         <translation>Инициализация базы данных пользователя...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="105"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="106"/>
         <source>Error initialising home user database...</source>
         <translation>Ошибка инициализации базы данных пользователя...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="107"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="108"/>
         <source>Error initialising home user database
 ffDiaporama can&apos;t start</source>
         <comment>Error message</comment>
@@ -7685,112 +7248,117 @@ ffDiaporama can&apos;t start</source>
 Не удается запустить ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="119"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="123"/>
+        <source>Restore from a previous crash...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="129"/>
         <source>Sorry, but ffDiaporama is already started on this computer and can&apos;t be started several time.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="169"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="180"/>
         <source>Starting SDL...</source>
         <translation>Запуск SDL...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="177"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="178"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="188"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="189"/>
         <source>Loading background library...</source>
         <translation>Загрузка библиотек фонов ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="182"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="183"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="193"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="194"/>
         <source>Loading text frame library...</source>
         <translation>Загрузка библиотек форм текста...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="187"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="188"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="198"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="199"/>
         <source>Loading no-luma transitions...</source>
         <translation>Загрузка не luma переходов...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="192"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="193"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="203"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="204"/>
         <source>Loading luma transitions...</source>
         <translation>Загрузка luma переходов...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="200"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="201"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="211"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="212"/>
         <source>Scan drives in computer...</source>
         <translation>Сканирование дисков компьютера...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="205"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="206"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="216"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="217"/>
         <source>Register models...</source>
         <translation>Регистрация шаблонов...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="274"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="275"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="285"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="286"/>
         <source>Init WIKI...</source>
         <translation>Инициализация WIKI...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="611"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="625"/>
         <source>Close application</source>
         <translation>Закрыть программу</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="611"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="625"/>
         <source>Want to save the project before closing?</source>
         <translation>Хотите сохранить проект перед закрытием?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1162"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1176"/>
         <source>&lt;html&gt;&lt;body&gt;Visit the ffDiaporama Web site to use the forum,&lt;br&gt;consult tutorials and learn the lastest news:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Посетите сайт ffDiaporama чтобы&lt;br&gt;посмотреть руководство и узнать последние новости:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1331"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1345"/>
         <source>Saving configuration file and applying new configuration ...</source>
         <translation>Сохранение файла конфигурации и применение новой конфигурации ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1361"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1419"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1443"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2657"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1375"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1433"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1457"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2671"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
         <translation>Текущий проект был изменен.
 Сохранить его?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1596"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1610"/>
         <source>Loading slide %1/%2</source>
         <translation>Загрузка слайда %1/%2</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1843"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1905"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1857"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1919"/>
         <source>Add file to project</source>
         <translation>Добавить файл в проект</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2092"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2106"/>
         <source>This video files contains more than one chapter.
 Do you want to create one slide for each chapters ?</source>
         <translation>Этот видеофайл содержит более чем одну главу.
 Хотите создать отдельный слайд для каждой главы ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2441"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2455"/>
         <source>Are you sure you want to remove this slide?</source>
         <translation>Удалить этот слайд?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2445"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2459"/>
         <source>Remove multiple slides</source>
         <translation>Удалить несколько слайдов</translation>
     </message>
@@ -7966,7 +7534,7 @@ Are you sure it is empty?</source>
         <translation>Невозможно переименовать файл!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2445"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2459"/>
         <source>Are you sure you want to remove these %1 slides?</source>
         <translation>Удалить слайды %1?</translation>
     </message>
@@ -8060,86 +7628,86 @@ Do you want to overwrite it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="780"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="794"/>
         <source>&lt;new project&gt;</source>
         <comment>when project have no name define</comment>
         <translation>&lt;Новый проект&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1422"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1459"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2662"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1436"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1473"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2676"/>
         <source>Open file :</source>
         <translation>Открыть файл :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1419"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1438"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1443"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1468"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2656"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1433"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1452"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1457"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1482"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2670"/>
         <source>Open project</source>
         <translation>Открыть проект</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="165"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="176"/>
         <location filename="../src/ffDiaporama/engine/cBaseApplicationConfig.cpp" line="255"/>
         <source>Loading system icons...</source>
         <translation>Загрузка системных иконок...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="173"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="184"/>
         <location filename="../src/ffDiaporama/engine/cDeviceModelDef.cpp" line="712"/>
         <source>Starting libav...</source>
         <translation>Запуск libav...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="397"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="772"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="408"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="786"/>
         <source>Slide: </source>
         <translation>Слайд:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="398"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="535"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="543"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="409"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="549"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="557"/>
         <source>Chapter: </source>
         <translation>Глава:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="697"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="711"/>
         <source>A new release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !</source>
         <translation>Доступна новая версия. Вы можете скачать ее с сайта http://ffdiaporama.tuxfamily.org !</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="702"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="716"/>
         <source>A new version is available from WEB site.
 Do you want to download it now?</source>
         <translation>Доступна новая версия.
 Хотите загрузить ее сейчас?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="709"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="723"/>
         <source>Your version of %1 is up to day</source>
         <translation>Ваша версия %1 не требует обновления</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1150"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1164"/>
         <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Выберите существующий проект или создайте новый.&lt;br&gt;Чтобы узнать больше о ffDiaporama,&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;посетите WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1154"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1168"/>
         <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Добавьте пустые слайды или слайды из фотографий или видео.&lt;br&gt;Чтобы узнать как создать слайд-шоу и анимировать слайды,&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;познакомьтесь с принципами функционирования ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1158"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1172"/>
         <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Выберите тип устройства, на котором вы собираетесь просматривать видео.&lt;br&gt;Чтобы узнать как сделать видео,&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;посетите страницу обработки видео в WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1469"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1483"/>
         <source>This project was created with a newer version of ffDiaporama.
 If you continue, you take the risk of losing data!
 Do you want to open it nevertheless?</source>
@@ -8148,13 +7716,13 @@ Do you want to open it nevertheless?</source>
 Хотите открыть его все равно?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1648"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1662"/>
         <source>Saving project file ...</source>
         <translation>Сохранение файла проекта ...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3707"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1692"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1706"/>
         <source>Save project as</source>
         <translation>Сохранить проект как</translation>
     </message>
@@ -8162,7 +7730,7 @@ Do you want to open it nevertheless?</source>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3560"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1065"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1950"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1829"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1843"/>
         <source>Add files</source>
         <translation>Добавить файлы</translation>
     </message>
@@ -8176,42 +7744,42 @@ Do you want to open it nevertheless?</source>
         <translation>Формат не поддерживается</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1953"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1967"/>
         <source>Add a sub project</source>
         <translation>Добавить подпроект</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1979"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1993"/>
         <source>Add project file :</source>
         <translation>Добавить файл проекта :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2293"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2299"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2307"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2313"/>
         <source>Capture the image </source>
         <translation>Захват изображения </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2441"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2455"/>
         <source>Remove slide</source>
         <translation>Удалить слайд</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2009"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2707"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2023"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2721"/>
         <source>Add file to project :</source>
         <translation>Добавить файл в проект :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="111"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2305"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="115"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2319"/>
         <source>Capture image</source>
         <translation>Захват изображения</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="112"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="116"/>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="204"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2306"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2320"/>
         <source>Select destination file</source>
         <translation>Выберите файл назначения</translation>
     </message>
@@ -8234,7 +7802,7 @@ Do you want to open it nevertheless?</source>
     </message>
     <message>
         <location filename="../src/ffDiaporama/CustomCtrl/_QCustomDialog.cpp" line="213"/>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="411"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="422"/>
         <source>Error reading window state of %1 from home user database</source>
         <comment>Error message</comment>
         <translation>Ошибка чтения размера и положения окна %1 из базы данных пользователя</translation>
@@ -9483,17 +9051,6 @@ Do you want to open it nevertheless?</source>
         <translation>Миниатюра</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1268"/>
-        <source>Google Maps map</source>
-        <comment>File type</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1329"/>
-        <source>%1 location(s)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1959"/>
         <source>Video</source>
         <comment>File type</comment>
@@ -9535,7 +9092,7 @@ Do you want to open it nevertheless?</source>
         <translation>Папка</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2091"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2105"/>
         <source>Add video file</source>
         <translation>Добавить видеофайл</translation>
     </message>
@@ -9725,123 +9282,547 @@ Do you want to open it nevertheless?</source>
         <translation>Название главы</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="211"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="222"/>
         <source>Simple titles without animation</source>
         <translation>Простые без анимации</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="212"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="223"/>
         <source>Animated titles</source>
         <translation>Анимированные</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="214"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="225"/>
         <source>Custom titles</source>
         <translation>Пользовательские</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="216"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="227"/>
         <source>Simple chapter titles without animation</source>
         <translation>Простые без анимации</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="217"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="228"/>
         <source>Animated chapter titles</source>
         <translation>Анимированные</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="219"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="230"/>
         <source>Custom chapter titles</source>
         <translation>Пользовательские</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="221"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="232"/>
         <source>Simple credit titles</source>
         <translation>Простые</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="222"/>
+        <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="233"/>
         <source>Custom credit titles</source>
         <translation>Пользовательские</translation>
     </message>
 </context>
 <context>
-    <name>wgt_QEditVideo</name>
+    <name>wgt_QEditImage</name>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="116"/>
+        <source>Name of image/video file</source>
+        <translation>Имя файла изображения/видео</translation>
     </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="126"/>
+        <source>Select another file</source>
+        <translation>Выбрать другой файл</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="229"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="295"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="416"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="652"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="737"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="811"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="825"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1043"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1432"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1771"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1873"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2484"/>
+        <source>Reset to zero</source>
+        <translation>Сбросить на 0</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="243"/>
+        <source>Reset to 5</source>
+        <translation>Сбросить на 5</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="257"/>
+        <source>Allows you to activate the charcoal filter.</source>
+        <translation>Активировать угольный фильтр.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="260"/>
+        <source>Charcoal</source>
+        <translation>Рисунок углем</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="273"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="948"/>
+        <source>Adjust value for frequency of wave transformation</source>
+        <translation>Настроить частоту волновой трансформации</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="309"/>
+        <source>Allows you to activate the grayscale (black &amp; white) filter.</source>
+        <translation>Активировать фильтр градации серого (черно-белый).</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="312"/>
+        <source>Grayscale</source>
+        <translation>Оттенки серого</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="331"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1578"/>
+        <source>Adjust green channel</source>
+        <translation>Настроить зеленый канал</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="384"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1628"/>
+        <source>Adjust value for implode transformation</source>
+        <translation>Настроить значение имплозии (взрыв направленный внутрь)</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="406"/>
+        <source>Allows you to activate the oilpaint filter.</source>
+        <translation>Активировать маслянный фильтр.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="409"/>
+        <source>Oilpaint</source>
+        <translation>Рисунок маслом</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="436"/>
+        <source>Image rotation:</source>
+        <translation>Поворот изображения:</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="468"/>
+        <source>Color enhancement:</source>
+        <translation>Улучшение цвета:</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="487"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1490"/>
+        <source>Adjust blue channel</source>
+        <translation>Настроить синий канал</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="540"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="571"/>
+        <source>Adjust luminosity</source>
+        <translation>Настройка яркости</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="605"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2200"/>
+        <source>Adjust red channel</source>
+        <translation>Настроить красный канал</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="666"/>
+        <source>Reset to 1</source>
+        <translation>Сбросить на 1</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="711"/>
+        <source>Image distortion:</source>
+        <translation>Искажение изображения:</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="776"/>
+        <source>Luminosity, contrast and gamma:</source>
+        <translation>Яркость, контрастность и гамма:</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="789"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1015"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1179"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1515"/>
+        <source>Adjust blur/sharpen sigma</source>
+        <translation>Настроить сигму размытия/резкости</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="839"/>
+        <source>Allows you to activate the despeckle (Noise reduction) filter.</source>
+        <translation>Активировать фильтр удаления пятен (подавления шумов).</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="842"/>
+        <source>Despeckle</source>
+        <translation>Удаление пятен</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="880"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1893"/>
+        <source>Adjust desaturat level</source>
+        <translation>Настроить уровень обесцвечивания</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="908"/>
+        <source>Image enhancement:</source>
+        <translation>Улучшение изображения:</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1082"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2080"/>
+        <source>Adjust value for amplitude of wave transformation</source>
+        <translation>Настроить амплитуду волновой трансформации</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1110"/>
+        <source>Artistic effects:</source>
+        <translation>Художественные эффекты:</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1240"/>
+        <source>Allows you to define the width.
+This value is expressed as a percentage (%) of the original width of the image.
+Example: if Width=33 %, the re-framed image will represent 1/3 of the original.</source>
+        <translation>Позволяет задать ширину.
+Это значение, выраженное в процентах (%) от исходной ширины изображения.
+Пример: если ширина = 33 %, кадрированное изображение составит 1/3 оригинала.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1264"/>
+        <source>Define the height</source>
+        <translation>Определить высоту</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1286"/>
+        <source>Allows you to define the height.
+This value is expressed as a percentage (%) of the original height of the image.
+Example: if Height=33 %, the re-framed image will represent 1/3 of the original.</source>
+        <translation>Позволяет задать высоту.
+Это значение, выраженное в процентах (%) от исходной высоты изображения.
+Пример: если высота = 33 %, кадрированное изображение составит 1/3 оригинала.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1344"/>
+        <source>Defined speed curve for image animations.</source>
+        <translation>Задать скорость анимации изображений.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1376"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2621"/>
+        <source>Adjust value for swirl transformation</source>
+        <translation>Настроить значение трансформации кручения</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1407"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2260"/>
+        <source>Adjust gamma</source>
+        <translation>Настройка гаммы</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1603"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1826"/>
+        <source>Adjust contrast</source>
+        <translation>Настройка контрастности</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1658"/>
+        <source>Type:</source>
+        <translation>Тип:</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1671"/>
+        <source>Select the blur/sharpen algorythm</source>
+        <translation>Выберите алгоритм размытия/резкости</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1675"/>
+        <source>Fast</source>
+        <translation>быстрый</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1680"/>
+        <source>Gaussian</source>
+        <translation>размытие по Гауссу</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1690"/>
+        <source>Allows you to activate the emboss filter.</source>
+        <translation>Активировать фильтр тиснения.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1693"/>
+        <source>Emboss</source>
+        <translation>Тиснение</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1741"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2025"/>
+        <source>Adjust blur/sharpen radius</source>
+        <translation>Настроить радиус размытия/резкости</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1785"/>
+        <source>Allows you to activate the edge filter.</source>
+        <translation>Активировать фильтр контура.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1788"/>
+        <source>Edge</source>
+        <translation>Контур</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1912"/>
+        <source>Allows you to select a framing from a list of predefined framings.
+According to the image format, various choices will be proposed to you.
+
+The framings are classified in different categories:
+
+- Lock on the project geometry: 
+Lock the image framing selection rectangle to the same geometry as the project.
+If you place the image in full screen, the reframed part will correspond to the whole screen.
+
+- Lock on the image geometry:
+Lock the image framing selection rectangle to the same geometry as the image.
+
+- No constraint:
+No constraint is applied to the image framing selection rectangle.
+
+- Lock on this geometry:
+Lock image framing selection rectangle to the actual geometry.
+This only has meaning when a shape has been defined in &quot;no constraint&quot; mode.</source>
+        <translation>Позволяет выбрать тип кадрирования из предопределенного списка.
+В соответствии с форматом изображения, вам будут доступны различные варианты.
+
+Кадрирование подразделяется на следующие категории: 
+- Блокировка геометрии проекта:
+Означает, что прямоугольник выделения при кадрировании изображения будет той же геометрии, что и сам проект.
+Если вы откроете изображение в полноэкранном режиме, то выбранная часть будет соответствовать всему экрану.
+
+- Блокировка геометрии изображения:
+Означает, что прямоугольник выделения при кадрировании изображения будет той же геометрии, что и изображение.
+
+- Без ограничений:
+Означает, что к прямоугольнику выделения при кадрировании изображения не применяются ограничения.
+
+- Блокировка геометрии:
+Означает, что прямоугольник выделения при кадрировании изображения будет той же геометрии, что и в настоящее время.
+Это имеет смысл только когда форма была определена в режиме &quot;без ограничений&quot;.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1961"/>
+        <source>Allows you to activate the negative filter.</source>
+        <translation>Активировать фильтр негатива.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="1964"/>
+        <source>Negative</source>
+        <translation>Негатив</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2009"/>
+        <source>Allows you to activate the equalize (Histogram equalization) filter.</source>
+        <translation>Активировать фильтр выравнивания (выравнивание гистограммы).</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2012"/>
+        <source>Equalize</source>
+        <translation>Выравнивание</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2118"/>
+        <source>Allows you to define the horizontal position from the left (X).
+This position is expressed as a percentage (%) of the width of the image.
+Example: if X=25 % then the 1st quarter to the left of the image is eliminated.</source>
+        <translation>Позволяет задать горизонтальное положение от левого края (X).
+Это положение, выраженное в процентах (%) от ширины изображения.
+Например: если Х = 25 %, то левая четверть изображения будет обрезана.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2161"/>
+        <source>Allows you to define the vertical position from the top of the image ( Y ).
+This position is expressed as a percentage (%) of the height of the image.
+Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</source>
+        <translation>Позволяет задать вертикальное положение от верхнего края (Y).
+Это положение, выраженное в процентах (%) от высоты изображения.
+Например: если Y = 25 %, то верхняя четверть изображения будет обрезана.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2244"/>
+        <source>Allows you to activate the antialias (minimizing the distortion artifacts) filter.</source>
+        <translation>Активировать фильтр сглаживания (сведение к минимуму артефактов искажения).</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2247"/>
+        <source>Antialias</source>
+        <translation>Сглаживание</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2288"/>
+        <source>Annimation settings:</source>
+        <translation>Настройки анимации:</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2458"/>
+        <source>Define the width</source>
+        <translation>Определить ширину</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2474"/>
+        <source>Allows you to activate the normalize filter.</source>
+        <translation>Активировать фильтр нормализации.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2477"/>
+        <source>Automatic contrast (normalize)</source>
+        <translation>Автоконстрастность (нормализация)</translation>
+    </message>
+    <message utf8="true">
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2515"/>
+        <source>Turn the image to the left (on the next multiple of 90°)</source>
+        <translation>Повернуть изображение влево (на 90°)</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2540"/>
+        <source>Define the rotation angle for the z axis</source>
+        <translation>Определить угол вращения по оси z</translation>
+    </message>
+    <message utf8="true">
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2580"/>
+        <source>Turn the image to the right (on the next multiple of 90°)</source>
+        <translation>Повернуть изображение вправо (на 90°)</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2662"/>
+        <source>Speed wave:</source>
+        <translation>Скорость:</translation>
+    </message>
+    <message utf8="true">
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2686"/>
+        <source>You can use the + and – buttons in each input field to change the settings, or directly enter values for the five parameters.
+Alternatively, you can use the interactive zone to set the framing with the mouse or the keyboard.
+ 
+With the mouse:
+- Click one of the handles and, with the mouse button down, drag the mouse to modify the size (to increase or reduce the part of the image to be kept).
+- Click the image and, with the mouse button down, drag the mouse to modify the part of the image which will be kept.
+
+With the keyboard:
+- Use the arrows to move the part of the image which will be kept.
+- Use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle, to change the size of the part of the image which will be kept.
+
+Remark: 
+When the image does not correspond to the geometry of the video to be produced, transparent zones appear.
+For example: an 4:3 image used in a 16:9 project will be shown by default with a transparent zone on each side.</source>
+        <translation>Вы можете использовать кнопки + и - в каждом поле ввода, чтобы изменить настройки или непосредственно ввести значения всех пяти параметров.
+Кроме того, вы можете воспользоваться интерактивной зоной для кадрирования с помощью мыши или клавиатуры.
+
+С помощью мыши:
+- выберите один из маркеров и зажав кнопку мыши перетащите, чтобы изменить размер.
+- нажмите на изображение и зажав кнопку перетащите, чтобы изменить часть изображения, которая будет сохранена.
+
+С помощью клавиатуры:
+ - используйте стрелки, чтобы переместить часть изображения, которая будет сохранена.
+ - воспользуйтесь сочетанием клавиш SHIFT + стрелки для перемещения к верхнему левому углу или CTRL + стрелки для перемещения к нижнему правому углу, чтобы изменить размер части изображения, которая будет сохранена.
+
+Примечание:
+Если изображение не соответствует геометрии видео, появляются прозрачные зоны.
+Например: изображение 4:3, используемое в проекте 16:9, будет показано по умолчанию в прозрачной зоне.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2724"/>
+        <source>Framing and form:</source>
+        <translation>Кадрирование и форма:</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui" line="2745"/>
+        <source>Select a shape for the current block</source>
+        <translation>Выбрать форму данного блока</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImage.cpp" line="287"/>
+        <source>Video position :</source>
+        <translation>Позиция видео :</translation>
+    </message>
+</context>
+<context>
+    <name>wgt_QEditVideo</name>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="62"/>
         <source>Start :</source>
-        <translation type="unfinished">Начало:</translation>
+        <translation>Начало:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="69"/>
         <source>Move to start position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Переместить в начало</translation>
+        <translation>Переместить в начало</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="83"/>
         <source>Use current position as start position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Использовать текущую позицию как стартовую</translation>
+        <translation>Использовать текущую позицию как стартовую</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="103"/>
         <source>Define the start position to use</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Указать стартовую позицию</translation>
+        <translation>Указать стартовую позицию</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="125"/>
         <source>End :</source>
-        <translation type="unfinished">Конец :</translation>
+        <translation>Конец :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="141"/>
         <source>Define the end position to use</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Указать конечную позицию</translation>
+        <translation>Указать конечную позицию</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="160"/>
         <source>Use current position as end position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Использовать текущую позицию как конечную</translation>
+        <translation>Использовать текущую позицию как конечную</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="174"/>
         <source>Move to end position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Переместить в конец</translation>
+        <translation>Переместить в конец</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="194"/>
         <source>Duration :</source>
-        <translation type="unfinished">Продолжительность :</translation>
+        <translation>Продолжительность :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="239"/>
         <source>Volume :</source>
-        <translation type="unfinished">Громкость :</translation>
+        <translation>Громкость :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="255"/>
         <source>Select the &quot; Master Volume &quot; for the movie</source>
-        <translation type="unfinished">Выбрать громкость фильма</translation>
+        <translation>Выбрать громкость фильма</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="278"/>
         <source>Allows you to activate the deinterlace filter</source>
-        <translation type="unfinished">Активировать фильтр устранения чересстрочности (деинтерлейсинга)</translation>
+        <translation>Активировать фильтр устранения чересстрочности (деинтерлейсинга)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="281"/>
         <source>Deinterlace video</source>
-        <translation type="unfinished">Устранение черезстрочности видео</translation>
+        <translation>Устранение черезстрочности видео</translation>
     </message>
 </context>
 <context>
@@ -9854,7 +9835,7 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="93"/>
         <source>Refresh folder table</source>
-        <translation type="unfinished">Обновить список папок</translation>
+        <translation>Обновить список папок</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="165"/>
@@ -9869,27 +9850,27 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="245"/>
         <source>Use or manage favorite path</source>
-        <translation type="unfinished">Избранное</translation>
+        <translation>Избранное</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="285"/>
         <source>Change to previous folder</source>
-        <translation type="unfinished">Вернуться в предыдущую папку</translation>
+        <translation>Вернуться в предыдущую папку</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="325"/>
         <source>Change to upper folder</source>
-        <translation type="unfinished">Перейти вверх</translation>
+        <translation>Перейти вверх</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui" line="365"/>
         <source>Adjust display mode and file filtering</source>
-        <translation type="unfinished">Настроить режим отображения и фильтрации файлов</translation>
+        <translation>Настроить режим отображения и фильтрации файлов</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="83"/>
         <source>The selection can&apos;t include folders.</source>
-        <translation type="unfinished">Выбранное не содержит папок.</translation>
+        <translation>Выбранное не содержит папок.</translation>
     </message>
 </context>
 <context>

@@ -2037,38 +2037,6 @@ Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quin
         <translation>Inquadratura immagine e correzione</translation>
     </message>
     <message>
-        <source>Define the width</source>
-        <translation>Definisce la larghezza</translation>
-    </message>
-    <message>
-        <source>Define the height</source>
-        <translation>Definisce l&apos;altezza</translation>
-    </message>
-    <message>
-        <source>Adjust luminosity</source>
-        <translation>Regola luminosità</translation>
-    </message>
-    <message>
-        <source>Adjust contrast</source>
-        <translation>Regola contrasto</translation>
-    </message>
-    <message>
-        <source>Adjust gamma</source>
-        <translation>Regola gamma</translation>
-    </message>
-    <message>
-        <source>Reset to zero</source>
-        <translation>Azzeramento</translation>
-    </message>
-    <message>
-        <source>Reset to 5</source>
-        <translation>Risistemare a 5</translation>
-    </message>
-    <message>
-        <source>Name of image/video file</source>
-        <translation>Nome del file immagine/video</translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
         <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
@@ -2109,38 +2077,6 @@ Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quin
         <translation>Annulla l&apos;ultima azione (CTRL+Z)</translation>
     </message>
     <message>
-        <source>Select another file</source>
-        <translation>Seleziona un&apos;altro file</translation>
-    </message>
-    <message>
-        <source>Reset to 1</source>
-        <translation>Ripristina a 1</translation>
-    </message>
-    <message>
-        <source>Adjust red channel</source>
-        <translation>Agiusta il canale rosso</translation>
-    </message>
-    <message>
-        <source>Adjust green channel</source>
-        <translation>Agiusta il canale verde</translation>
-    </message>
-    <message utf8="true">
-        <source>Turn the image to the left (on the next multiple of 90°)</source>
-        <translation>Gira l&apos;immagine verso sinistra (sul prossimo multiplo di 90°)</translation>
-    </message>
-    <message>
-        <source>Define the rotation angle for the z axis</source>
-        <translation>Difinire l&apos;angolo di rotazione per l&apos;asse z</translation>
-    </message>
-    <message utf8="true">
-        <source>Turn the image to the right (on the next multiple of 90°)</source>
-        <translation>Gira l&apos;immagine verso destra (sul prossimo multiplo di 90°)</translation>
-    </message>
-    <message>
-        <source>Adjust blue channel</source>
-        <translation>Agiusta il canale blu</translation>
-    </message>
-    <message>
         <source>Rulers</source>
         <translation>Righelli</translation>
     </message>
@@ -2175,288 +2111,6 @@ Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quin
     <message>
         <source>Quarter screen</source>
         <translation>Un quarto dello schermo</translation>
-    </message>
-    <message>
-        <source>Select a shape for the current block</source>
-        <translation>Selezionare una forma per il blocco corrente</translation>
-    </message>
-    <message>
-        <source>Video position :</source>
-        <translation>Posizione video :</translation>
-    </message>
-    <message>
-        <source>Artistic effects:</source>
-        <translation>Effetti artistici:</translation>
-    </message>
-    <message>
-        <source>Antialias</source>
-        <translation>Antialias</translation>
-    </message>
-    <message>
-        <source>Emboss</source>
-        <translation>Rilievo</translation>
-    </message>
-    <message>
-        <source>Equalize</source>
-        <translation>Equiparare</translation>
-    </message>
-    <message>
-        <source>Negative</source>
-        <translation>Negatico</translation>
-    </message>
-    <message>
-        <source>Oilpaint</source>
-        <translation>Pittura a olio</translation>
-    </message>
-    <message>
-        <source>Edge</source>
-        <translation>Spigolo</translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation>Tipo:</translation>
-    </message>
-    <message>
-        <source>Fast</source>
-        <translation>Veloce</translation>
-    </message>
-    <message>
-        <source>Gaussian</source>
-        <translation>Distribuzione normale</translation>
-    </message>
-    <message>
-        <source>Adjust blur/sharpen radius</source>
-        <translation>Regola raggio sfocatura/nitidezza</translation>
-    </message>
-    <message>
-        <source>Adjust blur/sharpen sigma</source>
-        <translation>Regola sigma sfocatura/nitidezza</translation>
-    </message>
-    <message>
-        <source>Grayscale</source>
-        <translation>Scala di grigi</translation>
-    </message>
-    <message>
-        <source>Color enhancement:</source>
-        <translation>Miglioramento colore:</translation>
-    </message>
-    <message>
-        <source>Framing and form:</source>
-        <translation>Cornice e forma:</translation>
-    </message>
-    <message>
-        <source>Automatic contrast (normalize)</source>
-        <translation>Contrasto automatico (normalizzato)</translation>
-    </message>
-    <message>
-        <source>Despeckle</source>
-        <translation>Eliminazione disturbi</translation>
-    </message>
-    <message>
-        <source>Image distortion:</source>
-        <translation>Distorzione immagine:</translation>
-    </message>
-    <message>
-        <source>Image enhancement:</source>
-        <translation>Miglioramento immagine:</translation>
-    </message>
-    <message>
-        <source>Luminosity, contrast and gamma:</source>
-        <translation>Luminosità, contrasto e gamma:</translation>
-    </message>
-    <message>
-        <source>Charcoal</source>
-        <translation>Carbone</translation>
-    </message>
-    <message>
-        <source>Adjust desaturat level</source>
-        <translation>Aggiusta livello desaturazione</translation>
-    </message>
-    <message>
-        <source>Image rotation:</source>
-        <translation>Rotazione immagine:</translation>
-    </message>
-    <message>
-        <source>Annimation settings:</source>
-        <translation>Impostazioni animazione:</translation>
-    </message>
-    <message>
-        <source>Speed wave:</source>
-        <translation>Velocità onda:</translation>
-    </message>
-    <message>
-        <source>Allows you to:
-- Change image framing (select a part of the image),
-- Rotate image (change or restore the orientation portrait/landscape)
-- Correct image (change the color and/or exposure parameters) but also applying graphical filters.</source>
-        <translation>Consente di:
-- Cambiare inquadratura immagine (selezionare una parte dell&apos;immagine),
-- Ruotare immagine (cambiare o ripristinare l&apos;orientamento verticale/orizzontale)
-- Correggere immagine (cabiare il colore e/o parametri esposizione) ma anche applicare filtri grafici.</translation>
-    </message>
-    <message>
-        <source>Adjust value for frequency of wave transformation</source>
-        <translation>Regolare il valore per la frequenza di trasformazione dell&apos;onda</translation>
-    </message>
-    <message>
-        <source>Allows you to activate the charcoal filter.</source>
-        <translation>Consente di attivare il filtro carbone.</translation>
-    </message>
-    <message>
-        <source>Allows you to activate the grayscale (black &amp; white) filter.</source>
-        <translation>Consente di attivare il filtro scala di grigi (bianco &amp; nero).</translation>
-    </message>
-    <message>
-        <source>Adjust value for implode transformation</source>
-        <translation>Regolare il valore della trasformazione implodere</translation>
-    </message>
-    <message>
-        <source>Allows you to activate the oilpaint filter.</source>
-        <translation>Consente di attivare il filtro di pittura a olio.</translation>
-    </message>
-    <message>
-        <source>Allows you to activate the despeckle (Noise reduction) filter.</source>
-        <translation>Consente di attivare il filtro smacchia (Riduzione del rumore).</translation>
-    </message>
-    <message>
-        <source>Adjust value for amplitude of wave transformation</source>
-        <translation>Regolare il valore di ampiezza della trasformazione onda</translation>
-    </message>
-    <message>
-        <source>Allows you to define the width.
-This value is expressed as a percentage (%) of the original width of the image.
-Example: if Width=33 %, the re-framed image will represent 1/3 of the original.</source>
-        <translation>Consente di definire la dimensione.
-Questo valore è espresso come una percentuale (%) della dimensione originale dell&apos;immagine.
-Esempio: se dimensione=33 %,l&apos;immagine ri-incorniciata rappreseterà 1/3 dell&apos;originale.</translation>
-    </message>
-    <message>
-        <source>Allows you to define the height.
-This value is expressed as a percentage (%) of the original height of the image.
-Example: if Height=33 %, the re-framed image will represent 1/3 of the original.</source>
-        <translation>Consente di definire l&apos;altezza.
-Questo valore è espresso come una percentuale (%) della dimensione originale dell&apos;immagine.
-Esempio: se Altezza=33 %,l&apos;immagine ri-incorniciata rappreseterà 1/3 dell&apos;originale.</translation>
-    </message>
-    <message>
-        <source>Adjust value for swirl transformation</source>
-        <translation>Regolare il valore della trasformazione vortice</translation>
-    </message>
-    <message>
-        <source>Select the blur/sharpen algorythm</source>
-        <translation>Selezionare l&apos;algoritmo di sfocatura/nitidezza</translation>
-    </message>
-    <message>
-        <source>Allows you to activate the emboss filter.</source>
-        <translation>Consente di attivare il filtro rilievo.</translation>
-    </message>
-    <message>
-        <source>Allows you to activate the edge filter.</source>
-        <translation>Consente di attivare il filtro bordo.</translation>
-    </message>
-    <message>
-        <source>Allows you to select a framing from a list of predefined framings.
-According to the image format, various choices will be proposed to you.
-
-The framings are classified in different categories:
-
-- Lock on the project geometry: 
-Lock the image framing selection rectangle to the same geometry as the project.
-If you place the image in full screen, the reframed part will correspond to the whole screen.
-
-- Lock on the image geometry:
-Lock the image framing selection rectangle to the same geometry as the image.
-
-- No constraint:
-No constraint is applied to the image framing selection rectangle.
-
-- Lock on this geometry:
-Lock image framing selection rectangle to the actual geometry.
-This only has meaning when a shape has been defined in &quot;no constraint&quot; mode.</source>
-        <translation>Consente di selezionare una inquadratura da un elenco di inquadrature predefinite.
-Secondo il formato immagine, vi saranno proposte varie scelte.
-
-Le inquadrature sono classificate in diverse categorie:
-
-- Bloccare sulla geometria del progetto:
-Bloccare il rettangolo dell&apos;inquadratura immagine di selezione per la stessa geometria del progetto.
-Se si posiziona l&apos;immagine a schermo intero, la parte ri-inquadrata sarà conforme a tutto lo schermo.
-
-- Bloccare sulla geometria dell&apos;immagine:
-Bloccare il rettangolo dell&apos;inquadratura immagine di selezione per la stessa geometria dell&apos;immagine.
-
-- Nessun vincolo:
-Nessun vincolo viene applicato all&apos; inquadratura immagine selezione rettangolo.
-
-- Bloccare su questa geometria:
-Blocca l&apos; inquadratura immagine rettangolo di selezione per la geometria reale.
-Questo ha senso solo quando una forma è stata definita &quot;senza vincolo di&quot; modalità.</translation>
-    </message>
-    <message>
-        <source>Allows you to activate the negative filter.</source>
-        <translation>Consente di attivare il filtro negativo.</translation>
-    </message>
-    <message>
-        <source>Allows you to define the horizontal position from the left (X).
-This position is expressed as a percentage (%) of the width of the image.
-Example: if X=25 % then the 1st quarter to the left of the image is eliminated.</source>
-        <translation>Consente di definire la posizione orizzontale da sinistra (X).
-Questa posizione è espressa come percentuale (%) della larghezza dell&apos;immagine.
-Esempio: se X=25 %, allora il primo quarto a sinistra dell&apos;immagine viene eliminata.</translation>
-    </message>
-    <message>
-        <source>Allows you to define the vertical position from the top of the image ( Y ).
-This position is expressed as a percentage (%) of the height of the image.
-Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</source>
-        <translation>Consente di definire la posizione verticale dalla parte superiore dell&apos;immagine (Y).
-Questa posizione è espressa come percentuale (%) della altezza dell&apos;immagine.
-Esempio: se Y=25 % del primo trimestre nella parte superiore dell&apos;immagine è eliminato.</translation>
-    </message>
-    <message>
-        <source>Allows you to activate the equalize (Histogram equalization) filter.</source>
-        <translation>Consente di attivare il filtro equalizza (equalizzazione dell&apos;istogramma).</translation>
-    </message>
-    <message>
-        <source>Allows you to activate the antialias (minimizing the distortion artifacts) filter.</source>
-        <translation>Consente di attivare il filtro antialias (riducendo al minimo gli artefatti di distorsione).</translation>
-    </message>
-    <message>
-        <source>Allows you to activate the normalize filter.</source>
-        <translation>Consente di attivare il filtro normalizzare.</translation>
-    </message>
-    <message>
-        <source>Defined speed curve for image animations.</source>
-        <translation>Definisce la curva di velocità per le animazioni immagini.</translation>
-    </message>
-    <message utf8="true">
-        <source>You can use the + and – buttons in each input field to change the settings, or directly enter values for the five parameters.
-Alternatively, you can use the interactive zone to set the framing with the mouse or the keyboard.
- 
-With the mouse:
-- Click one of the handles and, with the mouse button down, drag the mouse to modify the size (to increase or reduce the part of the image to be kept).
-- Click the image and, with the mouse button down, drag the mouse to modify the part of the image which will be kept.
-
-With the keyboard:
-- Use the arrows to move the part of the image which will be kept.
-- Use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle, to change the size of the part of the image which will be kept.
-
-Remark: 
-When the image does not correspond to the geometry of the video to be produced, transparent zones appear.
-For example: an 4:3 image used in a 16:9 project will be shown by default with a transparent zone on each side.</source>
-        <translation>È possibile utilizzare il pulsanti + e - in ogni campo di input per modificare le impostazioni o immettere direttamente i valori per i cinque parametri.
-In alternativa, è possibile utilizzare la zona interattiva per impostare l&apos;inquadratura con il mouse o la tastiera.
- 
-Con il mouse:
-- Premere uno dei manici e, con il pulsante del mouse, trascinare il mouse per modificare la dimensione (per aumentare o diminuire la parte dell&apos;immagine da conservare).
-- Clicca l&apos;immagine e, con il tasto del mouse, trascinare il mouse per modificare la parte dell&apos;immagine che verrà mantenuta.
-
-Con la tastiera:
-- Utilizzare le frecce per spostare la parte dell&apos;immagine che verrà mantenuta.
-- Utilizzare MAIUSC + frecce per spostare la maniglia in alto a sinistra o CTRL + frecce per spostare la maniglia nell&apos;angolo in basso a destra, per modificare le dimensioni della parte dell&apos;immagine che verrà mantenuta.
-
-Osservazioni:
-Quando l&apos;immagine non corrisponde alla geometria del video da produrre, zone trasparenti appaiono.
-Per esempio: un&apos;immagine 4:03 utilizzato in un progetto 16:9 vengono visualizzate per impostazione predefinita con una zona trasparente su ogni lato.</translation>
     </message>
     <message>
         <source>Allows you to enable or disable the magnetic rulers.
@@ -6462,6 +6116,10 @@ Vuoi scaricarla ora?</translation>
         <source>%1 image vector files</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Restore from a previous crash...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTable</name>
@@ -7390,15 +7048,6 @@ Vuoi scaricarla ora?</translation>
         <comment>File type</comment>
         <translation>Immagine vettoriale</translation>
     </message>
-    <message>
-        <source>Google Maps map</source>
-        <comment>File type</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 location(s)</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>cDeviceModelList</name>
@@ -7580,68 +7229,403 @@ Vuoi scaricarla ora?</translation>
     </message>
 </context>
 <context>
-    <name>wgt_QEditVideo</name>
+    <name>wgt_QEditImage</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
+        <source>Name of image/video file</source>
+        <translation>Nome del file immagine/video</translation>
     </message>
     <message>
+        <source>Select another file</source>
+        <translation>Seleziona un&apos;altro file</translation>
+    </message>
+    <message>
+        <source>Reset to zero</source>
+        <translation>Risistemare a 0</translation>
+    </message>
+    <message>
+        <source>Reset to 5</source>
+        <translation>Risistemare a 5</translation>
+    </message>
+    <message>
+        <source>Allows you to activate the charcoal filter.</source>
+        <translation>Consente di attivare il filtro carbone.</translation>
+    </message>
+    <message>
+        <source>Charcoal</source>
+        <translation>Carbone</translation>
+    </message>
+    <message>
+        <source>Adjust value for frequency of wave transformation</source>
+        <translation>Regolare il valore per la frequenza di trasformazione dell&apos;onda</translation>
+    </message>
+    <message>
+        <source>Allows you to activate the grayscale (black &amp; white) filter.</source>
+        <translation>Consente di attivare il filtro scala di grigi (bianco &amp; nero).</translation>
+    </message>
+    <message>
+        <source>Grayscale</source>
+        <translation>Scala di grigi</translation>
+    </message>
+    <message>
+        <source>Adjust green channel</source>
+        <translation>Agiusta il canale verde</translation>
+    </message>
+    <message>
+        <source>Adjust value for implode transformation</source>
+        <translation>Regolare il valore della trasformazione implodere</translation>
+    </message>
+    <message>
+        <source>Allows you to activate the oilpaint filter.</source>
+        <translation>Consente di attivare il filtro di pittura a olio.</translation>
+    </message>
+    <message>
+        <source>Oilpaint</source>
+        <translation>Pittura a olio</translation>
+    </message>
+    <message>
+        <source>Image rotation:</source>
+        <translation>Rotazione immagine:</translation>
+    </message>
+    <message>
+        <source>Color enhancement:</source>
+        <translation>Miglioramento colore:</translation>
+    </message>
+    <message>
+        <source>Adjust blue channel</source>
+        <translation>Agiusta il canale blu</translation>
+    </message>
+    <message>
+        <source>Adjust luminosity</source>
+        <translation>Regola luminosità</translation>
+    </message>
+    <message>
+        <source>Adjust red channel</source>
+        <translation>Agiusta il canale rosso</translation>
+    </message>
+    <message>
+        <source>Reset to 1</source>
+        <translation>Ripristina a 1</translation>
+    </message>
+    <message>
+        <source>Image distortion:</source>
+        <translation>Distorzione immagine:</translation>
+    </message>
+    <message>
+        <source>Luminosity, contrast and gamma:</source>
+        <translation>Luminosità, contrasto e gamma:</translation>
+    </message>
+    <message>
+        <source>Adjust blur/sharpen sigma</source>
+        <translation>Regola sigma sfocatura/nitidezza</translation>
+    </message>
+    <message>
+        <source>Allows you to activate the despeckle (Noise reduction) filter.</source>
+        <translation>Consente di attivare il filtro smacchia (Riduzione del rumore).</translation>
+    </message>
+    <message>
+        <source>Despeckle</source>
+        <translation>Eliminazione disturbi</translation>
+    </message>
+    <message>
+        <source>Adjust desaturat level</source>
+        <translation>Aggiusta livello desaturazione</translation>
+    </message>
+    <message>
+        <source>Image enhancement:</source>
+        <translation>Miglioramento immagine:</translation>
+    </message>
+    <message>
+        <source>Adjust value for amplitude of wave transformation</source>
+        <translation>Regolare il valore di ampiezza della trasformazione onda</translation>
+    </message>
+    <message>
+        <source>Artistic effects:</source>
+        <translation>Effetti artistici:</translation>
+    </message>
+    <message>
+        <source>Allows you to define the width.
+This value is expressed as a percentage (%) of the original width of the image.
+Example: if Width=33 %, the re-framed image will represent 1/3 of the original.</source>
+        <translation>Consente di definire la dimensione.
+Questo valore è espresso come una percentuale (%) della dimensione originale dell&apos;immagine.
+Esempio: se dimensione=33 %,l&apos;immagine ri-incorniciata rappreseterà 1/3 dell&apos;originale.</translation>
+    </message>
+    <message>
+        <source>Define the height</source>
+        <translation>Definisce l&apos;altezza</translation>
+    </message>
+    <message>
+        <source>Allows you to define the height.
+This value is expressed as a percentage (%) of the original height of the image.
+Example: if Height=33 %, the re-framed image will represent 1/3 of the original.</source>
+        <translation>Consente di definire l&apos;altezza.
+Questo valore è espresso come una percentuale (%) della dimensione originale dell&apos;immagine.
+Esempio: se Altezza=33 %,l&apos;immagine ri-incorniciata rappreseterà 1/3 dell&apos;originale.</translation>
+    </message>
+    <message>
+        <source>Defined speed curve for image animations.</source>
+        <translation>Definisce la curva di velocità per le animazioni immagini.</translation>
+    </message>
+    <message>
+        <source>Adjust value for swirl transformation</source>
+        <translation>Regolare il valore della trasformazione vortice</translation>
+    </message>
+    <message>
+        <source>Adjust gamma</source>
+        <translation>Regola gamma</translation>
+    </message>
+    <message>
+        <source>Adjust contrast</source>
+        <translation>Regola contrasto</translation>
+    </message>
+    <message>
+        <source>Type:</source>
+        <translation>Tipo:</translation>
+    </message>
+    <message>
+        <source>Select the blur/sharpen algorythm</source>
+        <translation>Selezionare l&apos;algoritmo di sfocatura/nitidezza</translation>
+    </message>
+    <message>
+        <source>Fast</source>
+        <translation>Veloce</translation>
+    </message>
+    <message>
+        <source>Gaussian</source>
+        <translation>Distribuzione normale</translation>
+    </message>
+    <message>
+        <source>Allows you to activate the emboss filter.</source>
+        <translation>Consente di attivare il filtro rilievo.</translation>
+    </message>
+    <message>
+        <source>Emboss</source>
+        <translation>Rilievo</translation>
+    </message>
+    <message>
+        <source>Adjust blur/sharpen radius</source>
+        <translation>Regola raggio sfocatura/nitidezza</translation>
+    </message>
+    <message>
+        <source>Allows you to activate the edge filter.</source>
+        <translation>Consente di attivare il filtro bordo.</translation>
+    </message>
+    <message>
+        <source>Edge</source>
+        <translation>Spigolo</translation>
+    </message>
+    <message>
+        <source>Allows you to select a framing from a list of predefined framings.
+According to the image format, various choices will be proposed to you.
+
+The framings are classified in different categories:
+
+- Lock on the project geometry: 
+Lock the image framing selection rectangle to the same geometry as the project.
+If you place the image in full screen, the reframed part will correspond to the whole screen.
+
+- Lock on the image geometry:
+Lock the image framing selection rectangle to the same geometry as the image.
+
+- No constraint:
+No constraint is applied to the image framing selection rectangle.
+
+- Lock on this geometry:
+Lock image framing selection rectangle to the actual geometry.
+This only has meaning when a shape has been defined in &quot;no constraint&quot; mode.</source>
+        <translation>Consente di selezionare una inquadratura da un elenco di inquadrature predefinite.
+Secondo il formato immagine, vi saranno proposte varie scelte.
+
+Le inquadrature sono classificate in diverse categorie:
+
+- Bloccare sulla geometria del progetto:
+Bloccare il rettangolo dell&apos;inquadratura immagine di selezione per la stessa geometria del progetto.
+Se si posiziona l&apos;immagine a schermo intero, la parte ri-inquadrata sarà conforme a tutto lo schermo.
+
+- Bloccare sulla geometria dell&apos;immagine:
+Bloccare il rettangolo dell&apos;inquadratura immagine di selezione per la stessa geometria dell&apos;immagine.
+
+- Nessun vincolo:
+Nessun vincolo viene applicato all&apos; inquadratura immagine selezione rettangolo.
+
+- Bloccare su questa geometria:
+Blocca l&apos; inquadratura immagine rettangolo di selezione per la geometria reale.
+Questo ha senso solo quando una forma è stata definita &quot;senza vincolo di&quot; modalità.</translation>
+    </message>
+    <message>
+        <source>Allows you to activate the negative filter.</source>
+        <translation>Consente di attivare il filtro negativo.</translation>
+    </message>
+    <message>
+        <source>Negative</source>
+        <translation>Negatico</translation>
+    </message>
+    <message>
+        <source>Allows you to activate the equalize (Histogram equalization) filter.</source>
+        <translation>Consente di attivare il filtro equalizza (equalizzazione dell&apos;istogramma).</translation>
+    </message>
+    <message>
+        <source>Equalize</source>
+        <translation>Equiparare</translation>
+    </message>
+    <message>
+        <source>Allows you to define the horizontal position from the left (X).
+This position is expressed as a percentage (%) of the width of the image.
+Example: if X=25 % then the 1st quarter to the left of the image is eliminated.</source>
+        <translation>Consente di definire la posizione orizzontale da sinistra (X).
+Questa posizione è espressa come percentuale (%) della larghezza dell&apos;immagine.
+Esempio: se X=25 %, allora il primo quarto a sinistra dell&apos;immagine viene eliminata.</translation>
+    </message>
+    <message>
+        <source>Allows you to define the vertical position from the top of the image ( Y ).
+This position is expressed as a percentage (%) of the height of the image.
+Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</source>
+        <translation>Consente di definire la posizione verticale dalla parte superiore dell&apos;immagine (Y).
+Questa posizione è espressa come percentuale (%) della altezza dell&apos;immagine.
+Esempio: se Y=25 % del primo trimestre nella parte superiore dell&apos;immagine è eliminato.</translation>
+    </message>
+    <message>
+        <source>Allows you to activate the antialias (minimizing the distortion artifacts) filter.</source>
+        <translation>Consente di attivare il filtro antialias (riducendo al minimo gli artefatti di distorsione).</translation>
+    </message>
+    <message>
+        <source>Antialias</source>
+        <translation>Antialias</translation>
+    </message>
+    <message>
+        <source>Annimation settings:</source>
+        <translation>Impostazioni animazione:</translation>
+    </message>
+    <message>
+        <source>Define the width</source>
+        <translation>Definisce la larghezza</translation>
+    </message>
+    <message>
+        <source>Allows you to activate the normalize filter.</source>
+        <translation>Consente di attivare il filtro normalizzare.</translation>
+    </message>
+    <message>
+        <source>Automatic contrast (normalize)</source>
+        <translation>Contrasto automatico (normalizzato)</translation>
+    </message>
+    <message utf8="true">
+        <source>Turn the image to the left (on the next multiple of 90°)</source>
+        <translation>Gira l&apos;immagine verso sinistra (sul prossimo multiplo di 90°)</translation>
+    </message>
+    <message>
+        <source>Define the rotation angle for the z axis</source>
+        <translation>Difinire l&apos;angolo di rotazione per l&apos;asse z</translation>
+    </message>
+    <message utf8="true">
+        <source>Turn the image to the right (on the next multiple of 90°)</source>
+        <translation>Gira l&apos;immagine verso destra (sul prossimo multiplo di 90°)</translation>
+    </message>
+    <message>
+        <source>Speed wave:</source>
+        <translation>Velocità onda:</translation>
+    </message>
+    <message utf8="true">
+        <source>You can use the + and – buttons in each input field to change the settings, or directly enter values for the five parameters.
+Alternatively, you can use the interactive zone to set the framing with the mouse or the keyboard.
+ 
+With the mouse:
+- Click one of the handles and, with the mouse button down, drag the mouse to modify the size (to increase or reduce the part of the image to be kept).
+- Click the image and, with the mouse button down, drag the mouse to modify the part of the image which will be kept.
+
+With the keyboard:
+- Use the arrows to move the part of the image which will be kept.
+- Use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle, to change the size of the part of the image which will be kept.
+
+Remark: 
+When the image does not correspond to the geometry of the video to be produced, transparent zones appear.
+For example: an 4:3 image used in a 16:9 project will be shown by default with a transparent zone on each side.</source>
+        <translation>È possibile utilizzare il pulsanti + e - in ogni campo di input per modificare le impostazioni o immettere direttamente i valori per i cinque parametri.
+In alternativa, è possibile utilizzare la zona interattiva per impostare l&apos;inquadratura con il mouse o la tastiera.
+ 
+Con il mouse:
+- Premere uno dei manici e, con il pulsante del mouse, trascinare il mouse per modificare la dimensione (per aumentare o diminuire la parte dell&apos;immagine da conservare).
+- Clicca l&apos;immagine e, con il tasto del mouse, trascinare il mouse per modificare la parte dell&apos;immagine che verrà mantenuta.
+
+Con la tastiera:
+- Utilizzare le frecce per spostare la parte dell&apos;immagine che verrà mantenuta.
+- Utilizzare MAIUSC + frecce per spostare la maniglia in alto a sinistra o CTRL + frecce per spostare la maniglia nell&apos;angolo in basso a destra, per modificare le dimensioni della parte dell&apos;immagine che verrà mantenuta.
+
+Osservazioni:
+Quando l&apos;immagine non corrisponde alla geometria del video da produrre, zone trasparenti appaiono.
+Per esempio: un&apos;immagine 4:03 utilizzato in un progetto 16:9 vengono visualizzate per impostazione predefinita con una zona trasparente su ogni lato.</translation>
+    </message>
+    <message>
+        <source>Framing and form:</source>
+        <translation>Cornice e forma:</translation>
+    </message>
+    <message>
+        <source>Select a shape for the current block</source>
+        <translation>Selezionare una forma per il blocco corrente</translation>
+    </message>
+    <message>
+        <source>Video position :</source>
+        <translation>Posizione video :</translation>
+    </message>
+</context>
+<context>
+    <name>wgt_QEditVideo</name>
+    <message>
         <source>Start :</source>
-        <translation type="unfinished">Partenza :</translation>
+        <translation>Partenza :</translation>
     </message>
     <message>
         <source>Move to start position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Sposta alla posizione iniziale</translation>
+        <translation>Sposta alla posizione iniziale</translation>
     </message>
     <message>
         <source>Use current position as start position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Usa la posizione corrente come posizione iniziale</translation>
+        <translation>Usa la posizione corrente come posizione iniziale</translation>
     </message>
     <message>
         <source>Define the start position to use</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Definire la posizione iniziale da utilizzare</translation>
+        <translation>Definire la posizione iniziale da utilizzare</translation>
     </message>
     <message>
         <source>End :</source>
-        <translation type="unfinished">Fine :</translation>
+        <translation>Fine :</translation>
     </message>
     <message>
         <source>Define the end position to use</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Definire la posizione finale da utilizzare</translation>
+        <translation>Definire la posizione finale da utilizzare</translation>
     </message>
     <message>
         <source>Use current position as end position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Usa la posizione corrente come posizione finale</translation>
+        <translation>Usa la posizione corrente come posizione finale</translation>
     </message>
     <message>
         <source>Move to end position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Sposta alla posizione finale</translation>
+        <translation>Sposta alla posizione finale</translation>
     </message>
     <message>
         <source>Duration :</source>
-        <translation type="unfinished">Durata :</translation>
+        <translation>Durata :</translation>
     </message>
     <message>
         <source>Volume :</source>
-        <translation type="unfinished">Volume :</translation>
+        <translation>Volume :</translation>
     </message>
     <message>
         <source>Select the &quot; Master Volume &quot; for the movie</source>
-        <translation type="unfinished">Selezionare il &quot; Volume Master &quot; per il filmato</translation>
+        <translation>Selezionare il &quot; Volume Master &quot; per il filmato</translation>
     </message>
     <message>
         <source>Allows you to activate the deinterlace filter</source>
-        <translation type="unfinished">Consente di attivare il filtro di deinterlacciamento</translation>
+        <translation>Consente di attivare il filtro di deinterlacciamento</translation>
     </message>
     <message>
         <source>Deinterlace video</source>
-        <translation type="unfinished">Deinterlacciamento video</translation>
+        <translation>Deinterlacciamento video</translation>
     </message>
 </context>
 <context>
@@ -7680,7 +7664,7 @@ Vuoi scaricarla ora?</translation>
     </message>
     <message>
         <source>The selection can&apos;t include folders.</source>
-        <translation type="unfinished">La selezione non può includere le cartelle.</translation>
+        <translation>La selezione non può includere le cartelle.</translation>
     </message>
 </context>
 <context>
