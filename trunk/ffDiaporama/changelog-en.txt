@@ -14,7 +14,7 @@
 
 [Commit: 30/11/2013] - ffDiaporama 2.0.1_devel.20131130
     Bug fixes:
-        -Added a new patch from Olivier Laurentain for support of yadif filter with libav 9
+        -Added a new patch from Olivier Laurantin for support of yadif filter with libav 9
         -Fixed a crash when closing ffDiaporama
         -Corrected updates the thumbnail of the first slide when an object of this plan is modified
         -Fixed the filter file selection when an image is desired : differentiate image and vector image
@@ -53,7 +53,7 @@
 --------------------------------------------------------------------------------
 
 [Commit: 19/11/2013 - again]
-    Merged libav 0.9.x patch from Olivier Laurentain
+    Merged libav 0.9.x patch from Olivier Laurantin
 
 --------------------------------------------------------------------------------
 

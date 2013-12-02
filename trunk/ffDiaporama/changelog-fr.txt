@@ -14,7 +14,7 @@
 
 [Commit: 30/11/2013] - ffDiaporama 2.0.1_devel.20131130
     Correction de bug :
-        -Ajout d'un nouveau patch d'Olivier Laurentain pour prise en compte du filtre yadif avec libav 9
+        -Ajout d'un nouveau patch d'Olivier Laurantin pour prise en compte du filtre yadif avec libav 9
         -Corrige un crash lors de la fermeture de ffDiaporama
         -Corrige la mise à jours de la vignette du 1er plan du slide quand un object de ce plan est modifié
         -Corrige le filtre de sélection de fichier quand on cherche une image : différencie image et image vectorielle
@@ -53,7 +53,7 @@
 --------------------------------------------------------------------------------
 
 [Commit: 19/11/2013 - encore]
-    Intègre le path libav 0.9.x d'Olivier Laurentain
+    Intègre le path libav 0.9.x d'Olivier Laurantin
 
 --------------------------------------------------------------------------------
 
