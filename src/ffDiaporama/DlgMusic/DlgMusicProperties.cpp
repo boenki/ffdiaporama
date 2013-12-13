@@ -84,7 +84,7 @@ void DlgMusicProperties::PrepareGlobalUndo() {
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
-    DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT",DiaporamaObject->Parent->ProjectFileName,true,NULL);  // Save object
+    DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT",DiaporamaObject->Parent->ProjectFileName,true,NULL,NULL,false);  // Save object
     Undo->appendChild(root);                                // Add object to xml document
 }
 
@@ -94,7 +94,7 @@ void DlgMusicProperties::PrepareGlobalUndo() {
 void DlgMusicProperties::DoGlobalUndo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::DoGlobalUndo");
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL);
+    if (root.tagName()=="UNDO-DLG") DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false);
 }
 
 //====================================================================================================================

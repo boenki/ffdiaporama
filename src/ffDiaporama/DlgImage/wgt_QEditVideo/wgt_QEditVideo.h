@@ -43,9 +43,10 @@ public:
 
     void                    DoInitWidget(QCustomDialog *ParentDialog,cBrushDefinition *CurrentBrush);
     void                    DoInitDialog();
-    void                    RefreshControls(bool EmitToParent=true);
+    void                    RefreshControls();
     void                    WinFocus();
     void                    LostFocus();
+    bool                    DoAccept() {return true;}                                 // Call when user click on Ok button
 
 private slots:
     void                    s_Event_SaveImageEvent();
@@ -59,7 +60,7 @@ private slots:
     void                    s_Deinterlace(int);
 
 signals:
-    void                    DoRefreshControls();
+    void                    DoRefreshImageObject();
 
 private:
     Ui::wgt_QEditVideo      *ui;

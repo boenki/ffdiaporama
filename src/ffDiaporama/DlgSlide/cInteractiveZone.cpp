@@ -188,7 +188,7 @@ void cInteractiveZone::RefreshDisplay() {
 
         for (int i=0;i<BlockTable->CompositionList->List.count();i++) if (BlockTable->CompositionList->List[i]->IsVisible) {
             // If it's a video block, calc video position
-            if (BlockTable->CompositionList->List[i]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
+            if ((BlockTable->CompositionList->List[i]->BackgroundBrush->MediaObject)&&(BlockTable->CompositionList->List[i]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)) {
                 StartVideoPos=QTime(0,0,0,0).msecsTo(((cVideoFile *)BlockTable->CompositionList->List[i]->BackgroundBrush->MediaObject)->StartPos);
                 for (int k=0;k<CurrentShotNbr;k++) {
                     for (int l=0;l<DiaporamaObject->List[k]->ShotComposition.List.count();l++) {
@@ -431,6 +431,7 @@ bool cInteractiveZone::IsInRect(QPointF Pos,QRectF Rect) {
 //====================================================================================================================
 
 bool cInteractiveZone::IsInSelectedRect(QPointF Pos) {
+    UpdateIsSelected();
     for (int i=0;i<BlockTable->CompositionList->List.count();i++) if ((BlockTable->CompositionList->List[i]->IsVisible)&&(IsSelected[i])) {
         QRectF ObjRect=ApplyModifAndScaleFactors(i,SceneRect,true);
         if ((Pos.x()-SceneRect.left()>=ObjRect.left())&&(Pos.x()-SceneRect.left()<=ObjRect.right())&&(Pos.y()-SceneRect.top()>=ObjRect.top())&&(Pos.y()-SceneRect.top()<=ObjRect.bottom())) return true;

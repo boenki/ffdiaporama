@@ -22,7 +22,8 @@
 #define _MODEL_H
 
 // Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
+#include "engine/_GlobalDefines.h"
+#include "engine/cDatabase.h"
 #include <QImage>
 
 enum ffd_MODELTYPE {
@@ -40,6 +41,7 @@ enum ffd_MODELTYPE {
 class cBaseApplicationConfig;
 class cDiaporama;
 class cDiaporamaObject;
+
 class cModelList;
 class cModelListItem : public QObject {
 Q_OBJECT
@@ -51,6 +53,8 @@ public:
     QSize                   ThumbnailSize;
     bool                    IsCustom;
     int64_t                 Duration;
+
+    QList<cSlideThumbsTable::TRResKeyItem>  ResKeyList;     // Ressource key mapping table
 
     explicit                cModelListItem(cModelList *Parent,QString FileName,QSize ThumbnailSize);
                             ~cModelListItem();

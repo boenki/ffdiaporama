@@ -128,11 +128,11 @@ void QCustomDialog::InitDialog() {
     // Restore window size and position
     RestoreWindowState();
 
-    // Prepare undo
-    PrepareGlobalUndo();
-
     // Initialise dialog
     DoInitDialog();
+
+    // Prepare undo
+    PrepareGlobalUndo();
 
     if (UndoBt) UndoBt->setEnabled(UndoDataList.count()>0);
 
@@ -306,6 +306,10 @@ void QCustomDialog::AppendPartialUndo(int ActionType,QWidget *FocusWindow,bool F
         UndoDataList.append(Data);
         if (UndoBt) UndoBt->setEnabled(UndoDataList.count()>0);
     }
+}
+
+void QCustomDialog::AppendPartialUndo(int ActionType,QString WidgetName,bool ForceAdd,QWidget *FocusTab) {
+    AppendPartialUndo(ActionType,findChild<QWidget *>(WidgetName),ForceAdd,FocusTab);
 }
 
 //====================================================================================================================

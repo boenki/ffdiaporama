@@ -124,7 +124,7 @@ void DlgAutoTitleSlide::PrepareGlobalUndo() {
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");                                               // Create xml document and root
-    CurrentSlide->SaveToXML(root,"UNDO-DLG-OBJECT",CurrentSlide->Parent->ProjectFileName,true,NULL);     // Save object
+    CurrentSlide->SaveToXML(root,"UNDO-DLG-OBJECT",CurrentSlide->Parent->ProjectFileName,true,NULL,NULL,false);     // Save object
     Undo->appendChild(root);                                                                        // Add object to xml document
 }
 
@@ -135,7 +135,7 @@ void DlgAutoTitleSlide::DoGlobalUndo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::DoGlobalUndo");
 
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") CurrentSlide->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL);
+    if (root.tagName()=="UNDO-DLG") CurrentSlide->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false);
 }
 
 //====================================================================================================================
@@ -145,8 +145,10 @@ bool DlgAutoTitleSlide::DoAccept() {
     QString CurrentModel=ui->ModelTable->GetCurrentModel();
     if (!CurrentModel.isEmpty()) {
         CurrentSlide->SlideName=QString("<%AUTOTS_%1%>").arg(ui->ModelTable->GetCurrentModel());
+        int ModelNum=ui->ModelTable->ModelTable->SearchModel(ui->ModelTable->GetCurrentModel());
         CurrentSlide->LoadModelFromXMLData(ui->ModelTable->ModelTable->ModelType,
-                                           ui->ModelTable->ModelTable->List[ui->ModelTable->ModelTable->SearchModel(ui->ModelTable->GetCurrentModel())]->Model);
+                                           ui->ModelTable->ModelTable->List[ModelNum]->Model,
+                                           &ui->ModelTable->ModelTable->List[ModelNum]->ResKeyList,true);   // Always duplicate ressource
         CurrentSlide->OverrideProjectEventDate=ui->OverrideProjectDateCB->isChecked();
         CurrentSlide->OverrideChapterLongDate =ui->OverrideDateCB->isChecked();
         CurrentSlide->ChapterName             =ui->ChapterNameED->text();

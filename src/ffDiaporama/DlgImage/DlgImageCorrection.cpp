@@ -33,6 +33,7 @@ DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int *T
                                        QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgImageCorrection) {
     ImageWidget     =NULL;
     VideoWidget     =NULL;
+    GMapsWidget     =NULL;
 
     ui->setupUi(this);
     OkBt            =ui->OKBT;
@@ -41,6 +42,7 @@ DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int *T
     HelpFile        ="0110";
     UndoBt          =ui->UndoBT;
     StopMaj         =false;
+    IsFirstInitDone =false;
 
     ffDPrjGeometry  =TheffDPrjGeometry;
     CurrentBrush    =TheCurrentBrush;
@@ -65,9 +67,11 @@ DlgImageCorrection::~DlgImageCorrection() {
 void DlgImageCorrection::DoInitDialog() {
     // Set title of dialog
     switch (CurrentBrush->MediaObject->ObjectType) {
-        case OBJECTTYPE_VIDEOFILE: setWindowTitle(QApplication::translate("DlgSlideProperties","Correct or reframe image",                  "Action title in slide edit dialog + dialog title of image edit dialog")); break;
-        case OBJECTTYPE_IMAGEFILE: setWindowTitle(QApplication::translate("DlgSlideProperties","Correct, reframe or cut video",             "Action title in slide edit dialog + dialog title of image edit dialog")); break;
-        case OBJECTTYPE_GMAPSMAP:  setWindowTitle(QApplication::translate("DlgSlideProperties","Correct, reframe or cut a Google Maps map", "Action title in slide edit dialog + dialog title of image edit dialog")); break;
+        case OBJECTTYPE_IMAGEFILE:
+        case OBJECTTYPE_IMAGEVECTOR:
+        case OBJECTTYPE_IMAGECLIPBOARD: setWindowTitle(QApplication::translate("DlgSlideProperties","Correct or reframe image",                  "Action title in slide edit dialog + dialog title of image edit dialog")); break;
+        case OBJECTTYPE_VIDEOFILE:      setWindowTitle(QApplication::translate("DlgSlideProperties","Correct, reframe or cut video",             "Action title in slide edit dialog + dialog title of image edit dialog")); break;
+        case OBJECTTYPE_GMAPSMAP:       setWindowTitle(QApplication::translate("DlgSlideProperties","Correct, reframe or cut a Google Maps map", "Action title in slide edit dialog + dialog title of image edit dialog")); break;
         default: break;
     }
 
@@ -81,7 +85,7 @@ void DlgImageCorrection::DoInitDialog() {
         case OBJECTTYPE_IMAGEFILE:      AllowChangeFile=true;   CreateImageTag(AllowChangeFile);                        break;
         case OBJECTTYPE_IMAGEVECTOR:    AllowChangeFile=true;   CreateImageTag(AllowChangeFile);                        break;
         case OBJECTTYPE_IMAGECLIPBOARD: AllowChangeFile=false;  CreateImageTag(AllowChangeFile);                        break;
-        case OBJECTTYPE_GMAPSMAP:       AllowChangeFile=false;  CreateImageTag(AllowChangeFile);                        break;
+        case OBJECTTYPE_GMAPSMAP:       AllowChangeFile=false;  CreateImageTag(AllowChangeFile);   CreateGMapsTag();    break;
         case OBJECTTYPE_VIDEOFILE:      AllowChangeFile=true;   CreateImageTag(AllowChangeFile);   CreateVideoTag();    break;
         default: break; // To avoid warning
     }
@@ -126,31 +130,11 @@ void DlgImageCorrection::PrepareGlobalUndo() {
     // Save objects before modification for cancel button
     UndoBrushFileName=CurrentBrush->MediaObject->FileName();
 
+    // Create xml document and root
     Undo=new QDomDocument(APPLICATION_NAME);
-    QDomElement root=Undo->createElement("UNDO-DLG");           // Create xml document and root
-    CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT","",true,NULL);    // Save object
-    if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
-        root.setAttribute("StartPos",   ((cVideoFile *)CurrentBrush->MediaObject)->StartPos.toString("HH:mm:ss.zzz"));
-        root.setAttribute("EndPos",     ((cVideoFile *)CurrentBrush->MediaObject)->EndPos.toString("HH:mm:ss.zzz"));
-        root.setAttribute("SoundVolume",QString("%1").arg(CurrentBrush->SoundVolume,0,'f'));
-        root.setAttribute("Deinterlace",CurrentBrush->Deinterlace?"1":"0");                                 // Deinterlace YADIF filter
-    }
+    QDomElement root=Undo->createElement("UNDO-DLG");
+    PreparePartialUndo(0,root);
     Undo->appendChild(root);                                    // Add object to xml document
-}
-
-//====================================================================================================================
-// Apply Undo : call when user click on Cancel button
-
-void DlgImageCorrection::DoGlobalUndo() {
-    QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") CurrentBrush->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL);
-    if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
-        ((cVideoFile *)CurrentBrush->MediaObject)->StartPos=QTime().fromString(root.attribute("StartPos"));
-        ((cVideoFile *)CurrentBrush->MediaObject)->EndPos  =QTime().fromString(root.attribute("EndPos"));
-        CurrentBrush->SoundVolume                           =GetDoubleValue(root,"SoundVolume");
-        CurrentBrush->Deinterlace                           =root.attribute("Deinterlace")=="1";
-    }
-    CurrentBrush->MediaObject->GetInformationFromFile(UndoBrushFileName,NULL,NULL,-1);
 }
 
 //====================================================================================================================
@@ -159,10 +143,20 @@ void DlgImageCorrection::PreparePartialUndo(int /*ActionType*/,QDomElement root)
     QString BrushFileName=CurrentBrush->MediaObject->FileName();
     root.setAttribute("BrushFileName",BrushFileName);
     root.setAttribute("BackgroundForm",*BackgroundForm);
-    CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT","",true,NULL);    // Save object
-
+    // Save object
+    CurrentBrush->SaveToXML(&root,"UNDO-DLG-OBJECT","",true,NULL,NULL);    // Save object
+    // if object have embeded ressource, then load mediaobject
+    if (CurrentBrush->MediaObject->RessourceKey!=-1) {
+        if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP) {
+            CurrentBrush->MediaObject->SaveToXML(&root,"UNDO-DLG-OBJECT","",true,NULL,NULL);
+            // duplicate ressource to keep previous map
+            CurrentBrush->MediaObject->RessourceKey=-1;
+            ApplicationConfig->SlideThumbsTable->SetThumbs(&CurrentBrush->MediaObject->RessourceKey,*GMapsWidget->DisplayMap);
+        }
+    }
+    // special case for video object
     if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
-        root.setAttribute("StartPos",       ((cVideoFile *)CurrentBrush->MediaObject)->StartPos.toString("HH:mm:ss.zzz"));             // Start position (video only)
+        root.setAttribute("StartPos",   ((cVideoFile *)CurrentBrush->MediaObject)->StartPos.toString("HH:mm:ss.zzz"));             // Start position (video only)
         root.setAttribute("EndPos",     ((cVideoFile *)CurrentBrush->MediaObject)->EndPos.toString("HH:mm:ss.zzz"));                   // End position (video only)
         root.setAttribute("SoundVolume",QString("%1").arg(CurrentBrush->SoundVolume,0,'f'));                                            // Volume of soundtrack (for video only)
         root.setAttribute("Deinterlace",CurrentBrush->Deinterlace?"1":"0");                                                             // Deinterlace YADIF filter
@@ -170,12 +164,27 @@ void DlgImageCorrection::PreparePartialUndo(int /*ActionType*/,QDomElement root)
 }
 
 //====================================================================================================================
+// Apply Undo : call when user click on Cancel button
 
-void DlgImageCorrection::ApplyPartialUndo(int /*ActionType*/,QDomElement root) {
+void DlgImageCorrection::DoGlobalUndo() {
+    QDomElement root=Undo->documentElement();
+    if (root.tagName()=="UNDO-DLG") CurrentBrush->LoadFromXML(&root,"UNDO-DLG-OBJECT","",NULL,NULL,NULL,false);
+    ApplyPartialUndo(0,root);
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::ApplyPartialUndo(int ActionType,QDomElement root) {
     QString BrushFileName=root.attribute("BrushFileName");
     *BackgroundForm=root.attribute("BackgroundForm").toInt();
-    CurrentBrush->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL);
-
+    // load object
+    CurrentBrush->LoadFromXML(&root,"UNDO-DLG-OBJECT","",NULL,NULL,NULL,false);
+    // if object have embeded ressource, then load mediaobject
+    if (CurrentBrush->MediaObject->RessourceKey!=-1) {
+        CurrentBrush->MediaObject->LoadFromXML(&root,"UNDO-DLG-OBJECT","",NULL,NULL,NULL,false);
+        if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP) ApplicationConfig->SlideThumbsTable->GetThumbs(&CurrentBrush->MediaObject->RessourceKey,GMapsWidget->DisplayMap);
+    }
+    // special case for video object
     if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
         ((cVideoFile *)CurrentBrush->MediaObject)->StartPos=QTime().fromString(root.attribute("StartPos"));
         ((cVideoFile *)CurrentBrush->MediaObject)->EndPos  =QTime().fromString(root.attribute("EndPos"));
@@ -185,6 +194,7 @@ void DlgImageCorrection::ApplyPartialUndo(int /*ActionType*/,QDomElement root) {
 
     if ((BrushFileName!=CurrentBrush->MediaObject->FileName())&&(ImageWidget)) ImageWidget->ReloadFile(BrushFileName);
     RefreshControls();
+    if ((GMapsWidget)&&(ActionType==UNDOACTION_GMAPSMAPPART)) GMapsWidget->ResetDisplayMap();
 }
 
 //====================================================================================================================
@@ -198,12 +208,18 @@ void DlgImageCorrection::resizeEvent(QResizeEvent *ev) {
 
 void DlgImageCorrection::showEvent(QShowEvent *ev) {
     QCustomDialog::showEvent(ev);
-    RefreshControls();
+    if (!IsFirstInitDone) {
+        IsFirstInitDone =true;
+        RefreshControls();
+    }
  }
 
 //====================================================================================================================
 
 bool DlgImageCorrection::DoAccept() {
+    if (ImageWidget) ImageWidget->DoAccept();
+    if (VideoWidget) VideoWidget->DoAccept();
+    if (GMapsWidget) GMapsWidget->DoAccept();
     return true;
 }
 
@@ -214,9 +230,12 @@ void DlgImageCorrection::DoRejet() {
 //====================================================================================================================
 
 void DlgImageCorrection::RefreshControls() {
+    if (!IsFirstInitDone) return;
+
     // Embeded widget
-    if ((ImageWidget)&&(ui->TabWidget->currentWidget()==ImageWidget)) ImageWidget->RefreshControls(false);
-    if ((VideoWidget)&&(ui->TabWidget->currentWidget()==VideoWidget)) VideoWidget->RefreshControls(false);
+    if ((ImageWidget)&&(ui->TabWidget->currentWidget()==ImageWidget)) ImageWidget->RefreshControls();
+    if ((VideoWidget)&&(ui->TabWidget->currentWidget()==VideoWidget)) VideoWidget->RefreshControls();
+    if ((GMapsWidget)&&(ui->TabWidget->currentWidget()==GMapsWidget)) GMapsWidget->RefreshControls();
 }
 
 //====================================================================================================================
@@ -228,6 +247,9 @@ void DlgImageCorrection::s_TabWidgetChanged(int NewTab) {
 
     if ((VideoWidget)&&(NewTab==ui->TabWidget->indexOf(VideoWidget)))           VideoWidget->WinFocus();
         else if ((VideoWidget)&&(NewTab!=ui->TabWidget->indexOf(VideoWidget)))  VideoWidget->LostFocus();
+
+    if ((GMapsWidget)&&(NewTab==ui->TabWidget->indexOf(GMapsWidget)))           GMapsWidget->WinFocus();
+        else if ((GMapsWidget)&&(NewTab!=ui->TabWidget->indexOf(GMapsWidget)))  GMapsWidget->LostFocus();
 
     RefreshControls();
 }
@@ -260,4 +282,27 @@ void DlgImageCorrection::CreateVideoTag() {
     ui->TabWidget->addTab(VideoWidget,VideoIcon,QString());
     ui->TabWidget->setTabText(ui->TabWidget->indexOf(VideoWidget),"");
     ui->TabWidget->setCurrentIndex(ui->TabWidget->indexOf(VideoWidget));
+    connect(VideoWidget,SIGNAL(DoRefreshImageObject()),SLOT(RefreshImageObject()));
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::CreateGMapsTag() {
+    GMapsWidget=new wgt_QGMapsMap();
+    GMapsWidget->setObjectName("TabGMaps");
+    GMapsWidget->DoInitWidget(this,CurrentBrush);
+    GMapsWidget->DoInitDialog();
+    TabLayout->addWidget(GMapsWidget);
+    QIcon VideoIcon;
+    VideoIcon.addFile(":/img/EditGMaps.png",QSize(),QIcon::Normal,QIcon::Off);
+    ui->TabWidget->addTab(GMapsWidget,VideoIcon,QString());
+    ui->TabWidget->setTabText(ui->TabWidget->indexOf(GMapsWidget),"");
+    ui->TabWidget->setCurrentIndex(ui->TabWidget->indexOf(GMapsWidget));
+    connect(GMapsWidget,SIGNAL(DoRefreshImageObject()),SLOT(RefreshImageObject()));
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::RefreshImageObject() {
+    ImageWidget->ResetCachedImage();
 }

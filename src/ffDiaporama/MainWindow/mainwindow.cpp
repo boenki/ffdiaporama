@@ -33,6 +33,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QScrollBar>
+#include <QEventLoop>
 
 #include "CustomCtrl/QCustomHorizSplitter.h"
 #include "engine/cTextFrame.h"
@@ -64,7 +65,6 @@
 //====================================================================================================================
 
 MainWindow::MainWindow(QString ForceLanguage,QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow) {
-
     ApplicationConfig       =new cBaseApplicationConfig(this,ALLOWEDWEBLANGUAGE);
     CurrentThreadId         =this->thread()->currentThreadId();
     IsFirstInitDone         =false;        // true when first show window was done
@@ -73,8 +73,10 @@ MainWindow::MainWindow(QString ForceLanguage,QWidget *parent):QMainWindow(parent
     DlgWorkingTaskDialog    =NULL;
     CancelAction            =false;
     CurrentDriveCheck       =0;
+    ClipboardLock           =false;
     this->ForceLanguage     =ForceLanguage;
     EventReceiver           =this;          // Connect Event Receiver so now we accept LOG messages
+
     setAcceptDrops(true);
     ApplicationConfig->ParentWindow=this;
     QTimer::singleShot(LATENCY,this,SLOT(InitWindow()));
@@ -83,7 +85,6 @@ MainWindow::MainWindow(QString ForceLanguage,QWidget *parent):QMainWindow(parent
 //====================================================================================================================
 
 void MainWindow::InitWindow() {
-
     QSplashScreen screen(QPixmap(":/img/splash.png"));
     screen.show();
     screen.raise();
@@ -98,9 +99,11 @@ void MainWindow::InitWindow() {
         //==== Tables definition
         ApplicationConfig->Database->Tables.append(ApplicationConfig->SettingsTable   =new cSettingsTable(ApplicationConfig->Database));
         ApplicationConfig->Database->Tables.append(ApplicationConfig->FoldersTable    =new cFolderTable(ApplicationConfig->Database));
-        ApplicationConfig->Database->Tables.append(ApplicationConfig->FilesTable      =new cFilesTable(ApplicationConfig->Database));         ApplicationConfig->ImagesCache.FilesTable=ApplicationConfig->FilesTable;
+        ApplicationConfig->Database->Tables.append(ApplicationConfig->FilesTable      =new cFilesTable(ApplicationConfig->Database));
         ApplicationConfig->Database->Tables.append(ApplicationConfig->SlideThumbsTable=new cSlideThumbsTable(ApplicationConfig->Database));
-        //ApplicationConfig->Database->Tables.append(ApplicationConfig->LocationTable   =new cLocationTable(ApplicationConfig->Database));
+        ApplicationConfig->Database->Tables.append(ApplicationConfig->LocationTable   =new cLocationTable(ApplicationConfig->Database));
+        ApplicationConfig->ImagesCache.FilesTable =ApplicationConfig->FilesTable;
+        ApplicationConfig->ImagesCache.ThumbsTable=ApplicationConfig->SlideThumbsTable;
         //==== End of tables definition
         if (((!IsDBCreation)&&(!ApplicationConfig->Database->CheckDatabaseVersion()))||(!ApplicationConfig->Database->ValidateTables())) {
             ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error initialising home user database..."));
@@ -1536,7 +1539,46 @@ void MainWindow::DoOpenFile() {
             CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),ErrorMsg,QMessageBox::Close);
             Continue=false;
         } else {
-            if (!domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
+
+            ResKeyList.clear();
+
+            QTextStream InStream(&file);
+            QString     ffDPart;
+            QString     OtherPart="<!DOCTYPE ffDiaporama>\n";
+            bool        EndffDPart=false;
+
+            while (!InStream.atEnd()) {
+                QString Line=InStream.readLine();
+                if (!EndffDPart) {
+                    ffDPart.append(Line);
+                    if (Line=="</Project>") EndffDPart=true;
+                } else {
+                    OtherPart.append(Line);
+                    if (Line.endsWith("/>")) {
+                        QDomDocument ResDoc;
+                        if (ResDoc.setContent(OtherPart,true,&errorStr,&errorLine,&errorColumn)) {
+                            QDomElement  ResElem=ResDoc.documentElement();
+                            if (ResElem.tagName()=="Ressource") {
+                                int         Width   =ResElem.attribute("Width").toInt();
+                                int         Height  =ResElem.attribute("Height").toInt();
+                                qlonglong   Key     =ResElem.attribute("Key").toLongLong();
+                                QImage      Thumb(Width,Height,QImage::Format_ARGB32_Premultiplied);
+                                QByteArray  Compressed   =QByteArray::fromHex(ResElem.attribute("Image").toUtf8());
+                                QByteArray  Decompressed =qUncompress(Compressed);
+                                Thumb.loadFromData(Decompressed);
+                                ResKeyList.append(ApplicationConfig->SlideThumbsTable->AppendThumbs(Key,Thumb));
+                            }
+                        }
+                        // Go to next ressource
+                        OtherPart="<!DOCTYPE ffDiaporama>\n";
+                    }
+                }
+            }
+
+            file.close();
+
+            // Now import ffDPart
+            if (!domDocument.setContent(ffDPart, true, &errorStr, &errorLine,&errorColumn)) {
                 CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading content of project file","Error message"),QMessageBox::Close);
                 Continue=false;
             }
@@ -1563,8 +1605,8 @@ void MainWindow::DoOpenFile() {
                 while (ApplicationConfig->RecentFile.count()>10) ApplicationConfig->RecentFile.takeFirst();
 
                 // Load project properties
-                Diaporama->ProjectInfo->LoadFromXML(CurrentLoadingProjectDocument);
-                Diaporama->ProjectThumbnail->LoadFromXML(CurrentLoadingProjectDocument,"ProjectThumbnail",QFileInfo(Diaporama->ProjectFileName).absolutePath(),&AliasList);
+                Diaporama->ProjectInfo->LoadFromXML(&CurrentLoadingProjectDocument,"",QFileInfo(Diaporama->ProjectFileName).absolutePath(),&AliasList,NULL,&ResKeyList,false);
+                Diaporama->ProjectThumbnail->LoadFromXML(CurrentLoadingProjectDocument,"ProjectThumbnail",QFileInfo(Diaporama->ProjectFileName).absolutePath(),&AliasList,&ResKeyList,false);
 
                 // Load project geometry and adjust timeline and preview geometry
                 QDomElement Element=CurrentLoadingProjectDocument.elementsByTagName("Project").item(0).toElement();
@@ -1614,7 +1656,7 @@ void MainWindow::DoOpenFileObject() {
         Diaporama->List.append(new cDiaporamaObject(Diaporama));
 
         if (Diaporama->List[Diaporama->List.count()-1]->LoadFromXML(CurrentLoadingProjectDocument,"Object-"+QString("%1").arg(CurrentLoadingProjectObject).trimmed(),
-                                                                    QFileInfo(Diaporama->ProjectFileName).absolutePath(),&AliasList)) {
+                                                                    QFileInfo(Diaporama->ProjectFileName).absolutePath(),&AliasList,&ResKeyList,false)) {
 
             if (CurrentLoadingProjectObject==0) Diaporama->CurrentPosition=Diaporama->GetTransitionDuration(0);
 
@@ -1813,6 +1855,7 @@ void MainWindow::s_Action_AddAutoTitleSlide() {
             if ((Diaporama->List[i]->ThumbnailKey!=1)&&(Variable.IsObjectHaveVariables(Diaporama->List[i])))
                 ApplicationConfig->SlideThumbsTable->ClearThumbs(Diaporama->List[i]->ThumbnailKey);
 
+
     } else if (Ret!=0) {
         delete Diaporama->List.takeAt(CurIndex);
         AdjustRuller(SavedCurIndex);
@@ -1937,7 +1980,7 @@ void MainWindow::DoAppendFile() {
 
         Diaporama->List.insert(CurIndex,new cDiaporamaObject(Diaporama));
         if (Diaporama->List[CurIndex]->LoadFromXML(CurrentAppendingRoot,"Object-"+QString("%1").arg(CurrentAppendingProjectNbrObject).trimmed(),
-            QFileInfo(CurrentAppendingProjectName).absolutePath(),&AliasList)) {
+            QFileInfo(CurrentAppendingProjectName).absolutePath(),&AliasList,&ResKeyList,false)) {
 
             if (CurrentAppendingProjectNbrObject==0) Diaporama->List[CurIndex]->StartNewChapter=true;
             CurIndex++;
@@ -2039,8 +2082,46 @@ void MainWindow::DoAddFile() {
         bool     IsOk=true;
 
         if (file.open(QFile::ReadOnly | QFile::Text)) {
-            if ((CurrentAppendingProjectDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn))) {
-                file.close();
+
+            ResKeyList.clear();
+
+            QTextStream InStream(&file);
+            QString     ffDPart;
+            QString     OtherPart="<!DOCTYPE ffDiaporama>\n";
+            bool        EndffDPart=false;
+
+            while (!InStream.atEnd()) {
+                QString Line=InStream.readLine();
+                if (!EndffDPart) {
+                    ffDPart.append(Line);
+                    if (Line=="</Project>") EndffDPart=true;
+                } else {
+                    OtherPart.append(Line);
+                    if (Line.endsWith("/>")) {
+                        QDomDocument ResDoc;
+                        if (ResDoc.setContent(OtherPart,true,&errorStr,&errorLine,&errorColumn)) {
+                            QDomElement  ResElem=ResDoc.documentElement();
+                            if (ResElem.tagName()=="Ressource") {
+                                int         Width   =ResElem.attribute("Width").toInt();
+                                int         Height  =ResElem.attribute("Height").toInt();
+                                qlonglong   Key     =ResElem.attribute("Key").toLongLong();
+                                QImage      Thumb(Width,Height,QImage::Format_ARGB32_Premultiplied);
+                                QByteArray  Compressed   =QByteArray::fromHex(ResElem.attribute("Image").toUtf8());
+                                QByteArray  Decompressed =qUncompress(Compressed);
+                                Thumb.loadFromData(Decompressed);
+                                ResKeyList.append(ApplicationConfig->SlideThumbsTable->AppendThumbs(Key,Thumb));
+                            }
+                        }
+                        // Go to next ressource
+                        OtherPart="<!DOCTYPE ffDiaporama>\n";
+                    }
+                }
+            }
+
+            file.close();
+
+            // Now import ffDPart
+            if ((CurrentAppendingProjectDocument.setContent(ffDPart,true,&errorStr,&errorLine,&errorColumn))) {
 
                 CurrentAppendingRoot=CurrentAppendingProjectDocument.documentElement();
                 if (CurrentAppendingRoot.tagName()!=APPLICATION_ROOTNAME) {
@@ -2504,7 +2585,7 @@ void MainWindow::s_Action_CutToClipboard() {
     root.setAttribute("SlideNumber",SlideList.count());
     for (int i=0;i<SlideList.count();i++) {
         QDomElement  SlideClipboard=Object.createElement(QString("CLIPBOARD_%1").arg(i));
-        Diaporama->List[SlideList[i]]->SaveToXML(SlideClipboard,"CLIPBOARD-OBJECT",Diaporama->ProjectFileName,true,NULL);
+        Diaporama->List[SlideList[i]]->SaveToXML(SlideClipboard,"CLIPBOARD-OBJECT",Diaporama->ProjectFileName,true,NULL,NULL,false);
         root.appendChild(SlideClipboard);
     }
     Object.appendChild(root);
@@ -2544,7 +2625,7 @@ void MainWindow::s_Action_CopyToClipboard() {
     root.setAttribute("SlideNumber",SlideList.count());
     for (int i=0;i<SlideList.count();i++) {
         QDomElement  SlideClipboard=Object.createElement(QString("CLIPBOARD_%1").arg(i));
-        Diaporama->List[SlideList[i]]->SaveToXML(SlideClipboard,"CLIPBOARD-OBJECT",Diaporama->ProjectFileName,true,NULL);
+        Diaporama->List[SlideList[i]]->SaveToXML(SlideClipboard,"CLIPBOARD-OBJECT",Diaporama->ProjectFileName,true,NULL,NULL,false);
         root.appendChild(SlideClipboard);
     }
     Object.appendChild(root);
@@ -2574,13 +2655,105 @@ void MainWindow::s_Action_PasteFromClipboard() {
     int CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
     if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
 
-    const QMimeData *SlideData=QApplication::clipboard()->mimeData();
-    if (SlideData->hasFormat("ffDiaporama/slide")) {
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+    ClipboardLock=true;
+
+    QClipboard      *Clipboard=QApplication::clipboard();
+    const QMimeData *Mime     =Clipboard?Clipboard->mimeData():NULL;
+
+    if ((Mime)&&(Mime->hasImage())) {
+        QImage ImageClipboard=Clipboard->image();
+        if (ImageClipboard.isNull()) {
+            CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),
+                             QApplication::translate("MainWindow","Error getting image from clipboard","Error message"),QMessageBox::Close);
+        } else {
+            cImageClipboard *MediaObject=new cImageClipboard(ApplicationConfig);
+            MediaObject->CreatDateTime=QDateTime().currentDateTime();
+            ApplicationConfig->SlideThumbsTable->SetThumbs(&MediaObject->RessourceKey,ImageClipboard);
+            MediaObject->GetInformationFromFile("",NULL,NULL,-1);
+
+            // Create Diaporama Object and load first image
+            Diaporama->List.insert(CurIndex,new cDiaporamaObject(Diaporama));
+            cDiaporamaObject *DiaporamaObject       =Diaporama->List[CurIndex];
+            DiaporamaObject->List[0]->Parent        =DiaporamaObject;
+            DiaporamaObject->List[0]->StaticDuration=ApplicationConfig->NoShotDuration;
+            DiaporamaObject->Parent                 =Diaporama;
+
+            // Create and append a composition block to the object list
+            DiaporamaObject->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey,ApplicationConfig,&DiaporamaObject->ObjectComposition));
+            cCompositionObject *CompositionObject   =DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
+            cBrushDefinition   *CurrentBrush        =CompositionObject->BackgroundBrush;
+
+            // Set CompositionObject to full screen
+            CompositionObject->x=0;
+            CompositionObject->y=0;
+            CompositionObject->w=1;
+            CompositionObject->h=1;
+
+            // Set other values
+            CompositionObject->Text     ="";
+            CompositionObject->PenSize  =0;
+            CurrentBrush->BrushType     =BRUSHTYPE_IMAGEDISK;
+            DiaporamaObject->SlideName  =MediaObject->GetFileTypeStr();
+
+            // Transfert mediafile to brush and chapter management
+            CurrentBrush->MediaObject=MediaObject;
+
+            // Apply Styles for texte
+            CompositionObject->ApplyTextStyle(ApplicationConfig->StyleTextCollection.GetStyleDef(ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_TextST)));
+
+            // Apply Styles for shape
+            CompositionObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_ShapeST)));
+
+            // Apply styles for coordinates
+            qreal ProjectGeometry=qreal(Diaporama->ImageGeometry==GEOMETRY_4_3?1440:Diaporama->ImageGeometry==GEOMETRY_16_9?1080:Diaporama->ImageGeometry==GEOMETRY_40_17?816:1920)/qreal(1920);
+            CurrentBrush->ApplyAutoFraming(ApplicationConfig->DefaultBlockSL[CurrentBrush->GetImageType()].AutoFraming,ProjectGeometry);
+            CompositionObject->ApplyAutoCompoSize(ApplicationConfig->DefaultBlockSL[CurrentBrush->GetImageType()].AutoCompo,Diaporama->ImageGeometry);
+
+            // Now create and append a shot composition block to all shot
+            for (int i=0;i<DiaporamaObject->List.count();i++) {
+                DiaporamaObject->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&DiaporamaObject->List[i]->ShotComposition));
+                DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
+            }
+
+            // Setup transition
+            if (Diaporama->ApplicationConfig->RandomTransition) {
+                qsrand(QTime(0,0,0,0).msecsTo(QTime::currentTime()));
+                int Random=qrand();
+                Random=int(double(IconList.List.count())*(double(Random)/double(RAND_MAX)));
+                if (Random<IconList.List.count()) {
+                    Diaporama->List[CurIndex]->TransitionFamilly=IconList.List[Random].TransitionFamilly;
+                    Diaporama->List[CurIndex]->TransitionSubType=IconList.List[Random].TransitionSubType;
+                }
+            } else {
+                Diaporama->List[CurIndex]->TransitionFamilly=Diaporama->ApplicationConfig->DefaultTransitionFamilly;
+                Diaporama->List[CurIndex]->TransitionSubType=Diaporama->ApplicationConfig->DefaultTransitionSubType;
+            }
+            Diaporama->List[CurIndex]->TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
+
+            // Compute Optimisation Flags
+            for (int aa=0;aa<Diaporama->List[CurIndex]->List.count();aa++)
+                for (int bb=0;bb<Diaporama->List[CurIndex]->List[aa]->ShotComposition.List.count();bb++)
+                    Diaporama->List[CurIndex]->List[aa]->ShotComposition.List[bb]->ComputeOptimisationFlags(aa>0?Diaporama->List[CurIndex]->List[aa-1]->ShotComposition.List[bb]:NULL);
+
+            // Inc NextIndexKey
+            DiaporamaObject->NextIndexKey++;
+
+            // Generate slide thumbs
+            int ThumbWidth      =Diaporama->GetWidthForHeight(ApplicationConfig->TimelineHeight/2-4)+36+5;
+            int NewThumbWidth   =ThumbWidth-36-6;
+            int NewThumbHeight  =Diaporama->GetHeightForWidth(NewThumbWidth);
+
+            Diaporama->List[CurIndex]->DrawThumbnail(NewThumbWidth,NewThumbHeight,NULL,0,0,0);
+        }
+
+    } else if ((Mime)&&(Mime->hasFormat("ffDiaporama/slide"))) {
+
         QDomDocument Object=QDomDocument(APPLICATION_NAME);
-        Object.setContent(SlideData->data("ffDiaporama/slide"));
+        Object.setContent(Mime->data("ffDiaporama/slide"));
 
         if ((Object.elementsByTagName("CLIPBOARD").length()>0)&&(Object.elementsByTagName("CLIPBOARD").item(0).isElement()==true)) {
-            QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
             QDomElement root        =Object.elementsByTagName("CLIPBOARD").item(0).toElement();
             int         SlideNumber =0;
 
@@ -2591,30 +2764,37 @@ void MainWindow::s_Action_PasteFromClipboard() {
                 if ((root.elementsByTagName(QString("CLIPBOARD_%1").arg(i)).length()>0)&&(root.elementsByTagName(QString("CLIPBOARD_%1").arg(i)).item(0).isElement()==true)) {
                     QDomElement SlideClipboard=root.elementsByTagName(QString("CLIPBOARD_%1").arg(i)).item(0).toElement();
                     Diaporama->List.insert(CurIndex,new cDiaporamaObject(Diaporama));
-                    Diaporama->List[CurIndex]->LoadFromXML(SlideClipboard,"CLIPBOARD-OBJECT","",NULL);
+                    Diaporama->List[CurIndex]->LoadFromXML(SlideClipboard,"CLIPBOARD-OBJECT","",NULL,NULL,true);
                     CurIndex++;
                 }
             }
-
-            SetModifyFlag(true);
-            // Set current selection to first new object
-            ui->timeline->ResetDisplay(SavedCurIndex+1);
-            AdjustRuller();
-            ui->timeline->setUpdatesEnabled(true);
-            QApplication::restoreOverrideCursor();
         }
     }
+    ClipboardLock=false;
+
+    // Set title flag
+    SetModifyFlag(true);
+
+    // Set current selection to first new object
+    ui->timeline->ResetDisplay(SavedCurIndex+1);
+    AdjustRuller();
+    ui->timeline->setUpdatesEnabled(true);
+    QApplication::restoreOverrideCursor();
 }
 
 //====================================================================================================================
 
 void MainWindow::s_Event_ClipboardChanged() {
-    QClipboard      *Clipboard=QApplication::clipboard();
-    const QMimeData *Mime     =Clipboard?Clipboard->mimeData():NULL;
-    bool            Enable    =(Mime)&&(Mime->hasFormat("ffDiaporama/slide"));
-    ui->ActionPaste_BT->setEnabled(Enable);
-    ui->ActionPaste_BT_2->setEnabled(Enable);
-    ui->actionPaste->setEnabled(Enable);
+    if (!ClipboardLock) {
+        ClipboardLock=true;
+        QClipboard      *Clipboard=QApplication::clipboard();
+        const QMimeData *Mime     =Clipboard?Clipboard->mimeData():NULL;
+        bool            Enable    =(Mime)&&((Mime->hasFormat("ffDiaporama/slide"))||(Mime->hasImage()));
+        ui->ActionPaste_BT->setEnabled(Enable);
+        ui->ActionPaste_BT_2->setEnabled(Enable);
+        ui->actionPaste->setEnabled(Enable);
+        ClipboardLock=false;
+    }
 }
 
 //====================================================================================================================

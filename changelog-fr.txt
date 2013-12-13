@@ -1,14 +1,38 @@
 **************************************************
-* FFDIAPORAMA 2.0.1 - trunk (Version Française)
+* FFDIAPORAMA 2.1 - trunk (Version Française)
 **************************************************
+
+[Commit: 13/12/2013] - ffDiaporama 2.1 devel 12/12/2013
+    Correction de bug :
+        -Corrige le bug sur les images dans la génération du WIKI
+        -Corrige un bug dans la génération du WIKI en n'ajoutant plus de surlignage sur les titres non traduit des pages
+
+    Nouveautés :
+        -Modifie le format des fichiers .ffd pour pouvoir y intégrer des ressources
+        -Modifie l'inscription des vignettes des diapositives dans le fichier .ffd pour qu'elles soient stockées sous forme de ressource et non plus dans la diapositive
+        -Ajout des nouveaux types d'objets : Image from clipboard et Google Maps map
+        -Ajout d'un bouton "Ajouter spécial" dans la boite d'édition des diapositives pour insérer les nouveaux types d'objets
+        -Ajout d'un nouvel onglet Google Maps Map dans la boite d'édition et de recadrage des images/vidéo/map
+        -Modification du fonctionnement du copier/coller dans la boite d'édition des diapositives pour autoriser le collage d'image sous forme d'un nouvelle objet "Image from clipboard"
+        -Modification du fonctionnement du copier/coller dans la fenêtre principale pour autoriser le collage d'image sous forme d'un nouvelle slide contenant un objet "Image from clipboard"
+        -Création d'une boite de dialogue de sélection/modification d'une localisation (GPS) via utilisation de Google Maps et ajoute une nouvelle entrée dans le Wiki pour cette boite
+        -Ajout de nouvelles entrées dans le WIKI pour décrire les types d'objets utilisables avec ffDiaporama (les pages sont à compléter !)
+
+--------------------------------------------------------------------------------
+
+[Commit: 05/12/2013] - ffDiaporama 2.0.1 stable
+    Correction de bug :
+        -Corrige un crash dans la boite d'edition des diapositives
+        -Corrige les UNDO dans la boite d'edition des diapositives (conserve la sélection)
+        -Corrige l'application des styles de forme dans la boite d'edition des diapositives
+
+--------------------------------------------------------------------------------
 
 [Commit: 01/12/2013]
     Correction de bug :
         -Corrige le filtre de format de fichier proposé pour sélectionner une autre image lors d'un fichier image manquant pendant le chargement d'un projet [regression 20131130]
         -Améliore la détection d'une autre instance de ffdiaporama et ré-autorise le lancement si la dernière instance s'est crashée
         -Remplace du codes spécifique QT5 dans la devel.20131130 par un code compatible QT4/QT5 [regression 20131130]
-
-    Nouveautés :
 
 --------------------------------------------------------------------------------
 

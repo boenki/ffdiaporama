@@ -41,6 +41,7 @@ class cLuLoImageCache;
 
 class cLuLoImageCacheObject {
 public:
+    qlonglong       RessourceKey;
     qlonglong       FileKey;                                // index of the file in the home user database
     QDateTime       ModifDateTime;
     bool            Smoothing;                              // Smoothing
@@ -53,7 +54,7 @@ public:
     qlonglong       ByteCount;
 
     // Constructor for image file
-    cLuLoImageCacheObject(qlonglong FileKey,QDateTime ModifDateTime,int ImageOrientation,QString FilterString,bool Smoothing,cLuLoImageCache *Parent);
+    cLuLoImageCacheObject(qlonglong RessourceKey,qlonglong FileKey,QDateTime ModifDateTime,int ImageOrientation,QString FilterString,bool Smoothing,cLuLoImageCache *Parent);
     ~cLuLoImageCacheObject();
 
     QImage      *ValidateCacheRenderImage();
@@ -67,15 +68,16 @@ public:
     QList<cLuLoImageCacheObject *>  List;           // Fifo list
     int64_t                         MaxValue;       // Max memory used
     cFilesTable                     *FilesTable;
+    cSlideThumbsTable               *ThumbsTable;
 
     cLuLoImageCache();
     ~cLuLoImageCache();
 
     void                    clear();
-    cLuLoImageCacheObject   *FindObject(qlonglong FileKey,QDateTime ModifDateTime,int ImageOrientation,bool Smoothing,bool SetAtTop);
+    cLuLoImageCacheObject   *FindObject(qlonglong RessourceKey,qlonglong FileKey,QDateTime ModifDateTime,int ImageOrientation,bool Smoothing,bool SetAtTop);
     void                    FreeMemoryToMaxValue(cLuLoImageCacheObject *DontFree);
     int64_t                 MemoryUsed();
-    void                    RemoveImageObject(qlonglong FileKey);    // Special case for slide dialog : Remove all object of this key
+    void                    RemoveImageObject(qlonglong RessourceKey,qlonglong FileKey);    // Special case for slide dialog : Remove all object of this key
 };
 
 #endif // _cLuLoImageCACHE_H

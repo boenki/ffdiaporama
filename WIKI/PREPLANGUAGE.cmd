@@ -25,7 +25,7 @@ cd %1
 rd wiki_img
 mklink /J wiki_img ..\wiki_img
 rd img
-mklink /J img ..\..\img
+mklink /J img ..\..\src\ffDiaporama\img
 copy ..\wiki.css wiki.css
 qhelpgenerator -c "wiki_%1.qhp" -o "wiki_%1.qch"
 qcollectiongenerator "wiki_%1.qhcp" -o "wiki_%1.qhc"

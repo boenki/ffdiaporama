@@ -69,99 +69,40 @@
 
 #define ICON_EDIT_IMAGE                     ":/img/EditImage.png"
 #define ICON_EDIT_MOVIE                     ":/img/EditMovie.png"
+#define ICON_EDIT_GMAPS                     ":/img/EditGMaps.png"
 
-// Undo actions
-enum UNDOACTION_ID {
-    UNDOACTION_INTERACTIVEMOVERESIZE,
-    UNDOACTION_EDITZONE_POSX,
-    UNDOACTION_EDITZONE_POSY,
-    UNDOACTION_EDITZONE_WIDTH,
-    UNDOACTION_EDITZONE_HEIGHT,
-    UNDOACTION_EDITZONE_ROTATEX,
-    UNDOACTION_EDITZONE_ROTATEY,
-    UNDOACTION_EDITZONE_ROTATEZ,
-    UNDOACTION_EDITZONE_SHAPEFORM,
-    UNDOACTION_EDITZONE_TEXTCLIPART,
-    UNDOACTION_EDITZONE_SHAPEOPACITY,
-    UNDOACTION_EDITZONE_SHAPEPENSIZE,
-    UNDOACTION_EDITZONE_SHAPEPENSTYLE,
-    UNDOACTION_EDITZONE_SHAPEPENCOLOR,
-    UNDOACTION_EDITZONE_SHAPESHADOWFORM,
-    UNDOACTION_EDITZONE_SHAPESHADOWDIST,
-    UNDOACTION_EDITZONE_SHAPESHADOWCOLOR,
-    UNDOACTION_EDITZONE_TEXTANIMZOOM,
-    UNDOACTION_EDITZONE_TEXTANIMSCROLLX,
-    UNDOACTION_EDITZONE_TEXTANIMSCROLLY,
-    UNDOACTION_EDITZONE_BLOCKANIMTYPE,
-    UNDOACTION_EDITZONE_BLOCKSPEEDWAVE,
-    UNDOACTION_EDITZONE_BLOCKANIMTURNX,
-    UNDOACTION_EDITZONE_BLOCKANIMTURNZ,
-    UNDOACTION_EDITZONE_BLOCKANIMTURNY,
-    UNDOACTION_EDITZONE_BLOCKANIMDISSOLVE,
-    UNDOACTION_STYLE_COORDINATES,
-    UNDOACTION_STYLE_SHAPE,
-    UNDOACTION_STYLE_FRAMING,
-    UNDOACTION_EDITZONE_SLIDENAME,
-    UNDOACTION_EDITZONE_SHOTDURATION,
-    UNDOACTION_SHOTTABLE_ADDSHOT,
-    UNDOACTION_SHOTTABLE_REMOVESHOT,
-    UNDOACTION_SHOTTABLE_CHORDER,
-    UNDOACTION_BLOCKTABLE_ADDTEXTBLOCK,
-    UNDOACTION_BLOCKTABLE_ADDFILEBLOCK,
-    UNDOACTION_BLOCKTABLE_REMOVEBLOCK,
-    UNDOACTION_BLOCKTABLE_PASTEBLOCK,
-    UNDOACTION_BLOCKTABLE_CHBLOCKORDER,
-    UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,
-    UNDOACTION_BLOCKTABLE_EDITTEXT,
-    UNDOACTION_BLOCKTABLE_EDITVIDEO,
-    UNDOACTION_BLOCKTABLE_EDITIMAGE,
-    UNDOACTION_BLOCKTABLE_VISIBLESTATE,
-    UNDOACTION_BLOCKTABLE_SOUNDSTATE,
-    UNDOACTION_BLOCKTABLE_SAMEASPREVIOUSSTATE,
-    UNDOACTION_BLOCKTABLE_EDITCHAPTERINFO
-};
+#define ISVIDEO(OBJECT)         ((OBJECT->MediaObject)&&(OBJECT->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE))
+#define ISBLOCKVALIDE()         ((!InRefreshControls)&&(BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject))
+#define ISBLOCKVALIDEVISIBLE()  (ISBLOCKVALIDE()&&(CurrentCompoObject->IsVisible))
 
 //********************************************************************************************************************************
 // DlgSlideProperties : Slide Dialog
 //********************************************************************************************************************************
 
-DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
-    QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgSlideProperties) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::DlgSlideProperties");
-
+DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):cShotComposer(DiaporamaObject,ApplicationConfig,parent),ui(new Ui::DlgSlideProperties) {
     ui->setupUi(this);
-    TypeWindowState =TypeWindowState_withsplitterpos;
-    Splitter        =ui->SplitterTop;
-    OkBt            =ui->OKBT;
-    CancelBt        =ui->CancelBt;
-    HelpBt          =ui->HelpBt;
-    HelpFile        ="0119";
-    UndoBt          =ui->UndoBT;
+    Splitter                        =ui->SplitterTop;
+    OkBt                            =ui->OKBT;
+    CancelBt                        =ui->CancelBt;
+    HelpBt                          =ui->HelpBt;
+    HelpFile                        ="0119";
+    UndoBt                          =ui->UndoBT;
+    InteractiveZone                 =ui->InteractiveZone;
+    BlockTable                      =ui->BlockTable;
+    ShotTable                       =ui->ShotTable;
+    InteractiveZone->MagneticRuler  =ApplicationConfig->SlideRuler;
+    InteractiveZone->DisplayW       =DisplayW;
+    InteractiveZone->DisplayH       =DisplayH;
+
     CurrentShot     =NULL;
 
     FramingCB_CurrentBrush  =NULL;
     FramingCB_CurrentShot   =-1;
-
-    CurrentSlide                        =DiaporamaObject;
-    ui->ShotTable->DiaporamaObject      =DiaporamaObject;
-    ui->InteractiveZone->DiaporamaObject=DiaporamaObject;
-    ui->BlockTable->ApplicationConfig   =DiaporamaObject->Parent->ApplicationConfig;
-    ui->BlockTable->CurrentSlide        =DiaporamaObject;
-    ui->InteractiveZone->BlockTable     =ui->BlockTable;
-    ui->InteractiveZone->MagneticRuler  =ApplicationConfig->SlideRuler;
-    if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_4_3)        { ui->InteractiveZone->DisplayW=1440; ui->InteractiveZone->DisplayH=1080; }
-    else if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_16_9)  { ui->InteractiveZone->DisplayW=1920; ui->InteractiveZone->DisplayH=1080; }
-    else if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_40_17) { ui->InteractiveZone->DisplayW=1920; ui->InteractiveZone->DisplayH=816;  }
-    else                                                             { ui->InteractiveZone->DisplayW=0; ui->InteractiveZone->DisplayH=0; }
-
-    CurrentCompoObject      =NULL;
-    CurrentCompoObjectNbr   =-1;
 }
 
 //====================================================================================================================
 
 DlgSlideProperties::~DlgSlideProperties() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::~DlgSlideProperties");
     InRefreshControls=true; // To ensure no controls will change during delete
     delete ui;
     CurrentSlide->Parent->CloseUnusedLibAv(CurrentSlide->Parent->CurrentCol);
@@ -171,26 +112,16 @@ DlgSlideProperties::~DlgSlideProperties() {
 // Initialise dialog
 
 void DlgSlideProperties::DoInitDialog() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::DoInitDialog");
+    cShotComposer::DoInitDialog();
 
-    ui->SplitterTop->setCollapsible(0,false);
-    ui->SplitterTop->setCollapsible(1,false);
     ui->TextClipArtCB->PrepareTable();
 
     setWindowTitle(windowTitle()+" - "+QApplication::translate("DlgSlideProperties","Slide")+QString(" %1/%2").arg(CurrentSlide->Parent->CurrentCol+1).arg(CurrentSlide->Parent->List.count()));
     ui->OKPreviousBT->setEnabled(CurrentSlide->Parent->CurrentCol>0);
     ui->OKNextBT->setEnabled(CurrentSlide->Parent->CurrentCol<CurrentSlide->Parent->List.count()-1);
-    ui->RulersBT->setIcon(QIcon(QString(ui->InteractiveZone->MagneticRuler!=0?ICON_RULER_ON:ICON_RULER_OFF)));
+    ui->RulersBT->setIcon(QIcon(QString(InteractiveZone->MagneticRuler!=0?ICON_RULER_ON:ICON_RULER_OFF)));
 
-    switch (CurrentSlide->Parent->ImageGeometry) {
-        case GEOMETRY_4_3:      DisplayW=1440;    DisplayH=1080;     break;
-        case GEOMETRY_40_17:    DisplayW=1920;    DisplayH=816;      break;
-        case GEOMETRY_16_9:
-        default:                DisplayW=1920;    DisplayH=1080;     break;
-    }
-    ProjectGeometry=DisplayH/DisplayW;
-    ProjectGeometry=GetDoubleValue(QString("%1").arg(ProjectGeometry,0,'e'));  // Rounded to same number as style managment
-    ui->BlockTable->ProjectGeometry=ProjectGeometry;
+    BlockTable->ProjectGeometry=ProjectGeometry;
 
     //******************************
 
@@ -198,62 +129,13 @@ void DlgSlideProperties::DoInitDialog() {
 
     // Re-entrence flags
     InRefreshStyleControls  =false;
-    InRefreshControls       =false;
     StopMajFramingStyle     =false;
-    InSelectionChange       =false;
     InDisplayDuration       =false;
     NoPrepUndo              =false;
 
     ui->SlideNameED->setText(CurrentSlide->SlideName);
 
-    // Init combo box Background form
-    for (int i=0;i<ShapeFormDefinition.count();i++) if (ShapeFormDefinition.at(i).Enable) ui->BackgroundFormCB->addItem(ShapeFormDefinition.at(i).Name,QVariant(i));
-    MakeFormIcon(ui->BackgroundFormCB);
-
     if (ui->TextFramingStyleCB->view()->width()<500)    ui->TextFramingStyleCB->view()->setFixedWidth(500);
-    if (ui->ShadowEffectCB->view()->width()<500)        ui->ShadowEffectCB->view()->setFixedWidth(500);
-
-    // Init combo box Background shadow form
-    ui->ShadowEffectCB->addItem(QApplication::translate("DlgSlideProperties","None"));
-    ui->ShadowEffectCB->addItem(QApplication::translate("DlgSlideProperties","Shadow upper left"));
-    ui->ShadowEffectCB->addItem(QApplication::translate("DlgSlideProperties","Shadow upper right"));
-    ui->ShadowEffectCB->addItem(QApplication::translate("DlgSlideProperties","Shadow bottom left"));
-    ui->ShadowEffectCB->addItem(QApplication::translate("DlgSlideProperties","Shadow bottom right"));
-    ui->ShadowEffectED->setRange(1,100);
-
-    // Init combo box external border style
-    ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::SolidLine);
-    ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::DashLine);
-    ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::DotLine);
-    ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::DashDotLine);
-    ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::DashDotDotLine);
-    MakeBorderStyleIcon(ui->PenStyleCB);
-
-    // Init shape Borders
-    ui->PenSizeEd->setMinimum(0);       ui->PenSizeEd->setMaximum(30);
-
-    // Init combo box Background opacity
-    ui->OpacityCB->addItem("100%");
-    ui->OpacityCB->addItem(" 75%");
-    ui->OpacityCB->addItem(" 50%");
-    ui->OpacityCB->addItem(" 25%");
-
-    ui->RotateXED->setRange(-180,180);      ui->RotateXSLD->setRange(-180,180);
-    ui->RotateYED->setRange(-180,180);      ui->RotateYSLD->setRange(-180,180);
-    ui->RotateZED->setRange(-180,180);      ui->RotateZSLD->setRange(-180,180);
-
-    // Init Spinbox
-    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
-        ui->PosXEd->setDecimals(2);             ui->PosXEd->setSingleStep(1);       ui->PosXEd->setSuffix("%");
-        ui->PosYEd->setDecimals(2);             ui->PosYEd->setSingleStep(1);       ui->PosYEd->setSuffix("%");
-        ui->WidthEd->setDecimals(2);            ui->WidthEd->setSingleStep(1);      ui->WidthEd->setSuffix("%");
-        ui->HeightEd->setDecimals(2);           ui->HeightEd->setSingleStep(1);     ui->HeightEd->setSuffix("%");
-    } else { // DisplayUnit==DISPLAYUNIT_PIXELS
-        ui->PosXEd->setDecimals(0);             ui->PosXEd->setSingleStep(1);       ui->PosXEd->setSuffix("");
-        ui->PosYEd->setDecimals(0);             ui->PosYEd->setSingleStep(1);       ui->PosYEd->setSuffix("");
-        ui->WidthEd->setDecimals(0);            ui->WidthEd->setSingleStep(1);      ui->WidthEd->setSuffix("");
-        ui->HeightEd->setDecimals(0);           ui->HeightEd->setSingleStep(1);     ui->HeightEd->setSuffix("");
-    }
 
     // Speed wave
     ui->SpeedWaveCB->AddProjectDefault(CurrentSlide->Parent->BlockAnimSpeedWave);
@@ -274,7 +156,6 @@ void DlgSlideProperties::DoInitDialog() {
     // Force icon in contextual menu
     ui->actionAddTextBlock->setIconVisibleInMenu(true);
     ui->actionAddFile->setIconVisibleInMenu(true);
-    //ui->actionAddGMapsMap->setIconVisibleInMenu(true);
     ui->actionEditText->setIconVisibleInMenu(true);
     ui->actionEditImage->setIconVisibleInMenu(true);
     ui->actionUpBlock->setIconVisibleInMenu(true);
@@ -306,8 +187,10 @@ void DlgSlideProperties::DoInitDialog() {
     ui->actionSaveAsProjectTitleModel->setIconVisibleInMenu(true);
     ui->actionSaveAsCptTitleModels->setIconVisibleInMenu(true);
     ui->actionSaveAsCreditTitleModels->setIconVisibleInMenu(true);
+    ui->actionAddGMapsMap->setIconVisibleInMenu(true);
+    ui->actionAddImageClipboard->setIconVisibleInMenu(true);
 
-    ui->ShotTable->setRowCount(1);
+    ShotTable->setRowCount(1);
 
     // Define handler
     connect(ui->OKPreviousBT,SIGNAL(clicked()),this,SLOT(OKPrevious()));
@@ -351,35 +234,15 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->InfoBlockBT,SIGNAL(clicked()),this,SLOT(s_BlockSettings_Information()));
     connect(ui->actionInfo,SIGNAL(triggered()),this,SLOT(s_BlockSettings_Information()));
 
-    connect(ui->ShotTable,SIGNAL(itemSelectionChanged()),this,SLOT(s_ShotTable_SelectionChanged()));
-    connect(ui->ShotTable,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_ShotTable_RightClickEvent(QMouseEvent *)));
-    connect(ui->ShotTable,SIGNAL(DragMoveItem()),this,SLOT(s_ShotTable_DragMoveItem()));
+    connect(ShotTable,SIGNAL(itemSelectionChanged()),this,SLOT(s_ShotTable_SelectionChanged()));
+    connect(ShotTable,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_ShotTable_RightClickEvent(QMouseEvent *)));
+    connect(ShotTable,SIGNAL(DragMoveItem()),this,SLOT(s_ShotTable_DragMoveItem()));
     connect(ui->AddShot,SIGNAL(pressed()),this,SLOT(s_ShotTable_AddShot()));
     connect(ui->actionAddShot,SIGNAL(triggered()),this,SLOT(s_ShotTable_AddShot()));
     connect(ui->RemoveShot,SIGNAL(pressed()),this,SLOT(s_ShotTable_RemoveShot()));
     connect(ui->actionRemoveShot,SIGNAL(triggered()),this,SLOT(s_ShotTable_RemoveShot()));
     connect(ui->actionMoveLeft,SIGNAL(triggered()),this,SLOT(s_ShotTable_MoveLeft()));
     connect(ui->actionMoveRight,SIGNAL(triggered()),this,SLOT(s_ShotTable_MoveRight()));
-
-    connect(ui->ShapeSizePosCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapeSizePos(int)));
-    connect(ui->PosXEd,SIGNAL(valueChanged(double)),this,SLOT(s_BlockSettings_PosXValue(double)));
-    connect(ui->PosYEd,SIGNAL(valueChanged(double)),this,SLOT(s_BlockSettings_PosYValue(double)));
-    connect(ui->WidthEd,SIGNAL(valueChanged(double)),this,SLOT(s_BlockSettings_PosWidthValue(double)));
-    connect(ui->HeightEd,SIGNAL(valueChanged(double)),this,SLOT(s_BlockSettings_PosHeightValue(double)));
-    connect(ui->BackgroundFormCB,SIGNAL(itemSelectionHaveChanged()),this,SLOT(s_BlockSettings_ShapeBackgroundForm()));
-    connect(ui->TextClipArtCB,SIGNAL(itemSelectionHaveChanged()),this,SLOT(s_BlockSettings_ShapeTextClipArtChIndex()));
-    connect(ui->OpacityCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapeOpacity(int)));
-    connect(ui->PenStyleCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapePenStyle(int)));
-    connect(ui->ShadowEffectCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapeShadowFormValue(int)));
-    connect(ui->ShadowEffectED,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_ShapeShadowDistanceValue(int)));
-
-    connect(ui->PenColorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapePenColor(int)));
-    connect(ui->PenSizeEd,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_ShapePenSize(int)));
-    connect(ui->ShadowColorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapeShadowColor(int)));
-
-    connect(ui->RotateXED,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_RotateXValue(int)));     connect(ui->RotateXSLD,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_RotateXValue(int)));        connect(ui->ResetRotateXBT,SIGNAL(released()),this,SLOT(s_BlockSettings_ResetRotateXValue()));
-    connect(ui->RotateYED,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_RotateYValue(int)));     connect(ui->RotateYSLD,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_RotateYValue(int)));        connect(ui->ResetRotateYBT,SIGNAL(released()),this,SLOT(s_BlockSettings_ResetRotateYValue()));
-    connect(ui->RotateZED,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_RotateZValue(int)));     connect(ui->RotateZSLD,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_RotateZValue(int)));        connect(ui->ResetRotateZBT,SIGNAL(released()),this,SLOT(s_BlockSettings_ResetRotateZValue()));
 
     connect(ui->SpeedWaveCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_SpeedWave(int)));
 
@@ -391,11 +254,11 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->DissolveCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_BlockAnimDissolveType(int)));
 
     // Block table/scene part
-    connect(ui->BlockTable,SIGNAL(itemSelectionChanged()),this,SLOT(s_BlockTable_SelectionChanged()));
-    connect(ui->BlockTable,SIGNAL(DoubleClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemDoubleClicked(QMouseEvent *)));
-    connect(ui->BlockTable,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemRightClicked(QMouseEvent *)));
-    connect(ui->BlockTable,SIGNAL(DragMoveBlock(int,int)),this,SLOT(s_BlockTable_DragMoveBlock(int,int)));
-    connect(ui->BlockTable,SIGNAL(DragDropFiles(QList<QUrl>)),this,SLOT(s_BlockTable_DragDropFiles(QList<QUrl>)));
+    connect(BlockTable,SIGNAL(itemSelectionChanged()),this,SLOT(s_BlockTable_SelectionChanged()));
+    connect(BlockTable,SIGNAL(DoubleClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemDoubleClicked(QMouseEvent *)));
+    connect(BlockTable,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemRightClicked(QMouseEvent *)));
+    connect(BlockTable,SIGNAL(DragMoveBlock(int,int)),this,SLOT(s_BlockTable_DragMoveBlock(int,int)));
+    connect(BlockTable,SIGNAL(DragDropFiles(QList<QUrl>)),this,SLOT(s_BlockTable_DragDropFiles(QList<QUrl>)));
     connect(ui->AddTextBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddNewTextBlock()));
     connect(ui->actionAddTextBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewTextBlock()));
     connect(ui->actionAddSimpleTextBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewSimpleTextBlock()));
@@ -404,14 +267,13 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->actionAddFile,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewFileBlock()));
     connect(ui->actionRemoveBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_RemoveBlock()));
 
-    //connect(ui->AddSpecialBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddSpecialBlock()));
-    //connect(ui->actionAddGMapsMap,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddGMapsMapBlock()));
-    ui->AddSpecialBlock->setVisible(false);
+    connect(ui->AddSpecialBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddSpecialBlock()));
+    connect(ui->actionAddImageClipboard,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddImageClipboard()));
+    connect(ui->actionAddGMapsMap,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddGMapsMapBlock()));
 
     // Style buttons
     connect(ui->FramingStyleCB,SIGNAL(itemSelectionHaveChanged()),this,SLOT(s_ChangeFramingStyle()));
     connect(ui->TextFramingStyleCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeTextFramingStyle(int)));
-    connect(ui->BlockShapeStyleBT,SIGNAL(pressed()),this,SLOT(s_BlockShapeStyleBT()));
 
     // Text annimation
     connect(ui->ZoomSlider,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_TextAnimZoom(int)));
@@ -425,12 +287,12 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->ScrollYResetBT,SIGNAL(released()),this,SLOT(s_BlockSettings_TextAnimScrollYReset()));
 
     // Interactive zone
-    connect(ui->InteractiveZone,SIGNAL(StartSelectionChange()),this,SLOT(s_BlockTable_StartSelectionChange()));
-    connect(ui->InteractiveZone,SIGNAL(EndSelectionChange()),this,SLOT(s_BlockTable_EndSelectionChange()));
-    connect(ui->InteractiveZone,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemRightClicked(QMouseEvent *)));
-    connect(ui->InteractiveZone,SIGNAL(DoubleClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemDoubleClicked(QMouseEvent *)));
-    connect(ui->InteractiveZone,SIGNAL(TransformBlock(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)),this,SLOT(s_BlockSettings_IntZoneTransformBlocks(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)));
-    connect(ui->InteractiveZone,SIGNAL(DisplayTransformBlock(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)),this,SLOT(s_BlockSettings_IntZoneDisplayTransformBlocks(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)));
+    connect(InteractiveZone,SIGNAL(StartSelectionChange()),this,SLOT(s_BlockTable_StartSelectionChange()));
+    connect(InteractiveZone,SIGNAL(EndSelectionChange()),this,SLOT(s_BlockTable_EndSelectionChange()));
+    connect(InteractiveZone,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemRightClicked(QMouseEvent *)));
+    connect(InteractiveZone,SIGNAL(DoubleClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemDoubleClicked(QMouseEvent *)));
+    connect(InteractiveZone,SIGNAL(TransformBlock(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)),this,SLOT(s_BlockSettings_IntZoneTransformBlocks(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)));
+    connect(InteractiveZone,SIGNAL(DisplayTransformBlock(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)),this,SLOT(s_BlockSettings_IntZoneDisplayTransformBlocks(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)));
 
     s_Event_ClipboardChanged();           // Setup clipboard button state
     connect(QApplication::clipboard(),SIGNAL(dataChanged()),this,SLOT(s_Event_ClipboardChanged()));
@@ -439,45 +301,38 @@ void DlgSlideProperties::DoInitDialog() {
 //====================================================================================================================
 
 void DlgSlideProperties::resizeEvent(QResizeEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::resizeEvent");
-
-    ui->ShotTable->setFixedHeight(ApplicationConfig->TimelineHeight/2+(ui->ShotTable->height()-ui->ShotTable->viewport()->height()));
-    ui->InteractiveZone->RefreshDisplay();
+    ShotTable->setFixedHeight(ApplicationConfig->TimelineHeight/2+(ShotTable->height()-ShotTable->viewport()->height()));
+    InteractiveZone->RefreshDisplay();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::showEvent(QShowEvent *ev) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::showEvent");
-
     QCustomDialog::showEvent(ev);
 
     if (CurrentShot==NULL) {
         // Init ShotTable
-        ui->ShotTable->setUpdatesEnabled(false);
+        ShotTable->setUpdatesEnabled(false);
 
-        ui->ShotTable->setRowCount(1);
-        ui->ShotTable->setRowHeight(0,ui->ShotTable->viewport()->height());
-        ui->ShotTable->setColumnCount(CurrentSlide->List.count()/*-1*/);
+        ShotTable->setRowCount(1);
+        ShotTable->setRowHeight(0,ShotTable->viewport()->height());
+        ShotTable->setColumnCount(CurrentSlide->List.count()/*-1*/);
 
-        for (int i=0;i<CurrentSlide->List.count();i++) ui->ShotTable->setColumnWidth(i,CurrentSlide->Parent->GetWidthForHeight(ui->ShotTable->rowHeight(0)));
-        ui->ShotTable->setCurrentCell(0,0);
-        ui->ShotTable->setUpdatesEnabled(true);
+        for (int i=0;i<CurrentSlide->List.count();i++) ShotTable->setColumnWidth(i,CurrentSlide->Parent->GetWidthForHeight(ShotTable->rowHeight(0)));
+        ShotTable->setCurrentCell(0,0);
+        ShotTable->setUpdatesEnabled(true);
 
         ui->ZoomED->setFixedWidth(ui->ScrollXED->width());
     }
 }
 
 //====================================================================================================================
-// Initiale Undo
+// Save object before modification for cancel button
 
 void DlgSlideProperties::PrepareGlobalUndo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::PrepareGlobalUndo");
-
-    // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");                                               // Create xml document and root
-    CurrentSlide->SaveToXML(root,"UNDO-DLG-OBJECT",CurrentSlide->Parent->ProjectFileName,true,NULL);     // Save object
+    CurrentSlide->SaveToXML(root,"UNDO-DLG-OBJECT",CurrentSlide->Parent->ProjectFileName,true,NULL,NULL,false);     // Save object
     Undo->appendChild(root);                                                                        // Add object to xml document
 }
 
@@ -485,76 +340,14 @@ void DlgSlideProperties::PrepareGlobalUndo() {
 // Apply Undo : call when user click on Cancel button
 
 void DlgSlideProperties::DoGlobalUndo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::DoGlobalUndo");
-
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") CurrentSlide->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL);
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::ComputeBlockRatio(cCompositionObject *Block,qreal &Ratio_X,qreal &Ratio_Y) {
-    QRectF tmpRect=PolygonToRectF(ComputePolygon(Block->BackgroundForm,Block->x*DisplayW,Block->y*DisplayH,Block->w*DisplayW,Block->h*DisplayH));
-    Ratio_X=(Block->w*DisplayW)/tmpRect.width();
-    Ratio_Y=(Block->h*DisplayH)/tmpRect.height();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::MakeFormIcon");
-
-    for (int i=0;i<UICB->count();i++) {
-        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,ApplicationConfig,this);
-        Object.x                        =0;
-        Object.y                        =0;
-        Object.w                        =1;
-        Object.h                        =1;
-        Object.BackgroundForm           =UICB->itemData(i).toInt();
-        Object.Opacity                  =4;
-        Object.PenSize                  =1;
-        Object.PenStyle                 =Qt::SolidLine;
-        Object.PenColor                 ="#000000";
-        Object.BackgroundBrush->ColorD  ="#FFFFFF";
-        Object.BackgroundBrush->BrushType=BRUSHTYPE_SOLID;
-        QPixmap  Image(UICB->iconSize());
-        QPainter Painter;
-        Painter.begin(&Image);
-        Painter.fillRect(QRect(0,0,UICB->iconSize().width(),UICB->iconSize().height()),"#ffffff");
-        Object.DrawCompositionObject(NULL,&Painter,1,UICB->iconSize().width(),UICB->iconSize().height(),true,0,NULL,1,1,NULL,false,0,false);
-        Painter.end();
-        UICB->setItemIcon(i,QIcon(Image));
-    }
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::MakeBorderStyleIcon(QComboBox *UICB) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::MakeBorderStyleIcon");
-
-    for (int i=0;i<UICB->count();i++) {
-        QPixmap  Image(32,32);
-        QPainter Painter;
-        Painter.begin(&Image);
-        Painter.fillRect(QRect(0,0,32,32),"#ffffff");
-        QPen Pen;
-        Pen.setColor(Qt::black);
-        Pen.setStyle((Qt::PenStyle)UICB->itemData(i).toInt());
-        Pen.setWidth(2);
-        Painter.setPen(Pen);
-        Painter.setBrush(QBrush(QColor("#ffffff")));
-        Painter.drawLine(0,16,32,16);
-        Painter.end();
-        UICB->setItemIcon(i,QIcon(Image));
-    }
+    if (root.tagName()=="UNDO-DLG") CurrentSlide->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false);
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::keyReleaseEvent(QKeyEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::keyReleaseEvent");
-
-    if ((focusWidget()==ui->BlockTable)||(focusWidget()==ui->InteractiveZone)||(focusWidget()==ui->ShotTable)) {
+    if ((focusWidget()==BlockTable)||(focusWidget()==InteractiveZone)||(focusWidget()==ShotTable)) {
         if (event->modifiers()==Qt::ControlModifier) {
             switch (event->key()) {
                 case Qt::Key_C      : s_BlockTable_Copy();                      break;
@@ -565,8 +358,8 @@ void DlgSlideProperties::keyReleaseEvent(QKeyEvent *event) {
         } if (event->modifiers()==Qt::NoModifier) {
             switch (event->key()) {
                 case Qt::Key_Delete :
-                    if ((ui->InteractiveZone->hasFocus())||(ui->BlockTable->hasFocus())) s_BlockTable_RemoveBlock();
-                    else if (ui->ShotTable->hasFocus()) s_ShotTable_RemoveShot();
+                    if ((InteractiveZone->hasFocus())||(BlockTable->hasFocus())) s_BlockTable_RemoveBlock();
+                    else if (ShotTable->hasFocus()) s_ShotTable_RemoveShot();
                     break;
                 default :
                     QCustomDialog::keyReleaseEvent(event);
@@ -580,7 +373,6 @@ void DlgSlideProperties::keyReleaseEvent(QKeyEvent *event) {
 // Call when user click on Ok button
 
 bool DlgSlideProperties::DoAccept() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::DoAccept");
     InRefreshControls=true;
     CurrentSlide->Parent->UpdateChapterInformation();
     emit(SetModifyFlag());
@@ -588,8 +380,6 @@ bool DlgSlideProperties::DoAccept() {
 }
 
 void DlgSlideProperties::OKPrevious() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::OKPrevious");
-
     InRefreshControls=true;
     SaveWindowState();  // Save Window size and position
     CurrentSlide->Parent->UpdateChapterInformation();
@@ -598,8 +388,6 @@ void DlgSlideProperties::OKPrevious() {
 }
 
 void DlgSlideProperties::OKNext() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::OKNext");
-
     InRefreshControls=true;
     SaveWindowState();  // Save Window size and position
     CurrentSlide->Parent->UpdateChapterInformation();
@@ -608,26 +396,27 @@ void DlgSlideProperties::OKNext() {
 }
 
 void DlgSlideProperties::DoRejet() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::DoRejet");
     InRefreshControls=true;
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_Event_ClipboardChanged() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_Event_ClipboardChanged");
-
-    ui->actionPaste->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/block")));
+    ui->actionAddImageClipboard->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasImage()));
+    ui->actionPaste->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&
+                                ((QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/block"))||(QApplication::clipboard()->mimeData()->hasImage())));
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::PreparePartialUndo(int ActionType,QDomElement root) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::PreparePartialUndo");
-
     QDomDocument DomDocument;
 
     root.setAttribute("BlockNbr",CompositionList->List.count());
+    QModelIndexList SelList=BlockTable->selectionModel()->selectedIndexes();
+    QString         Selection;
+    for (int i=0;i<SelList.count();i++) Selection=Selection+(Selection.length()>0?"###":"")+QString("%1").arg(SelList.at(i).row());
+    root.setAttribute("Selection",Selection);
 
     for (int i=0;i<CompositionList->List.count();i++) {
         QDomElement SubElement=DomDocument.createElement(QString("BLOCK-%1").arg(i));
@@ -672,9 +461,7 @@ void DlgSlideProperties::PreparePartialUndo(int ActionType,QDomElement root) {
             case UNDOACTION_EDITZONE_SHOTDURATION:          SubElement.setAttribute("StaticDuration",qlonglong(CurrentShot->StaticDuration));               break;
             case UNDOACTION_BLOCKTABLE_VISIBLESTATE:        SubElement.setAttribute("IsVisible",CompositionList->List[i]->IsVisible?"1":"0");               break;
             case UNDOACTION_BLOCKTABLE_SOUNDSTATE:          SubElement.setAttribute("SoundVolume",CompositionList->List[i]->BackgroundBrush->SoundVolume);
-
-            case UNDOACTION_BLOCKTABLE_EDITVIDEO:           CompositionList->List[i]->BackgroundBrush->SaveToXML(SubElement,"BRUSH","",false,NULL);         break;
-
+            case UNDOACTION_BLOCKTABLE_EDITVIDEO:           CompositionList->List[i]->BackgroundBrush->SaveToXML(&SubElement,"BRUSH","",false,NULL,NULL);    break;
             case UNDOACTION_BLOCKTABLE_EDITTEXT:
             case UNDOACTION_BLOCKTABLE_EDITIMAGE:
             case UNDOACTION_STYLE_SHAPE:
@@ -689,7 +476,7 @@ void DlgSlideProperties::PreparePartialUndo(int ActionType,QDomElement root) {
             case UNDOACTION_SHOTTABLE_CHORDER:
             case UNDOACTION_BLOCKTABLE_SAMEASPREVIOUSSTATE:
             default:
-                CurrentSlide->SaveToXML(root,"UNDO-DLG-OBJECT",CurrentSlide->Parent->ProjectFileName,true,NULL);     // Save all
+                CurrentSlide->SaveToXML(root,"UNDO-DLG-OBJECT",CurrentSlide->Parent->ProjectFileName,true,NULL,NULL,false);     // Save all
                 break;
         }
         root.appendChild(SubElement);
@@ -699,12 +486,10 @@ void DlgSlideProperties::PreparePartialUndo(int ActionType,QDomElement root) {
 //====================================================================================================================
 
 void DlgSlideProperties::ApplyPartialUndo(int ActionType,QDomElement root) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::ApplyPartialUndo");
-
     int BlockNbr=0;
     if (root.hasAttribute("BlockNbr")) {
         BlockNbr=root.attribute("BlockNbr").toInt();
-
+        QStringList SelList=root.attribute("Selection").split("###");
         for (int i=0;i<BlockNbr;i++) if ((root.elementsByTagName(QString("BLOCK-%1").arg(i)).length()>0)&&(root.elementsByTagName(QString("BLOCK-%1").arg(i)).item(0).isElement()==true)) {
             QDomElement SubElement=root.elementsByTagName(QString("BLOCK-%1").arg(i)).item(0).toElement();
 
@@ -749,9 +534,7 @@ void DlgSlideProperties::ApplyPartialUndo(int ActionType,QDomElement root) {
                 case UNDOACTION_EDITZONE_SHOTDURATION:      if (SubElement.hasAttribute("StaticDuration"))          CurrentShot->StaticDuration=                            SubElement.attribute("StaticDuration").toLongLong();    s_ShotTable_DisplayDuration();                                  break;
                 case UNDOACTION_BLOCKTABLE_VISIBLESTATE:    if (SubElement.hasAttribute("IsVisible"))               CompositionList->List[i]->IsVisible=                    SubElement.attribute("IsVisible")=="1";                 break;
                 case UNDOACTION_BLOCKTABLE_SOUNDSTATE:      if (SubElement.hasAttribute("SoundVolume"))             CompositionList->List[i]->BackgroundBrush->SoundVolume= GetDoubleValue(SubElement,"SoundVolume");               break;
-
-                case UNDOACTION_BLOCKTABLE_EDITVIDEO:       CompositionList->List[i]->BackgroundBrush->LoadFromXML(SubElement,"BRUSH","",NULL,NULL);   break;
-
+                case UNDOACTION_BLOCKTABLE_EDITVIDEO:       CompositionList->List[i]->BackgroundBrush->LoadFromXML(&SubElement,"BRUSH","",NULL,NULL,NULL,false);   break;
                 case UNDOACTION_BLOCKTABLE_EDITTEXT:
                 case UNDOACTION_BLOCKTABLE_EDITIMAGE:
                 case UNDOACTION_STYLE_SHAPE:
@@ -762,10 +545,10 @@ void DlgSlideProperties::ApplyPartialUndo(int ActionType,QDomElement root) {
                 case UNDOACTION_BLOCKTABLE_PASTEBLOCK:
                 case UNDOACTION_BLOCKTABLE_CHBLOCKORDER:
                 case UNDOACTION_BLOCKTABLE_SAMEASPREVIOUSSTATE:
-                    CurrentSlide->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL);    // Restore all
+                    CurrentSlide->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false);    // Restore all
                     i=BlockNbr; // Stop loop
-                    ui->ShotTable->setUpdatesEnabled(false);
-                    ui->ShotTable->setUpdatesEnabled(true);  // Reset timeline painting
+                    ShotTable->setUpdatesEnabled(false);
+                    ShotTable->setUpdatesEnabled(true);  // Reset timeline painting
                     s_ShotTable_SelectionChanged();
                     break;
 
@@ -774,16 +557,16 @@ void DlgSlideProperties::ApplyPartialUndo(int ActionType,QDomElement root) {
                 case UNDOACTION_SHOTTABLE_CHORDER:
                 default:
                     InRefreshControls=true;
-                    CurrentSlide->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL);    // Restore all
+                    CurrentSlide->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false);    // Restore all
                     i=BlockNbr; // Stop loop
-                    ui->ShotTable->setUpdatesEnabled(false);
-                    while (ui->ShotTable->columnCount()>0) ui->ShotTable->removeColumn(ui->ShotTable->columnCount()-1);
+                    ShotTable->setUpdatesEnabled(false);
+                    while (ShotTable->columnCount()>0) ShotTable->removeColumn(ShotTable->columnCount()-1);
                     for (int i=0;i<CurrentSlide->List.count();i++) {
-                        ui->ShotTable->insertColumn(i);
-                        ui->ShotTable->setColumnWidth(i,CurrentSlide->Parent->GetWidthForHeight(ui->ShotTable->rowHeight(0)));
+                        ShotTable->insertColumn(i);
+                        ShotTable->setColumnWidth(i,CurrentSlide->Parent->GetWidthForHeight(ShotTable->rowHeight(0)));
                     }
-                    ui->ShotTable->setCurrentCell(0,0);
-                    ui->ShotTable->setUpdatesEnabled(true);
+                    ShotTable->setCurrentCell(0,0);
+                    ShotTable->setUpdatesEnabled(true);
                     InRefreshControls=false;
                     s_ShotTable_SelectionChanged();
                     break;
@@ -792,8 +575,11 @@ void DlgSlideProperties::ApplyPartialUndo(int ActionType,QDomElement root) {
         CurrentSlide->Parent->UpdateChapterInformation();
         ApplyToContexte(true);
         RefreshBlockTable(CurrentCompoObjectNbr);
-        ui->ShotTable->setUpdatesEnabled(false);
-        ui->ShotTable->setUpdatesEnabled(true);
+        BlockTable->clearSelection();
+        BlockTable->setCurrentCell(SelList[0].toInt(),0,QItemSelectionModel::Select|QItemSelectionModel::Current);
+        for (int i=1;i<SelList.count();i++) BlockTable->setCurrentCell(SelList[i].toInt(),0,QItemSelectionModel::Select);
+        ShotTable->setUpdatesEnabled(false);
+        ShotTable->setUpdatesEnabled(true);
         //RefreshControls(true);
     }
 }
@@ -801,14 +587,10 @@ void DlgSlideProperties::ApplyPartialUndo(int ActionType,QDomElement root) {
 //====================================================================================================================
 
 void DlgSlideProperties::RefreshStyleControls() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::RefreshStyleControls");
-
     if (InRefreshStyleControls) return;
     InRefreshStyleControls=true;
 
-    bool IsVisible=(BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->IsVisible);
-    ui->BlockShapeStyleBT ->setEnabled(IsVisible && !SelectionHaveLockBlock);
-    ui->BlockShapeStyleED ->setEnabled(IsVisible && !SelectionHaveLockBlock);
+    bool IsVisible=(BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject);
     ui->FramingStyleCB    ->setEnabled(IsVisible && !SelectionHaveLockBlock);
     ui->TextFramingStyleCB->setEnabled(IsVisible && !SelectionHaveLockBlock);
     ui->ShapeSizePosCB    ->setEnabled(IsVisible && !SelectionHaveLockBlock);
@@ -844,7 +626,7 @@ void DlgSlideProperties::RefreshStyleControls() {
         ui->ShapeSizePosCB->setUpdatesEnabled(true);
 
         StopMajFramingStyle=true;
-        if (CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_UNMANAGED) {
+        if ((!CurrentCompoObject->BackgroundBrush->MediaObject)||(CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_UNMANAGED)) {
             // It's a text block
 
             if (ui->FramingStyleCB->isVisible())         ui->FramingStyleCB->setVisible(false);
@@ -872,16 +654,18 @@ void DlgSlideProperties::RefreshStyleControls() {
 
                 int Position=0;
                 // Compute position of video
-                if (CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
-                    for (int i=0;i<ui->ShotTable->currentColumn();i++) for (int j=0;j<CurrentSlide->List[i]->ShotComposition.List.count();j++)
+                if (ISVIDEO(CurrentCompoObject->BackgroundBrush)) {
+                    for (int i=0;i<ShotTable->currentColumn();i++) for (int j=0;j<CurrentSlide->List[i]->ShotComposition.List.count();j++)
                         if (CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey==CurrentCompoObject->IndexKey) {
                             if (CurrentSlide->List[i]->ShotComposition.List[j]->IsVisible) Position+=CurrentSlide->List[i]->StaticDuration;
                         }
                 }
 
                 QImage *CachedImage=NULL;
-                if (CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType!=OBJECTTYPE_VIDEOFILE) CachedImage=CurrentCompoObject->BackgroundBrush->MediaObject->ImageAt(true);
-                    else CachedImage=((cVideoFile *)CurrentCompoObject->BackgroundBrush->MediaObject)->ImageAt(true,Position+QTime(0,0,0,0).msecsTo(((cVideoFile *)CurrentCompoObject->BackgroundBrush->MediaObject)->StartPos),NULL,CurrentCompoObject->BackgroundBrush->Deinterlace,1,false,false);
+                if (CurrentCompoObject->BackgroundBrush->MediaObject) {
+                    if (CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType!=OBJECTTYPE_VIDEOFILE) CachedImage=CurrentCompoObject->BackgroundBrush->MediaObject->ImageAt(true);
+                        else                                                                                CachedImage=((cVideoFile *)CurrentCompoObject->BackgroundBrush->MediaObject)->ImageAt(true,Position+QTime(0,0,0,0).msecsTo(((cVideoFile *)CurrentCompoObject->BackgroundBrush->MediaObject)->StartPos),NULL,CurrentCompoObject->BackgroundBrush->Deinterlace,1,false,false);
+                }
                 if ((CachedImage)&&(CachedImage->format()!=QImage::Format_ARGB32_Premultiplied)) {
                     QImage *NewCachedImage=new QImage(CachedImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
                     delete CachedImage;
@@ -924,8 +708,6 @@ void DlgSlideProperties::RefreshStyleControls() {
 //====================================================================================================================
 
 void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::RefreshControls");
-
     if ((InRefreshControls)||(!CompositionList)) return;
     InRefreshControls=true;
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -951,35 +733,38 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
     ui->actionDistributeVert->  setEnabled((NbrSelected>=3)&&(!SelectionHaveLockBlock));
     ui->actionSetVisible->      setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock));
     ui->actionSetHide->         setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock));
-    ui->actionTakeSound->       setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible) &&(CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)&&(CurrentCompoObject->BackgroundBrush->SoundVolume==0));
+    ui->actionTakeSound->       setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible) &&(ISVIDEO(CurrentCompoObject->BackgroundBrush))&&(CurrentCompoObject->BackgroundBrush->SoundVolume==0));
     ui->actionEditImage->       setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible) &&(CurrentCompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
     ui->actionEditText->        setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible));
     ui->actionInfo->            setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
     ui->actionRemoveBlock->     setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
     ui->actionUpBlock->         setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObjectNbr>0));
-    ui->actionDownBlock->       setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObjectNbr<ui->BlockTable->rowCount()-1));
+    ui->actionDownBlock->       setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObjectNbr<BlockTable->rowCount()-1));
     ui->actionCopy->            setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
     ui->actionCut->             setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
 
-    if (ui->actionEditImage->isEnabled()) {
-        ui->actionEditImage->setIcon(QIcon(CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType!=OBJECTTYPE_VIDEOFILE?ICON_EDIT_IMAGE:ICON_EDIT_MOVIE));
+    if ((CurrentCompoObject)&&(CurrentCompoObject->BackgroundBrush->MediaObject)&&(ui->actionEditImage->isEnabled())) {
         switch (CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType) {
             case OBJECTTYPE_VIDEOFILE:
                 ui->actionEditImage->setText(QApplication::translate("DlgSlideProperties","Correct, reframe or cut video","Action title in slide edit dialog + dialog title of image edit dialog"));
                 ui->actionEditImage->setToolTip(QApplication::translate("DlgSlideProperties","Define framing and correction of image or cut video","Tooltip"));
+                ui->actionEditImage->setIcon(QIcon(ICON_EDIT_MOVIE));
                 break;
             case OBJECTTYPE_IMAGEFILE:
             case OBJECTTYPE_IMAGECLIPBOARD:
                 ui->actionEditImage->setText(QApplication::translate("DlgSlideProperties","Correct or reframe image","Action title in slide edit dialog + dialog title of image edit dialog"));
                 ui->actionEditImage->setToolTip(QApplication::translate("DlgSlideProperties","Define framing and correction of image","Tooltip"));
+                ui->actionEditImage->setIcon(QIcon(ICON_EDIT_IMAGE));
                 break;
             case OBJECTTYPE_IMAGEVECTOR:
                 ui->actionEditImage->setText(QApplication::translate("DlgSlideProperties","Reframe image vector","Action title in slide edit dialog + dialog title of image edit dialog"));
                 ui->actionEditImage->setToolTip(QApplication::translate("DlgSlideProperties","Define framing and correction of image vector","Tooltip"));
+                ui->actionEditImage->setIcon(QIcon(ICON_EDIT_IMAGE));
                 break;
             case OBJECTTYPE_GMAPSMAP:
                 ui->actionEditImage->setText(QApplication::translate("DlgSlideProperties","Modify Google Maps map","Action title in slide edit dialog + dialog title of image edit dialog"));
                 ui->actionEditImage->setToolTip(QApplication::translate("DlgSlideProperties","Define Modify Google Maps map and framing and correction of map","Tooltip"));
+                ui->actionEditImage->setIcon(QIcon(ICON_EDIT_GMAPS));
                 break;
             default:    break;  // avoid warning
         }
@@ -988,121 +773,11 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
     // Change icons for visible and getsound buttons/actions
     if (BlockSelectMode==SELECTMODE_ONE) ui->actionTakeSound->setIcon(QIcon(QString(CurrentCompoObject->BackgroundBrush->SoundVolume==0?ICON_SOUND_OK:ICON_SOUND_KO)));
 
-    //*****************************
-    // Position, size and rotation
-    //*****************************
-    if ((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->IsVisible)) {
-
-        ui->PosSize_X->     setEnabled(true);               ui->PosXEd->    setEnabled(!SelectionHaveLockBlock);
-        ui->PosSize_Y->     setEnabled(true);               ui->PosYEd->    setEnabled(!SelectionHaveLockBlock);
-        ui->PosSize_Width-> setEnabled(true);               ui->WidthEd->   setEnabled(!SelectionHaveLockBlock);
-        ui->PosSize_Height->setEnabled(true);               ui->HeightEd->  setEnabled(!SelectionHaveLockBlock);
-
-        qreal Ratio_X,Ratio_Y;
-        ComputeBlockRatio(CurrentCompoObject,Ratio_X,Ratio_Y);
-
-        if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
-            ui->PosXEd->setRange(-200,200);                 ui->PosXEd->    setValue(CurrentCompoObject->x*100/Ratio_X);
-            ui->PosYEd->setRange(-200,200);                 ui->PosYEd->    setValue(CurrentCompoObject->y*100/Ratio_Y);
-            ui->WidthEd->setRange(1,200);                   ui->WidthEd->   setValue(CurrentCompoObject->w*100/Ratio_X);
-            ui->HeightEd->setRange(1,200);                  ui->HeightEd->  setValue(CurrentCompoObject->h*100/Ratio_Y);
-        } else { // DisplayUnit==DISPLAYUNIT_PIXELS
-            ui->PosXEd->setRange(-2*DisplayW,2*DisplayW);   ui->PosXEd->    setValue(CurrentCompoObject->x*DisplayW/Ratio_X);
-            ui->PosYEd->setRange(-2*DisplayH,2*DisplayH);   ui->PosYEd->    setValue(CurrentCompoObject->y*DisplayH/Ratio_Y);
-            ui->WidthEd->setRange(3,2*DisplayW);            ui->WidthEd->   setValue(CurrentCompoObject->w*DisplayW/Ratio_X);
-            ui->HeightEd->setRange(3,2*DisplayH);           ui->HeightEd->  setValue(CurrentCompoObject->h*DisplayH/Ratio_Y);
-        }
-    } else {
-        ui->PosSize_X->     setEnabled(false);              ui->PosXEd->    setEnabled(false);                                                  ui->PosXEd->  setValue(0);
-        ui->PosSize_Y->     setEnabled(false);              ui->PosYEd->    setEnabled(false);                                                  ui->PosYEd->  setValue(0);
-        ui->PosSize_Width-> setEnabled(false);              ui->WidthEd->   setEnabled(false);          ui->WidthEd->setRange(0,2*DisplayW);    ui->WidthEd-> setValue(0);
-        ui->PosSize_Height->setEnabled(false);              ui->HeightEd->  setEnabled(false);          ui->HeightEd->setRange(0,2*DisplayH);   ui->HeightEd->setValue(0);
-    }
-
-    //***********************
-    // Rotation
-    //***********************
-    if ((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->IsVisible)) {
-        ui->Rotate_X-> setEnabled(!SelectionHaveLockBlock);       ui->RotateXED-> setEnabled(!SelectionHaveLockBlock);        ui->ResetRotateXBT->setEnabled(!SelectionHaveLockBlock);       ui->RotateXSLD->setEnabled(!SelectionHaveLockBlock);
-        ui->Rotate_Y-> setEnabled(!SelectionHaveLockBlock);       ui->RotateYED-> setEnabled(!SelectionHaveLockBlock);        ui->ResetRotateYBT->setEnabled(!SelectionHaveLockBlock);       ui->RotateYSLD->setEnabled(!SelectionHaveLockBlock);
-        ui->Rotate_Z-> setEnabled(!SelectionHaveLockBlock);       ui->RotateZED-> setEnabled(!SelectionHaveLockBlock);        ui->ResetRotateZBT->setEnabled(!SelectionHaveLockBlock);       ui->RotateZSLD->setEnabled(!SelectionHaveLockBlock);
-
-        ui->RotateXED->setValue(CurrentCompoObject->RotateXAxis);                       ui->RotateXSLD->setValue(CurrentCompoObject->RotateXAxis);
-        ui->RotateYED->setValue(CurrentCompoObject->RotateYAxis);                       ui->RotateYSLD->setValue(CurrentCompoObject->RotateYAxis);
-        ui->RotateZED->setValue(CurrentCompoObject->RotateZAxis);                       ui->RotateZSLD->setValue(CurrentCompoObject->RotateZAxis);
-
-    } else {
-        ui->Rotate_X-> setEnabled(false);       ui->RotateXED-> setEnabled(false);      ui->ResetRotateXBT->setEnabled(false);       ui->RotateXSLD->setEnabled(false);
-        ui->Rotate_Y-> setEnabled(false);       ui->RotateYED-> setEnabled(false);      ui->ResetRotateYBT->setEnabled(false);       ui->RotateYSLD->setEnabled(false);
-        ui->Rotate_Z-> setEnabled(false);       ui->RotateZED-> setEnabled(false);      ui->ResetRotateZBT->setEnabled(false);       ui->RotateZSLD->setEnabled(false);
-
-        ui->RotateXED->setValue(0);             ui->RotateXSLD->setValue(0);
-        ui->RotateYED->setValue(0);             ui->RotateYSLD->setValue(0);
-        ui->RotateZED->setValue(0);             ui->RotateZSLD->setValue(0);
-    }
-
-    //***********************
-    // Shape part
-    //***********************
-    if ((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->IsVisible)) {
-        ui->BackgroundFormCB->  setEnabled(!SelectionHaveLockBlock);
-        ui->PenSizeEd->         setEnabled(!SelectionHaveLockBlock);
-        ui->PenColorCB->        setEnabled(!SelectionHaveLockBlock && (CurrentCompoObject->PenSize!=0));
-        ui->PenStyleCB->        setEnabled(!SelectionHaveLockBlock && (CurrentCompoObject->PenSize!=0));
-        ui->OpacityCB->         setEnabled(!SelectionHaveLockBlock);
-        ui->ShadowEffectCB->    setEnabled(!SelectionHaveLockBlock);
-        ui->ShadowEffectED->    setEnabled(!SelectionHaveLockBlock && (CurrentCompoObject->FormShadow!=0));
-        ui->ShadowColorCB->     setEnabled(!SelectionHaveLockBlock && (CurrentCompoObject->FormShadow!=0));
-
-        SetCBIndex(ui->BackgroundFormCB,CurrentCompoObject->BackgroundForm);
-        ui->PenSizeEd->         setValue(int(CurrentCompoObject->PenSize));
-        ui->OpacityCB->         setCurrentIndex(CurrentCompoObject->Opacity);
-        ui->ShadowEffectCB->    setCurrentIndex(CurrentCompoObject->FormShadow);
-        ui->ShadowEffectED->    setValue(int(CurrentCompoObject->FormShadowDistance));
-        ui->PenColorCB->        SetCurrentColor(&CurrentCompoObject->PenColor);
-        ui->ShadowColorCB->     SetCurrentColor(&CurrentCompoObject->FormShadowColor);
-
-        for (int i=0;i<ui->PenStyleCB->count();i++) if (ui->PenStyleCB->itemData(i).toInt()==CurrentCompoObject->PenStyle) {
-            if (i!=ui->PenStyleCB->currentIndex()) ui->PenStyleCB->setCurrentIndex(i);
-            break;
-        }
-    } else {
-        ui->BackgroundFormCB->  setEnabled(false);
-        ui->PenSizeEd->         setEnabled(false);
-        ui->PenColorCB->        setEnabled(false);
-        ui->PenStyleCB->        setEnabled(false);
-        ui->OpacityCB->         setEnabled(false);
-        ui->ShadowEffectCB->    setEnabled(false);
-        ui->ShadowEffectED->    setEnabled(false);
-        ui->ShadowColorCB->     setEnabled(false);
-
-        ui->BackgroundFormCB->  setCurrentIndex(-1);
-        ui->PenSizeEd->         setValue(0);
-        ui->OpacityCB->         setCurrentIndex(-1);
-        ui->ShadowEffectCB->    setCurrentIndex(-1);
-        ui->ShadowEffectED->    setValue(0);
-        ui->PenColorCB->        SetCurrentColor(NULL);
-        ui->ShadowColorCB->     SetCurrentColor(NULL);
-    }
-
-    // Set control visible or hide depending on TextClipArt
-    ui->BlockShapeStyleBT->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
-    ui->BlockShapeStyleSpacer->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
-    ui->BlockShapeStyleED->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
-    ui->BackgroundFormCB->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
-    ui->BackgroundFormLabel->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
-    ui->PenSizeEd->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
-    ui->PenColorCB->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
-    ui->PenStyleCB->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
-    ui->PenLabel->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
-    ui->TextClipArtCB->setVisible((CurrentCompoObject)&&(CurrentCompoObject->TextClipArtName!=""));
-    ui->TextClipArtLabel->setVisible((CurrentCompoObject)&&(CurrentCompoObject->TextClipArtName!=""));
-    if ((CurrentCompoObject)&&(CurrentCompoObject->TextClipArtName!="")) ui->TextClipArtCB->SetCurrentTextFrame(CurrentCompoObject->TextClipArtName);
 
     //**************************
     // Speed wave
     //**************************
-    if ((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->IsVisible)) {
+    if ((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject)&&(CurrentCompoObject->IsVisible)) {
         ui->SpeedWaveCB->setEnabled(!SelectionHaveLockBlock);
         ui->SpeedWaveLabel->setEnabled(!SelectionHaveLockBlock);
         ui->SpeedWaveCB->SetCurrentValue(CurrentCompoObject->BlockSpeedWave);
@@ -1115,7 +790,7 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
     //**************************
     // Text animation controls
     //**************************
-    if ((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->IsVisible)) {
+    if ((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject)&&(CurrentCompoObject->IsVisible)) {
         ui->ZoomLabel->   setEnabled(!SelectionHaveLockBlock);         ui->ZoomSlider->   setEnabled(!SelectionHaveLockBlock);        ui->ZoomED->   setEnabled(!SelectionHaveLockBlock);        ui->ZoomResetBT->   setEnabled(!SelectionHaveLockBlock);
         ui->ScrollXLabel->setEnabled(!SelectionHaveLockBlock);         ui->ScrollXSlider->setEnabled(!SelectionHaveLockBlock);        ui->ScrollXED->setEnabled(!SelectionHaveLockBlock);        ui->ScrollXResetBT->setEnabled(!SelectionHaveLockBlock);
         ui->ScrollYLabel->setEnabled(!SelectionHaveLockBlock);         ui->ScrollYSlider->setEnabled(!SelectionHaveLockBlock);        ui->ScrollYED->setEnabled(!SelectionHaveLockBlock);        ui->ScrollYResetBT->setEnabled(!SelectionHaveLockBlock);
@@ -1135,7 +810,7 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
     //**************************
     // Block animation controls
     //**************************
-    if ((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->IsVisible)) {
+    if ((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject)&&(CurrentCompoObject->IsVisible)) {
         ui->BlockAnimLabel->setEnabled(!SelectionHaveLockBlock);
         ui->BlockAnimCB->setEnabled(!SelectionHaveLockBlock);
         ui->BlockAnimCB->setCurrentIndex(CurrentCompoObject->BlockAnimType);
@@ -1146,7 +821,7 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
     }
 
     // Multiple turn animation
-    if ((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->IsVisible)&&(CurrentCompoObject->BlockAnimType==BLOCKANIMTYPE_MULTIPLETURN)) {
+    if ((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject)&&(CurrentCompoObject->IsVisible)&&(CurrentCompoObject->BlockAnimType==BLOCKANIMTYPE_MULTIPLETURN)) {
         ui->TurnZLabel->setEnabled(!SelectionHaveLockBlock);    ui->TurnZSlider->setEnabled(!SelectionHaveLockBlock);       ui->TurnZED->setEnabled(!SelectionHaveLockBlock);       ui->ResetTurnZBT->setEnabled(!SelectionHaveLockBlock);
         ui->TurnZLabel->setVisible(true);                       ui->TurnZSlider->setVisible(true);                          ui->TurnZED->setVisible(true);                          ui->ResetTurnZBT->setVisible(true);
         ui->TurnXLabel->setEnabled(!SelectionHaveLockBlock);    ui->TurnXSlider->setEnabled(!SelectionHaveLockBlock);       ui->TurnXED->setEnabled(!SelectionHaveLockBlock);       ui->ResetTurnXBT->setEnabled(!SelectionHaveLockBlock);
@@ -1163,7 +838,7 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
     }
 
     // Dissolve animation
-    if ((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->IsVisible)&&(CurrentCompoObject->BlockAnimType==BLOCKANIMTYPE_DISSOLVE)) {
+    if ((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject)&&(CurrentCompoObject->IsVisible)&&(CurrentCompoObject->BlockAnimType==BLOCKANIMTYPE_DISSOLVE)) {
         ui->DissolveLabel->setEnabled(!SelectionHaveLockBlock);      ui->DissolveLabel->setVisible(true);
         ui->DissolveCB->   setEnabled(!SelectionHaveLockBlock);      ui->DissolveCB->   setVisible(true);
         ui->DissolveCB->setCurrentIndex(CurrentCompoObject->Dissolve);
@@ -1177,17 +852,14 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
     QApplication::restoreOverrideCursor();
     InRefreshControls=false;
 
-    // Refresh interactive zone display and shot thumbnail
-    if (UpdateInteractiveZone) ui->InteractiveZone->RefreshDisplay(); else ui->InteractiveZone->repaint(); // else refresh selection only
+    cShotComposer::RefreshControls(UpdateInteractiveZone);
 }
 
 //====================================================================================================================
 // Refresh background image of the scene
 
 void DlgSlideProperties::s_RefreshSceneImage() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_RefreshSceneImage");
-
-    ui->InteractiveZone->RefreshDisplay();
+    InteractiveZone->RefreshDisplay();
 }
 
 //====================================================================================================================
@@ -1195,34 +867,20 @@ void DlgSlideProperties::s_RefreshSceneImage() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_RulersBt() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_RulersBt");
-
-    DlgRulerDef Dlg(&ui->InteractiveZone->MagneticRuler,true,ApplicationConfig,this);
+    DlgRulerDef Dlg(&InteractiveZone->MagneticRuler,true,ApplicationConfig,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));
     if (Dlg.exec()==0) {
-        ApplicationConfig->SlideRuler=ui->InteractiveZone->MagneticRuler;
-        ui->RulersBT->setIcon(QIcon(QString(ui->InteractiveZone->MagneticRuler!=0?ICON_RULER_ON:ICON_RULER_OFF)));
+        ApplicationConfig->SlideRuler=InteractiveZone->MagneticRuler;
+        ui->RulersBT->setIcon(QIcon(QString(InteractiveZone->MagneticRuler!=0?ICON_RULER_ON:ICON_RULER_OFF)));
     }
-    ui->InteractiveZone->RefreshDisplay();
+    InteractiveZone->RefreshDisplay();
 }
 
 //====================================================================================================================
 
-cCompositionObject *DlgSlideProperties::GetGlobalCompositionObject(int IndexKey) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::GetSelectedGlobalCompositionObject");
-
-    int CurrentBlock=ui->BlockTable->currentRow();
-    if ((CurrentBlock<0)||(CurrentBlock>=CompositionList->List.count())) return NULL;
-    int i=0;
-    while ((i<CurrentSlide->ObjectComposition.List.count())&&(CurrentSlide->ObjectComposition.List[i]->IndexKey!=IndexKey)) i++;
-    if (i<CurrentSlide->ObjectComposition.List.count()) return CurrentSlide->ObjectComposition.List[i]; else return NULL;
-}
-
 cCompositionObject *DlgSlideProperties::GetSelectedGlobalCompositionObject() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::GetSelectedGlobalCompositionObject");
-
-    int CurrentBlock=ui->BlockTable->currentRow();
+    int CurrentBlock=BlockTable->currentRow();
     if ((CurrentBlock<0)||(CurrentBlock>=CompositionList->List.count())) return NULL;
     return GetGlobalCompositionObject(CompositionList->List[CurrentBlock]->IndexKey);
 }
@@ -1230,90 +888,8 @@ cCompositionObject *DlgSlideProperties::GetSelectedGlobalCompositionObject() {
 //====================================================================================================================
 
 cCompositionObject *DlgSlideProperties::GetSelectedCompositionObject() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::GetSelectedCompositionObject");
-
-    int CurrentBlock=ui->BlockTable->currentRow();
+    int CurrentBlock=BlockTable->currentRow();
     if ((CurrentBlock<0)||(CurrentBlock>=CompositionList->List.count())) return NULL; else return CompositionList->List[CurrentBlock];
-}
-
-//========= Apply modification
-void DlgSlideProperties::ApplyToContexte(bool ApplyGlobal) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::ApplyToContexte");
-
-    if ((ApplyGlobal)&&(CurrentCompoObject)) ApplyGlobalPropertiesToAllShots(CurrentCompoObject);
-
-    // Apply values of previous shot to all shot for all objects
-    for (int ShotNum=CurrentShotNbr+1;ShotNum<CurrentSlide->List.count();ShotNum++) for (int Block=0;Block<CurrentSlide->List[CurrentShotNbr]->ShotComposition.List.count();Block++) {
-        cCompositionObject *ShotObject=NULL;
-        for (int i=0;i<CurrentSlide->List[ShotNum]->ShotComposition.List.count();i++)
-            if (CurrentSlide->List[ShotNum]->ShotComposition.List[i]->IndexKey==CurrentSlide->List[CurrentShotNbr]->ShotComposition.List[Block]->IndexKey)
-                ShotObject=CurrentSlide->List[ShotNum]->ShotComposition.List[i];
-        if ((ShotObject!=NULL)&&(ShotObject->SameAsPrevShot)) ShotObject->CopyFromCompositionObject(CurrentSlide->List[CurrentShotNbr]->ShotComposition.List[Block]);
-    }
-    for (int i=CurrentShotNbr;i<CurrentSlide->List.count();i++) {
-        if (i==0) ApplicationConfig->SlideThumbsTable->ClearThumbs(CurrentSlide->ThumbnailKey);
-        ui->ShotTable->RepaintCell(i);
-    }
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::CopyBlockProperties(cCompositionObject *SourceBlock,cCompositionObject *DestBlock) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::CopyBlockProperties");
-
-    if (SourceBlock==DestBlock) return;
-
-    // Attribut of the text part
-    DestBlock->Text                 =SourceBlock->Text;                     // Text of the object
-    DestBlock->TextClipArtName      =SourceBlock->TextClipArtName;          // Text ClipArt of the object
-    DestBlock->FontName             =SourceBlock->FontName;                 // font name
-    DestBlock->FontSize             =SourceBlock->FontSize;                 // font size
-    DestBlock->FontColor            =SourceBlock->FontColor;                // font color
-    DestBlock->FontShadowColor      =SourceBlock->FontShadowColor;          // font shadow color
-    DestBlock->IsBold               =SourceBlock->IsBold;                   // true if bold mode
-    DestBlock->IsItalic             =SourceBlock->IsItalic;                 // true if Italic mode
-    DestBlock->IsUnderline          =SourceBlock->IsUnderline;              // true if Underline mode
-    DestBlock->HAlign               =SourceBlock->HAlign;                   // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
-    DestBlock->VAlign               =SourceBlock->VAlign;                   // Vertical alignement : 0=up, 1=center, 2=bottom
-    DestBlock->StyleText            =SourceBlock->StyleText;                // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
-    DestBlock->TMType               =SourceBlock->TMType;                   // Text margins type (0=full shape, 1=shape default, 2=custom)
-    DestBlock->TMx                  =SourceBlock->TMx;                      // Text margins
-    DestBlock->TMy                  =SourceBlock->TMy;                      // Text margins
-    DestBlock->TMw                  =SourceBlock->TMw;                      // Text margins
-    DestBlock->TMh                  =SourceBlock->TMh;                      // Text margins
-
-    // Attribut of the shap part
-    DestBlock->BackgroundForm       =SourceBlock->BackgroundForm;           // Type of the form : 0=None, 1=Rectangle, 2=RoundRect, 3=Buble, 4=Ellipse, 5=Triangle UP (Polygon)
-    DestBlock->PenSize              =SourceBlock->PenSize;                  // Width of the border of the form
-    DestBlock->PenStyle             =SourceBlock->PenStyle;                 // Style of the pen border of the form
-    DestBlock->PenColor             =SourceBlock->PenColor;                 // Color of the border of the form
-    DestBlock->FormShadow           =SourceBlock->FormShadow;               // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
-    DestBlock->FormShadowDistance   =SourceBlock->FormShadowDistance;       // Distance from form to shadow
-    DestBlock->FormShadowColor      =SourceBlock->FormShadowColor;          // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
-    DestBlock->Opacity              =SourceBlock->Opacity;                  // Opacity of the form
-
-    // Attribut of the BackgroundBrush of the shap part
-    DestBlock->BackgroundBrush->BrushType           =SourceBlock->BackgroundBrush->BrushType;
-    DestBlock->BackgroundBrush->PatternType         =SourceBlock->BackgroundBrush->PatternType;
-    DestBlock->BackgroundBrush->GradientOrientation =SourceBlock->BackgroundBrush->GradientOrientation;
-    DestBlock->BackgroundBrush->ColorD              =SourceBlock->BackgroundBrush->ColorD;
-    DestBlock->BackgroundBrush->ColorF              =SourceBlock->BackgroundBrush->ColorF;
-    DestBlock->BackgroundBrush->ColorIntermed       =SourceBlock->BackgroundBrush->ColorIntermed;
-    DestBlock->BackgroundBrush->Intermediate        =SourceBlock->BackgroundBrush->Intermediate;
-    DestBlock->BackgroundBrush->BrushImage          =SourceBlock->BackgroundBrush->BrushImage;
-}
-
-void DlgSlideProperties::ApplyGlobalPropertiesToAllShots(cCompositionObject *GlobalBlock) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::ApplyGlobalPropertiesToAllShots");
-
-    // Apply to GlobalComposition objects
-    for (int j=0;j<CurrentSlide->ObjectComposition.List.count();j++) if (GlobalBlock->IndexKey==CurrentSlide->ObjectComposition.List[j]->IndexKey)
-        CopyBlockProperties(GlobalBlock,CurrentSlide->ObjectComposition.List[j]);
-
-    // Apply to Shots Composition objects
-    for (int i=0;i<CurrentSlide->List.count();i++) for (int j=0;j<CurrentSlide->List[i]->ShotComposition.List.count();j++) if (GlobalBlock->IndexKey==CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey)
-        CopyBlockProperties(GlobalBlock,CurrentSlide->List[i]->ShotComposition.List[j]);
 }
 
 //====================================================================================================================
@@ -1321,8 +897,7 @@ void DlgSlideProperties::ApplyGlobalPropertiesToAllShots(cCompositionObject *Glo
 //====================================================================================================================
 
 void DlgSlideProperties::s_SlideSet_ChapterInformation() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_SlideSet_SlideNameChange");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_EDITCHAPTERINFO,ui->InteractiveZone,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_EDITCHAPTERINFO,InteractiveZone,true);
     DlgChapter Dlg(CurrentSlide,ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()!=0) RemoveLastPartialUndo(); else CurrentSlide->Parent->UpdateChapterInformation();
@@ -1332,7 +907,6 @@ void DlgSlideProperties::s_SlideSet_ChapterInformation() {
 //===================================================================================
 
 void DlgSlideProperties::s_SlideSet_SlideNameChange(QString NewText) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_SlideSet_SlideNameChange");
     if (InRefreshControls) return;  // No action if in control setup
     AppendPartialUndo(UNDOACTION_EDITZONE_SLIDENAME,ui->SlideNameED,false);
 
@@ -1342,7 +916,6 @@ void DlgSlideProperties::s_SlideSet_SlideNameChange(QString NewText) {
 //===================================================================================
 
 void DlgSlideProperties::s_SlideSet_SaveModel() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_SlideSet_SaveModel");
     QMenu *ContextMenu=new QMenu(this);
     ContextMenu->addAction(ui->actionSaveAsProjectTitleModel);
     ContextMenu->addAction(ui->actionSaveAsCptTitleModels);
@@ -1355,7 +928,6 @@ void DlgSlideProperties::s_SlideSet_SaveModel() {
 //===================================================================================
 
 void DlgSlideProperties::s_SlideSet_SaveAsProjectTitleModel() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_SlideSet_SaveAsProjectTitleModel");
     CurrentSlide->SaveAsNewCustomModelFile(ffd_MODELTYPE_PROJECTTITLE);
     CustomMessageBox(this,QMessageBox::Information,ui->actionSaveAsProjectTitleModel->text(),
                      QApplication::translate("DlgSlideProperties","Slide added in Project title models collection","Information message"),QMessageBox::Close);
@@ -1364,7 +936,6 @@ void DlgSlideProperties::s_SlideSet_SaveAsProjectTitleModel() {
 //===================================================================================
 
 void DlgSlideProperties::s_SlideSet_SaveAsCptTitleModels() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_SlideSet_SaveAsCptTitleModels");
     CurrentSlide->SaveAsNewCustomModelFile(ffd_MODELTYPE_CHAPTERTITLE);
     CustomMessageBox(this,QMessageBox::Information,ui->actionSaveAsCptTitleModels->text(),
                      QApplication::translate("DlgSlideProperties","Slide added in Chapter title models collection","Information message"),QMessageBox::Close);
@@ -1373,7 +944,6 @@ void DlgSlideProperties::s_SlideSet_SaveAsCptTitleModels() {
 //===================================================================================
 
 void DlgSlideProperties::s_SlideSet_SaveAsCreditTitleModels() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_SlideSet_SaveAsCreditTitleModels");
     CurrentSlide->SaveAsNewCustomModelFile(ffd_MODELTYPE_CREDITTITLE);
     CustomMessageBox(this,QMessageBox::Information,ui->actionSaveAsCreditTitleModels->text(),
                      QApplication::translate("DlgSlideProperties","Slide added in Credit title models collection","Information message"),QMessageBox::Close);
@@ -1384,7 +954,6 @@ void DlgSlideProperties::s_SlideSet_SaveAsCreditTitleModels() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_ShotTable_DurationChange(QTime NewValue) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ShotTable_DurationChange");
     if ((InDisplayDuration)||(CurrentShot==NULL)) return;  // No action if in control setup or if no shot was selected
     AppendPartialUndo(UNDOACTION_EDITZONE_SHOTDURATION,ui->ShotDurationED,false);
 
@@ -1395,9 +964,8 @@ void DlgSlideProperties::s_ShotTable_DurationChange(QTime NewValue) {
 //===================================================================================
 
 void DlgSlideProperties::s_ShotTable_AddShot() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ShotTable_AddShot");
     if ((InRefreshControls)||(CurrentShot==NULL)) return;  // No action if in control setup or if no shot was selected
-    AppendPartialUndo(UNDOACTION_SHOTTABLE_ADDSHOT,ui->ShotTable,true);
+    AppendPartialUndo(UNDOACTION_SHOTTABLE_ADDSHOT,ShotTable,true);
 
     // Insert a new empty shot after current shot in the current slide
     CurrentSlide->List.insert(CurrentShotNbr+1,new cDiaporamaShot(CurrentSlide));
@@ -1409,25 +977,24 @@ void DlgSlideProperties::s_ShotTable_AddShot() {
         imagesequence->ShotComposition.List[i]->CopyFromCompositionObject(CompositionList->List[i]);
     }
 
-    ui->ShotTable->setUpdatesEnabled(false);
-    ui->ShotTable->insertColumn(CurrentShotNbr+1);
-    ui->ShotTable->setColumnWidth(CurrentShotNbr+1,CurrentSlide->Parent->GetWidthForHeight(ui->ShotTable->rowHeight(0)));
+    ShotTable->setUpdatesEnabled(false);
+    ShotTable->insertColumn(CurrentShotNbr+1);
+    ShotTable->setColumnWidth(CurrentShotNbr+1,CurrentSlide->Parent->GetWidthForHeight(ShotTable->rowHeight(0)));
 
     // Change current shot to this new shot
-    ui->ShotTable->SetCurrentCell(CurrentShotNbr+1);
-    ui->ShotTable->setUpdatesEnabled(true);
+    ShotTable->SetCurrentCell(CurrentShotNbr+1);
+    ShotTable->setUpdatesEnabled(true);
 }
 
 //===================================================================================
 
 void DlgSlideProperties::s_ShotTable_RemoveShot() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ShotTable_RemoveShot");
     if (CurrentSlide->List.count()<2) return;               // Don't remove last shot
     if ((InRefreshControls)||(CurrentShot==NULL)) return;   // No action if in control setup or if no shot was selected
     if ((ApplicationConfig->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgSlideProperties","Remove shot"),QApplication::translate("DlgSlideProperties","Are you sure you want to delete this shot?"),
                               QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No)) return;
 
-    AppendPartialUndo(UNDOACTION_SHOTTABLE_REMOVESHOT,ui->ShotTable,true);
+    AppendPartialUndo(UNDOACTION_SHOTTABLE_REMOVESHOT,ShotTable,true);
 
     InRefreshControls=true;
 
@@ -1436,11 +1003,11 @@ void DlgSlideProperties::s_ShotTable_RemoveShot() {
 
     // Remove shot from shot table
     int ShotNbr=CurrentShotNbr;
-    ui->ShotTable->setUpdatesEnabled(false);
-    ui->ShotTable->removeColumn(ShotNbr);
+    ShotTable->setUpdatesEnabled(false);
+    ShotTable->removeColumn(ShotNbr);
     if (ShotNbr>=CurrentSlide->List.count()) ShotNbr--;
-    ui->ShotTable->SetCurrentCell(ShotNbr);
-    ui->ShotTable->setUpdatesEnabled(true);
+    ShotTable->SetCurrentCell(ShotNbr);
+    ShotTable->setUpdatesEnabled(true);
 
     InRefreshControls=false;
     s_ShotTable_SelectionChanged();
@@ -1449,60 +1016,56 @@ void DlgSlideProperties::s_ShotTable_RemoveShot() {
 //===================================================================================
 
 void DlgSlideProperties::s_ShotTable_DragMoveItem() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ShotTable_DragMoveItem");
-    AppendPartialUndo(UNDOACTION_SHOTTABLE_CHORDER,ui->ShotTable,true);
+    AppendPartialUndo(UNDOACTION_SHOTTABLE_CHORDER,ShotTable,true);
 
-    int Src=ui->ShotTable->DragItemSource;
-    int Dst=ui->ShotTable->DragItemDest;
+    int Src=ShotTable->DragItemSource;
+    int Dst=ShotTable->DragItemDest;
     if ((Src<0)||(Src>=CurrentSlide->List.count())||(Dst<0)||(Dst>CurrentSlide->List.count())) return;
 
     cDiaporamaShot *ObjSrc=CurrentSlide->List.takeAt(Src);
     if (Src<Dst) Dst--;
     CurrentSlide->List.insert(Dst,ObjSrc);
 
-    ui->ShotTable->setUpdatesEnabled(false);
-    ui->ShotTable->SetCurrentCell(Dst);
-    ui->ShotTable->setUpdatesEnabled(true);  // Reset timeline painting
+    ShotTable->setUpdatesEnabled(false);
+    ShotTable->SetCurrentCell(Dst);
+    ShotTable->setUpdatesEnabled(true);  // Reset timeline painting
 }
 
 //===================================================================================
 
 void DlgSlideProperties::s_ShotTable_MoveLeft() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ShotTable_MoveLeft");
     if ((InRefreshControls)||(CurrentShot==NULL)) return;  // No action if in control setup or if no shot was selected
-    AppendPartialUndo(UNDOACTION_SHOTTABLE_CHORDER,ui->ShotTable,true);
+    AppendPartialUndo(UNDOACTION_SHOTTABLE_CHORDER,ShotTable,true);
 
     if (CurrentShotNbr>0) {
         CurrentSlide->List.swap(CurrentShotNbr,CurrentShotNbr-1);
-        ui->ShotTable->setUpdatesEnabled(false);
-        ui->ShotTable->SetCurrentCell(CurrentShotNbr-1);
-        ui->ShotTable->setUpdatesEnabled(true);  // Reset timeline painting
+        ShotTable->setUpdatesEnabled(false);
+        ShotTable->SetCurrentCell(CurrentShotNbr-1);
+        ShotTable->setUpdatesEnabled(true);  // Reset timeline painting
     }
 }
 
 //===================================================================================
 
 void DlgSlideProperties::s_ShotTable_MoveRight() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ShotTable_MoveRight");
     if ((InRefreshControls)||(CurrentShot==NULL)) return;  // No action if in control setup or if no shot was selected
-    AppendPartialUndo(UNDOACTION_SHOTTABLE_CHORDER,ui->ShotTable,true);
+    AppendPartialUndo(UNDOACTION_SHOTTABLE_CHORDER,ShotTable,true);
 
     if (CurrentShotNbr<CurrentSlide->List.count()-1) {
         CurrentSlide->List.swap(CurrentShotNbr+1,CurrentShotNbr);
-        ui->ShotTable->setUpdatesEnabled(false);
-        ui->ShotTable->SetCurrentCell(CurrentShotNbr+1);
-        ui->ShotTable->setUpdatesEnabled(true);  // Reset timeline painting
+        ShotTable->setUpdatesEnabled(false);
+        ShotTable->SetCurrentCell(CurrentShotNbr+1);
+        ShotTable->setUpdatesEnabled(true);  // Reset timeline painting
     }
 }
 
 //===================================================================================
 
 void DlgSlideProperties::s_ShotTable_SelectionChanged() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ShotTable_SelectionChanged");
     if (InRefreshControls) return;  // No action if in control setup or if no shot was selected
 
     // Keep link to current shot
-    CurrentShotNbr=ui->ShotTable->currentColumn();
+    CurrentShotNbr=ShotTable->currentColumn();
     if ((CurrentShotNbr<0)||(CurrentShotNbr>=CurrentSlide->List.count())) {
         ShotSelectMode  =SELECTMODE_NONE;
         CurrentShot     =NULL;
@@ -1515,7 +1078,7 @@ void DlgSlideProperties::s_ShotTable_SelectionChanged() {
     }
 
     // Because block order can change from a shot to another, try to keep current block by looking at indexkey
-    int i       =ui->BlockTable->currentRow();
+    int i       =BlockTable->currentRow();
     int IndexKey=-1;
     if ((CompositionList!=NULL)&&(i>=0)&&(i<CompositionList->List.count())) IndexKey=CompositionList->List[i]->IndexKey;
 
@@ -1525,12 +1088,12 @@ void DlgSlideProperties::s_ShotTable_SelectionChanged() {
         if (CurrentBlockTableIndex>=CompositionList->List.count()) CurrentBlockTableIndex=0;
     }
 
-    ui->BlockTable->CompositionList     =CompositionList;
-    ui->BlockTable->CurrentShotNbr      =CurrentShotNbr;
-    ui->InteractiveZone->CurrentShotNbr =CurrentShotNbr;
+    BlockTable->CompositionList     =CompositionList;
+    BlockTable->CurrentShotNbr      =CurrentShotNbr;
+    InteractiveZone->CurrentShotNbr =CurrentShotNbr;
 
     ui->actionMoveLeft->setEnabled(CurrentShotNbr>0);
-    ui->actionMoveRight->setEnabled(CurrentShotNbr<ui->ShotTable->columnCount()-1);
+    ui->actionMoveRight->setEnabled(CurrentShotNbr<ShotTable->columnCount()-1);
     ui->RemoveShot->setEnabled(CurrentSlide->List.count()>1);
     ui->actionRemoveShot->setEnabled(CurrentSlide->List.count()>1);
 
@@ -1569,15 +1132,13 @@ void DlgSlideProperties::s_ShotTable_DisplayDuration() {
     }
 
     InDisplayDuration=false;
-    for (int i=CurrentShotNbr;i<CurrentSlide->List.count();i++) ui->ShotTable->RepaintCell(i);
-    if (CurrentShotNbr!=CurrentSlide->List.count()-1) ui->ShotTable->RepaintCell(CurrentSlide->List.count()-1);
+    for (int i=CurrentShotNbr;i<CurrentSlide->List.count();i++) ShotTable->RepaintCell(i);
+    if (CurrentShotNbr!=CurrentSlide->List.count()-1) ShotTable->RepaintCell(CurrentSlide->List.count()-1);
 }
 
 //===================================================================================
 
 void DlgSlideProperties::s_ShotTable_RightClickEvent(QMouseEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ShotTable_RightClickEvent");
-
     QMenu *ContextMenu=new QMenu(this);
     ContextMenu->addAction(ui->actionAddShot);
     ContextMenu->addAction(ui->actionRemoveShot);
@@ -1591,61 +1152,11 @@ void DlgSlideProperties::s_ShotTable_RightClickEvent(QMouseEvent *) {
 // BLOCK TABLE SETTINGS
 //====================================================================================================================
 
-//=========  Refresh the BlockTable
-void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::RefreshBlockTable");
-
-    ui->BlockTable->setUpdatesEnabled(false);
-    ui->BlockTable->setRowCount(CompositionList->List.count());
-    for (int i=0;i<ui->BlockTable->rowCount();i++) ui->BlockTable->setRowHeight(i,48+2+((((cBaseApplicationConfig *)ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20+1)*3);
-    ui->BlockTable->setUpdatesEnabled(true);
-    if (ui->BlockTable->currentRow()!=SetCurrentIndex) {
-        ui->BlockTable->clearSelection();
-        ui->BlockTable->setCurrentCell(SetCurrentIndex,0,QItemSelectionModel::Select|QItemSelectionModel::Current);
-    } else s_BlockTable_SelectionChanged();
-    if (ui->BlockTable->rowCount()==0) s_BlockTable_SelectionChanged();
-    ui->InteractiveZone->RefreshDisplay();
-
-}
-
-//========= block selection change
-void DlgSlideProperties::s_BlockTable_SelectionChanged() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_SelectionChanged");
-    if (InSelectionChange) return;
-
-    QModelIndexList SelList=ui->BlockTable->selectionModel()->selectedIndexes();
-
-    IsSelected.clear();
-    for (int i=0;i<ui->BlockTable->rowCount();i++)  IsSelected.append(false);
-    for (int i=0;i<SelList.count();i++)             IsSelected[SelList.at(i).row()]=true;
-
-    NbrSelected             =0;
-    CurrentCompoObjectNbr   =-1;
-    CurrentCompoObject      =NULL;
-    SelectionHaveLockBlock  =false;
-
-    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
-        if (NbrSelected==0) {
-            CurrentCompoObjectNbr=i;
-            CurrentCompoObject   =CompositionList->List[CurrentCompoObjectNbr];
-        }
-        if ((CurrentShotNbr>0)&&(CurrentCompoObject->SameAsPrevShot)) SelectionHaveLockBlock=true;
-        NbrSelected++;
-    }
-    if (NbrSelected==0)             BlockSelectMode=SELECTMODE_NONE;
-        else if (NbrSelected==1)    BlockSelectMode=SELECTMODE_ONE;
-        else                        BlockSelectMode=SELECTMODE_MULTIPLE;
-
-    RefreshControls(false);
-}
-
 void DlgSlideProperties::s_BlockTable_StartSelectionChange() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_StartSelectionChange");
     InSelectionChange=true;
 }
 
 void DlgSlideProperties::s_BlockTable_EndSelectionChange() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_EndSelectionChange");
     InSelectionChange=false;
     s_BlockTable_SelectionChanged();
 }
@@ -1654,8 +1165,6 @@ void DlgSlideProperties::s_BlockTable_EndSelectionChange() {
 // User double click on a block in the BlockTable widget or in the scene
 
 void DlgSlideProperties::s_BlockTable_ItemDoubleClicked(QMouseEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_ItemDoubleClicked");
-
     if ((BlockSelectMode!=SELECTMODE_ONE)||(SelectionHaveLockBlock)) return;
     if (CurrentCompoObject->BackgroundBrush->BrushType!=BRUSHTYPE_IMAGEDISK)    s_BlockSettings_TextEditor();
         else                                                                    s_BlockSettings_ImageEditCorrect();
@@ -1664,8 +1173,6 @@ void DlgSlideProperties::s_BlockTable_ItemDoubleClicked(QMouseEvent *) {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockSettings_Arrange() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_Arrange");
-
     QMenu *ContextMenu=new QMenu(this);
     ContextMenu->addAction(ui->actionTop);
     ContextMenu->addAction(ui->actionMiddle);
@@ -1705,7 +1212,7 @@ void DlgSlideProperties::s_BlockSettings_Edit() {
             if (CurrentCompoObject->SameAsPrevShot) ContextMenu->addAction(ui->actionUnlockSameAsPreviousShot);
                 else ContextMenu->addAction(ui->actionSameAsPreviousShot);
         }
-        if (CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) ContextMenu->addAction(ui->actionTakeSound);
+        if (ISVIDEO(CurrentCompoObject->BackgroundBrush)) ContextMenu->addAction(ui->actionTakeSound);
     }
     ContextMenu->exec(QCursor::pos());
     delete ContextMenu;
@@ -1716,8 +1223,6 @@ void DlgSlideProperties::s_BlockSettings_Edit() {
 // User right click on a block in the BlockTable widget or in the scene
 
 void DlgSlideProperties::s_BlockTable_ItemRightClicked(QMouseEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_ItemRightClicked");
-
     if (BlockSelectMode==SELECTMODE_NONE) {
         QMenu *ContextMenu=new QMenu(this);
         ContextMenu->addAction(ui->actionCut);
@@ -1726,7 +1231,8 @@ void DlgSlideProperties::s_BlockTable_ItemRightClicked(QMouseEvent *) {
         ContextMenu->addSeparator();
         ContextMenu->addAction(ui->actionAddTextBlock);
         ContextMenu->addAction(ui->actionAddFile);
-        //ContextMenu->addAction(ui->actionAddGMapsMap);
+        ContextMenu->addAction(ui->actionAddImageClipboard);
+        ContextMenu->addAction(ui->actionAddGMapsMap);
         ContextMenu->exec(QCursor::pos());
         delete ContextMenu;
     } else if (BlockSelectMode==SELECTMODE_ONE) {
@@ -1746,7 +1252,7 @@ void DlgSlideProperties::s_BlockTable_ItemRightClicked(QMouseEvent *) {
             if (CurrentCompoObject->SameAsPrevShot) ContextMenu->addAction(ui->actionUnlockSameAsPreviousShot);
             else ContextMenu->addAction(ui->actionSameAsPreviousShot);
         }
-        if (CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) ContextMenu->addAction(ui->actionTakeSound);
+        if (ISVIDEO(CurrentCompoObject->BackgroundBrush)) ContextMenu->addAction(ui->actionTakeSound);
         ContextMenu->addSeparator();
         ContextMenu->addAction(ui->actionInfo);
         ContextMenu->addSeparator();
@@ -1785,8 +1291,7 @@ void DlgSlideProperties::s_BlockTable_ItemRightClicked(QMouseEvent *) {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AddNewTextBlock");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ADDTEXTBLOCK,ui->BlockTable,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ADDTEXTBLOCK,BlockTable,true);
 
     QMenu *ContextMenu=new QMenu(this);
     ContextMenu->addAction(ui->actionAddSimpleTextBlock);
@@ -1799,8 +1304,7 @@ void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_AddNewSimpleTextBlock() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AddNewTextBlock");
-    int CurrentShotNbr=ui->ShotTable->currentColumn();
+    int CurrentShotNbr=ShotTable->currentColumn();
 
     // Create and append a composition block to the object list
     CurrentSlide->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig,&CurrentSlide->ObjectComposition));
@@ -1856,8 +1360,6 @@ void DlgSlideProperties::s_BlockTable_AddNewSimpleTextBlock() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_AddNewClipArtTextBlock() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AddNewClipArtTextBlock");
-
     cPopupTexteFrame* popup1 = new cPopupTexteFrame(this);
     QPoint Pos=mapToGlobal(ui->AddTextBlock->pos());
     popup1->DoInitPopup(QPoint(Pos.x()+ui->AddTextBlock->width(),Pos.y()+ui->AddTextBlock->height()));
@@ -1865,7 +1367,7 @@ void DlgSlideProperties::s_BlockTable_AddNewClipArtTextBlock() {
     QString RessourceName=popup1->GetCurrentTextFrame();
     if (RessourceName=="") return;
 
-    int CurrentShotNbr=ui->ShotTable->currentColumn();
+    int CurrentShotNbr=ShotTable->currentColumn();
 
     // Create and append a composition block to the object list
     CurrentSlide->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig,&CurrentSlide->ObjectComposition));
@@ -1924,7 +1426,6 @@ void DlgSlideProperties::s_BlockTable_AddNewClipArtTextBlock() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_DragDropFiles(QList<QUrl> urlList) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_DragDropFiles");
     if (urlList.count()>0) {
         QString     fName;
         QFileInfo   info;
@@ -1935,9 +1436,9 @@ void DlgSlideProperties::s_BlockTable_DragDropFiles(QList<QUrl> urlList) {
             if (info.isFile()) FileList.append(fName);  // append file
         }
         if (FileList.count()>0) {
-            if (ui->BlockTable->DragItemDest<0)                          ui->BlockTable->DragItemDest=0;
-            if (ui->BlockTable->DragItemDest>ui->BlockTable->rowCount()) ui->BlockTable->DragItemDest=ui->BlockTable->rowCount();
-            s_BlockTable_AddFilesBlock(FileList,ui->BlockTable->DragItemDest);
+            if (BlockTable->DragItemDest<0)                          BlockTable->DragItemDest=0;
+            if (BlockTable->DragItemDest>BlockTable->rowCount()) BlockTable->DragItemDest=BlockTable->rowCount();
+            s_BlockTable_AddFilesBlock(FileList,BlockTable->DragItemDest);
         }
     }
 }
@@ -1953,100 +1454,35 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
     if (FileList.count()==0) return;
 
     QApplication::processEvents();
-    s_BlockTable_AddFilesBlock(FileList,ui->BlockTable->rowCount());
+    s_BlockTable_AddFilesBlock(FileList,BlockTable->rowCount());
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int PositionToInsert) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AddNewFileBlock");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ADDFILEBLOCK,ui->BlockTable,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ADDFILEBLOCK,BlockTable,true);
 
     // Add files
     for (int i=0;i<FileList.count();i++) {
-        QString NewFile=FileList[i];
-        QString ErrorMessage=QApplication::translate("MainWindow","Format not supported","Error message");
+        QString         BrushFileName=QFileInfo(FileList[i]).absoluteFilePath();
+        QString         Extension    =QFileInfo(BrushFileName).suffix().toLower();
+        cBaseMediaFile  *MediaObject =NULL;
 
-        // Create and append a composition block to the object list
-        CurrentSlide->ObjectComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig,&CurrentSlide->ObjectComposition));
-        cCompositionObject  *CompositionObject=CurrentSlide->ObjectComposition.List[PositionToInsert];
-        cBrushDefinition    *CurrentBrush     =CompositionObject->BackgroundBrush;
+        if (ApplicationConfig->AllowImageExtension.contains(Extension))                 MediaObject=new cImageFile(ApplicationConfig);
+            else if (ApplicationConfig->AllowImageVectorExtension.contains(Extension))  MediaObject=new cImageFile(ApplicationConfig);
+            else if (ApplicationConfig->AllowVideoExtension.contains(Extension))        MediaObject=new cVideoFile(ApplicationConfig);
 
-        CompositionObject->Text     ="";
-        CompositionObject->PenSize  =0;
-        CurrentBrush->BrushType     =BRUSHTYPE_IMAGEDISK;
-
-        QString BrushFileName =QFileInfo(NewFile).absoluteFilePath();
-
-        bool    IsValide =false;
-        QString Extension=QFileInfo(BrushFileName).suffix().toLower();
-
-        if (ApplicationConfig->AllowImageExtension.contains(Extension))                 CurrentBrush->MediaObject=new cImageFile(ApplicationConfig);
-            else if (ApplicationConfig->AllowImageVectorExtension.contains(Extension))  CurrentBrush->MediaObject=new cImageFile(ApplicationConfig);
-            else if (ApplicationConfig->AllowVideoExtension.contains(Extension))        CurrentBrush->MediaObject=new cVideoFile(ApplicationConfig);
-
-        IsValide=((CurrentBrush->MediaObject->GetInformationFromFile(BrushFileName,NULL,NULL,-1)&&(CurrentBrush->MediaObject->CheckFormatValide(this))));
-
-        if (IsValide) {
-
-            if (CurrentBrush->MediaObject->ObjectType!=OBJECTTYPE_VIDEOFILE) {
-                cVideoFile *Video=(cVideoFile *)CurrentBrush->MediaObject;
-                Video->EndPos=Video->Duration;
-                if (Video->LibavStartTime>0) Video->StartPos=QTime(0,0,0,0).addMSecs(int64_t((double(Video->LibavStartTime)/AV_TIME_BASE)*1000));
+        if ((MediaObject)&&(MediaObject->GetInformationFromFile(BrushFileName,NULL,NULL,-1)&&(MediaObject->CheckFormatValide(this)))) {
+            if (MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
+                ((cVideoFile *)MediaObject)->EndPos=((cVideoFile *)MediaObject)->Duration;
+                if (((cVideoFile *)MediaObject)->LibavStartTime>0) ((cVideoFile *)MediaObject)->StartPos=QTime(0,0,0,0).addMSecs(int64_t((double(((cVideoFile *)MediaObject)->LibavStartTime)/AV_TIME_BASE)*1000));
             }
-
-            // Apply Styles for texte
-            CompositionObject->ApplyTextStyle(ApplicationConfig->StyleTextCollection.GetStyleDef(ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_TextST)));
-
-            // Apply Styles for shape
-            CompositionObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_ShapeST)));
-
-            // Apply styles for coordinates
-            CurrentBrush->ApplyAutoFraming(ApplicationConfig->DefaultBlockBA[CurrentBrush->GetImageType()].AutoFraming,ProjectGeometry);
-            if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_IMAGEVECTOR) {
-                CompositionObject->ApplyAutoCompoSize(AUTOCOMPOSIZE_REALSIZE,CurrentSlide->Parent->ImageGeometry);
-                // adjust for image was not too small !
-                if ((CompositionObject->w<0.2)&&(CompositionObject->h<0.2)) {
-                    while ((CompositionObject->w<0.2)&&(CompositionObject->h<0.2)) {
-                        CompositionObject->w=CompositionObject->w*2;
-                        CompositionObject->h=CompositionObject->h*2;
-                    }
-                    CompositionObject->x=(1-CompositionObject->w)/2;
-                    CompositionObject->y=(1-CompositionObject->h)/2;
-                }
-            } else CompositionObject->ApplyAutoCompoSize(ApplicationConfig->DefaultBlockBA[CurrentBrush->GetImageType()].AutoCompo,CurrentSlide->Parent->ImageGeometry);
-
-            // Now create and append a shot composition block to all shot
-            for (int i=0;i<CurrentSlide->List.count();i++) {
-                CurrentSlide->List[i]->ShotComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&CurrentSlide->List[i]->ShotComposition));
-                CurrentSlide->List[i]->ShotComposition.List[PositionToInsert]->CopyFromCompositionObject(CompositionObject);
-                // Ensure new object is not visible in previous shot
-                if (i<CurrentShotNbr) CurrentSlide->List[i]->ShotComposition.List[PositionToInsert]->IsVisible=false;
-            }
-
-            // If this object is a video will gain sound from this shots !
-            if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) for (int k=0;k<CurrentSlide->List.count();k++) for (int l=0;l<CurrentSlide->List[k]->ShotComposition.List.count();l++)
-                if ((CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&
-                    (CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)) {
-                    if (k<CurrentShotNbr) {
-                        // Set this new block to SoundVolume=0
-                        if (CurrentBrush->MediaObject->FileKey==CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->MediaObject->FileKey)
-                            CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->SoundVolume=0;
-                    } else {
-                        // Set all other block to SoundVolume=0 and this block to SoundVolume=1
-                        if (CurrentBrush->MediaObject->FileKey!=CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->MediaObject->FileKey)
-                            CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->SoundVolume=0;
-                        else CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->SoundVolume=1;
-                    }
-            }
-
-            // Inc NextIndexKey
-            CurrentSlide->NextIndexKey++;
+            DoAddBlock(MediaObject,PositionToInsert);
             PositionToInsert++;
 
         } else {
             delete CurrentSlide->ObjectComposition.List.takeAt(PositionToInsert);
-            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
+            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),FileList[i]+"\n\n"+QApplication::translate("MainWindow","Format not supported","Error message"),QMessageBox::Close);
         }
     }
     RefreshBlockTable(PositionToInsert-1);
@@ -2054,21 +1490,9 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
 
 //====================================================================================================================
 
-void DlgSlideProperties::s_BlockTable_AddSpecialBlock() {
-    QMenu *ContextMenu=new QMenu(this);
-    //ContextMenu->addAction(ui->actionAddGMapsMap);
-    ContextMenu->exec(QCursor::pos());
-    delete ContextMenu;
-    ui->AddSpecialBlock->setDown(false);
-}
+void DlgSlideProperties::DoAddBlock(cBaseMediaFile *MediaObject,int PositionToInsert) {
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ADDFILEBLOCK,BlockTable,true);
 
-//====================================================================================================================
-/*
-void DlgSlideProperties::s_BlockTable_AddGMapsMapBlock() {
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ADDFILEBLOCK,ui->BlockTable,true);
-
-    // Create and append a composition block to the object list
-    int PositionToInsert=ui->BlockTable->rowCount();
     CurrentSlide->ObjectComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig,&CurrentSlide->ObjectComposition));
     cCompositionObject  *CompositionObject=CurrentSlide->ObjectComposition.List[PositionToInsert];
     cBrushDefinition    *CurrentBrush     =CompositionObject->BackgroundBrush;
@@ -2077,59 +1501,99 @@ void DlgSlideProperties::s_BlockTable_AddGMapsMapBlock() {
     CompositionObject->PenSize  =0;
     CurrentBrush->BrushType     =BRUSHTYPE_IMAGEDISK;
 
-    // Create an GMapsMap wrapper
-    CurrentBrush->MediaObject=new cGMapsMap(ApplicationConfig);
-    CurrentBrush->MediaObject->GetInformationFromFile("",NULL,NULL,-1);
+    // Create an cImageClipboard wrapper
+    CurrentBrush->MediaObject=MediaObject;
 
-    QImage *Image=CurrentBrush->MediaObject->ImageAt(true);
-    if (!Image) {
-        delete CurrentSlide->ObjectComposition.List.takeAt(PositionToInsert);
-    } else {
-        // Apply Styles
-        CompositionObject->ApplyTextStyle(ApplicationConfig->StyleTextCollection.GetStyleDef(ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_TextST)));
-        CompositionObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_ShapeST)));
-        // Apply styles for coordinates
-        //qreal ProjectGeometry=qreal(CurrentSlide->Parent->ImageGeometry==GEOMETRY_4_3?1440:CurrentSlide->Parent->ImageGeometry==GEOMETRY_16_9?1080:CurrentSlide->Parent->ImageGeometry==GEOMETRY_40_17?816:1920)/qreal(1920);
-        CompositionObject->BackgroundBrush->ApplyAutoFraming(ApplicationConfig->DefaultBlockBA[CompositionObject->BackgroundBrush->GetImageType()].AutoFraming,ProjectGeometry);
-        CompositionObject->ApplyAutoCompoSize(ApplicationConfig->DefaultBlockBA[CompositionObject->BackgroundBrush->GetImageType()].AutoCompo,CurrentSlide->Parent->ImageGeometry);
-        delete Image;
-        // Now create and append a shot composition block to all shot
-        for (int i=0;i<CurrentSlide->List.count();i++) {
-            CurrentSlide->List[i]->ShotComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&CurrentSlide->List[i]->ShotComposition));
-            CurrentSlide->List[i]->ShotComposition.List[PositionToInsert]->CopyFromCompositionObject(CompositionObject);
-            // Ensure new object is not visible in previous shot
-            if (i<CurrentShotNbr) CurrentSlide->List[i]->ShotComposition.List[PositionToInsert]->IsVisible=false;
-        }
-        // Inc NextIndexKey
-        CurrentSlide->NextIndexKey++;
-        // Compute current position in the slide
-        int Position=0;
-        for (int i=0;i<ui->ShotTable->currentColumn();i++) for (int j=0;j<CurrentSlide->List[i]->ShotComposition.List.count();j++)
-          if ((CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey==CompositionObject->IndexKey)&&
-              (CurrentSlide->List[i]->ShotComposition.List[j]->IsVisible)
-             ) Position+=CurrentSlide->List[i]->StaticDuration;
+    // Apply Styles
+    CompositionObject->ApplyTextStyle(ApplicationConfig->StyleTextCollection.GetStyleDef(ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_TextST)));
+    CompositionObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_ShapeST)));
 
-        RefreshBlockTable(PositionToInsert);
-        DlgImageCorrection Dlg(CompositionObject,&CompositionObject->BackgroundForm,CompositionObject->BackgroundBrush,Position,
-                               CurrentSlide->Parent->ImageGeometry,CurrentSlide->Parent->ImageAnimSpeedWave,ApplicationConfig,this);
-        Dlg.InitDialog();
-        if (Dlg.exec()==0) {
-            RefreshBlockTable(PositionToInsert);
-        } else {
-            for (int i=0;i<CurrentSlide->List.count();i++) delete CurrentSlide->List[i]->ShotComposition.List.takeAt(PositionToInsert);
-            delete CurrentSlide->ObjectComposition.List.takeAt(PositionToInsert);
-            // Ensure nothing is selected
-            ui->BlockTable->clearSelection();
-            RefreshBlockTable(PositionToInsert-1);
+    // Apply styles for coordinates
+    CurrentBrush->ApplyAutoFraming(ApplicationConfig->DefaultBlockBA[CurrentBrush->GetImageType()].AutoFraming,ProjectGeometry);
+
+    if (MediaObject->ObjectType==OBJECTTYPE_IMAGEVECTOR) {
+        CompositionObject->ApplyAutoCompoSize(AUTOCOMPOSIZE_REALSIZE,CurrentSlide->Parent->ImageGeometry);
+        // adjust for image was not too small !
+        if ((CompositionObject->w<0.2)&&(CompositionObject->h<0.2)) {
+            while ((CompositionObject->w<0.2)&&(CompositionObject->h<0.2)) {
+                CompositionObject->w=CompositionObject->w*2;
+                CompositionObject->h=CompositionObject->h*2;
+            }
+            CompositionObject->x=(1-CompositionObject->w)/2;
+            CompositionObject->y=(1-CompositionObject->h)/2;
         }
+    } else CompositionObject->ApplyAutoCompoSize(ApplicationConfig->DefaultBlockBA[CurrentBrush->GetImageType()].AutoCompo,CurrentSlide->Parent->ImageGeometry);
+
+    // Now create and append a shot composition block to all shot
+    for (int i=0;i<CurrentSlide->List.count();i++) {
+        CurrentSlide->List[i]->ShotComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&CurrentSlide->List[i]->ShotComposition));
+        CurrentSlide->List[i]->ShotComposition.List[PositionToInsert]->CopyFromCompositionObject(CompositionObject);
+        // Ensure new object is not visible in previous shot
+        if (i<CurrentShotNbr) CurrentSlide->List[i]->ShotComposition.List[PositionToInsert]->IsVisible=false;
     }
+
+    // If this object is a video will gain sound from this shots !
+    if (MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) for (int k=0;k<CurrentSlide->List.count();k++) for (int l=0;l<CurrentSlide->List[k]->ShotComposition.List.count();l++)
+        if (ISVIDEO(CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush)) {
+            if (k<CurrentShotNbr) {
+                // Set this new block to SoundVolume=0
+                if (CurrentBrush->MediaObject->FileKey==CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->MediaObject->FileKey)
+                    CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->SoundVolume=0;
+            } else {
+                // Set all other block to SoundVolume=0 and this block to SoundVolume=1
+                if (CurrentBrush->MediaObject->FileKey!=CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->MediaObject->FileKey)
+                    CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->SoundVolume=0;
+                else CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->SoundVolume=1;
+            }
+    }
+
+    // Inc NextIndexKey
+    CurrentSlide->NextIndexKey++;
 }
-*/
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_BlockTable_AddSpecialBlock() {
+    QMenu *ContextMenu=new QMenu(this);
+    ContextMenu->addAction(ui->actionAddImageClipboard);
+    ContextMenu->addAction(ui->actionAddGMapsMap);
+    ContextMenu->exec(QCursor::pos());
+    delete ContextMenu;
+    ui->AddSpecialBlock->setDown(false);
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_BlockTable_AddGMapsMapBlock() {
+    // Create an GMapsMap wrapper
+    cGMapsMap   *MediaObject=new cGMapsMap(ApplicationConfig);
+    MediaObject->CreatDateTime=QDateTime().currentDateTime();
+    MediaObject->CreateDefaultImage();   // create default image
+    MediaObject->GetInformationFromFile("",NULL,NULL,-1);
+    DoAddBlock(MediaObject,CurrentSlide->ObjectComposition.List.count());
+    RefreshBlockTable(CurrentSlide->ObjectComposition.List.count()-1);
+    QTimer::singleShot(250,this,SLOT(s_BlockSettings_ImageEditCorrect()));    // Append "Open text editor" to the message queue
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_BlockTable_AddImageClipboard() {
+    const QMimeData *SlideData=QApplication::clipboard()->mimeData();
+    if (!SlideData->hasImage()) return;
+    QImage ImageClipboard=qvariant_cast<QImage>(SlideData->imageData());
+    if (ImageClipboard.isNull()) return;
+    cImageClipboard *MediaObject=new cImageClipboard(ApplicationConfig);
+    MediaObject->CreatDateTime=QDateTime().currentDateTime();
+    ApplicationConfig->SlideThumbsTable->SetThumbs(&MediaObject->RessourceKey,ImageClipboard);
+    MediaObject->GetInformationFromFile("",NULL,NULL,-1);
+    DoAddBlock(MediaObject,BlockTable->rowCount());
+    RefreshBlockTable(BlockTable->rowCount()-1);
+}
+
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_RemoveBlock() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_RemoveBlock");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_REMOVEBLOCK,ui->BlockTable,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_REMOVEBLOCK,BlockTable,true);
 
     if (BlockSelectMode==SELECTMODE_ONE) {
         if ((ApplicationConfig->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgSlideProperties","Remove block"),QApplication::translate("DlgSlideProperties","Are you sure you want to delete this block?"),
@@ -2164,14 +1628,12 @@ void DlgSlideProperties::s_BlockTable_RemoveBlock() {
     RefreshBlockTable(CurrentCompoObjectNbr>=CompositionList->List.count()?CurrentCompoObjectNbr-1:CurrentCompoObjectNbr);
 
     // Ensure nothing is selected
-    ui->BlockTable->clearSelection();
+    BlockTable->clearSelection();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_Cut() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_Cut");
-
     if ((BlockSelectMode!=SELECTMODE_ONE)&&(BlockSelectMode!=SELECTMODE_MULTIPLE)) return;
     s_BlockTable_Copy();
     s_BlockTable_RemoveBlock();
@@ -2180,8 +1642,6 @@ void DlgSlideProperties::s_BlockTable_Cut() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_Copy() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_Copy");
-
     if ((BlockSelectMode!=SELECTMODE_ONE)&&(BlockSelectMode!=SELECTMODE_MULTIPLE)) return;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -2193,9 +1653,8 @@ void DlgSlideProperties::s_BlockTable_Copy() {
     for (int i=0;i<CompositionList->List.count();i++) if (IsSelected[i]) {
         QDomElement         Element=Object.createElement(QString("Block-%1").arg(BlockNum));
         cCompositionObject  *GlobalBlock=GetGlobalCompositionObject(CompositionList->List[i]->IndexKey);
-
-        GlobalBlock->SaveToXML(Element,"CLIPBOARD-BLOCK-GLOBAL",CurrentSlide->Parent->ProjectFileName,true,true,NULL);                // Save global object
-        CompositionList->List[i]->SaveToXML(Element,"CLIPBOARD-BLOCK-SHOT",CurrentSlide->Parent->ProjectFileName,true,true,NULL);     // Save shot object
+        GlobalBlock->SaveToXML(Element,"CLIPBOARD-BLOCK-GLOBAL",CurrentSlide->Parent->ProjectFileName,true,true,NULL,NULL);                // Save global object
+        CompositionList->List[i]->SaveToXML(Element,"CLIPBOARD-BLOCK-SHOT",CurrentSlide->Parent->ProjectFileName,true,true,NULL,NULL);     // Save shot object
         root.appendChild(Element);
         BlockNum++;
     }
@@ -2214,11 +1673,11 @@ void DlgSlideProperties::s_BlockTable_Copy() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_Paste() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_Paste");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_PASTEBLOCK,ui->BlockTable,true);
-
     const QMimeData *SlideData=QApplication::clipboard()->mimeData();
+    if (SlideData->hasImage()) s_BlockTable_AddImageClipboard(); else
     if (SlideData->hasFormat("ffDiaporama/block")) {
+
+        AppendPartialUndo(UNDOACTION_BLOCKTABLE_PASTEBLOCK,BlockTable,true);
         QDomDocument Object=QDomDocument(APPLICATION_NAME);
         Object.setContent(SlideData->data("ffDiaporama/block"));
         if ((Object.elementsByTagName("CLIPBOARD").length()>0)&&(Object.elementsByTagName("CLIPBOARD").item(0).isElement()==true)) {
@@ -2233,11 +1692,12 @@ void DlgSlideProperties::s_BlockTable_Paste() {
                 // Create and append a composition block to the object list
                 CurrentSlide->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig,&CurrentSlide->ObjectComposition));
                 cCompositionObject *GlobalBlock=CurrentSlide->ObjectComposition.List[CurrentSlide->ObjectComposition.List.count()-1];
-                GlobalBlock->LoadFromXML(Element,"CLIPBOARD-BLOCK-GLOBAL","",NULL,NULL);
+                GlobalBlock->LoadFromXML(Element,"CLIPBOARD-BLOCK-GLOBAL","",NULL,NULL,true,NULL,true);
                 GlobalBlock->IndexKey=CurrentSlide->NextIndexKey;
 
                 cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,CurrentSlide->NextIndexKey,ApplicationConfig,this);
-                ShotBlock.LoadFromXML(Element,"CLIPBOARD-BLOCK-SHOT","",NULL,NULL);
+                ShotBlock.LoadFromXML(Element,"CLIPBOARD-BLOCK-SHOT","",NULL,NULL,true,NULL,true);
+
                 ShotBlock.IndexKey=CurrentSlide->NextIndexKey;
                 ShotBlock.BackgroundBrush->MediaObject=GlobalBlock->BackgroundBrush->MediaObject;
                 ShotBlock.BackgroundBrush->DeleteMediaObject=false;
@@ -2262,7 +1722,7 @@ void DlgSlideProperties::s_BlockTable_Paste() {
                     if (i<CurrentShotNbr) {
                         CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->IsVisible=false;
                         // Ensure unvisible video have no sound !
-                        if (CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)
+                        if (ISVIDEO(CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->BackgroundBrush))
                             CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->BackgroundBrush->SoundVolume=0;
                     }
                 }
@@ -2271,16 +1731,16 @@ void DlgSlideProperties::s_BlockTable_Paste() {
             }
 
             // Refresh shot table
-            ui->ShotTable->setUpdatesEnabled(false);
-            ui->ShotTable->setUpdatesEnabled(true);
+            ShotTable->setUpdatesEnabled(false);
+            ShotTable->setUpdatesEnabled(true);
 
             // Refresh block table
             RefreshBlockTable(CompositionList->List.count()-1);
 
             // Select blocks we just added
             s_BlockTable_StartSelectionChange();
-            ui->BlockTable->clearSelection();
-            for (int i=0;i<BlockNbr;i++) ui->BlockTable->setCurrentCell(CompositionList->List.count()-1-i,0,i==0?QItemSelectionModel::Select|QItemSelectionModel::Current:QItemSelectionModel::Select);
+            BlockTable->clearSelection();
+            for (int i=0;i<BlockNbr;i++) BlockTable->setCurrentCell(CompositionList->List.count()-1-i,0,i==0?QItemSelectionModel::Select|QItemSelectionModel::Current:QItemSelectionModel::Select);
             s_BlockTable_EndSelectionChange();
 
             QApplication::restoreOverrideCursor();
@@ -2291,8 +1751,7 @@ void DlgSlideProperties::s_BlockTable_Paste() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_MoveBlockUp() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_MoveBlockUp");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_CHBLOCKORDER,ui->BlockTable,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_CHBLOCKORDER,BlockTable,true);
     s_BlockTable_SelectionChanged(); // Refresh selection
     if (BlockSelectMode!=SELECTMODE_ONE) return;
     if (CurrentCompoObjectNbr<1) return;
@@ -2303,8 +1762,7 @@ void DlgSlideProperties::s_BlockTable_MoveBlockUp() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_MoveBlockDown() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_MoveBlockDown");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_CHBLOCKORDER,ui->BlockTable,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_CHBLOCKORDER,BlockTable,true);
     s_BlockTable_SelectionChanged(); // Refresh selection
     if (BlockSelectMode!=SELECTMODE_ONE) return;
     if (CurrentCompoObjectNbr>=CompositionList->List.count()-1) return;
@@ -2315,9 +1773,8 @@ void DlgSlideProperties::s_BlockTable_MoveBlockDown() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_DragMoveBlock(int Src,int Dst) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_DragMoveBlock");
     if (Src>=CompositionList->List.count()) return;
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_CHBLOCKORDER,ui->BlockTable,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_CHBLOCKORDER,BlockTable,true);
     if (Src<Dst) Dst--;
     CompositionList->List.insert(Dst,CompositionList->List.takeAt(Src));
     RefreshBlockTable(Dst);
@@ -2328,55 +1785,48 @@ void DlgSlideProperties::s_BlockTable_DragMoveBlock(int Src,int Dst) {
 //********************************************************************************************************************
 
 void DlgSlideProperties::s_BlockTable_AlignTop() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AlignTop");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
-    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->y=ui->InteractiveZone->Sel_Y;
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,InteractiveZone,true);
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->y=InteractiveZone->Sel_Y;
     RefreshControls(true);
 }
 
 void DlgSlideProperties::s_BlockTable_AlignMiddle() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AlignMiddle");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
-    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->y=(ui->InteractiveZone->Sel_Y+ui->InteractiveZone->Sel_H/2)-CompositionList->List[i]->h/2;
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,InteractiveZone,true);
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->y=(InteractiveZone->Sel_Y+InteractiveZone->Sel_H/2)-CompositionList->List[i]->h/2;
     RefreshControls(true);
 }
 
 void DlgSlideProperties::s_BlockTable_AlignBottom() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AlignBottom");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
-    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->y=(ui->InteractiveZone->Sel_Y+ui->InteractiveZone->Sel_H)-CompositionList->List[i]->h;
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,InteractiveZone,true);
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->y=(InteractiveZone->Sel_Y+InteractiveZone->Sel_H)-CompositionList->List[i]->h;
     RefreshControls(true);
 }
 
 void DlgSlideProperties::s_BlockTable_AlignLeft() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AlignLeft");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
-    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->x=ui->InteractiveZone->Sel_X;
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,InteractiveZone,true);
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->x=InteractiveZone->Sel_X;
     RefreshControls(true);
 }
 
 void DlgSlideProperties::s_BlockTable_AlignCenter() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AlignCenter");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
-    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->x=(ui->InteractiveZone->Sel_X+ui->InteractiveZone->Sel_W/2)-CompositionList->List[i]->w/2;
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,InteractiveZone,true);
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->x=(InteractiveZone->Sel_X+InteractiveZone->Sel_W/2)-CompositionList->List[i]->w/2;
     RefreshControls(true);
 }
 
 void DlgSlideProperties::s_BlockTable_AlignRight() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AlignRight");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
-    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->x=(ui->InteractiveZone->Sel_X+ui->InteractiveZone->Sel_W)-CompositionList->List[i]->w;
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,InteractiveZone,true);
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->x=(InteractiveZone->Sel_X+InteractiveZone->Sel_W)-CompositionList->List[i]->w;
     RefreshControls(true);
 }
 
 void DlgSlideProperties::s_BlockTable_DistributeHoriz() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_DistributeHoriz");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,InteractiveZone,true);
 
     // 1st step : compute available space and create list
     QList<SortBlock> List;
-    qreal           SpaceW   =ui->InteractiveZone->Sel_W;
-    qreal           CurrentX =ui->InteractiveZone->Sel_X;
+    qreal           SpaceW   =InteractiveZone->Sel_W;
+    qreal           CurrentX =InteractiveZone->Sel_X;
     for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
         SpaceW=SpaceW-CompositionList->List[i]->w;
         List.append(MakeSortBlock(i,CompositionList->List[i]->x));
@@ -2398,13 +1848,12 @@ void DlgSlideProperties::s_BlockTable_DistributeHoriz() {
 }
 
 void DlgSlideProperties::s_BlockTable_DistributeVert() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_DistributeVert");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,InteractiveZone,true);
 
     // 1st step : compute available space and create list
     QList<SortBlock> List;
-    qreal   SpaceH   =ui->InteractiveZone->Sel_H;
-    qreal   CurrentY =ui->InteractiveZone->Sel_Y;
+    qreal   SpaceH   =InteractiveZone->Sel_H;
+    qreal   CurrentY =InteractiveZone->Sel_Y;
     for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
         SpaceH=SpaceH-CompositionList->List[i]->h;
         List.append(MakeSortBlock(i,CompositionList->List[i]->y));
@@ -2437,24 +1886,22 @@ void DlgSlideProperties::s_BlockTable_DistributeVert() {
 
 //========= Open text editor
 void DlgSlideProperties::s_BlockSettings_TextEditor() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_TextEditor");
-
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    if (!NoPrepUndo) AppendPartialUndo(UNDOACTION_BLOCKTABLE_EDITTEXT,ui->InteractiveZone,true);
+    if (!ISBLOCKVALIDEVISIBLE()) return;
+    if (!NoPrepUndo) AppendPartialUndo(UNDOACTION_BLOCKTABLE_EDITTEXT,InteractiveZone,true);
     NoPrepUndo=false;
 
-    ui->InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_TextMargin;
-    ui->InteractiveZone->RefreshDisplay();
+    InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_TextMargin;
+    InteractiveZone->RefreshDisplay();
     DlgTextEdit Dlg(CurrentSlide->Parent,CurrentCompoObject,ApplicationConfig,&ApplicationConfig->StyleTextCollection,&ApplicationConfig->StyleTextBackgroundCollection,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));
     if (Dlg.exec()==0) {
-        ui->InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_BlockShape;
+        InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_BlockShape;
         ApplyToContexte(true);
-        int CurrentRow=ui->BlockTable->currentRow();
+        int CurrentRow=BlockTable->currentRow();
         RefreshBlockTable(CurrentRow>0?CurrentRow:0);
     } else {
-        ui->InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_BlockShape;
+        InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_BlockShape;
         RemoveLastPartialUndo();
         RefreshControls();
     }
@@ -2462,8 +1909,6 @@ void DlgSlideProperties::s_BlockSettings_TextEditor() {
 
 //========= Open s_BlockSettings_Information dialog
 void DlgSlideProperties::s_BlockSettings_Information() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_Information");
-
     if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
 
     DlgInfoFile Dlg(CurrentCompoObject->BackgroundBrush->MediaObject,ApplicationConfig,this);
@@ -2473,18 +1918,17 @@ void DlgSlideProperties::s_BlockSettings_Information() {
 
 //========= Open image/video correction editor
 void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ImageEditCorrect");
+    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)||(!ui->actionEditImage->isEnabled()))
+        return;
 
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)||(!ui->actionEditImage->isEnabled())) return;
-
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_EDITIMAGE,ui->InteractiveZone,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_EDITIMAGE,InteractiveZone,true);
     cBrushDefinition *CurrentBrush=CurrentCompoObject->BackgroundBrush;
 
     int Position=0;
     // Compute position of video
-    if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
+    if (ISVIDEO(CurrentBrush)) {
         Position=QTime(0,0,0,0).msecsTo(((cVideoFile*)&CurrentBrush->MediaObject)->StartPos);
-        for (int i=0;i<ui->ShotTable->currentColumn();i++) for (int j=0;j<CurrentSlide->List[i]->ShotComposition.List.count();j++)
+        for (int i=0;i<ShotTable->currentColumn();i++) for (int j=0;j<CurrentSlide->List[i]->ShotComposition.List.count();j++)
           if ((CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey==CurrentCompoObject->IndexKey)&&
               (CurrentSlide->List[i]->ShotComposition.List[j]->IsVisible)
              ) Position+=CurrentSlide->List[i]->StaticDuration;
@@ -2499,13 +1943,13 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
     if (Dlg.exec()==0) {
         FramingCB_CurrentBrush   =NULL; // To force a refresh of ui->FramingCB !
         CurrentBrush->AspectRatio=CurrentBrush->AspectRatio;
-        CurrentCompoObject->h    =(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH;
+        CurrentCompoObject->h    =(CurrentCompoObject->w*InteractiveZone->DisplayW*CurrentBrush->AspectRatio)/InteractiveZone->DisplayH;
         if ((CurrentShotNbr==0)&&(CurrentSlide->ThumbnailKey!=-1)) ApplicationConfig->SlideThumbsTable->ClearThumbs(CurrentSlide->ThumbnailKey);
 
         // Adjust height and width to image stay in screen
-        if (((CurrentCompoObject->y+CurrentCompoObject->h)*DisplayH)>DisplayH) {
+        if (((CurrentCompoObject->y+CurrentCompoObject->h)*InteractiveZone->DisplayH)>InteractiveZone->DisplayH) {
             CurrentCompoObject->h=1-CurrentCompoObject->y;
-            CurrentCompoObject->w=((CurrentCompoObject->h*DisplayH)/CurrentBrush->AspectRatio)/DisplayW;
+            CurrentCompoObject->w=((CurrentCompoObject->h*InteractiveZone->DisplayH)/CurrentBrush->AspectRatio)/InteractiveZone->DisplayW;
         }
 
         // if Slide name is name of this file
@@ -2515,8 +1959,7 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
         }
 
         // Lulo object for image and video must be remove
-        ApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->MediaObject->FileKey);
-
+        ApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->MediaObject->RessourceKey,CurrentCompoObject->BackgroundBrush->MediaObject->FileKey);
         ApplyToContexte(true);
         s_ShotTable_DisplayDuration();
         RefreshBlockTable(CurrentCompoObjectNbr);
@@ -2528,37 +1971,33 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
 //========= Toggle visible state
 
 void DlgSlideProperties::s_BlockSettings_ToggleVisibleState() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ToggleVisibleState");
-
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_VISIBLESTATE,ui->InteractiveZone,true);
+    if (!ISBLOCKVALIDE()) return;
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_VISIBLESTATE,InteractiveZone,true);
 
     CurrentCompoObject->IsVisible=!CurrentCompoObject->IsVisible;
 
     // Special case for video : ensure only this video have sound
-    if (CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
+    if (ISVIDEO(CurrentCompoObject->BackgroundBrush)) {
         if (!CurrentCompoObject->IsVisible) {
             CurrentCompoObject->BackgroundBrush->SoundVolume=0;
         } else {
             bool SomeOneHaveSound=false;
             // Parse table to know if a block have sound for this shot
             for (int i=0;i<CompositionList->List.count();i++)
-                if ((CompositionList->List[i]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)&&(CompositionList->List[i]->BackgroundBrush->SoundVolume!=0)) SomeOneHaveSound=true;
+                if ((ISVIDEO(CompositionList->List[i]->BackgroundBrush))&&(CompositionList->List[i]->BackgroundBrush->SoundVolume!=0)) SomeOneHaveSound=true;
             // If no block have sound => get sound to this video
             if (!SomeOneHaveSound) CurrentCompoObject->BackgroundBrush->SoundVolume=1;
         }
     }
     RefreshBlockTable(CurrentCompoObjectNbr);
-    ui->InteractiveZone->repaint();
+    InteractiveZone->repaint();
 }
 
 //========= Set "Same As Previous Shot" state
 
 void DlgSlideProperties::s_BlockSettings_SetSameAsPreviousShot() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_SetSameAsPreviousShot");
-
     if ((InRefreshControls)||(CurrentShotNbr==0)) return;
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_SAMEASPREVIOUSSTATE,ui->InteractiveZone,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_SAMEASPREVIOUSSTATE,InteractiveZone,true);
 
     for (int Block=0;Block<IsSelected.count();Block++) if (IsSelected[Block] && (CompositionList->List[Block]->SameAsPrevShot==false)) {
         CompositionList->List[Block]->SameAsPrevShot=true;
@@ -2573,42 +2012,38 @@ void DlgSlideProperties::s_BlockSettings_SetSameAsPreviousShot() {
             for (int i=0;i<CurrentSlide->List[ShotNum]->ShotComposition.List.count();i++) if (CurrentSlide->List[ShotNum]->ShotComposition.List[i]->IndexKey==CompositionList->List[Block]->IndexKey) ShotObject=CurrentSlide->List[ShotNum]->ShotComposition.List[i];
             if ((ShotObject!=NULL)&&(ShotObject->SameAsPrevShot)) {
                 ShotObject->CopyFromCompositionObject(PreviousObject);
-                ui->ShotTable->RepaintCell(ShotNum);
+                ShotTable->RepaintCell(ShotNum);
                 ShotNum++;
             } else ShotNum=CurrentSlide->List.count(); // Stop loop
         }
     }
     RefreshBlockTable(CurrentCompoObjectNbr);
-    ui->InteractiveZone->repaint();
+    InteractiveZone->repaint();
 }
 
 //========= Unset "Same As Previous Shot" state
 
 void DlgSlideProperties::s_BlockSettings_UnsetSameAsPreviousShot() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_UnsetSameAsPreviousShot");
-
     if ((InRefreshControls)||(CurrentShotNbr==0)) return;
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_SAMEASPREVIOUSSTATE,ui->InteractiveZone,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_SAMEASPREVIOUSSTATE,InteractiveZone,true);
 
     for (int Block=0;Block<IsSelected.count();Block++) if (IsSelected[Block] && (CompositionList->List[Block]->SameAsPrevShot==true))
         CompositionList->List[Block]->SameAsPrevShot=false;
 
     RefreshBlockTable(CurrentCompoObjectNbr);
-    ui->InteractiveZone->repaint();
+    InteractiveZone->repaint();
 }
 
 //========= Get sound
 
 void DlgSlideProperties::s_BlockSettings_GetSound() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_GetSound");
-
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_SOUNDSTATE,ui->InteractiveZone,true);
+    if (!ISBLOCKVALIDEVISIBLE()) return;
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_SOUNDSTATE,InteractiveZone,true);
 
     // Only if this block is a video and don't have sound yet
     if (CurrentCompoObject->BackgroundBrush->SoundVolume==0) {
         for (int i=0;i<CompositionList->List.count();i++)
-            if ((CurrentCompoObject!=CompositionList->List[i])&&(CompositionList->List[i]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)) CompositionList->List[i]->BackgroundBrush->SoundVolume=0;
+            if ((CurrentCompoObject!=CompositionList->List[i])&&(ISVIDEO(CompositionList->List[i]->BackgroundBrush))) CompositionList->List[i]->BackgroundBrush->SoundVolume=0;
         CurrentCompoObject->BackgroundBrush->SoundVolume=1;
         RefreshBlockTable(CurrentCompoObjectNbr);
     }
@@ -2620,225 +2055,11 @@ void DlgSlideProperties::s_BlockSettings_GetSound() {
 
 //========= ShapeSizePos combo
 void DlgSlideProperties::s_BlockSettings_ShapeSizePos(int Index) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ShapeSizePos");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
+    if (!ISBLOCKVALIDEVISIBLE()) return;
     if ((Index<0)||(Index>=ui->ShapeSizePosCB->count())) return;
     AppendPartialUndo(UNDOACTION_STYLE_COORDINATES,ui->ShapeSizePosCB,true);
     CurrentCompoObject->ApplyAutoCompoSize(ui->ShapeSizePosCB->itemData(Index).toInt(),CurrentSlide->Parent->ImageGeometry);
     ApplyToContexte(false);
-}
-
-//========= X position
-void DlgSlideProperties::s_BlockSettings_PosXValue(double Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_PosXValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_POSX,ui->PosXEd,false);
-
-    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->x=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
-        else                                                                       CurrentCompoObject->x=(Value/DisplayW);    // DisplayUnit==DISPLAYUNIT_PIXELS
-    ApplyToContexte(false);
-}
-
-//========= Y position
-void DlgSlideProperties::s_BlockSettings_PosYValue(double Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_PosYValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_POSY,ui->PosYEd,false);
-
-    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->y=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
-        else                                                                       CurrentCompoObject->y=(Value/DisplayH);    // DisplayUnit==DISPLAYUNIT_PIXELS
-    ApplyToContexte(false);
-}
-
-//========= Width
-void DlgSlideProperties::s_BlockSettings_PosWidthValue(double Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_PosWidthValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_WIDTH,ui->WidthEd,false);
-
-    qreal Ratio_X,Ratio_Y;
-    ComputeBlockRatio(CurrentCompoObject,Ratio_X,Ratio_Y);
-
-    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->w=(Value/100)*Ratio_X;
-        else CurrentCompoObject->w=(Value/DisplayW)*Ratio_X;
-    if (CurrentCompoObject->BackgroundBrush->LockGeometry) CurrentCompoObject->h=((CurrentCompoObject->w*DisplayW)*CurrentCompoObject->BackgroundBrush->AspectRatio)/DisplayH;
-        else CurrentCompoObject->BackgroundBrush->AspectRatio=(CurrentCompoObject->h*DisplayH)/(CurrentCompoObject->w*DisplayW);
-    ApplyToContexte(false);
-}
-
-//========= Height
-void DlgSlideProperties::s_BlockSettings_PosHeightValue(double Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_PosHeightValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_HEIGHT,ui->HeightEd,false);
-
-    qreal Ratio_X,Ratio_Y;
-    ComputeBlockRatio(CurrentCompoObject,Ratio_X,Ratio_Y);
-
-    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->h=(Value/100)*Ratio_Y;
-        else CurrentCompoObject->h=(Value/DisplayH)*Ratio_Y;
-    if (CurrentCompoObject->BackgroundBrush->LockGeometry) CurrentCompoObject->w=((CurrentCompoObject->h*DisplayH)/CurrentCompoObject->BackgroundBrush->AspectRatio)/DisplayW;
-        else CurrentCompoObject->BackgroundBrush->AspectRatio=(CurrentCompoObject->h*DisplayH)/(CurrentCompoObject->w*DisplayW);
-    ApplyToContexte(false);
-}
-
-//========= X Rotation value
-void DlgSlideProperties::s_BlockSettings_RotateXValue(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_RotateXValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_ROTATEX,ui->RotateXED,false);
-    CurrentCompoObject->RotateXAxis=Value;
-    ApplyToContexte(false);
-}
-void DlgSlideProperties::s_BlockSettings_ResetRotateXValue() {
-    s_BlockSettings_RotateXValue(0);
-}
-
-//========= Y Rotation value
-void DlgSlideProperties::s_BlockSettings_RotateYValue(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_RotateYValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_ROTATEY,ui->RotateYED,false);
-    CurrentCompoObject->RotateYAxis=Value;
-    ApplyToContexte(false);
-}
-void DlgSlideProperties::s_BlockSettings_ResetRotateYValue() {
-    s_BlockSettings_RotateYValue(0);
-}
-
-//========= Z Rotation value
-void DlgSlideProperties::s_BlockSettings_RotateZValue(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_RotateZValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_ROTATEZ,ui->RotateZED,false);
-    CurrentCompoObject->RotateZAxis=Value;
-    ApplyToContexte(false);
-}
-void DlgSlideProperties::s_BlockSettings_ResetRotateZValue() {
-    s_BlockSettings_RotateZValue(0);
-}
-
-//====================================================================================================================
-// Handler for shape
-//====================================================================================================================
-
-//========= Text ClipArt
-void DlgSlideProperties::s_BlockSettings_ShapeTextClipArtChIndex() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ShapeTextClipArtChIndex");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)||(CurrentCompoObject->TextClipArtName=="")) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_TEXTCLIPART,ui->TextClipArtCB,false);
-    CurrentCompoObject->TextClipArtName=ui->TextClipArtCB->GetCurrentTextFrame();
-    cTextFrameObject *TFO=&TextFrameList.List[TextFrameList.SearchImage(CurrentCompoObject->TextClipArtName)];
-    CurrentCompoObject->TMx=TFO->TMx;
-    CurrentCompoObject->TMy=TFO->TMy;
-    CurrentCompoObject->TMw=TFO->TMw;
-    CurrentCompoObject->TMh=TFO->TMh;
-    CurrentCompoObject->ApplyTextStyle(TFO->TextStyle);
-    ApplyToContexte(true);
-    RefreshBlockTable(CurrentCompoObjectNbr);
-    ui->ShotTable->setUpdatesEnabled(false);
-    ui->ShotTable->setUpdatesEnabled(true);
-}
-
-//========= Background forme
-void DlgSlideProperties::s_BlockSettings_ShapeBackgroundForm() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ShapeBackgroundForm");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEFORM,ui->BackgroundFormCB,false);
-    CurrentCompoObject->BackgroundForm=ui->BackgroundFormCB->GetCurrentFrameShape();
-    ApplyToContexte(true);
-    RefreshBlockTable(CurrentCompoObjectNbr);
-    ui->ShotTable->setUpdatesEnabled(false);
-    ui->ShotTable->setUpdatesEnabled(true);
-}
-
-//========= Opacity
-void DlgSlideProperties::s_BlockSettings_ShapeOpacity(int Style) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ShapeOpacity");
-
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEOPACITY,ui->OpacityCB,false);
-    CurrentCompoObject->Opacity=Style;
-    ApplyToContexte(true);
-    RefreshBlockTable(CurrentCompoObjectNbr);
-    ui->ShotTable->setUpdatesEnabled(false);
-    ui->ShotTable->setUpdatesEnabled(true);
-}
-
-//========= Border pen size
-void DlgSlideProperties::s_BlockSettings_ShapePenSize(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ShapePenSize");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEPENSIZE,ui->PenSizeEd,false);
-    CurrentCompoObject->PenSize=ui->PenSizeEd->value();
-    ui->PenColorCB->setEnabled(CurrentCompoObject->PenSize!=0);
-    ui->PenStyleCB->setEnabled(CurrentCompoObject->PenSize!=0);
-    ApplyToContexte(true);
-    RefreshBlockTable(CurrentCompoObjectNbr);
-    ui->ShotTable->setUpdatesEnabled(false);
-    ui->ShotTable->setUpdatesEnabled(true);
-}
-
-//========= Border pen style
-void DlgSlideProperties::s_BlockSettings_ShapePenStyle(int index) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ShapePenStyle");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEPENSTYLE,ui->PenStyleCB,false);
-    CurrentCompoObject->PenStyle=ui->PenStyleCB->itemData(index).toInt();
-    ApplyToContexte(true);
-    RefreshBlockTable(CurrentCompoObjectNbr);
-    ui->ShotTable->setUpdatesEnabled(false);
-    ui->ShotTable->setUpdatesEnabled(true);
-}
-
-//========= Border pen color
-void DlgSlideProperties::s_BlockSettings_ShapePenColor(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ShapePenColor");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEPENCOLOR,ui->PenColorCB,false);
-    CurrentCompoObject->PenColor=ui->PenColorCB->GetCurrentColor();
-    ApplyToContexte(true);
-    RefreshBlockTable(CurrentCompoObjectNbr);
-    ui->ShotTable->setUpdatesEnabled(false);
-    ui->ShotTable->setUpdatesEnabled(true);
-}
-
-//========= Shape shadow style
-void DlgSlideProperties::s_BlockSettings_ShapeShadowFormValue(int value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ShapeShadowFormValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPESHADOWFORM,ui->ShadowEffectCB,false);
-    CurrentCompoObject->FormShadow=value;
-    ui->ShadowEffectED->setEnabled(CurrentCompoObject->FormShadow!=0);
-    ui->ShadowColorCB->setEnabled(CurrentCompoObject->FormShadow!=0);
-    ApplyToContexte(true);
-    RefreshBlockTable(CurrentCompoObjectNbr);
-    ui->ShotTable->setUpdatesEnabled(false);
-    ui->ShotTable->setUpdatesEnabled(true);
-}
-
-//========= Shape shadow distance
-void DlgSlideProperties::s_BlockSettings_ShapeShadowDistanceValue(int value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ShapeShadowDistanceValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPESHADOWDIST,ui->ShadowEffectED,false);
-    CurrentCompoObject->FormShadowDistance =value;
-    ApplyToContexte(true);
-    RefreshBlockTable(CurrentCompoObjectNbr);
-    ui->ShotTable->setUpdatesEnabled(false);
-    ui->ShotTable->setUpdatesEnabled(true);
-}
-
-//========= shadow color
-void DlgSlideProperties::s_BlockSettings_ShapeShadowColor(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ShapeShadowColor");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPESHADOWCOLOR,ui->ShadowColorCB,false);
-    CurrentCompoObject->FormShadowColor=ui->ShadowColorCB->GetCurrentColor();
-    ApplyToContexte(true);
-    RefreshBlockTable(CurrentCompoObjectNbr);
-    ui->ShotTable->setUpdatesEnabled(false);
-    ui->ShotTable->setUpdatesEnabled(true);
 }
 
 //====================================================================================================================
@@ -2847,9 +2068,7 @@ void DlgSlideProperties::s_BlockSettings_ShapeShadowColor(int) {
 
 //========= Text Zoom Level
 void DlgSlideProperties::s_BlockSettings_TextAnimZoom(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_TextAnimZoom");
-
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
+    if (!ISBLOCKVALIDEVISIBLE()) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_TEXTANIMZOOM,ui->ZoomED,false);
     CurrentCompoObject->TxtZoomLevel=Value;
     ui->ZoomSlider->setValue(CurrentCompoObject->TxtZoomLevel);
@@ -2857,14 +2076,9 @@ void DlgSlideProperties::s_BlockSettings_TextAnimZoom(int Value) {
     ApplyToContexte(false);
 }
 
-void DlgSlideProperties::s_BlockSettings_TextAnimZoomReset() {
-    s_BlockSettings_TextAnimZoom(100);
-}
-
 //========= Text scrolling X
 void DlgSlideProperties::s_BlockSettings_TextAnimScrollX(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_TextAnimScrollX");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
+    if (!ISBLOCKVALIDEVISIBLE()) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_TEXTANIMSCROLLX,ui->ScrollXED,false);
     CurrentCompoObject->TxtScrollX=Value;
     ui->ScrollXSlider->setValue(CurrentCompoObject->TxtScrollX);
@@ -2872,15 +2086,9 @@ void DlgSlideProperties::s_BlockSettings_TextAnimScrollX(int Value) {
     ApplyToContexte(false);
 }
 
-void DlgSlideProperties::s_BlockSettings_TextAnimScrollXReset() {
-    s_BlockSettings_TextAnimScrollX(0);
-}
-
 //========= Text scrolling Y
 void DlgSlideProperties::s_BlockSettings_TextAnimScrollY(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_TextAnimScrollY");
-
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
+    if (!ISBLOCKVALIDEVISIBLE()) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_TEXTANIMSCROLLY,ui->ScrollYED,false);
     CurrentCompoObject->TxtScrollY=Value;
     ui->ScrollYSlider->setValue(CurrentCompoObject->TxtScrollY);
@@ -2888,17 +2096,12 @@ void DlgSlideProperties::s_BlockSettings_TextAnimScrollY(int Value) {
     ApplyToContexte(false);
 }
 
-void DlgSlideProperties::s_BlockSettings_TextAnimScrollYReset() {
-    s_BlockSettings_TextAnimScrollY(0);
-}
-
 //====================================================================================================================
 // Handler for speed wave
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockSettings_SpeedWave(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_SpeedWave");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
+    if (!ISBLOCKVALIDEVISIBLE()) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_BLOCKSPEEDWAVE,ui->BlockAnimCB,false);
     CurrentCompoObject->BlockSpeedWave=ui->SpeedWaveCB->GetCurrentValue();
     ApplyToContexte(false);
@@ -2909,8 +2112,7 @@ void DlgSlideProperties::s_BlockSettings_SpeedWave(int) {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockSettings_BlockAnimType(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_BlockAnimType");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
+    if (!ISBLOCKVALIDEVISIBLE()) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_BLOCKANIMTYPE,ui->BlockAnimCB,false);
     CurrentCompoObject->BlockAnimType=Value;
     ApplyToContexte(false);
@@ -2918,48 +2120,31 @@ void DlgSlideProperties::s_BlockSettings_BlockAnimType(int Value) {
 
 //========= Multiple block turn X value
 void DlgSlideProperties::s_BlockSettings_BlockAnimTurnXValue(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_BlockAnimTurnXValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
+    if (!ISBLOCKVALIDEVISIBLE()) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_BLOCKANIMTURNX,ui->TurnXED,false);
     CurrentCompoObject->TurnXAxis=Value;
     ApplyToContexte(false);
 }
 
-void DlgSlideProperties::s_BlockSettings_BlockAnimTurnXReset() {
-    s_BlockSettings_BlockAnimTurnXValue(0);
-}
-
 //========= Multiple block turn Z value
 void DlgSlideProperties::s_BlockSettings_BlockAnimTurnZValue(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_BlockAnimTurnZValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
+    if (!ISBLOCKVALIDEVISIBLE()) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_BLOCKANIMTURNZ,ui->TurnZED,false);
     CurrentCompoObject->TurnZAxis=Value;
     ApplyToContexte(false);
 }
 
-void DlgSlideProperties::s_BlockSettings_BlockAnimTurnZReset() {
-    s_BlockSettings_BlockAnimTurnZValue(0);
-}
-
 //========= Multiple block turn Y value
 void DlgSlideProperties::s_BlockSettings_BlockAnimTurnYValue(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_BlockAnimTurnYValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
+    if (!ISBLOCKVALIDEVISIBLE()) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_BLOCKANIMTURNY,ui->TurnYED,false);
     CurrentCompoObject->TurnYAxis=Value;
     ApplyToContexte(false);
 }
 
-void DlgSlideProperties::s_BlockSettings_BlockAnimTurnYReset() {
-    s_BlockSettings_BlockAnimTurnYValue(0);
-}
-
 //========= Dissolve animation
 void DlgSlideProperties::s_BlockSettings_BlockAnimDissolveType(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_BlockAnimDissolveType");
-
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
+    if (!ISBLOCKVALIDEVISIBLE()) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_BLOCKANIMDISSOLVE,ui->DissolveCB,false);
     CurrentCompoObject->Dissolve=Value;
     ApplyToContexte(false);
@@ -2970,8 +2155,7 @@ void DlgSlideProperties::s_BlockSettings_BlockAnimDissolveType(int Value) {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockSettings_IntZoneTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y,qreal RSel_X,qreal RSel_Y,qreal RSel_W,qreal RSel_H) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_IntZoneTransformBlocks");
-    AppendPartialUndo(UNDOACTION_INTERACTIVEMOVERESIZE,ui->InteractiveZone,true);
+    AppendPartialUndo(UNDOACTION_INTERACTIVEMOVERESIZE,InteractiveZone,true);
 
     for (int i=0;i<IsSelected.count();i++) if ((IsSelected[i])&&(CompositionList->List[i]->IsVisible)) {
         qreal   RatioScale_X=(RSel_W+Scale_X)/RSel_W;
@@ -2981,7 +2165,7 @@ void DlgSlideProperties::s_BlockSettings_IntZoneTransformBlocks(qreal Move_X,qre
         CompositionList->List[i]->y=RSel_Y+Move_Y+(CompositionList->List[i]->y-RSel_Y)*RatioScale_Y;
         CompositionList->List[i]->w=CompositionList->List[i]->w*RatioScale_X;
         if (CompositionList->List[i]->w<0.002) CompositionList->List[i]->w=0.002;
-        if (CompositionList->List[i]->BackgroundBrush->LockGeometry) CompositionList->List[i]->h=((CompositionList->List[i]->w*DisplayW)*CompositionList->List[i]->BackgroundBrush->AspectRatio)/DisplayH;
+        if (CompositionList->List[i]->BackgroundBrush->LockGeometry) CompositionList->List[i]->h=((CompositionList->List[i]->w*InteractiveZone->DisplayW)*CompositionList->List[i]->BackgroundBrush->AspectRatio)/InteractiveZone->DisplayH;
             else CompositionList->List[i]->h=CompositionList->List[i]->h*RatioScale_Y;
         if (CompositionList->List[i]->h<0.002) CompositionList->List[i]->h=0.002;
     }
@@ -2989,22 +2173,20 @@ void DlgSlideProperties::s_BlockSettings_IntZoneTransformBlocks(qreal Move_X,qre
 }
 
 void DlgSlideProperties::s_BlockSettings_IntZoneDisplayTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y,qreal RSel_X,qreal RSel_Y,qreal RSel_W,qreal RSel_H) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_IntZoneDisplayTransformBlocks");
-
     InRefreshControls=true;
 
     int     i           =CurrentCompoObjectNbr;
     qreal   RatioScale_X=(RSel_W+Scale_X)/RSel_W;
     qreal   RatioScale_Y=(RSel_H+Scale_Y)/RSel_H;
     QRectF  tmpRect     =PolygonToRectF(ComputePolygon(CompositionList->List[i]->BackgroundForm,
-                                                       CompositionList->List[i]->x*DisplayW,CompositionList->List[i]->y*DisplayH,
-                                                       CompositionList->List[i]->w*DisplayW,CompositionList->List[i]->h*DisplayH));
-    qreal   Ratio_X     =(CompositionList->List[i]->x*DisplayW)/tmpRect.width();
-    qreal   Ratio_Y     =(CompositionList->List[i]->h*DisplayH)/tmpRect.height();
+                                                       CompositionList->List[i]->x*InteractiveZone->DisplayW,CompositionList->List[i]->y*InteractiveZone->DisplayH,
+                                                       CompositionList->List[i]->w*InteractiveZone->DisplayW,CompositionList->List[i]->h*InteractiveZone->DisplayH));
+    qreal   Ratio_X     =(CompositionList->List[i]->x*InteractiveZone->DisplayW)/tmpRect.width();
+    qreal   Ratio_Y     =(CompositionList->List[i]->h*InteractiveZone->DisplayH)/tmpRect.height();
     qreal   x           =RSel_X+Move_X+(CompositionList->List[i]->x-RSel_X)*RatioScale_X;
     qreal   y           =RSel_Y+Move_Y+(CompositionList->List[i]->y-RSel_Y)*RatioScale_Y;
     qreal   w           =CompositionList->List[i]->w*RatioScale_X; if (w<0.002) w=0.002;
-    qreal   h           =(CompositionList->List[i]->BackgroundBrush->LockGeometry?((w*DisplayW)*CompositionList->List[i]->BackgroundBrush->AspectRatio)/DisplayH:CompositionList->List[i]->h*RatioScale_Y); if (h<0.002) h=0.002;
+    qreal   h           =(CompositionList->List[i]->BackgroundBrush->LockGeometry?((w*InteractiveZone->DisplayW)*CompositionList->List[i]->BackgroundBrush->AspectRatio)/InteractiveZone->DisplayH:CompositionList->List[i]->h*RatioScale_Y); if (h<0.002) h=0.002;
 
     if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
         ui->PosXEd->  setValue(x*100/Ratio_X);
@@ -3012,63 +2194,40 @@ void DlgSlideProperties::s_BlockSettings_IntZoneDisplayTransformBlocks(qreal Mov
         ui->WidthEd-> setValue(w*100/Ratio_X);
         ui->HeightEd->setValue(h*100/Ratio_Y);
     } else { // DisplayUnit==DISPLAYUNIT_PIXELS
-        ui->PosXEd->  setValue(x*DisplayW/Ratio_X);
-        ui->PosYEd->  setValue(y*DisplayH/Ratio_Y);
-        ui->WidthEd-> setValue(w*DisplayW/Ratio_X);
-        ui->HeightEd->setValue(h*DisplayH/Ratio_Y);
+        ui->PosXEd->  setValue(x*InteractiveZone->DisplayW/Ratio_X);
+        ui->PosYEd->  setValue(y*InteractiveZone->DisplayH/Ratio_Y);
+        ui->WidthEd-> setValue(w*InteractiveZone->DisplayW/Ratio_X);
+        ui->HeightEd->setValue(h*InteractiveZone->DisplayH/Ratio_Y);
     }
     InRefreshControls=false;
 }
 
 //====================================================================================================================
-// Handler for style sheet management
-//====================================================================================================================
-
-void DlgSlideProperties::s_BlockShapeStyleBT() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockShapeStyleBT");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_STYLE_SHAPE,ui->InteractiveZone,false);
-    QString ActualStyle =CurrentCompoObject->GetBlockShapeStyle();
-    QString Item        =ApplicationConfig->StyleBlockShapeCollection.PopupCollectionMenu(this,ApplicationConfig,ActualStyle);
-    ui->BlockShapeStyleBT->setDown(false);
-    if (Item!="") {
-        InRefreshControls=true;
-        CurrentCompoObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(Item));
-        RefreshBlockTable(CurrentCompoObjectNbr);
-        InRefreshControls=false;
-    }
-}
-
-//====================================================================================================================
 
 void DlgSlideProperties::s_ChangeFramingStyle() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChangeFramingStyle");
-
     if (StopMajFramingStyle) return;
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_STYLE_FRAMING,ui->InteractiveZone,false);
+    if (!ISBLOCKVALIDEVISIBLE()) return;
+    AppendPartialUndo(UNDOACTION_STYLE_FRAMING,InteractiveZone,false);
 
     cBrushDefinition *CurrentBrush=CurrentCompoObject->BackgroundBrush;
     int AutoCompo=CurrentCompoObject->GetAutoCompoSize(CurrentSlide->Parent->ImageGeometry);
 
     CurrentBrush->ApplyAutoFraming(ui->FramingStyleCB->GetCurrentFraming(),ProjectGeometry);
     CurrentCompoObject->ApplyAutoCompoSize(AutoCompo,CurrentSlide->Parent->ImageGeometry,false);
-    //if (CurrentCompoObject->h>(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH) CurrentCompoObject->h=(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH;
-    //    else CurrentCompoObject->w=(CurrentCompoObject->h*DisplayH/CurrentBrush->AspectRatio)/DisplayW;
+    //if (CurrentCompoObject->h>(CurrentCompoObject->w*InteractiveZone->DisplayW*CurrentBrush->AspectRatio)/InteractiveZone->DisplayH) CurrentCompoObject->h=(CurrentCompoObject->w*InteractiveZone->DisplayW*CurrentBrush->AspectRatio)/InteractiveZone->DisplayH;
+    //    else CurrentCompoObject->w=(CurrentCompoObject->h*InteractiveZone->DisplayH/CurrentBrush->AspectRatio)/InteractiveZone->DisplayW;
 
 
-    int CurrentRow=ui->BlockTable->currentRow();
+    int CurrentRow=BlockTable->currentRow();
     FramingCB_CurrentBrush=NULL;
     RefreshBlockTable(CurrentRow>0?CurrentRow:0);
 }
 //====================================================================================================================
 
 void DlgSlideProperties::s_ChangeTextFramingStyle(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChangeTextFramingStyle");
-
     if (StopMajFramingStyle) return;
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_STYLE_FRAMING,ui->InteractiveZone,false);
+    if (!ISBLOCKVALIDEVISIBLE()) return;
+    AppendPartialUndo(UNDOACTION_STYLE_FRAMING,InteractiveZone,false);
 
     cBrushDefinition *CurrentBrush=CurrentCompoObject->BackgroundBrush;
 
@@ -3079,7 +2238,7 @@ void DlgSlideProperties::s_ChangeTextFramingStyle(int Value) {
             break;
         case 1: // Lock to this geometry
             CurrentBrush->LockGeometry=true;
-            CurrentBrush->AspectRatio=(CurrentCompoObject->h*DisplayH)/(CurrentCompoObject->w*DisplayW);
+            CurrentBrush->AspectRatio=(CurrentCompoObject->h*InteractiveZone->DisplayH)/(CurrentCompoObject->w*InteractiveZone->DisplayW);
             break;
         case 2: // Lock to project geometry
             CurrentBrush->LockGeometry=true;
@@ -3088,9 +2247,9 @@ void DlgSlideProperties::s_ChangeTextFramingStyle(int Value) {
         default:
             return;
     }
-    if (CurrentCompoObject->h>(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH) CurrentCompoObject->h=(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH;
-        else CurrentCompoObject->w=(CurrentCompoObject->h*DisplayH/CurrentBrush->AspectRatio)/DisplayW;
+    if (CurrentCompoObject->h>(CurrentCompoObject->w*InteractiveZone->DisplayW*CurrentBrush->AspectRatio)/InteractiveZone->DisplayH) CurrentCompoObject->h=(CurrentCompoObject->w*InteractiveZone->DisplayW*CurrentBrush->AspectRatio)/InteractiveZone->DisplayH;
+        else CurrentCompoObject->w=(CurrentCompoObject->h*InteractiveZone->DisplayH/CurrentBrush->AspectRatio)/InteractiveZone->DisplayW;
 
-    int CurrentRow=ui->BlockTable->currentRow();
+    int CurrentRow=BlockTable->currentRow();
     RefreshBlockTable(CurrentRow>0?CurrentRow:0);
 }

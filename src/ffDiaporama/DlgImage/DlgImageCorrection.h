@@ -27,6 +27,7 @@
 
 #include "DlgImage/wgt_QEditImage/wgt_QEditImage.h"
 #include "DlgImage/wgt_QEditVideo/wgt_QEditVideo.h"
+#include "DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.h"
 
 namespace Ui {
     class DlgImageCorrection;
@@ -38,7 +39,8 @@ public:
     enum UNDOACTION_ID {
         UNDOACTION_INTERACTIVEMOVERESIZE,
         UNDOACTION_IMAGEEDITZONE,
-        UNDOACTION_VIDEOPART
+        UNDOACTION_VIDEOPART,
+        UNDOACTION_GMAPSMAPPART
     };
 
     cBrushDefinition        *CurrentBrush;
@@ -48,6 +50,7 @@ public:
     QString                 InitialFilteredString;
     int                     *BackgroundForm;
     bool                    StopMaj;
+    bool                    IsFirstInitDone;
     int                     DefaultSpeedWave;
     QString                 UndoBrushFileName;
     int                     SavedBackgroundForm;
@@ -75,18 +78,19 @@ protected:
 
 protected slots:
     virtual void            DoPartialUndo();
-
-private slots:
     void                    s_TabWidgetChanged(int);
+    void                    RefreshImageObject();
 
 private:
     void                    CreateImageTag(bool AllowChangeFile);
     void                    CreateVideoTag();
+    void                    CreateGMapsTag();
 
     Ui::DlgImageCorrection  *ui;
     QHBoxLayout             *TabLayout;
     wgt_QEditImage          *ImageWidget;
     wgt_QEditVideo          *VideoWidget;
+    wgt_QGMapsMap           *GMapsWidget;
 };
 
 #endif // DLGIMAGECORRECTION_H

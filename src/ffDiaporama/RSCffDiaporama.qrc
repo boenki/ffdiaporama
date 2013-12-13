@@ -382,5 +382,6 @@
         <file>img/MediaIcons/16x16/gmaps.png</file>
         <file>img/MediaIcons/48x48/gmaps.png</file>
         <file>img/MediaIcons/100x100/gmaps.png</file>
+        <file>img/EditGMaps.png</file>
     </qresource>
 </RCC>

@@ -129,8 +129,8 @@ void DlgffDPjrProperties::PrepareGlobalUndo() {
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG"); // Create xml document and root
-    ffdProject->ProjectInfo->SaveToXML(root);
-    ffdProject->ProjectThumbnail->SaveToXML(root,"UNDO-DLG-ProjectThumbnail",ffdProject->ProjectFileName,true,NULL);
+    ffdProject->ProjectInfo->SaveToXML(&root,"",ffdProject->ProjectFileName,true,NULL,NULL);
+    ffdProject->ProjectThumbnail->SaveToXML(root,"UNDO-DLG-ProjectThumbnail",ffdProject->ProjectFileName,true,NULL,NULL,false);
     Undo->appendChild(root); // Add object to xml document
 }
 
@@ -142,8 +142,8 @@ void DlgffDPjrProperties::DoGlobalUndo() {
 
     QDomElement root=Undo->documentElement();
     if (root.tagName()=="UNDO-DLG") {
-        ffdProject->ProjectInfo->LoadFromXML(root);
-        ffdProject->ProjectThumbnail->LoadFromXML(root,"UNDO-DLG-ProjectThumbnail","",NULL);
+        ffdProject->ProjectInfo->LoadFromXML(&root,"",ffdProject->ProjectFileName,NULL,NULL,NULL,false);
+        ffdProject->ProjectThumbnail->LoadFromXML(root,"UNDO-DLG-ProjectThumbnail","",NULL,NULL,false);
     }
 }
 
@@ -229,7 +229,7 @@ void DlgffDPjrProperties::AdminEditThumb() {
         DlgImageComposer Dlg(ffdProject,ApplicationConfig,this);
         Dlg.InitDialog();
         if (Dlg.exec()==0) {
-            ffdProject->ProjectThumbnail->SaveModelFile(ffd_MODELTYPE_THUMBNAIL,NewName,true);
+            ffdProject->ProjectThumbnail->SaveModelFile(ffd_MODELTYPE_THUMBNAIL,NewName);
             ApplicationConfig->ThumbnailModels->FillModelType(ffd_MODELTYPE_THUMBNAIL);
             ui->ThumbCB->PrepareTable(true,ApplicationConfig->ThumbnailModels);
             ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
@@ -245,7 +245,7 @@ void DlgffDPjrProperties::AdminEditThumb() {
         DlgImageComposer Dlg(ffdProject,ApplicationConfig,this);
         Dlg.InitDialog();
         if (Dlg.exec()==0) {
-            ffdProject->ProjectThumbnail->SaveModelFile(ffd_MODELTYPE_THUMBNAIL,ApplicationConfig->ThumbnailModels->List[ApplicationConfig->ThumbnailModels->SearchModel(ffdProject->ThumbnailName)]->FileName,true);
+            ffdProject->ProjectThumbnail->SaveModelFile(ffd_MODELTYPE_THUMBNAIL,ApplicationConfig->ThumbnailModels->List[ApplicationConfig->ThumbnailModels->SearchModel(ffdProject->ThumbnailName)]->FileName);
             ApplicationConfig->ThumbnailModels->FillModelType(ffd_MODELTYPE_THUMBNAIL);
             ui->ThumbCB->PrepareTable(true,ApplicationConfig->ThumbnailModels);
             ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
@@ -297,7 +297,8 @@ void DlgffDPjrProperties::ThumbChanged() {
     if (ffdProject->ThumbnailName!="*") {
         ApplicationConfig->ThumbnailModels->RemoveCustomModel();
         if ((ThumbnailIndex>=0)&&(ThumbnailIndex<ApplicationConfig->ThumbnailModels->List.count()))
-            ffdProject->ProjectThumbnail->LoadModelFromXMLData(ffd_MODELTYPE_THUMBNAIL,ApplicationConfig->ThumbnailModels->List[ThumbnailIndex]->Model);
+            ffdProject->ProjectThumbnail->LoadModelFromXMLData(ffd_MODELTYPE_THUMBNAIL,ApplicationConfig->ThumbnailModels->List[ThumbnailIndex]->Model,
+                                                               &ApplicationConfig->ThumbnailModels->List[ThumbnailIndex]->ResKeyList,true);
         ui->ThumbCB->PrepareTable(true,ApplicationConfig->ThumbnailModels);
         ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
     }

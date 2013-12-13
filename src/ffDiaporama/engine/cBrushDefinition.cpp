@@ -146,7 +146,7 @@ cBackgroundObject::cBackgroundObject(QString FileName,cBaseApplicationConfig *Ap
 }
 
 QImage* cBackgroundObject::GetBackgroundImage() {
-    cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileKey,ModifDateTime,1,ApplicationConfig->Smoothing,true);
+    cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(-1,FileKey,ModifDateTime,1,ApplicationConfig->Smoothing,true);
     if (ImageObject==NULL) {
         ToLog(LOGMSG_CRITICAL,"Error in cBackgroundObject::GetBackgroundImage : FindObject return NULL for background image loading !");
     } else {
@@ -599,13 +599,13 @@ void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
 
 //====================================================================================================================
 
-void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList) {
+void cBrushDefinition::SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList) {
     QDomDocument    DomDocument;
     QDomElement     Element      =DomDocument.createElement(ElementName);
     QString         BrushFileName=(MediaObject?MediaObject->FileName():"");
     OBJECTTYPE      ObjectType   =(MediaObject?MediaObject->ObjectType:OBJECTTYPE_UNMANAGED);
 
-    if ((!BrushFileName.isEmpty())&&(BrushFileName!="###INTERNAL###")) {
+    if ((!BrushFileName.isEmpty())&&(!BrushFileName.startsWith(":/img/"))) {
         if (QDir::toNativeSeparators(BrushFileName).startsWith(ClipArtFolder)) {
             BrushFileName="%CLIPARTFOLDER%"+QDir::toNativeSeparators(BrushFileName).mid(ClipArtFolder.length());
             #ifdef Q_OS_WIN
@@ -635,10 +635,7 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     Element.setAttribute("ObjectType",ObjectType);
     Element.setAttribute("TypeComposition",TypeComposition);
     Element.setAttribute("BrushType",BrushType);                                                            // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
-    switch (ObjectType) {
-        case OBJECTTYPE_GMAPSMAP:   MediaObject->SaveBasicInformationToDatabase(&Element); break;
-        default:                    break;
-    }
+
     switch (BrushType) {
         case BRUSHTYPE_PATTERN      :
             Element.setAttribute("PatternType",PatternType);                                                // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
@@ -657,20 +654,33 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
             Element.setAttribute("BrushImage",BrushImage);                                                  // Image name if image from library
             break;
         case BRUSHTYPE_IMAGEDISK :
-            if ((MediaObject)&&(MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)) {
-                if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
-                    Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
-                    Element.setAttribute("StartPos",((cVideoFile*)MediaObject)->StartPos.toString("HH:mm:ss.zzz"));              // Start position (video only)
-                    Element.setAttribute("EndPos",((cVideoFile*)MediaObject)->EndPos.toString("HH:mm:ss.zzz"));                  // End position (video only)
-                } else {
-                    Element.setAttribute("SoundVolume",QString("%1").arg(SoundVolume,0,'f'));               // Volume of soundtrack (for video only)
-                    Element.setAttribute("Deinterlace",Deinterlace?"1":0);                                  // Add a YADIF filter to deinterlace video (on/off) (for video only)
-                }
-            } else if ((MediaObject)&&((MediaObject->ObjectType==OBJECTTYPE_IMAGEFILE)||(MediaObject->ObjectType==OBJECTTYPE_IMAGEVECTOR))) {
-                if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
-                    Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
-                    Element.setAttribute("ImageOrientation",((cImageFile*)MediaObject)->ImageOrientation);
-                }
+            if (MediaObject) switch (MediaObject->ObjectType) {
+                case OBJECTTYPE_VIDEOFILE:
+                    if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
+                        Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
+                        Element.setAttribute("StartPos",((cVideoFile*)MediaObject)->StartPos.toString("HH:mm:ss.zzz"));              // Start position (video only)
+                        Element.setAttribute("EndPos",((cVideoFile*)MediaObject)->EndPos.toString("HH:mm:ss.zzz"));                  // End position (video only)
+                    } else {
+                        Element.setAttribute("SoundVolume",QString("%1").arg(SoundVolume,0,'f'));               // Volume of soundtrack (for video only)
+                        Element.setAttribute("Deinterlace",Deinterlace?"1":0);                                  // Add a YADIF filter to deinterlace video (on/off) (for video only)
+                    }
+                    break;
+                case OBJECTTYPE_IMAGEFILE:
+                case OBJECTTYPE_IMAGEVECTOR:
+                    if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
+                        Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
+                        Element.setAttribute("ImageOrientation",((cImageFile*)MediaObject)->ImageOrientation);
+                    }
+                    break;
+                case OBJECTTYPE_IMAGECLIPBOARD:
+                    if (TypeComposition!=COMPOSITIONTYPE_SHOT) MediaObject->SaveToXML(&Element,"",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);
+                    break;
+                case OBJECTTYPE_GMAPSMAP:
+                    if (TypeComposition!=COMPOSITIONTYPE_SHOT) MediaObject->SaveToXML(&Element,"",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList); else {
+                        // Save marker settings
+                    }
+                    break;
+                default: break;
             }
             break;
     }
@@ -701,12 +711,12 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     if (ImageSpeedWave!=SPEEDWAVE_PROJECTDEFAULT)   CorrectElement.setAttribute("ImageSpeedWave",       ImageSpeedWave);
     Element.appendChild(CorrectElement);
 
-    domDocument.appendChild(Element);
+    ParentElement->appendChild(Element);
 }
 
 //====================================================================================================================
 
-bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag) {
+bool cBrushDefinition::LoadFromXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
     QString     Extension,BrushFileName;
     bool        IsValide  =false;
     OBJECTTYPE  ObjectType=OBJECTTYPE_UNMANAGED;
@@ -714,8 +724,8 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
     InitDefaultValues();
 
     if (ModifyFlag) *ModifyFlag=false;
-    if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
-        QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
+    if ((ParentElement->elementsByTagName(ElementName).length()>0)&&(ParentElement->elementsByTagName(ElementName).item(0).isElement()==true)) {
+        QDomElement Element=ParentElement->elementsByTagName(ElementName).item(0).toElement();
 
         // Attribut of the object
         if (Element.hasAttribute("ObjectType")) ObjectType=(OBJECTTYPE)Element.attribute("ObjectType").toInt();
@@ -742,7 +752,7 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                 if (TypeComposition!=COMPOSITIONTYPE_SHOT) {
                     // File name if image from disk
                     BrushFileName=HTMLConverter.ToPlainText(Element.attribute("BrushFileName"));
-                    if (BrushFileName!="###INTERNAL###") {
+                    if ((!BrushFileName.isEmpty())&&(!BrushFileName.startsWith(":/img/"))) {
                         BrushFileName=BrushFileName.replace("<%CLIPARTFOLDER%>",CAF);   BrushFileName=BrushFileName.replace("%CLIPARTFOLDER%",CAF);
                         BrushFileName=BrushFileName.replace("<%MODELFOLDER%>",MFD);     BrushFileName=BrushFileName.replace("%MODELFOLDER%",MFD);
                         if ((PathForRelativPath!="")&&(BrushFileName!="")) BrushFileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(BrushFileName));
@@ -771,15 +781,22 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                             IsValide=MediaObject->GetInformationFromFile(BrushFileName,AliasList,ModifyFlag,-1) && MediaObject->GetFullInformationFromFile();
                             break;
                         case OBJECTTYPE_IMAGECLIPBOARD:
+                            MediaObject=new cImageClipboard(ApplicationConfig);
+                            MediaObject->LoadFromXML(&Element,"",PathForRelativPath,AliasList,ModifyFlag,ResKeyList,DuplicateRes);
+                            IsValide=MediaObject->GetInformationFromFile("",NULL,NULL,-1);
                             break;
                         case OBJECTTYPE_VIDEOFILE:
                             MediaObject=new cVideoFile(ApplicationConfig);
                             IsValide=MediaObject->GetInformationFromFile(BrushFileName,AliasList,ModifyFlag,-1) && MediaObject->GetFullInformationFromFile();
+                            if (IsValide) {
+                                ((cVideoFile*)MediaObject)->StartPos =QTime().fromString(Element.attribute("StartPos"));    // Start position (video only)
+                                ((cVideoFile*)MediaObject)->EndPos   =QTime().fromString(Element.attribute("EndPos"));      // End position (video only)
+                            }
                             break;
                         case OBJECTTYPE_GMAPSMAP:
-                            //MediaObject=new cGMapsMap(ApplicationConfig);
-                            //MediaObject->LoadBasicInformationFromDatabase(Element);
-                            //IsValide=MediaObject->GetInformationFromFile("",NULL,NULL,-1);
+                            MediaObject=new cGMapsMap(ApplicationConfig);
+                            MediaObject->LoadFromXML(&Element,"",PathForRelativPath,AliasList,ModifyFlag,ResKeyList,DuplicateRes);
+                            IsValide=MediaObject->GetInformationFromFile("",NULL,NULL,-1);
                             break;
                         case OBJECTTYPE_UNMANAGED:
                         default:
@@ -808,23 +825,26 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                         MediaObject=NULL;
                     }
                 }
-                if ((MediaObject)&&(MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)) {
-                    if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                    // Global definition only !
-                        ((cVideoFile*)MediaObject)->StartPos =QTime().fromString(Element.attribute("StartPos"));    // Start position (video only)
-                        ((cVideoFile*)MediaObject)->EndPos   =QTime().fromString(Element.attribute("EndPos"));      // End position (video only)
-                    } else {
+                if ((MediaObject)&&(TypeComposition!=COMPOSITIONTYPE_SHOT)) switch (MediaObject->ObjectType) {
+                    case OBJECTTYPE_VIDEOFILE:
                         SoundVolume=GetDoubleValue(Element,"SoundVolume");                                          // Volume of soundtrack (for video only)
                         Deinterlace=Element.attribute("Deinterlace")=="1";                                          // Add a YADIF filter to deinterlace video (on/off) (for video only)
-                    }
-                } else if ((MediaObject)&&((MediaObject->ObjectType==OBJECTTYPE_IMAGEFILE)||(MediaObject->ObjectType==OBJECTTYPE_IMAGEVECTOR))) {
-                   // Old Image transformation (for compatibility with version prio to 1.5)
-                    if ((TypeComposition!=COMPOSITIONTYPE_SHOT)&&(Element.elementsByTagName("ImageTransformation").length()>0)&&(Element.elementsByTagName("ImageTransformation").item(0).isElement()==true)) {
-                       QDomElement SubElement=Element.elementsByTagName("ImageTransformation").item(0).toElement();
-                       if (SubElement.hasAttribute("BlurSigma"))   GaussBlurSharpenSigma=GetDoubleValue(SubElement,"BlurSigma");
-                       if (SubElement.hasAttribute("BlurRadius"))  BlurSharpenRadius    =GetDoubleValue(SubElement,"BlurRadius");
-                       if (SubElement.hasAttribute("OnOffFilter")) OnOffFilter          =SubElement.attribute("OnOffFilter").toInt();
-                       if (GaussBlurSharpenSigma!=0)               TypeBlurSharpen      =1;
-                   }
+                        break;
+                    case OBJECTTYPE_IMAGEFILE:
+                    case OBJECTTYPE_IMAGEVECTOR:
+                       // Old Image transformation (for compatibility with version prio to 1.5)
+                        if ((Element.elementsByTagName("ImageTransformation").length()>0)&&(Element.elementsByTagName("ImageTransformation").item(0).isElement()==true)) {
+                           QDomElement SubElement=Element.elementsByTagName("ImageTransformation").item(0).toElement();
+                           if (SubElement.hasAttribute("BlurSigma"))   GaussBlurSharpenSigma=GetDoubleValue(SubElement,"BlurSigma");
+                           if (SubElement.hasAttribute("BlurRadius"))  BlurSharpenRadius    =GetDoubleValue(SubElement,"BlurRadius");
+                           if (SubElement.hasAttribute("OnOffFilter")) OnOffFilter          =SubElement.attribute("OnOffFilter").toInt();
+                           if (GaussBlurSharpenSigma!=0)               TypeBlurSharpen      =1;
+                        }
+                        break;
+                    case OBJECTTYPE_GMAPSMAP:
+                        // Load marker settings
+                        break;
+                    default: break;
                 }
                 break;
         }

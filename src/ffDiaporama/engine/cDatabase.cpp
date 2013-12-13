@@ -21,7 +21,7 @@
 #include "cDatabase.h"
 #include "cBaseApplicationConfig.h"
 
-#define DATABASEVERSION 4       // Current database version
+#define DATABASEVERSION 5       // Current database version
 
 void DisplayLastSQLError(QSqlQuery *Query) {
     ToLog(LOGMSG_CRITICAL,Query->lastQuery());
@@ -873,6 +873,17 @@ bool cSlideThumbsTable::SetThumbs(qlonglong *ThumbnailKey,QImage Thumbs) {
 }
 
 //=====================================================================================================
+// Write a thumbnails to the database and return a TRResKeyItem
+
+cSlideThumbsTable::TRResKeyItem cSlideThumbsTable::AppendThumbs(qlonglong OrigKey,QImage Thumbs) {
+    cSlideThumbsTable::TRResKeyItem Item;
+    Item.OrigKey=OrigKey;
+    Item.NewKey =-1;
+    if (!SetThumbs(&Item.NewKey,Thumbs)) Item.NewKey =-1;
+    return Item;
+}
+
+//=====================================================================================================
 // Read thumbnails properties from the database
 
 bool cSlideThumbsTable::GetThumbs(qlonglong *ThumbnailKey,QImage *Thumbs) {
@@ -905,12 +916,27 @@ bool cSlideThumbsTable::GetThumbs(qlonglong *ThumbnailKey,QImage *Thumbs) {
 }
 
 //=====================================================================================================
-// Read thumbnails properties from the database
+// Reset thumbnails properties from the database
 
 bool cSlideThumbsTable::ClearThumbs(qlonglong ThumbnailKey) {
     if (ThumbnailKey==-1) return true;
     QSqlQuery Query(Database->db);
     Query.prepare((QString("UPDATE %1 SET Thumbnail=NULL WHERE Key=:Key").arg(TableName)));
+    Query.bindValue(":Key",ThumbnailKey,QSql::In);
+    if (!Query.exec()) {
+        DisplayLastSQLError(&Query);
+        return false;
+    }
+    return true;
+}
+
+//=====================================================================================================
+// Remove thumbnails properties from the database
+
+bool cSlideThumbsTable::RemoveThumbs(qlonglong ThumbnailKey) {
+    if (ThumbnailKey==-1) return true;
+    QSqlQuery Query(Database->db);
+    Query.prepare((QString("DELETE FROM %1 WHERE Key=:Key").arg(TableName)));
     Query.bindValue(":Key",ThumbnailKey,QSql::In);
     if (!Query.exec()) {
         DisplayLastSQLError(&Query);
@@ -934,7 +960,75 @@ cLocationTable::cLocationTable(cDatabase *Database):cDatabaseTable(Database) {
                             "Latitude           real,"\
                             "Longitude          real,"\
                             "Zoomlevel          int,"\
-                            "Icon               text"
+                            "Icon               text,"
+                            "Thumbnail          binary"
                      ")";
     CreateIndexQuery.append("CREATE INDEX idx_Location_Key ON Location (Key)");
+}
+
+//=====================================================================================================
+
+bool cLocationTable::DoUpgradeTableVersion(qlonglong OldVersion) {
+    QSqlQuery Query(Database->db);
+    bool Ret=true;
+
+    if (OldVersion<=4) {
+        Ret=Query.exec("DROP TABLE Location");
+        if ((!Ret)&&(Query.lastError().number()==1)) Ret=true;
+    }
+
+    if (!Ret) DisplayLastSQLError(&Query);
+    return Ret;
+}
+
+//=====================================================================================================
+
+qlonglong cLocationTable::AppendLocation(QString Name,QString Address,double Latitude,double Longitude,int Zoomlevel,QString Icon,QImage Thumbnail) {
+    QSqlQuery Query(Database->db);
+    Query.prepare(QString("INSERT INTO %1 (Key,Name,Address,Latitude,Longitude,Zoomlevel,Icon,Thumbnail) VALUES (:Key,:Name,:Address,:Latitude,:Longitude,:Zoomlevel,:Icon,:Thumbnail)").arg(TableName));
+    Query.bindValue(":Key",         ++NextIndex,QSql::In);
+    Query.bindValue(":Name",        Name,QSql::In);
+    Query.bindValue(":Address",     Address,QSql::In);
+    Query.bindValue(":Latitude",    Latitude,QSql::In);
+    Query.bindValue(":Longitude",   Longitude,QSql::In);
+    Query.bindValue(":Zoomlevel",   Zoomlevel,QSql::In);
+    Query.bindValue(":Icon",        Icon,QSql::In);
+
+    QByteArray  Data;
+    QBuffer     BufData(&Data);
+    BufData.open(QIODevice::WriteOnly);
+    Thumbnail.save(&BufData,"PNG");
+
+    Query.bindValue(":Thumbnail",   Data,QSql::In);
+    bool Ret=Query.exec();
+    if (!Ret) {
+        DisplayLastSQLError(&Query);
+        return -1;
+    } else return NextIndex;
+}
+
+//=====================================================================================================
+
+qlonglong cLocationTable::UpdateLocation(qlonglong Key,QString Name,QString Address,double Latitude,double Longitude,int Zoomlevel,QString Icon,QImage Thumbnail) {
+    QSqlQuery Query(Database->db);
+    Query.prepare(QString("UPDATE %1 SET Name=:Name,Address=:Address,Latitude=:Latitude,Longitude=:Longitude,Zoomlevel=:Zoomlevel,Icon=:Icon,Thumbnail=:Thumbnail WHERE Key=:Key").arg(TableName));
+    Query.bindValue(":Key",         Key,QSql::In);
+    Query.bindValue(":Name",        Name,QSql::In);
+    Query.bindValue(":Address",     Address,QSql::In);
+    Query.bindValue(":Latitude",    Latitude,QSql::In);
+    Query.bindValue(":Longitude",   Longitude,QSql::In);
+    Query.bindValue(":Zoomlevel",   Zoomlevel,QSql::In);
+    Query.bindValue(":Icon",        Icon,QSql::In);
+
+    QByteArray  Data;
+    QBuffer     BufData(&Data);
+    BufData.open(QIODevice::WriteOnly);
+    Thumbnail.save(&BufData,"PNG");
+
+    Query.bindValue(":Thumbnail",   Data,QSql::In);
+    bool Ret=Query.exec();
+    if (!Ret) {
+        DisplayLastSQLError(&Query);
+        return -1;
+    } else return NextIndex;
 }

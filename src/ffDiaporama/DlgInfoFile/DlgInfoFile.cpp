@@ -52,7 +52,7 @@ void DlgInfoFile::DoInitDialog() {
         ApplicationConfig->FilesTable->GetExtendedProperties(MediaFile->FileKey,&TempExtProperties);
         // General file information
         if (MediaFile->ObjectType==OBJECTTYPE_IMAGEFILE) {
-            cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(MediaFile->FileKey,MediaFile->ModifDateTime,MediaFile->ImageOrientation,true,false);
+            cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(MediaFile->RessourceKey,MediaFile->FileKey,MediaFile->ModifDateTime,MediaFile->ImageOrientation,true,false);
             if (ImageObject) {
                 QImage *Img=ImageObject->ValidateCachePreviewImage();
                 if (Img) {
@@ -63,10 +63,10 @@ void DlgInfoFile::DoInitDialog() {
             }
         } else ui->FileIconLabel->setPixmap(QPixmap().fromImage(MediaFile->GetIcon(cCustomIcon::ICON100,false)));
 
-        ui->FileNameValue->setText(MediaFile->ShortName());
-        ui->FileSizeValue->setText(MediaFile->GetFileSizeStr());
-        ui->FileCreatedValue->setText(MediaFile->GetFileDateTimeStr(true));
-        ui->FileModifyValue->setText(MediaFile->GetFileDateTimeStr(false));
+        ui->FileNameValue->setText(     MediaFile->RessourceKey==-1?MediaFile->ShortName():"");
+        ui->FileSizeValue->setText(     MediaFile->RessourceKey==-1?MediaFile->GetFileSizeStr():"");
+        ui->FileCreatedValue->setText(  MediaFile->GetFileDateTimeStr(true));
+        ui->FileModifyValue->setText(   MediaFile->RessourceKey==-1?MediaFile->GetFileDateTimeStr(false):"");
         QString ExtType=GetInformationValue("Long Format",&TempExtProperties);
         if (ExtType.isEmpty()) ui->FileTypeValue->setText(MediaFile->GetFileTypeStr());
             else ui->FileTypeValue->setText(MediaFile->GetFileTypeStr()+QString("(%1)").arg(ExtType));
@@ -176,6 +176,8 @@ void DlgInfoFile::DoInitDialog() {
             TempExtProperties.append(QString("%1##%2 (%3)").arg(QApplication::translate("QCustomFolderTable","Composer","Column header")).arg(((cffDProjectFile *)MediaFile)->Composer).arg(((cffDProjectFile *)MediaFile)->ffDRevision));
             TempExtProperties.append(QString("%1##%2").arg(QApplication::translate("Variables","Project slide count")).arg(((cffDProjectFile *)MediaFile)->NbrSlide));
             TempExtProperties.append(QString("%1##%2").arg(QApplication::translate("Variables","Short date")).arg(((cffDProjectFile *)MediaFile)->EventDate.toString(ApplicationConfig->ShortDateFormat)));
+        } else if (MediaFile->RessourceKey!=-1) {
+            MediaFile->GetChildFullInformationFromFile(NULL,&TempExtProperties);
         }
         for (int i=0;i<TempExtProperties.count();i++)
           if ((!((QString)TempExtProperties[i]).startsWith("Chapter_"))

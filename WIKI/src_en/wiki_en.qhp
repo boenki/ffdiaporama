@@ -40,6 +40,7 @@
                         <section ref="0121.html" title="Select transition duration for a set of slides"/>
                         <section ref="0110.html" title="Correct, reframe or cut image or video"/>
                         <section ref="0120.html" title="Edit text"/>
+                        <section ref="0123.html" title="Add or modify a location"/>
                     </section>
                     <section ref="0020.html" title="Dialog boxes related to the project">
                         <section ref="0108.html" title="Project properties"/>
@@ -66,6 +67,15 @@
                 <section ref="0039.html" title="Video standards and resolutions"/>
                 <section ref="003A.html" title="File attachments (Thumbnails, nfo, etc...)"/>
             </section>
+            <section     ref="0050.html" title="Types of objects in ffDiaporama">
+                <section ref="0051.html" title="Text"/>
+                <section ref="0052.html" title="Music file"/>
+                <section ref="0053.html" title="Bitmap image file"/>
+                <section ref="0054.html" title="Bitmap image from clipboard"/>
+                <section ref="0055.html" title="Vector image file"/>
+                <section ref="0056.html" title="Video file"/>
+                <section ref="0057.html" title="Google maps map"/>
+            </section>
             <section     ref="0040.html" title="Technical information on ffDiaporama">
                 <section ref="0041.html" title="ffDiaporama command line arguments"/>
                 <section ref="0042.html" title="ffDiaporama project files"/>
@@ -76,12 +86,12 @@
         </toc>
         <files>
             <file>*.html</file>
-            <file>../../src/ffDiaporama/img/*.png</file>
-            <file>../../src/ffDiaporama/img/Transitions/*.png</file>
-            <file>../../src/ffDiaporama/img/Arrange/*.png</file>
-            <file>../../src/ffDiaporama/img/Filter/*.png</file>
-            <file>../../src/ffDiaporama/img/Text/*.png</file>
-            <file>../../src/ffDiaporama/img/MediaIcons/16x16/*.png</file>
+            <file>img/*.png</file>
+            <file>img/Transitions/*.png</file>
+            <file>img/Arrange/*.png</file>
+            <file>img/Filter/*.png</file>
+            <file>img/Text/*.png</file>
+            <file>img/MediaIcons/16x16/*.png</file>
             <file>wiki_img/*.png</file>
             <file>wiki.css</file>
         </files>

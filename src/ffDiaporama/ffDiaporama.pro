@@ -283,36 +283,44 @@ OTHER_FILES += \
     ../../WIKI/src_en/wiki_en.qhp \
     ../../WIKI/src_en/wiki_en.qhcp \
     ../../WIKI/src_en/main.html \
-    ../../WIKI/src_en/0043.html \
-    ../../WIKI/src_en/0042.html \
-    ../../WIKI/src_en/0041.html \
-    ../../WIKI/src_en/0040.html \
-    ../../WIKI/src_en/0039.html \
-    ../../WIKI/src_en/0038.html \
-    ../../WIKI/src_en/0037.html \
-    ../../WIKI/src_en/0036.html \
-    ../../WIKI/src_en/0035.html \
-    ../../WIKI/src_en/0034.html \
-    ../../WIKI/src_en/0033.html \
-    ../../WIKI/src_en/0032.html \
-    ../../WIKI/src_en/0031.html \
-    ../../WIKI/src_en/0030.html \
-    ../../WIKI/src_en/0024.html \
-    ../../WIKI/src_en/0023.html \
-    ../../WIKI/src_en/0022.html \
-    ../../WIKI/src_en/0021.html \
-    ../../WIKI/src_en/0020.html \
-    ../../WIKI/src_en/0016.html \
-    ../../WIKI/src_en/0015.html \
-    ../../WIKI/src_en/0014.html \
-    ../../WIKI/src_en/0011.html \
     ../../WIKI/src_en/0010.html \
+    ../../WIKI/src_en/0011.html \
+    ../../WIKI/src_en/0012.html \
+    ../../WIKI/src_en/0013.html \
+    ../../WIKI/src_en/0014.html \
+    ../../WIKI/src_en/0015.html \
+    ../../WIKI/src_en/0016.html \
+    ../../WIKI/src_en/0020.html \
+    ../../WIKI/src_en/0021.html \
+    ../../WIKI/src_en/0022.html \
+    ../../WIKI/src_en/0023.html \
+    ../../WIKI/src_en/0024.html \
+    ../../WIKI/src_en/0030.html \
+    ../../WIKI/src_en/0031.html \
+    ../../WIKI/src_en/0032.html \
+    ../../WIKI/src_en/0033.html \
+    ../../WIKI/src_en/0034.html \
+    ../../WIKI/src_en/0035.html \
+    ../../WIKI/src_en/0036.html \
+    ../../WIKI/src_en/0037.html \
+    ../../WIKI/src_en/0038.html \
+    ../../WIKI/src_en/0039.html \
+    ../../WIKI/src_en/003A.html \
+    ../../WIKI/src_en/0040.html \
+    ../../WIKI/src_en/0041.html \
+    ../../WIKI/src_en/0042.html \
+    ../../WIKI/src_en/0043.html \
+    ../../WIKI/src_en/0044.html \
+    ../../WIKI/src_en/0050.html \
+    ../../WIKI/src_en/0051.html \
+    ../../WIKI/src_en/0052.html \
+    ../../WIKI/src_en/0053.html \
+    ../../WIKI/src_en/0054.html \
+    ../../WIKI/src_en/0055.html \
+    ../../WIKI/src_en/0056.html \
+    ../../WIKI/src_en/0057.html \
     ../../WIKI/src_en/0101.html \
     ../../WIKI/src_en/0102.html \
-    ../../WIKI/wiki.css \
-    ../../WIKI/src_en/0012.html \
-    ../../WIKI/src_en/003A.html \
-    ../../WIKI/src_en/0044.html \
     ../../WIKI/src_en/0103.html \
     ../../WIKI/src_en/0104.html \
     ../../WIKI/src_en/0105.html \
@@ -333,17 +341,19 @@ OTHER_FILES += \
     ../../WIKI/src_en/0120.html \
     ../../WIKI/src_en/0121.html \
     ../../WIKI/src_en/0122.html \
+    ../../WIKI/src_en/0123.html \
     ../../WIKI/UpdateTSFiles.bash \
     ../../WIKI/UpdateQMFiles.bash \
     ../../WIKI/readme.txt \
     ../../WIKI/UpdateTSFiles.cmd \
     ../../WIKI/UpdateQMFiles.cmd \
     ../../WIKI/PREPLANGUAGE.cmd \
-    ../../WIKI/src_en/0013.html \
+    ../../WIKI/wiki.css \
     ../../readme.txt \
     ../../translation.txt \
     ../../changelog-fr.txt \
-    ../../changelog-en.txt
+    ../../changelog-en.txt \
+    ../../WIKI/WIKI.txt
 
 # Source files
 SOURCES +=  MainWindow/cCustomSlideTable.cpp \
@@ -356,8 +366,10 @@ SOURCES +=  MainWindow/cCustomSlideTable.cpp \
             DlgBackground/DlgBackgroundProperties.cpp \
             DlgAppSettings/DlgManageDevices/DlgManageDevices.cpp \
             DlgAppSettings/DlgApplicationSettings.cpp \
-            #DlgImage/wgt_QGMapsMap/DlgMaps/DlgGMapsLocation.cpp \
-            #DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp \
+            DlgGMapsLocation/DlgGMapsLocation.cpp \
+            DlgGMapsLocation/DlgGMapsGeneration.cpp \
+            DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp \
+            DlgImage/wgt_QGMapsMap/cCustomLocationTable.cpp \
             DlgImage/wgt_QEditImage/cImgInteractiveZone.cpp \
             DlgImage/wgt_QEditImage/wgt_QEditImage.cpp \
             DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp \
@@ -367,6 +379,7 @@ SOURCES +=  MainWindow/cCustomSlideTable.cpp \
             DlgSlide/cInteractiveZone.cpp \
             DlgSlide/cCustomShotTable.cpp \
             DlgSlide/DlgRuler/DlgRulerDef.cpp \
+            DlgSlide/cShotComposer.cpp \
             DlgSlide/DlgSlideDuration.cpp \
             DlgSlide/DlgImageComposer.cpp \
             DlgText/cCustomTextEdit.cpp \
@@ -438,8 +451,10 @@ HEADERS  += MainWindow/cCustomSlideTable.h \
             DlgBackground/DlgBackgroundProperties.h \
             DlgAppSettings/DlgManageDevices/DlgManageDevices.h \
             DlgAppSettings/DlgApplicationSettings.h \
-            #DlgImage/wgt_QGMapsMap/DlgMaps/DlgGMapsLocation.h \
-            #DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.h \
+            DlgGMapsLocation/DlgGMapsLocation.h \
+            DlgGMapsLocation/DlgGMapsGeneration.h \
+            DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.h \
+            DlgImage/wgt_QGMapsMap/cCustomLocationTable.h \
             DlgImage/wgt_QEditImage/cImgInteractiveZone.h \
             DlgImage/wgt_QEditImage/wgt_QEditImage.h \
             DlgImage/wgt_QEditVideo/wgt_QEditVideo.h \
@@ -449,6 +464,7 @@ HEADERS  += MainWindow/cCustomSlideTable.h \
             DlgSlide/cInteractiveZone.h \
             DlgSlide/cCustomShotTable.h \
             DlgSlide/DlgRuler/DlgRulerDef.h \
+            DlgSlide/cShotComposer.h \
             DlgSlide/DlgSlideDuration.h \
             DlgSlide/DlgImageComposer.h \
             DlgText/cCustomTextEdit.h \
@@ -518,8 +534,9 @@ FORMS    += MainWindow/mainwindow.ui \
             DlgBackground/DlgBackgroundProperties.ui \
             DlgAppSettings/DlgManageDevices/DlgManageDevices.ui \
             DlgAppSettings/DlgApplicationSettings.ui \
-            #DlgImage/wgt_QGMapsMap/DlgMaps/DlgGMapsLocation.ui \
-            #DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui \
+            DlgGMapsLocation/DlgGMapsLocation.ui \
+            DlgGMapsLocation/DlgGMapsGeneration.ui \
+            DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui \
             DlgImage/wgt_QEditImage/wgt_QEditImageimage.ui \
             DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui \
             DlgImage/DlgImageCorrection.ui \
@@ -564,9 +581,7 @@ mimefile.files      = ../../ffDiaporama-mime.xml
 INSTALLS 	    += mimefile
 
 translation.path    = $$PREFIX/share/$$APPFOLDER/locale
-translation.files   = ../../locale/ffDiaporama_* \
-                      ../../locale/wiki_* \
-                      ../../locale/qt_*
+translation.files   = ../../locale/wiki_en.*
 INSTALLS 	    += translation
 
 background.path     = $$PREFIX/share/$$APPFOLDER/background

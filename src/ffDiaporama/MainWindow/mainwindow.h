@@ -30,6 +30,7 @@
 // Include some common various class
 #include "DlgWorkingTask/DlgWorkingTask.h"
 
+#include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QLocalSocket>
 #include <QLocalServer>
@@ -50,6 +51,7 @@ public:
     QString                 TitleBar;
     QTime                   LastLogMessageTime;
     QStringList             AliasList;
+    bool                    ClipboardLock;                  // Flag to stop clipboard use during copy/paste operation
 
     // Variables used for actions
     QString                 FileForIO;
@@ -194,12 +196,13 @@ private slots:
     void    MonoInstanceSocketConnection() {}
 
 private:
-
     // Utility functions
     void    UpdateChapterInfo();
     void    toolTipTowhatsThis(QObject *StartObj);
+    bool    DownloadFile(QString FileName);
 
-    Ui::MainWindow  *ui;
+    Ui::MainWindow                          *ui;
+    QList<cSlideThumbsTable::TRResKeyItem>  ResKeyList;     // Ressource key mapping table
 
      // To avoid multiple instance of the application
     QLocalSocket    MonoInstanceSocket;

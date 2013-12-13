@@ -129,11 +129,16 @@
 #define THUMBMODEL_ELEMENTNAME              "ProjectThumbnail"
 
 // Application version : url to file on internet
-#define BUILDVERSION_WEBURL                 "http://ffdiaporama.tuxfamily.org/Stable/BUILDVERSION.txt"
-//#define BUILDVERSION_WEBURL                 "http://ffdiaporama.tuxfamily.org/Devel/BUILDVERSION.txt"
 
-#define DOWNLOADPAGE                        "http://ffdiaporama.tuxfamily.org/?page_id=178&lang=%1"
-//#define DOWNLOADPAGE                         "http://ffdiaporama.tuxfamily.org/?page_id=3635&lang=%1"
+    // devel version
+#define BUILDVERSION_WEBURL                 "http://ffdiaporama.tuxfamily.org/Devel/BUILDVERSION.txt"
+#define DOWNLOADPAGE                         "http://ffdiaporama.tuxfamily.org/?page_id=3635&lang=%1"
+#define LOCAL_WEBURL                        "http://download.tuxfamily.org/ffdiaporama/Devel/"
+
+    // stable version
+//#define BUILDVERSION_WEBURL                 "http://ffdiaporama.tuxfamily.org/Stable/BUILDVERSION.txt"
+//#define DOWNLOADPAGE                        "http://ffdiaporama.tuxfamily.org/?page_id=178&lang=%1"
+//#define LOCAL_WEBURL                        "http://download.tuxfamily.org/ffdiaporama/Stable/"
 
 // Global values
 extern QString CurrentAppName;              // Application name (including devel, beta, ...)

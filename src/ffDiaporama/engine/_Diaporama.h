@@ -200,8 +200,8 @@ public:
                                       bool Transfo=false,double NewX=0,double NewY=0,double NewW=0,double NewH=0,
                                       bool DisplayTextMargin=false,cCompositionObjectContext *PreparedBrush=NULL);
 
-    void                SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition,cReplaceObjectList *ReplaceList);
-    bool                LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition=true);
+    void                SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList);
+    bool                LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
 
     QRectF              GetTextMargin(QRectF Workspace,double  ADJUST_RATIO);
     void                ApplyTextMargin(int TMType);
@@ -241,8 +241,8 @@ public:
     explicit                    cCompositionList(QObject *Parent);
                                 ~cCompositionList();
 
-    void                        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList);
-    bool                        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,cBaseApplicationConfig *ApplicationConfig);
+    void                        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList);
+    bool                        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,cBaseApplicationConfig *ApplicationConfig,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
 };
 
 //*********************************************************************************************************************************************
@@ -258,8 +258,8 @@ public:
     explicit                cDiaporamaShot(cDiaporamaObject *Parent);
                             ~cDiaporamaShot();
 
-    void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool LimitedInfo,cReplaceObjectList *ReplaceList);
-    bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList);
+    void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool LimitedInfo,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList);
+    bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
 };
 
 //*********************************************************************************************************************************************
@@ -321,8 +321,8 @@ public:
     int64_t                 GetCumulTransitDuration();
     int64_t                 GetDuration();
     void                    DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY,int ShotNumber=0);   // Draw Thumb @ position 0
-    void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList);
-    bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList);
+    void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool SaveThumbAllowed);
+    bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
     int64_t                 GetTransitDuration();
     int                     GetSpeedWave();
     int                     ComputeChapterNumber(cDiaporamaObject **Object=NULL);
@@ -330,8 +330,8 @@ public:
     int                     GetAutoTSNumber();
 
     // Models part
-    void                    LoadModelFromXMLData(ffd_MODELTYPE TypeModel,QDomDocument domDocument);
-    bool                    SaveModelFile(ffd_MODELTYPE TypeModel,QString ModelFileName,bool ForceAbsolutPath);
+    void                    LoadModelFromXMLData(ffd_MODELTYPE TypeModel,QDomDocument domDocument,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
+    bool                    SaveModelFile(ffd_MODELTYPE TypeModel,QString ModelFileName);
     QString                 SaveAsNewCustomModelFile(ffd_MODELTYPE TypeModel);
 
     // Thread functions

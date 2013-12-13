@@ -1563,6 +1563,178 @@ Giallo: il componente funziona parzialmente
     </message>
 </context>
 <context>
+    <name>DlgGMapsGeneration</name>
+    <message>
+        <source>Generate Google Maps map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel modification and exit dialog box</source>
+        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Annulla</translation>
+    </message>
+    <message>
+        <source>Download failed: %1. =&gt; wait 1sec and retry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error decoding image received from Google Maps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google stop responding
+May be you have reach the maximum number of request allowed.
+Please retry in one hour.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 pending section(s) should be retrieve later</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 pending section(s) to retrieve from Google Maps</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DlgGMapsLocation</name>
+    <message>
+        <source>Select a location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Give a friendly name for this location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Icon:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click to select an icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter postal adress to found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click on the map to select a location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Increase zoom level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust zoom level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Decrease zoom level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latitude:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Longitude:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accept modification and exit dialog box</source>
+        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
+    </message>
+    <message>
+        <source>&amp;Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel modification and exit dialog box</source>
+        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Annulla</translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished">Molsta aiuto riguardo a questa finestra</translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation type="unfinished">A&amp;iuto</translation>
+    </message>
+    <message>
+        <source>Select another file</source>
+        <translation type="unfinished">Seleziona un&apos;altro file</translation>
+    </message>
+    <message>
+        <source>Edit current image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google stop responding
+May be you have reach the maximum number of request allowed.
+Please retry in one hour.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Incorect addres ? (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google said: %1
+Are you sure to have written the address correctly?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error parsing XML</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error parsing XML / incorrect root</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Erreur de parsing XML / status KO</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download failed: %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error decoding image reveived from Google Maps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The map has not been fully generated.
+Do you want to resume the generation now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DlgImageComposer</name>
     <message>
         <source>Edit thumbnail model</source>
@@ -1979,26 +2151,6 @@ Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quin
     <message>
         <source>Add a new ClipArt text block</source>
         <translation>Aggiungi un nuovo blocco testo ClipArt</translation>
-    </message>
-    <message>
-        <source>None</source>
-        <translation>Nessuno</translation>
-    </message>
-    <message>
-        <source>Shadow upper left</source>
-        <translation>Ombra in alto a sinistra</translation>
-    </message>
-    <message>
-        <source>Shadow upper right</source>
-        <translation>Ombra in alto a destra</translation>
-    </message>
-    <message>
-        <source>Shadow bottom left</source>
-        <translation>Ombra in basso a sinistra</translation>
-    </message>
-    <message>
-        <source>Shadow bottom right</source>
-        <translation>Ombra in basso a destra</translation>
     </message>
     <message>
         <source>Remove block</source>
@@ -3188,7 +3340,8 @@ Nota: le proprietà del progetto vengono salvate nel video come TAG (metadati) c
     <message>
         <source>Job completed successfully!
 Do you want to open the video now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Lavoro completato con successo! 
+Vuoi aprire il video ora?</translation>
     </message>
 </context>
 <context>
@@ -4214,39 +4367,48 @@ modello</translation>
     <message>
         <source>Add
 special</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi
+speciale</translation>
     </message>
     <message>
         <source>Add a GMaps map</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi una mappa GMaps</translation>
     </message>
     <message>
         <source>Add a map from Google maps</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi una mappa da Google maps</translation>
     </message>
     <message>
         <source>Correct, reframe or cut a Google Maps map</source>
         <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
-        <translation type="unfinished"></translation>
+        <translation>Correggi, ri-inquadra o taglia una mappa Google map</translation>
     </message>
     <message>
         <source>Reframe image vector</source>
         <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ri-inquadra immagine vttoriale</translation>
     </message>
     <message>
         <source>Define framing and correction of image vector</source>
         <comment>Tooltip</comment>
-        <translation type="unfinished"></translation>
+        <translation>Definire inquadratura e la correzione di immagine vettoriale</translation>
     </message>
     <message>
         <source>Modify Google Maps map</source>
         <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
-        <translation type="unfinished"></translation>
+        <translation>Modifica mappa Google maps</translation>
     </message>
     <message>
         <source>Define Modify Google Maps map and framing and correction of map</source>
         <comment>Tooltip</comment>
+        <translation>Definire le Modifiche mappa Google Maps e inquadramento e la correzione di mappa</translation>
+    </message>
+    <message>
+        <source>Add image from clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create a new block using image from clipboard</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6088,36 +6250,66 @@ Vuoi scaricarla ora?</translation>
     </message>
     <message>
         <source>Sorry, but ffDiaporama is already started on this computer and can&apos;t be started several time.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ci dispiace, ma ffDiaporama è già avviato su questo computer e non può essere avviato più volte.</translation>
     </message>
     <message>
         <source>Image vector file (</source>
-        <translation type="unfinished"></translation>
+        <translation>File immagine vettoriale (</translation>
     </message>
     <message>
         <source>Impossible to read one image from the file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile leggere un&apos;immagine dal file</translation>
     </message>
     <message>
         <source>No audio track found</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Nessuna traccia audio trovata</translation>
     </message>
     <message>
         <source>Image vector files</source>
-        <translation type="unfinished"></translation>
+        <translation>File immagine vettoriale</translation>
     </message>
     <message>
         <source>Select this file</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona questo file</translation>
     </message>
     <message>
         <source>%1 image vector files</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 file immagine vettoriale</translation>
     </message>
     <message>
         <source>Restore from a previous crash...</source>
+        <translation>Ripristino da un crash precedente...</translation>
+    </message>
+    <message>
+        <source>Select an image file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update this favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove this favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error getting image from clipboard</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to read an image from the file</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading file from ressource</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error loading ressource</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7048,6 +7240,84 @@ Vuoi scaricarla ora?</translation>
         <comment>File type</comment>
         <translation>Immagine vettoriale</translation>
     </message>
+    <message>
+        <source>Map type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Map zoom and size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Map latitude</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Map longitude</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 location(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GPS Coordinates %1 / %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Roadmap</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Satellite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Terrain</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hybrid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Small (640x360)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>720p-16:9 (1280x720)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>720px4-16:9 (2560x1440)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1080p-16:9 (1920x1080)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1080px4-16:9 (3840x2160)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select at least one location to produce Google Maps map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image from clipboard</source>
+        <comment>File type</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google Maps map</source>
+        <comment>File type</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>cDeviceModelList</name>
@@ -7629,38 +7899,89 @@ Per esempio: un&apos;immagine 4:03 utilizzato in un progetto 16:9 vengono visual
     </message>
 </context>
 <context>
+    <name>wgt_QGMapsMap</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished">Da</translation>
+    </message>
+    <message>
+        <source>Define the size of the map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Map type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the type of the map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the size of the image generated for the map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Map size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Marker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Google Maps to select a location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit current location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove current location</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>wgt_QMultimediaBrowser</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Da</translation>
     </message>
     <message>
         <source>Refresh folder table</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiorna tabella cartella</translation>
     </message>
     <message>
         <source>Use Detail view in browser</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilizza vista Dettagliata nel browser</translation>
     </message>
     <message>
         <source>Use Icon view in browser</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilizza vista Icona nel browser</translation>
     </message>
     <message>
         <source>Use or manage favorite path</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilizza o maneggia il path favoriti</translation>
     </message>
     <message>
         <source>Change to previous folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambia alla cartella precedente</translation>
     </message>
     <message>
         <source>Change to upper folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambia alla cartella superiore</translation>
     </message>
     <message>
         <source>Adjust display mode and file filtering</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiusta modalita visualizzazione e filtraggio file</translation>
     </message>
     <message>
         <source>The selection can&apos;t include folders.</source>

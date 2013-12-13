@@ -40,18 +40,11 @@ Basse       WIP     Pouvoir déplacer le centre de rotation des formes
 Basse       -       Ce serait pas mal de pouvoir se créer des modèles couleurs (RVB)  dans 'retoucher ou recadrer l'image' que l'on puisse appliquer à plusieurs images
 
 Basse       -       Déplacer la sauvegarde des recentlist dans la base de données
-
+Vérifier ressource dans les modeles !
 
 pb sur
--drag & drop depuis l'exterieur
--multiple instance de l'appli
--destruction des mediaobjects des shots
 -probleme de seek des mts (libav 0.8 et peut-être d'autres)
--Filter les filtres actifs quand edit de svg
 -Revoir le model de la table des locations (ajouter thumb)
-
--codes redondant
-    -faire le nettoyage pour les menus filtres mainwindow/dlgfileexplorer
 
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité

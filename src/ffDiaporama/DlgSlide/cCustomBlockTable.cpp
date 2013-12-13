@@ -134,7 +134,7 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
     if (ParentTable->CurrentShotNbr>0) Painter->drawImage(QRectF(option.rect.x()+1+RowHeight,option.rect.y()+1,16,16),QImage(ParentTable->CompositionList->List[index.row()]->SameAsPrevShot?ICON_HAVELOCK:ICON_HAVENOLOCK));
 
     // With sound ?
-    if (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)
+    if ((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->MediaObject)&&(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE))
         Painter->drawImage(QRectF(option.rect.x()+1+RowHeight,option.rect.y()+1+RowHeight/3,16,16),QImage((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->SoundVolume!=0)?ICON_SOUND_OK:ICON_SOUND_KO));
 
     // With filter ?

@@ -32,6 +32,8 @@
 #include <QDomElement>
 #include <QDomDocument>
 #include <QMainWindow>
+#include <QNetworkReply>
+#include <QNetworkAccessManager>
 
 // Include some common various class
 #include "cSaveWindowPosition.h"
@@ -285,6 +287,30 @@ struct sDefaultBlockCoord {
 };
 
 //====================================================================================================================
+// Utility class to download locale files
+//====================================================================================================================
+
+class cBaseApplicationConfig;
+class DownloadObject : public QObject {
+Q_OBJECT
+public:
+    cBaseApplicationConfig  *ApplicationConfig;
+    bool                    Status;
+    QNetworkReply           *GetNewtorkDataReply;
+    QByteArray              NetworkData;
+    QString                 NetworkDataFileName;
+    QNetworkAccessManager   *NetworkManager;
+    QEventLoop              *loop;
+
+    explicit                DownloadObject(QString FileName,QObject *parent);
+                            ~DownloadObject();
+
+private slots:
+    void                    httpGetDataFinished();
+    void                    httpGetDataReadyRead();
+};
+
+//====================================================================================================================
 // Application config class
 //====================================================================================================================
 
@@ -449,6 +475,7 @@ public:
     explicit                cBaseApplicationConfig(QMainWindow *TopLevelWindow,QString AllowedWEBLanguage);
                             ~cBaseApplicationConfig();
 
+    virtual bool            DownloadFile(QString FileName);
     virtual QString         GetFilterForMediaFile(FilterFile type);
     virtual void            InitValues();
     virtual bool            InitConfigurationValues(QString ForceLanguage);

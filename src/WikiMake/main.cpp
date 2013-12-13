@@ -47,6 +47,7 @@ QString     CurrentSrc  ="";
 QFile       FakeFile;
 QTextStream TextStream;
 QTranslator Translator;
+bool        IsHeader    =false;
 
 //=========================================================================================================================================
 //functions used to adjust folder name depending on operating system
@@ -310,7 +311,7 @@ void ToLogT(int Level,QString Text) {
                 TT=TT.left(TT.toLower().lastIndexOf("</a>"));
                 QString NewTT=Translator.translate(CurrentSrc.toUtf8().constData(),TT.toUtf8().constData());
                 if (NewTT.isEmpty()) {
-                    if (Language!="en") NewTT="<span style=\"background-color:#FFFF00;\">"+HTMLConverter.ToHTML(KeepConverter.ToKeep(TT))+"</span>";
+                    if ((Language!="en")&&(!IsHeader)) NewTT="<span style=\"background-color:#FFFF00;\">"+HTMLConverter.ToHTML(KeepConverter.ToKeep(TT))+"</span>";
                         else NewTT=HTMLConverter.ToHTML(KeepConverter.ToKeep(TT));
                 } else {
                     TR=KeepConverter.ToKeep(NewTT);
@@ -320,7 +321,7 @@ void ToLogT(int Level,QString Text) {
             } else {
                 TR=Translator.translate(CurrentSrc.toUtf8().constData(),Text.toUtf8().constData());
                 if (TR.isEmpty()) {
-                    if (Language!="en") TR="<span style=\"background-color:#FFFF00;\">"+HTMLConverter.ToHTML(KeepConverter.ToKeep(Text))+"</span>";
+                    if ((Language!="en")&&(!IsHeader)) TR="<span style=\"background-color:#FFFF00;\">"+HTMLConverter.ToHTML(KeepConverter.ToKeep(Text))+"</span>";
                         else TR=HTMLConverter.ToHTML(KeepConverter.ToKeep(Text));
                 } else {
                     TR=KeepConverter.ToKeep(TR);
@@ -340,6 +341,7 @@ bool ScanSource(int CurrentLevel,QString CurrentTag) {
     QString NextTag;
 
     ToLogL(CurrentLevel,CurrentTag);
+    if (CurrentTag.contains("<head>",Qt::CaseInsensitive))  IsHeader=true;
     CurrentLevel++;
     if (CurrentTag.contains(">")) CurrentTag.remove(">");
     if (CurrentTag.contains("<")) CurrentTag.remove("<");
@@ -352,6 +354,7 @@ bool ScanSource(int CurrentLevel,QString CurrentTag) {
         CurSource =CurSource.mid(CurSource.indexOf(">")+1);
 
         if ((NextTag.startsWith("</"))&&(!NextTag.toLower().startsWith("</script"))) {
+            if (NextTag.contains("</head>",Qt::CaseInsensitive)) IsHeader=false;
             CurrentLevel--;
             ToLogL(CurrentLevel,NextTag);
             if (!NextTag.startsWith(QString("</")+CurrentTag)) {
