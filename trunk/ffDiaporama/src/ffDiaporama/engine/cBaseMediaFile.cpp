@@ -32,9 +32,6 @@
 #include "_Diaporama.h"
 #include "cLocation.h"
 
-QString GMapsMapTypeName[GMapsMapType_NBR]={"Roadmap","Satellite","Terrain","Hybrid"};
-QString GMapsMapSizeName[GMapsMapType_NBR]={"MediumSquare","FullScreen","HighResolution"};
-
 //****************************************************************************************************************************************************************
 // EXIV2 PART
 //****************************************************************************************************************************************************************
@@ -307,12 +304,14 @@ QString cReplaceObjectList::GetDestinationFileName(QString SourceFileName) {
 cBaseMediaFile::cBaseMediaFile(cBaseApplicationConfig *TheApplicationConfig) {
     ApplicationConfig   = TheApplicationConfig;
     ObjectType          = OBJECTTYPE_UNMANAGED;
+    ObjectName          = "NoName";
     Reset();
 }
 
 void cBaseMediaFile::Reset() {
     FileKey             = -1;
     FolderKey           = -1;
+    RessourceKey        = -1;
     IsValide            = false;                                    // if true then object if initialise
     IsInformationValide = false;                                    // if true then information list if fuly initialise
     ObjectGeometry      = IMAGE_GEOMETRY_UNKNOWN;                   // Image geometry
@@ -375,7 +374,7 @@ bool cBaseMediaFile::GetFullInformationFromFile() {
             QDomDocument domDocument;
             QDomElement  root=domDocument.createElement("BasicProperties");
             domDocument.appendChild(root);
-            SaveBasicInformationToDatabase(&root);
+            SaveBasicInformationToDatabase(&root,"","",false,NULL,NULL);
             IsInformationValide=ApplicationConfig->FilesTable->SetBasicProperties(FileKey,domDocument.toString())&&
                                 ApplicationConfig->FilesTable->SetExtendedProperties(FileKey,&ExtendedProperties)&&
                                 ApplicationConfig->FilesTable->SetThumbs(FileKey,&Icon.Icon16,&Icon.Icon100);
@@ -453,14 +452,16 @@ bool cBaseMediaFile::GetInformationFromFile(QString FileName,QStringList *AliasL
     QString BasicInfo;
     if (ApplicationConfig->FilesTable->GetBasicProperties(FileKey,&BasicInfo,FileName,&FileSize,&CreatDateTime,&ModifDateTime)) {
         QDomDocument    domDocument;
+
         QString         errorStr;
         int             errorLine,errorColumn;
         if ((domDocument.setContent(BasicInfo,true,&errorStr,&errorLine,&errorColumn))&&
             (domDocument.elementsByTagName("BasicProperties").length()>0)&&
-            (domDocument.elementsByTagName("BasicProperties").item(0).isElement()==true)&&
-            (LoadBasicInformationFromDatabase(domDocument.elementsByTagName("BasicProperties").item(0).toElement()))) {
-            IsValide=true;
-            return true;
+            (domDocument.elementsByTagName("BasicProperties").item(0).isElement()==true)
+            ) {
+            QDomElement Element=domDocument.elementsByTagName("BasicProperties").item(0).toElement();
+            IsValide=LoadBasicInformationFromDatabase(&Element,"","",AliasList,ModifyFlag,NULL,false);
+            return IsValide;
         }
     }
 
@@ -695,25 +696,25 @@ void cffDProjectFile::InitDefaultValues() {
 
 //====================================================================================================================
 
-bool cffDProjectFile::LoadBasicInformationFromDatabase(QDomElement root) {
-    return LoadFromXML(root);
+bool cffDProjectFile::LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
+    return LoadFromXML(ParentElement,ElementName,PathForRelativPath,AliasList,ModifyFlag,ResKeyList,DuplicateRes);
 }
 
 //====================================================================================================================
 
-void cffDProjectFile::SaveBasicInformationToDatabase(QDomElement *root) {
-    SaveToXML(*root);
+void cffDProjectFile::SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList) {
+    SaveToXML(ParentElement,ElementName,PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);
 
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement("Project");
     Element.setAttribute("ImageGeometry",ObjectGeometry==IMAGE_GEOMETRY_16_9?GEOMETRY_16_9:ObjectGeometry==IMAGE_GEOMETRY_40_17?GEOMETRY_40_17:GEOMETRY_4_3);
     Element.setAttribute("ObjectNumber",NbrSlide);
-    root->appendChild(Element);
+    ParentElement->appendChild(Element);
 }
 
 //====================================================================================================================
 
-void cffDProjectFile::SaveToXML(QDomElement &domDocument) {
+void cffDProjectFile::SaveToXML(QDomElement *ParentElement,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement("ffDiaporamaProjectProperties");
     Element.setAttribute("Title",Title);
@@ -738,16 +739,16 @@ void cffDProjectFile::SaveToXML(QDomElement &domDocument) {
         SubElement.setAttribute("InSlide",  GetInformationValue("Chapter_"+ChapterNum+":InSlide",&ChaptersProperties));
         Element.appendChild(SubElement);
     }
-    domDocument.appendChild(Element);
+    ParentElement->appendChild(Element);
 }
 
 //====================================================================================================================
 
-bool cffDProjectFile::LoadFromXML(QDomElement domDocument) {
+bool cffDProjectFile::LoadFromXML(QDomElement *ParentElement,QString,QString,QStringList *,bool *,QList<cSlideThumbsTable::TRResKeyItem> *,bool) {
     InitDefaultValues();
     bool IsOk=false;
-    if ((domDocument.elementsByTagName("ffDiaporamaProjectProperties").length()>0)&&(domDocument.elementsByTagName("ffDiaporamaProjectProperties").item(0).isElement()==true)) {
-        QDomElement Element=domDocument.elementsByTagName("ffDiaporamaProjectProperties").item(0).toElement();
+    if ((ParentElement->elementsByTagName("ffDiaporamaProjectProperties").length()>0)&&(ParentElement->elementsByTagName("ffDiaporamaProjectProperties").item(0).isElement()==true)) {
+        QDomElement Element=ParentElement->elementsByTagName("ffDiaporamaProjectProperties").item(0).toElement();
         if (Element.hasAttribute("Title"))              Title=Element.attribute("Title");
         if (Element.hasAttribute("Author"))             Author=Element.attribute("Author");
         if (Element.hasAttribute("Album"))              Album=Element.attribute("Album");
@@ -766,8 +767,8 @@ bool cffDProjectFile::LoadFromXML(QDomElement domDocument) {
             NbrChapters=Element.attribute("ChaptersNumber").toInt();
             for (int i=0;i<NbrChapters;i++) {
                 QString     ChapterNum=QString("%1").arg(i); while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
-                if ((domDocument.elementsByTagName("Chapter_"+ChapterNum).length()>0)&&(domDocument.elementsByTagName("Chapter_"+ChapterNum).item(0).isElement()==true)) {
-                    QDomElement SubElement=domDocument.elementsByTagName("Chapter_"+ChapterNum).item(0).toElement();
+                if ((ParentElement->elementsByTagName("Chapter_"+ChapterNum).length()>0)&&(ParentElement->elementsByTagName("Chapter_"+ChapterNum).item(0).isElement()==true)) {
+                    QDomElement SubElement=ParentElement->elementsByTagName("Chapter_"+ChapterNum).item(0).toElement();
                     QString     Start="";
                     QString     End="";
                     QString     Duration="";
@@ -789,8 +790,8 @@ bool cffDProjectFile::LoadFromXML(QDomElement domDocument) {
         }
         IsOk=true;
     }
-    if ((domDocument.elementsByTagName("Project").length()>0)&&(domDocument.elementsByTagName("Project").item(0).isElement()==true)) {
-        QDomElement Element=domDocument.elementsByTagName("Project").item(0).toElement();
+    if ((ParentElement->elementsByTagName("Project").length()>0)&&(ParentElement->elementsByTagName("Project").item(0).isElement()==true)) {
+        QDomElement Element=ParentElement->elementsByTagName("Project").item(0).toElement();
         if (Element.hasAttribute("ImageGeometry")) {
             switch (Element.attribute("ImageGeometry").toInt()) {
                 case GEOMETRY_16_9:  ObjectGeometry=IMAGE_GEOMETRY_16_9;   break;
@@ -816,10 +817,22 @@ bool cffDProjectFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringL
     QString         errorStr;
     int             errorLine,errorColumn;
     if (file.open(QFile::ReadOnly | QFile::Text)) {
-        if (domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
+        QTextStream InStream(&file);
+        QString     ffDPart;
+        bool        EndffDPart=false;
+        while (!InStream.atEnd()) {
+            QString Line=InStream.readLine();
+            if (!EndffDPart) {
+                ffDPart.append(Line);
+                if (Line=="</Project>") EndffDPart=true;
+            }
+        }
+        file.close();
+        // Now import ffDPart
+        if (domDocument.setContent(ffDPart,true,&errorStr,&errorLine,&errorColumn)) {
             root = domDocument.documentElement();
             // Load project properties
-            if (root.tagName()==FFD_APPLICATION_ROOTNAME) LoadFromXML(root);
+            if (root.tagName()==FFD_APPLICATION_ROOTNAME) LoadFromXML(&root,"","",NULL,NULL,NULL,false);
         }
         file.close();
     }
@@ -859,17 +872,12 @@ QString cffDProjectFile::GetFileTypeStr() {
 
 cImageFile::cImageFile(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
     ObjectType  =OBJECTTYPE_IMAGEFILE;  // coul be turn later to OBJECTTYPE_THUMBNAIL
-    VectorImage =NULL;
     NoExifData  =false;
 }
 
 //====================================================================================================================
 
 cImageFile::~cImageFile() {
-    if (VectorImage) {
-        delete VectorImage;
-        VectorImage=NULL;
-    }
 }
 
 //====================================================================================================================
@@ -882,23 +890,23 @@ QString cImageFile::GetFileTypeStr() {
 
 //====================================================================================================================
 
-bool cImageFile::LoadBasicInformationFromDatabase(QDomElement root) {
-    ImageWidth      =root.attribute("ImageWidth").toInt();
-    ImageHeight     =root.attribute("ImageHeight").toInt();
-    ImageOrientation=root.attribute("ImageOrientation").toInt();
-    ObjectGeometry  =root.attribute("ObjectGeometry").toInt();
-    AspectRatio     =GetDoubleValue(root,"AspectRatio");
+bool cImageFile::LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString,QString,QStringList *,bool *,QList<cSlideThumbsTable::TRResKeyItem> *,bool) {
+    ImageWidth      =ParentElement->attribute("ImageWidth").toInt();
+    ImageHeight     =ParentElement->attribute("ImageHeight").toInt();
+    ImageOrientation=ParentElement->attribute("ImageOrientation").toInt();
+    ObjectGeometry  =ParentElement->attribute("ObjectGeometry").toInt();
+    AspectRatio     =GetDoubleValue(*ParentElement,"AspectRatio");
     return true;
 }
 
 //====================================================================================================================
 
-void cImageFile::SaveBasicInformationToDatabase(QDomElement *root) {
-    root->setAttribute("ImageWidth",         ImageWidth);
-    root->setAttribute("ImageHeight",        ImageHeight);
-    root->setAttribute("ImageOrientation",   ImageOrientation);
-    root->setAttribute("ObjectGeometry",     ObjectGeometry);
-    root->setAttribute("AspectRatio",        QString("%1").arg(AspectRatio,0,'f'));
+void cImageFile::SaveBasicInformationToDatabase(QDomElement *ParentElement,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *) {
+    ParentElement->setAttribute("ImageWidth",         ImageWidth);
+    ParentElement->setAttribute("ImageHeight",        ImageHeight);
+    ParentElement->setAttribute("ImageOrientation",   ImageOrientation);
+    ParentElement->setAttribute("ObjectGeometry",     ObjectGeometry);
+    ParentElement->setAttribute("AspectRatio",        QString("%1").arg(AspectRatio,0,'f'));
 }
 
 //====================================================================================================================
@@ -912,7 +920,7 @@ bool cImageFile::CheckFormatValide(QWidget *Window) {
         if (Image) {
             delete Image;
         } else {
-            QString ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","Impossible to read one image from the file","Error message");
+            QString ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","Impossible to read an image from the file","Error message");
             CustomMessageBox(Window,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),ShortName()+"\n\n"+ErrorMessage,QMessageBox::Close);
             IsOk=false;
         }
@@ -934,7 +942,58 @@ bool cImageFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *
     ImageOrientation    =-1;
     bool                ExifOk=false;
 
-    if ((ObjectType!=OBJECTTYPE_IMAGEVECTOR)&&(!NoExifData)) {
+    if (ObjectType==OBJECTTYPE_IMAGEVECTOR) {
+            // Vector image file
+            QSvgRenderer SVGImg(FileName());
+            if (SVGImg.isValid()) {
+                ImageOrientation=0;
+                ImageWidth      =SVGImg.viewBox().width();
+                ImageHeight     =SVGImg.viewBox().height();
+
+                QPainter Painter;
+                QImage   Img;
+                qreal    RatioX=(ImageWidth>ImageHeight?1:qreal(ImageWidth)/qreal(ImageHeight));
+                qreal    RatioY=(ImageWidth<ImageHeight?1:qreal(ImageHeight)/qreal(ImageWidth));
+
+                // 16x16 icon
+                Img=QImage(qreal(16)*RatioX,qreal(16)*RatioY,QImage::Format_ARGB32);
+                Painter.begin(&Img);
+                Painter.setCompositionMode(QPainter::CompositionMode_Source);
+                Painter.fillRect(QRect(0,0,Img.width(),Img.height()),Qt::transparent);
+                Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+                SVGImg.render(&Painter);
+                Painter.end();
+                Icon->Icon16=QImage(16,16,QImage::Format_ARGB32_Premultiplied);
+                Painter.begin(&Icon->Icon16);
+                Painter.setCompositionMode(QPainter::CompositionMode_Source);
+                Painter.fillRect(QRect(0,0,Icon->Icon16.width(),Icon->Icon16.height()),Qt::transparent);
+                Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+                Painter.drawImage(QPoint((16-Img.width())/2,(16-Img.height())/2),Img);
+                Painter.end();
+
+                // 100x100 icon
+                Img=QImage(qreal(100)*RatioX,qreal(100)*RatioY,QImage::Format_ARGB32);
+                Painter.begin(&Img);
+                Painter.setCompositionMode(QPainter::CompositionMode_Source);
+                Painter.fillRect(QRect(0,0,Img.width(),Img.height()),Qt::transparent);
+                Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+                SVGImg.render(&Painter);
+                Painter.end();
+                Icon->Icon100=QImage(100,100,QImage::Format_ARGB32_Premultiplied);
+                Painter.begin(&Icon->Icon100);
+                Painter.setCompositionMode(QPainter::CompositionMode_Source);
+                Painter.fillRect(QRect(0,0,Icon->Icon100.width(),Icon->Icon100.height()),Qt::transparent);
+                Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+                Painter.drawImage(QPoint((100-Img.width())/2,(100-Img.height())/2),Img);
+                Painter.end();
+
+                ExtendedProperties->append(QString("Photo.PixelXDimension")+QString("##")+QString("%1").arg(ImageWidth));
+                ExtendedProperties->append(QString("Photo.PixelYDimension")+QString("##")+QString("%1").arg(ImageHeight));
+            }
+
+    } else if (NoExifData) {
+
+    } else if (!NoExifData) {
 
         // ******************************************************************************************************
         // Try to load EXIF information using library exiv2
@@ -1063,7 +1122,7 @@ bool cImageFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *
         // If no exif preview image (of image too small) then load/create thumbnail
         //************************************************************************************
         if (Icon->Icon16.isNull() || Icon->Icon100.isNull()) {
-            cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileKey,ModifDateTime,ImageOrientation,ApplicationConfig->Smoothing,true);
+            cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(RessourceKey,FileKey,ModifDateTime,ImageOrientation,ApplicationConfig->Smoothing,true);
             if (ImageObject==NULL) {
                 ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : FindObject return NULL for thumbnail creation !");
             } else {
@@ -1091,7 +1150,7 @@ bool cImageFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *
         // if no information about size then load image
         //************************************************************************************
         if ((ImageWidth==0)||(ImageHeight==0)) {
-            cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileKey,ModifDateTime,ImageOrientation,ApplicationConfig->Smoothing,true);
+            cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(RessourceKey,FileKey,ModifDateTime,ImageOrientation,ApplicationConfig->Smoothing,true);
             if (ImageObject==NULL) {
                 ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : FindObject return NULL for size computation !");
             } else {
@@ -1106,54 +1165,6 @@ bool cImageFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *
             }
         }
 
-    } else if (ObjectType==OBJECTTYPE_IMAGEVECTOR) {
-        // Vector image file
-        QSvgRenderer SVGImg(FileName());
-        if (SVGImg.isValid()) {
-            ImageOrientation=0;
-            ImageWidth      =SVGImg.viewBox().width();
-            ImageHeight     =SVGImg.viewBox().height();
-
-            QPainter Painter;
-            QImage   Img;
-            qreal    RatioX=(ImageWidth>ImageHeight?1:qreal(ImageWidth)/qreal(ImageHeight));
-            qreal    RatioY=(ImageWidth<ImageHeight?1:qreal(ImageHeight)/qreal(ImageWidth));
-
-            // 16x16 icon
-            Img=QImage(qreal(16)*RatioX,qreal(16)*RatioY,QImage::Format_ARGB32);
-            Painter.begin(&Img);
-            Painter.setCompositionMode(QPainter::CompositionMode_Source);
-            Painter.fillRect(QRect(0,0,Img.width(),Img.height()),Qt::transparent);
-            Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-            SVGImg.render(&Painter);
-            Painter.end();
-            Icon->Icon16=QImage(16,16,QImage::Format_ARGB32_Premultiplied);
-            Painter.begin(&Icon->Icon16);
-            Painter.setCompositionMode(QPainter::CompositionMode_Source);
-            Painter.fillRect(QRect(0,0,Icon->Icon16.width(),Icon->Icon16.height()),Qt::transparent);
-            Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-            Painter.drawImage(QPoint((16-Img.width())/2,(16-Img.height())/2),Img);
-            Painter.end();
-
-            // 100x100 icon
-            Img=QImage(qreal(100)*RatioX,qreal(100)*RatioY,QImage::Format_ARGB32);
-            Painter.begin(&Img);
-            Painter.setCompositionMode(QPainter::CompositionMode_Source);
-            Painter.fillRect(QRect(0,0,Img.width(),Img.height()),Qt::transparent);
-            Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-            SVGImg.render(&Painter);
-            Painter.end();
-            Icon->Icon100=QImage(100,100,QImage::Format_ARGB32_Premultiplied);
-            Painter.begin(&Icon->Icon100);
-            Painter.setCompositionMode(QPainter::CompositionMode_Source);
-            Painter.fillRect(QRect(0,0,Icon->Icon100.width(),Icon->Icon100.height()),Qt::transparent);
-            Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-            Painter.drawImage(QPoint((100-Img.width())/2,(100-Img.height())/2),Img);
-            Painter.end();
-
-            ExtendedProperties->append(QString("Photo.PixelXDimension")+QString("##")+QString("%1").arg(ImageWidth));
-            ExtendedProperties->append(QString("Photo.PixelYDimension")+QString("##")+QString("%1").arg(ImageHeight));
-        }
     }
 
     //************************************************************************************
@@ -1215,6 +1226,10 @@ QImage *cImageFile::ImageAt(bool PreviewMode) {
         // Vector image file
         QSvgRenderer SVGImg(FileName());
         if (SVGImg.isValid()) {
+            if ((ImageWidth==0)||(ImageHeight==0)) {
+                ImageWidth =SVGImg.defaultSize().width();
+                ImageHeight=SVGImg.defaultSize().height();
+            }
             RetImage=new QImage(ImageWidth,ImageHeight,QImage::Format_ARGB32_Premultiplied);
             QPainter Painter;
             Painter.begin(RetImage);
@@ -1227,7 +1242,7 @@ QImage *cImageFile::ImageAt(bool PreviewMode) {
             Painter.end();
         }
     } else {
-        cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileKey,ModifDateTime,ImageOrientation,(!PreviewMode || ApplicationConfig->Smoothing),true);
+        cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(RessourceKey,FileKey,ModifDateTime,ImageOrientation,(!PreviewMode || ApplicationConfig->Smoothing),true);
 
         if (!ImageObject) {
             ToLog(LOGMSG_CRITICAL,"Error in cImageFile::ImageAt : FindObject return NULL !");
@@ -1244,16 +1259,145 @@ QImage *cImageFile::ImageAt(bool PreviewMode) {
 }
 
 //*********************************************************************************************************************************************
+// Image from clipboard
+//*********************************************************************************************************************************************
+
+cImageClipboard::cImageClipboard(cBaseApplicationConfig *ApplicationConfig):cImageFile(ApplicationConfig) {
+    ObjectType      =OBJECTTYPE_IMAGECLIPBOARD;
+    ObjectName      ="ImageClipboard";
+    NoExifData      =true;
+    ImageOrientation=0;
+}
+
+//====================================================================================================================
+
+cImageClipboard::~cImageClipboard() {
+}
+
+//====================================================================================================================
+
+bool cImageClipboard::LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString,QString,QStringList *,bool *,QList<cSlideThumbsTable::TRResKeyItem> *,bool) {
+    ImageWidth      =ParentElement->attribute("ImageWidth").toInt();
+    ImageHeight     =ParentElement->attribute("ImageHeight").toInt();
+    ImageOrientation=ParentElement->attribute("ImageOrientation").toInt();
+    ObjectGeometry  =ParentElement->attribute("ObjectGeometry").toInt();
+    AspectRatio     =GetDoubleValue(*ParentElement,"AspectRatio");
+    CreatDateTime.fromString(ParentElement->attribute("CreatDateTime"),Qt::ISODate);
+    return true;
+}
+
+//====================================================================================================================
+
+void cImageClipboard::SaveBasicInformationToDatabase(QDomElement *ParentElement,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *) {
+    ParentElement->setAttribute("ImageWidth",        ImageWidth);
+    ParentElement->setAttribute("ImageHeight",       ImageHeight);
+    ParentElement->setAttribute("ImageOrientation",  ImageOrientation);
+    ParentElement->setAttribute("ObjectGeometry",    ObjectGeometry);
+    ParentElement->setAttribute("AspectRatio",       QString("%1").arg(AspectRatio,0,'f'));
+    ParentElement->setAttribute("CreatDateTime",     CreatDateTime.toString(Qt::ISODate));
+}
+
+//====================================================================================================================
+
+bool cImageClipboard::GetInformationFromFile(QString,QStringList *,bool *,qlonglong) {
+    QImage ImageClipboard;
+    ApplicationConfig->SlideThumbsTable->GetThumbs(&RessourceKey,&ImageClipboard);
+    if (!ImageClipboard.isNull()) {
+        ImageWidth=ImageClipboard.width();
+        ImageHeight=ImageClipboard.height();
+        ImageOrientation=0;
+        AspectRatio=double(ImageHeight)/double(ImageWidth);
+        // Now we have image size then compute image geometry
+        ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
+        double RatioHW=double(ImageWidth)/double(ImageHeight);
+        if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
+        else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
+        else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
+        else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
+        else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
+        else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
+        else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
+        else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
+        IsValide=true;
+    } else IsValide=false;
+    return IsValide;
+}
+
+//====================================================================================================================
+
+bool cImageClipboard::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties) {
+    if (Icon) {
+        if (Icon->Icon16.isNull() || Icon->Icon100.isNull()) Icon->LoadIcons(&ApplicationConfig->DefaultIMAGEIcon);
+    }
+    if (ExtendedProperties) {
+        ExtendedProperties->append(QString("Photo.PixelXDimension")+QString("##")+QString("%1").arg(ImageWidth));
+        ExtendedProperties->append(QString("Photo.PixelYDimension")+QString("##")+QString("%1").arg(ImageHeight));
+    }
+    return true;
+}
+
+//====================================================================================================================
+
+QStringList cImageClipboard::GetSummaryText(QStringList *) {
+    QStringList SummaryText;
+    SummaryText.append(GetFileTypeStr());
+    SummaryText.append(GetImageSizeStr(cBaseMediaFile::FULLWEB));
+    SummaryText.append("");
+    return SummaryText;
+}
+
+//====================================================================================================================
+
+bool cImageClipboard::LoadFromXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
+    if ((DuplicateRes)&&(ObjectType==OBJECTTYPE_IMAGECLIPBOARD)) DuplicateRes=false;    // Never duplicate an image clipboard (but allow it for child)
+    if ((ParentElement->elementsByTagName(ObjectName).length()>0)&&(ParentElement->elementsByTagName(ObjectName).item(0).isElement()==true)) {
+        QDomElement SubElement=ParentElement->elementsByTagName(ObjectName).item(0).toElement();
+        if (LoadBasicInformationFromDatabase(&SubElement,ElementName,PathForRelativPath,AliasList,ModifyFlag,ResKeyList,DuplicateRes)) {
+            if (ResKeyList) {
+                RessourceKey=SubElement.attribute("RessourceKey").toLongLong();
+                for (int ResNum=0;ResNum<ResKeyList->count();ResNum++) if (RessourceKey==ResKeyList->at(ResNum).OrigKey) RessourceKey=ResKeyList->at(ResNum).NewKey;
+            } else RessourceKey=SubElement.attribute("RessourceKey").toLongLong();
+            // if DuplicateRes (for exemple during a paste operation)
+            if ((DuplicateRes)&&(RessourceKey!=-1)) {
+                QImage Image;
+                ApplicationConfig->SlideThumbsTable->GetThumbs(&RessourceKey,&Image);
+                RessourceKey=-1;
+                ApplicationConfig->SlideThumbsTable->SetThumbs(&RessourceKey,Image);
+            }
+            return true;
+        } else return false;
+    } else return false;
+}
+
+//====================================================================================================================
+
+void cImageClipboard::SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList) {
+    QDomDocument    DomDocument;
+    QDomElement     SubElement=DomDocument.createElement(ObjectName);
+    SaveBasicInformationToDatabase(&SubElement,ElementName,PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);
+    SubElement.setAttribute("RessourceKey",RessourceKey);
+    if (ResKeyList) {
+        // Check if RessourceKey is already in the ResKeyList
+        bool ToAppend=true;
+        for (int i=0;i<ResKeyList->count();i++) if (ResKeyList->at(i)==RessourceKey) ToAppend=false;
+        // If not found, then add it to the list
+        if (ToAppend) ResKeyList->append(RessourceKey);
+    }
+    ParentElement->appendChild(SubElement);
+}
+
+//*********************************************************************************************************************************************
 // Google maps map
 //*********************************************************************************************************************************************
-/*
-cGMapsMap::cGMapsMap(cBaseApplicationConfig *ApplicationConfig):cImageFile(ApplicationConfig) {
-    ObjectType  =OBJECTTYPE_GMAPSMAP;
-    VectorImage =NULL;
-    NoExifData  =false;
-    MapType     =Satellite;
-    MapSize     =FullScreen;
 
+cGMapsMap::cGMapsMap(cBaseApplicationConfig *ApplicationConfig):cImageClipboard(ApplicationConfig) {
+    ObjectType  =OBJECTTYPE_GMAPSMAP;
+    ObjectName  ="GoogleMapsMap";
+    NoExifData  =true;
+    MapType     =Hybrid;
+    ImageSize   =Small;
+    ZoomLevel   =13;
+    Scale       =1;
 }
 
 //====================================================================================================================
@@ -1264,63 +1408,96 @@ cGMapsMap::~cGMapsMap() {
 
 //====================================================================================================================
 
-QString cGMapsMap::GetFileTypeStr() {
-    return QApplication::translate("cBaseMediaFile","Google Maps map","File type");
+bool cGMapsMap::LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
+    int i;
+    if (cImageClipboard::LoadBasicInformationFromDatabase(ParentElement,ElementName,PathForRelativPath,AliasList,ModifyFlag,ResKeyList,DuplicateRes)) {
+        if (ParentElement->hasAttribute("MapType"))   MapType  =(GMapsMapType)ParentElement->attribute("MapType").toInt();
+        if (ParentElement->hasAttribute("ImageSize")) ImageSize  =(GMapsImageSize)ParentElement->attribute("ImageSize").toInt();
+        if (ParentElement->hasAttribute("ZoomLevel")) ZoomLevel=ParentElement->attribute("ZoomLevel").toInt();
+        if (ParentElement->hasAttribute("Scale"))     Scale    =ParentElement->attribute("Scale").toInt();
+        if (ParentElement->hasAttribute("MapCx"))     MapCx    =GetDoubleValue(*ParentElement,"MapCx");
+        if (ParentElement->hasAttribute("MapCy"))     MapCy    =GetDoubleValue(*ParentElement,"MapCy");
+        // Loading of locations list
+        while (List.count()) delete (cLocation *)List.takeLast();
+        i=0;
+        while ((ParentElement->elementsByTagName(QString("Location_%1").arg(i)).length()>0)&&(ParentElement->elementsByTagName(QString("Location_%1").arg(i)).item(0).isElement()==true)) {
+            QDomElement SubElement=ParentElement->elementsByTagName(QString("Location_%1").arg(i)).item(0).toElement();
+            cLocation *Location=new cLocation(ApplicationConfig);
+            Location->LoadFromXML(&SubElement,"",PathForRelativPath,AliasList,ModifyFlag,ResKeyList,DuplicateRes);
+            List.append(Location);
+            i++;
+        }
+        // Loading of pending request sections list
+        RequestList.clear();
+        i=0;
+        while ((ParentElement->elementsByTagName(QString("PendingSection_%1").arg(i)).length()>0)&&(ParentElement->elementsByTagName(QString("PendingSection_%1").arg(i)).item(0).isElement()==true)) {
+            QDomElement     SubElement=ParentElement->elementsByTagName(QString("PendingSection_%1").arg(i)).item(0).toElement();
+            RequestSection  Item;
+            double          X,Y;
+            QString         R;
+            if (SubElement.hasAttribute("X")) X=GetDoubleValue(SubElement,"X");
+            if (SubElement.hasAttribute("Y")) Y=GetDoubleValue(SubElement,"Y");
+            if (SubElement.hasAttribute("R")) R=SubElement.attribute("R");
+            Item.Rect=QRectF(X,Y,SectionWith,SectionHeight);
+            Item.GoogleRequest=R;
+            RequestList.append(Item);
+            i++;
+        }
+        return true;
+    } else return false;
 }
 
 //====================================================================================================================
 
-bool cGMapsMap::LoadBasicInformationFromDatabase(QDomElement root) {
-    ImageWidth      =root.attribute("ImageWidth").toInt();
-    ImageHeight     =root.attribute("ImageHeight").toInt();
-    ImageOrientation=root.attribute("ImageOrientation").toInt();
-    ObjectGeometry  =root.attribute("ObjectGeometry").toInt();
-    AspectRatio     =GetDoubleValue(root,"AspectRatio");
-    MapType         =(GMapsMapType)root.attribute("MapType").toInt();
-    MapSize         =(GMapsMapSize)root.attribute("MapSize").toInt();
-    return true;
-}
-
-//====================================================================================================================
-
-void cGMapsMap::SaveBasicInformationToDatabase(QDomElement *root) {
-    root->setAttribute("ImageWidth",        ImageWidth);
-    root->setAttribute("ImageHeight",       ImageHeight);
-    root->setAttribute("ImageOrientation",  ImageOrientation);
-    root->setAttribute("ObjectGeometry",    ObjectGeometry);
-    root->setAttribute("AspectRatio",       QString("%1").arg(AspectRatio,0,'f'));
-    root->setAttribute("MapType",           MapType);
-    root->setAttribute("MapSize",           MapSize);
+void cGMapsMap::SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList) {
+    QDomDocument Document;
+    cImageClipboard::SaveBasicInformationToDatabase(ParentElement,ElementName,PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);
+    ParentElement->setAttribute("MapType",MapType);
+    ParentElement->setAttribute("ImageSize",ImageSize);
+    ParentElement->setAttribute("ZoomLevel",ZoomLevel);
+    ParentElement->setAttribute("Scale",Scale);
+    ParentElement->setAttribute("MapCx",MapCx);
+    ParentElement->setAttribute("MapCy",MapCy);
+    // Saving of locations list
+    for (int i=0;i<List.count();i++) {
+        QDomElement SubElement=Document.createElement(QString("Location_%1").arg(i));
+        ((cLocation *)List.at(i))->SaveToXML(&SubElement,"",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);
+        ParentElement->appendChild(SubElement);
+    }
+    // Saving of pending request sections list
+    for (int i=0;i<RequestList.count();i++) {
+        QDomElement SubElement=Document.createElement(QString("PendingSection_%1").arg(i));
+        SubElement.setAttribute("X",RequestList[i].Rect.left());
+        SubElement.setAttribute("Y",RequestList[i].Rect.top());
+        SubElement.setAttribute("R",RequestList[i].GoogleRequest);
+        ParentElement->appendChild(SubElement);
+    }
 }
 
 //====================================================================================================================
 
 bool cGMapsMap::GetInformationFromFile(QString,QStringList *,bool *,qlonglong) {
-    switch (MapSize) {
-        case MediumSquare:      ImageWidth=600;    ImageHeight=600;    ImageOrientation=0; ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;   AspectRatio=1;                                         break;
-        case FullScreen:        ImageWidth=1920;   ImageHeight=1080;   ImageOrientation=0; ObjectGeometry=IMAGE_GEOMETRY_16_9;      AspectRatio=double(ImageHeight)/double(ImageWidth);    break;
-        case HighResolution:    ImageWidth=1920*2; ImageHeight=1080*2; ImageOrientation=0; ObjectGeometry=IMAGE_GEOMETRY_16_9;      AspectRatio=double(ImageHeight)/double(ImageWidth);    break;
-        case GMapsMapSize_NBR:  break; // to remove warning
-    }
+    QSize Size=GetCurrentImageSize();
+    ImageWidth=Size.width();
+    ImageHeight=Size.height();
+    ImageOrientation=0;
+    AspectRatio=double(ImageHeight)/double(ImageWidth);
+    ObjectGeometry=IMAGE_GEOMETRY_16_9;
     IsValide=true;
     return true;
 }
 
 //====================================================================================================================
 
-bool cGMapsMap::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *) {
-    if (Icon->Icon16.isNull() || Icon->Icon100.isNull()) Icon->LoadIcons(&ApplicationConfig->DefaultGMapsIcon);
+bool cGMapsMap::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties) {
+    if ((cImageClipboard::GetChildFullInformationFromFile(Icon,ExtendedProperties))&&(ExtendedProperties)) {
+        ExtendedProperties->append(QApplication::translate("cBaseMediaFile","Map type")+QString("##")+QString("%1").arg(GetCurrentMapTypeName()));
+        ExtendedProperties->append(QApplication::translate("cBaseMediaFile","Image size")+QString("##")+QString("%1").arg(GetCurrentImageSizeName()));
+        ExtendedProperties->append(QApplication::translate("cBaseMediaFile","Map zoom and size")+QString("##")+QString("%1").arg(GetMapSizesPerZoomLevel()[ZoomLevel]));
+        ExtendedProperties->append(QApplication::translate("cBaseMediaFile","Map latitude")+QString("##")+QString("%1").arg(PIXEL2GPS_Y(MapCy,ZoomLevel,Scale)));
+        ExtendedProperties->append(QApplication::translate("cBaseMediaFile","Map longitude")+QString("##")+QString("%1").arg(PIXEL2GPS_X(MapCx,ZoomLevel,Scale)));
+    }
     return true;
-}
-
-//====================================================================================================================
-
-QStringList cGMapsMap::GetSummaryText(QStringList *) {
-    QStringList SummaryText;
-    SummaryText.append(GetFileTypeStr());
-    SummaryText.append(GetTAGInfo(NULL));
-    SummaryText.append(GetTechInfo(NULL));
-    return SummaryText;
 }
 
 //====================================================================================================================
@@ -1332,27 +1509,208 @@ QString cGMapsMap::GetTechInfo(QStringList *) {
 //====================================================================================================================
 
 QString cGMapsMap::GetTAGInfo(QStringList *) {
-    return QString("%1-%2").arg(GMapsMapTypeName[MapType]).arg(GMapsMapSizeName[MapSize]);
+    return QString("%1-%2").arg(GetCurrentMapTypeName()).arg(GetCurrentImageSizeName());
 }
 
 //====================================================================================================================
 
-QImage *cGMapsMap::ImageAt(bool) {
-    if (!IsValide) return NULL;
-    //if (!IsInformationValide) GetFullInformationFromFile();
-
-    QImage *RetImage=new QImage(ImageWidth,ImageHeight,QImage::Format_ARGB32_Premultiplied);
-    QPainter Painter;
-    Painter.begin(RetImage);
-    Painter.setCompositionMode(QPainter::CompositionMode_Source);
-    Painter.fillRect(QRect(0,0,RetImage->width(),RetImage->height()),Qt::transparent);
-    Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-    Painter.end();
-
-    // return wanted image
-    return RetImage;
+QStringList cGMapsMap::GetSummaryText(QStringList *ExtendedProperties) {
+    QStringList SummaryText;
+    SummaryText.append(GetFileTypeStr());
+    SummaryText.append(GetTAGInfo(ExtendedProperties));
+    SummaryText.append(QApplication::translate("cBaseMediaFile","GPS Coordinates %1 / %2").arg(PIXEL2GPS_Y(MapCy,ZoomLevel,Scale)).arg(PIXEL2GPS_X(MapCx,ZoomLevel,Scale)));
+    return SummaryText;
 }
-*/
+
+//====================================================================================================================
+
+QStringList cGMapsMap::GetGoogleMapTypeNames() {
+    QStringList GoogleMapTypeName;
+    GoogleMapTypeName.append("roadmap");
+    GoogleMapTypeName.append("satellite");
+    GoogleMapTypeName.append("terrain");
+    GoogleMapTypeName.append("hybrid");
+    return GoogleMapTypeName;
+}
+
+QStringList cGMapsMap::GetMapTypeNames() {
+    QStringList List;
+    List.append(QApplication::translate("cBaseMediaFile","Roadmap"));
+    List.append(QApplication::translate("cBaseMediaFile","Satellite"));
+    List.append(QApplication::translate("cBaseMediaFile","Terrain"));
+    List.append(QApplication::translate("cBaseMediaFile","Hybrid"));
+    return List;
+}
+
+QStringList cGMapsMap::GetImageSizeNames() {
+    QStringList List;
+    List.append(QApplication::translate("cBaseMediaFile","Small (640x360)"));
+    List.append(QApplication::translate("cBaseMediaFile","720p-16:9 (1280x720)"));
+    List.append(QApplication::translate("cBaseMediaFile","720px4-16:9 (2560x1440)"));
+    List.append(QApplication::translate("cBaseMediaFile","1080p-16:9 (1920x1080)"));
+    List.append(QApplication::translate("cBaseMediaFile","1080px4-16:9 (3840x2160)"));
+    return List;
+}
+
+QString cGMapsMap::GetCurrentMapTypeName() {
+    return GetMapTypeNames().at(MapType);
+}
+
+QString cGMapsMap::GetCurrentGoogleMapTypeName() {
+    return GetGoogleMapTypeNames().at(MapType);
+}
+
+QString cGMapsMap::GetCurrentImageSizeName() {
+    return GetImageSizeNames().at(ImageSize);
+}
+
+QSize cGMapsMap::GetCurrentImageSize() {
+    switch (ImageSize) {
+        case GMapsImageSize_NBR:
+        case Small:             return QSize(640,360);
+        case FS720P:            return QSize(1280,720);
+        case FS720X4:           return QSize(2560,1440);
+        case FS1080P:           return QSize(1920,1080);
+        case FS1080X4:          return QSize(3840,2160);
+    }
+    return QSize(600,600);
+}
+
+//====================================================================================================================
+// return minimum zoom level depending on current image size
+
+int cGMapsMap::GetMinZoomLevelForSize() {
+    switch (ImageSize) {
+        case GMapsImageSize_NBR:
+        case Small:             return 2;
+        case FS720P:            return 3;
+        case FS720X4:           return 4;
+        case FS1080P:           return 4;
+        case FS1080X4:          return 5;
+    }
+    return 5;
+}
+
+//====================================================================================================================
+
+int cGMapsMap::ComputeNbrSection(int Size,int Divisor) {
+    int Ret=Size/Divisor;
+    if (Ret*Divisor<Size) Ret++;
+    return Ret;
+}
+
+QRectF cGMapsMap::GetGPSRectF() {
+    if (List.isEmpty()) return QRectF(0,0,0,0);
+    double  GPS_x1=((cLocation *)List.at(0))->GPS_cx;
+    double  GPS_x2=GPS_x1;
+    double  GPS_y1=((cLocation *)List.at(0))->GPS_cy;
+    double  GPS_y2=GPS_y1;
+
+    for (int i=1;i<List.count();i++) {
+        if (((cLocation *)List.at(i))->GPS_cx<GPS_x1) GPS_x1=((cLocation *)List.at(i))->GPS_cx;
+        if (((cLocation *)List.at(i))->GPS_cx>GPS_x2) GPS_x2=((cLocation *)List.at(i))->GPS_cx;
+        if (((cLocation *)List.at(i))->GPS_cy<GPS_y1) GPS_y1=((cLocation *)List.at(i))->GPS_cy;
+        if (((cLocation *)List.at(i))->GPS_cy>GPS_y2) GPS_y2=((cLocation *)List.at(i))->GPS_cy;
+    }
+    return QRectF(GPS_x1,GPS_y1,GPS_x2-GPS_x1,GPS_y2-GPS_y1);
+}
+
+QStringList cGMapsMap::GetMapSizesPerZoomLevel() {
+    QStringList DistanceList;
+    QSize       MapS   =GetCurrentImageSize();
+    QRectF      Wanted =GetGPSRectF();
+    double      WWidth =DISTANCE(Wanted.left(),Wanted.top(),Wanted.right(),Wanted.top());
+    double      WHeight=DISTANCE(Wanted.left(),Wanted.top(),Wanted.left(), Wanted.bottom());
+    double      W      =MapS.width();
+    double      H      =MapS.height();
+    double      GPS0x  =0;
+    double      GPS0y  =0;
+    int         Start  =GetMinZoomLevelForSize();
+
+    for (int i=0;i<Start;i++) DistanceList.append(QString());
+
+    for (int i=Start;i<=21;i++) {
+        double  PIX0x =GPS2PIXEL_X(GPS0x,i,Scale);
+        double  PIX0y =GPS2PIXEL_Y(GPS0y,i,Scale);
+        double  GPS1x =PIXEL2GPS_X(PIX0x+W,i,Scale);
+        double  GPS1y =PIXEL2GPS_Y(PIX0y+H,i,Scale);
+        double  Width =DISTANCE(GPS0x,GPS0y,GPS1x,GPS0y);
+        double  Height=DISTANCE(GPS0x,GPS0y,GPS0x,GPS1y);
+        if (((List.count()==1)||((Width>=WWidth)&&(Height>=WHeight)))&&(Width>=0.4)&&(Height>=0.4))
+            DistanceList.append(QString("Zoom %1: %2 km x %3 km").arg(i).arg(Width,0,'f',3).arg(Height,0,'f',3));
+            else DistanceList.append(QString());
+    }
+    return DistanceList;
+}
+
+QRectF cGMapsMap::GetPixRectF() {
+    QRectF  GPSRect=GetGPSRectF();
+    QRectF  PixRect;
+    PixRect.setLeft  (GPS2PIXEL_X(GPSRect.left(),  ZoomLevel,Scale));
+    PixRect.setRight (GPS2PIXEL_X(GPSRect.right(), ZoomLevel,Scale));
+    PixRect.setTop   (GPS2PIXEL_Y(GPSRect.top(),   ZoomLevel,Scale));
+    PixRect.setBottom(GPS2PIXEL_Y(GPSRect.bottom(),ZoomLevel,Scale));
+    return PixRect;
+}
+
+void cGMapsMap::ComputeSectionList() {
+    QSize   IMSize  =GetCurrentImageSize();
+    double  Map_Cx  =IMSize.width()/2;
+    double  Map_Cy  =IMSize.height()/2;
+    QRectF  PixRect =GetPixRectF();
+
+    MapCx=PixRect.center().x();
+    MapCy=PixRect.center().y();
+
+    RequestList.clear();
+
+    RequestSection Item;
+    for (int i=0;i<ComputeNbrSection(IMSize.height(),SectionHeight);i++) for (int j=0;j<ComputeNbrSection(IMSize.width(),SectionWith);j++) {
+        if (IMSize.height()<=SectionHeight) Item.Rect=QRectF(0,0,IMSize.width(),IMSize.height());
+            else                            Item.Rect=QRectF(SectionWith*j,SectionHeight*i,SectionWith,SectionHeight);
+        Item.GoogleRequest=QString("http://maps.googleapis.com/maps/api/staticmap?center=%1,%2&zoom=%3&size=640x640&scale=%4&maptype=%5&sensor=false")
+                .arg(PIXEL2GPS_Y((Item.Rect.center().y()-Map_Cy+MapCy),ZoomLevel,Scale))
+                .arg(PIXEL2GPS_X((Item.Rect.center().x()-Map_Cx+MapCx),ZoomLevel,Scale))
+                .arg(ZoomLevel).arg(Scale).arg(GetCurrentGoogleMapTypeName());
+        RequestList.append(Item);
+    }
+}
+
+//====================================================================================================================
+
+QImage cGMapsMap::CreateDefaultImage() {
+    // clear request list (delete any pending section)
+    RequestList.clear();
+
+    // remove object from Lulo if it exist
+    ApplicationConfig->ImagesCache.RemoveImageObject(RessourceKey,FileKey);
+
+    // create new empty image
+    QImage Image(GetCurrentImageSize(),QImage::Format_ARGB32_Premultiplied);
+    ImageWidth   =Image.width();
+    ImageHeight  =Image.height();
+    Image.fill(Qt::white);
+
+    // add a message on the image if location list is empty
+    if (List.isEmpty()) {
+        QPainter Painter;
+        Painter.begin(&Image);
+        QFont font= QApplication::font();
+        font.setPixelSize(double(Image.height())/double(20));
+        Painter.setFont(font);
+        Painter.drawText(QRectF(0,0,Image.width(),Image.height()),
+                         Qt::AlignHCenter|Qt::AlignCenter|Qt::TextWordWrap,
+                         QApplication::translate("cBaseMediaFile","Select at least one location to produce Google Maps map"));
+        Painter.end();
+    }
+
+    // update ressource image in database
+    ApplicationConfig->SlideThumbsTable->SetThumbs(&RessourceKey,Image);
+
+    // return image
+    return Image;
+}
+
 /*************************************************************************************************************************************
     CLASS cVideoFile
 *************************************************************************************************************************************/
@@ -1443,36 +1801,36 @@ cVideoFile::~cVideoFile() {
 
 //====================================================================================================================
 
-bool cVideoFile::LoadBasicInformationFromDatabase(QDomElement root) {
-    ImageWidth       =root.attribute("ImageWidth").toInt();
-    ImageHeight      =root.attribute("ImageHeight").toInt();
-    ImageOrientation =root.attribute("ImageOrientation").toInt();
-    ObjectGeometry   =root.attribute("ObjectGeometry").toInt();
-    AspectRatio      =GetDoubleValue(root,"AspectRatio");
-    Duration         =QTime(0,0,0,0).addMSecs(root.attribute("Duration").toLongLong());
-    NbrChapters      =root.attribute("NbrChapters").toInt();
-    VideoStreamNumber=root.attribute("VideoStreamNumber").toInt();
-    VideoTrackNbr    =root.attribute("VideoTrackNbr").toInt();
-    AudioStreamNumber=root.attribute("AudioStreamNumber").toInt();
-    AudioTrackNbr    =root.attribute("AudioTrackNbr").toInt();
+bool cVideoFile::LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString,QString,QStringList *,bool *,QList<cSlideThumbsTable::TRResKeyItem> *,bool) {
+    ImageWidth       =ParentElement->attribute("ImageWidth").toInt();
+    ImageHeight      =ParentElement->attribute("ImageHeight").toInt();
+    ImageOrientation =ParentElement->attribute("ImageOrientation").toInt();
+    ObjectGeometry   =ParentElement->attribute("ObjectGeometry").toInt();
+    AspectRatio      =GetDoubleValue(*ParentElement,"AspectRatio");
+    Duration         =QTime(0,0,0,0).addMSecs(ParentElement->attribute("Duration").toLongLong());
+    NbrChapters      =ParentElement->attribute("NbrChapters").toInt();
+    VideoStreamNumber=ParentElement->attribute("VideoStreamNumber").toInt();
+    VideoTrackNbr    =ParentElement->attribute("VideoTrackNbr").toInt();
+    AudioStreamNumber=ParentElement->attribute("AudioStreamNumber").toInt();
+    AudioTrackNbr    =ParentElement->attribute("AudioTrackNbr").toInt();
     if (EndPos==QTime(0,0,0,0)) EndPos=Duration;
     return true;
 }
 
 //====================================================================================================================
 
-void cVideoFile::SaveBasicInformationToDatabase(QDomElement *root) {
-    root->setAttribute("ImageWidth",        ImageWidth);
-    root->setAttribute("ImageHeight",       ImageHeight);
-    root->setAttribute("ImageOrientation",  ImageOrientation);
-    root->setAttribute("ObjectGeometry",    ObjectGeometry);
-    root->setAttribute("AspectRatio",       QString("%1").arg(AspectRatio,0,'f'));
-    root->setAttribute("Duration",          QTime(0,0,0,0).msecsTo(Duration));
-    root->setAttribute("NbrChapters",       NbrChapters);
-    root->setAttribute("VideoStreamNumber", VideoStreamNumber);
-    root->setAttribute("VideoTrackNbr",     VideoTrackNbr);
-    root->setAttribute("AudioStreamNumber", AudioStreamNumber);
-    root->setAttribute("AudioTrackNbr",     AudioTrackNbr);
+void cVideoFile::SaveBasicInformationToDatabase(QDomElement *ParentElement,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *) {
+    ParentElement->setAttribute("ImageWidth",        ImageWidth);
+    ParentElement->setAttribute("ImageHeight",       ImageHeight);
+    ParentElement->setAttribute("ImageOrientation",  ImageOrientation);
+    ParentElement->setAttribute("ObjectGeometry",    ObjectGeometry);
+    ParentElement->setAttribute("AspectRatio",       QString("%1").arg(AspectRatio,0,'f'));
+    ParentElement->setAttribute("Duration",          QTime(0,0,0,0).msecsTo(Duration));
+    ParentElement->setAttribute("NbrChapters",       NbrChapters);
+    ParentElement->setAttribute("VideoStreamNumber", VideoStreamNumber);
+    ParentElement->setAttribute("VideoTrackNbr",     VideoTrackNbr);
+    ParentElement->setAttribute("AudioStreamNumber", AudioStreamNumber);
+    ParentElement->setAttribute("AudioTrackNbr",     AudioTrackNbr);
 }
 
 //====================================================================================================================
@@ -3044,7 +3402,7 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,int64_t Position,cSoundBlockList *S
 
     if ((PreviewMode)&&(!SoundTrackBloc)) {
         // for speed improvment, try to find image in cache (only for interface)
-        cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileKey,ModifDateTime,ImageOrientation,ApplicationConfig->Smoothing,true);
+        cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(RessourceKey,FileKey,ModifDateTime,ImageOrientation,ApplicationConfig->Smoothing,true);
         if (!ImageObject) return ReadFrame(PreviewMode,Position*1000,DontUseEndPos,Deinterlace,SoundTrackBloc,Volume,ForceSoundOnly);
 
         if ((ImageObject->Position==Position)&&(ImageObject->CachePreviewImage)) return new QImage(ImageObject->CachePreviewImage->copy());
@@ -3223,7 +3581,7 @@ bool cMusicObject::CheckFormatValide(QWidget *Window) {
 
 //====================================================================================================================
 
-void cMusicObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList) {
+void cMusicObject::SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     QString         TheFileName;
@@ -3240,14 +3598,14 @@ void cMusicObject::SaveToXML(QDomElement &domDocument,QString ElementName,QStrin
     Element.setAttribute("EndPos",  EndPos.toString());
     Element.setAttribute("Volume",  QString("%1").arg(Volume,0,'f'));
 
-    domDocument.appendChild(Element);
+    ParentElement->appendChild(Element);
 }
 
 //====================================================================================================================
 
-bool cMusicObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag) {
-    if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
-        QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
+bool cMusicObject::LoadFromXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag) {
+    if ((ParentElement->elementsByTagName(ElementName).length()>0)&&(ParentElement->elementsByTagName(ElementName).item(0).isElement()==true)) {
+        QDomElement Element=ParentElement->elementsByTagName(ElementName).item(0).toElement();
 
         QString FileName=Element.attribute("FilePath","");
         if ((!QFileInfo(FileName).exists())&&(PathForRelativPath!="")) {

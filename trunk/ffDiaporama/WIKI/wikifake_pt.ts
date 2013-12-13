@@ -1084,6 +1084,10 @@
         <source>Various dialog boxes</source>
         <translation>Várias caixas de diálogo</translation>
     </message>
+    <message>
+        <source>Add or modify a location</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0021</name>
@@ -1527,10 +1531,6 @@
         <translation>Permite que você corte o slide atual (removê-lo da &lt;a href=&quot;0023.html&quot;&gt; linha do tempo &lt;/a&gt; e colocá-lo na área de transferência).</translation>
     </message>
     <message>
-        <source>Allows you to paste the slide currently in the clipboard into the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;.</source>
-        <translation>Permite que você cole o slide actual da área de transferência para a &lt;a href=&quot;0023.html&quot;&gt; linha do tempo &lt;/a&gt;.</translation>
-    </message>
-    <message>
         <source>Open the &lt;a href=&quot;0104.html&quot;&gt;background properties dialog&lt;/a&gt; (Equivalent to a double click on the background track)</source>
         <translation>Abra a &lt;a href=&quot;0104.html&quot;&gt; caixa de diálogo de propriedades do fundo &lt;/a&gt; (equivalente a um duplo clique sobre a faixa de fundo)</translation>
     </message>
@@ -1589,6 +1589,10 @@
     <message>
         <source>Note: Each selected file is added to the project using sort order specified in the configuration menu of the multimedia file explorer.</source>
         <translation>Nota: Cada arquivo seleccionado é adicionado ao projecto usando ordem de classificação especificada no menu de configuração do gestor de arquivos multimédia.</translation>
+    </message>
+    <message>
+        <source>Allows you to paste the slide or the image currently in the clipboard into the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2255,6 +2259,18 @@
     <message>
         <source>Settings of the sort order</source>
         <translation>Configurações da ordem de classificação</translation>
+    </message>
+    <message>
+        <source>This option sorts the files in order of their creation date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image vector files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Limit the display of the current folder to the image vector files of which the format is recognized by ffDiaporama in the present subfolders</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4144,6 +4160,506 @@
     <message>
         <source>Information on XBMC movies .nfo file</source>
         <translation>Informações sobre ficheiros .nfo filmes XBMC</translation>
+    </message>
+</context>
+<context>
+    <name>0050</name>
+    <message>
+        <source>Types of objects in ffDiaporama</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> This section contains information about types of objects that can be used with ffDiaporama. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Index</source>
+        <translation type="unfinished">Índice</translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation type="unfinished">Texto</translation>
+    </message>
+    <message>
+        <source>Music file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bitmap image file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bitmap image from clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vector image file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google maps map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google maps itinerary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time Lapse image sequence</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media file thumbnail</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>0051</name>
+    <message>
+        <source>ffDiaporama object types: Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Work in progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>0052</name>
+    <message>
+        <source>ffDiaporama object types: Music file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Work in progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>0053</name>
+    <message>
+        <source>ffDiaporama object types: Bitmap image file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Work in progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>0054</name>
+    <message>
+        <source>ffDiaporama object types: Bitmap image from clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Work in progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>0055</name>
+    <message>
+        <source>ffDiaporama object types: Vector image file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Work in progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>0056</name>
+    <message>
+        <source>ffDiaporama object types: Video file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Work in progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>0057</name>
+    <message>
+        <source>ffDiaporama object types: Google maps map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Work in progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google Maps specific issues</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are several things to know about Google Maps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google Maps generates images with up to 640x640. Within these images, Google Maps inserts logos that must be removed so that useful images are really only 640x600. Therefore, to generate an image for example 1080p, we have to assemble 6 Google Maps images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google Maps limit the number of queries a user can send. This limitation is made to prevent robots to saturate the servers. Unfortunately, this limitation may cause problems when generating big picture. It is possible that you may receive an error warning message saying that you have reached the limit of Google Maps request grants to you.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To resolve this problem, ffDiaporama integrates a mechanical of recovery. Thus, if a card can not be generated immediately, you can resume it generation later.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The roads are perpetually modified and Google Maps is constantly updated. Of course, it is not possible to generate a map for road conditions at a specific date. Therefore, think before you update a map of an old project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image size and Map size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Depending on the zoom level, Google Maps decides himself of the information displayed on the map. Thus, it is not possible to generate several maps at different zoom levels and then to create a zoom animation because there is no chance that this animation be fluid. It&apos;s why ffDiaporama proposes to generate maps of several image sizes. So, to create a fluid zoom animation, you can use a large image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following table shows the different &lt;U&gt;Image sizes&lt;/U&gt; that you can generate.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image size</source>
+        <translation type="unfinished">Tamanho da imagem</translation>
+    </message>
+    <message>
+        <source>Resolution</source>
+        <translation type="unfinished">Resolução</translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished">Comentário</translation>
+    </message>
+    <message>
+        <source>Small-16:9</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>640x360 (0.2 MPix)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quarter of 720p. Useful to add a small map in a photo collage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>720p-16:9</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1280x720 (0.9 MPix)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Useful for creating a full-screen map in a 720p project or to add a map to a title slide in a 1080p project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>720px4-16:9</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2560x1440 (3.6 MPix)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Useful for creating a full-screen &lt;B&gt;animated&lt;/B&gt; map in a 720p project or to add an &lt;B&gt;animated&lt;/B&gt; map to a title slide in a 1080p project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1080p-16:9</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1920x1080 (2 MPix)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Useful for creating a full-screen map in a 1080p project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1080px4-16:9</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>3840x2160 (8.2 MPix)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Useful for creating a full-screen &lt;B&gt;animated&lt;/B&gt; map in a 1080p project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note that all image sizes are 16:9 geometry to simplify computation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Because a map is formed by joining multiple pieces of map, based on the image size, the card will be a map greater or lesser.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following table shows the &lt;U&gt;Map sizes&lt;/U&gt; in kilometers for each &lt;U&gt;Image sizes&lt;/U&gt; and &lt;U&gt;Google Maps zoom levels&lt;/U&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zoom</source>
+        <translation type="unfinished">Zoom</translation>
+    </message>
+    <message>
+        <source>Maps sizes (kilometers)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>640x360</source>
+        <translation type="unfinished">640x360</translation>
+    </message>
+    <message>
+        <source>720p</source>
+        <translation type="unfinished">720p</translation>
+    </message>
+    <message>
+        <source>720p x4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1080p</source>
+        <translation type="unfinished">1080p</translation>
+    </message>
+    <message>
+        <source>1080 x4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2</source>
+        <translation type="unfinished">1080p {2?}</translation>
+    </message>
+    <message>
+        <source>15011.315 km x 8613.829 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>-</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>3</source>
+        <translation type="unfinished">1080p {3?}</translation>
+    </message>
+    <message>
+        <source>12509.429 km x 5930.123 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>4</source>
+        <translation type="unfinished">1080p {4?}</translation>
+    </message>
+    <message>
+        <source>6254.715 km x 3351.985 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>18764.144 km x 7605.642 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>5</source>
+        <translation type="unfinished">1080p {5?}</translation>
+    </message>
+    <message>
+        <source>3127.357 km x 1737.202 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>9382.072 km x 4760.424 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>6</source>
+        <translation type="unfinished">1080p {6?}</translation>
+    </message>
+    <message>
+        <source>1563.679 km x 876.788 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>4691.036 km x 2566.349 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>7</source>
+        <translation type="unfinished">1080p {7?}</translation>
+    </message>
+    <message>
+        <source>781.839 km x 439.436 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2345.518 km x 1310.024 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>8</source>
+        <translation type="unfinished">1080p {8?}</translation>
+    </message>
+    <message>
+        <source>390.920 km x 219.849 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1172.759 km x 658.501 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>9</source>
+        <translation type="unfinished">1080p {9?}</translation>
+    </message>
+    <message>
+        <source>195.460 km x 109.941 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>586.379 km x 329.691 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>10</source>
+        <translation type="unfinished">1080p {10?}</translation>
+    </message>
+    <message>
+        <source>97.730 km x 54.972 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>293.190 km x 164.901 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>11</source>
+        <translation type="unfinished">1080p {11?}</translation>
+    </message>
+    <message>
+        <source>48.865 km x 27.486 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>146.595 km x 82.457 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>12</source>
+        <translation type="unfinished">1080p {12?}</translation>
+    </message>
+    <message>
+        <source>24.432 km x 13.743 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>73.297 km x 41.230 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>13</source>
+        <translation type="unfinished">1080p {13?}</translation>
+    </message>
+    <message>
+        <source>12.216 km x 6.872 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>36.649 km x 20.615 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>14</source>
+        <translation type="unfinished">1080p {14?}</translation>
+    </message>
+    <message>
+        <source>6.108 km x 3.436 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>18.324 km x 10.307 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>15</source>
+        <translation type="unfinished">1080p {15?}</translation>
+    </message>
+    <message>
+        <source>3.054 km x 1.718 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>9.162 km x 5.154 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>16</source>
+        <translation type="unfinished">1080p {16?}</translation>
+    </message>
+    <message>
+        <source>1.527 km x 0.859 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>4.581 km x 2.577 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>17</source>
+        <translation type="unfinished">1080p {17?}</translation>
+    </message>
+    <message>
+        <source>0.764 km x 0.429 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2.291 km x 1.288 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>18</source>
+        <translation type="unfinished">1080p {18?}</translation>
+    </message>
+    <message>
+        <source>1.145 km x 0.644 km</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>19</source>
+        <translation type="unfinished">1080p {19?}</translation>
+    </message>
+    <message>
+        <source>Notes:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Because Google Maps don&apos;t respect perfect alignment when using high zoom level, all map sizes lesser than 400 meters are useless with ffDiaporama.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google Maps zoom levels 0 and 1 are useless with ffDiaporama because they produce images that are too small.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google Maps zoom levels 20 and 11 are useless with ffDiaporama Google Maps don&apos;t respect perfect alignment when using high zoom level.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6246,6 +6762,42 @@
         <source>Filter: Noise reduction</source>
         <translation>Filtro: Redução de ruído</translation>
     </message>
+    <message>
+        <source>Define a Google Maps map.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> The Google Maps Map tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This tag is available only for Google Maps map.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Work in progress ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>this dialog box is organized in tab that are available depending on the type of the object to edit.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;a href=&quot;#IMAGETAG&quot;&gt;The image correct and reframe tag&lt;/a&gt; is available with all object types</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;a href=&quot;#VIDEOTAG&quot;&gt;The video tag&lt;/a&gt; is available only with video object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;a href=&quot;#GMAPSMAPTAG&quot;&gt;The image correct and reframe tag&lt;/a&gt; is available only with Google Maps map object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For more information on available types of objects see: &lt;a href=&quot;0050.html&quot;&gt;Types of objects in ffDiaporama&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0111</name>
@@ -7782,10 +8334,6 @@
         <translation>Copiar o bloco actual para a área de transferência do ffDiaporama. A cópia é feita com os parâmetros dos blocos definidos para o actual disparo selecionado.</translation>
     </message>
     <message>
-        <source>Paste block from the ffDiaporama clipboard and insert it to the end of the block table</source>
-        <translation>Colar bloco da área de transferência ffDiaporama e inseri-lo ao final da tabela do bloco</translation>
-    </message>
-    <message>
         <source>Remove the current block</source>
         <translation>Remover o bloco actual</translation>
     </message>
@@ -8481,6 +9029,26 @@
         <source>Description of EXIF - Exchangeable image file format</source>
         <translation>Descrição do EXIF - Exchangeable Image File Format</translation>
     </message>
+    <message>
+        <source>Add special - Open a sub menu with the following options: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add image from clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a GMaps map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Once you have selected one of the options, the new object is inserted into the block table and depending on object, the &lt;a href=&quot;0110.html&quot;&gt;Image framing and correction dialog&lt;/a&gt; opens.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Paste block or image from the clipboard and insert it to the end of the block table</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0120</name>
@@ -8892,6 +9460,17 @@
     </message>
 </context>
 <context>
+    <name>0123</name>
+    <message>
+        <source>Add or modify a location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Work in progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QHP</name>
     <message>
         <source>How ffDiaporama works</source>
@@ -9113,6 +9692,42 @@
         <source>Various dialog boxes</source>
         <translation>Várias caixas de diálogo</translation>
     </message>
+    <message>
+        <source>Types of objects in ffDiaporama</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation type="unfinished">Texto</translation>
+    </message>
+    <message>
+        <source>Music file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bitmap image file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bitmap image from clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vector image file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google maps map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add or modify a location</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>main</name>
@@ -9155,6 +9770,10 @@
     <message>
         <source>This documentation is divided into the followed themes:</source>
         <translation>Esta documentação está dividida nos seguintes temas:</translation>
+    </message>
+    <message>
+        <source>Types of objects in ffDiaporama</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

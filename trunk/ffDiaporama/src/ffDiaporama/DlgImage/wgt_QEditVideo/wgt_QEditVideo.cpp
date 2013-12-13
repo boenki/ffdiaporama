@@ -79,7 +79,7 @@ void wgt_QEditVideo::LostFocus() {
 
 //====================================================================================================================
 
-void wgt_QEditVideo::RefreshControls(bool EmitToParent) {
+void wgt_QEditVideo::RefreshControls() {
     if (StopMaj) return;
     StopMaj=true;
     QTime Duration=QTime(0,0,0,0).addMSecs(((cVideoFile *)CurrentBrush->MediaObject)->StartPos.msecsTo(((cVideoFile *)CurrentBrush->MediaObject)->EndPos));
@@ -93,7 +93,6 @@ void wgt_QEditVideo::RefreshControls(bool EmitToParent) {
                                     -1,0,-1,0);
     ui->VideoPlayer->Deinterlace=CurrentBrush->Deinterlace;
     StopMaj=false;
-    if (EmitToParent) emit DoRefreshControls();
 }
 
 //====================================================================================================================
@@ -143,6 +142,7 @@ void wgt_QEditVideo::s_DefStartPos() {
     ((DlgImageCorrection *)ParentDialog)->AppendPartialUndo(DlgImageCorrection::UNDOACTION_VIDEOPART,ui->StartPosEd,true);
     ((cVideoFile *)CurrentBrush->MediaObject)->StartPos=ui->VideoPlayer->GetCurrentPos();
     RefreshControls();
+    emit DoRefreshImageObject();
 }
 
 //====================================================================================================================
@@ -152,6 +152,7 @@ void wgt_QEditVideo::s_EditStartPos(QTime NewValue) {
     ((DlgImageCorrection *)ParentDialog)->AppendPartialUndo(DlgImageCorrection::UNDOACTION_VIDEOPART,ui->StartPosEd,false);
     ((cVideoFile *)CurrentBrush->MediaObject)->StartPos=NewValue;
     RefreshControls();
+    emit DoRefreshImageObject();
 }
 
 //====================================================================================================================

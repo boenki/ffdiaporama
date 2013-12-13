@@ -102,15 +102,13 @@ void wgt_QEditImage::DoInitDialog(bool AllowChangeFile) {
     ui->WValue->setSingleStep(1);  ui->WValue->setRange(1,200);
     ui->HValue->setSingleStep(1);  ui->HValue->setRange(1,200);
 
+    ui->VideoPositionLabel->setVisible(CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE);
     if (AllowChangeFile) {
-        ui->VideoPositionLabel->setVisible(CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE);
         ui->FileLabel->setPixmap(CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE?QPixmap(ICON_MOVIE_FILE):QPixmap(ICON_IMAGE_FILE));
         connect(ui->FileNameBT,SIGNAL(clicked()),this,SLOT(s_ChangeFile()));    // Define specifique handler for changing file
     } else {
-        ui->VideoPositionLabel->setVisible(false);
-        ui->FileNameBT->setVisible(false);
-        ui->FileNameED->setVisible(false);
-        ui->FileLabel->setVisible(false);
+        ui->FileNameBT->setEnabled(false);
+        ui->FileNameED->setEnabled(false);
     }
 
     if (BackgroundForm==NULL) {
@@ -208,6 +206,7 @@ void wgt_QEditImage::DoInitDialog(bool AllowChangeFile) {
 
 void wgt_QEditImage::WinFocus() {
     ui->InteractiveZone->setFocus();
+    ui->InteractiveZone->RefreshDisplay();
     RulersBT->setVisible(true);
 }
 
@@ -217,7 +216,7 @@ void wgt_QEditImage::LostFocus() {
 
 //====================================================================================================================
 
-void wgt_QEditImage::RefreshControls(bool EmitToParent) {
+void wgt_QEditImage::RefreshControls() {
     if (StopMaj) return;
     StopMaj=true;
 
@@ -281,7 +280,7 @@ void wgt_QEditImage::RefreshControls(bool EmitToParent) {
     if (DefaultSpeedWave!=SPEEDWAVE_DISABLE) ui->SpeedWaveCB->SetCurrentValue(CurrentBrush->ImageSpeedWave);
 
     // File
-    ui->FileNameED->setText(CurrentBrush->MediaObject->FileName());
+    if (ui->FileNameED->isEnabled()) ui->FileNameED->setText(CurrentBrush->MediaObject->FileName());
 
     if (ui->VideoPositionLabel->isVisible()) {
         QString VideoPosition=QApplication::translate("wgt_QEditImage","Video position :")+((cVideoFile *)CurrentBrush->MediaObject)->StartPos.addMSecs(ui->InteractiveZone->VideoPosition).toString("hh:mm:ss.zzz");
@@ -301,8 +300,6 @@ void wgt_QEditImage::RefreshControls(bool EmitToParent) {
     ui->InteractiveZone->RefreshDisplay();
 
     StopMaj=false;
-
-    if (EmitToParent) emit DoRefreshControls();
 }
 
 //====================================================================================================================
@@ -812,7 +809,7 @@ void wgt_QEditImage::s_ChangeFile() {
     QString NewBrushFileName=QFileInfo(NewFile).absoluteFilePath();
     QString OldBrushFileName=CurrentBrush->MediaObject->FileName();
 
-    ParentDialog->ApplicationConfig->ImagesCache.RemoveImageObject(CurrentBrush->MediaObject->FileKey);
+    ParentDialog->ApplicationConfig->ImagesCache.RemoveImageObject(CurrentBrush->MediaObject->RessourceKey,CurrentBrush->MediaObject->FileKey);
     if (CurrentBrush->MediaObject->ObjectType!=OBJECTTYPE_VIDEOFILE) CurrentBrush->MediaObject->Reset();
         else ((cVideoFile *)CurrentBrush->MediaObject)->Reset(OBJECTTYPE_VIDEOFILE);
 
@@ -822,15 +819,7 @@ void wgt_QEditImage::s_ChangeFile() {
     if (!IsValide) IsValide=(CurrentBrush->MediaObject->GetInformationFromFile(OldBrushFileName,NULL,NULL,-1)&&(CurrentBrush->MediaObject->CheckFormatValide(this)));
 
     if (IsValide) {
-        // Redo initialisation of controls
-        ImageGeometry=qreal(CurrentBrush->MediaObject->ImageHeight)/qreal(CurrentBrush->MediaObject->ImageWidth);
-        ImageGeometry=GetDoubleValue(QString("%1").arg(ImageGeometry,0,'e'));  // Rounded to same number as style managment
-        ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
-        ui->InteractiveZone->RefreshDisplay();
-        int OldFramingStyle=CurrentFramingStyle;
-        CurrentFramingStyle=-100;
-        CurrentBrush->ApplyAutoFraming(OldFramingStyle,ProjectGeometry);
-        ui->FramingStyleCB->SetCurrentFraming(OldFramingStyle);
+        ResetCachedImage();
         UndoReloadImage=true;
     }
 
@@ -839,19 +828,24 @@ void wgt_QEditImage::s_ChangeFile() {
 
 //====================================================================================================================
 
-void wgt_QEditImage::ReloadFile(QString BrushFileName) {
-    ParentDialog->ApplicationConfig->ImagesCache.RemoveImageObject(CurrentBrush->MediaObject->FileKey);
-    if (CurrentBrush->MediaObject->ObjectType!=OBJECTTYPE_VIDEOFILE) CurrentBrush->MediaObject->Reset();
-        else ((cVideoFile *)CurrentBrush->MediaObject)->Reset(OBJECTTYPE_VIDEOFILE);
-    CurrentBrush->MediaObject->GetInformationFromFile(BrushFileName,NULL,NULL,-1);
-
+void wgt_QEditImage::ResetCachedImage() {
     // Redo initialisation of controls
     ImageGeometry=qreal(CurrentBrush->MediaObject->ImageHeight)/qreal(CurrentBrush->MediaObject->ImageWidth);
     ImageGeometry=GetDoubleValue(QString("%1").arg(ImageGeometry,0,'e'));  // Rounded to same number as style managment
-    ui->InteractiveZone->InitCachedImage(CompoObject,BackgroundForm,CurrentBrush,VideoPosition);
+    ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
     ui->InteractiveZone->RefreshDisplay();
     int OldFramingStyle=CurrentFramingStyle;
     CurrentFramingStyle=-100;
     CurrentBrush->ApplyAutoFraming(OldFramingStyle,ProjectGeometry);
     ui->FramingStyleCB->SetCurrentFraming(OldFramingStyle);
+}
+
+//====================================================================================================================
+
+void wgt_QEditImage::ReloadFile(QString BrushFileName) {
+    ParentDialog->ApplicationConfig->ImagesCache.RemoveImageObject(CurrentBrush->MediaObject->RessourceKey,CurrentBrush->MediaObject->FileKey);
+    if (CurrentBrush->MediaObject->ObjectType!=OBJECTTYPE_VIDEOFILE) CurrentBrush->MediaObject->Reset();
+        else ((cVideoFile *)CurrentBrush->MediaObject)->Reset(OBJECTTYPE_VIDEOFILE);
+    CurrentBrush->MediaObject->GetInformationFromFile(BrushFileName,NULL,NULL,-1);
+    ResetCachedImage();
 }

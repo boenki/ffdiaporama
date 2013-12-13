@@ -51,11 +51,13 @@ public:
 
     void                    DoInitWidget(QCustomDialog *ParentDialog,cBrushDefinition *CurrentBrush,QPushButton *RulersBT,cCompositionObject *CompoObject,int *BackgroundForm,int VideoPosition,ffd_GEOMETRY ffDPrjGeometry,int DefaultSpeedWave);
     void                    DoInitDialog(bool AllowChangeFile);
-    void                    RefreshControls(bool EmitToParent=true);
+    void                    RefreshControls();
     void                    WinFocus();
     void                    LostFocus();
+    bool                    DoAccept() {return true;}                                 // Call when user click on Ok button
 
     void                    ReloadFile(QString BrushFileName);
+    void                    ResetCachedImage();
 
 private slots:
     void                    s_RulersBT();
@@ -117,9 +119,6 @@ private slots:
     void                    s_ShapeBackgroundForm();
 
     void                    s_SpeedWaveChanged(int);
-
-signals:
-    void                    DoRefreshControls();
 
 private:
     void                    MakeFormIcon(QComboBox *UICB);

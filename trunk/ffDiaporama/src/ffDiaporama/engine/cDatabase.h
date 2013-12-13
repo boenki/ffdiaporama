@@ -163,12 +163,20 @@ public:
 class cSlideThumbsTable : public cDatabaseTable {
 public:
 
+    struct TRResKeyItem {       // struct use to translate key item when adding a project to a project
+        qlonglong   OrigKey;
+        qlonglong   NewKey;
+    };
+
     explicit                cSlideThumbsTable(cDatabase *Database);
 
     virtual bool            ClearTable();
     virtual bool            SetThumbs(qlonglong *ThumbnailKey,QImage Thumbs);
+    virtual TRResKeyItem    AppendThumbs(qlonglong OrigKey,QImage Thumbs);
+
     virtual bool            GetThumbs(qlonglong *ThumbnailKey,QImage *Thumbs);
     virtual bool            ClearThumbs(qlonglong ThumbnailKey);
+    virtual bool            RemoveThumbs(qlonglong ThumbnailKey);
 };
 
 //**********************************************************************************************
@@ -178,6 +186,10 @@ class cLocationTable : public cDatabaseTable {
 public:
 
     explicit                cLocationTable(cDatabase *Database);
+
+    virtual bool            DoUpgradeTableVersion(qlonglong CurrentVersion);
+    virtual qlonglong       AppendLocation(QString Name,QString Address,double Latitude,double Longitude,int Zoomlevel,QString Icon,QImage Thumbnail);
+    virtual qlonglong       UpdateLocation(qlonglong Key,QString Name,QString Address,double Latitude,double Longitude,int Zoomlevel,QString Icon,QImage Thumbnail);
 };
 
 #endif // CDATABASE_H

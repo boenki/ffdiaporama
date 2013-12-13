@@ -44,139 +44,50 @@
 #define ICON_RULER_ON       ":/img/ruler_ok.png"
 #define ICON_RULER_OFF      ":/img/ruler_ko.png"
 
-// Undo actions
-enum UNDOACTION_ID {
-    UNDOACTION_INTERACTIVEMOVERESIZE,
-    UNDOACTION_EDITZONE_POSX,
-    UNDOACTION_EDITZONE_POSY,
-    UNDOACTION_EDITZONE_WIDTH,
-    UNDOACTION_EDITZONE_HEIGHT,
-    UNDOACTION_EDITZONE_ROTATEX,
-    UNDOACTION_EDITZONE_ROTATEY,
-    UNDOACTION_EDITZONE_ROTATEZ,
-    UNDOACTION_EDITZONE_SHAPEFORM,
-    UNDOACTION_EDITZONE_TEXTCLIPART,
-    UNDOACTION_EDITZONE_SHAPEOPACITY,
-    UNDOACTION_EDITZONE_SHAPEPENSIZE,
-    UNDOACTION_EDITZONE_SHAPEPENSTYLE,
-    UNDOACTION_EDITZONE_SHAPEPENCOLOR,
-    UNDOACTION_EDITZONE_SHAPESHADOWFORM,
-    UNDOACTION_EDITZONE_SHAPESHADOWDIST,
-    UNDOACTION_EDITZONE_SHAPESHADOWCOLOR,
-    UNDOACTION_STYLE_COORDINATES,
-    UNDOACTION_STYLE_SHAPE,
-    UNDOACTION_STYLE_FRAMING,
-    UNDOACTION_EDITZONE_TEXTANIMZOOM,
-    UNDOACTION_BLOCKTABLE_ADDTEXTBLOCK,
-    UNDOACTION_BLOCKTABLE_ADDFILEBLOCK,
-    UNDOACTION_BLOCKTABLE_REMOVEBLOCK,
-    UNDOACTION_BLOCKTABLE_PASTEBLOCK,
-    UNDOACTION_BLOCKTABLE_CHBLOCKORDER,
-    UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,
-    UNDOACTION_BLOCKTABLE_EDITTEXT,
-    UNDOACTION_BLOCKTABLE_EDITVIDEO,
-    UNDOACTION_BLOCKTABLE_EDITIMAGE
-};
+#define ISVIDEO(OBJECT)         ((OBJECT->MediaObject)&&(OBJECT->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE))
+#define ISBLOCKVALIDE()         ((!InRefreshControls)&&(BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject))
+#define ISBLOCKVALIDEVISIBLE()  (ISBLOCKVALIDE()&&(CurrentCompoObject->IsVisible))
 
 //====================================================================================================================
 
-DlgImageComposer::DlgImageComposer(cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent)
-    :QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgImageComposer) {
-
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::DlgImageComposer");
-
+DlgImageComposer::DlgImageComposer(cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):cShotComposer(ffdProject->ProjectThumbnail,ApplicationConfig,parent),ui(new Ui::DlgImageComposer) {
     ui->setupUi(this);
-    TypeWindowState  =TypeWindowState_withsplitterpos;
-    Splitter         =ui->SplitterTop;
+    Splitter                        =ui->SplitterTop;
+    CancelBt                        =ui->CancelBt;
+    OkBt                            =ui->OkBt;
+    HelpBt                          =ui->HelpBt;
+    HelpFile                        ="0117";
+
+    // manque l'UNDO !!!!!!!
+
+    InteractiveZone                 =ui->InteractiveZone;
+    BlockTable                      =ui->BlockTable;
+    ShotTable                       =NULL;
+    InteractiveZone->MagneticRuler  =ApplicationConfig->ThumbRuler;
+    InteractiveZone->DisplayW       =THUMBWITH;
+    InteractiveZone->DisplayH       =THUMBHEIGHT;
+
     this->ffdProject =ffdProject;
-    CancelBt        =ui->CancelBt;
-    OkBt            =ui->OkBt;
-    HelpBt          =ui->HelpBt;
-    HelpFile        ="0117";
 
-    InRefreshStyleControls              =false;
-    InRefreshControls                   =false;
-    StopMajFramingStyle                 =false;
-    InSelectionChange                   =false;
-    NoPrepUndo                          =false;
-    CurrentCompoObject                  =NULL;
-    CurrentCompoObjectNbr               =-1;
-    FramingCB_CurrentBrush              =NULL;
-    NbrSelected                         =0;
-    CompositionList                     =&ffdProject->ProjectThumbnail->List[0]->ShotComposition;
-    ui->InteractiveZone->DiaporamaObject=ffdProject->ProjectThumbnail;
-    ui->BlockTable->ApplicationConfig   =ApplicationConfig;
-    ui->BlockTable->CurrentSlide        =ffdProject->ProjectThumbnail;
-    ui->BlockTable->CompositionList     =&ffdProject->ProjectThumbnail->List[0]->ShotComposition;
-    ui->InteractiveZone->BlockTable     =ui->BlockTable;
-    ui->InteractiveZone->MagneticRuler  =ApplicationConfig->ThumbRuler;
-    ui->InteractiveZone->DisplayW       =THUMBWITH;
-    ui->InteractiveZone->DisplayH       =THUMBHEIGHT;
-    switch (ffdProject->ImageGeometry) {
-        case GEOMETRY_4_3:      ProjectGeometry=1440/1080;     break;
-        case GEOMETRY_40_17:    ProjectGeometry=1920/816;      break;
-        case GEOMETRY_16_9:
-        default:                ProjectGeometry=1920/1080;     break;
-
-    }
+    InRefreshStyleControls          =false;
+    StopMajFramingStyle             =false;
+    NoPrepUndo                      =false;
+    FramingCB_CurrentBrush          =NULL;
+    NbrSelected                     =0;
+    CompositionList                 =&CurrentSlide->List[0]->ShotComposition;
+    BlockTable->CompositionList     =&CurrentSlide->List[0]->ShotComposition;
 }
 
 //====================================================================================================================
 // Initialise dialog
 
 void DlgImageComposer::DoInitDialog() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::DoInitDialog");
+    cShotComposer::DoInitDialog();
 
     // Thumbnail part
-    ui->SplitterTop->setCollapsible(0,false);
-    ui->SplitterTop->setCollapsible(1,false);
     ui->TextClipArtCB->PrepareTable();
-    ui->BlockTable->ProjectGeometry=ProjectGeometry;
-    // Init combo box Background form
-    for (int i=0;i<ShapeFormDefinition.count();i++) if (ShapeFormDefinition.at(i).Enable) ui->BackgroundFormCB->addItem(ShapeFormDefinition.at(i).Name,QVariant(i));
-    MakeFormIcon(ui->BackgroundFormCB);
-    if (ui->ShadowEffectCB->view()->width()<500)        ui->ShadowEffectCB->view()->setFixedWidth(500);
+    BlockTable->ProjectGeometry=ProjectGeometry;
 
-    // Init combo box Background shadow form
-    ui->ShadowEffectCB->addItem(QApplication::translate("DlgImageComposer","None"));
-    ui->ShadowEffectCB->addItem(QApplication::translate("DlgImageComposer","Shadow upper left"));
-    ui->ShadowEffectCB->addItem(QApplication::translate("DlgImageComposer","Shadow upper right"));
-    ui->ShadowEffectCB->addItem(QApplication::translate("DlgImageComposer","Shadow bottom left"));
-    ui->ShadowEffectCB->addItem(QApplication::translate("DlgImageComposer","Shadow bottom right"));
-    ui->ShadowEffectED->setRange(1,100);
-
-    // Init combo box external border style
-    ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::SolidLine);
-    ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::DashLine);
-    ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::DotLine);
-    ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::DashDotLine);
-    ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::DashDotDotLine);
-    MakeBorderStyleIcon(ui->PenStyleCB);
-    // Init shape Borders
-    ui->PenSizeEd->setMinimum(0);       ui->PenSizeEd->setMaximum(30);
-
-    // Init combo box Background opacity
-    ui->OpacityCB->addItem("100%");
-    ui->OpacityCB->addItem(" 75%");
-    ui->OpacityCB->addItem(" 50%");
-    ui->OpacityCB->addItem(" 25%");
-
-    ui->RotateXED->setRange(-180,180);      ui->RotateXSLD->setRange(-180,180);
-    ui->RotateYED->setRange(-180,180);      ui->RotateYSLD->setRange(-180,180);
-    ui->RotateZED->setRange(-180,180);      ui->RotateZSLD->setRange(-180,180);
-
-    // Init Spinbox
-    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
-        ui->PosXEd->setDecimals(2);             ui->PosXEd->setSingleStep(1);       ui->PosXEd->setSuffix("%");
-        ui->PosYEd->setDecimals(2);             ui->PosYEd->setSingleStep(1);       ui->PosYEd->setSuffix("%");
-        ui->WidthEd->setDecimals(2);            ui->WidthEd->setSingleStep(1);      ui->WidthEd->setSuffix("%");
-        ui->HeightEd->setDecimals(2);           ui->HeightEd->setSingleStep(1);     ui->HeightEd->setSuffix("%");
-    } else { // DisplayUnit==DISPLAYUNIT_PIXELS
-        ui->PosXEd->setDecimals(0);             ui->PosXEd->setSingleStep(1);       ui->PosXEd->setSuffix("");
-        ui->PosYEd->setDecimals(0);             ui->PosYEd->setSingleStep(1);       ui->PosYEd->setSuffix("");
-        ui->WidthEd->setDecimals(0);            ui->WidthEd->setSingleStep(1);      ui->WidthEd->setSuffix("");
-        ui->HeightEd->setDecimals(0);           ui->HeightEd->setSingleStep(1);     ui->HeightEd->setSuffix("");
-    }
     // Force icon in contextual menu
     ui->actionAddTextBlock->setIconVisibleInMenu(true);
     ui->actionAddFile->setIconVisibleInMenu(true);
@@ -230,31 +141,12 @@ void DlgImageComposer::DoInitDialog() {
     connect(ui->ZoomED,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_TextZoom(int)));
     connect(ui->ZoomResetBT,SIGNAL(released()),this,SLOT(s_BlockSettings_TextZoomReset()));
 
-    connect(ui->PosXEd,SIGNAL(valueChanged(double)),this,SLOT(s_BlockSettings_PosXValue(double)));
-    connect(ui->PosYEd,SIGNAL(valueChanged(double)),this,SLOT(s_BlockSettings_PosYValue(double)));
-    connect(ui->WidthEd,SIGNAL(valueChanged(double)),this,SLOT(s_BlockSettings_PosWidthValue(double)));
-    connect(ui->HeightEd,SIGNAL(valueChanged(double)),this,SLOT(s_BlockSettings_PosHeightValue(double)));
-    connect(ui->BackgroundFormCB,SIGNAL(itemSelectionHaveChanged()),this,SLOT(s_BlockSettings_ShapeBackgroundForm()));
-    connect(ui->TextClipArtCB,SIGNAL(itemSelectionHaveChanged()),this,SLOT(s_BlockSettings_ShapeTextClipArtChIndex()));
-    connect(ui->OpacityCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapeOpacity(int)));
-    connect(ui->PenStyleCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapePenStyle(int)));
-    connect(ui->ShadowEffectCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapeShadowFormValue(int)));
-    connect(ui->ShadowEffectED,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_ShapeShadowDistanceValue(int)));
-
-    connect(ui->PenColorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapePenColor(int)));
-    connect(ui->PenSizeEd,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_ShapePenSize(int)));
-    connect(ui->ShadowColorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapeShadowColor(int)));
-
-    connect(ui->RotateXED,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_RotateXValue(int)));     connect(ui->RotateXSLD,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_RotateXValue(int)));        connect(ui->ResetRotateXBT,SIGNAL(released()),this,SLOT(s_BlockSettings_ResetRotateXValue()));
-    connect(ui->RotateYED,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_RotateYValue(int)));     connect(ui->RotateYSLD,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_RotateYValue(int)));        connect(ui->ResetRotateYBT,SIGNAL(released()),this,SLOT(s_BlockSettings_ResetRotateYValue()));
-    connect(ui->RotateZED,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_RotateZValue(int)));     connect(ui->RotateZSLD,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_RotateZValue(int)));        connect(ui->ResetRotateZBT,SIGNAL(released()),this,SLOT(s_BlockSettings_ResetRotateZValue()));
-
     // Block table/scene part
-    connect(ui->BlockTable,SIGNAL(itemSelectionChanged()),this,SLOT(s_BlockTable_SelectionChanged()));
-    connect(ui->BlockTable,SIGNAL(DoubleClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemDoubleClicked(QMouseEvent *)));
-    connect(ui->BlockTable,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemRightClicked(QMouseEvent *)));
-    connect(ui->BlockTable,SIGNAL(DragMoveBlock(int,int)),this,SLOT(s_BlockTable_DragMoveBlock(int,int)));
-    connect(ui->BlockTable,SIGNAL(DragDropFiles(QList<QUrl>)),this,SLOT(s_BlockTable_DragDropFiles(QList<QUrl>)));
+    connect(BlockTable,SIGNAL(itemSelectionChanged()),this,SLOT(s_BlockTable_SelectionChanged()));
+    connect(BlockTable,SIGNAL(DoubleClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemDoubleClicked(QMouseEvent *)));
+    connect(BlockTable,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemRightClicked(QMouseEvent *)));
+    connect(BlockTable,SIGNAL(DragMoveBlock(int,int)),this,SLOT(s_BlockTable_DragMoveBlock(int,int)));
+    connect(BlockTable,SIGNAL(DragDropFiles(QList<QUrl>)),this,SLOT(s_BlockTable_DragDropFiles(QList<QUrl>)));
     connect(ui->AddTextBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddNewTextBlock()));
     connect(ui->actionAddTextBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewTextBlock()));
     connect(ui->actionAddSimpleTextBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewSimpleTextBlock()));
@@ -264,15 +156,14 @@ void DlgImageComposer::DoInitDialog() {
     connect(ui->actionRemoveBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_RemoveBlock()));
 
     // Style buttons
-    connect(ui->BlockShapeStyleBT,SIGNAL(pressed()),this,SLOT(s_BlockShapeStyleBT()));
 
     // Interactive zone
-    connect(ui->InteractiveZone,SIGNAL(StartSelectionChange()),this,SLOT(s_BlockTable_StartSelectionChange()));
-    connect(ui->InteractiveZone,SIGNAL(EndSelectionChange()),this,SLOT(s_BlockTable_EndSelectionChange()));
-    connect(ui->InteractiveZone,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemRightClicked(QMouseEvent *)));
-    connect(ui->InteractiveZone,SIGNAL(DoubleClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemDoubleClicked(QMouseEvent *)));
-    connect(ui->InteractiveZone,SIGNAL(TransformBlock(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)),this,SLOT(s_BlockSettings_IntZoneTransformBlocks(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)));
-    connect(ui->InteractiveZone,SIGNAL(DisplayTransformBlock(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)),this,SLOT(s_BlockSettings_IntZoneDisplayTransformBlocks(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)));
+    connect(InteractiveZone,SIGNAL(StartSelectionChange()),this,SLOT(s_BlockTable_StartSelectionChange()));
+    connect(InteractiveZone,SIGNAL(EndSelectionChange()),this,SLOT(s_BlockTable_EndSelectionChange()));
+    connect(InteractiveZone,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemRightClicked(QMouseEvent *)));
+    connect(InteractiveZone,SIGNAL(DoubleClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemDoubleClicked(QMouseEvent *)));
+    connect(InteractiveZone,SIGNAL(TransformBlock(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)),this,SLOT(s_BlockSettings_IntZoneTransformBlocks(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)));
+    connect(InteractiveZone,SIGNAL(DisplayTransformBlock(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)),this,SLOT(s_BlockSettings_IntZoneDisplayTransformBlocks(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)));
 
     s_Event_ClipboardChanged();           // Setup clipboard button state
     connect(QApplication::clipboard(),SIGNAL(dataChanged()),this,SLOT(s_Event_ClipboardChanged()));
@@ -299,68 +190,10 @@ bool DlgImageComposer::DoAccept() {
 
 //====================================================================================================================
 
-void DlgImageComposer::ComputeBlockRatio(cCompositionObject *Block,qreal &Ratio_X,qreal &Ratio_Y) {
-    QRectF tmpRect=PolygonToRectF(ComputePolygon(Block->BackgroundForm,Block->x*THUMBWITH,Block->y*THUMBHEIGHT,Block->w*THUMBWITH,Block->h*THUMBHEIGHT));
-    Ratio_X=(Block->w*THUMBWITH)/tmpRect.width();
-    Ratio_Y=(Block->h*THUMBHEIGHT)/tmpRect.height();
-}
-
-//====================================================================================================================
-
-void DlgImageComposer::MakeFormIcon(QComboBox *UICB) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::MakeFormIcon");
-
-    for (int i=0;i<UICB->count();i++) {
-        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,ApplicationConfig,this);
-        Object.x                        =0;
-        Object.y                        =0;
-        Object.w                        =1;
-        Object.h                        =1;
-        Object.BackgroundForm           =UICB->itemData(i).toInt();
-        Object.Opacity                  =4;
-        Object.PenSize                  =1;
-        Object.PenStyle                 =Qt::SolidLine;
-        Object.PenColor                 ="#000000";
-        Object.BackgroundBrush->ColorD  ="#FFFFFF";
-        Object.BackgroundBrush->BrushType=BRUSHTYPE_SOLID;
-        QPixmap  Image(UICB->iconSize());
-        QPainter Painter;
-        Painter.begin(&Image);
-        Painter.fillRect(QRect(0,0,UICB->iconSize().width(),UICB->iconSize().height()),"#ffffff");
-        Object.DrawCompositionObject(NULL,&Painter,1,UICB->iconSize().width(),UICB->iconSize().height(),true,0,NULL,1,1,NULL,false,0,false);
-        Painter.end();
-        UICB->setItemIcon(i,QIcon(Image));
-    }
-}
-
-//====================================================================================================================
-
-void DlgImageComposer::MakeBorderStyleIcon(QComboBox *UICB) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::MakeBorderStyleIcon");
-
-    for (int i=0;i<UICB->count();i++) {
-        QPixmap  Image(32,32);
-        QPainter Painter;
-        Painter.begin(&Image);
-        Painter.fillRect(QRect(0,0,32,32),"#ffffff");
-        QPen Pen;
-        Pen.setColor(Qt::black);
-        Pen.setStyle((Qt::PenStyle)UICB->itemData(i).toInt());
-        Pen.setWidth(2);
-        Painter.setPen(Pen);
-        Painter.setBrush(QBrush(QColor("#ffffff")));
-        Painter.drawLine(0,16,32,16);
-        Painter.end();
-        UICB->setItemIcon(i,QIcon(Image));
-    }
-}
-
-//====================================================================================================================
-
 void DlgImageComposer::resizeEvent(QResizeEvent *) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::resizeEvent");
 
-    ui->InteractiveZone->RefreshDisplay();
+    InteractiveZone->RefreshDisplay();
 }
 
 //====================================================================================================================
@@ -369,7 +202,7 @@ void DlgImageComposer::showEvent(QShowEvent *ev) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::showEvent");
 
     QCustomDialog::showEvent(ev);
-    ui->InteractiveZone->RefreshDisplay();
+    InteractiveZone->RefreshDisplay();
 }
 
 //====================================================================================================================
@@ -385,7 +218,7 @@ void DlgImageComposer::s_Event_ClipboardChanged() {
 void DlgImageComposer::keyReleaseEvent(QKeyEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::keyReleaseEvent");
 
-    if ((focusWidget()==ui->BlockTable)||(focusWidget()==ui->InteractiveZone)) {
+    if ((focusWidget()==BlockTable)||(focusWidget()==InteractiveZone)) {
         if (event->modifiers()==Qt::ControlModifier) {
             switch (event->key()) {
                 case Qt::Key_C      : s_BlockTable_Copy();                      break;
@@ -396,7 +229,7 @@ void DlgImageComposer::keyReleaseEvent(QKeyEvent *event) {
         } if (event->modifiers()==Qt::NoModifier) {
             switch (event->key()) {
                 case Qt::Key_Delete :
-                    if (ui->InteractiveZone->hasFocus()) s_BlockTable_RemoveBlock();
+                    if (InteractiveZone->hasFocus()) s_BlockTable_RemoveBlock();
                     break;
                 default :
                     QCustomDialog::keyReleaseEvent(event);
@@ -415,7 +248,7 @@ void DlgImageComposer::PrepareGlobalUndo() {
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG"); // Create xml document and root
-    ffdProject->ProjectThumbnail->SaveToXML(root,"UNDO-DLG-ProjectThumbnail",ffdProject->ProjectFileName,true,NULL);
+    CurrentSlide->SaveToXML(root,"UNDO-DLG-ProjectThumbnail",ffdProject->ProjectFileName,true,NULL,NULL,false);
     Undo->appendChild(root); // Add object to xml document
 }
 
@@ -427,7 +260,7 @@ void DlgImageComposer::DoGlobalUndo() {
 
     QDomElement root=Undo->documentElement();
     if (root.tagName()=="UNDO-DLG") {
-        ffdProject->ProjectThumbnail->LoadFromXML(root,"UNDO-DLG-ProjectThumbnail","",NULL);
+        CurrentSlide->LoadFromXML(root,"UNDO-DLG-ProjectThumbnail","",NULL,NULL,false);
     }
 }
 
@@ -437,113 +270,12 @@ void DlgImageComposer::DoGlobalUndo() {
 void DlgImageComposer::s_RefreshSceneImage() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_RefreshSceneImage");
 
-    ui->InteractiveZone->RefreshDisplay();
-}
-
-void DlgImageComposer::CopyBlockProperties(cCompositionObject *SourceBlock,cCompositionObject *DestBlock) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::CopyBlockProperties");
-
-    if ((!DestBlock)||(SourceBlock==DestBlock)) return;
-
-    // Attribut of the text part
-    DestBlock->Text                 =SourceBlock->Text;                     // Text of the object
-    DestBlock->TextClipArtName      =SourceBlock->TextClipArtName;          // Text ClipArt of the object
-    DestBlock->FontName             =SourceBlock->FontName;                 // font name
-    DestBlock->FontSize             =SourceBlock->FontSize;                 // font size
-    DestBlock->FontColor            =SourceBlock->FontColor;                // font color
-    DestBlock->FontShadowColor      =SourceBlock->FontShadowColor;          // font shadow color
-    DestBlock->IsBold               =SourceBlock->IsBold;                   // true if bold mode
-    DestBlock->IsItalic             =SourceBlock->IsItalic;                 // true if Italic mode
-    DestBlock->IsUnderline          =SourceBlock->IsUnderline;              // true if Underline mode
-    DestBlock->HAlign               =SourceBlock->HAlign;                   // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
-    DestBlock->VAlign               =SourceBlock->VAlign;                   // Vertical alignement : 0=up, 1=center, 2=bottom
-    DestBlock->StyleText            =SourceBlock->StyleText;                // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
-    DestBlock->TMType               =SourceBlock->TMType;                   // Text margins type (0=full shape, 1=shape default, 2=custom)
-    DestBlock->TMx                  =SourceBlock->TMx;                      // Text margins
-    DestBlock->TMy                  =SourceBlock->TMy;                      // Text margins
-    DestBlock->TMw                  =SourceBlock->TMw;                      // Text margins
-    DestBlock->TMh                  =SourceBlock->TMh;                      // Text margins
-
-    // Attribut of the shap part
-    DestBlock->BackgroundForm       =SourceBlock->BackgroundForm;           // Type of the form : 0=None, 1=Rectangle, 2=RoundRect, 3=Buble, 4=Ellipse, 5=Triangle UP (Polygon)
-    DestBlock->PenSize              =SourceBlock->PenSize;                  // Width of the border of the form
-    DestBlock->PenStyle             =SourceBlock->PenStyle;                 // Style of the pen border of the form
-    DestBlock->PenColor             =SourceBlock->PenColor;                 // Color of the border of the form
-    DestBlock->FormShadow           =SourceBlock->FormShadow;               // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
-    DestBlock->FormShadowDistance   =SourceBlock->FormShadowDistance;       // Distance from form to shadow
-    DestBlock->FormShadowColor      =SourceBlock->FormShadowColor;          // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
-    DestBlock->Opacity              =SourceBlock->Opacity;                  // Opacity of the form
-
-    // Attribut of the BackgroundBrush of the shap part
-    DestBlock->BackgroundBrush->BrushType           =SourceBlock->BackgroundBrush->BrushType;
-    DestBlock->BackgroundBrush->PatternType         =SourceBlock->BackgroundBrush->PatternType;
-    DestBlock->BackgroundBrush->GradientOrientation =SourceBlock->BackgroundBrush->GradientOrientation;
-    DestBlock->BackgroundBrush->ColorD              =SourceBlock->BackgroundBrush->ColorD;
-    DestBlock->BackgroundBrush->ColorF              =SourceBlock->BackgroundBrush->ColorF;
-    DestBlock->BackgroundBrush->ColorIntermed       =SourceBlock->BackgroundBrush->ColorIntermed;
-    DestBlock->BackgroundBrush->Intermediate        =SourceBlock->BackgroundBrush->Intermediate;
-    DestBlock->BackgroundBrush->BrushImage          =SourceBlock->BackgroundBrush->BrushImage;
-}
-
-//====================================================================================================================
-
-cCompositionObject *DlgImageComposer::GetGlobalCompositionObject(int IndexKey) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::GetSelectedGlobalCompositionObject");
-
-    int CurrentBlock=ui->BlockTable->currentRow();
-    if ((CurrentBlock<0)||(CurrentBlock>=CompositionList->List.count())) return NULL;
-    int i=0;
-    while ((i<ffdProject->ProjectThumbnail->ObjectComposition.List.count())&&(ffdProject->ProjectThumbnail->ObjectComposition.List[i]->IndexKey!=IndexKey)) i++;
-    if (i<ffdProject->ProjectThumbnail->ObjectComposition.List.count()) return ffdProject->ProjectThumbnail->ObjectComposition.List[i]; else return NULL;
+    InteractiveZone->RefreshDisplay();
 }
 
 //====================================================================================================================
 // BLOCK TABLE SETTINGS
 //====================================================================================================================
-
-//=========  Refresh the BlockTable
-void DlgImageComposer::RefreshBlockTable(int SetCurrentIndex) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::RefreshBlockTable");
-    ui->BlockTable->setUpdatesEnabled(false);
-    ui->BlockTable->setRowCount(CompositionList->List.count());
-    for (int i=0;i<ui->BlockTable->rowCount();i++) ui->BlockTable->setRowHeight(i,48+2+((((cBaseApplicationConfig *)ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20+1)*3);
-    ui->BlockTable->setUpdatesEnabled(true);
-    if (ui->BlockTable->currentRow()!=SetCurrentIndex) {
-        ui->BlockTable->clearSelection();
-        ui->BlockTable->setCurrentCell(SetCurrentIndex,0,QItemSelectionModel::Select|QItemSelectionModel::Current);
-    } else s_BlockTable_SelectionChanged();
-    if (ui->BlockTable->rowCount()==0) s_BlockTable_SelectionChanged();
-    ui->InteractiveZone->RefreshDisplay();
-}
-
-//========= block selection change
-void DlgImageComposer::s_BlockTable_SelectionChanged() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_SelectionChanged");
-    if (InSelectionChange) return;
-
-    QModelIndexList SelList=ui->BlockTable->selectionModel()->selectedIndexes();
-
-    IsSelected.clear();
-    for (int i=0;i<ui->BlockTable->rowCount();i++)  IsSelected.append(false);
-    for (int i=0;i<SelList.count();i++)             IsSelected[SelList.at(i).row()]=true;
-
-    NbrSelected             =0;
-    CurrentCompoObjectNbr   =-1;
-    CurrentCompoObject      =NULL;
-
-    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
-        if (NbrSelected==0) {
-            CurrentCompoObjectNbr=i;
-            CurrentCompoObject   =CompositionList->List[CurrentCompoObjectNbr];
-        }
-        NbrSelected++;
-    }
-    if (NbrSelected==0)             BlockSelectMode=SELECTMODE_NONE;
-        else if (NbrSelected==1)    BlockSelectMode=SELECTMODE_ONE;
-        else                        BlockSelectMode=SELECTMODE_MULTIPLE;
-
-    RefreshControls(false);
-}
 
 void DlgImageComposer::s_BlockTable_StartSelectionChange() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_StartSelectionChange");
@@ -564,8 +296,6 @@ void DlgImageComposer::RefreshStyleControls() {
     if (InRefreshStyleControls) return;
     InRefreshStyleControls=true;
 
-    ui->BlockShapeStyleBT ->setEnabled(BlockSelectMode==SELECTMODE_ONE);
-    ui->BlockShapeStyleED ->setEnabled(BlockSelectMode==SELECTMODE_ONE);
 
     if (BlockSelectMode==SELECTMODE_ONE) {
         ui->BlockShapeStyleED->setText(ApplicationConfig->StyleBlockShapeCollection.GetStyleName(CurrentCompoObject->GetBlockShapeStyle()));
@@ -616,7 +346,7 @@ void DlgImageComposer::RefreshControls(bool UpdateInteractiveZone) {
     ui->actionInfo->            setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
     ui->actionRemoveBlock->     setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
     ui->actionUpBlock->         setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObjectNbr>0));
-    ui->actionDownBlock->       setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObjectNbr<ui->BlockTable->rowCount()-1));
+    ui->actionDownBlock->       setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObjectNbr<BlockTable->rowCount()-1));
     ui->actionCopy->            setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
     ui->actionCut->             setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
 
@@ -649,126 +379,26 @@ void DlgImageComposer::RefreshControls(bool UpdateInteractiveZone) {
     //*****************************
     if (BlockSelectMode==SELECTMODE_ONE) {
 
-        ui->PosSize_X->     setEnabled(true);               ui->PosXEd->     setEnabled(true);
-        ui->PosSize_Y->     setEnabled(true);               ui->PosYEd->     setEnabled(true);
-        ui->PosSize_Width-> setEnabled(true);               ui->WidthEd->    setEnabled(true);
-        ui->PosSize_Height->setEnabled(true);               ui->HeightEd->   setEnabled(true);
         ui->ZoomLabel->     setEnabled(true);               ui->ZoomSlider-> setEnabled(true);
         ui->ZoomED->        setEnabled(true);               ui->ZoomResetBT->setEnabled(true);
 
         qreal Ratio_X,Ratio_Y;
         ComputeBlockRatio(CurrentCompoObject,Ratio_X,Ratio_Y);
 
-        if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
-            ui->PosXEd->setRange(-200,200);                 ui->PosXEd->    setValue(CurrentCompoObject->x*100/Ratio_X);
-            ui->PosYEd->setRange(-200,200);                 ui->PosYEd->    setValue(CurrentCompoObject->y*100/Ratio_Y);
-            ui->WidthEd->setRange(1,200);                   ui->WidthEd->   setValue(CurrentCompoObject->w*100/Ratio_X);
-            ui->HeightEd->setRange(1,200);                  ui->HeightEd->  setValue(CurrentCompoObject->h*100/Ratio_Y);
-        } else { // DisplayUnit==DISPLAYUNIT_PIXELS
-            ui->PosXEd->setRange(-2*THUMBWITH,2*THUMBWITH);   ui->PosXEd->    setValue(CurrentCompoObject->x*THUMBWITH/Ratio_X);
-            ui->PosYEd->setRange(-2*THUMBHEIGHT,2*THUMBHEIGHT);   ui->PosYEd->    setValue(CurrentCompoObject->y*THUMBHEIGHT/Ratio_Y);
-            ui->WidthEd->setRange(3,2*THUMBWITH);            ui->WidthEd->   setValue(CurrentCompoObject->w*THUMBWITH/Ratio_X);
-            ui->HeightEd->setRange(3,2*THUMBHEIGHT);           ui->HeightEd->  setValue(CurrentCompoObject->h*THUMBHEIGHT/Ratio_Y);
-        }
         ui->ZoomSlider->setValue(CurrentCompoObject->TxtZoomLevel);
         ui->ZoomED->setValue(CurrentCompoObject->TxtZoomLevel);
 
     } else {
-        ui->PosSize_X->     setEnabled(false);              ui->PosXEd->    setEnabled(false);                                                  ui->PosXEd->  setValue(0);
-        ui->PosSize_Y->     setEnabled(false);              ui->PosYEd->    setEnabled(false);                                                  ui->PosYEd->  setValue(0);
-        ui->PosSize_Width-> setEnabled(false);              ui->WidthEd->   setEnabled(false);          ui->WidthEd->setRange(0,2*THUMBWITH);    ui->WidthEd-> setValue(0);
-        ui->PosSize_Height->setEnabled(false);              ui->HeightEd->  setEnabled(false);          ui->HeightEd->setRange(0,2*THUMBHEIGHT);   ui->HeightEd->setValue(0);
         ui->ZoomLabel->     setEnabled(false);              ui->ZoomSlider-> setEnabled(false);
         ui->ZoomED->        setEnabled(false);              ui->ZoomResetBT->setEnabled(false);
     }
-
-    //***********************
-    // Rotation
-    //***********************
-    if (BlockSelectMode==SELECTMODE_ONE) {
-        ui->Rotate_X-> setEnabled(true);       ui->RotateXED-> setEnabled(true);        ui->ResetRotateXBT->setEnabled(true);       ui->RotateXSLD->setEnabled(true);
-        ui->Rotate_Y-> setEnabled(true);       ui->RotateYED-> setEnabled(true);        ui->ResetRotateYBT->setEnabled(true);       ui->RotateYSLD->setEnabled(true);
-        ui->Rotate_Z-> setEnabled(true);       ui->RotateZED-> setEnabled(true);        ui->ResetRotateZBT->setEnabled(true);       ui->RotateZSLD->setEnabled(true);
-
-        ui->RotateXED->setValue(CurrentCompoObject->RotateXAxis);                       ui->RotateXSLD->setValue(CurrentCompoObject->RotateXAxis);
-        ui->RotateYED->setValue(CurrentCompoObject->RotateYAxis);                       ui->RotateYSLD->setValue(CurrentCompoObject->RotateYAxis);
-        ui->RotateZED->setValue(CurrentCompoObject->RotateZAxis);                       ui->RotateZSLD->setValue(CurrentCompoObject->RotateZAxis);
-
-    } else {
-        ui->Rotate_X-> setEnabled(false);       ui->RotateXED-> setEnabled(false);      ui->ResetRotateXBT->setEnabled(false);       ui->RotateXSLD->setEnabled(false);
-        ui->Rotate_Y-> setEnabled(false);       ui->RotateYED-> setEnabled(false);      ui->ResetRotateYBT->setEnabled(false);       ui->RotateYSLD->setEnabled(false);
-        ui->Rotate_Z-> setEnabled(false);       ui->RotateZED-> setEnabled(false);      ui->ResetRotateZBT->setEnabled(false);       ui->RotateZSLD->setEnabled(false);
-
-        ui->RotateXED->setValue(0);             ui->RotateXSLD->setValue(0);
-        ui->RotateYED->setValue(0);             ui->RotateYSLD->setValue(0);
-        ui->RotateZED->setValue(0);             ui->RotateZSLD->setValue(0);
-    }
-
-    //***********************
-    // Shape part
-    //***********************
-    if (BlockSelectMode==SELECTMODE_ONE) {
-        ui->BackgroundFormCB->  setEnabled(true);
-        ui->PenSizeEd->         setEnabled(true);
-        ui->PenColorCB->        setEnabled(CurrentCompoObject->PenSize!=0);
-        ui->PenStyleCB->        setEnabled(CurrentCompoObject->PenSize!=0);
-        ui->OpacityCB->         setEnabled(true);
-        ui->ShadowEffectCB->    setEnabled(true);
-        ui->ShadowEffectED->    setEnabled(CurrentCompoObject->FormShadow!=0);
-        ui->ShadowColorCB->     setEnabled(CurrentCompoObject->FormShadow!=0);
-
-        SetCBIndex(ui->BackgroundFormCB,CurrentCompoObject->BackgroundForm);
-        ui->PenSizeEd->         setValue(int(CurrentCompoObject->PenSize));
-        ui->OpacityCB->         setCurrentIndex(CurrentCompoObject->Opacity);
-        ui->ShadowEffectCB->    setCurrentIndex(CurrentCompoObject->FormShadow);
-        ui->ShadowEffectED->    setValue(int(CurrentCompoObject->FormShadowDistance));
-        ui->PenColorCB->        SetCurrentColor(&CurrentCompoObject->PenColor);
-        ui->ShadowColorCB->     SetCurrentColor(&CurrentCompoObject->FormShadowColor);
-
-        for (int i=0;i<ui->PenStyleCB->count();i++) if (ui->PenStyleCB->itemData(i).toInt()==CurrentCompoObject->PenStyle) {
-            if (i!=ui->PenStyleCB->currentIndex()) ui->PenStyleCB->setCurrentIndex(i);
-            break;
-        }
-    } else {
-        ui->BackgroundFormCB->  setEnabled(false);
-        ui->PenSizeEd->         setEnabled(false);
-        ui->PenColorCB->        setEnabled(false);
-        ui->PenStyleCB->        setEnabled(false);
-        ui->OpacityCB->         setEnabled(false);
-        ui->ShadowEffectCB->    setEnabled(false);
-        ui->ShadowEffectED->    setEnabled(false);
-        ui->ShadowColorCB->     setEnabled(false);
-
-        ui->BackgroundFormCB->  setCurrentIndex(-1);
-        ui->PenSizeEd->         setValue(0);
-        ui->OpacityCB->         setCurrentIndex(-1);
-        ui->ShadowEffectCB->    setCurrentIndex(-1);
-        ui->ShadowEffectED->    setValue(0);
-        ui->PenColorCB->        SetCurrentColor(NULL);
-        ui->ShadowColorCB->     SetCurrentColor(NULL);
-    }
-
-    // Set control visible or hide depending on TextClipArt
-    ui->BlockShapeStyleBT->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
-    ui->BlockShapeStyleSpacer->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
-    ui->BlockShapeStyleED->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
-    ui->BackgroundFormCB->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
-    ui->BackgroundFormLabel->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
-    ui->PenSizeEd->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
-    ui->PenColorCB->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
-    ui->PenStyleCB->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
-    ui->PenLabel->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")));
-    ui->TextClipArtCB->setVisible((CurrentCompoObject)&&(CurrentCompoObject->TextClipArtName!=""));
-    ui->TextClipArtLabel->setVisible((CurrentCompoObject)&&(CurrentCompoObject->TextClipArtName!=""));
-    if ((CurrentCompoObject)&&(CurrentCompoObject->TextClipArtName!="")) ui->TextClipArtCB->SetCurrentTextFrame(CurrentCompoObject->TextClipArtName);
 
     RefreshStyleControls();
 
     QApplication::restoreOverrideCursor();
     InRefreshControls=false;
 
-    // Refresh interactive zone display and shot thumbnail
-    if (UpdateInteractiveZone) ui->InteractiveZone->RefreshDisplay(); else ui->InteractiveZone->repaint(); // else refresh selection only
+    cShotComposer::RefreshControls(UpdateInteractiveZone);
 }
 
 //====================================================================================================================
@@ -798,8 +428,8 @@ void DlgImageComposer::s_BlockTable_Copy() {
         QDomElement         Element=Object.createElement(QString("Block-%1").arg(BlockNum));
         cCompositionObject  *GlobalBlock=GetGlobalCompositionObject(CompositionList->List[i]->IndexKey);
 
-        GlobalBlock->SaveToXML(Element,"CLIPBOARD-BLOCK-GLOBAL",ffdProject->ProjectFileName,true,true,NULL);                // Save global object
-        CompositionList->List[i]->SaveToXML(Element,"CLIPBOARD-BLOCK-SHOT",ffdProject->ProjectFileName,true,true,NULL);     // Save shot object
+        GlobalBlock->SaveToXML(Element,"CLIPBOARD-BLOCK-GLOBAL",ffdProject->ProjectFileName,true,true,NULL,NULL);                // Save global object
+        CompositionList->List[i]->SaveToXML(Element,"CLIPBOARD-BLOCK-SHOT",ffdProject->ProjectFileName,true,true,NULL,NULL);     // Save shot object
         root.appendChild(Element);
         BlockNum++;
     }
@@ -819,7 +449,7 @@ void DlgImageComposer::s_BlockTable_Copy() {
 
 void DlgImageComposer::s_BlockTable_Paste() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_Paste");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_PASTEBLOCK,ui->BlockTable,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_PASTEBLOCK,BlockTable,true);
 
     const QMimeData *SlideData=QApplication::clipboard()->mimeData();
     if (SlideData->hasFormat("ffDiaporama/block")) {
@@ -835,14 +465,14 @@ void DlgImageComposer::s_BlockTable_Paste() {
             for (int BlockNum=0;BlockNum<BlockNbr;BlockNum++) if ((root.elementsByTagName(QString("Block-%1").arg(BlockNum)).length()>0)&&(root.elementsByTagName(QString("Block-%1").arg(BlockNum)).item(0).isElement()==true)) {
                 QDomElement Element=root.elementsByTagName(QString("Block-%1").arg(BlockNum)).item(0).toElement();
                 // Create and append a composition block to the object list
-                ffdProject->ProjectThumbnail->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig,&ffdProject->ProjectThumbnail->ObjectComposition));
-                cCompositionObject *GlobalBlock=ffdProject->ProjectThumbnail->ObjectComposition.List[ffdProject->ProjectThumbnail->ObjectComposition.List.count()-1];
-                GlobalBlock->LoadFromXML(Element,"CLIPBOARD-BLOCK-GLOBAL","",NULL,NULL);
-                GlobalBlock->IndexKey=ffdProject->ProjectThumbnail->NextIndexKey;
+                CurrentSlide->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig,&CurrentSlide->ObjectComposition));
+                cCompositionObject *GlobalBlock=CurrentSlide->ObjectComposition.List[CurrentSlide->ObjectComposition.List.count()-1];
+                GlobalBlock->LoadFromXML(Element,"CLIPBOARD-BLOCK-GLOBAL","",NULL,NULL,true,NULL,false);
+                GlobalBlock->IndexKey=CurrentSlide->NextIndexKey;
 
-                cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig,this);
-                ShotBlock.LoadFromXML(Element,"CLIPBOARD-BLOCK-SHOT","",NULL,NULL);
-                ShotBlock.IndexKey=ffdProject->ProjectThumbnail->NextIndexKey;
+                cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,CurrentSlide->NextIndexKey,ApplicationConfig,this);
+                ShotBlock.LoadFromXML(Element,"CLIPBOARD-BLOCK-SHOT","",NULL,NULL,true,NULL,false);
+                ShotBlock.IndexKey=CurrentSlide->NextIndexKey;
                 ShotBlock.BackgroundBrush->MediaObject=GlobalBlock->BackgroundBrush->MediaObject;
                 ShotBlock.BackgroundBrush->DeleteMediaObject=false;
                 ShotBlock.Text=GlobalBlock->Text;
@@ -859,12 +489,12 @@ void DlgImageComposer::s_BlockTable_Paste() {
                     ShotBlock.StyleText       =GlobalBlock->StyleText;
                 }
                 // Now create and append a shot composition block to all shot
-                for (int i=0;i<ffdProject->ProjectThumbnail->List.count();i++) {
-                    ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig,&ffdProject->ProjectThumbnail->List[i]->ShotComposition));
-                    ffdProject->ProjectThumbnail->List[i]->ShotComposition.List[ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(&ShotBlock);
+                for (int i=0;i<CurrentSlide->List.count();i++) {
+                    CurrentSlide->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CurrentSlide->NextIndexKey,ApplicationConfig,&CurrentSlide->List[i]->ShotComposition));
+                    CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(&ShotBlock);
                 }
                 // Inc NextIndexKey
-                ffdProject->ProjectThumbnail->NextIndexKey++;
+                CurrentSlide->NextIndexKey++;
             }
 
             // Refresh block table
@@ -872,8 +502,8 @@ void DlgImageComposer::s_BlockTable_Paste() {
 
             // Select blocks we just added
             s_BlockTable_StartSelectionChange();
-            ui->BlockTable->clearSelection();
-            for (int i=0;i<BlockNbr;i++) ui->BlockTable->setCurrentCell(CompositionList->List.count()-1-i,0,i==0?QItemSelectionModel::Select|QItemSelectionModel::Current:QItemSelectionModel::Select);
+            BlockTable->clearSelection();
+            for (int i=0;i<BlockNbr;i++) BlockTable->setCurrentCell(CompositionList->List.count()-1-i,0,i==0?QItemSelectionModel::Select|QItemSelectionModel::Current:QItemSelectionModel::Select);
             s_BlockTable_EndSelectionChange();
 
             QApplication::restoreOverrideCursor();
@@ -885,7 +515,7 @@ void DlgImageComposer::s_BlockTable_Paste() {
 
 void DlgImageComposer::s_BlockTable_RemoveBlock() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_RemoveBlock");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_REMOVEBLOCK,ui->BlockTable,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_REMOVEBLOCK,BlockTable,true);
 
     if (BlockSelectMode==SELECTMODE_ONE) {
         if ((ApplicationConfig->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgImageComposer","Remove block"),QApplication::translate("DlgImageComposer","Are you sure you want to delete this block?"),
@@ -900,18 +530,18 @@ void DlgImageComposer::s_BlockTable_RemoveBlock() {
         int KeyToDelete=CompositionList->List[i]->IndexKey;
 
         // Delete block from all shots of the slide
-        for (int j=0;j<ffdProject->ProjectThumbnail->List.count();j++) {
+        for (int j=0;j<CurrentSlide->List.count();j++) {
             int k=0;
-            while (k<ffdProject->ProjectThumbnail->List[j]->ShotComposition.List.count()) {
-                if (ffdProject->ProjectThumbnail->List[j]->ShotComposition.List[k]->IndexKey==KeyToDelete) delete ffdProject->ProjectThumbnail->List[j]->ShotComposition.List.takeAt(k);
+            while (k<CurrentSlide->List[j]->ShotComposition.List.count()) {
+                if (CurrentSlide->List[j]->ShotComposition.List[k]->IndexKey==KeyToDelete) delete CurrentSlide->List[j]->ShotComposition.List.takeAt(k);
                     else k++;
             }
         }
 
         // Delete block from global composition list of the slide
         int k=0;
-        while (k<ffdProject->ProjectThumbnail->ObjectComposition.List.count()) {
-            if (ffdProject->ProjectThumbnail->ObjectComposition.List[k]->IndexKey==KeyToDelete) delete ffdProject->ProjectThumbnail->ObjectComposition.List.takeAt(k);
+        while (k<CurrentSlide->ObjectComposition.List.count()) {
+            if (CurrentSlide->ObjectComposition.List[k]->IndexKey==KeyToDelete) delete CurrentSlide->ObjectComposition.List.takeAt(k);
                 else k++;
         }
     }
@@ -920,14 +550,14 @@ void DlgImageComposer::s_BlockTable_RemoveBlock() {
     RefreshBlockTable(CurrentCompoObjectNbr>=CompositionList->List.count()?CurrentCompoObjectNbr-1:CurrentCompoObjectNbr);
 
     // Ensure nothing is selected
-    ui->BlockTable->clearSelection();
+    BlockTable->clearSelection();
 }
 
 //====================================================================================================================
 
 void DlgImageComposer::s_BlockTable_AddNewTextBlock() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_AddNewTextBlock");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ADDTEXTBLOCK,ui->BlockTable,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ADDTEXTBLOCK,BlockTable,true);
 
     QMenu *ContextMenu=new QMenu(this);
     ContextMenu->addAction(ui->actionAddSimpleTextBlock);
@@ -943,8 +573,8 @@ void DlgImageComposer::s_BlockTable_AddNewSimpleTextBlock() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_AddNewTextBlock");
 
     // Create and append a composition block to the object list
-    ffdProject->ProjectThumbnail->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig,&ffdProject->ProjectThumbnail->ObjectComposition));
-    cCompositionObject *CompositionObject=ffdProject->ProjectThumbnail->ObjectComposition.List[ffdProject->ProjectThumbnail->ObjectComposition.List.count()-1];
+    CurrentSlide->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig,&CurrentSlide->ObjectComposition));
+    cCompositionObject *CompositionObject=CurrentSlide->ObjectComposition.List[CurrentSlide->ObjectComposition.List.count()-1];
 
     // Apply Styles
     CompositionObject->ApplyTextStyle(ApplicationConfig->StyleTextCollection.GetStyleDef(ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_TextST)));
@@ -978,13 +608,13 @@ void DlgImageComposer::s_BlockTable_AddNewSimpleTextBlock() {
     CompositionObject->Text=TextDoc.toHtml();
 
     // Now create and append a shot composition block to all shot
-    for (int i=0;i<ffdProject->ProjectThumbnail->List.count();i++) {
-        ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&ffdProject->ProjectThumbnail->List[i]->ShotComposition));
-        ffdProject->ProjectThumbnail->List[i]->ShotComposition.List[ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
+    for (int i=0;i<CurrentSlide->List.count();i++) {
+        CurrentSlide->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&CurrentSlide->List[i]->ShotComposition));
+        CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
     }
 
     // Inc NextIndexKey
-    ffdProject->ProjectThumbnail->NextIndexKey++;
+    CurrentSlide->NextIndexKey++;
 
     RefreshBlockTable(CompositionList->List.count()-1);
     NoPrepUndo=true;
@@ -1004,8 +634,8 @@ void DlgImageComposer::s_BlockTable_AddNewClipArtTextBlock() {
     if (RessourceName=="") return;
 
     // Create and append a composition block to the object list
-    ffdProject->ProjectThumbnail->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig,&ffdProject->ProjectThumbnail->ObjectComposition));
-    cCompositionObject *CompositionObject=ffdProject->ProjectThumbnail->ObjectComposition.List[ffdProject->ProjectThumbnail->ObjectComposition.List.count()-1];
+    CurrentSlide->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig,&CurrentSlide->ObjectComposition));
+    cCompositionObject *CompositionObject=CurrentSlide->ObjectComposition.List[CurrentSlide->ObjectComposition.List.count()-1];
 
     // Apply Styles
     CompositionObject->ApplyTextStyle(TextFrameList.List[TextFrameList.SearchImage(RessourceName)].TextStyle);
@@ -1042,13 +672,13 @@ void DlgImageComposer::s_BlockTable_AddNewClipArtTextBlock() {
     CompositionObject->Text=TextDoc.toHtml();
 
     // Now create and append a shot composition block to all shot
-    for (int i=0;i<ffdProject->ProjectThumbnail->List.count();i++) {
-        ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&ffdProject->ProjectThumbnail->List[i]->ShotComposition));
-        ffdProject->ProjectThumbnail->List[i]->ShotComposition.List[ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
+    for (int i=0;i<CurrentSlide->List.count();i++) {
+        CurrentSlide->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&CurrentSlide->List[i]->ShotComposition));
+        CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
     }
 
     // Inc NextIndexKey
-    ffdProject->ProjectThumbnail->NextIndexKey++;
+    CurrentSlide->NextIndexKey++;
 
     RefreshBlockTable(CompositionList->List.count()-1);
     NoPrepUndo=true;
@@ -1068,14 +698,14 @@ void DlgImageComposer::s_BlockTable_AddNewFileBlock() {
     if (FileList.count()==0) return;
 
     QApplication::processEvents();
-    s_BlockTable_AddFilesBlock(FileList,ui->BlockTable->rowCount());
+    s_BlockTable_AddFilesBlock(FileList,BlockTable->rowCount());
 }
 
 //====================================================================================================================
 
 void DlgImageComposer::s_BlockTable_AddFilesBlock(QStringList FileList,int PositionToInsert) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_AddNewFileBlock");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ADDFILEBLOCK,ui->BlockTable,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ADDFILEBLOCK,BlockTable,true);
 
 
     // Add files
@@ -1084,8 +714,8 @@ void DlgImageComposer::s_BlockTable_AddFilesBlock(QStringList FileList,int Posit
         QString ErrorMessage=QApplication::translate("MainWindow","Format not supported","Error message");
 
         // Create and append a composition block to the object list
-        ffdProject->ProjectThumbnail->ObjectComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_OBJECT,ffdProject->ProjectThumbnail->NextIndexKey,ApplicationConfig,&ffdProject->ProjectThumbnail->ObjectComposition));
-        cCompositionObject  *CompositionObject=ffdProject->ProjectThumbnail->ObjectComposition.List[PositionToInsert];
+        CurrentSlide->ObjectComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,ApplicationConfig,&CurrentSlide->ObjectComposition));
+        cCompositionObject  *CompositionObject=CurrentSlide->ObjectComposition.List[PositionToInsert];
         cBrushDefinition    *CurrentBrush     =CompositionObject->BackgroundBrush;
 
         CompositionObject->Text     ="";
@@ -1133,16 +763,16 @@ void DlgImageComposer::s_BlockTable_AddFilesBlock(QStringList FileList,int Posit
             } else CompositionObject->ApplyAutoCompoSize(ApplicationConfig->DefaultBlockBA[CurrentBrush->GetImageType()].AutoCompo,ffdProject->ImageGeometry);
 
             // Now create and append a shot composition block to all shot
-            for (int i=0;i<ffdProject->ProjectThumbnail->List.count();i++) {
-                ffdProject->ProjectThumbnail->List[i]->ShotComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&ffdProject->ProjectThumbnail->List[i]->ShotComposition));
-                ffdProject->ProjectThumbnail->List[i]->ShotComposition.List[PositionToInsert]->CopyFromCompositionObject(CompositionObject);
+            for (int i=0;i<CurrentSlide->List.count();i++) {
+                CurrentSlide->List[i]->ShotComposition.List.insert(PositionToInsert,new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&CurrentSlide->List[i]->ShotComposition));
+                CurrentSlide->List[i]->ShotComposition.List[PositionToInsert]->CopyFromCompositionObject(CompositionObject);
             }
             // Inc NextIndexKey
-            ffdProject->ProjectThumbnail->NextIndexKey++;
+            CurrentSlide->NextIndexKey++;
             PositionToInsert++;
 
         } else {
-            delete ffdProject->ProjectThumbnail->ObjectComposition.List.takeAt(PositionToInsert);
+            delete CurrentSlide->ObjectComposition.List.takeAt(PositionToInsert);
             CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
         }
     }
@@ -1155,7 +785,7 @@ void DlgImageComposer::s_BlockTable_AddFilesBlock(QStringList FileList,int Posit
 
 void DlgImageComposer::s_BlockSettings_IntZoneTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y,qreal RSel_X,qreal RSel_Y,qreal RSel_W,qreal RSel_H) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_IntZoneTransformBlocks");
-    AppendPartialUndo(UNDOACTION_INTERACTIVEMOVERESIZE,ui->InteractiveZone,true);
+    AppendPartialUndo(UNDOACTION_INTERACTIVEMOVERESIZE,InteractiveZone,true);
 
     for (int i=0;i<IsSelected.count();i++) if ((IsSelected[i])&&(CompositionList->List[i]->IsVisible)) {
         qreal   RatioScale_X=(RSel_W+Scale_X)/RSel_W;
@@ -1165,7 +795,7 @@ void DlgImageComposer::s_BlockSettings_IntZoneTransformBlocks(qreal Move_X,qreal
         CompositionList->List[i]->y=RSel_Y+Move_Y+(CompositionList->List[i]->y-RSel_Y)*RatioScale_Y;
         CompositionList->List[i]->w=CompositionList->List[i]->w*RatioScale_X;
         if (CompositionList->List[i]->w<0.002) CompositionList->List[i]->w=0.002;
-        if (CompositionList->List[i]->BackgroundBrush->LockGeometry) CompositionList->List[i]->h=((CompositionList->List[i]->w*THUMBWITH)*CompositionList->List[i]->BackgroundBrush->AspectRatio)/THUMBHEIGHT;
+        if (CompositionList->List[i]->BackgroundBrush->LockGeometry) CompositionList->List[i]->h=((CompositionList->List[i]->w*InteractiveZone->DisplayW)*CompositionList->List[i]->BackgroundBrush->AspectRatio)/InteractiveZone->DisplayH;
             else CompositionList->List[i]->h=CompositionList->List[i]->h*RatioScale_Y;
         if (CompositionList->List[i]->h<0.002) CompositionList->List[i]->h=0.002;
     }
@@ -1181,14 +811,14 @@ void DlgImageComposer::s_BlockSettings_IntZoneDisplayTransformBlocks(qreal Move_
     qreal   RatioScale_X=(RSel_W+Scale_X)/RSel_W;
     qreal   RatioScale_Y=(RSel_H+Scale_Y)/RSel_H;
     QRectF  tmpRect     =PolygonToRectF(ComputePolygon(CompositionList->List[i]->BackgroundForm,
-                                                       CompositionList->List[i]->x*THUMBWITH,CompositionList->List[i]->y*THUMBHEIGHT,
-                                                       CompositionList->List[i]->w*THUMBWITH,CompositionList->List[i]->h*THUMBHEIGHT));
-    qreal   Ratio_X     =(CompositionList->List[i]->x*THUMBWITH)/tmpRect.width();
-    qreal   Ratio_Y     =(CompositionList->List[i]->h*THUMBHEIGHT)/tmpRect.height();
+                                                       CompositionList->List[i]->x*InteractiveZone->DisplayW,CompositionList->List[i]->y*InteractiveZone->DisplayH,
+                                                       CompositionList->List[i]->w*InteractiveZone->DisplayW,CompositionList->List[i]->h*InteractiveZone->DisplayH));
+    qreal   Ratio_X     =(CompositionList->List[i]->x*InteractiveZone->DisplayW)/tmpRect.width();
+    qreal   Ratio_Y     =(CompositionList->List[i]->h*InteractiveZone->DisplayH)/tmpRect.height();
     qreal   x           =RSel_X+Move_X+(CompositionList->List[i]->x-RSel_X)*RatioScale_X;
     qreal   y           =RSel_Y+Move_Y+(CompositionList->List[i]->y-RSel_Y)*RatioScale_Y;
     qreal   w           =CompositionList->List[i]->w*RatioScale_X; if (w<0.002) w=0.002;
-    qreal   h           =(CompositionList->List[i]->BackgroundBrush->LockGeometry?((w*THUMBWITH)*CompositionList->List[i]->BackgroundBrush->AspectRatio)/THUMBHEIGHT:CompositionList->List[i]->h*RatioScale_Y); if (h<0.002) h=0.002;
+    qreal   h           =(CompositionList->List[i]->BackgroundBrush->LockGeometry?((w*InteractiveZone->DisplayW)*CompositionList->List[i]->BackgroundBrush->AspectRatio)/InteractiveZone->DisplayH:CompositionList->List[i]->h*RatioScale_Y); if (h<0.002) h=0.002;
 
     if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
         ui->PosXEd->  setValue(x*100/Ratio_X);
@@ -1196,10 +826,10 @@ void DlgImageComposer::s_BlockSettings_IntZoneDisplayTransformBlocks(qreal Move_
         ui->WidthEd-> setValue(w*100/Ratio_X);
         ui->HeightEd->setValue(h*100/Ratio_Y);
     } else { // DisplayUnit==DISPLAYUNIT_PIXELS
-        ui->PosXEd->  setValue(x*THUMBWITH/Ratio_X);
-        ui->PosYEd->  setValue(y*THUMBHEIGHT/Ratio_Y);
-        ui->WidthEd-> setValue(w*THUMBWITH/Ratio_X);
-        ui->HeightEd->setValue(h*THUMBHEIGHT/Ratio_Y);
+        ui->PosXEd->  setValue(x*InteractiveZone->DisplayW/Ratio_X);
+        ui->PosYEd->  setValue(y*InteractiveZone->DisplayH/Ratio_Y);
+        ui->WidthEd-> setValue(w*InteractiveZone->DisplayW/Ratio_X);
+        ui->HeightEd->setValue(h*InteractiveZone->DisplayH/Ratio_Y);
     }
     InRefreshControls=false;
 }
@@ -1208,7 +838,7 @@ void DlgImageComposer::s_BlockSettings_IntZoneDisplayTransformBlocks(qreal Move_
 
 void DlgImageComposer::s_BlockTable_MoveBlockUp() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_MoveBlockUp");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_CHBLOCKORDER,ui->BlockTable,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_CHBLOCKORDER,BlockTable,true);
     s_BlockTable_SelectionChanged(); // Refresh selection
     if (BlockSelectMode!=SELECTMODE_ONE) return;
     if (CurrentCompoObjectNbr<1) return;
@@ -1220,7 +850,7 @@ void DlgImageComposer::s_BlockTable_MoveBlockUp() {
 
 void DlgImageComposer::s_BlockTable_MoveBlockDown() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_MoveBlockDown");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_CHBLOCKORDER,ui->BlockTable,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_CHBLOCKORDER,BlockTable,true);
     s_BlockTable_SelectionChanged(); // Refresh selection
     if (BlockSelectMode!=SELECTMODE_ONE) return;
     if (CurrentCompoObjectNbr>=CompositionList->List.count()-1) return;
@@ -1233,7 +863,7 @@ void DlgImageComposer::s_BlockTable_MoveBlockDown() {
 void DlgImageComposer::s_BlockTable_DragMoveBlock(int Src,int Dst) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_DragMoveBlock");
     if (Src>=CompositionList->List.count()) return;
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_CHBLOCKORDER,ui->BlockTable,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_CHBLOCKORDER,BlockTable,true);
     if (Src<Dst) Dst--;
     CompositionList->List.insert(Dst,CompositionList->List.takeAt(Src));
     RefreshBlockTable(Dst);
@@ -1320,9 +950,9 @@ void DlgImageComposer::s_BlockTable_DragDropFiles(QList<QUrl> urlList) {
             if (info.isFile()) FileList.append(fName);  // append file
         }
         if (FileList.count()>0) {
-            if (ui->BlockTable->DragItemDest<0)                          ui->BlockTable->DragItemDest=0;
-            if (ui->BlockTable->DragItemDest>ui->BlockTable->rowCount()) ui->BlockTable->DragItemDest=ui->BlockTable->rowCount();
-            s_BlockTable_AddFilesBlock(FileList,ui->BlockTable->DragItemDest);
+            if (BlockTable->DragItemDest<0)                          BlockTable->DragItemDest=0;
+            if (BlockTable->DragItemDest>BlockTable->rowCount()) BlockTable->DragItemDest=BlockTable->rowCount();
+            s_BlockTable_AddFilesBlock(FileList,BlockTable->DragItemDest);
         }
     }
 }
@@ -1376,23 +1006,23 @@ void DlgImageComposer::s_BlockSettings_Edit() {
 void DlgImageComposer::s_BlockSettings_TextEditor() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_TextEditor");
 
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
-    if (!NoPrepUndo) AppendPartialUndo(UNDOACTION_BLOCKTABLE_EDITTEXT,ui->InteractiveZone,true);
+    if (!ISBLOCKVALIDEVISIBLE()) return;
+    if (!NoPrepUndo) AppendPartialUndo(UNDOACTION_BLOCKTABLE_EDITTEXT,InteractiveZone,true);
     NoPrepUndo=false;
 
-    ui->InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_TextMargin;
-    ui->InteractiveZone->RefreshDisplay();
+    InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_TextMargin;
+    InteractiveZone->RefreshDisplay();
     DlgTextEdit Dlg(ffdProject,CurrentCompoObject,ApplicationConfig,&ApplicationConfig->StyleTextCollection,&ApplicationConfig->StyleTextBackgroundCollection,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));
     if (Dlg.exec()==0) {
-        ui->InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_BlockShape;
+        InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_BlockShape;
         // Apply to GlobalComposition objects
         CopyBlockProperties(CurrentCompoObject,GetGlobalCompositionObject(CurrentCompoObject->IndexKey));
-        int CurrentRow=ui->BlockTable->currentRow();
+        int CurrentRow=BlockTable->currentRow();
         RefreshBlockTable(CurrentRow>0?CurrentRow:0);
     } else {
-        ui->InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_BlockShape;
+        InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_BlockShape;
         RemoveLastPartialUndo();
         RefreshControls();
     }
@@ -1404,7 +1034,7 @@ void DlgImageComposer::s_BlockSettings_TextEditor() {
 void DlgImageComposer::s_BlockSettings_Information() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_Information");
 
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
+    if (!ISBLOCKVALIDEVISIBLE()) return;
 
     DlgInfoFile Dlg(CurrentCompoObject->BackgroundBrush->MediaObject,ApplicationConfig,this);
     Dlg.InitDialog();
@@ -1419,7 +1049,7 @@ void DlgImageComposer::s_BlockSettings_ImageEditCorrect() {
 
     if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!ui->actionEditImage->isEnabled())) return;
 
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_EDITIMAGE,ui->InteractiveZone,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_EDITIMAGE,InteractiveZone,true);
     cBrushDefinition *CurrentBrush=CurrentCompoObject->BackgroundBrush;
 
     // Compute position of video
@@ -1429,115 +1059,21 @@ void DlgImageComposer::s_BlockSettings_ImageEditCorrect() {
     if (Dlg.exec()==0) {
         FramingCB_CurrentBrush   =NULL; // To force a refresh of ui->FramingCB !
         CurrentBrush->AspectRatio=CurrentBrush->AspectRatio;
-        CurrentCompoObject->h    =(CurrentCompoObject->w*THUMBWITH*CurrentBrush->AspectRatio)/THUMBHEIGHT;
+        CurrentCompoObject->h    =(CurrentCompoObject->w*InteractiveZone->DisplayW*CurrentBrush->AspectRatio)/InteractiveZone->DisplayH;
 
         // Adjust height and width to image stay in screen
-        if (((CurrentCompoObject->y+CurrentCompoObject->h)*THUMBHEIGHT)>THUMBHEIGHT) {
+        if (((CurrentCompoObject->y+CurrentCompoObject->h)*InteractiveZone->DisplayH)>InteractiveZone->DisplayH) {
             CurrentCompoObject->h=1-CurrentCompoObject->y;
-            CurrentCompoObject->w=((CurrentCompoObject->h*THUMBHEIGHT)/CurrentBrush->AspectRatio)/THUMBWITH;
+            CurrentCompoObject->w=((CurrentCompoObject->h*InteractiveZone->DisplayH)/CurrentBrush->AspectRatio)/InteractiveZone->DisplayW;
         }
 
         // Lulo object for image and video must be remove
-        ApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->MediaObject->FileKey);
+        ApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->MediaObject->RessourceKey,CurrentCompoObject->BackgroundBrush->MediaObject->FileKey);
 
         RefreshBlockTable(CurrentCompoObjectNbr);
     } else {
         RemoveLastPartialUndo();
     }
-}
-
-//====================================================================================================================
-// Handler for position, size & rotation controls
-//====================================================================================================================
-
-//========= X position
-void DlgImageComposer::s_BlockSettings_PosXValue(double Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_PosXValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_POSX,ui->PosXEd,false);
-
-    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->x=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
-        else                                                     CurrentCompoObject->x=(Value/THUMBWITH);    // DisplayUnit==DISPLAYUNIT_PIXELS
-    RefreshControls(true);
-}
-
-//========= Y position
-void DlgImageComposer::s_BlockSettings_PosYValue(double Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_PosYValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_POSY,ui->PosYEd,false);
-
-    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->y=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
-        else                                                     CurrentCompoObject->y=(Value/THUMBHEIGHT);    // DisplayUnit==DISPLAYUNIT_PIXELS
-    RefreshControls(true);
-}
-
-//========= Width
-void DlgImageComposer::s_BlockSettings_PosWidthValue(double Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_PosWidthValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_WIDTH,ui->WidthEd,false);
-
-    qreal Ratio_X,Ratio_Y;
-    ComputeBlockRatio(CurrentCompoObject,Ratio_X,Ratio_Y);
-
-    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->w=(Value/100)*Ratio_X;
-        else CurrentCompoObject->w=(Value/THUMBWITH)*Ratio_X;
-    if (CurrentCompoObject->BackgroundBrush->LockGeometry) CurrentCompoObject->h=((CurrentCompoObject->w*THUMBWITH)*CurrentCompoObject->BackgroundBrush->AspectRatio)/THUMBHEIGHT;
-        else CurrentCompoObject->BackgroundBrush->AspectRatio=(CurrentCompoObject->h*THUMBHEIGHT)/(CurrentCompoObject->w*THUMBWITH);
-    RefreshControls(true);
-}
-
-//========= Height
-void DlgImageComposer::s_BlockSettings_PosHeightValue(double Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_PosHeightValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_HEIGHT,ui->HeightEd,false);
-
-    qreal Ratio_X,Ratio_Y;
-    ComputeBlockRatio(CurrentCompoObject,Ratio_X,Ratio_Y);
-
-    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->h=(Value/100)*Ratio_Y;
-        else CurrentCompoObject->h=(Value/THUMBHEIGHT)*Ratio_Y;
-    if (CurrentCompoObject->BackgroundBrush->LockGeometry) CurrentCompoObject->w=((CurrentCompoObject->h*THUMBHEIGHT)/CurrentCompoObject->BackgroundBrush->AspectRatio)/THUMBWITH;
-        else CurrentCompoObject->BackgroundBrush->AspectRatio=(CurrentCompoObject->h*THUMBHEIGHT)/(CurrentCompoObject->w*THUMBWITH);
-    RefreshControls(true);
-}
-
-//========= X Rotation value
-void DlgImageComposer::s_BlockSettings_RotateXValue(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_RotateXValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_ROTATEX,ui->RotateXED,false);
-    CurrentCompoObject->RotateXAxis=Value;
-    RefreshControls(true);
-}
-void DlgImageComposer::s_BlockSettings_ResetRotateXValue() {
-    s_BlockSettings_RotateXValue(0);
-}
-
-//========= Y Rotation value
-void DlgImageComposer::s_BlockSettings_RotateYValue(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_RotateYValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_ROTATEY,ui->RotateYED,false);
-    CurrentCompoObject->RotateYAxis=Value;
-    RefreshControls(true);
-}
-void DlgImageComposer::s_BlockSettings_ResetRotateYValue() {
-    s_BlockSettings_RotateYValue(0);
-}
-
-//========= Z Rotation value
-void DlgImageComposer::s_BlockSettings_RotateZValue(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_RotateZValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_ROTATEZ,ui->RotateZED,false);
-    CurrentCompoObject->RotateZAxis=Value;
-    RefreshControls(true);
-}
-void DlgImageComposer::s_BlockSettings_ResetRotateZValue() {
-    s_BlockSettings_RotateZValue(0);
 }
 
 //====================================================================================================================
@@ -1547,7 +1083,7 @@ void DlgImageComposer::s_BlockSettings_ResetRotateZValue() {
 void DlgImageComposer::s_BlockSettings_TextZoom(int Value) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_TextZoom");
 
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
+    if (!ISBLOCKVALIDEVISIBLE()) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_TEXTANIMZOOM,ui->ZoomED,false);
     CurrentCompoObject->TxtZoomLevel=Value;
     ui->ZoomSlider->setValue(CurrentCompoObject->TxtZoomLevel);
@@ -1560,184 +1096,60 @@ void DlgImageComposer::s_BlockSettings_TextZoomReset() {
     s_BlockSettings_TextZoom(100);
 }
 
-//====================================================================================================================
-// Handler for shape
-//====================================================================================================================
-
-//========= Text ClipArt
-void DlgImageComposer::s_BlockSettings_ShapeTextClipArtChIndex() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_ShapeTextClipArtChIndex");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName=="")) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_TEXTCLIPART,ui->TextClipArtCB,false);
-    CurrentCompoObject->TextClipArtName=ui->TextClipArtCB->GetCurrentTextFrame();
-    cTextFrameObject *TFO=&TextFrameList.List[TextFrameList.SearchImage(CurrentCompoObject->TextClipArtName)];
-    CurrentCompoObject->TMx=TFO->TMx;
-    CurrentCompoObject->TMy=TFO->TMy;
-    CurrentCompoObject->TMw=TFO->TMw;
-    CurrentCompoObject->TMh=TFO->TMh;
-    CurrentCompoObject->ApplyTextStyle(TFO->TextStyle);
-    CopyBlockProperties(CurrentCompoObject,GetGlobalCompositionObject(CurrentCompoObject->IndexKey));   // Apply to GlobalComposition objects
-    RefreshBlockTable(CurrentCompoObjectNbr);
-}
-
-//========= Background forme
-void DlgImageComposer::s_BlockSettings_ShapeBackgroundForm() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_ShapeBackgroundForm");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEFORM,ui->BackgroundFormCB,false);
-    CurrentCompoObject->BackgroundForm=ui->BackgroundFormCB->GetCurrentFrameShape();
-    CopyBlockProperties(CurrentCompoObject,GetGlobalCompositionObject(CurrentCompoObject->IndexKey));   // Apply to GlobalComposition objects
-    RefreshBlockTable(CurrentCompoObjectNbr);
-}
-
-//========= Opacity
-void DlgImageComposer::s_BlockSettings_ShapeOpacity(int Style) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_ShapeOpacity");
-
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEOPACITY,ui->OpacityCB,false);
-    CurrentCompoObject->Opacity=Style;
-    CopyBlockProperties(CurrentCompoObject,GetGlobalCompositionObject(CurrentCompoObject->IndexKey));   // Apply to GlobalComposition objects
-    RefreshControls(true);
-}
-
-//========= Border pen size
-void DlgImageComposer::s_BlockSettings_ShapePenSize(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_ShapePenSize");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEPENSIZE,ui->PenSizeEd,false);
-    CurrentCompoObject->PenSize=ui->PenSizeEd->value();
-    ui->PenColorCB->setEnabled(CurrentCompoObject->PenSize!=0);
-    ui->PenStyleCB->setEnabled(CurrentCompoObject->PenSize!=0);
-    CopyBlockProperties(CurrentCompoObject,GetGlobalCompositionObject(CurrentCompoObject->IndexKey));   // Apply to GlobalComposition objects
-    RefreshControls(true);
-}
-
-//========= Border pen style
-void DlgImageComposer::s_BlockSettings_ShapePenStyle(int index) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_ShapePenStyle");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEPENSTYLE,ui->PenStyleCB,false);
-    CurrentCompoObject->PenStyle=ui->PenStyleCB->itemData(index).toInt();
-    CopyBlockProperties(CurrentCompoObject,GetGlobalCompositionObject(CurrentCompoObject->IndexKey));   // Apply to GlobalComposition objects
-    RefreshControls(true);
-}
-
-//========= Border pen color
-void DlgImageComposer::s_BlockSettings_ShapePenColor(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_ShapePenColor");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEPENCOLOR,ui->PenColorCB,false);
-    CurrentCompoObject->PenColor=ui->PenColorCB->GetCurrentColor();
-    CopyBlockProperties(CurrentCompoObject,GetGlobalCompositionObject(CurrentCompoObject->IndexKey));   // Apply to GlobalComposition objects
-    RefreshControls(true);
-}
-
-//========= Shape shadow style
-void DlgImageComposer::s_BlockSettings_ShapeShadowFormValue(int value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_ShapeShadowFormValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPESHADOWFORM,ui->ShadowEffectCB,false);
-    CurrentCompoObject->FormShadow=value;
-    ui->ShadowEffectED->setEnabled(CurrentCompoObject->FormShadow!=0);
-    ui->ShadowColorCB->setEnabled(CurrentCompoObject->FormShadow!=0);
-    CopyBlockProperties(CurrentCompoObject,GetGlobalCompositionObject(CurrentCompoObject->IndexKey));   // Apply to GlobalComposition objects
-    RefreshControls(true);
-}
-
-//========= Shape shadow distance
-void DlgImageComposer::s_BlockSettings_ShapeShadowDistanceValue(int value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_ShapeShadowDistanceValue");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPESHADOWDIST,ui->ShadowEffectED,false);
-    CurrentCompoObject->FormShadowDistance =value;
-    CopyBlockProperties(CurrentCompoObject,GetGlobalCompositionObject(CurrentCompoObject->IndexKey));   // Apply to GlobalComposition objects
-    RefreshControls(true);
-}
-
-//========= shadow color
-void DlgImageComposer::s_BlockSettings_ShapeShadowColor(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockSettings_ShapeShadowColor");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPESHADOWCOLOR,ui->ShadowColorCB,false);
-    CurrentCompoObject->FormShadowColor=ui->ShadowColorCB->GetCurrentColor();
-    CopyBlockProperties(CurrentCompoObject,GetGlobalCompositionObject(CurrentCompoObject->IndexKey));   // Apply to GlobalComposition objects
-    RefreshControls(true);
-}
-
-//====================================================================================================================
-// Handler for style sheet management
-//====================================================================================================================
-
-void DlgImageComposer::s_BlockShapeStyleBT() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockShapeStyleBT");
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)) return;
-    AppendPartialUndo(UNDOACTION_STYLE_SHAPE,ui->InteractiveZone,false);
-    QString ActualStyle =CurrentCompoObject->GetBlockShapeStyle();
-    QString Item        =ApplicationConfig->StyleBlockShapeCollection.PopupCollectionMenu(this,ApplicationConfig,ActualStyle);
-    ui->BlockShapeStyleBT->setDown(false);
-    if (Item!="") {
-        InRefreshControls=true;
-        CurrentCompoObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(Item));
-        CopyBlockProperties(CurrentCompoObject,GetGlobalCompositionObject(CurrentCompoObject->IndexKey));   // Apply to GlobalComposition objects
-        RefreshBlockTable(CurrentCompoObjectNbr);
-    }
-}
-
 //********************************************************************************************************************
 //                                                  BLOCKS ALIGNMENT
 //********************************************************************************************************************
 
 void DlgImageComposer::s_BlockTable_AlignTop() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_AlignTop");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
-    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->y=ui->InteractiveZone->Sel_Y;
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,InteractiveZone,true);
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->y=InteractiveZone->Sel_Y;
     RefreshControls(true);
 }
 
 void DlgImageComposer::s_BlockTable_AlignMiddle() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_AlignMiddle");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
-    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->y=(ui->InteractiveZone->Sel_Y+ui->InteractiveZone->Sel_H/2)-CompositionList->List[i]->h/2;
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,InteractiveZone,true);
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->y=(InteractiveZone->Sel_Y+InteractiveZone->Sel_H/2)-CompositionList->List[i]->h/2;
     RefreshControls(true);
 }
 
 void DlgImageComposer::s_BlockTable_AlignBottom() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_AlignBottom");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
-    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->y=(ui->InteractiveZone->Sel_Y+ui->InteractiveZone->Sel_H)-CompositionList->List[i]->h;
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,InteractiveZone,true);
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->y=(InteractiveZone->Sel_Y+InteractiveZone->Sel_H)-CompositionList->List[i]->h;
     RefreshControls(true);
 }
 
 void DlgImageComposer::s_BlockTable_AlignLeft() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_AlignLeft");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
-    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->x=ui->InteractiveZone->Sel_X;
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,InteractiveZone,true);
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->x=InteractiveZone->Sel_X;
     RefreshControls(true);
 }
 
 void DlgImageComposer::s_BlockTable_AlignCenter() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_AlignCenter");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
-    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->x=(ui->InteractiveZone->Sel_X+ui->InteractiveZone->Sel_W/2)-CompositionList->List[i]->w/2;
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,InteractiveZone,true);
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->x=(InteractiveZone->Sel_X+InteractiveZone->Sel_W/2)-CompositionList->List[i]->w/2;
     RefreshControls(true);
 }
 
 void DlgImageComposer::s_BlockTable_AlignRight() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_AlignRight");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
-    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->x=(ui->InteractiveZone->Sel_X+ui->InteractiveZone->Sel_W)-CompositionList->List[i]->w;
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,InteractiveZone,true);
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->x=(InteractiveZone->Sel_X+InteractiveZone->Sel_W)-CompositionList->List[i]->w;
     RefreshControls(true);
 }
 
 void DlgImageComposer::s_BlockTable_DistributeHoriz() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_DistributeHoriz");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,InteractiveZone,true);
 
     // 1st step : compute available space and create list
     QList<SortBlock> List;
-    qreal           SpaceW   =ui->InteractiveZone->Sel_W;
-    qreal           CurrentX =ui->InteractiveZone->Sel_X;
+    qreal           SpaceW   =InteractiveZone->Sel_W;
+    qreal           CurrentX =InteractiveZone->Sel_X;
     for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
         SpaceW=SpaceW-CompositionList->List[i]->w;
         List.append(MakeSortBlock(i,CompositionList->List[i]->x));
@@ -1760,12 +1172,12 @@ void DlgImageComposer::s_BlockTable_DistributeHoriz() {
 
 void DlgImageComposer::s_BlockTable_DistributeVert() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_BlockTable_DistributeVert");
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,InteractiveZone,true);
 
     // 1st step : compute available space and create list
     QList<SortBlock> List;
-    qreal   SpaceH   =ui->InteractiveZone->Sel_H;
-    qreal   CurrentY =ui->InteractiveZone->Sel_Y;
+    qreal   SpaceH   =InteractiveZone->Sel_H;
+    qreal   CurrentY =InteractiveZone->Sel_Y;
     for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
         SpaceH=SpaceH-CompositionList->List[i]->h;
         List.append(MakeSortBlock(i,CompositionList->List[i]->y));
@@ -1793,12 +1205,12 @@ void DlgImageComposer::s_BlockTable_DistributeVert() {
 void DlgImageComposer::s_RulersBt() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_RulersBt");
 
-    DlgRulerDef Dlg(&ui->InteractiveZone->MagneticRuler,false,ApplicationConfig,this);
+    DlgRulerDef Dlg(&InteractiveZone->MagneticRuler,false,ApplicationConfig,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));
     if (Dlg.exec()==0) {
-        ApplicationConfig->ThumbRuler=ui->InteractiveZone->MagneticRuler;
-        ui->RulersBT->setIcon(QIcon(QString(ui->InteractiveZone->MagneticRuler!=0?ICON_RULER_ON:ICON_RULER_OFF)));
+        ApplicationConfig->ThumbRuler=InteractiveZone->MagneticRuler;
+        ui->RulersBT->setIcon(QIcon(QString(InteractiveZone->MagneticRuler!=0?ICON_RULER_ON:ICON_RULER_OFF)));
     }
-    ui->InteractiveZone->RefreshDisplay();
+    InteractiveZone->RefreshDisplay();
 }

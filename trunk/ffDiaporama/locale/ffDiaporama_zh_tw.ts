@@ -1486,6 +1486,178 @@ Yellow: The component works partially
     </message>
 </context>
 <context>
+    <name>DlgGMapsGeneration</name>
+    <message>
+        <source>Generate Google Maps map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel modification and exit dialog box</source>
+        <translation type="unfinished">取消修改然後離開對話方塊</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">取消(&amp;C)</translation>
+    </message>
+    <message>
+        <source>Download failed: %1. =&gt; wait 1sec and retry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error decoding image received from Google Maps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google stop responding
+May be you have reach the maximum number of request allowed.
+Please retry in one hour.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 pending section(s) should be retrieve later</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 pending section(s) to retrieve from Google Maps</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DlgGMapsLocation</name>
+    <message>
+        <source>Select a location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Give a friendly name for this location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Icon:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click to select an icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter postal adress to found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click on the map to select a location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Increase zoom level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust zoom level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Decrease zoom level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latitude:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Longitude:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accept modification and exit dialog box</source>
+        <translation type="unfinished">採納修改然後離開對話方塊</translation>
+    </message>
+    <message>
+        <source>&amp;Ok</source>
+        <translation type="unfinished">確定(&amp;O)</translation>
+    </message>
+    <message>
+        <source>Cancel modification and exit dialog box</source>
+        <translation type="unfinished">取消修改然後離開對話方塊</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">取消(&amp;C)</translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation type="unfinished">求助(&amp;H)</translation>
+    </message>
+    <message>
+        <source>Select another file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit current image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google stop responding
+May be you have reach the maximum number of request allowed.
+Please retry in one hour.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Incorect addres ? (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google said: %1
+Are you sure to have written the address correctly?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error parsing XML</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error parsing XML / incorrect root</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Erreur de parsing XML / status KO</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download failed: %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error decoding image reveived from Google Maps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The map has not been fully generated.
+Do you want to resume the generation now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DlgImageComposer</name>
     <message>
         <source>Edit thumbnail model</source>
@@ -1878,26 +2050,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <message>
         <source>Add a new ClipArt text block</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>None</source>
-        <translation>無</translation>
-    </message>
-    <message>
-        <source>Shadow upper left</source>
-        <translation>左上陰影</translation>
-    </message>
-    <message>
-        <source>Shadow upper right</source>
-        <translation>右上陰影</translation>
-    </message>
-    <message>
-        <source>Shadow bottom left</source>
-        <translation>左下陰影</translation>
-    </message>
-    <message>
-        <source>Shadow bottom right</source>
-        <translation>右下陰影</translation>
     </message>
     <message>
         <source>Remove block</source>
@@ -4018,6 +4170,14 @@ special</source>
         <comment>Tooltip</comment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Add image from clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create a new block using image from clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgTextEdit</name>
@@ -5836,6 +5996,36 @@ Do you want to download it now?</source>
         <source>Restore from a previous crash...</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Select an image file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update this favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove this favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error getting image from clipboard</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to read an image from the file</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading file from ressource</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error loading ressource</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTable</name>
@@ -6762,6 +6952,84 @@ Do you want to download it now?</source>
         <comment>File type</comment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Map type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Map zoom and size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Map latitude</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Map longitude</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 location(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GPS Coordinates %1 / %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Roadmap</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Satellite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Terrain</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hybrid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Small (640x360)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>720p-16:9 (1280x720)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>720px4-16:9 (2560x1440)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1080p-16:9 (1920x1080)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1080px4-16:9 (3840x2160)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select at least one location to produce Google Maps map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image from clipboard</source>
+        <comment>File type</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google Maps map</source>
+        <comment>File type</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>cDeviceModelList</name>
@@ -7301,6 +7569,57 @@ For example: an 4:3 image used in a 16:9 project will be shown by default with a
     </message>
     <message>
         <source>Deinterlace video</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>wgt_QGMapsMap</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the size of the map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Map type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the type of the map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the size of the image generated for the map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Map size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Marker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Google Maps to select a location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit current location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove current location</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

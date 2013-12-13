@@ -44,7 +44,7 @@ cModelListItem::cModelListItem(cModelList *Parent,QString FileName,QSize Thumbna
     } else {
         cDiaporama *Diaporama=new cDiaporama(Parent->ApplicationConfig,false,this);
         Diaporama->List.append(new cDiaporamaObject(Diaporama));
-        Diaporama->List[0]->LoadModelFromXMLData(Parent->ModelType,Model);
+        Diaporama->List[0]->LoadModelFromXMLData(Parent->ModelType,Model,&ResKeyList,false);
         Duration=Diaporama->List[0]->GetDuration();
         delete Diaporama;
     }
@@ -82,7 +82,7 @@ QImage cModelListItem::PrepareImage(int64_t Position,cDiaporama *DiaporamaToUse,
         Diaporama->List.append(new cDiaporamaObject(Diaporama));
         if (Parent->ModelType==ffd_MODELTYPE_THUMBNAIL) {
             DiaporamaObject=Diaporama->ProjectThumbnail;
-            if (Name!="*") DiaporamaObject->LoadModelFromXMLData(Parent->ModelType,Model);
+            if (Name!="*") DiaporamaObject->LoadModelFromXMLData(Parent->ModelType,Model,&ResKeyList,false);
         } else {
             DiaporamaObject=Diaporama->List[0];
             DiaporamaObject->StartNewChapter         =true;
@@ -91,15 +91,15 @@ QImage cModelListItem::PrepareImage(int64_t Position,cDiaporama *DiaporamaToUse,
             DiaporamaObject->ChapterEventDate        =QDate::currentDate();
             DiaporamaObject->OverrideChapterLongDate =true;
             DiaporamaObject->ChapterLongDate         =FormatLongDate(Diaporama->List[0]->ChapterEventDate);
-            DiaporamaObject->LoadModelFromXMLData(Parent->ModelType,Model);
+            DiaporamaObject->LoadModelFromXMLData(Parent->ModelType,Model,&ResKeyList,false);
         }
     } else {
         DiaporamaObject->ChapterName=QApplication::translate("cModelList","Chapter title");
         if (Parent->ModelType==ffd_MODELTYPE_THUMBNAIL) {
-            if (Name!="*") DiaporamaObject->LoadModelFromXMLData(Parent->ModelType,Model);
+            if (Name!="*") DiaporamaObject->LoadModelFromXMLData(Parent->ModelType,Model,&ResKeyList,false);
         } else {
             DiaporamaObject->SlideName=QString("<%AUTOTS_%1%>").arg(Name);
-            DiaporamaObject->LoadModelFromXMLData(Parent->ModelType,Model);
+            DiaporamaObject->LoadModelFromXMLData(Parent->ModelType,Model,&ResKeyList,false);
         }
     }
 
@@ -208,7 +208,43 @@ QDomDocument cModelListItem::LoadModelFile(ffd_MODELTYPE TypeModel,QString Model
         ErrorMsg=ErrorMsg+"\n"+ModelFileName;
         CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("cModelList","Error","Error message"),ErrorMsg,QMessageBox::Close);
     } else {
-        if (!domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
+        QTextStream InStream(&file);
+        QString     ffDPart;
+        QString     OtherPart="<!DOCTYPE ffDiaporama>\n";
+        bool        EndffDPart=false;
+
+        while (!InStream.atEnd()) {
+            QString Line=InStream.readLine();
+            if (!EndffDPart) {
+                ffDPart.append(Line);
+                if (Line=="</Model>") EndffDPart=true;
+            } else {
+                OtherPart.append(Line);
+                if (Line.endsWith("/>")) {
+                    QDomDocument ResDoc;
+                    if (ResDoc.setContent(OtherPart,true,&errorStr,&errorLine,&errorColumn)) {
+                        QDomElement  ResElem=ResDoc.documentElement();
+                        if (ResElem.tagName()=="Ressource") {
+                            int         Width   =ResElem.attribute("Width").toInt();
+                            int         Height  =ResElem.attribute("Height").toInt();
+                            qlonglong   Key     =ResElem.attribute("Key").toLongLong();
+                            QImage      Thumb(Width,Height,QImage::Format_ARGB32_Premultiplied);
+                            QByteArray  Compressed   =QByteArray::fromHex(ResElem.attribute("Image").toUtf8());
+                            QByteArray  Decompressed =qUncompress(Compressed);
+                            Thumb.loadFromData(Decompressed);
+                            ResKeyList.append(Parent->ApplicationConfig->SlideThumbsTable->AppendThumbs(Key,Thumb));
+                        }
+                    }
+                    // Go to next ressource
+                    OtherPart="<!DOCTYPE ffDiaporama>\n";
+                }
+            }
+        }
+
+        file.close();
+
+        // Now import ffDPart
+        if (!domDocument.setContent(ffDPart, true, &errorStr, &errorLine,&errorColumn)) {
             switch (TypeModel) {
                 case ffd_MODELTYPE_THUMBNAIL:     ErrorMsg=QApplication::translate("cModelList","Error reading content of default thumbnail file","Error message");     break;
                 case ffd_MODELTYPE_PROJECTTITLE:
@@ -218,9 +254,9 @@ QDomDocument cModelListItem::LoadModelFile(ffd_MODELTYPE TypeModel,QString Model
                     break;
             }
             ErrorMsg=ErrorMsg+"\n"+ModelFileName;
+            qDebug()<<ffDPart;
             CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("cModelList","Error","Error message"),ErrorMsg,QMessageBox::Close);
         }
-        file.close();
     }
     return domDocument;
 }

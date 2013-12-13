@@ -1,14 +1,38 @@
 **************************************************
-* FFDIAPORAMA 2.0.1 - trunk - (English version)
+* FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
+
+[Commit: 13/12/2013] - ffDiaporama 2.1 devel 12/12/2013
+    Bug fixes:
+        -Fixed the bug on the images in the generation of WIKI
+        -Fixed bug regarding titles of untranslated pages in the generation of WIKI (highlight them instead of hide them)
+
+    New features:
+        -Change the format of .ffd file order to integrate resources
+        -Changes the registration of slides's thumbnails in the .ffd file so they are stored as a resource and not in the slide
+        -Adding new types of objects: Image from clipboard and Google Maps map
+        -Added "Add Special" button in the edit slide dialog box to insert new object types
+        -Added a new tab "Google Maps Map" in the "edit and crop images/video/map" dialog box
+        -Changed the operation for copy/paste in the edit slides dialog box to allow paste of image as a new object "Image from clipboard"
+        -Changed the operation for copy/paste in the main window to allow paste of image as a new slide containing an object "Image from clipboard"
+        -Created a new dialog box for select/change a GPS location using Google Maps and adds a new entry in the Wiki for this dialog box
+        -Added new entries in the WIKI to describe the types of objects used with ffDiaporama (the pages have to be completed!)
+
+--------------------------------------------------------------------------------
+
+[Commit: 05/12/2013] - ffDiaporama 2.0.1 stable
+    Bug fixes:
+        -Fixed a crash in edit slide dialog
+        -Fixed UNDO in the slide edit dialog (keep selection)
+        -Fixed the application of shape styles in slide edit dialog
+
+--------------------------------------------------------------------------------
 
 [Commit: 01/12/2013]
     Bug fixes:
         -Fixed the proposed filter for file format to select another image when an image file is missing during the loading of a project [regression 20131130]
         -Improves the detection of another instance of ffdiaporama and re-authorizes the launch if the last instance has crashed
         -Replace QT5 specific codes in devel.20131130 with QT4/QT5 compatible codes [regression 20131130]
-
-    New features:
 
 --------------------------------------------------------------------------------
 

@@ -178,12 +178,12 @@ void DlgExportProject::ScanDiaporama() {
         }
         // BackgroundBrush of object
         if ((ffdProject->List[i]->BackgroundType)&&(ffdProject->List[i]->BackgroundBrush)) {
-            if (ffdProject->List[i]->BackgroundBrush->MediaObject)
+            if ((ffdProject->List[i]->BackgroundBrush->MediaObject)&&(ffdProject->List[i]->BackgroundBrush->MediaObject->FileKey!=-1))
                 SearchAppendObject(ffdProject->List[i]->BackgroundBrush->MediaObject->FileName());
         }
         // BackgroundBrush of shots
         for (int j=0;j<ffdProject->List[i]->ObjectComposition.List.count();j++) if (ffdProject->List[i]->ObjectComposition.List[j]->BackgroundBrush) {
-            if (ffdProject->List[i]->ObjectComposition.List[j]->BackgroundBrush->MediaObject)
+            if ((ffdProject->List[i]->ObjectComposition.List[j]->BackgroundBrush->MediaObject)&&(ffdProject->List[i]->ObjectComposition.List[j]->BackgroundBrush->MediaObject->FileKey!=-1))
                 SearchAppendObject(ffdProject->List[i]->ObjectComposition.List[j]->BackgroundBrush->MediaObject->FileName());
         }
     }

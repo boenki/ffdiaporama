@@ -21,31 +21,21 @@
 #ifndef DLGIMAGECOMPOSER_H
 #define DLGIMAGECOMPOSER_H
 
-// Basic inclusions (common to all files)
-#include "CustomCtrl/_QCustomDialog.h"
-#include "engine/_Diaporama.h"
+#include "DlgSlide/cShotComposer.h"
 
 namespace Ui {
     class DlgImageComposer;
 }
 
-class DlgImageComposer : public QCustomDialog {
+class DlgImageComposer : public cShotComposer {
 Q_OBJECT
 public:
     cDiaporama          *ffdProject;
-    cCompositionObject  *CurrentCompoObject;        // Current block object (if selection mode = SELECTMODE_ONE)
-    int                 CurrentCompoObjectNbr;      // Number of Current block object (if selection mode = SELECTMODE_ONE)
+
     cBrushDefinition    *FramingCB_CurrentBrush;
-    cCompositionList    *CompositionList;           // Link to current block List
-    QList<bool>         IsSelected;                 // Table of selection state in the current block list
-    int                 NbrSelected;                // Number of selected blocks
-    SELECTMODE          BlockSelectMode;            // Current block selection mode
-    double              ProjectGeometry;
 
     // Re-entrence flags
     bool                InRefreshStyleControls;
-    bool                InRefreshControls;
-    bool                InSelectionChange;
     bool                StopMajFramingStyle;
     bool                NoPrepUndo;
 
@@ -59,11 +49,8 @@ public:
     virtual void        PrepareGlobalUndo();                        // Initiale Undo
     virtual void        DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
 
-    void                RefreshStyleControls();
-    void                RefreshControls(bool UpdateInteractiveZone=true);
-
-    void                CopyBlockProperties(cCompositionObject *SourceBlock,cCompositionObject *DestBlock);
-    cCompositionObject  *GetGlobalCompositionObject(int IndexKey);      // Return CompositionObject in the global composition list for specific IndexKey
+    virtual void        RefreshStyleControls();
+    virtual void        RefreshControls(bool UpdateInteractiveZone=true);
 
 protected:
     virtual void        resizeEvent(QResizeEvent *);
@@ -75,7 +62,6 @@ private slots:
     void                s_RefreshSceneImage();
     void                s_RulersBt();
 
-    void                s_BlockTable_SelectionChanged();            // User select a block in the BlocTable widget
     void                s_BlockTable_StartSelectionChange();
     void                s_BlockTable_EndSelectionChange();
     void                s_BlockTable_ItemDoubleClicked(QMouseEvent *);
@@ -100,37 +86,9 @@ private slots:
     void                s_BlockSettings_ImageEditCorrect();
     void                s_BlockSettings_Information();
 
-    // Block settings : Coordinates
-    void                s_BlockSettings_PosXValue(double);
-    void                s_BlockSettings_PosYValue(double);
-    void                s_BlockSettings_PosWidthValue(double);
-    void                s_BlockSettings_PosHeightValue(double);
-
-    // Block settings : Rotations
-    void                s_BlockSettings_RotateZValue(int);
-    void                s_BlockSettings_ResetRotateZValue();
-    void                s_BlockSettings_RotateXValue(int);
-    void                s_BlockSettings_ResetRotateXValue();
-    void                s_BlockSettings_RotateYValue(int);
-    void                s_BlockSettings_ResetRotateYValue();
-
     // Block settings : Text
     void                s_BlockSettings_TextZoom(int Value);
     void                s_BlockSettings_TextZoomReset();
-
-    // Block settings : Shape
-    void                s_BlockSettings_ShapeTextClipArtChIndex();
-    void                s_BlockSettings_ShapeBackgroundForm();
-    void                s_BlockSettings_ShapeOpacity(int);
-    void                s_BlockSettings_ShapeShadowFormValue(int);
-    void                s_BlockSettings_ShapeShadowDistanceValue(int);
-    void                s_BlockSettings_ShapePenSize(int);
-    void                s_BlockSettings_ShapePenColor(int);
-    void                s_BlockSettings_ShapePenStyle(int);
-    void                s_BlockSettings_ShapeShadowColor(int);
-
-    // Block settings : Style
-    void                s_BlockShapeStyleBT();
 
     // Block settings : Alignment
     void                s_BlockTable_AlignTop();
@@ -149,10 +107,8 @@ private slots:
 private:
     Ui::DlgImageComposer *ui;
 
-    void                ComputeBlockRatio(cCompositionObject *Block,qreal &Ratio_X,qreal &Ratio_Y);
     void                MakeFormIcon(QComboBox *UICB);
     void                MakeBorderStyleIcon(QComboBox *UICB);
-    void                RefreshBlockTable(int SetCurrentIndex);
     void                s_BlockTable_AddFilesBlock(QStringList FileList,int PositionToInsert);
 };
 

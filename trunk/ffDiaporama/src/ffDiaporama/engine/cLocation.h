@@ -25,17 +25,28 @@
 #include "_GlobalDefines.h"
 #include "cBrushDefinition.h"
 
-class cLocation : public QObject {
-Q_OBJECT
+class cLocation {
 public:
-    double                  Key;                // Database key
+    qlonglong               FavKey;             // Database key of favorite definition for this location (or -1 if it's not a favorite)
     QString                 Name;               // Friendly name
     QString                 Address;            // Address as text
     double                  GPS_cx,GPS_cy;      // GPS position (longitude/latitude)
-    cBrushDefinition        Icon;
     int                     ZoomLevel;          // Preferred Map ZoomLevel
+    qlonglong               ThumbnailResKey;    // Key of a 64x64 image as thumb
+    cBrushDefinition        Icon;               // cBrushDefinition to create thumb
 
-    explicit                cLocation(cBaseApplicationConfig *ApplicationConfig,QObject *parent=0);
+    explicit                cLocation(cBaseApplicationConfig *ApplicationConfig);
+    virtual                 ~cLocation() {}
+
+    virtual void            SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList);
+    virtual bool            LoadFromXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
+
+    virtual QImage          GetThumb();
+    virtual void            AddToFavorite();
+    virtual void            UpdateFavorite();
+    virtual void            RemoveFavorite();
+    virtual bool            LoadFromFavorite(qlonglong Key);
+    virtual bool            SearchInFavorite();
 
 signals:
 

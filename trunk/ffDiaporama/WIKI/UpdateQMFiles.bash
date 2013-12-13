@@ -26,7 +26,7 @@ PREPLANGUAGE() {
     rm wiki_img
     ln -s ../wiki_img wiki_img
     rm img
-    ln -s ../../img img
+    ln -s ../../src/ffDiaporama/img img
     cp ../wiki.css wiki.css
     qhelpgenerator -c "wiki_"$1".qhp" -o "wiki_"$1".qch"
 	qcollectiongenerator "wiki_"$1".qhcp" -o "wiki_"$1".qhc"

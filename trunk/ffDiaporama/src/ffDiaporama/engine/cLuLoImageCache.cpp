@@ -33,7 +33,8 @@ QMutex MemoryMutex;
 //*********************************************************************************************************************************************
 // Constructor for image file
 
-cLuLoImageCacheObject::cLuLoImageCacheObject(qlonglong TheFileKey,QDateTime TheModifDateTime,int TheImageOrientation,QString TheFilterString,bool TheSmoothing,cLuLoImageCache *Parent) {
+cLuLoImageCacheObject::cLuLoImageCacheObject(qlonglong TheRessourceKey,qlonglong TheFileKey,QDateTime TheModifDateTime,int TheImageOrientation,QString TheFilterString,bool TheSmoothing,cLuLoImageCache *Parent) {
+    RessourceKey        =TheRessourceKey;
     FileKey             =TheFileKey;       // Full filename
     ModifDateTime       =TheModifDateTime;
     FilterString        =TheFilterString;
@@ -65,24 +66,34 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
     LuLoImageCache->FreeMemoryToMaxValue(this);
     MemoryMutex.lock();
     if (CacheRenderImage==NULL) {
-        QString FileName=LuLoImageCache->FilesTable->GetFileName(FileKey);
+        if (RessourceKey!=-1) {
+            QImage Image;
+            ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file from ressource"));
+            LuLoImageCache->ThumbsTable->GetThumbs(&RessourceKey,&Image);
+            CacheRenderImage=new QImage(Image);
+            if ((CacheRenderImage)&&(CacheRenderImage->isNull())) {
+                ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error loading ressource"));
+                delete CacheRenderImage;
+                CacheRenderImage=NULL;
+            }
+        } else {
+            QString FileName=LuLoImageCache->FilesTable->GetFileName(FileKey);
 
-        // Load image from disk
-        ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
-        if (QFileInfo(FileName).suffix().toLower()=="svg") {
-            //qDebug()<<"SVG";
+            // Load image from disk
+            ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
+            if (QFileInfo(FileName).suffix().toLower()=="svg") {
+                //qDebug()<<"SVG";
+            }
+            QImageReader Img(FileName);
+            CacheRenderImage=new QImage(Img.read());
+            if ((CacheRenderImage)&&(CacheRenderImage->isNull())) {
+                ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error loading file :")+FileName);
+                delete CacheRenderImage;
+                CacheRenderImage=NULL;
+            }
         }
-        QImageReader Img(FileName);
-        CacheRenderImage=new QImage(Img.read());
-
         if (!CacheRenderImage)
             ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error allocating memory for render image"));
-
-        if ((CacheRenderImage)&&(CacheRenderImage->isNull())) {
-            ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error loading file :")+FileName);
-            delete CacheRenderImage;
-            CacheRenderImage=NULL;
-        }
 
         // If image is ok then apply exif orientation (if needed)
         if (CacheRenderImage) {
@@ -153,27 +164,40 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
                 }
             }
         } else {
-            QString FileName=LuLoImageCache->FilesTable->GetFileName(FileKey);
-            ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
-            // if no CacheRenderImage then load image directly at correct size
-            QImageReader Img(FileName);
-            if (Img.canRead()) {
-                QSize Size =Img.size();
-                if (((ImageOrientation==8)||(ImageOrientation==6))&&(Size.width()>PREVIEWMAXHEIGHT)) {
-                    Size.setHeight((qreal(Size.height())/qreal(Size.width()))*PREVIEWMAXHEIGHT);
-                    Size.setWidth(PREVIEWMAXHEIGHT);
-                    Img.setScaledSize(Size);
-                } else if ((ImageOrientation!=8)&&(ImageOrientation!=6)&&(Size.height()>PREVIEWMAXHEIGHT)) {
-                    Size.setWidth((qreal(Size.width())/qreal(Size.height()))*PREVIEWMAXHEIGHT);
-                    Size.setHeight(PREVIEWMAXHEIGHT);
-                    Img.setScaledSize(Size);
+
+            if (RessourceKey!=-1) {
+
+                QImage Image;
+                ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file from ressource"));
+                LuLoImageCache->ThumbsTable->GetThumbs(&RessourceKey,&Image);
+                if (Image.height()>PREVIEWMAXHEIGHT) Image=Image.scaledToHeight(PREVIEWMAXHEIGHT);
+                CachePreviewImage=new QImage(Image);
+
+            } else {
+
+                QString FileName=LuLoImageCache->FilesTable->GetFileName(FileKey);
+                ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
+                // if no CacheRenderImage then load image directly at correct size
+                QImageReader Img(FileName);
+                if (Img.canRead()) {
+                    QSize Size =Img.size();
+                    if (((ImageOrientation==8)||(ImageOrientation==6))&&(Size.width()>PREVIEWMAXHEIGHT)) {
+                        Size.setHeight((qreal(Size.height())/qreal(Size.width()))*PREVIEWMAXHEIGHT);
+                        Size.setWidth(PREVIEWMAXHEIGHT);
+                        Img.setScaledSize(Size);
+                    } else if ((ImageOrientation!=8)&&(ImageOrientation!=6)&&(Size.height()>PREVIEWMAXHEIGHT)) {
+                        Size.setWidth((qreal(Size.width())/qreal(Size.height()))*PREVIEWMAXHEIGHT);
+                        Size.setHeight(PREVIEWMAXHEIGHT);
+                        Img.setScaledSize(Size);
+                    }
+                    CachePreviewImage=new QImage(Img.read());
                 }
-                CachePreviewImage=new QImage(Img.read());
                 if ((CachePreviewImage)&&(CachePreviewImage->isNull())) {
                     ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error loading file :")+FileName);
                     delete CachePreviewImage;
                     CachePreviewImage=NULL;
                 }
+
                 if (CachePreviewImage) {
                     if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
                         QMatrix matrix;
@@ -208,6 +232,7 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
                     }
                 }
             }
+
         }
 
         // If error
@@ -229,8 +254,9 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
 //*********************************************************************************************************************************************
 
 cLuLoImageCache::cLuLoImageCache() {
-    MaxValue=1024*1024*1024;
-    FilesTable=NULL;
+    MaxValue   =1024*1024*1024;
+    FilesTable =NULL;
+    ThumbsTable=NULL;
 }
 
 //===============================================================================
@@ -250,22 +276,42 @@ void cLuLoImageCache::clear() {
 //===============================================================================
 
 // Image version
-cLuLoImageCacheObject *cLuLoImageCache::FindObject(qlonglong FileKey,QDateTime ModifDateTime,int ImageOrientation,bool Smoothing,bool SetAtTop) {
+cLuLoImageCacheObject *cLuLoImageCache::FindObject(qlonglong RessourceKey,qlonglong FileKey,QDateTime ModifDateTime,int ImageOrientation,bool Smoothing,bool SetAtTop) {
     int i=0;
     while ((i<List.count())&&((List[i]->FileKey!=FileKey)||(List[i]->Smoothing!=Smoothing))) i++;
 
     MemoryMutex.lock();
-    if ((i<List.count())&&(List[i]->FileKey==FileKey)&&(List[i]->ModifDateTime==ModifDateTime)&&(List[i]->Smoothing==Smoothing)) {
-        // if wanted and image found then set it to the top of the list
-        if ((SetAtTop)&&(i>0)) { // If item is not the first
-            cLuLoImageCacheObject *Object=List.takeAt(i);   // Detach item from the list
-            List.prepend(Object);                           // Re-attach item at first position
+
+    if (RessourceKey!=-1) {
+
+        if ((i<List.count())&&(List[i]->RessourceKey==RessourceKey)&&(List[i]->Smoothing==Smoothing)) {
+            // if wanted and image found then set it to the top of the list
+            if ((SetAtTop)&&(i>0)) { // If item is not the first
+                cLuLoImageCacheObject *Object=List.takeAt(i);   // Detach item from the list
+                List.prepend(Object);                           // Re-attach item at first position
+                i=0;
+            }
+        } else {
+            // Image not found then create it at top of the list
+            List.prepend(new cLuLoImageCacheObject(RessourceKey,-1,ModifDateTime,ImageOrientation,"",Smoothing,this));     // Append a new object at first position
             i=0;
         }
+
     } else {
-        // Image not found then create it at top of the list
-        List.prepend(new cLuLoImageCacheObject(FileKey,ModifDateTime,ImageOrientation,"",Smoothing,this));     // Append a new object at first position
-        i=0;
+
+        if ((i<List.count())&&(List[i]->FileKey==FileKey)&&(List[i]->ModifDateTime==ModifDateTime)&&(List[i]->Smoothing==Smoothing)) {
+            // if wanted and image found then set it to the top of the list
+            if ((SetAtTop)&&(i>0)) { // If item is not the first
+                cLuLoImageCacheObject *Object=List.takeAt(i);   // Detach item from the list
+                List.prepend(Object);                           // Re-attach item at first position
+                i=0;
+            }
+        } else {
+            // Image not found then create it at top of the list
+            List.prepend(new cLuLoImageCacheObject(-1,FileKey,ModifDateTime,ImageOrientation,"",Smoothing,this));     // Append a new object at first position
+            i=0;
+        }
+
     }
     MemoryMutex.unlock();
     return List[i]; // return first object
@@ -273,11 +319,12 @@ cLuLoImageCacheObject *cLuLoImageCache::FindObject(qlonglong FileKey,QDateTime M
 
 //===============================================================================
 // Special case for Image object : Remove all image object of this key
-void cLuLoImageCache::RemoveImageObject(qlonglong FileKey) {
+void cLuLoImageCache::RemoveImageObject(qlonglong RessourceKey,qlonglong FileKey) {
     MemoryMutex.lock();
     int i=List.count()-1;
     while (i>=0) {
-        if (List[i]->FileKey==FileKey) delete List.takeAt(i);
+        if ((RessourceKey!=-1)&&(List[i]->RessourceKey==RessourceKey)) delete List.takeAt(i);
+        if ((RessourceKey==-1)&&(List[i]->FileKey==FileKey))           delete List.takeAt(i);
         i--;
     }
     MemoryMutex.unlock();

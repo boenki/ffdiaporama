@@ -3928,6 +3928,18 @@ Note: Hidden video blocks are automatically paused</string>
     <string>Add a map from Google maps</string>
    </property>
   </action>
+  <action name="actionAddImageClipboard">
+   <property name="icon">
+    <iconset resource="../RSCffDiaporama.qrc">
+     <normaloff>:/img/editpaste.png</normaloff>:/img/editpaste.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add image from clipboard</string>
+   </property>
+   <property name="toolTip">
+    <string>Create a new block using image from clipboard</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

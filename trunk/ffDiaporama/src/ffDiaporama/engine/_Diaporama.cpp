@@ -362,7 +362,7 @@ QRectF cCompositionObject::GetTextMargin(QRectF Workspace,double  ADJUST_RATIO) 
 
 //====================================================================================================================
 
-void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition,cReplaceObjectList *ReplaceList) {
+void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList) {
     // Force a refresh of IsTextEmpty flag
     QTextDocument TextDocument;
     TextDocument.setHtml(Text);
@@ -437,14 +437,14 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     if (FormShadowDistance!=DEFAULT_SHAPE_SHADOWDISTANCE)   Element.setAttribute("FormShadowDistance",FormShadowDistance);          // Distance from form to shadow
     if (FormShadowColor!=DEFAULT_SHAPE_SHADOWCOLOR)         Element.setAttribute("FormShadowColor",FormShadowColor);                // Shadow color
 
-    BackgroundBrush->SaveToXML(Element,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath,ReplaceList);    // Brush of the background of the form
+    BackgroundBrush->SaveToXML(&Element,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);    // Brush of the background of the form
 
     domDocument.appendChild(Element);
 }
 
 //====================================================================================================================
 
-bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition) {
+bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
     InitDefaultValues();
 
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
@@ -541,7 +541,7 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         if (Element.hasAttribute("FormShadowDistance"))         FormShadowDistance  =Element.attribute("FormShadowDistance").toInt();       // Distance from form to shadow
 
         if ((TypeComposition==COMPOSITIONTYPE_SHOT)&&(ObjectComposition!=NULL)) {
-            // Construct link to video and image object from DiaporamaObject->ObjectComposition
+            // Construct link to object from DiaporamaObject->ObjectComposition
             for (int i=0;i<ObjectComposition->List.count();i++) if (ObjectComposition->List[i]->IndexKey==IndexKey) {
                 BackgroundBrush->MediaObject=ObjectComposition->List[i]->BackgroundBrush->MediaObject;
                 BackgroundBrush->DeleteMediaObject=false;
@@ -567,11 +567,10 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
             BackgroundForm            =1;        // Set to rectangle
             PenSize                   =0;        // border=0
             BackgroundBrush->BrushType=0;        // brushtype=no brush
-        } else {
-            bool ModifyFlag;
-            IsOk=BackgroundBrush->LoadFromXML(Element,"BackgroundBrush",PathForRelativPath,AliasList,&ModifyFlag);  // Brush of the background of the form
-            if (ModifyFlag) ((MainWindow *)ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
         }
+        bool ModifyFlag;
+        IsOk=BackgroundBrush->LoadFromXML(&Element,"BackgroundBrush",PathForRelativPath,AliasList,&ModifyFlag,ResKeyList,DuplicateRes);  // Brush of the background of the form
+        if (ModifyFlag) ((MainWindow *)ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
 
         // Ensure unvisible video have no sound !
         if ((!IsVisible)&&(BackgroundBrush->MediaObject)&&(BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)) BackgroundBrush->SoundVolume=0;
@@ -1289,19 +1288,19 @@ cCompositionList::~cCompositionList() {
 
 //====================================================================================================================
 
-void cCompositionList::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList) {
+void cCompositionList::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     // Save composition list
     Element.setAttribute("TypeComposition",TypeComposition);
     Element.setAttribute("CompositionNumber",List.count());
-    for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,true,ReplaceList);
+    for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,true,ReplaceList,ResKeyList);
     domDocument.appendChild(Element);
 }
 
 //====================================================================================================================
 
-bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,cBaseApplicationConfig *ApplicationConfig) {
+bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,cBaseApplicationConfig *ApplicationConfig,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
         bool    IsOk=true;
@@ -1312,7 +1311,7 @@ bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         int CompositionNumber=Element.attribute("CompositionNumber").toInt();
         for (int i=0;i<CompositionNumber;i++) {
             cCompositionObject *CompositionObject=new cCompositionObject(TypeComposition,0,((MainWindow *)ApplicationConfig->TopLevelWindow)->ApplicationConfig,this);    // IndexKey will be load from XML
-            if (!CompositionObject->LoadFromXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ObjectComposition,AliasList,true)) {
+            if (!CompositionObject->LoadFromXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ObjectComposition,AliasList,true,ResKeyList,DuplicateRes)) {
                 //IsOk=false;
                 delete CompositionObject;
             } else {
@@ -1342,23 +1341,23 @@ cDiaporamaShot::~cDiaporamaShot() {
 
 //===============================================================
 
-void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool LimitedInfo,cReplaceObjectList *ReplaceList) {
+void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool LimitedInfo,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
 
     if (!LimitedInfo) Element.setAttribute("StaticDuration",qlonglong(StaticDuration));                           // Duration (in msec) of the static part animation
-    ShotComposition.SaveToXML(Element,"ShotComposition",PathForRelativPath,ForceAbsolutPath,ReplaceList);   // Composition list for this object
+    ShotComposition.SaveToXML(Element,"ShotComposition",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);   // Composition list for this object
     domDocument.appendChild(Element);
 }
 
 //===============================================================
 
-bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList) {
+bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
         if (Element.hasAttribute("StaticDuration")) StaticDuration=Element.attribute("StaticDuration").toInt();           // Duration (in msec) of the static part animation
         // Composition list for this object
-        ShotComposition.LoadFromXML(Element,"ShotComposition",PathForRelativPath,ObjectComposition,AliasList,Parent->Parent->ApplicationConfig);
+        ShotComposition.LoadFromXML(Element,"ShotComposition",PathForRelativPath,ObjectComposition,AliasList,Parent->Parent->ApplicationConfig,ResKeyList,DuplicateRes);
         return true;
     }
     return false;
@@ -1552,19 +1551,19 @@ int cDiaporamaObject::GetAutoTSNumber() {
 
 //===============================================================
 
-void cDiaporamaObject::LoadModelFromXMLData(ffd_MODELTYPE TypeModel,QDomDocument domDocument) {
+void cDiaporamaObject::LoadModelFromXMLData(ffd_MODELTYPE TypeModel,QDomDocument domDocument,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
     QString     ErrorMsg;
     QDomElement ProjectDocument=domDocument.documentElement();
     bool        IsOk=false;
     switch (TypeModel) {
         case ffd_MODELTYPE_THUMBNAIL:
-            IsOk=(ProjectDocument.tagName()==THUMBMODEL_ROOTNAME)&&(LoadFromXML(ProjectDocument,THUMBMODEL_ELEMENTNAME,"",NULL));
+            IsOk=(ProjectDocument.tagName()==THUMBMODEL_ROOTNAME)&&(LoadFromXML(ProjectDocument,THUMBMODEL_ELEMENTNAME,"",NULL,ResKeyList,DuplicateRes));
             ErrorMsg=QApplication::translate("MainWindow","The file is not a valid thumbnail file","Error message");
             break;
         case ffd_MODELTYPE_PROJECTTITLE:
         case ffd_MODELTYPE_CHAPTERTITLE:
         case ffd_MODELTYPE_CREDITTITLE:
-            IsOk=(ProjectDocument.tagName()==TITLEMODEL_ROOTNAME)&&(LoadFromXML(ProjectDocument,TITLEMODEL_ELEMENTNAME,"",NULL));
+            IsOk=(ProjectDocument.tagName()==TITLEMODEL_ROOTNAME)&&(LoadFromXML(ProjectDocument,TITLEMODEL_ELEMENTNAME,"",NULL,ResKeyList,DuplicateRes));
             ErrorMsg=QApplication::translate("MainWindow","The file is not a valid title model file","Error message");
             break;
     }
@@ -1573,11 +1572,12 @@ void cDiaporamaObject::LoadModelFromXMLData(ffd_MODELTYPE TypeModel,QDomDocument
 
 //===============================================================
 
-bool cDiaporamaObject::SaveModelFile(ffd_MODELTYPE TypeModel,QString ModelFileName,bool ForceAbsolutPath) {
-    QFile           file(ModelFileName);
-    QDomDocument    domDocument(APPLICATION_NAME);
-    QDomElement     root;
-    QString         RootName,ElementName;
+bool cDiaporamaObject::SaveModelFile(ffd_MODELTYPE TypeModel,QString ModelFileName) {
+    QList<qlonglong>    ResKeyList;
+    QFile               file(ModelFileName);
+    QDomDocument        domDocument(APPLICATION_NAME);
+    QDomElement         root;
+    QString             RootName,ElementName;
 
     // Create xml document and root
     switch (TypeModel) {
@@ -1594,7 +1594,7 @@ bool cDiaporamaObject::SaveModelFile(ffd_MODELTYPE TypeModel,QString ModelFileNa
     }
     root=domDocument.createElement(RootName);
     domDocument.appendChild(root);
-    SaveToXML(root,ElementName,ModelFileName,ForceAbsolutPath,NULL);
+    SaveToXML(root,ElementName,ModelFileName,true,NULL,&ResKeyList,false);
     // Write file to disk
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
         CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error creating model file","Error message"),QMessageBox::Close);
@@ -1603,6 +1603,25 @@ bool cDiaporamaObject::SaveModelFile(ffd_MODELTYPE TypeModel,QString ModelFileNa
         // Save file now
         QTextStream out(&file);
         domDocument.save(out,4);
+        // Iterate for ressources
+        for (int i=0;i<ResKeyList.count();i++) {
+            QImage      Thumbnail;
+            qlonglong   Key=ResKeyList[i];
+            Parent->ApplicationConfig->SlideThumbsTable->GetThumbs(&Key,&Thumbnail);
+
+            QDomElement     Ressource=domDocument.createElement("Ressource");
+            QByteArray      ba;
+            QBuffer         buf(&ba);
+
+            Thumbnail.save(&buf,"PNG");
+            QByteArray Compressed=qCompress(ba,1);
+            QByteArray Hexed     =Compressed.toHex();
+            Ressource.setAttribute("Key",Key);
+            Ressource.setAttribute("Width",Thumbnail.width());
+            Ressource.setAttribute("Height",Thumbnail.height());
+            Ressource.setAttribute("Image",QString(Hexed));
+            Ressource.save(out,0);
+        }
         file.close();
         return true;
     }
@@ -1626,7 +1645,7 @@ QString cDiaporamaObject::SaveAsNewCustomModelFile(ffd_MODELTYPE TypeModel) {
     Text=QString("%1").arg(*ModelList->NextNumber);
     (*ModelList->NextNumber)++;
     NewName=NewName+Text+"."+ModelList->ModelSuffix;
-    SaveModelFile(TypeModel,NewName,true);
+    SaveModelFile(TypeModel,NewName);
     ModelList->FillModelType(TypeModel);
     if (TypeModel==ffd_MODELTYPE_THUMBNAIL) Parent->ThumbnailName=Text;
     return NewName;
@@ -1634,7 +1653,7 @@ QString cDiaporamaObject::SaveAsNewCustomModelFile(ffd_MODELTYPE TypeModel) {
 
 //===============================================================
 
-void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList) {
+void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool SaveThumbAllowed) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     QDomElement     SubElement;
@@ -1676,58 +1695,35 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
         if (MusicReduceFactor!=DEFAULT_MUSICREDUCEFACTOR)   Element.setAttribute("MusicReduceFactor",QString("%1").arg(MusicReduceFactor,0,'f'));   // factor for volume reduction if MusicReduceVolume is true
         if (MusicList.count()>0) {
             Element.setAttribute("MusicNumber",MusicList.count());                           // Number of file in the playlist
-            for (int i=0;i<MusicList.count();i++) MusicList[i].SaveToXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,ReplaceList);
+            for (int i=0;i<MusicList.count();i++) MusicList[i].SaveToXML(&Element,"Music-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);
         }
 
-        if (ThumbnailKey!=-1) {
-            QImage Thumbnail;
-            if (Parent->ApplicationConfig->SlideThumbsTable->GetThumbs(&ThumbnailKey,&Thumbnail)) {
-                QByteArray ba;
-                QBuffer buf(&ba);
-                Thumbnail.save(&buf,"PNG");
-                QByteArray Compressed=qCompress(ba,1);
-                QByteArray Hexed     =Compressed.toHex();
-                Element.setAttribute("Thumbnail",QString(Hexed));
-                Element.setAttribute("ThumbWidth",Thumbnail.width());
-                Element.setAttribute("ThumbHeight",Thumbnail.height());
-            }
+        if ((ThumbnailKey!=-1)&&(SaveThumbAllowed)) {
+            Element.setAttribute("ThumbRessource",ThumbnailKey);
+            if (ResKeyList) ResKeyList->append(ThumbnailKey);
         }
 
         // Background properties
         SubElement=DomDocument.createElement("Background");
         SubElement.setAttribute("BackgroundType",BackgroundType?"1":"0");                                        // Background type : false=same as precedent - true=new background definition
-        BackgroundBrush->SaveToXML(SubElement,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath,ReplaceList);             // Background brush
+        BackgroundBrush->SaveToXML(&SubElement,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);             // Background brush
         Element.appendChild(SubElement);
 
     }
 
     // Global blocks composition table
-    ObjectComposition.SaveToXML(Element,"ObjectComposition",PathForRelativPath,ForceAbsolutPath,ReplaceList);         // ObjectComposition
+    ObjectComposition.SaveToXML(Element,"ObjectComposition",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);         // ObjectComposition
 
     // Shots definitions
     Element.setAttribute("ShotNumber",List.count());
-    for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,(ElementName==THUMBMODEL_ELEMENTNAME),ReplaceList);
+    for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,(ElementName==THUMBMODEL_ELEMENTNAME),ReplaceList,ResKeyList);
 
     domDocument.appendChild(Element);
 }
 
 //===============================================================
 
-QFutureWatcher<void> ThreadAppendThumbToDB;
-
-void cDiaporamaObject::ThreadedLoadThumb(QDomElement Element) {
-    int         ThumbWidth   =Element.attribute("ThumbWidth").toInt();
-    int         ThumbHeight  =Element.attribute("ThumbHeight").toInt();
-    QImage      Thumbnail(ThumbWidth,ThumbHeight,QImage::Format_ARGB32_Premultiplied);
-    QByteArray  Compressed   =QByteArray::fromHex(Element.attribute("Thumbnail").toUtf8());
-    QByteArray  Decompressed =qUncompress(Compressed);
-    Thumbnail.loadFromData(Decompressed);
-    Parent->ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailKey,Thumbnail);
-}
-
-//===============================================================
-
-bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList) {
+bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
     if ((ElementName!=THUMBMODEL_ELEMENTNAME)&&(ElementName!=TITLEMODEL_ELEMENTNAME)) InitDefaultValues();
 
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
@@ -1782,15 +1778,37 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                 for (int i=0;i<MusicNumber;i++) {
                     cMusicObject *MusicObject=new cMusicObject(((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->ApplicationConfig);
                     bool ModifyFlag=false;
-                    if (!MusicObject->LoadFromXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath,AliasList,&ModifyFlag)) IsOk=false;
+                    if (!MusicObject->LoadFromXML(&Element,"Music-"+QString("%1").arg(i),PathForRelativPath,AliasList,&ModifyFlag)) IsOk=false;
                     MusicList.append(*MusicObject);
                     if (ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
                 }
             }
 
+            // Compatibility with version  prior to 2.1
             if (Element.hasAttribute("Thumbnail")) {
-                if (ThreadAppendThumbToDB.isRunning()) ThreadAppendThumbToDB.waitForFinished();
-                ThreadAppendThumbToDB.setFuture(QtConcurrent::run(this,&cDiaporamaObject::ThreadedLoadThumb,Element));
+                int         ThumbWidth   =Element.attribute("ThumbWidth").toInt();
+                int         ThumbHeight  =Element.attribute("ThumbHeight").toInt();
+                QImage      Thumbnail(ThumbWidth,ThumbHeight,QImage::Format_ARGB32_Premultiplied);
+                QByteArray  Compressed   =QByteArray::fromHex(Element.attribute("Thumbnail").toUtf8());
+                QByteArray  Decompressed =qUncompress(Compressed);
+                Thumbnail.loadFromData(Decompressed);
+                Parent->ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailKey,Thumbnail);
+            }
+
+            if (Element.hasAttribute("ThumbRessource")) {
+                if (ResKeyList) {
+                    int ResKey=Element.attribute("ThumbRessource").toLongLong();
+                    for (int ResNum=0;ResNum<ResKeyList->count();ResNum++)
+                        if (ResKey==ResKeyList->at(ResNum).OrigKey) ThumbnailKey=ResKeyList->at(ResNum).NewKey;
+                } else ThumbnailKey=Element.attribute("ThumbRessource").toLongLong();
+            }
+
+            // if DuplicateRes (for exemple during a paste operation)
+            if ((DuplicateRes)&&(ThumbnailKey!=-1)) {
+                QImage Thumbnail;
+                Parent->ApplicationConfig->SlideThumbsTable->GetThumbs(&ThumbnailKey,&Thumbnail);
+                ThumbnailKey=-1;
+                Parent->ApplicationConfig->SlideThumbsTable->GetThumbs(&ThumbnailKey,&Thumbnail);
             }
 
             // Background properties
@@ -1802,7 +1820,7 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                 QDomElement SubElement=Element.elementsByTagName("Background").item(0).toElement();
                 BackgroundType  =SubElement.attribute("BackgroundType")=="1"; // Background type : false=same as precedent - true=new background definition
                 bool ModifyFlag;
-                if (!BackgroundBrush->LoadFromXML(SubElement,"BackgroundBrush",PathForRelativPath,AliasList,&ModifyFlag)) IsOk=false;
+                if (!BackgroundBrush->LoadFromXML(&SubElement,"BackgroundBrush",PathForRelativPath,AliasList,&ModifyFlag,ResKeyList,DuplicateRes)) IsOk=false;
                 if (IsOk && ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
                 if (ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
             }
@@ -1810,13 +1828,13 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         }
 
         // Global blocks composition table
-        IsOk=ObjectComposition.LoadFromXML(Element,"ObjectComposition",PathForRelativPath,NULL,AliasList,Parent->ApplicationConfig);         // ObjectComposition
+        IsOk=ObjectComposition.LoadFromXML(Element,"ObjectComposition",PathForRelativPath,NULL,AliasList,Parent->ApplicationConfig,ResKeyList,DuplicateRes);         // ObjectComposition
 
         // Shots definitions
         int ShotNumber=Element.attribute("ShotNumber").toInt();
         for (int i=0;i<ShotNumber;i++) {
             cDiaporamaShot *imagesequence=new cDiaporamaShot(this);
-            if (!imagesequence->LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,&ObjectComposition,AliasList)) IsOk=false;
+            if (!imagesequence->LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,&ObjectComposition,AliasList,ResKeyList,DuplicateRes)) IsOk=false;
             List.append(imagesequence);
         }
 
@@ -1832,7 +1850,7 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                                          (ModelType==ffd_MODELTYPE_CREDITTITLE)?Parent->ApplicationConfig->CreditTitleModels[Parent->ImageGeometry][ModelSubType==9?MODELTYPE_CREDITTITLE_CATNUMBER-1:ModelSubType]:
                                          NULL;
                 if ((ModelList)&&(ModelIndex>=0)&&(ModelIndex<ModelList->List.count()))
-                    LoadModelFromXMLData((ffd_MODELTYPE)ModelType,ModelList->List[ModelIndex]->Model);
+                    LoadModelFromXMLData((ffd_MODELTYPE)ModelType,ModelList->List[ModelIndex]->Model,ResKeyList,true);  // Always duplicate ressource
             }
         }
 
@@ -1888,7 +1906,9 @@ cDiaporama::cDiaporama(cBaseApplicationConfig *TheApplicationConfig,bool LoadDef
         // Load default thumbnail
         ThumbnailName=ApplicationConfig->DefaultThumbnailName;
         int ModelIndex=ApplicationConfig->ThumbnailModels->SearchModel(ApplicationConfig->DefaultThumbnailName);
-        if ((ModelIndex>0)&&(ModelIndex<ApplicationConfig->ThumbnailModels->List.count())) ProjectThumbnail->LoadModelFromXMLData(ffd_MODELTYPE_THUMBNAIL,ApplicationConfig->ThumbnailModels->List[ModelIndex]->Model);
+        if ((ModelIndex>0)&&(ModelIndex<ApplicationConfig->ThumbnailModels->List.count()))
+            ProjectThumbnail->LoadModelFromXMLData(ffd_MODELTYPE_THUMBNAIL,ApplicationConfig->ThumbnailModels->List[ModelIndex]->Model,
+                                                   &ApplicationConfig->ThumbnailModels->List[ModelIndex]->ResKeyList,true);    // always duplicate ressource
     }
 }
 
@@ -2223,10 +2243,11 @@ cMusicObject *cDiaporama::GetMusicObject(int ObjectIndex,int64_t &StartPosition,
 //====================================================================================================================
 
 bool cDiaporama::SaveFile(QWidget *ParentWindow,cReplaceObjectList *ReplaceList,QString *ExportFileName) {
-    QFile           file((ReplaceList!=NULL)&&(ExportFileName!=NULL)?*ExportFileName:ProjectFileName);
-    QDomDocument    domDocument(APPLICATION_NAME);
-    QDomElement     Element;
-    QDomElement     root;
+    QFile               file((ReplaceList!=NULL)&&(ExportFileName!=NULL)?*ExportFileName:ProjectFileName);
+    QDomDocument        domDocument(APPLICATION_NAME);
+    QDomElement         Element;
+    QDomElement         root;
+    QList<qlonglong>    ResKeyList;
 
     UpdateChapterInformation();
     if (!ReplaceList) {
@@ -2256,8 +2277,8 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow,cReplaceObjectList *ReplaceList,
     domDocument.appendChild(root);
 
     // Save project properties
-    ProjectInfo->SaveToXML(root);
-    ProjectThumbnail->SaveToXML(root,THUMBMODEL_ELEMENTNAME,ProjectFileName,false,ReplaceList);
+    ProjectInfo->SaveToXML(&root,"",ProjectFileName,false,ReplaceList,&ResKeyList);
+    ProjectThumbnail->SaveToXML(root,THUMBMODEL_ELEMENTNAME,ProjectFileName,false,ReplaceList,&ResKeyList,true);
 
     // Save basic information on project
     Element=domDocument.createElement("Project");
@@ -2265,7 +2286,7 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow,cReplaceObjectList *ReplaceList,
 
     // Save object list
     Element.setAttribute("ObjectNumber",List.count());
-    for (int i=0;i<List.count();i++) List[i]->SaveToXML(root,"Object-"+(QString("%1").arg(i,10)).trimmed(),ProjectFileName,false,ReplaceList);
+    for (int i=0;i<List.count();i++) List[i]->SaveToXML(root,"Object-"+(QString("%1").arg(i,10)).trimmed(),ProjectFileName,false,ReplaceList,&ResKeyList,true);
 
     root.appendChild(Element);
 
@@ -2276,9 +2297,31 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow,cReplaceObjectList *ReplaceList,
         return false;
     }
 
-    // Save file now
+    // Save ffDPart in file now
     QTextStream out(&file);
     domDocument.save(out,4);
+
+    // Iterate for ressources
+    for (int i=0;i<ResKeyList.count();i++) {
+        QImage      Thumbnail;
+        qlonglong   Key=ResKeyList[i];
+        ApplicationConfig->SlideThumbsTable->GetThumbs(&Key,&Thumbnail);
+
+        QDomElement     Ressource=domDocument.createElement("Ressource");
+        QByteArray      ba;
+        QBuffer         buf(&ba);
+
+        Thumbnail.save(&buf,"PNG");
+        QByteArray Compressed=qCompress(ba,1);
+        QByteArray Hexed     =Compressed.toHex();
+        Ressource.setAttribute("Key",Key);
+        Ressource.setAttribute("Width",Thumbnail.width());
+        Ressource.setAttribute("Height",Thumbnail.height());
+        Ressource.setAttribute("Image",QString(Hexed));
+        Ressource.save(out,0);
+
+    }
+
     file.close();
     return true;
 }

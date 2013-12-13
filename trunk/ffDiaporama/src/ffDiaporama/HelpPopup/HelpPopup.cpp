@@ -31,16 +31,16 @@ HelpPopup::HelpPopup(cBaseApplicationConfig *ApplicationConfig,QWidget *):QCusto
 
     HelpEngine              =NULL;
     Path                    ="ffdiaporama_";
-    QString CollectionFile  =ApplicationConfig->StartingPath;
+    QString CollectionFile  =ApplicationConfig->UserConfigPath;
     QString NameSpace       ="ffdiaporama_";
 
     if (!CollectionFile.endsWith(QDir::separator())) CollectionFile=CollectionFile+QDir::separator();
-    if (QFileInfo(CollectionFile+"locale"+QDir::separator()+QString("wiki_%1.qhc").arg(ApplicationConfig->CurrentLanguage)).exists()) {
-        CollectionFile=CollectionFile+"locale"+QDir::separator()+QString("wiki_%1.qhc").arg(ApplicationConfig->CurrentLanguage);
+    if (QFileInfo(CollectionFile+QString("wiki_%1.qhc").arg(ApplicationConfig->CurrentLanguage)).exists()) {
+        CollectionFile=CollectionFile+QString("wiki_%1.qhc").arg(ApplicationConfig->CurrentLanguage);
         Path=Path+ApplicationConfig->CurrentLanguage;
         NameSpace=NameSpace+ApplicationConfig->CurrentLanguage;
     } else {
-        CollectionFile=CollectionFile+"locale"+QDir::separator()+"wiki_en.qhc";
+        CollectionFile=ApplicationConfig->StartingPath+QDir::separator()+"locale"+QDir::separator()+"wiki_en.qhc";
         Path=Path+"en";
         NameSpace=NameSpace+"en";
     }
