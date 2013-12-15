@@ -76,7 +76,8 @@ void DlgGMapsLocation::DoInitDialog() {
         ui->AdresseCB->setCurrentIndex(0);
         QTimer::singleShot(LATENCY,this,SLOT(RefreshMap()));
     }
-    if (!Location->Name.isEmpty()) ui->NameED->setText(Location->Name);
+    if (!Location->Name.isEmpty())              ui->NameED->setText(Location->Name);
+    if (!Location->FriendlyAddress.isEmpty())   ui->AddressNameED->setText(Location->FriendlyAddress);
     GetLatLngAtWork=GetMapAtWork=GetAddressAtWork=NoMap=false;
     GetLatLngNetReply=GetMapNetReply=GetAddressNetReply=NULL;
     RetryCount=0;
@@ -96,9 +97,10 @@ void DlgGMapsLocation::DoInitDialog() {
     ui->ZoomDown->setEnabled(false);
     ui->ZoomUp->setEnabled(false);
     ui->ZoomSlider->setEnabled(false);
-    connect(ui->NameED,SIGNAL(textChanged(QString)),this,SLOT(NameChanged(QString)));
     connect(ui->AdresseCB,SIGNAL(editTextChanged(QString)),this,SLOT(AddressChanged(QString)));
     connect(ui->AdresseCB,SIGNAL(currentIndexChanged(int)),this,SLOT(AddressChanged(int)));
+    connect(ui->AddressNameED,SIGNAL(textChanged(QString)),this,SLOT(AddressNameChanged(QString)));
+    connect(ui->NameED,SIGNAL(textChanged(QString)),this,SLOT(NameChanged(QString)));
     connect(MapWidget,SIGNAL(ClickOnMap()),this,SLOT(ClickOnMap()));
     connect(ui->ZoomSlider,SIGNAL(valueChanged(int)),this,SLOT(ZoomChanged(int)));
     connect(ui->ZoomDown,SIGNAL(pressed()),this,SLOT(ZoomDown()));
@@ -148,9 +150,19 @@ void DlgGMapsLocation::NameChanged(QString NewText) {
     ui->OKBT->setEnabled(!Location->Address.isEmpty() && !Location->Name.isEmpty() && (ui->AdresseCB->currentIndex()!=-1));
 }
 
+void DlgGMapsLocation::AddressNameChanged(QString NewText) {
+    if (StopMaj) return;
+    Location->FriendlyAddress=NewText;
+    ui->OKBT->setEnabled(!Location->Address.isEmpty() && !Location->Name.isEmpty() && (ui->AdresseCB->currentIndex()!=-1));
+}
+
 void DlgGMapsLocation::AddressChanged(QString NewText) {
     if (StopMaj) return;
     Location->Address=NewText;
+    Location->FriendlyAddress=NewText;
+    StopMaj=true;
+    ui->AddressNameED->setText(NewText);
+    StopMaj=false;
     ui->OKBT->setEnabled(!Location->Address.isEmpty() && !Location->Name.isEmpty() && (ui->AdresseCB->currentIndex()!=-1));
 }
 
@@ -245,6 +257,8 @@ void DlgGMapsLocation::httpGetLatLngFinished() {
                     }
                     NoMap=false;
                     RefreshMap();
+                    Location->FriendlyAddress=ui->AdresseCB->currentText();
+                    ui->AddressNameED->setText(Location->FriendlyAddress);
                     ui->AdresseCB->showPopup();
                 }
             }
@@ -370,6 +384,8 @@ void DlgGMapsLocation::httpGetAddressFinished() {
                         NoMap=false;
                         Child++;
                     }
+                    Location->FriendlyAddress=ui->AdresseCB->currentText();
+                    ui->AddressNameED->setText(Location->FriendlyAddress);
                     RefreshMap();
                 }
             }
@@ -382,14 +398,18 @@ void DlgGMapsLocation::httpGetAddressFinished() {
 //====================================================================================================================
 // When a new selection is done on the combo
 void DlgGMapsLocation::AddressChanged(int) {
-    if (GetMapAtWork) return;   // Loose this event
+    if ((GetMapAtWork)||(StopMaj)) return;   // Loose this event
     int CurrentIndex=ui->AdresseCB->currentIndex();
     if ((CurrentIndex>=0)&&(CurrentIndex<ui->AdresseCB->count())) {
         if (!ui->AdresseCB->itemData(CurrentIndex).isNull()) {
-            Location->Address       =ui->AdresseCB->currentText();
-            QPointF PointF=ui->AdresseCB->itemData(CurrentIndex).toPointF();
-            Location->GPS_cx        =PointF.x();
-            Location->GPS_cy        =PointF.y();
+            Location->Address   =ui->AdresseCB->currentText();
+            QPointF PointF      =ui->AdresseCB->itemData(CurrentIndex).toPointF();
+            Location->GPS_cx    =PointF.x();
+            Location->GPS_cy    =PointF.y();
+            StopMaj=true;
+            Location->FriendlyAddress=Location->Address;
+            ui->AddressNameED->setText(Location->FriendlyAddress);
+            StopMaj=false;
             RefreshMap();
         } else Location->Address.clear();
     }
@@ -561,7 +581,7 @@ void DlgGMapsLocation::SelectIcon() {
 
 void DlgGMapsLocation::Favorite() {
     QMenu       *ContextMenu=new QMenu(this);
-    QStringList BrowserFavorites=ApplicationConfig->LoadBrowserFavoritesFromDabase();
+    bool        AddSep=false;
 
     QAction *Add=CreateMenuAction(QIcon(":/img/favorite_add.png"),   QApplication::translate("MainWindow","Add to favorite"),      FAVACTIONTYPE_ADD,false,false,this);     ContextMenu->addAction(Add);
     QAction *Upd=CreateMenuAction(QIcon(":/img/favorite_manage.png"),QApplication::translate("MainWindow","Update this favorite"), FAVACTIONTYPE_UPD,false,false,this);     ContextMenu->addAction(Upd);
@@ -570,29 +590,30 @@ void DlgGMapsLocation::Favorite() {
     Rmv->setEnabled(false);
     Add->setEnabled(!Location->Name.isEmpty());
 
-    if (BrowserFavorites.count()>0) {
-        ContextMenu->addSeparator();
-        QSqlQuery   Query(ApplicationConfig->Database->db);
-        QString     QueryString("SELECT Key,Name,Address,Thumbnail FROM Location ORDER BY LOWER(Name)");
-        Query.prepare(QueryString);
-        if (!Query.exec()) DisplayLastSQLError(&Query); else while (Query.next()) {
-            bool      Ret;
-            qlonglong Key=Query.value(0).toLongLong(&Ret);
-            if (Ret) {
-                QString     Name   =Query.value(1).toString();
-                QString     Address=Query.value(2).toString();
-                QByteArray  Data   =Query.value(3).toByteArray();
-                QImage      Thumb; Thumb.loadFromData(Data);
-                bool IsCurrent=(Key==Location->FavKey)||((Name==ui->NameED->text())&&(Address==Location->Address));
-                QAction *Act=CreateMenuAction(QIcon(QPixmap().fromImage(Thumb)),QString("%1 (%2)").arg(Name).arg(Address),FAVACTIONTYPE_SELECT+Key,true,IsCurrent,this);
-                ContextMenu->addAction(Act);
-                if (IsCurrent) {
-                    Add->setEnabled(false);
-                    Act->setEnabled(false);
-                    Upd->setEnabled(true);
-                    Rmv->setEnabled(true);
-                    if (Location->FavKey!=Key) Location->FavKey=Key;
-                }
+    QSqlQuery   Query(ApplicationConfig->Database->db);
+    QString     QueryString("SELECT Key,Name,FAddress,Thumbnail FROM Location ORDER BY LOWER(Name)");
+    Query.prepare(QueryString);
+    if (!Query.exec()) DisplayLastSQLError(&Query); else while (Query.next()) {
+        bool      Ret;
+        qlonglong Key=Query.value(0).toLongLong(&Ret);
+        if (Ret) {
+            if (!AddSep) {
+                ContextMenu->addSeparator();
+                AddSep=true;
+            }
+            QString     Name   =Query.value(1).toString();
+            QString     Address=Query.value(2).toString();
+            QByteArray  Data   =Query.value(3).toByteArray();
+            QImage      Thumb; Thumb.loadFromData(Data);
+            bool IsCurrent=(Key==Location->FavKey)||((Name==ui->NameED->text())&&(Address==Location->Address));
+            QAction *Act=CreateMenuAction(QIcon(QPixmap().fromImage(Thumb)),QString("%1 (%2)").arg(Name).arg(Address),FAVACTIONTYPE_SELECT+Key,true,IsCurrent,this);
+            ContextMenu->addAction(Act);
+            if (IsCurrent) {
+                Add->setEnabled(false);
+                Act->setEnabled(false);
+                Upd->setEnabled(true);
+                Rmv->setEnabled(true);
+                if (Location->FavKey!=Key) Location->FavKey=Key;
             }
         }
     }
@@ -612,6 +633,7 @@ void DlgGMapsLocation::Favorite() {
             ui->AdresseCB->setCurrentIndex(0);
             ui->NameED->setText(Location->Name);
             ui->AdresseCB->setEditText(Location->Address);
+            ui->AddressNameED->setText(Location->FriendlyAddress);
             ui->IconBT->setIcon(QIcon(QPixmap().fromImage(Location->GetThumb())));
             ui->OKBT->setEnabled(!Location->Address.isEmpty() && !Location->Name.isEmpty() && (ui->AdresseCB->currentIndex()!=-1));
             StopMaj=false;

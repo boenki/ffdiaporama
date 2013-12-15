@@ -47,25 +47,28 @@ public:
 class cCColorComboBox : public QComboBox {
 Q_OBJECT
 public:
-    QString                     *CurrentColor;
-    QString                     SavedCustomColor;
-    bool                        StandardColor;
-    bool                        STOPMAJ;
-    cCColorComboBoxItem    ItemDelegate;
+    QString             *CurrentColor;
+    QString             SavedCustomColor;
+    bool                StandardColor;
+    bool                STOPMAJ;
+    bool                IsPopupOpen;
+    cCColorComboBoxItem ItemDelegate;
 
-    explicit    cCColorComboBox(QWidget *parent = 0);
-    void        MakeIcons();
-    void        SetCurrentColor(QString *Color);
-    QString     GetCurrentColor();
+    explicit            cCColorComboBox(QWidget *parent = 0);
+    void                MakeIcons();
+    void                SetCurrentColor(QString *Color);
+    QString             GetCurrentColor();
 
 protected:
+    virtual void        hidePopup() { IsPopupOpen=false; QComboBox::hidePopup(); emit PopupClosed(0); }
+    virtual void        showPopup() { IsPopupOpen=true;  QComboBox::showPopup(); }
 
 signals:
+    void                PopupClosed(int);
 
 public slots:
-    void        s_ItemSelectionChanged();
-    void        s_ItemPressed(int Row,int Col);
+    void                s_ItemSelectionChanged();
+    void                s_ItemPressed(int Row,int Col);
 };
-
 
 #endif // CCCOLORCOMBOBOX_H

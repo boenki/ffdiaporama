@@ -78,23 +78,24 @@ public:
 
 protected slots:
     // GMaps functions
-    void                    httpGetLatLngReadyRead();       // Function used when gmaps send data on a get geocode (coordinates for address) request
-    void                    httpGetLatLngFinished();        // Function used when get geocode (coordinates for address) request end
-    void                    httpGetMapReadyRead();          // Function used when gmaps send data on a get staticmap request
-    void                    httpGetMapFinished();           // Function used when get staticmap request end
-    void                    httpGetAddressReadyRead();      // Function used when gmaps send data on a get geocode (address for coordinates) request
-    void                    httpGetAddressFinished();       // Function used when get geocode (address for coordinates) request end
+    void                    httpGetLatLngReadyRead();                   // Function used when gmaps send data on a get geocode (coordinates for address) request
+    void                    httpGetLatLngFinished();                    // Function used when get geocode (coordinates for address) request end
+    void                    httpGetMapReadyRead();                      // Function used when gmaps send data on a get staticmap request
+    void                    httpGetMapFinished();                       // Function used when get staticmap request end
+    void                    httpGetAddressReadyRead();                  // Function used when gmaps send data on a get geocode (address for coordinates) request
+    void                    httpGetAddressFinished();                   // Function used when get geocode (address for coordinates) request end
 
     // Interface functions
     void                    RefreshMap();
-    void                    ZoomDown();                     // When clicked on zoom down button
-    void                    ZoomUp();                       // When clicked on zoom up button
-    void                    ZoomChanged(int);               // When zoomlevel has changed
+    void                    ZoomDown();                                 // When clicked on zoom down button
+    void                    ZoomUp();                                   // When clicked on zoom up button
+    void                    ZoomChanged(int);                           // When zoomlevel has changed
     void                    NameChanged(QString NewText);
-    void                    AddressChanged(QString NewText);// When a new selection is done on the combo
-    void                    AddressChanged(int);            // When a new selection is done on the combo
-    void                    UserEnterAddress();             // When user enter a new address in the combo
-    void                    ClickOnMap();                   // When user click on the map
+    void                    AddressNameChanged(QString NewText);
+    void                    AddressChanged(QString NewText);            // When a new selection is done on the combo
+    void                    AddressChanged(int);                        // When a new selection is done on the combo
+    void                    UserEnterAddress();                         // When user enter a new address in the combo
+    void                    ClickOnMap();                               // When user click on the map
     void                    Favorite();
     void                    SelectIcon();
     void                    ClearIcon();

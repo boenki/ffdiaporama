@@ -1678,6 +1678,19 @@ void cGMapsMap::ComputeSectionList() {
 
 //====================================================================================================================
 
+QPoint cGMapsMap::GetLocationPoint(int Index) {
+    QSize   IMSize  =GetCurrentImageSize();
+    double  Map_Cx  =IMSize.width()/2;
+    double  Map_Cy  =IMSize.height()/2;
+    QPoint  Ret(Map_Cx,Map_Cy);
+    if ((Index<0)||(Index>List.count())) return Ret;
+    Ret.setX(GPS2PIXEL_X(((cLocation *)List[Index])->GPS_cx,ZoomLevel,Scale)-MapCx+Map_Cx);
+    Ret.setY(GPS2PIXEL_Y(((cLocation *)List[Index])->GPS_cy,ZoomLevel,Scale)-MapCy+Map_Cy);
+    return Ret;
+}
+
+//====================================================================================================================
+
 QImage cGMapsMap::CreateDefaultImage() {
     // clear request list (delete any pending section)
     RequestList.clear();

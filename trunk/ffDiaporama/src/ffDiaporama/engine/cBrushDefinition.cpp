@@ -20,6 +20,7 @@
 
 #include "cBrushDefinition.h"
 #include <QtSvg>
+#include <engine/cLocation.h>
 
 #include "_ImageFilters.h"
 #include "_Variables.h"
@@ -203,10 +204,11 @@ int cBackgroundList::SearchImage(QString NameToFind) {
 // Object for Brush definition
 //*********************************************************************************************************************************************
 
-cBrushDefinition::cBrushDefinition(cBaseApplicationConfig *TheApplicationConfig) {
+cBrushDefinition::cBrushDefinition(QObject *TheCompositionObject,cBaseApplicationConfig *TheApplicationConfig) {
     TypeComposition         =COMPOSITIONTYPE_BACKGROUND;
     BrushImage              ="";                            // Image name if image from library
     ApplicationConfig       =TheApplicationConfig;
+    CompositionObject       =TheCompositionObject;
     MediaObject             =NULL;
     DeleteMediaObject       =true;
 
@@ -347,7 +349,7 @@ QImage cBrushDefinition::ApplyFilters(QImage NewRenderImage,double TheBrightness
 
 QImage cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush) {
     // If not an image or a video or filename is empty then return
-    if ((MediaObject?MediaObject->FileName():"")=="") {
+    if ((!MediaObject)||((MediaObject->RessourceKey==-1)&&(MediaObject->FileKey==-1))) {
         QImage Ret(Rect.width(),Rect.height(),QImage::Format_ARGB32_Premultiplied);
         QPainter Painter;
         Painter.begin(&Ret);
@@ -365,6 +367,8 @@ QImage cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t 
         QImage *RenderImage=NULL;
         if ((MediaObject)&&(MediaObject->ObjectType!=OBJECTTYPE_VIDEOFILE)) RenderImage=MediaObject->ImageAt(PreviewMode);
             else if (MediaObject) RenderImage=((cVideoFile *)MediaObject)->ImageAt(PreviewMode,Position,SoundTrackMontage,this->Deinterlace,this->SoundVolume,false,false);
+
+        if ((RenderImage)&&(MediaObject)&&(MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP)) AddMarkerToImage(RenderImage);
 
         // Compute filters values
         QImage Ret;
@@ -595,6 +599,8 @@ void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
     Implode                 =BrushToCopy->Implode;
     OnOffFilter             =BrushToCopy->OnOffFilter;
     ImageSpeedWave          =BrushToCopy->ImageSpeedWave;
+
+    Markers                 =BrushToCopy->Markers;
 }
 
 //====================================================================================================================
@@ -678,6 +684,13 @@ void cBrushDefinition::SaveToXML(QDomElement *ParentElement,QString ElementName,
                 case OBJECTTYPE_GMAPSMAP:
                     if (TypeComposition!=COMPOSITIONTYPE_SHOT) MediaObject->SaveToXML(&Element,"",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList); else {
                         // Save marker settings
+                        for (int MarkerNum=0;MarkerNum<Markers.count();MarkerNum++) {
+                            QDomElement SubElement=DomDocument.createElement(QString("Marker_%1").arg(MarkerNum));
+                            SubElement.setAttribute("MarkerColor",Markers[MarkerNum].MarkerColor);
+                            SubElement.setAttribute("TextColor",Markers[MarkerNum].TextColor);
+                            SubElement.setAttribute("Visibility", int(Markers[MarkerNum].Visibility));
+                            Element.appendChild(SubElement);
+                        }
                     }
                     break;
                 default: break;
@@ -825,26 +838,38 @@ bool cBrushDefinition::LoadFromXML(QDomElement *ParentElement,QString ElementNam
                         MediaObject=NULL;
                     }
                 }
-                if ((MediaObject)&&(TypeComposition!=COMPOSITIONTYPE_SHOT)) switch (MediaObject->ObjectType) {
-                    case OBJECTTYPE_VIDEOFILE:
-                        SoundVolume=GetDoubleValue(Element,"SoundVolume");                                          // Volume of soundtrack (for video only)
-                        Deinterlace=Element.attribute("Deinterlace")=="1";                                          // Add a YADIF filter to deinterlace video (on/off) (for video only)
-                        break;
-                    case OBJECTTYPE_IMAGEFILE:
-                    case OBJECTTYPE_IMAGEVECTOR:
-                       // Old Image transformation (for compatibility with version prio to 1.5)
-                        if ((Element.elementsByTagName("ImageTransformation").length()>0)&&(Element.elementsByTagName("ImageTransformation").item(0).isElement()==true)) {
-                           QDomElement SubElement=Element.elementsByTagName("ImageTransformation").item(0).toElement();
-                           if (SubElement.hasAttribute("BlurSigma"))   GaussBlurSharpenSigma=GetDoubleValue(SubElement,"BlurSigma");
-                           if (SubElement.hasAttribute("BlurRadius"))  BlurSharpenRadius    =GetDoubleValue(SubElement,"BlurRadius");
-                           if (SubElement.hasAttribute("OnOffFilter")) OnOffFilter          =SubElement.attribute("OnOffFilter").toInt();
-                           if (GaussBlurSharpenSigma!=0)               TypeBlurSharpen      =1;
-                        }
-                        break;
-                    case OBJECTTYPE_GMAPSMAP:
-                        // Load marker settings
-                        break;
-                    default: break;
+                if ((MediaObject)&&(TypeComposition!=COMPOSITIONTYPE_SHOT)) {
+                    switch (MediaObject->ObjectType) {
+                        case OBJECTTYPE_VIDEOFILE:
+                            SoundVolume=GetDoubleValue(Element,"SoundVolume");                                          // Volume of soundtrack (for video only)
+                            Deinterlace=Element.attribute("Deinterlace")=="1";                                          // Add a YADIF filter to deinterlace video (on/off) (for video only)
+                            break;
+                        case OBJECTTYPE_IMAGEFILE:
+                        case OBJECTTYPE_IMAGEVECTOR:
+                           // Old Image transformation (for compatibility with version prio to 1.5)
+                            if ((Element.elementsByTagName("ImageTransformation").length()>0)&&(Element.elementsByTagName("ImageTransformation").item(0).isElement()==true)) {
+                               QDomElement SubElement=Element.elementsByTagName("ImageTransformation").item(0).toElement();
+                               if (SubElement.hasAttribute("BlurSigma"))   GaussBlurSharpenSigma=GetDoubleValue(SubElement,"BlurSigma");
+                               if (SubElement.hasAttribute("BlurRadius"))  BlurSharpenRadius    =GetDoubleValue(SubElement,"BlurRadius");
+                               if (SubElement.hasAttribute("OnOffFilter")) OnOffFilter          =SubElement.attribute("OnOffFilter").toInt();
+                               if (GaussBlurSharpenSigma!=0)               TypeBlurSharpen      =1;
+                            }
+                            break;
+                        default: break;
+                    }
+                } else if ((MediaObject)&&(MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP)) {
+                    // Load marker settings
+                    int MarkerNum=0;
+                    Markers.clear();
+                    while ((Element.elementsByTagName(QString("Marker_%1").arg(MarkerNum)).length()>0)&&(Element.elementsByTagName(QString("Marker_%1").arg(MarkerNum)).item(0).isElement()==true)) {
+                        QDomElement SubElement=Element.elementsByTagName(QString("Marker_%1").arg(MarkerNum)).item(0).toElement();
+                        sMarker Marker;
+                        if (SubElement.hasAttribute("TextColor"))   Marker.TextColor=SubElement.attribute("TextColor");
+                        if (SubElement.hasAttribute("MarkerColor")) Marker.MarkerColor=SubElement.attribute("MarkerColor");
+                        if (SubElement.hasAttribute("Visibility"))  Marker.Visibility =(sMarker::MARKERVISIBILITY)SubElement.attribute("Visibility").toInt();
+                        Markers.append(Marker);
+                        MarkerNum++;
+                    }
                 }
                 break;
         }
@@ -1314,4 +1339,205 @@ void cBrushDefinition::s_AdjustMinWH() {
     X=((dmax-W)/2)/dmax;
     Y=((dmax-H)/2)/dmax;
     ZoomFactor=W/dmax;
+}
+
+//====================================================================================================================
+
+QImage cBrushDefinition::PrepareMarker(int MarkerNum,sMarker::MARKERVISIBILITY Visibility,sMarker::MARKERSIZE MarkerS) {
+    if ((MarkerNum<0)||(MarkerNum>=Markers.count())||(Visibility==sMarker::MARKERHIDE)||(!MediaObject)||(MediaObject->ObjectType!=OBJECTTYPE_GMAPSMAP)) return QImage();
+
+    cLocation       *Location=((cLocation *)((cGMapsMap *)MediaObject)->List[MarkerNum]);
+    QPainter        Painter;
+    QFont           FontNormal,FontBold;
+    QTextOption     OptionText;
+    QPen            Pen;
+    int             IconSize;
+    QSize           MarkerSize;
+    QSize           MapImageSize=((cGMapsMap *)MediaObject)->GetCurrentImageSize();
+    QBrush          Brush(QColor(Markers[MarkerNum].MarkerColor));
+
+    // Setup FontFactor
+    double FontSize=120;
+    switch (MarkerS) {
+        case sMarker::SMALL:  IconSize=16;    FontSize=60;    break;
+        case sMarker::MEDIUM: IconSize=32;    FontSize=120;   break;
+        case sMarker::LARGE:  IconSize=64;    FontSize=240;   break;
+    }
+
+    // Setup default pen
+    Pen.setColor(QColor(Markers[MarkerNum].TextColor));
+    Pen.setWidth(1);
+    Pen.setStyle(Qt::SolidLine);
+
+    // Setup fonts
+    FontBold  =QFont("Sans serif",9,QFont::Normal,QFont::StyleNormal);      // Font size is adjusted after
+    FontNormal=QFont("Sans serif",9,QFont::Normal,QFont::StyleNormal);      // Font size is adjusted after
+    FontBold.setBold(true);
+    FontBold.setUnderline(false);
+    FontNormal.setUnderline(false);
+    #ifdef Q_OS_WIN
+    FontBold.setPointSizeF(double(FontSize*1.1)/ScaleFontAdjust);                       // Scale font
+    FontNormal.setPointSizeF(double(FontSize)/ScaleFontAdjust);                         // Scale font
+    #else
+    FontBold.setPointSizeF((double(FontSize*1.1)/ScaleFontAdjust)*ScreenFontAdjust);    // Scale font
+    FontNormal.setPointSizeF((double(FontSize)/ScaleFontAdjust)*ScreenFontAdjust);      // Scale font
+    #endif
+
+    // Setup OptionText
+    OptionText=QTextOption(Qt::AlignLeft|Qt::AlignVCenter);     // Setup alignement
+    OptionText.setWrapMode(QTextOption::NoWrap);                // Setup word wrap text option
+
+    // Compute MarkerSize
+    MarkerSize.setWidth(QFontMetrics(FontBold).width(Location->Name)+8+IconSize);
+    MarkerSize.setHeight(IconSize+6);
+
+    int nW=QFontMetrics(FontNormal).width(Location->Address)+8+IconSize;
+    if (nW>MarkerSize.width())  MarkerSize.setWidth(nW);
+    if (MarkerSize.width()>(MapImageSize.width()*0.6-8-IconSize))   MarkerSize.setWidth(MapImageSize.width()*0.6-8-IconSize);   // Not more than 60% of the map width
+    if (MarkerSize.height()>(MapImageSize.height()*0.6-6-IconSize)) MarkerSize.setWidth(MapImageSize.width()*0.6-6-IconSize);   // Not more than 60% of the map width
+
+    // Create image
+    QImage Icon=Location->Icon.GetImageDiskBrush(QRectF(0,0,IconSize,IconSize),false,0,NULL,1,NULL);
+    QImage MarkerImage(MarkerSize,QImage::Format_ARGB32_Premultiplied);
+    Painter.begin(&MarkerImage);
+    Painter.setBrush(Brush);
+    Painter.setPen(Pen);
+    Painter.drawRect(0,0,MarkerImage.width()-1,MarkerImage.height()-1);
+    if (!Icon.isNull()) Painter.drawImage(3,3,Icon);
+    Painter.setFont(FontBold);      Painter.drawText(QRect(5+IconSize,3,                            MarkerSize.width()-IconSize-7,(MarkerSize.height()-8)/2),Location->Name,OptionText);
+    Painter.setFont(FontNormal);    Painter.drawText(QRect(5+IconSize,5+((MarkerSize.height()-8)/2),MarkerSize.width()-IconSize-7,(MarkerSize.height()-8)/2),Location->FriendlyAddress,OptionText);
+    Painter.end();
+
+    return MarkerImage;
+}
+
+//====================================================================================================================
+
+void cBrushDefinition::AddMarkerToImage(QImage *DestImage) {
+    if ((!MediaObject)||(MediaObject->ObjectType!=OBJECTTYPE_GMAPSMAP)) return;
+    QPainter Painter;
+    QPen     Pen;
+    Painter.begin(DestImage);
+    Pen.setColor(Qt::black);
+    Pen.setWidth(2);
+    Pen.setStyle(Qt::SolidLine);
+    Painter.setPen(Pen);
+
+    cGMapsMap *CurrentMap=(cGMapsMap *)MediaObject;
+    for (int i=0;i<CurrentMap->List.count();i++) {
+        cLocation   *Location=((cLocation *)CurrentMap->List[i]);
+        int         MakerLineLen=DestImage->height()/12;
+        QImage      MarkerImage =PrepareMarker(i,Markers[i].Visibility,Location->Size);
+
+        if (!MarkerImage.isNull()) {
+            QPoint   MarkerPoint=CurrentMap->GetLocationPoint(i);
+            QPoint   MarkerStartLine;
+            int      Orientation;
+            QPolygon Arrow;
+
+            // Compute orientation of marker
+            if (MarkerPoint.y()>MarkerImage.height()+MakerLineLen) {
+                Painter.drawImage(MarkerPoint.x()-(MarkerImage.width()/2),MarkerPoint.y()-MakerLineLen-MarkerImage.height(),MarkerImage);
+                MarkerStartLine=QPoint(MarkerPoint.x(),MarkerPoint.y()-MakerLineLen);
+                Orientation=0;
+            } else {
+                Painter.drawImage(MarkerPoint.x()-(MarkerImage.width()/2),MarkerPoint.y()+MakerLineLen,MarkerImage);
+                MarkerStartLine=QPoint(MarkerPoint.x(),MarkerPoint.y()+MakerLineLen);
+                Orientation=1;
+            }
+
+            // Draw Endpoint and line
+            switch (Location->EndPoint) {
+                case cLocation::MEDIUMPOINT:    // Filled 10 pixels circle
+                    Painter.setBrush(QBrush(Qt::black,Qt::SolidPattern));
+                    Painter.drawEllipse(MarkerPoint,10,10);
+                    switch (Orientation) {
+                        case 1:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()+5));   break;
+                        default:
+                        case 0:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()-5));   break;
+                    }
+                    break;
+                case cLocation::MEDIUMCIRCLE:   // Empty 10 pixels circle
+                    Painter.setBrush(Qt::NoBrush);
+                    Painter.drawEllipse(MarkerPoint,10,10);
+                    switch (Orientation) {
+                        case 1:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()+5));   break;
+                        default:
+                        case 0:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()-5));   break;
+                    }
+                    break;
+                case cLocation::LARGECIRCLE:    // Empty 24 pixels circle
+                    Painter.setBrush(Qt::NoBrush);
+                    Painter.drawEllipse(MarkerPoint,24,24);
+                    switch (Orientation) {
+                        case 1:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()+12));   break;
+                        default:
+                        case 0:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()-12));   break;
+                    }
+                    break;
+                case cLocation::ARROW1:         // Empty unclosed 24 pixels arrow
+                    Painter.drawLine(MarkerStartLine,MarkerPoint);
+                    switch (Orientation) {
+                        case 1:
+                            Painter.drawLine(MarkerPoint,QPointF(MarkerPoint.x()-12,MarkerPoint.y()+24));
+                            Painter.drawLine(MarkerPoint,QPointF(MarkerPoint.x()+12,MarkerPoint.y()+24));
+                            break;
+                        default:
+                        case 0:
+                            Painter.drawLine(MarkerPoint,QPointF(MarkerPoint.x()-12,MarkerPoint.y()-24));
+                            Painter.drawLine(MarkerPoint,QPointF(MarkerPoint.x()+12,MarkerPoint.y()-24));
+                            break;
+                    }
+                    break;
+                case cLocation::ARROW2:         // Filled 24 pixels arrow
+                    Painter.setBrush(QBrush(Qt::black,Qt::SolidPattern));
+                    Painter.drawLine(MarkerStartLine,MarkerPoint);
+                    Arrow.append(MarkerPoint);
+                    switch (Orientation) {
+                        case 1:
+                            Arrow.append(QPoint(MarkerPoint.x()+12,MarkerPoint.y()+24));
+                            Arrow.append(QPoint(MarkerPoint.x()-12,MarkerPoint.y()+24));
+                            break;
+                        default:
+                        case 0:
+                            Arrow.append(QPoint(MarkerPoint.x()+12,MarkerPoint.y()-24));
+                            Arrow.append(QPoint(MarkerPoint.x()-12,MarkerPoint.y()-24));
+                            break;
+                    }
+                    Arrow.append(MarkerPoint);
+                    Painter.drawPolygon(Arrow);
+                    break;
+                case cLocation::ARROW3:         // Empty closed 24 pixels arrow
+                    Painter.setBrush(Qt::NoBrush);
+                    Painter.drawLine(MarkerStartLine,MarkerPoint);
+                    Arrow.append(MarkerPoint);
+                    switch (Orientation) {
+                        case 1:
+                            Arrow.append(QPoint(MarkerPoint.x()+12,MarkerPoint.y()+24));
+                            Arrow.append(QPoint(MarkerPoint.x()-12,MarkerPoint.y()+24));
+                            break;
+                        default:
+                        case 0:
+                            Arrow.append(QPoint(MarkerPoint.x()+12,MarkerPoint.y()-24));
+                            Arrow.append(QPoint(MarkerPoint.x()-12,MarkerPoint.y()-24));
+                            break;
+                    }
+                    Arrow.append(MarkerPoint);
+                    Painter.drawPolygon(Arrow);
+                    break;
+                default:
+                case cLocation::SMALLPOINT:     // Filled 4 pixels circle
+                    Painter.setBrush(QBrush(Qt::black,Qt::SolidPattern));
+                    Painter.drawEllipse(MarkerPoint,4,4);
+                    switch (Orientation) {
+                        case 1:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()+2));   break;
+                        default:
+                        case 0:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()-2));   break;
+                    }
+                    break;
+            }
+
+        }
+    }
+    Painter.end();
 }

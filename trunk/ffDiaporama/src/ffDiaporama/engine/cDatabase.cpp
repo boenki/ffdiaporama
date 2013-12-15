@@ -21,7 +21,7 @@
 #include "cDatabase.h"
 #include "cBaseApplicationConfig.h"
 
-#define DATABASEVERSION 5       // Current database version
+#define DATABASEVERSION 6       // Current database version
 
 void DisplayLastSQLError(QSqlQuery *Query) {
     ToLog(LOGMSG_CRITICAL,Query->lastQuery());
@@ -960,8 +960,9 @@ cLocationTable::cLocationTable(cDatabase *Database):cDatabaseTable(Database) {
                             "Latitude           real,"\
                             "Longitude          real,"\
                             "Zoomlevel          int,"\
-                            "Icon               text,"
-                            "Thumbnail          binary"
+                            "Icon               text,"\
+                            "Thumbnail          binary,"\
+                            "FAddress           text"
                      ")";
     CreateIndexQuery.append("CREATE INDEX idx_Location_Key ON Location (Key)");
 }
@@ -975,6 +976,8 @@ bool cLocationTable::DoUpgradeTableVersion(qlonglong OldVersion) {
     if (OldVersion<=4) {
         Ret=Query.exec("DROP TABLE Location");
         if ((!Ret)&&(Query.lastError().number()==1)) Ret=true;
+    } else if (OldVersion==5) {
+        Ret=Query.exec("ALTER TABLE Location ADD COLUMN FAddress text");
     }
 
     if (!Ret) DisplayLastSQLError(&Query);
@@ -983,12 +986,13 @@ bool cLocationTable::DoUpgradeTableVersion(qlonglong OldVersion) {
 
 //=====================================================================================================
 
-qlonglong cLocationTable::AppendLocation(QString Name,QString Address,double Latitude,double Longitude,int Zoomlevel,QString Icon,QImage Thumbnail) {
+qlonglong cLocationTable::AppendLocation(QString Name,QString Address,QString FAddress,double Latitude,double Longitude,int Zoomlevel,QString Icon,QImage Thumbnail) {
     QSqlQuery Query(Database->db);
-    Query.prepare(QString("INSERT INTO %1 (Key,Name,Address,Latitude,Longitude,Zoomlevel,Icon,Thumbnail) VALUES (:Key,:Name,:Address,:Latitude,:Longitude,:Zoomlevel,:Icon,:Thumbnail)").arg(TableName));
+    Query.prepare(QString("INSERT INTO %1 (Key,Name,Address,FAddress,Latitude,Longitude,Zoomlevel,Icon,Thumbnail) VALUES (:Key,:Name,:Address,:FAddress,:Latitude,:Longitude,:Zoomlevel,:Icon,:Thumbnail)").arg(TableName));
     Query.bindValue(":Key",         ++NextIndex,QSql::In);
     Query.bindValue(":Name",        Name,QSql::In);
     Query.bindValue(":Address",     Address,QSql::In);
+    Query.bindValue(":FAddress",    FAddress,QSql::In);
     Query.bindValue(":Latitude",    Latitude,QSql::In);
     Query.bindValue(":Longitude",   Longitude,QSql::In);
     Query.bindValue(":Zoomlevel",   Zoomlevel,QSql::In);
@@ -1009,12 +1013,13 @@ qlonglong cLocationTable::AppendLocation(QString Name,QString Address,double Lat
 
 //=====================================================================================================
 
-qlonglong cLocationTable::UpdateLocation(qlonglong Key,QString Name,QString Address,double Latitude,double Longitude,int Zoomlevel,QString Icon,QImage Thumbnail) {
+qlonglong cLocationTable::UpdateLocation(qlonglong Key,QString Name,QString Address,QString FAddress,double Latitude,double Longitude,int Zoomlevel,QString Icon,QImage Thumbnail) {
     QSqlQuery Query(Database->db);
-    Query.prepare(QString("UPDATE %1 SET Name=:Name,Address=:Address,Latitude=:Latitude,Longitude=:Longitude,Zoomlevel=:Zoomlevel,Icon=:Icon,Thumbnail=:Thumbnail WHERE Key=:Key").arg(TableName));
+    Query.prepare(QString("UPDATE %1 SET Name=:Name,Address=:Address,FAddress=:FAddress,Latitude=:Latitude,Longitude=:Longitude,Zoomlevel=:Zoomlevel,Icon=:Icon,Thumbnail=:Thumbnail WHERE Key=:Key").arg(TableName));
     Query.bindValue(":Key",         Key,QSql::In);
     Query.bindValue(":Name",        Name,QSql::In);
     Query.bindValue(":Address",     Address,QSql::In);
+    Query.bindValue(":FAddress",    FAddress,QSql::In);
     Query.bindValue(":Latitude",    Latitude,QSql::In);
     Query.bindValue(":Longitude",   Longitude,QSql::In);
     Query.bindValue(":Zoomlevel",   Zoomlevel,QSql::In);

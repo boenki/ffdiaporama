@@ -2,6 +2,22 @@
 * FFDIAPORAMA 2.1 - trunk (Version Française)
 **************************************************
 
+[Commit: 15/12/2013]
+    Correction de bug :
+        -Corrige un bug sur les favoris dans la boite de sélection de localisation GPS
+        -Corrige un bug sur le vérouillage des propriétés d'un block dans la boite d'édition des slides: Certaines propriétés n'étaient pas répercutées dans les plans non vérouillés (voir: http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=644)
+        -Corrige le bug d'inactivité du bouton Annuler de la boite de génération des cartes GMap
+        -Corrige le plantage lors des reprises de génération des cartes GMap
+        -Corrige un bug lors de la génération des cartes GMap (si la précédente carte n'était pas totalement générée, il tentait de finir la génération au lieu de démarrer la nouvelle)
+
+    Nouveautés :
+        -Ajoute un champ Friendly address dans la boite de sélection des localisations GPS et dans la table des localisations favorites
+        -Redesign l'onglet d'édition des cartes GMap dans la boite d'édition des images/vidéos/carte GMap
+        -La suppression d'une localisation de regénère plus de carte dans l'onglet d'édition des cartes GMap
+        -Commence la prise en charge des marqueurs des cartes GMap (pour le moment toutes les options ne sont pas encore prises en charge et il y a des erreurs de positionnement sur les cartes >720p)
+
+--------------------------------------------------------------------------------
+
 [Commit: 13/12/2013] - ffDiaporama 2.1 devel 12/12/2013
     Correction de bug :
         -Corrige le bug sur les images dans la génération du WIKI

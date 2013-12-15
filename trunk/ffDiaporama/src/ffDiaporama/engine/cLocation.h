@@ -30,10 +30,18 @@ public:
     qlonglong               FavKey;             // Database key of favorite definition for this location (or -1 if it's not a favorite)
     QString                 Name;               // Friendly name
     QString                 Address;            // Address as text
+    QString                 FriendlyAddress;    // Friendly address
     double                  GPS_cx,GPS_cy;      // GPS position (longitude/latitude)
     int                     ZoomLevel;          // Preferred Map ZoomLevel
     qlonglong               ThumbnailResKey;    // Key of a 64x64 image as thumb
     cBrushDefinition        Icon;               // cBrushDefinition to create thumb
+
+    int                     LineWidth;          // Width of the line (from 0 to 10)
+    QString                 LineColor;          // Color of the line
+    enum ENDPOINT {SMALLPOINT,MEDIUMPOINT,MEDIUMCIRCLE,LARGECIRCLE,ARROW1,ARROW2,ARROW3} EndPoint;  // Line endpoint
+    cBrushDefinition::sMarker::MARKERSIZE Size;                                                     // Size of the marker
+    enum MARKERPOSITION {TOP,TOPRIGHT,RIGHT,BOTTOMRIGHT,BOTTOM,BOTTOMLEFT,LEFT,TOPLEFT} Position;   // Position of the marker
+    enum MARKERDISTANCE {NEAR,NORMAL,FAR} Distance;                                                 // Distance between to localization on the map and the marker
 
     explicit                cLocation(cBaseApplicationConfig *ApplicationConfig);
     virtual                 ~cLocation() {}

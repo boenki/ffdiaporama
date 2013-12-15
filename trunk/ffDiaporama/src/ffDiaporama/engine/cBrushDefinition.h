@@ -105,6 +105,11 @@ extern  cBackgroundList BackgroundList;
 
 class cBrushDefinition {
 public:
+    // Link to global objects
+    cBaseApplicationConfig  *ApplicationConfig;
+    QObject                 *CompositionObject;         // Link to parent (cCompositionObject)
+
+    // Basic settings
     int                     TypeComposition;            // Type of composition object (COMPOSITIONTYPE_BACKGROUND, COMPOSITIONTYPE_OBJECT, COMPOSITIONTYPE_SHOT)
     int                     BrushType;                  // 0=no brush, 1=Solid, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
     int                     PatternType;                // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
@@ -114,8 +119,9 @@ public:
     QString                 ColorIntermed;              // Intermediate Color
     double                  Intermediate;               // Intermediate position of 2nd color (in %) for gradient 3 colors
     QString                 BrushImage;                 // Image name if image from library
-    double                  SoundVolume;                // Volume of soundtrack
-    bool                    Deinterlace;                // Add a YADIF filter to deinterlace video (on/off)
+    int                     ImageSpeedWave;             // Speed wave for this object during annimations
+
+    // Embedded media object
     cBaseMediaFile          *MediaObject;               // Embeded Media Object
     bool                    DeleteMediaObject;
 
@@ -133,18 +139,26 @@ public:
     bool                    LockGeometry;               // True if geometry is locked
     double                  AspectRatio;                // Aspect Ratio of image
     bool                    FullFilling;                // Background image disk only : If true aspect ratio is not keep and image is deformed to fill the frame
-
     double                  GaussBlurSharpenSigma,BlurSharpenRadius;       // Blur/Sharpen parameters
     int                     TypeBlurSharpen,QuickBlurSharpenSigma;
     double                  Desat,Swirl,Implode;        // Filter parameters
-
     int                     OnOffFilter;                // On-Off filter = combination of Despeckle, Equalize, Gray and Negative;
-    int                     ImageSpeedWave;
 
-    // Link to global objects
-    cBaseApplicationConfig  *ApplicationConfig;
+    // Video specific part
+    double                  SoundVolume;                // Volume of soundtrack
+    bool                    Deinterlace;                // Add a YADIF filter to deinterlace video (on/off)
 
-                            cBrushDefinition(cBaseApplicationConfig *TheApplicationConfig);
+    // Google maps specific part
+    struct sMarker {
+        QString MarkerColor;
+        QString TextColor;
+        enum MARKERVISIBILITY {MARKERHIDE,MARKERSHADE,MARKERSHOW} Visibility;
+        enum MARKERSIZE {SMALL,MEDIUM,LARGE};
+    };
+
+    QList<sMarker>          Markers;
+
+                            cBrushDefinition(QObject *CompositionObject,cBaseApplicationConfig *TheApplicationConfig);
                             ~cBrushDefinition();
 
     void                    InitDefaultValues();
@@ -189,6 +203,9 @@ public:
     QImage                  GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush);
     int                     GetHeightForWidth(int WantedWith,QRectF Rect);
     int                     GetWidthForHeight(int WantedHeight,QRectF Rect);
+
+    QImage                  PrepareMarker(int MarkerNum,sMarker::MARKERVISIBILITY Visibility,sMarker::MARKERSIZE MarkerSize);
+    void                    AddMarkerToImage(QImage *DestImage);
 };
 
 #endif // CBRUSHDEFINITION_H

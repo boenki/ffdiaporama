@@ -114,6 +114,7 @@ void MainWindow::InitWindow() {
     }
 
     // Init application config
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Init translations..."));
     ApplicationConfig->InitConfigurationValues(ForceLanguage);
 
     // Test if another instance of ffDiaporama is already started on the computer
@@ -150,6 +151,7 @@ void MainWindow::InitWindow() {
     QPen        Pen;
 
     P.begin(&LogoImg);
+    ScaleFontAdjust=double(P.fontMetrics().boundingRect("0").height());
     P.setFont(Font);
     int Size         =P.fontMetrics().boundingRect("99/99/9999").width();           // Size should be 150 on standard Linux and 136 on standard Windows
     ScreenFontAdjust =double(Size)/double(150);                                     // Adjustement for text functions using direct font
@@ -271,6 +273,7 @@ void MainWindow::InitWindow() {
     ui->ActionDocumentation_BT_2->setIcon(QApplication::style()->standardIcon(QStyle::SP_DialogHelpButton));
 
     // Initialise integrated browser
+    screen.showMessage(QApplication::translate("MainWindow","Init multimdia browser..."),Qt::AlignHCenter|Qt::AlignBottom);
     ApplicationConfig->DriveList->UpdateDriveList();
     ui->Browser->DoInitWidget(BROWSER_TYPE_MainWindow,true,true,true,ApplicationConfig);
     ui->Browser->DoInitDialog();

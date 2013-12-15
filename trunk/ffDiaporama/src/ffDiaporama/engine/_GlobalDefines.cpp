@@ -29,6 +29,7 @@
 QString CurrentAppName;                         // Application name (including devel, beta, ...)
 QString CurrentAppVersion;                      // Application version read from BUILDVERSION.txt
 double  ScreenFontAdjust=1;                     // System Font adjustement
+double  ScaleFontAdjust=0;
 int     SCALINGTEXTFACTOR=700;                  // 700 instead of 400 (ffD 1.0/1.1/1.2) to keep similar display from plaintext to richtext
 
 //======================================================================

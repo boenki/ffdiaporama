@@ -1606,10 +1606,6 @@ Please retry in one hour.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Give a friendly name for this location</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1631,10 +1627,6 @@ Please retry in one hour.</source>
     </message>
     <message>
         <source>Enter postal adress to found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1731,6 +1723,22 @@ Are you sure to have written the address correctly?</source>
     <message>
         <source>The map has not been fully generated.
 Do you want to resume the generation now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Friendly name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Friendly address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Give a friendly address for this location</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6312,6 +6320,18 @@ Vuoi scaricarla ora?</translation>
         <source>Error loading ressource</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Duplicate ressource to prepare undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Init translations...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Init multimdia browser...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTable</name>
@@ -7794,36 +7814,6 @@ Esempio: se Y=25 % del primo trimestre nella parte superiore dell&apos;immagine 
         <source>Speed wave:</source>
         <translation>Velocità onda:</translation>
     </message>
-    <message utf8="true">
-        <source>You can use the + and – buttons in each input field to change the settings, or directly enter values for the five parameters.
-Alternatively, you can use the interactive zone to set the framing with the mouse or the keyboard.
- 
-With the mouse:
-- Click one of the handles and, with the mouse button down, drag the mouse to modify the size (to increase or reduce the part of the image to be kept).
-- Click the image and, with the mouse button down, drag the mouse to modify the part of the image which will be kept.
-
-With the keyboard:
-- Use the arrows to move the part of the image which will be kept.
-- Use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle, to change the size of the part of the image which will be kept.
-
-Remark: 
-When the image does not correspond to the geometry of the video to be produced, transparent zones appear.
-For example: an 4:3 image used in a 16:9 project will be shown by default with a transparent zone on each side.</source>
-        <translation>È possibile utilizzare il pulsanti + e - in ogni campo di input per modificare le impostazioni o immettere direttamente i valori per i cinque parametri.
-In alternativa, è possibile utilizzare la zona interattiva per impostare l&apos;inquadratura con il mouse o la tastiera.
- 
-Con il mouse:
-- Premere uno dei manici e, con il pulsante del mouse, trascinare il mouse per modificare la dimensione (per aumentare o diminuire la parte dell&apos;immagine da conservare).
-- Clicca l&apos;immagine e, con il tasto del mouse, trascinare il mouse per modificare la parte dell&apos;immagine che verrà mantenuta.
-
-Con la tastiera:
-- Utilizzare le frecce per spostare la parte dell&apos;immagine che verrà mantenuta.
-- Utilizzare MAIUSC + frecce per spostare la maniglia in alto a sinistra o CTRL + frecce per spostare la maniglia nell&apos;angolo in basso a destra, per modificare le dimensioni della parte dell&apos;immagine che verrà mantenuta.
-
-Osservazioni:
-Quando l&apos;immagine non corrisponde alla geometria del video da produrre, zone trasparenti appaiono.
-Per esempio: un&apos;immagine 4:03 utilizzato in un progetto 16:9 vengono visualizzate per impostazione predefinita con una zona trasparente su ogni lato.</translation>
-    </message>
     <message>
         <source>Framing and form:</source>
         <translation>Cornice e forma:</translation>
@@ -7929,10 +7919,6 @@ Per esempio: un&apos;immagine 4:03 utilizzato in un progetto 16:9 vengono visual
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Marker</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Location</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7946,6 +7932,54 @@ Per esempio: un&apos;immagine 4:03 utilizzato in un progetto 16:9 vengono visual
     </message>
     <message>
         <source>Remove current location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Position:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Properties for all shots</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Distance:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Marker point:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Properties for this shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Background color:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Visibility:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the color of the line to be used to draw the border</source>
+        <translation type="unfinished">Selezionare il colore della linea utilizzata per disegnare il bordo</translation>
+    </message>
+    <message>
+        <source>Line color:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Line width:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Marker size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text color:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

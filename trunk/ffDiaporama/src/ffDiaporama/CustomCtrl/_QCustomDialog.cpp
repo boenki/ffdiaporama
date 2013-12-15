@@ -290,12 +290,12 @@ void QCustomDialog::DoResizeColumnsTableWidget(QTableWidget *Table) {
 //====================================================================================================================
 // utility function to add a partial undo to the list
 
-void QCustomDialog::AppendPartialUndo(int ActionType,QWidget *FocusWindow,bool ForceAdd,QWidget *FocusTab) {
+void QCustomDialog::AppendPartialUndo(int ActionType,QWidget *FocusWindow,bool ForceAdd,QWidget *FocusTab,bool DuplicateRessource) {
     if ((ForceAdd)||(UndoDataList.count()==0)||(ActionType!=UndoDataList.last().ActionType)) {
 
         QDomDocument DomDocument("UNDO");
         QDomElement  root=DomDocument.createElement("UNDO-DATA");
-        PreparePartialUndo(ActionType,root);
+        PreparePartialUndo(ActionType,root,DuplicateRessource);
         DomDocument.appendChild(root);
 
         sUndoData   Data;
@@ -308,8 +308,8 @@ void QCustomDialog::AppendPartialUndo(int ActionType,QWidget *FocusWindow,bool F
     }
 }
 
-void QCustomDialog::AppendPartialUndo(int ActionType,QString WidgetName,bool ForceAdd,QWidget *FocusTab) {
-    AppendPartialUndo(ActionType,findChild<QWidget *>(WidgetName),ForceAdd,FocusTab);
+void QCustomDialog::AppendPartialUndo(int ActionType,QString WidgetName,bool ForceAdd,QWidget *FocusTab,bool DuplicateRessource) {
+    AppendPartialUndo(ActionType,findChild<QWidget *>(WidgetName),ForceAdd,FocusTab,DuplicateRessource);
 }
 
 //====================================================================================================================

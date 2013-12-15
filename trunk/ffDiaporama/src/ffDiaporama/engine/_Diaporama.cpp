@@ -61,6 +61,8 @@ int64_t TotalLoadSources=0,TotalAssembly=0,TotalLoadSound=0;
 cCompositionObjectContext::cCompositionObjectContext(int ObjectNumber,bool PreviewMode,bool IsCurrentObject,cDiaporamaObjectInfo *Info,double width,double height,
                                                      cDiaporamaShot *CurShot,cDiaporamaShot *PreviousShot,cSoundBlockList *SoundTrackMontage,bool AddStartPos,
                                                      int64_t ShotDuration,QObject *Parent):QObject(Parent) {
+    setObjectName("cCompositionObjectContext");
+
     this->NeedPreparedBrush =false;
     this->PrevCompoObject   =NULL;
     this->width             =width;
@@ -98,7 +100,7 @@ void cCompositionObjectContext::Compute() {
     if (BlockSpeedWave==SPEEDWAVE_PROJECTDEFAULT) BlockSpeedWave=CurShot->Parent->Parent->BlockAnimSpeedWave;
     if (ImageSpeedWave==SPEEDWAVE_PROJECTDEFAULT) ImageSpeedWave=CurShot->Parent->Parent->ImageAnimSpeedWave;
 
-    Object      =CurShot->ShotComposition.List[ObjectNumber];
+    cCompositionObject *Object=CurShot->ShotComposition.List[ObjectNumber];
     BlockPctDone=ComputePCT(BlockSpeedWave,IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone);
     ImagePctDone=ComputePCT(ImageSpeedWave,IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone);
 
@@ -238,11 +240,13 @@ void cCompositionObjectContext::Compute() {
 //*********************************************************************************************************************************************
 
 cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cBaseApplicationConfig *TheApplicationConfig,QObject *Parent):QObject(Parent) {
+    setObjectName("cCompositionObject");
+
     // Attribut of the text object
     ApplicationConfig       = TheApplicationConfig;
     TypeComposition         = TheTypeComposition;
     IndexKey                = TheIndexKey;
-    BackgroundBrush         = new cBrushDefinition(ApplicationConfig);  // ERROR : BackgroundList is global !
+    BackgroundBrush         = new cBrushDefinition(this,ApplicationConfig);  // ERROR : BackgroundList is global !
     InitDefaultValues();
 }
 
@@ -1277,6 +1281,8 @@ void cCompositionObject::DrawCompositionObject(cDiaporamaObject *Object,QPainter
 //*********************************************************************************************************************************************
 
 cCompositionList::cCompositionList(QObject *Parent):QObject(Parent) {
+    setObjectName("cCompositionList");
+
     TypeComposition=COMPOSITIONTYPE_BACKGROUND;
 }
 
@@ -1329,6 +1335,8 @@ bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 //*********************************************************************************************************************************************
 
 cDiaporamaShot::cDiaporamaShot(cDiaporamaObject *DiaporamaObject):QObject(DiaporamaObject),ShotComposition(this) {
+    setObjectName("cDiaporamaShot");
+
     Parent                          = DiaporamaObject;
     StaticDuration                  = ((MainWindow *)Parent->Parent->ApplicationConfig->TopLevelWindow)->ApplicationConfig->FixedDuration;    // Duration (in msec) of the static part animation
     ShotComposition.TypeComposition = COMPOSITIONTYPE_SHOT;
@@ -1370,7 +1378,9 @@ bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QSt
 //*********************************************************************************************************************************************
 
 cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama):QObject(Diaporama),ObjectComposition(this) {
-    BackgroundBrush         =new cBrushDefinition(Diaporama->ApplicationConfig);
+    setObjectName("cDiaporamaObject");
+
+    BackgroundBrush         =new cBrushDefinition(NULL,Diaporama->ApplicationConfig);
     Parent                  =Diaporama;
     SlideName               =QApplication::translate("MainWindow","Title","Default slide name when no file");
     NextIndexKey            =1;
@@ -1838,6 +1848,25 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             List.append(imagesequence);
         }
 
+        // fix locations definition in shots for version <2.1 20131214
+        QList<cBrushDefinition::sMarker> FirstMarkers;
+        for (int Obj=0;Obj<ObjectComposition.List.count();Obj++) if ((ObjectComposition.List[Obj]->BackgroundBrush->MediaObject)&&(ObjectComposition.List[Obj]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP)) {
+            for (int Shot=0;Shot<List.count();Shot++) for (int ShotObj=0;ShotObj<List[Shot]->ShotComposition.List.count();ShotObj++) if (ObjectComposition.List[Obj]->IndexKey==List[Shot]->ShotComposition.List[ShotObj]->IndexKey) {
+                if (List[Shot]->ShotComposition.List[ShotObj]->BackgroundBrush->Markers.isEmpty()) {
+                    if (Shot==0) {
+                        for (int Marker=0;Marker<((cGMapsMap *)ObjectComposition.List[Obj]->BackgroundBrush->MediaObject)->List.count();Marker++) {
+                            cBrushDefinition::sMarker MarkerObj;
+                            MarkerObj.MarkerColor="#ffffff";
+                            MarkerObj.TextColor="#000000";
+                            MarkerObj.Visibility=cBrushDefinition::sMarker::MARKERSHOW;
+                            List[Shot]->ShotComposition.List[ShotObj]->BackgroundBrush->Markers.append(MarkerObj);
+                        }
+                        FirstMarkers=List[Shot]->ShotComposition.List[ShotObj]->BackgroundBrush->Markers;
+                    } else List[Shot]->ShotComposition.List[ShotObj]->BackgroundBrush->Markers=FirstMarkers;
+                }
+            }
+        }
+
         // Bug fix for ffDRevision between 1.7b3 and 2.0b3
         if ((ElementName!=TITLEMODEL_ELEMENTNAME)&&(Parent->ProjectInfo->ffDRevision>"20131016")&&(Parent->ProjectInfo->ffDRevision<"20131112")) {
             int AutoTSNumber=GetAutoTSNumber();
@@ -1883,6 +1912,7 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 //*********************************************************************************************************************************************
 
 cDiaporama::cDiaporama(cBaseApplicationConfig *TheApplicationConfig,bool LoadDefaultModel,QObject *Parent):QObject(Parent) {
+    setObjectName("cDiaporama");
     ApplicationConfig           = TheApplicationConfig;
     ProjectInfo                 = new cffDProjectFile(ApplicationConfig);
     ProjectThumbnail            = new cDiaporamaObject(this);

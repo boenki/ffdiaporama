@@ -38,13 +38,13 @@ public:
     int                     NbrSection;
 
     cGMapsMap               *MediaObject;
-    QImage                  *DestMap;
+    QImage                  DestMap;
     QByteArray              ReceiveMap;
     int                     RetryCount;
     QNetworkAccessManager   NetworkAccessManager;
     QNetworkReply           *GetMapNetReply;
 
-    explicit                DlgGMapsGeneration(QImage *DestMap,cGMapsMap *MediaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
+    explicit                DlgGMapsGeneration(cGMapsMap *MediaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
                             ~DlgGMapsGeneration();
 
     // function to be overloaded

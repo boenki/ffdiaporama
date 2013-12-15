@@ -47,6 +47,9 @@ public:
     bool                    InDisplayDuration;
     bool                    NoPrepUndo;
 
+    // specific flag for GMapsObject
+    bool                    RedoneStyleCoordinate;
+
     explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent = 0);
     virtual                 ~DlgSlideProperties();
 
@@ -64,7 +67,7 @@ public:
     cCompositionObject      *GetSelectedCompositionObject();                // Return selected CompositionObject
     cCompositionObject      *GetSelectedGlobalCompositionObject();          // Return selected CompositionObject in the global composition list
 
-    virtual void            PreparePartialUndo(int ActionType,QDomElement root);
+    virtual void            PreparePartialUndo(int ActionType,QDomElement root,bool);
     virtual void            ApplyPartialUndo(int ActionType,QDomElement root);
 
 protected:

@@ -47,7 +47,7 @@ public:
     virtual void    PrepareGlobalUndo();                        // Initiale Undo
     virtual void    DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
 
-    virtual void    PreparePartialUndo(int ActionType,QDomElement root);
+    virtual void    PreparePartialUndo(int ActionType,QDomElement root,bool DuplicateRessource);
     virtual void    ApplyPartialUndo(int ActionType,QDomElement root);
 
 protected:

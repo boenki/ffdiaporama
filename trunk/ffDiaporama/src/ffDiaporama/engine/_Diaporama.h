@@ -100,7 +100,6 @@ class cCompositionObjectContext : public QObject {
 Q_OBJECT
 public:
     bool                    NeedPreparedBrush;
-    cCompositionObject      *Object;
     double                  width,height;
     bool                    PreviewMode;
     bool                    AddStartPos;

@@ -502,9 +502,9 @@ void QCustomFolderTable::SetMode() {
         QFont font("Sans serif",8,QFont::Normal,QFont::StyleNormal);
         Painter.setFont(font);
         #ifdef Q_OS_WIN
-        font.setPointSizeF(double(120)/double(Painter.fontMetrics().boundingRect("0").height()));                   // Scale font
+        font.setPointSizeF(double(120)/ScaleFontAdjust);                   // Scale font
         #else
-        font.setPointSizeF((double(100)/double(Painter.fontMetrics().boundingRect("0").height()))*ScreenFontAdjust);// Scale font
+        font.setPointSizeF((double(100)/ScaleFontAdjust)*ScreenFontAdjust);// Scale font
         #endif
         Painter.setFont(font);
         DISPLAYFILENAMEHEIGHT=Painter.fontMetrics().boundingRect("0").height()*2;                                   // 2 lines for bigest mode

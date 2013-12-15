@@ -93,11 +93,10 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,cBaseAp
     InteractiveZone->MagneticRuler  =ApplicationConfig->SlideRuler;
     InteractiveZone->DisplayW       =DisplayW;
     InteractiveZone->DisplayH       =DisplayH;
-
-    CurrentShot     =NULL;
-
-    FramingCB_CurrentBrush  =NULL;
-    FramingCB_CurrentShot   =-1;
+    RedoneStyleCoordinate           =false;         // specific flag for GMapsObject
+    CurrentShot                     =NULL;
+    FramingCB_CurrentBrush          =NULL;
+    FramingCB_CurrentShot           =-1;
 }
 
 //====================================================================================================================
@@ -409,7 +408,7 @@ void DlgSlideProperties::s_Event_ClipboardChanged() {
 
 //====================================================================================================================
 
-void DlgSlideProperties::PreparePartialUndo(int ActionType,QDomElement root) {
+void DlgSlideProperties::PreparePartialUndo(int ActionType,QDomElement root,bool) {
     QDomDocument DomDocument;
 
     root.setAttribute("BlockNbr",CompositionList->List.count());
@@ -1572,7 +1571,8 @@ void DlgSlideProperties::s_BlockTable_AddGMapsMapBlock() {
     MediaObject->GetInformationFromFile("",NULL,NULL,-1);
     DoAddBlock(MediaObject,CurrentSlide->ObjectComposition.List.count());
     RefreshBlockTable(CurrentSlide->ObjectComposition.List.count()-1);
-    QTimer::singleShot(250,this,SLOT(s_BlockSettings_ImageEditCorrect()));    // Append "Open text editor" to the message queue
+    RedoneStyleCoordinate=true;
+    QTimer::singleShot(250,this,SLOT(s_BlockSettings_ImageEditCorrect()));    // Append "Open image editor" to the message queue
 }
 
 //====================================================================================================================
@@ -1941,6 +1941,13 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
                            CurrentSlide->Parent->ImageGeometry,CurrentSlide->Parent->ImageAnimSpeedWave,ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
+
+        // Redone application of styles for coordinates (specific to GMaps object when creating)
+        if (RedoneStyleCoordinate) {
+            CurrentCompoObject->ApplyAutoCompoSize(ApplicationConfig->DefaultBlockBA[CurrentCompoObject->BackgroundBrush->GetImageType()].AutoCompo,CurrentSlide->Parent->ImageGeometry);
+            RedoneStyleCoordinate=false;
+        }
+
         FramingCB_CurrentBrush   =NULL; // To force a refresh of ui->FramingCB !
         CurrentBrush->AspectRatio=CurrentBrush->AspectRatio;
         CurrentCompoObject->h    =(CurrentCompoObject->w*InteractiveZone->DisplayW*CurrentBrush->AspectRatio)/InteractiveZone->DisplayH;
@@ -1960,7 +1967,10 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
 
         // Lulo object for image and video must be remove
         ApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->MediaObject->RessourceKey,CurrentCompoObject->BackgroundBrush->MediaObject->FileKey);
-        ApplyToContexte(true);
+
+        // Apply settings to other shots
+        ApplyToContexte(true,CurrentCompoObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP);
+
         s_ShotTable_DisplayDuration();
         RefreshBlockTable(CurrentCompoObjectNbr);
     } else {

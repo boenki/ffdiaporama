@@ -188,8 +188,8 @@ public:
     explicit                cLocationTable(cDatabase *Database);
 
     virtual bool            DoUpgradeTableVersion(qlonglong CurrentVersion);
-    virtual qlonglong       AppendLocation(QString Name,QString Address,double Latitude,double Longitude,int Zoomlevel,QString Icon,QImage Thumbnail);
-    virtual qlonglong       UpdateLocation(qlonglong Key,QString Name,QString Address,double Latitude,double Longitude,int Zoomlevel,QString Icon,QImage Thumbnail);
+    virtual qlonglong       AppendLocation(QString Name,QString Address,QString FAddress,double Latitude,double Longitude,int Zoomlevel,QString Icon,QImage Thumbnail);
+    virtual qlonglong       UpdateLocation(qlonglong Key,QString Name,QString Address,QString FAddress,double Latitude,double Longitude,int Zoomlevel,QString Icon,QImage Thumbnail);
 };
 
 #endif // CDATABASE_H
