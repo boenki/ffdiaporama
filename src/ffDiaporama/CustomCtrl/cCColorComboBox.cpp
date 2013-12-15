@@ -94,7 +94,8 @@ QSize cCColorComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const
 //******************************************************************************************************************
 
 cCColorComboBox::cCColorComboBox(QWidget *parent):QComboBox(parent) {
-    STOPMAJ=false;
+    STOPMAJ     =false;
+    IsPopupOpen =false;
     CurrentColor=NULL;
 
     QTableWidget    *Table=new QTableWidget();

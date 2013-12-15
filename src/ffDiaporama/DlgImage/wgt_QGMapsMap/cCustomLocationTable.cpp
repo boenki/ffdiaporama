@@ -49,57 +49,7 @@ void QCustomLocationItemDelegate::paint(QPainter *Painter,const QStyleOptionView
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
-    QFont           FontNormal,FontBold;
-    QTextOption     OptionText;
-    QPen            Pen;
-    int             FontFactor=((ParentTable->CurrentMap->ApplicationConfig->TimelineHeight-TIMELINEMINHEIGH)/20+1)*10;
-
-    // Setup default brush
-    Painter->setBrush(Qt::white);
-    Painter->fillRect(option.rect,Qt::white);
-
-    // Setup default pen
-    Pen.setColor(Qt::black);
-    Pen.setWidth(1);
-    Pen.setStyle(Qt::SolidLine);
-    Painter->setPen(Pen);
-
-    // Setup font for first line
-    FontBold=QFont("Sans serif",9,QFont::Normal,QFont::StyleNormal);
-    Painter->setFont(FontBold);
-    #ifdef Q_OS_WIN
-    FontBold.setPointSizeF(double(110+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                    // Scale font
-    #else
-    FontBold.setPointSizeF((double(120+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()))*ScreenFontAdjust); // Scale font
-    #endif
-    FontBold.setBold(true);
-    FontBold.setUnderline(false);
-
-    // Setup font for second line
-    FontNormal=QFont("Sans serif",8,QFont::Normal,QFont::StyleNormal);
-    FontNormal.setUnderline(false);
-    Painter->setFont(FontNormal);
-    #ifdef Q_OS_WIN
-    FontNormal.setPointSizeF(double(100+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
-    #else
-    FontNormal.setPointSizeF((double(100+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()))*ScreenFontAdjust);// Scale font
-    #endif
-    OptionText=QTextOption(Qt::AlignLeft|Qt::AlignVCenter);     // Setup alignement
-    OptionText.setWrapMode(QTextOption::NoWrap);                // Setup word wrap text option
-
-    if (index.column()==0) {
-        // Display marker
-
-    } else if (index.column()==1) {
-        // Display location
-        cLocation *Location=(cLocation *)ParentTable->CurrentMap->List.at(index.row());
-        QImage    Icon     =Location->Icon.GetImageDiskBrush(QRectF(0,0,32,32),false,0,NULL,1,NULL);
-        int       DecalX   =32;
-        int       Height   =(option.rect.height()-2)/2;
-        Painter->drawImage(option.rect.x()+2,option.rect.y()+2,Icon);
-        Painter->setFont(FontBold);     Painter->drawText(QRectF(option.rect.x()+2+DecalX,option.rect.y()+1,option.rect.width()-4-DecalX,Height),Location->Name,OptionText);
-        Painter->setFont(FontNormal);   Painter->drawText(QRectF(option.rect.x()+2+DecalX,option.rect.y()+1+Height,option.rect.width()-4-DecalX,Height),Location->Address,OptionText);
-    }
+    Painter->drawImage(option.rect.x()+2,option.rect.y()+2,ParentTable->CurrentBrush->PrepareMarker(index.row(),cBrushDefinition::sMarker::MARKERSHOW,cBrushDefinition::sMarker::MEDIUM));
 
     // Selection mode (Note: MouseOver is removed because it works correctly only on KDE !)
     if (option.state & QStyle::State_Selected) {
@@ -119,11 +69,12 @@ void QCustomLocationItemDelegate::paint(QPainter *Painter,const QStyleOptionView
 
 cCustomLocationTable::cCustomLocationTable(QWidget *parent):QTableWidget(parent) {
     CurrentMap=NULL;
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    CurrentBrush=NULL;
+    setShowGrid(false);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setSelectionBehavior(QAbstractItemView::SelectRows);
-    horizontalHeader()->show();
-    horizontalHeader()->setStretchLastSection(false);
-    setShowGrid(true);
+    horizontalHeader()->setStretchLastSection(true);
     setItemDelegate((QAbstractItemDelegate *)new QCustomLocationItemDelegate(this));
-    verticalHeader()->setDefaultSectionSize(36);
+    verticalHeader()->setDefaultSectionSize(38);
 }

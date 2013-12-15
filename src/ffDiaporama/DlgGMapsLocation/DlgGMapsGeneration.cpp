@@ -27,9 +27,8 @@
 
 //====================================================================================================================
 
-DlgGMapsGeneration::DlgGMapsGeneration(QImage *DestMap,cGMapsMap *MediaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgGMapsGeneration) {
+DlgGMapsGeneration::DlgGMapsGeneration(cGMapsMap *MediaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgGMapsGeneration) {
     this->MediaObject=MediaObject;
-    this->DestMap    =DestMap;
     RetryCount       =0;
     GetMapNetReply   =NULL;
     ui->setupUi(this);
@@ -45,19 +44,20 @@ DlgGMapsGeneration::~DlgGMapsGeneration() {
 //====================================================================================================================
 
 void DlgGMapsGeneration::DoRejet() {
-
+    RetryCount=MAXRETRY;
+    ApplicationConfig->SlideThumbsTable->SetThumbs(&MediaObject->RessourceKey,DestMap);
 }
 
 //====================================================================================================================
 void DlgGMapsGeneration::DoInitDialog() {
     if (MediaObject->RequestList.isEmpty()) {
         // create new empty image
-        *DestMap=MediaObject->CreateDefaultImage();
+        DestMap=MediaObject->CreateDefaultImage();
 
         // Create sections to be computed
         MediaObject->ComputeSectionList();
 
-    }
+    } else ApplicationConfig->SlideThumbsTable->GetThumbs(&MediaObject->RessourceKey,&DestMap);
     QSize IMSize=MediaObject->GetCurrentImageSize();
     NbrSection  =MediaObject->ComputeNbrSection(IMSize.width(),cGMapsMap::SectionWith)*MediaObject->ComputeNbrSection(IMSize.height(),cGMapsMap::SectionHeight);
     ui->ProgressBar->setRange(0,NbrSection-1);
@@ -104,7 +104,7 @@ void DlgGMapsGeneration::httpGetMapFinished() {
         } else {
             QRectF   RectF=MediaObject->RequestList[0].Rect;
             QPainter Painter;
-            Painter.begin(DestMap);
+            Painter.begin(&DestMap);
             Painter.drawImage(RectF,RecImage,QRectF((640-RectF.width())/2,(640-RectF.height())/2,RectF.width(),RectF.height()));
             Painter.end();
             MediaObject->RequestList.removeFirst();
@@ -131,7 +131,7 @@ void DlgGMapsGeneration::RequestGoogle() {
         if (MediaObject->RequestList.isEmpty()) ui->StatusBar->setText("");
             else                                ui->StatusBar->setText(QApplication::translate("DlgGMapsGeneration","%1 pending section(s) should be retrieve later").arg(MediaObject->RequestList.count()));
         // update ressource in database (keep actual map even if sections pending)
-        ApplicationConfig->SlideThumbsTable->SetThumbs(&MediaObject->RessourceKey,*DestMap);
+        ApplicationConfig->SlideThumbsTable->SetThumbs(&MediaObject->RessourceKey,DestMap);
         accept();
         return;
     }

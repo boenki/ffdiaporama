@@ -133,13 +133,13 @@ void DlgImageCorrection::PrepareGlobalUndo() {
     // Create xml document and root
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");
-    PreparePartialUndo(0,root);
+    PreparePartialUndo(0,root,true);
     Undo->appendChild(root);                                    // Add object to xml document
 }
 
 //====================================================================================================================
 
-void DlgImageCorrection::PreparePartialUndo(int /*ActionType*/,QDomElement root) {
+void DlgImageCorrection::PreparePartialUndo(int /*ActionType*/,QDomElement root,bool DuplicateRessource) {
     QString BrushFileName=CurrentBrush->MediaObject->FileName();
     root.setAttribute("BrushFileName",BrushFileName);
     root.setAttribute("BackgroundForm",*BackgroundForm);
@@ -149,9 +149,20 @@ void DlgImageCorrection::PreparePartialUndo(int /*ActionType*/,QDomElement root)
     if (CurrentBrush->MediaObject->RessourceKey!=-1) {
         if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP) {
             CurrentBrush->MediaObject->SaveToXML(&root,"UNDO-DLG-OBJECT","",true,NULL,NULL);
-            // duplicate ressource to keep previous map
-            CurrentBrush->MediaObject->RessourceKey=-1;
-            ApplicationConfig->SlideThumbsTable->SetThumbs(&CurrentBrush->MediaObject->RessourceKey,*GMapsWidget->DisplayMap);
+            // duplicate ressource and imagecache to keep previous map
+            if (DuplicateRessource) {
+                ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Duplicate ressource to prepare undo"));
+                QImage Map;
+                ApplicationConfig->SlideThumbsTable->GetThumbs(&CurrentBrush->MediaObject->RessourceKey,&Map);
+                cLuLoImageCacheObject *ImgCache=ApplicationConfig->ImagesCache.FindObject(CurrentBrush->MediaObject->RessourceKey,-1,QDateTime(),0,ApplicationConfig->Smoothing,false);
+                cLuLoImageCacheObject *NewImgCache=new cLuLoImageCacheObject(CurrentBrush->MediaObject->RessourceKey,-1,QDateTime(),0,"",ApplicationConfig->Smoothing,&ApplicationConfig->ImagesCache);
+                CurrentBrush->MediaObject->RessourceKey=-1;
+                ApplicationConfig->SlideThumbsTable->SetThumbs(&CurrentBrush->MediaObject->RessourceKey,Map);
+                NewImgCache->RessourceKey=CurrentBrush->MediaObject->RessourceKey;
+                NewImgCache->CachePreviewImage=new QImage(*ImgCache->CachePreviewImage);
+                NewImgCache->ByteCount=ImgCache->ByteCount;
+                ApplicationConfig->ImagesCache.List.prepend(NewImgCache);
+            }
         }
     }
     // special case for video object
@@ -180,10 +191,7 @@ void DlgImageCorrection::ApplyPartialUndo(int ActionType,QDomElement root) {
     // load object
     CurrentBrush->LoadFromXML(&root,"UNDO-DLG-OBJECT","",NULL,NULL,NULL,false);
     // if object have embeded ressource, then load mediaobject
-    if (CurrentBrush->MediaObject->RessourceKey!=-1) {
-        CurrentBrush->MediaObject->LoadFromXML(&root,"UNDO-DLG-OBJECT","",NULL,NULL,NULL,false);
-        if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP) ApplicationConfig->SlideThumbsTable->GetThumbs(&CurrentBrush->MediaObject->RessourceKey,GMapsWidget->DisplayMap);
-    }
+    if (CurrentBrush->MediaObject->RessourceKey!=-1) CurrentBrush->MediaObject->LoadFromXML(&root,"UNDO-DLG-OBJECT","",NULL,NULL,NULL,false);
     // special case for video object
     if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
         ((cVideoFile *)CurrentBrush->MediaObject)->StartPos=QTime().fromString(root.attribute("StartPos"));

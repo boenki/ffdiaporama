@@ -106,7 +106,7 @@ public:
     // Utility function used to apply modification from one shot to next shot and/or global composition
     virtual void                CopyBlockProperties(cCompositionObject *SourceBlock,cCompositionObject *DestBlock);
     virtual void                ApplyGlobalPropertiesToAllShots(cCompositionObject *GlobalBlock);
-    virtual void                ApplyToContexte(bool ApplyGlobal);
+    virtual void                ApplyToContexte(bool ApplyGlobal,bool ResetAllThumbs=false);
     virtual cCompositionObject  *GetGlobalCompositionObject(int IndexKey);      // Return CompositionObject in the global composition list for specific IndexKey
 
     // Update embedded controls

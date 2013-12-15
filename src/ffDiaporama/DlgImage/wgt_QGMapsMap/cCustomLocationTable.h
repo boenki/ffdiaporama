@@ -29,6 +29,7 @@ class cCustomLocationTable : public QTableWidget {
 Q_OBJECT
 public:
     cGMapsMap               *CurrentMap;
+    cBrushDefinition        *CurrentBrush;
 
     explicit                cCustomLocationTable(QWidget *parent = 0);
 

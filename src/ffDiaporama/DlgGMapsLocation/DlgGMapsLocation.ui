@@ -36,6 +36,9 @@
    </property>
    <item>
     <layout class="QFormLayout" name="formLayout">
+     <property name="labelAlignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
      <property name="horizontalSpacing">
       <number>2</number>
      </property>
@@ -63,7 +66,10 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Name:</string>
+        <string>Friendly name:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
@@ -84,6 +90,9 @@
        </property>
        <property name="text">
         <string>Icon:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
@@ -256,7 +265,27 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Address:</string>
+        <string>Google address:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Friendly address:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="AddressNameED">
+       <property name="toolTip">
+        <string>Give a friendly address for this location</string>
        </property>
       </widget>
      </item>
@@ -547,6 +576,7 @@
  <tabstops>
   <tabstop>AdresseCB</tabstop>
   <tabstop>FavoriteBT</tabstop>
+  <tabstop>AddressNameED</tabstop>
   <tabstop>NameED</tabstop>
   <tabstop>IconBT</tabstop>
   <tabstop>EditIconBT</tabstop>

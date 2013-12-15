@@ -38,7 +38,6 @@ public:
     QCustomDialog           *ParentDialog;
     cGMapsMap               *CurrentMap;
     bool                    StopMaj;
-    QImage                  *DisplayMap;
 
     explicit                wgt_QGMapsMap(QWidget *parent = 0);
                             ~wgt_QGMapsMap();
@@ -70,6 +69,10 @@ private slots:
     void                    DoubleClickedLocation(QModelIndex);
 
     void                    RequestGoogle();
+
+    void                    LineColorChanged(int);
+    void                    MarkerColorChanged(int);
+    void                    TextColorChanged(int);
 
 signals:
     void                    DoRefreshImageObject();

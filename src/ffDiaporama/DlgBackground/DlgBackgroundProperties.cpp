@@ -132,7 +132,7 @@ void DlgBackgroundProperties::DoGlobalUndo() {
 
 //====================================================================================================================
 
-void DlgBackgroundProperties::PreparePartialUndo(int /*ActionType*/,QDomElement root) {
+void DlgBackgroundProperties::PreparePartialUndo(int /*ActionType*/,QDomElement root,bool) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::PreparePartialUndo");
     DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,NULL,false);
 }

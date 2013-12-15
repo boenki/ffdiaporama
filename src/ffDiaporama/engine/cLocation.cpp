@@ -20,12 +20,25 @@
 
 #include "cLocation.h"
 
-cLocation::cLocation(cBaseApplicationConfig *ApplicationConfig):Icon(ApplicationConfig) {
+#define DEFAULT_LineWidth   1
+#define DEFAULT_LineColor   "#000000"
+#define DEFAULT_EndPoint    cLocation::SMALLPOINT
+#define DEFAULT_Size        cBrushDefinition::sMarker::MEDIUM
+#define DEFAULT_Position    cLocation::TOP
+#define DEFAULT_Distance    cLocation::NORMAL
+
+cLocation::cLocation(cBaseApplicationConfig *ApplicationConfig):Icon(NULL,ApplicationConfig) {
+    FavKey          =-1;
+    ThumbnailResKey =-1;
     GPS_cx          =0;
     GPS_cy          =0;
     ZoomLevel       =13;
-    FavKey          =-1;
-    ThumbnailResKey =-1;
+    LineWidth       =DEFAULT_LineWidth;
+    LineColor       =DEFAULT_LineColor;
+    EndPoint        =DEFAULT_EndPoint;
+    Size            =DEFAULT_Size;
+    Position        =DEFAULT_Position;
+    Distance        =DEFAULT_Distance;
 }
 
 //========================================================================================================================
@@ -33,9 +46,16 @@ cLocation::cLocation(cBaseApplicationConfig *ApplicationConfig):Icon(Application
 void cLocation::SaveToXML(QDomElement *ParentElement,QString,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList) {
     ParentElement->setAttribute("Name",Name);
     ParentElement->setAttribute("Address",Address);
+    ParentElement->setAttribute("FAddress",FriendlyAddress);
     ParentElement->setAttribute("GPS_cx",GPS_cx);
     ParentElement->setAttribute("GPS_cy",GPS_cy);
     ParentElement->setAttribute("ZoomLevel",ZoomLevel);
+    if (LineWidth!=DEFAULT_LineWidth)   ParentElement->setAttribute("LineWidth",LineWidth);
+    if (LineColor!=DEFAULT_LineColor)   ParentElement->setAttribute("LineColor",LineColor);
+    if (Size!=DEFAULT_Size)             ParentElement->setAttribute("Size",int(Size));
+    if (Position!=DEFAULT_Position)     ParentElement->setAttribute("Position",int(Position));
+    if (Distance!=DEFAULT_Distance)     ParentElement->setAttribute("Distance",int(Distance));
+    if (EndPoint!=DEFAULT_EndPoint)     ParentElement->setAttribute("EndPoint",int(EndPoint));
     Icon.SaveToXML(ParentElement,"Icon",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);
     if (ResKeyList) ResKeyList->append(ThumbnailResKey);
     ParentElement->setAttribute("ThumbResKey",ThumbnailResKey);
@@ -47,9 +67,16 @@ bool cLocation::LoadFromXML(QDomElement *ParentElement,QString,QString PathForRe
     bool IsOk;
     if (ParentElement->hasAttribute("Name"))        Name            =ParentElement->attribute("Name");
     if (ParentElement->hasAttribute("Address"))     Address         =ParentElement->attribute("Address");
+    if (ParentElement->hasAttribute("FAddress"))    FriendlyAddress =ParentElement->attribute("FAddress");
     if (ParentElement->hasAttribute("GPS_cx"))      GPS_cx          =GetDoubleValue(*ParentElement,"GPS_cx");
     if (ParentElement->hasAttribute("GPS_cy"))      GPS_cy          =GetDoubleValue(*ParentElement,"GPS_cy");
     if (ParentElement->hasAttribute("ZoomLevel"))   ZoomLevel       =ParentElement->attribute("ZoomLevel").toInt();
+    if (ParentElement->hasAttribute("LineWidth"))   LineWidth       =ParentElement->attribute("LineWidth").toInt();
+    if (ParentElement->hasAttribute("LineColor"))   LineColor       =ParentElement->attribute("LineColor");
+    if (ParentElement->hasAttribute("Size"))        Size            =(cBrushDefinition::sMarker::MARKERSIZE)ParentElement->attribute("Size").toInt();
+    if (ParentElement->hasAttribute("Position"))    Position        =(MARKERPOSITION)ParentElement->attribute("Position").toInt();
+    if (ParentElement->hasAttribute("Distance"))    Distance        =(MARKERDISTANCE)ParentElement->attribute("Distance").toInt();
+    if (ParentElement->hasAttribute("EndPoint"))    EndPoint        =(ENDPOINT)ParentElement->attribute("EndPoint").toInt();
     if (ParentElement->hasAttribute("ThumbResKey")) ThumbnailResKey =ParentElement->attribute("ThumbResKey").toLongLong();
     IsOk=Icon.LoadFromXML(ParentElement,"Icon",PathForRelativPath,AliasList,ModifyFlag,ResKeyList,DuplicateRes);
     if ((IsOk)&&(ThumbnailResKey==-1)) {
@@ -71,6 +98,7 @@ bool cLocation::LoadFromXML(QDomElement *ParentElement,QString,QString PathForRe
         }
     }
     if (FavKey==-1) SearchInFavorite();
+    if ((FriendlyAddress.isEmpty())&&(!Address.isEmpty())) FriendlyAddress=Address;
     return IsOk;
 }
 
@@ -82,7 +110,7 @@ void cLocation::AddToFavorite() {
     QDomElement  root=domDocument.createElement("Icon");
     domDocument.appendChild(root);
     Icon.SaveToXML(&root,"Icon","",true,NULL,NULL);
-    FavKey=Icon.ApplicationConfig->LocationTable->AppendLocation(Name,Address,GPS_cy,GPS_cx,ZoomLevel,domDocument.toString(),Image);
+    FavKey=Icon.ApplicationConfig->LocationTable->AppendLocation(Name,Address,FriendlyAddress,GPS_cy,GPS_cx,ZoomLevel,domDocument.toString(),Image);
 }
 
 //========================================================================================================================
@@ -93,7 +121,7 @@ void cLocation::UpdateFavorite() {
     QDomElement  root=domDocument.createElement("Icon");
     domDocument.appendChild(root);
     Icon.SaveToXML(&root,"Icon","",true,NULL,NULL);
-    Icon.ApplicationConfig->LocationTable->UpdateLocation(FavKey,Name,Address,GPS_cy,GPS_cx,ZoomLevel,domDocument.toString(),Image);
+    Icon.ApplicationConfig->LocationTable->UpdateLocation(FavKey,Name,Address,FriendlyAddress,GPS_cy,GPS_cx,ZoomLevel,domDocument.toString(),Image);
 }
 
 //========================================================================================================================
@@ -110,20 +138,24 @@ void cLocation::RemoveFavorite() {
 
 bool cLocation::LoadFromFavorite(qlonglong Key) {
     QSqlQuery Query(Icon.ApplicationConfig->Database->db);
-    Query.prepare(QString("SELECT Name,Address,Latitude,Longitude,Zoomlevel,Icon FROM Location WHERE Key=:Key"));
+    Query.prepare(QString("SELECT Name,Address,FAddress,Latitude,Longitude,Zoomlevel,Icon,Thumbnail FROM Location WHERE Key=:Key"));
     Query.bindValue(":Key",Key,QSql::In);
     if (!Query.exec()) {
         DisplayLastSQLError(&Query);
         return false;
     }
     while (Query.next()) {
-        FavKey       =Key;
-        Name         =Query.value(0).toString();
-        Address      =Query.value(1).toString();
-        GPS_cy       =Query.value(2).toDouble();
-        GPS_cx       =Query.value(3).toDouble();
-        ZoomLevel    =Query.value(4).toInt();
-        QString sIcon=Query.value(5).toString();
+        FavKey          =Key;
+        Name            =Query.value(0).toString();
+        Address         =Query.value(1).toString();
+        FriendlyAddress =Query.value(2).toString();
+        GPS_cy          =Query.value(3).toDouble();
+        GPS_cx          =Query.value(4).toDouble();
+        ZoomLevel       =Query.value(5).toInt();
+        QString sIcon   =Query.value(6).toString();
+        QByteArray Data =Query.value(7).toByteArray();
+        QImage Thumb;
+        if (!Data.isEmpty()) Thumb.loadFromData(Data);
         QDomDocument domDocument;
         QString      errorStr;
         int          errorLine,errorColumn;
@@ -131,7 +163,9 @@ bool cLocation::LoadFromFavorite(qlonglong Key) {
             if ((domDocument.elementsByTagName("Icon").length()>0)&&(domDocument.elementsByTagName("Icon").item(0).isElement()==true)) {
                 QDomElement Element=domDocument.elementsByTagName("Icon").item(0).toElement();
                 Icon.LoadFromXML(&Element,"Icon","",NULL,NULL,NULL,true);
-                QImage ThumbImage=Icon.GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
+                QImage ThumbImage;
+                if (Thumb.isNull()) ThumbImage=Icon.GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
+                    else            ThumbImage=Thumb;
                 Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailResKey,ThumbImage);
                 return true;
             }

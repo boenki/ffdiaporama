@@ -2,6 +2,22 @@
 * FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
 
+[Commit: 15/12/2013]
+    Bug fixes:
+        -Fixed a bug on the favorites in the selection GPS localization dialog
+        -Fixed a bug on the LOCK properties of a block in the edit slide dialog: Some properties were not reflected in following shots (see: http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=644)
+        -Fixed the bug of Cancel button not actif int the GMap generation map dialog
+        -Fixed a crash during the continue GMap generation map
+        -Fixed a bug when generating GMap maps  (if the previous card was not fully generated, it tried to contunue previous generation instead of starting new)
+
+    New features:
+        -Adds a Friendly address name field in the select GPS location dialog and in the favorite locations table
+        -Redesign GMap tab in the image/video/gmap edit dialog
+        -Deleting a location no longer regenerates map in the GMap tab of the image/video/gmap edit dialog
+        -Start GMap markers managment (for the moment all options are not yet supported and there are position errors on map>720p)
+
+--------------------------------------------------------------------------------
+
 [Commit: 13/12/2013] - ffDiaporama 2.1 devel 12/12/2013
     Bug fixes:
         -Fixed the bug on the images in the generation of WIKI

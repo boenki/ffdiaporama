@@ -328,6 +328,7 @@ public:
     virtual void            ComputeSectionList();                       // Create sections to request to Google
 
     virtual QStringList     GetMapSizesPerZoomLevel();                  // Compute Map Size for each Google Maps zoomlevel
+    virtual QPoint          GetLocationPoint(int Index);
 
 private:
     virtual QRectF          GetGPSRectF();                              // Return rectangle needed to handle all locations in GPS unit

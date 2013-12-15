@@ -243,7 +243,7 @@ void cShotComposer::ApplyGlobalPropertiesToAllShots(cCompositionObject *GlobalBl
         CopyBlockProperties(GlobalBlock,CurrentSlide->List[i]->ShotComposition.List[j]);
 }
 
-void cShotComposer::ApplyToContexte(bool ApplyGlobal) {
+void cShotComposer::ApplyToContexte(bool ApplyGlobal,bool ResetAllThumbs) {
     if ((ApplyGlobal)&&(CurrentCompoObject)) ApplyGlobalPropertiesToAllShots(CurrentCompoObject);
 
     // Apply values of previous shot to all shot for all objects
@@ -252,9 +252,13 @@ void cShotComposer::ApplyToContexte(bool ApplyGlobal) {
         for (int i=0;i<CurrentSlide->List[ShotNum]->ShotComposition.List.count();i++)
             if (CurrentSlide->List[ShotNum]->ShotComposition.List[i]->IndexKey==CurrentSlide->List[CurrentShotNbr]->ShotComposition.List[Block]->IndexKey)
                 ShotObject=CurrentSlide->List[ShotNum]->ShotComposition.List[i];
-        if ((ShotObject!=NULL)&&(ShotObject->SameAsPrevShot)) ShotObject->CopyFromCompositionObject(CurrentSlide->List[CurrentShotNbr]->ShotComposition.List[Block]);
+        if ((ShotObject!=NULL)&&(!ShotObject->SameAsPrevShot)) {
+            ShotObject->CopyFromCompositionObject(CurrentSlide->List[CurrentShotNbr]->ShotComposition.List[Block]);
+            if ((ShotObject->BackgroundBrush->MediaObject)&&(ShotObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP))
+                ShotObject->BackgroundBrush->Markers=CurrentSlide->List[ShotNum-1]->ShotComposition.List[Block]->BackgroundBrush->Markers;
+        }
     }
-    for (int i=CurrentShotNbr;i<CurrentSlide->List.count();i++) {
+    for (int i=(ResetAllThumbs?0:CurrentShotNbr);i<CurrentSlide->List.count();i++) {
         if (i==0) ApplicationConfig->SlideThumbsTable->ClearThumbs(CurrentSlide->ThumbnailKey);
         if (ShotTable) ShotTable->RepaintCell(i);
     }

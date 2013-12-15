@@ -34,7 +34,7 @@ void cCBrushComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &op
     if ((!ComboBox)||(!ComboBox->Brush)) return;
     int ColorNum=index.row()*4+index.column();
     if (ColorNum<MAXBRUSHPATTERN) {
-        cBrushDefinition Brush(ComboBox->Brush->ApplicationConfig);
+        cBrushDefinition Brush(NULL,ComboBox->Brush->ApplicationConfig);
         Brush.ColorD     =ComboBox->Brush->ColorD;
         Brush.BrushType  =BRUSHTYPE_PATTERN;
         Brush.PatternType=ColorNum;
@@ -130,7 +130,7 @@ void cCBrushComboBox::MakeIcons() {
     QPainter Painter;
     Painter.begin(&Image);
     if (ColorNum<MAXBRUSHPATTERN) {
-        cBrushDefinition TheBrush(Brush->ApplicationConfig);
+        cBrushDefinition TheBrush(NULL,Brush->ApplicationConfig);
         TheBrush.ColorD=Brush->ColorD;
         TheBrush.BrushType  =BRUSHTYPE_PATTERN;
         TheBrush.PatternType=ColorNum;

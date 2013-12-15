@@ -67,7 +67,7 @@ public:
     virtual void            DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
 
     virtual void            AppendPartialUndo(int ActionType,QWidget *FocusWindow,bool ForceAdd);
-    virtual void            PreparePartialUndo(int ActionType,QDomElement root);
+    virtual void            PreparePartialUndo(int ActionType,QDomElement root,bool DuplicateRessource);
     virtual void            ApplyPartialUndo(int ActionType,QDomElement root);
 
     virtual void            RefreshControls();

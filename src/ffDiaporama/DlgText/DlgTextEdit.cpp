@@ -229,7 +229,7 @@ void DlgTextEdit::DoGlobalUndo() {
 
 //====================================================================================================================
 
-void DlgTextEdit::PreparePartialUndo(int /*ActionType*/,QDomElement root) {
+void DlgTextEdit::PreparePartialUndo(int /*ActionType*/,QDomElement root,bool) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::PreparePartialUndo");
 
     CurrentTextItem->SaveToXML(root,"UNDO-DLG-OBJECT","",NULL,false,NULL,NULL);  // Save object
