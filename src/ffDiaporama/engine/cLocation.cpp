@@ -50,6 +50,8 @@ void cLocation::SaveToXML(QDomElement *ParentElement,QString,QString PathForRela
     ParentElement->setAttribute("GPS_cx",GPS_cx);
     ParentElement->setAttribute("GPS_cy",GPS_cy);
     ParentElement->setAttribute("ZoomLevel",ZoomLevel);
+    ParentElement->setAttribute("MarkerW",MarkerSize.width());
+    ParentElement->setAttribute("MarkerH",MarkerSize.height());
     if (LineWidth!=DEFAULT_LineWidth)   ParentElement->setAttribute("LineWidth",LineWidth);
     if (LineColor!=DEFAULT_LineColor)   ParentElement->setAttribute("LineColor",LineColor);
     if (Size!=DEFAULT_Size)             ParentElement->setAttribute("Size",int(Size));
@@ -71,6 +73,8 @@ bool cLocation::LoadFromXML(QDomElement *ParentElement,QString,QString PathForRe
     if (ParentElement->hasAttribute("GPS_cx"))      GPS_cx          =GetDoubleValue(*ParentElement,"GPS_cx");
     if (ParentElement->hasAttribute("GPS_cy"))      GPS_cy          =GetDoubleValue(*ParentElement,"GPS_cy");
     if (ParentElement->hasAttribute("ZoomLevel"))   ZoomLevel       =ParentElement->attribute("ZoomLevel").toInt();
+    if (ParentElement->hasAttribute("MarkerW"))     MarkerSize.setWidth(ParentElement->attribute("MarkerW").toInt());
+    if (ParentElement->hasAttribute("MarkerH"))     MarkerSize.setHeight(ParentElement->attribute("MarkerH").toInt());
     if (ParentElement->hasAttribute("LineWidth"))   LineWidth       =ParentElement->attribute("LineWidth").toInt();
     if (ParentElement->hasAttribute("LineColor"))   LineColor       =ParentElement->attribute("LineColor");
     if (ParentElement->hasAttribute("Size"))        Size            =(cBrushDefinition::sMarker::MARKERSIZE)ParentElement->attribute("Size").toInt();
@@ -195,11 +199,53 @@ bool cLocation::SearchInFavorite() {
 
 //=====================================================================================================
 
-QImage cLocation::GetThumb() {
+QImage cLocation::GetThumb(int IconSize) {
     QImage Thumb;
-    if (!Icon.ApplicationConfig->SlideThumbsTable->GetThumbs(&ThumbnailResKey,&Thumb)) {
+    cLuLoImageCacheObject *ImageObject=Icon.ApplicationConfig->ImagesCache.FindObject(ThumbnailResKey,-1,QDateTime(),0,true,true);
+    if (ImageObject) Thumb=ImageObject->ValidateCacheRenderImageNC(ThumbnailResKey);
+    if (Thumb.isNull()) {
         Thumb=Icon.GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
         Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailResKey,Thumb);
+        if (ImageObject) ImageObject->CacheRenderImage=new QImage(Thumb.copy());
     }
+    if ((!Thumb.isNull())&&(Thumb.width()!=IconSize)) Thumb=Thumb.scaledToWidth(IconSize);
     return Thumb;
+}
+
+//=====================================================================================================
+
+void cLocation::ComputeMarkerSize(QSize MapImageSize) {
+    QFont   FontNormal,FontBold;
+    int     IconSize;
+
+    // Setup FontFactor
+    double FontSize=120;
+    switch (Size) {
+        case cBrushDefinition::sMarker::SMALL:  IconSize=16;    FontSize=60;    break;
+        case cBrushDefinition::sMarker::MEDIUM: IconSize=32;    FontSize=120;   break;
+        case cBrushDefinition::sMarker::LARGE:  IconSize=64;    FontSize=240;   break;
+    }
+
+    // Setup fonts
+    FontBold  =QFont("Sans serif",9,QFont::Normal,QFont::StyleNormal);      // Font size is adjusted after
+    FontNormal=QFont("Sans serif",9,QFont::Normal,QFont::StyleNormal);      // Font size is adjusted after
+    FontBold.setBold(true);
+    FontBold.setUnderline(false);
+    FontNormal.setUnderline(false);
+    #ifdef Q_OS_WIN
+    FontBold.setPointSizeF(double(FontSize*1.1)/ScaleFontAdjust);                       // Scale font
+    FontNormal.setPointSizeF(double(FontSize)/ScaleFontAdjust);                         // Scale font
+    #else
+    FontBold.setPointSizeF((double(FontSize*1.1)/ScaleFontAdjust)*ScreenFontAdjust);    // Scale font
+    FontNormal.setPointSizeF((double(FontSize)/ScaleFontAdjust)*ScreenFontAdjust);      // Scale font
+    #endif
+
+    // Compute MarkerSize
+    MarkerSize.setWidth(QFontMetrics(FontBold).width(Name)+8+IconSize);
+    MarkerSize.setHeight(IconSize+6);
+
+    int nW=QFontMetrics(FontNormal).width(Address)+8+IconSize;
+    if (nW>MarkerSize.width())  MarkerSize.setWidth(nW);
+    if (MarkerSize.width()>(MapImageSize.width()*0.6-8-IconSize))   MarkerSize.setWidth(MapImageSize.width()*0.6-8-IconSize);   // Not more than 60% of the map width
+    if (MarkerSize.height()>(MapImageSize.height()*0.6-6-IconSize)) MarkerSize.setWidth(MapImageSize.width()*0.6-6-IconSize);   // Not more than 60% of the map width
 }

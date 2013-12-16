@@ -24,6 +24,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QSplashScreen>
+#include <engine/cLocation.h>
 
 int DefaultBackgroundForm=1;
 
@@ -151,17 +152,10 @@ void DlgImageCorrection::PreparePartialUndo(int /*ActionType*/,QDomElement root,
             CurrentBrush->MediaObject->SaveToXML(&root,"UNDO-DLG-OBJECT","",true,NULL,NULL);
             // duplicate ressource and imagecache to keep previous map
             if (DuplicateRessource) {
-                ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Duplicate ressource to prepare undo"));
-                QImage Map;
-                ApplicationConfig->SlideThumbsTable->GetThumbs(&CurrentBrush->MediaObject->RessourceKey,&Map);
-                cLuLoImageCacheObject *ImgCache=ApplicationConfig->ImagesCache.FindObject(CurrentBrush->MediaObject->RessourceKey,-1,QDateTime(),0,ApplicationConfig->Smoothing,false);
-                cLuLoImageCacheObject *NewImgCache=new cLuLoImageCacheObject(CurrentBrush->MediaObject->RessourceKey,-1,QDateTime(),0,"",ApplicationConfig->Smoothing,&ApplicationConfig->ImagesCache);
-                CurrentBrush->MediaObject->RessourceKey=-1;
-                ApplicationConfig->SlideThumbsTable->SetThumbs(&CurrentBrush->MediaObject->RessourceKey,Map);
-                NewImgCache->RessourceKey=CurrentBrush->MediaObject->RessourceKey;
-                NewImgCache->CachePreviewImage=new QImage(*ImgCache->CachePreviewImage);
-                NewImgCache->ByteCount=ImgCache->ByteCount;
-                ApplicationConfig->ImagesCache.List.prepend(NewImgCache);
+                ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Duplicate ressources to prepare undo"));
+                ApplicationConfig->DuplicateRessource(&CurrentBrush->MediaObject->RessourceKey);
+                for (int i=0;i<((cGMapsMap *)CurrentBrush->MediaObject)->List.count();i++)
+                    ApplicationConfig->DuplicateRessource(&((cLocation *)((cGMapsMap *)CurrentBrush->MediaObject)->List[i])->ThumbnailResKey);
             }
         }
     }

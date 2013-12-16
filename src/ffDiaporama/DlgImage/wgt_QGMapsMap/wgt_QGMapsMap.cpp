@@ -84,6 +84,7 @@ void wgt_QGMapsMap::WinFocus() {
 }
 
 void wgt_QGMapsMap::LostFocus() {
+    emit DoRefreshImageObject();
 }
 
 bool wgt_QGMapsMap::DoAccept() {
@@ -144,6 +145,9 @@ void wgt_QGMapsMap::RefreshControls() {
 //====================================================================================================================
 
 void wgt_QGMapsMap::ResetDisplayMap() {
+    // Compute marker size
+    for (int i=0;i<CurrentMap->List.count();i++) ((cLocation *)CurrentMap->List[i])->ComputeMarkerSize(CurrentMap->GetCurrentImageSize());
+    // Setup map
     int H=ui->Map->size().height();
     int W=int(double(16)*(double(H)/double(9)));
     if (W>ui->Map->size().width()) {

@@ -978,6 +978,7 @@ bool cLocationTable::DoUpgradeTableVersion(qlonglong OldVersion) {
         if ((!Ret)&&(Query.lastError().number()==1)) Ret=true;
     } else if (OldVersion==5) {
         Ret=Query.exec("ALTER TABLE Location ADD COLUMN FAddress text");
+        if ((!Ret)&&(Query.lastError().number()==1)) Ret=true;
     }
 
     if (!Ret) DisplayLastSQLError(&Query);

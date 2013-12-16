@@ -110,8 +110,8 @@ public:
     virtual void    SaveWindowState();
     virtual void    RestoreWindowState();
 
-    virtual void    AppendPartialUndo(int ActionType,QWidget *FocusWindow,bool ForceAdd,QWidget *FocusTab=NULL,bool DuplicateRessource=true);
-    virtual void    AppendPartialUndo(int ActionType,QString WidgetName,bool ForceAdd,QWidget *FocusTab=NULL,bool DuplicateRessource=true);
+    virtual void    AppendPartialUndo(int ActionType,QWidget *FocusWindow,bool ForceAdd,QWidget *FocusTab=NULL,bool DuplicateRessource=false);
+    virtual void    AppendPartialUndo(int ActionType,QString WidgetName,bool ForceAdd,QWidget *FocusTab=NULL,bool DuplicateRessource=false);
     virtual void    RemoveLastPartialUndo();
 
     virtual void    PreparePartialUndo(int,QDomElement,bool) {}     // To be overloaded

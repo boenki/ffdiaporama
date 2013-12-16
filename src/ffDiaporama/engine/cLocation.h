@@ -38,6 +38,7 @@ public:
 
     int                     LineWidth;          // Width of the line (from 0 to 10)
     QString                 LineColor;          // Color of the line
+    QSize                   MarkerSize;
     enum ENDPOINT {SMALLPOINT,MEDIUMPOINT,MEDIUMCIRCLE,LARGECIRCLE,ARROW1,ARROW2,ARROW3} EndPoint;  // Line endpoint
     cBrushDefinition::sMarker::MARKERSIZE Size;                                                     // Size of the marker
     enum MARKERPOSITION {TOP,TOPRIGHT,RIGHT,BOTTOMRIGHT,BOTTOM,BOTTOMLEFT,LEFT,TOPLEFT} Position;   // Position of the marker
@@ -49,12 +50,14 @@ public:
     virtual void            SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList);
     virtual bool            LoadFromXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
 
-    virtual QImage          GetThumb();
+    virtual QImage          GetThumb(int IconSize);
     virtual void            AddToFavorite();
     virtual void            UpdateFavorite();
     virtual void            RemoveFavorite();
     virtual bool            LoadFromFavorite(qlonglong Key);
     virtual bool            SearchInFavorite();
+
+    virtual void            ComputeMarkerSize(QSize MapImageSize);
 
 signals:
 

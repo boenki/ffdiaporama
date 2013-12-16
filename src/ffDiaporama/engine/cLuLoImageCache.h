@@ -57,8 +57,10 @@ public:
     cLuLoImageCacheObject(qlonglong RessourceKey,qlonglong FileKey,QDateTime ModifDateTime,int ImageOrientation,QString FilterString,bool Smoothing,cLuLoImageCache *Parent);
     ~cLuLoImageCacheObject();
 
-    QImage      *ValidateCacheRenderImage();
     QImage      *ValidateCachePreviewImage();
+
+    QImage      ValidateCacheRenderImageNC(qlonglong RessourceKey);   // ValidateCacheRenderImage without copy image
+    QImage      *ValidateCacheRenderImage();
 };
 
 //===================================================

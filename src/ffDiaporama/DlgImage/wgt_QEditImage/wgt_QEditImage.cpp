@@ -692,7 +692,7 @@ void wgt_QEditImage::s_ImplodeSliderMoved(int Value) {
 //====================================================================================================================
 
 void wgt_QEditImage::s_ShapeBackgroundForm() {
-    if (StopMaj) return;
+    if ((StopMaj)||(!ui->BackgroundFormCB->isVisible())) return;
     ((DlgImageCorrection *)ParentDialog)->AppendPartialUndo(DlgImageCorrection::UNDOACTION_IMAGEEDITZONE,ui->BackgroundFormCB,false);
     *BackgroundForm=ui->BackgroundFormCB->GetCurrentFrameShape();
     ui->InteractiveZone->RefreshDisplay();

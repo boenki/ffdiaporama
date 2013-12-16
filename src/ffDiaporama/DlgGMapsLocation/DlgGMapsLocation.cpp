@@ -82,7 +82,7 @@ void DlgGMapsLocation::DoInitDialog() {
     GetLatLngNetReply=GetMapNetReply=GetAddressNetReply=NULL;
     RetryCount=0;
 
-    ui->IconBT->setIcon(QIcon(QPixmap().fromImage(Location->GetThumb())));
+    ui->IconBT->setIcon(QIcon(QPixmap().fromImage(Location->GetThumb(64))));
     ui->OKBT->setEnabled(!Location->Address.isEmpty() && !Location->Name.isEmpty() && (ui->AdresseCB->currentIndex()!=-1));
 
     // Add CustomMapWidget
@@ -566,7 +566,8 @@ void DlgGMapsLocation::SelectIcon() {
         Dlg.InitDialog();
         if (Dlg.exec()==0) {
             QImage Thumb=Location->Icon.GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
-            Location->Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&Location->ThumbnailResKey,Thumb);
+            ApplicationConfig->SlideThumbsTable->SetThumbs(&Location->ThumbnailResKey,Thumb);
+            ApplicationConfig->ImagesCache.RemoveImageObject(Location->ThumbnailResKey,-1);
             ui->IconBT->setIcon(QIcon(QPixmap().fromImage(Thumb)));
         }
     }
@@ -634,7 +635,7 @@ void DlgGMapsLocation::Favorite() {
             ui->NameED->setText(Location->Name);
             ui->AdresseCB->setEditText(Location->Address);
             ui->AddressNameED->setText(Location->FriendlyAddress);
-            ui->IconBT->setIcon(QIcon(QPixmap().fromImage(Location->GetThumb())));
+            ui->IconBT->setIcon(QIcon(QPixmap().fromImage(Location->GetThumb(64))));
             ui->OKBT->setEnabled(!Location->Address.isEmpty() && !Location->Name.isEmpty() && (ui->AdresseCB->currentIndex()!=-1));
             StopMaj=false;
             QTimer::singleShot(LATENCY,this,SLOT(RefreshMap()));

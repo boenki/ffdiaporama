@@ -1424,6 +1424,7 @@ bool cGMapsMap::LoadBasicInformationFromDatabase(QDomElement *ParentElement,QStr
             QDomElement SubElement=ParentElement->elementsByTagName(QString("Location_%1").arg(i)).item(0).toElement();
             cLocation *Location=new cLocation(ApplicationConfig);
             Location->LoadFromXML(&SubElement,"",PathForRelativPath,AliasList,ModifyFlag,ResKeyList,DuplicateRes);
+            if ((Location->MarkerSize.isEmpty())) Location->ComputeMarkerSize(GetCurrentImageSize());
             List.append(Location);
             i++;
         }

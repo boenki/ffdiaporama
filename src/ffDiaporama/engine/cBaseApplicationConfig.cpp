@@ -1021,3 +1021,20 @@ void cBaseApplicationConfig::SaveBrowserFavoritesToDabase(QStringList BrowserFav
     DomDocument.appendChild(Element);
     SettingsTable->SetIntAndTextValue("BrowserFavorites",BrowserFavorites.count(),DomDocument.toString());
 }
+
+//====================================================================================================================
+// Duplicate an image in ressource and get a new RessourceKey
+
+void cBaseApplicationConfig::DuplicateRessource(qlonglong *RessourceKey) {
+    QImage Image;
+    SlideThumbsTable->GetThumbs(RessourceKey,&Image);
+    cLuLoImageCacheObject *ImgCache=ImagesCache.FindObject(*RessourceKey,-1,QDateTime(),0,Smoothing,false);
+    cLuLoImageCacheObject *NewImgCache=new cLuLoImageCacheObject(*RessourceKey,-1,QDateTime(),0,"",Smoothing,&ImagesCache);
+    *RessourceKey=-1;
+    SlideThumbsTable->SetThumbs(RessourceKey,Image);
+    NewImgCache->RessourceKey=*RessourceKey;
+    if (ImgCache->CachePreviewImage) NewImgCache->CachePreviewImage=new QImage(*ImgCache->CachePreviewImage);
+    if (ImgCache->CacheRenderImage)  NewImgCache->CacheRenderImage =new QImage(*ImgCache->CacheRenderImage);
+    NewImgCache->ByteCount=ImgCache->ByteCount;
+    ImagesCache.List.prepend(NewImgCache);
+}

@@ -204,7 +204,7 @@ public:
     int                     GetHeightForWidth(int WantedWith,QRectF Rect);
     int                     GetWidthForHeight(int WantedHeight,QRectF Rect);
 
-    QImage                  PrepareMarker(int MarkerNum,sMarker::MARKERVISIBILITY Visibility,sMarker::MARKERSIZE MarkerSize);
+    void                    DrawMarker(QPainter *Painter,QPoint Position,int MarkerNum,sMarker::MARKERVISIBILITY Visibility,sMarker::MARKERSIZE MarkerSize);
     void                    AddMarkerToImage(QImage *DestImage);
 };
 
