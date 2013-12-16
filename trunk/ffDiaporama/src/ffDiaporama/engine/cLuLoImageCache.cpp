@@ -62,7 +62,7 @@ cLuLoImageCacheObject::~cLuLoImageCacheObject() {
 
 //===============================================================================
 
-QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
+QImage cLuLoImageCacheObject::ValidateCacheRenderImageNC(qlonglong RessourceKey) {
     LuLoImageCache->FreeMemoryToMaxValue(this);
     MemoryMutex.lock();
     if (CacheRenderImage==NULL) {
@@ -139,9 +139,13 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
     }
     if (CacheRenderImage==NULL) ToLog(LOGMSG_CRITICAL,"Error in cLuLoImageCacheObject::ValidateCacheRenderImage() : return NULL");
     ByteCount=((CacheRenderImage)?CacheRenderImage->byteCount():0)+(((CachePreviewImage)&&(CachePreviewImage!=CacheRenderImage))?CachePreviewImage->byteCount():0);
-    QImage *Ret=(CacheRenderImage)?new QImage(CacheRenderImage->copy()):NULL;
     MemoryMutex.unlock();
-    return Ret;
+    return (CacheRenderImage?*CacheRenderImage:QImage());
+}
+
+QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
+    QImage Img=ValidateCacheRenderImageNC(RessourceKey);
+    return (!Img.isNull())?new QImage(Img.copy()):NULL;
 }
 
 //===============================================================================
@@ -154,15 +158,10 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
 
         // if CacheRenderImage exist then copy it
         if ((CacheRenderImage)&&(!CacheRenderImage->isNull())) {
-            if (CacheRenderImage->height()<=PREVIEWMAXHEIGHT) CachePreviewImage=CacheRenderImage; else {
-                CachePreviewImage=new QImage(CacheRenderImage->copy());
-                // If image size>PREVIEWMAXHEIGHT, reduce Cache Image
-                if ((CachePreviewImage)&&(!CachePreviewImage->isNull())&&(CachePreviewImage->height()>PREVIEWMAXHEIGHT*2))  {
-                    QImage *NewImage=new QImage(CachePreviewImage->scaledToHeight(PREVIEWMAXHEIGHT,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
-                    delete CachePreviewImage;
-                    CachePreviewImage=NewImage;
-                }
-            }
+
+            if (CacheRenderImage->height()<=PREVIEWMAXHEIGHT) CachePreviewImage=CacheRenderImage;
+                else CachePreviewImage=new QImage(CacheRenderImage->scaledToHeight(PREVIEWMAXHEIGHT,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+
         } else {
 
             if (RessourceKey!=-1) {
@@ -171,7 +170,12 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
                 ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file from ressource"));
                 LuLoImageCache->ThumbsTable->GetThumbs(&RessourceKey,&Image);
                 if (Image.height()>PREVIEWMAXHEIGHT) Image=Image.scaledToHeight(PREVIEWMAXHEIGHT);
-                CachePreviewImage=new QImage(Image);
+                // For ressource, always use CacheRenderImage
+                CacheRenderImage=new QImage(Image);
+
+                // then copy it at correct size into CachePreviewImage
+                if (CacheRenderImage->height()<=PREVIEWMAXHEIGHT) CachePreviewImage=CacheRenderImage;
+                    else CachePreviewImage=new QImage(CacheRenderImage->scaledToHeight(PREVIEWMAXHEIGHT,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
 
             } else {
 
@@ -278,12 +282,11 @@ void cLuLoImageCache::clear() {
 // Image version
 cLuLoImageCacheObject *cLuLoImageCache::FindObject(qlonglong RessourceKey,qlonglong FileKey,QDateTime ModifDateTime,int ImageOrientation,bool Smoothing,bool SetAtTop) {
     int i=0;
-    while ((i<List.count())&&((List[i]->FileKey!=FileKey)||(List[i]->Smoothing!=Smoothing))) i++;
-
     MemoryMutex.lock();
 
     if (RessourceKey!=-1) {
 
+        while ((i<List.count())&&((List[i]->RessourceKey!=RessourceKey)||(List[i]->Smoothing!=Smoothing))) i++;
         if ((i<List.count())&&(List[i]->RessourceKey==RessourceKey)&&(List[i]->Smoothing==Smoothing)) {
             // if wanted and image found then set it to the top of the list
             if ((SetAtTop)&&(i>0)) { // If item is not the first
@@ -299,6 +302,7 @@ cLuLoImageCacheObject *cLuLoImageCache::FindObject(qlonglong RessourceKey,qlongl
 
     } else {
 
+        while ((i<List.count())&&((List[i]->FileKey!=FileKey)||(List[i]->Smoothing!=Smoothing))) i++;
         if ((i<List.count())&&(List[i]->FileKey==FileKey)&&(List[i]->ModifDateTime==ModifDateTime)&&(List[i]->Smoothing==Smoothing)) {
             // if wanted and image found then set it to the top of the list
             if ((SetAtTop)&&(i>0)) { // If item is not the first

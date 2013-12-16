@@ -2,6 +2,18 @@
 * FFDIAPORAMA 2.1 - trunk (Version Française)
 **************************************************
 
+[Commit: 16/12/2013]
+    Correction de bug :
+        -Corrige un bug dans la gestion des ressources mise en cache (Lulo)
+        -Corrige un bug lors de la mise à jours de la table de localisation dans la base de données utilisateur (database version 5 vers 6)
+        -Corrige les positions des marqueurs dans les cartes >720p (Mise à l'échelle) pour la prévisualisation et l'onglet GMap de la boite d'édition des images/video/gmap
+
+    Nouveautés :
+        -Mets en cache les icônes des marqueurs pour accélérer les générations et rafraichissement de carte GMaps
+        -Ajoute l'affichage des marqueurs des cartes GMaps dans l'onglet image de la boite d'édition des images/video/gmap
+
+--------------------------------------------------------------------------------
+
 [Commit: 15/12/2013]
     Correction de bug :
         -Corrige un bug sur les favoris dans la boite de sélection de localisation GPS

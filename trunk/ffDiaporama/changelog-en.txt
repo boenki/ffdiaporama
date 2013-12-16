@@ -2,6 +2,18 @@
 * FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
 
+[Commit: 16/12/2013]
+    Bug fixes:
+        -Fixed a bug in the management of cached resources (Lulo)
+        -Fixed a bug in the updates of the location table in the user database (database Version 5 to 6)
+        -Fixed marker's positions in the maps >720p (scaling) for previewing and for GMap tab of the edit image/video/gmap dialog
+
+    New features:
+        -Cache icons markers to accelerate the generation and the update of GMaps map
+        -Adds display of GMaps markers in the Image tab of the edit image/video/gmap dialog
+
+--------------------------------------------------------------------------------
+
 [Commit: 15/12/2013]
     Bug fixes:
         -Fixed a bug on the favorites in the selection GPS localization dialog

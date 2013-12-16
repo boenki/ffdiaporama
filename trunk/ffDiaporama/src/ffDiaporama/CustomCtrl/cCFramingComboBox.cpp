@@ -98,8 +98,10 @@ cCFramingComboBox::cCFramingComboBox(QWidget *parent):QComboBox(parent) {
 
 void cCFramingComboBox::hidePopup() {
     QComboBox::hidePopup();
-    emit itemSelectionHaveChanged();
-    MakeIcons();
+    if (isVisible()) {
+        emit itemSelectionHaveChanged();
+        MakeIcons();
+    }
     CurrentFramingStyle=GetCurrentFraming();
 }
 

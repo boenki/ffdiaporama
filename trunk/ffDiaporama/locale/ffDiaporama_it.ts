@@ -6321,15 +6321,15 @@ Vuoi scaricarla ora?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Duplicate ressource to prepare undo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Init translations...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Init multimdia browser...</source>
+        <source>Duplicate ressources to prepare undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Init multimedia browser...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

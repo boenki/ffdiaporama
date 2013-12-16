@@ -273,7 +273,7 @@ void MainWindow::InitWindow() {
     ui->ActionDocumentation_BT_2->setIcon(QApplication::style()->standardIcon(QStyle::SP_DialogHelpButton));
 
     // Initialise integrated browser
-    screen.showMessage(QApplication::translate("MainWindow","Init multimdia browser..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen.showMessage(QApplication::translate("MainWindow","Init multimedia browser..."),Qt::AlignHCenter|Qt::AlignBottom);
     ApplicationConfig->DriveList->UpdateDriveList();
     ui->Browser->DoInitWidget(BROWSER_TYPE_MainWindow,true,true,true,ApplicationConfig);
     ui->Browser->DoInitDialog();

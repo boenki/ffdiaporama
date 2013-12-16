@@ -487,6 +487,8 @@ public:
 
     QStringList             LoadBrowserFavoritesFromDabase();
     void                    SaveBrowserFavoritesToDabase(QStringList BrowserFavorites);
+
+    void                    DuplicateRessource(qlonglong *RessourceKey);    // Duplicate an image in ressource and get a new RessourceKey
 };
 
 #endif // CBASEAPPLICATIONCONFIG_H

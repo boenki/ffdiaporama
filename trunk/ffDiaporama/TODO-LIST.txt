@@ -43,10 +43,9 @@ Basse       -       Déplacer la sauvegarde des recentlist dans la base de donn�
 
 pb sur
 -probleme de seek des mts (libav 0.8 et peut-être d'autres)
--Pas de marker dans l'onglet image !
--Les marqueurs sont mal placés dès que l'image est supérieur à 720p
 -Bug en génération NTSC: le son est mal synchronisé (voir: http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=601)
 -Problème de qualité des LUMA (voir: http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=654)
+-(PEPE) Working with shots: By removing a shot and click Undo: do not update the properties of the blocks correctly. I have to close the slide dialog and reopen it  to find everything correctly
 
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité

@@ -49,7 +49,7 @@ void QCustomLocationItemDelegate::paint(QPainter *Painter,const QStyleOptionView
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
-    Painter->drawImage(option.rect.x()+2,option.rect.y()+2,ParentTable->CurrentBrush->PrepareMarker(index.row(),cBrushDefinition::sMarker::MARKERSHOW,cBrushDefinition::sMarker::MEDIUM));
+    ParentTable->CurrentBrush->DrawMarker(Painter,QPoint(option.rect.x()+2,option.rect.y()+2),index.row(),cBrushDefinition::sMarker::MARKERSHOW,cBrushDefinition::sMarker::MEDIUM);
 
     // Selection mode (Note: MouseOver is removed because it works correctly only on KDE !)
     if (option.state & QStyle::State_Selected) {

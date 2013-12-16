@@ -1343,17 +1343,15 @@ void cBrushDefinition::s_AdjustMinWH() {
 
 //====================================================================================================================
 
-QImage cBrushDefinition::PrepareMarker(int MarkerNum,sMarker::MARKERVISIBILITY Visibility,sMarker::MARKERSIZE MarkerS) {
-    if ((MarkerNum<0)||(MarkerNum>=Markers.count())||(Visibility==sMarker::MARKERHIDE)||(!MediaObject)||(MediaObject->ObjectType!=OBJECTTYPE_GMAPSMAP)) return QImage();
+void cBrushDefinition::DrawMarker(QPainter *Painter,QPoint Position,int MarkerNum,sMarker::MARKERVISIBILITY Visibility,sMarker::MARKERSIZE MarkerS) {
+    if ((MarkerNum<0)||(MarkerNum>=Markers.count())||(Visibility==sMarker::MARKERHIDE)||(!MediaObject)||(MediaObject->ObjectType!=OBJECTTYPE_GMAPSMAP)) return;
 
     cLocation       *Location=((cLocation *)((cGMapsMap *)MediaObject)->List[MarkerNum]);
-    QPainter        Painter;
     QFont           FontNormal,FontBold;
     QTextOption     OptionText;
     QPen            Pen;
     int             IconSize;
-    QSize           MarkerSize;
-    QSize           MapImageSize=((cGMapsMap *)MediaObject)->GetCurrentImageSize();
+    QSize           MarkerSize=Location->MarkerSize;
     QBrush          Brush(QColor(Markers[MarkerNum].MarkerColor));
 
     // Setup FontFactor
@@ -1387,157 +1385,163 @@ QImage cBrushDefinition::PrepareMarker(int MarkerNum,sMarker::MARKERVISIBILITY V
     OptionText=QTextOption(Qt::AlignLeft|Qt::AlignVCenter);     // Setup alignement
     OptionText.setWrapMode(QTextOption::NoWrap);                // Setup word wrap text option
 
-    // Compute MarkerSize
-    MarkerSize.setWidth(QFontMetrics(FontBold).width(Location->Name)+8+IconSize);
-    MarkerSize.setHeight(IconSize+6);
-
-    int nW=QFontMetrics(FontNormal).width(Location->Address)+8+IconSize;
-    if (nW>MarkerSize.width())  MarkerSize.setWidth(nW);
-    if (MarkerSize.width()>(MapImageSize.width()*0.6-8-IconSize))   MarkerSize.setWidth(MapImageSize.width()*0.6-8-IconSize);   // Not more than 60% of the map width
-    if (MarkerSize.height()>(MapImageSize.height()*0.6-6-IconSize)) MarkerSize.setWidth(MapImageSize.width()*0.6-6-IconSize);   // Not more than 60% of the map width
-
-    // Create image
-    QImage Icon=Location->Icon.GetImageDiskBrush(QRectF(0,0,IconSize,IconSize),false,0,NULL,1,NULL);
-    QImage MarkerImage(MarkerSize,QImage::Format_ARGB32_Premultiplied);
-    Painter.begin(&MarkerImage);
-    Painter.setBrush(Brush);
-    Painter.setPen(Pen);
-    Painter.drawRect(0,0,MarkerImage.width()-1,MarkerImage.height()-1);
-    if (!Icon.isNull()) Painter.drawImage(3,3,Icon);
-    Painter.setFont(FontBold);      Painter.drawText(QRect(5+IconSize,3,                            MarkerSize.width()-IconSize-7,(MarkerSize.height()-8)/2),Location->Name,OptionText);
-    Painter.setFont(FontNormal);    Painter.drawText(QRect(5+IconSize,5+((MarkerSize.height()-8)/2),MarkerSize.width()-IconSize-7,(MarkerSize.height()-8)/2),Location->FriendlyAddress,OptionText);
-    Painter.end();
-
-    return MarkerImage;
+    // Draw image
+    Painter->save();
+    Painter->setBrush(Brush);
+    Painter->setPen(Pen);
+    Painter->drawRect(Position.x(),Position.y(),MarkerSize.width(),MarkerSize.height());
+    QImage Icon=Location->GetThumb(IconSize);
+    if (!Icon.isNull()) Painter->drawImage(Position.x()+3,Position.y()+3,Icon);
+    Painter->setFont(FontBold);      Painter->drawText(QRect(Position.x()+5+IconSize,Position.y()+3,                            MarkerSize.width()-IconSize-7,(MarkerSize.height()-8)/2),Location->Name,OptionText);
+    Painter->setFont(FontNormal);    Painter->drawText(QRect(Position.x()+5+IconSize,Position.y()+5+((MarkerSize.height()-8)/2),MarkerSize.width()-IconSize-7,(MarkerSize.height()-8)/2),Location->FriendlyAddress,OptionText);
+    Painter->restore();
 }
 
 //====================================================================================================================
 
 void cBrushDefinition::AddMarkerToImage(QImage *DestImage) {
     if ((!MediaObject)||(MediaObject->ObjectType!=OBJECTTYPE_GMAPSMAP)) return;
+
+    cGMapsMap *CurrentMap=(cGMapsMap *)MediaObject;
+    QSize     DestMapSize=CurrentMap->GetCurrentImageSize();
+    QImage    *WorkImage=DestImage;
+
+    if (DestImage->size()!=DestMapSize) {
+        QPainter Painter;
+        WorkImage=new QImage(DestMapSize.width(),DestMapSize.height(),QImage::Format_ARGB32_Premultiplied);
+        Painter.begin(WorkImage);
+        Painter.setCompositionMode(QPainter::CompositionMode_Source);
+        Painter.fillRect(QRect(0,0,DestMapSize.width(),DestMapSize.height()),Qt::transparent);
+        Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        Painter.end();
+    }
+
     QPainter Painter;
     QPen     Pen;
-    Painter.begin(DestImage);
+    Painter.begin(WorkImage);
     Pen.setColor(Qt::black);
     Pen.setWidth(2);
     Pen.setStyle(Qt::SolidLine);
     Painter.setPen(Pen);
 
-    cGMapsMap *CurrentMap=(cGMapsMap *)MediaObject;
     for (int i=0;i<CurrentMap->List.count();i++) {
         cLocation   *Location=((cLocation *)CurrentMap->List[i]);
-        int         MakerLineLen=DestImage->height()/12;
-        QImage      MarkerImage =PrepareMarker(i,Markers[i].Visibility,Location->Size);
+        int         MakerLineLen=WorkImage->height()/12;
 
-        if (!MarkerImage.isNull()) {
-            QPoint   MarkerPoint=CurrentMap->GetLocationPoint(i);
-            QPoint   MarkerStartLine;
-            int      Orientation;
-            QPolygon Arrow;
+        QPoint   MarkerPoint=CurrentMap->GetLocationPoint(i);
+        QPoint   MarkerPosition;
+        QPoint   MarkerStartLine;
+        int      Orientation;
+        QPolygon Arrow;
 
-            // Compute orientation of marker
-            if (MarkerPoint.y()>MarkerImage.height()+MakerLineLen) {
-                Painter.drawImage(MarkerPoint.x()-(MarkerImage.width()/2),MarkerPoint.y()-MakerLineLen-MarkerImage.height(),MarkerImage);
-                MarkerStartLine=QPoint(MarkerPoint.x(),MarkerPoint.y()-MakerLineLen);
-                Orientation=0;
-            } else {
-                Painter.drawImage(MarkerPoint.x()-(MarkerImage.width()/2),MarkerPoint.y()+MakerLineLen,MarkerImage);
-                MarkerStartLine=QPoint(MarkerPoint.x(),MarkerPoint.y()+MakerLineLen);
-                Orientation=1;
-            }
+        // Compute orientation of marker
+        if (MarkerPoint.y()>Location->MarkerSize.height()+MakerLineLen) {
+            MarkerPosition =QPoint(MarkerPoint.x()-(Location->MarkerSize.width()/2),MarkerPoint.y()-MakerLineLen-Location->MarkerSize.height());
+            MarkerStartLine=QPoint(MarkerPoint.x(),MarkerPoint.y()-MakerLineLen);
+            Orientation=0;
+        } else {
+            MarkerPosition =QPoint(MarkerPoint.x()-(Location->MarkerSize.width()/2),MarkerPoint.y()+MakerLineLen);
+            MarkerStartLine=QPoint(MarkerPoint.x(),MarkerPoint.y()+MakerLineLen);
+            Orientation=1;
+        }
+        DrawMarker(&Painter,MarkerPosition,i,Markers[i].Visibility,Location->Size);
 
-            // Draw Endpoint and line
-            switch (Location->EndPoint) {
-                case cLocation::MEDIUMPOINT:    // Filled 10 pixels circle
-                    Painter.setBrush(QBrush(Qt::black,Qt::SolidPattern));
-                    Painter.drawEllipse(MarkerPoint,10,10);
-                    switch (Orientation) {
-                        case 1:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()+5));   break;
-                        default:
-                        case 0:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()-5));   break;
-                    }
-                    break;
-                case cLocation::MEDIUMCIRCLE:   // Empty 10 pixels circle
-                    Painter.setBrush(Qt::NoBrush);
-                    Painter.drawEllipse(MarkerPoint,10,10);
-                    switch (Orientation) {
-                        case 1:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()+5));   break;
-                        default:
-                        case 0:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()-5));   break;
-                    }
-                    break;
-                case cLocation::LARGECIRCLE:    // Empty 24 pixels circle
-                    Painter.setBrush(Qt::NoBrush);
-                    Painter.drawEllipse(MarkerPoint,24,24);
-                    switch (Orientation) {
-                        case 1:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()+12));   break;
-                        default:
-                        case 0:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()-12));   break;
-                    }
-                    break;
-                case cLocation::ARROW1:         // Empty unclosed 24 pixels arrow
-                    Painter.drawLine(MarkerStartLine,MarkerPoint);
-                    switch (Orientation) {
-                        case 1:
-                            Painter.drawLine(MarkerPoint,QPointF(MarkerPoint.x()-12,MarkerPoint.y()+24));
-                            Painter.drawLine(MarkerPoint,QPointF(MarkerPoint.x()+12,MarkerPoint.y()+24));
-                            break;
-                        default:
-                        case 0:
-                            Painter.drawLine(MarkerPoint,QPointF(MarkerPoint.x()-12,MarkerPoint.y()-24));
-                            Painter.drawLine(MarkerPoint,QPointF(MarkerPoint.x()+12,MarkerPoint.y()-24));
-                            break;
-                    }
-                    break;
-                case cLocation::ARROW2:         // Filled 24 pixels arrow
-                    Painter.setBrush(QBrush(Qt::black,Qt::SolidPattern));
-                    Painter.drawLine(MarkerStartLine,MarkerPoint);
-                    Arrow.append(MarkerPoint);
-                    switch (Orientation) {
-                        case 1:
-                            Arrow.append(QPoint(MarkerPoint.x()+12,MarkerPoint.y()+24));
-                            Arrow.append(QPoint(MarkerPoint.x()-12,MarkerPoint.y()+24));
-                            break;
-                        default:
-                        case 0:
-                            Arrow.append(QPoint(MarkerPoint.x()+12,MarkerPoint.y()-24));
-                            Arrow.append(QPoint(MarkerPoint.x()-12,MarkerPoint.y()-24));
-                            break;
-                    }
-                    Arrow.append(MarkerPoint);
-                    Painter.drawPolygon(Arrow);
-                    break;
-                case cLocation::ARROW3:         // Empty closed 24 pixels arrow
-                    Painter.setBrush(Qt::NoBrush);
-                    Painter.drawLine(MarkerStartLine,MarkerPoint);
-                    Arrow.append(MarkerPoint);
-                    switch (Orientation) {
-                        case 1:
-                            Arrow.append(QPoint(MarkerPoint.x()+12,MarkerPoint.y()+24));
-                            Arrow.append(QPoint(MarkerPoint.x()-12,MarkerPoint.y()+24));
-                            break;
-                        default:
-                        case 0:
-                            Arrow.append(QPoint(MarkerPoint.x()+12,MarkerPoint.y()-24));
-                            Arrow.append(QPoint(MarkerPoint.x()-12,MarkerPoint.y()-24));
-                            break;
-                    }
-                    Arrow.append(MarkerPoint);
-                    Painter.drawPolygon(Arrow);
-                    break;
-                default:
-                case cLocation::SMALLPOINT:     // Filled 4 pixels circle
-                    Painter.setBrush(QBrush(Qt::black,Qt::SolidPattern));
-                    Painter.drawEllipse(MarkerPoint,4,4);
-                    switch (Orientation) {
-                        case 1:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()+2));   break;
-                        default:
-                        case 0:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()-2));   break;
-                    }
-                    break;
-            }
-
+        // Draw Endpoint and line
+        switch (Location->EndPoint) {
+            case cLocation::MEDIUMPOINT:    // Filled 10 pixels circle
+                Painter.setBrush(QBrush(Qt::black,Qt::SolidPattern));
+                Painter.drawEllipse(MarkerPoint,10,10);
+                switch (Orientation) {
+                    case 1:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()+5));   break;
+                    default:
+                    case 0:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()-5));   break;
+                }
+                break;
+            case cLocation::MEDIUMCIRCLE:   // Empty 10 pixels circle
+                Painter.setBrush(Qt::NoBrush);
+                Painter.drawEllipse(MarkerPoint,10,10);
+                switch (Orientation) {
+                    case 1:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()+5));   break;
+                    default:
+                    case 0:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()-5));   break;
+                }
+                break;
+            case cLocation::LARGECIRCLE:    // Empty 24 pixels circle
+                Painter.setBrush(Qt::NoBrush);
+                Painter.drawEllipse(MarkerPoint,24,24);
+                switch (Orientation) {
+                    case 1:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()+12));   break;
+                    default:
+                    case 0:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()-12));   break;
+                }
+                break;
+            case cLocation::ARROW1:         // Empty unclosed 24 pixels arrow
+                Painter.drawLine(MarkerStartLine,MarkerPoint);
+                switch (Orientation) {
+                    case 1:
+                        Painter.drawLine(MarkerPoint,QPointF(MarkerPoint.x()-12,MarkerPoint.y()+24));
+                        Painter.drawLine(MarkerPoint,QPointF(MarkerPoint.x()+12,MarkerPoint.y()+24));
+                        break;
+                    default:
+                    case 0:
+                        Painter.drawLine(MarkerPoint,QPointF(MarkerPoint.x()-12,MarkerPoint.y()-24));
+                        Painter.drawLine(MarkerPoint,QPointF(MarkerPoint.x()+12,MarkerPoint.y()-24));
+                        break;
+                }
+                break;
+            case cLocation::ARROW2:         // Filled 24 pixels arrow
+                Painter.setBrush(QBrush(Qt::black,Qt::SolidPattern));
+                Painter.drawLine(MarkerStartLine,MarkerPoint);
+                Arrow.append(MarkerPoint);
+                switch (Orientation) {
+                    case 1:
+                        Arrow.append(QPoint(MarkerPoint.x()+12,MarkerPoint.y()+24));
+                        Arrow.append(QPoint(MarkerPoint.x()-12,MarkerPoint.y()+24));
+                        break;
+                    default:
+                    case 0:
+                        Arrow.append(QPoint(MarkerPoint.x()+12,MarkerPoint.y()-24));
+                        Arrow.append(QPoint(MarkerPoint.x()-12,MarkerPoint.y()-24));
+                        break;
+                }
+                Arrow.append(MarkerPoint);
+                Painter.drawPolygon(Arrow);
+                break;
+            case cLocation::ARROW3:         // Empty closed 24 pixels arrow
+                Painter.setBrush(Qt::NoBrush);
+                Painter.drawLine(MarkerStartLine,MarkerPoint);
+                Arrow.append(MarkerPoint);
+                switch (Orientation) {
+                    case 1:
+                        Arrow.append(QPoint(MarkerPoint.x()+12,MarkerPoint.y()+24));
+                        Arrow.append(QPoint(MarkerPoint.x()-12,MarkerPoint.y()+24));
+                        break;
+                    default:
+                    case 0:
+                        Arrow.append(QPoint(MarkerPoint.x()+12,MarkerPoint.y()-24));
+                        Arrow.append(QPoint(MarkerPoint.x()-12,MarkerPoint.y()-24));
+                        break;
+                }
+                Arrow.append(MarkerPoint);
+                Painter.drawPolygon(Arrow);
+                break;
+            default:
+            case cLocation::SMALLPOINT:     // Filled 4 pixels circle
+                Painter.setBrush(QBrush(Qt::black,Qt::SolidPattern));
+                Painter.drawEllipse(MarkerPoint,4,4);
+                switch (Orientation) {
+                    case 1:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()+2));   break;
+                    default:
+                    case 0:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()-2));   break;
+                }
+                break;
         }
     }
     Painter.end();
+
+    if (WorkImage!=DestImage) {
+        Painter.begin(DestImage);
+        Painter.drawImage(0,0,WorkImage->scaled(DestImage->size(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+        Painter.end();
+    }
 }
