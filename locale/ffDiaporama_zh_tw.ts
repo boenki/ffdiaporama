@@ -7578,10 +7578,6 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
 <context>
     <name>wgt_QGMapsMap</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Define the size of the map</source>
         <translation type="unfinished"></translation>
     </message>

@@ -66,17 +66,9 @@ ok                  0038.html       Containers
 ok                  0039.html       Video standards and resolutions
 ok                  003A.html       File attachments (Thumbnails, nfo, etc...)
 
-ok              0050.html       Types of objects in ffDiaporama
---                  0051.html       Text
---                  0052.html       Music file
---                  0053.html       Bitmap image file
---                  0054.html       Bitmap image from clipboard
---                  0055.html       Vector image file
---                  0056.html       Video file
---                  0057.html       Google maps map
-
 ok              0040.html       Technical information on ffDiaporama
 ok                  0041.html       ffDiaporama command line arguments
 ok                  0042.html       ffDiaporama project files
 ok                  0043.html       The configuration files for ffDiaporama
 ok                  0044.html       XBMC nfo files
+ok                  0045.html       Types of objects in ffDiaporama

@@ -7891,10 +7891,6 @@ Esempio: se Y=25 % del primo trimestre nella parte superiore dell&apos;immagine 
 <context>
     <name>wgt_QGMapsMap</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Da</translation>
-    </message>
-    <message>
         <source>Define the size of the map</source>
         <translation type="unfinished"></translation>
     </message>

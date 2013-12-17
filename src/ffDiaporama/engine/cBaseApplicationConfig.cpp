@@ -399,6 +399,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage) {
 
     if (file.open(QFile::ReadOnly | QFile::Text)) {
         QTextStream in(&file);
+        in.setCodec("UTF-8");
         if (domDocument.setContent(in.readAll(),true,&errorStr,&errorLine,&errorColumn)) {
             domDocument.setContent(domDocument.toString(4),true,&errorStr,&errorLine,&errorColumn);
             if ((root.elementsByTagName("GlobalPreferences").length()>0)&&(root.elementsByTagName("GlobalPreferences").item(0).isElement()==true)) {
@@ -417,103 +418,108 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage) {
         CurrentSubLanguage=QLocale::system().name().toLower();
     }
 
-    // try to download locales from the web site
-    QString ActualVersion="00000000";
-    QString WebVersion   ="00000000";
+    if (CurrentLanguage!="en") {
+        // try to download locales from the web site
+        QString ActualVersion="00000000";
+        QString WebVersion   ="00000000";
 
-    // get actual version for this language
-    if (QFileInfo(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentSubLanguage)).exists()) {
-        QFile File(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentSubLanguage));
-        if (File.open(QFile::ReadOnly | QFile::Text)) {
-            QTextStream InStream(&File);
-            ActualVersion=InStream.readLine();
-            File.close();
-        }
-    } else if (QFileInfo(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentLanguage)).exists()) {
-        QFile File(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentLanguage));
-        if (File.open(QFile::ReadOnly | QFile::Text)) {
-            QTextStream InStream(&File);
-            ActualVersion=InStream.readLine();
-            File.close();
-        }
-    }
-
-    // try to download version from the web site
-    if ((DownloadFile("LOCALEVERSION.TXT"))&&(QFileInfo(UserConfigPath+QString("LOCALEVERSION.TXT")).exists())) {
-        QFile File(UserConfigPath+QString("LOCALEVERSION.TXT"));
-        if (File.open(QFile::ReadOnly | QFile::Text)) {
-            QTextStream InStream(&File);
-            WebVersion=InStream.readLine();
-            File.close();
-        }
-    }
-
-    // if actual version is outdated or local file not exist in the home folder
-    if ((ActualVersion<WebVersion)||(
-        (!QFileInfo(UserConfigPath+QString(APPLICATION_NAME)+QString("_")+QString(CurrentSubLanguage)+QString(".qm")).exists())&&
-        (!QFileInfo(UserConfigPath+QString(APPLICATION_NAME)+QString("_")+QString(CurrentLanguage)+QString(".qm")).exists()))) {
-
-        if (DownloadFile(QString(APPLICATION_NAME)+QString("_")+QString(CurrentSubLanguage)+QString(".qm"))) {
-            DownloadFile(QString("qt_")+QString(CurrentSubLanguage)+QString(".qm"));
-            DownloadFile(QString("wiki_")+QString(CurrentSubLanguage)+QString(".qch"));
-            DownloadFile(QString("wiki_")+QString(CurrentSubLanguage)+QString(".qhc"));
-            if (QFileInfo(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentSubLanguage)).exists()) QFile(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentSubLanguage)).remove();
-            QFile(UserConfigPath+QString("LOCALEVERSION.TXT")).rename(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentSubLanguage));
-        } else if (DownloadFile(QString(APPLICATION_NAME)+QString("_")+QString(CurrentLanguage)+QString(".qm"))) {
-            DownloadFile(QString("qt_")+QString(CurrentLanguage)+QString(".qm"));
-            DownloadFile(QString("wiki_")+QString(CurrentLanguage)+QString(".qch"));
-            DownloadFile(QString("wiki_")+QString(CurrentLanguage)+QString(".qhc"));
-            if (QFileInfo(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentLanguage)).exists()) QFile(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentLanguage)).remove();
-            QFile(UserConfigPath+QString("LOCALEVERSION.TXT")).rename(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentLanguage));
-        }
-
-    }
-
-    // Now, try to use locales
-    if (QFileInfo(UserConfigPath+QString(APPLICATION_NAME)+QString("_")+QString(CurrentSubLanguage)+QString(".qm")).exists()) {
-
-        // Load translation
-        if (!AppTranslator.load(UserConfigPath+QString(APPLICATION_NAME)+QString("_")+CurrentLanguage+QString(".qm"))) {
-            ToLog(LOGMSG_WARNING,QString("Error loading application translation file ... ")+UserConfigPath+QString(APPLICATION_NAME)+QString("_")+CurrentSubLanguage+QString(".qm"));
-            exit(1);
-        } else {
-            ToLog(LOGMSG_INFORMATION,QString("Loading application translation file ... ")+QString(APPLICATION_NAME)+QString("_")+CurrentSubLanguage+QString(".qm"));
-            QApplication::installTranslator(&AppTranslator);
-        }
-
-        if (QFileInfo(UserConfigPath+QString("qt_")+QString(CurrentSubLanguage)+QString(".qm")).exists()) {
-            if (!QTtranslator.load(UserConfigPath+QString("qt_")+CurrentLanguage+QString(".qm"))) {
-                ToLog(LOGMSG_WARNING,QString("Error loading QT system translation file ... ")+UserConfigPath+QString("qt_")+CurrentSubLanguage+".qm");
-            } else {
-                ToLog(LOGMSG_INFORMATION,QString("Loading QT system translation file ... ")+QString("qt_")+CurrentSubLanguage+".qm");
-                QApplication::installTranslator(&QTtranslator);
+        // get actual version for this language
+        if (QFileInfo(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentSubLanguage)).exists()) {
+            QFile File(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentSubLanguage));
+            if (File.open(QFile::ReadOnly | QFile::Text)) {
+                QTextStream InStream(&File);
+                InStream.setCodec("UTF-8");
+                ActualVersion=InStream.readLine();
+                File.close();
             }
-        }
-        CurrentLanguage=CurrentSubLanguage;
-
-    } else if (QFileInfo(UserConfigPath+QString(APPLICATION_NAME)+QString("_")+QString(CurrentLanguage)+QString(".qm")).exists()) {
-
-        // Load translation
-        if (!AppTranslator.load(UserConfigPath+QString(APPLICATION_NAME)+QString("_")+CurrentLanguage+QString(".qm"))) {
-            ToLog(LOGMSG_WARNING,QString("Error loading application translation file ... ")+UserConfigPath+QString(APPLICATION_NAME)+QString("_")+CurrentLanguage+QString(".qm"));
-            exit(1);
-        } else {
-            ToLog(LOGMSG_INFORMATION,QString("Loading application translation file ... ")+QString(APPLICATION_NAME)+QString("_")+CurrentLanguage+QString(".qm"));
-            QApplication::installTranslator(&AppTranslator);
-        }
-
-        if (QFileInfo(UserConfigPath+QString("qt_")+QString(CurrentLanguage)+QString(".qm")).exists()) {
-            if (!QTtranslator.load(UserConfigPath+QString("qt_")+CurrentLanguage+QString(".qm"))) {
-                ToLog(LOGMSG_WARNING,QString("Error loading QT system translation file ... ")+UserConfigPath+QString("qt_")+CurrentLanguage+".qm");
-            } else {
-                ToLog(LOGMSG_INFORMATION,QString("Loading QT system translation file ... ")+QString("qt_")+CurrentLanguage+".qm");
-                QApplication::installTranslator(&QTtranslator);
+        } else if (QFileInfo(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentLanguage)).exists()) {
+            QFile File(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentLanguage));
+            if (File.open(QFile::ReadOnly | QFile::Text)) {
+                QTextStream InStream(&File);
+                InStream.setCodec("UTF-8");
+                ActualVersion=InStream.readLine();
+                File.close();
             }
         }
 
-    } else {
-        ToLog(LOGMSG_INFORMATION,QString("Language \"%1\" not found : switch to english").arg(CurrentLanguage));
-        CurrentLanguage="en";
+        // try to download version from the web site
+        if ((DownloadFile("LOCALEVERSION.TXT"))&&(QFileInfo(UserConfigPath+QString("LOCALEVERSION.TXT")).exists())) {
+            QFile File(UserConfigPath+QString("LOCALEVERSION.TXT"));
+            if (File.open(QFile::ReadOnly | QFile::Text)) {
+                QTextStream InStream(&File);
+                InStream.setCodec("UTF-8");
+                WebVersion=InStream.readLine();
+                File.close();
+            }
+        }
+
+        // if actual version is outdated or local file not exist in the home folder
+        if ((ActualVersion<WebVersion)||(
+            (!QFileInfo(UserConfigPath+QString(APPLICATION_NAME)+QString("_")+QString(CurrentSubLanguage)+QString(".qm")).exists())&&
+            (!QFileInfo(UserConfigPath+QString(APPLICATION_NAME)+QString("_")+QString(CurrentLanguage)+QString(".qm")).exists()))) {
+
+            if (DownloadFile(QString(APPLICATION_NAME)+QString("_")+QString(CurrentSubLanguage)+QString(".qm"))) {
+                DownloadFile(QString("qt_")+QString(CurrentSubLanguage)+QString(".qm"));
+                DownloadFile(QString("wiki_")+QString(CurrentSubLanguage)+QString(".qch"));
+                DownloadFile(QString("wiki_")+QString(CurrentSubLanguage)+QString(".qhc"));
+                if (QFileInfo(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentSubLanguage)).exists()) QFile(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentSubLanguage)).remove();
+                QFile(UserConfigPath+QString("LOCALEVERSION.TXT")).rename(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentSubLanguage));
+            } else if (DownloadFile(QString(APPLICATION_NAME)+QString("_")+QString(CurrentLanguage)+QString(".qm"))) {
+                DownloadFile(QString("qt_")+QString(CurrentLanguage)+QString(".qm"));
+                DownloadFile(QString("wiki_")+QString(CurrentLanguage)+QString(".qch"));
+                DownloadFile(QString("wiki_")+QString(CurrentLanguage)+QString(".qhc"));
+                if (QFileInfo(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentLanguage)).exists()) QFile(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentLanguage)).remove();
+                QFile(UserConfigPath+QString("LOCALEVERSION.TXT")).rename(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentLanguage));
+            }
+
+        }
+
+        // Now, try to use locales
+        if (QFileInfo(UserConfigPath+QString(APPLICATION_NAME)+QString("_")+QString(CurrentSubLanguage)+QString(".qm")).exists()) {
+
+            // Load translation
+            if (!AppTranslator.load(UserConfigPath+QString(APPLICATION_NAME)+QString("_")+CurrentLanguage+QString(".qm"))) {
+                ToLog(LOGMSG_WARNING,QString("Error loading application translation file ... ")+UserConfigPath+QString(APPLICATION_NAME)+QString("_")+CurrentSubLanguage+QString(".qm"));
+                exit(1);
+            } else {
+                ToLog(LOGMSG_INFORMATION,QString("Loading application translation file ... ")+QString(APPLICATION_NAME)+QString("_")+CurrentSubLanguage+QString(".qm"));
+                QApplication::installTranslator(&AppTranslator);
+            }
+
+            if (QFileInfo(UserConfigPath+QString("qt_")+QString(CurrentSubLanguage)+QString(".qm")).exists()) {
+                if (!QTtranslator.load(UserConfigPath+QString("qt_")+CurrentLanguage+QString(".qm"))) {
+                    ToLog(LOGMSG_WARNING,QString("Error loading QT system translation file ... ")+UserConfigPath+QString("qt_")+CurrentSubLanguage+".qm");
+                } else {
+                    ToLog(LOGMSG_INFORMATION,QString("Loading QT system translation file ... ")+QString("qt_")+CurrentSubLanguage+".qm");
+                    QApplication::installTranslator(&QTtranslator);
+                }
+            }
+            CurrentLanguage=CurrentSubLanguage;
+
+        } else if (QFileInfo(UserConfigPath+QString(APPLICATION_NAME)+QString("_")+QString(CurrentLanguage)+QString(".qm")).exists()) {
+
+            // Load translation
+            if (!AppTranslator.load(UserConfigPath+QString(APPLICATION_NAME)+QString("_")+CurrentLanguage+QString(".qm"))) {
+                ToLog(LOGMSG_WARNING,QString("Error loading application translation file ... ")+UserConfigPath+QString(APPLICATION_NAME)+QString("_")+CurrentLanguage+QString(".qm"));
+                exit(1);
+            } else {
+                ToLog(LOGMSG_INFORMATION,QString("Loading application translation file ... ")+QString(APPLICATION_NAME)+QString("_")+CurrentLanguage+QString(".qm"));
+                QApplication::installTranslator(&AppTranslator);
+            }
+
+            if (QFileInfo(UserConfigPath+QString("qt_")+QString(CurrentLanguage)+QString(".qm")).exists()) {
+                if (!QTtranslator.load(UserConfigPath+QString("qt_")+CurrentLanguage+QString(".qm"))) {
+                    ToLog(LOGMSG_WARNING,QString("Error loading QT system translation file ... ")+UserConfigPath+QString("qt_")+CurrentLanguage+".qm");
+                } else {
+                    ToLog(LOGMSG_INFORMATION,QString("Loading QT system translation file ... ")+QString("qt_")+CurrentLanguage+".qm");
+                    QApplication::installTranslator(&QTtranslator);
+                }
+            }
+
+        } else {
+            ToLog(LOGMSG_INFORMATION,QString("Language \"%1\" not found : switch to english").arg(CurrentLanguage));
+            CurrentLanguage="en";
+        }
     }
 
     // Now AppTranslator are loaded, then we can load configuration files

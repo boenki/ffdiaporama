@@ -485,7 +485,8 @@ void DlgSlideProperties::PreparePartialUndo(int ActionType,QDomElement root,bool
 //====================================================================================================================
 
 void DlgSlideProperties::ApplyPartialUndo(int ActionType,QDomElement root) {
-    int BlockNbr=0;
+    int  BlockNbr=0;
+    bool Apply=true;
     if (root.hasAttribute("BlockNbr")) {
         BlockNbr=root.attribute("BlockNbr").toInt();
         QStringList SelList=root.attribute("Selection").split("###");
@@ -544,8 +545,9 @@ void DlgSlideProperties::ApplyPartialUndo(int ActionType,QDomElement root) {
                 case UNDOACTION_BLOCKTABLE_PASTEBLOCK:
                 case UNDOACTION_BLOCKTABLE_CHBLOCKORDER:
                 case UNDOACTION_BLOCKTABLE_SAMEASPREVIOUSSTATE:
-                    CurrentSlide->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false);    // Restore all
-                    i=BlockNbr; // Stop loop
+                    CurrentSlide->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false);   // Restore all
+                    i=BlockNbr;                                                             // Stop loop
+                    Apply=false;                                                            // not apply to contexte because we have reload all
                     ShotTable->setUpdatesEnabled(false);
                     ShotTable->setUpdatesEnabled(true);  // Reset timeline painting
                     s_ShotTable_SelectionChanged();
@@ -556,7 +558,8 @@ void DlgSlideProperties::ApplyPartialUndo(int ActionType,QDomElement root) {
                 case UNDOACTION_SHOTTABLE_CHORDER:
                 default:
                     InRefreshControls=true;
-                    CurrentSlide->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false);    // Restore all
+                    CurrentSlide->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false);   // Restore all
+                    Apply=false;                                                            // not apply to contexte because we have reload all
                     i=BlockNbr; // Stop loop
                     ShotTable->setUpdatesEnabled(false);
                     while (ShotTable->columnCount()>0) ShotTable->removeColumn(ShotTable->columnCount()-1);
@@ -572,7 +575,7 @@ void DlgSlideProperties::ApplyPartialUndo(int ActionType,QDomElement root) {
             }
         }
         CurrentSlide->Parent->UpdateChapterInformation();
-        ApplyToContexte(true);
+        if (Apply) ApplyToContexte(true);
         RefreshBlockTable(CurrentCompoObjectNbr);
         BlockTable->clearSelection();
         BlockTable->setCurrentCell(SelList[0].toInt(),0,QItemSelectionModel::Select|QItemSelectionModel::Current);

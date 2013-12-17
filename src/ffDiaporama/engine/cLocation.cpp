@@ -25,7 +25,7 @@
 #define DEFAULT_EndPoint    cLocation::SMALLPOINT
 #define DEFAULT_Size        cBrushDefinition::sMarker::MEDIUM
 #define DEFAULT_Position    cLocation::TOP
-#define DEFAULT_Distance    cLocation::NORMAL
+#define DEFAULT_Distance    cLocation::MARKERDISTNORMAL
 
 cLocation::cLocation(cBaseApplicationConfig *ApplicationConfig):Icon(NULL,ApplicationConfig) {
     FavKey          =-1;

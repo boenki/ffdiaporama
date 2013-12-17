@@ -1550,6 +1550,7 @@ void MainWindow::DoOpenFile() {
             QString     OtherPart="<!DOCTYPE ffDiaporama>\n";
             bool        EndffDPart=false;
 
+            InStream.setCodec("UTF-8");
             while (!InStream.atEnd()) {
                 QString Line=InStream.readLine();
                 if (!EndffDPart) {
@@ -2093,6 +2094,7 @@ void MainWindow::DoAddFile() {
             QString     OtherPart="<!DOCTYPE ffDiaporama>\n";
             bool        EndffDPart=false;
 
+            InStream.setCodec("UTF-8");
             while (!InStream.atEnd()) {
                 QString Line=InStream.readLine();
                 if (!EndffDPart) {

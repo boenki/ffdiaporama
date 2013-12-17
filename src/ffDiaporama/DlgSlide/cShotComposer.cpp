@@ -233,34 +233,37 @@ void cShotComposer::CopyBlockProperties(cCompositionObject *SourceBlock,cComposi
     DestBlock->BackgroundBrush->BrushImage          =SourceBlock->BackgroundBrush->BrushImage;
 }
 
-void cShotComposer::ApplyGlobalPropertiesToAllShots(cCompositionObject *GlobalBlock) {
-    // Apply to GlobalComposition objects
-    for (int j=0;j<CurrentSlide->ObjectComposition.List.count();j++) if (GlobalBlock->IndexKey==CurrentSlide->ObjectComposition.List[j]->IndexKey)
-        CopyBlockProperties(GlobalBlock,CurrentSlide->ObjectComposition.List[j]);
-
-    // Apply to Shots Composition objects
-    for (int i=0;i<CurrentSlide->List.count();i++) for (int j=0;j<CurrentSlide->List[i]->ShotComposition.List.count();j++) if (GlobalBlock->IndexKey==CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey)
-        CopyBlockProperties(GlobalBlock,CurrentSlide->List[i]->ShotComposition.List[j]);
-}
-
 void cShotComposer::ApplyToContexte(bool ApplyGlobal,bool ResetAllThumbs) {
-    if ((ApplyGlobal)&&(CurrentCompoObject)) ApplyGlobalPropertiesToAllShots(CurrentCompoObject);
+    if (!CurrentCompoObject) return;
 
-    // Apply values of previous shot to all shot for all objects
-    for (int ShotNum=CurrentShotNbr+1;ShotNum<CurrentSlide->List.count();ShotNum++) for (int Block=0;Block<CurrentSlide->List[CurrentShotNbr]->ShotComposition.List.count();Block++) {
-        cCompositionObject *ShotObject=NULL;
-        for (int i=0;i<CurrentSlide->List[ShotNum]->ShotComposition.List.count();i++)
-            if (CurrentSlide->List[ShotNum]->ShotComposition.List[i]->IndexKey==CurrentSlide->List[CurrentShotNbr]->ShotComposition.List[Block]->IndexKey)
-                ShotObject=CurrentSlide->List[ShotNum]->ShotComposition.List[i];
-        if ((ShotObject!=NULL)&&(!ShotObject->SameAsPrevShot)) {
-            ShotObject->CopyFromCompositionObject(CurrentSlide->List[CurrentShotNbr]->ShotComposition.List[Block]);
-            if ((ShotObject->BackgroundBrush->MediaObject)&&(ShotObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP))
-                ShotObject->BackgroundBrush->Markers=CurrentSlide->List[ShotNum-1]->ShotComposition.List[Block]->BackgroundBrush->Markers;
+    // Apply to GlobalComposition objects
+    for (int j=0;j<CurrentSlide->ObjectComposition.List.count();j++) if (CurrentCompoObject->IndexKey==CurrentSlide->ObjectComposition.List[j]->IndexKey)
+        CopyBlockProperties(CurrentCompoObject,CurrentSlide->ObjectComposition.List[j]);
+
+    if (ApplyGlobal) {
+        //ApplyGlobalPropertiesToAllShots(CurrentCompoObject);
+        // Apply to Shots Composition objects
+        for (int i=0;i<CurrentSlide->List.count();i++) for (int j=0;j<CurrentSlide->List[i]->ShotComposition.List.count();j++) if (CurrentCompoObject->IndexKey==CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey)
+            CopyBlockProperties(CurrentCompoObject,CurrentSlide->List[i]->ShotComposition.List[j]);
+
+    } else {
+
+        // Apply values of previous shot to all shot for this object
+        for (int ShotNum=CurrentShotNbr+1;ShotNum<CurrentSlide->List.count();ShotNum++) for (int Block=0;Block<CurrentSlide->List[CurrentShotNbr]->ShotComposition.List.count();Block++) {
+            cCompositionObject *ShotObject=NULL;
+            for (int i=0;i<CurrentSlide->List[ShotNum]->ShotComposition.List.count();i++)
+                if (CurrentSlide->List[ShotNum]->ShotComposition.List[i]->IndexKey==CurrentCompoObject->IndexKey)
+                    ShotObject=CurrentSlide->List[ShotNum]->ShotComposition.List[i];
+            if ((ShotObject!=NULL)&&(!ShotObject->SameAsPrevShot)) {
+                ShotObject->CopyFromCompositionObject(CurrentCompoObject);
+                if ((ShotObject->BackgroundBrush->MediaObject)&&(ShotObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP))
+                    ShotObject->BackgroundBrush->Markers=CurrentCompoObject->BackgroundBrush->Markers;
+            }
         }
-    }
-    for (int i=(ResetAllThumbs?0:CurrentShotNbr);i<CurrentSlide->List.count();i++) {
-        if (i==0) ApplicationConfig->SlideThumbsTable->ClearThumbs(CurrentSlide->ThumbnailKey);
-        if (ShotTable) ShotTable->RepaintCell(i);
+        for (int i=(ResetAllThumbs?0:CurrentShotNbr);i<CurrentSlide->List.count();i++) {
+            if (i==0) ApplicationConfig->SlideThumbsTable->ClearThumbs(CurrentSlide->ThumbnailKey);
+            if (ShotTable) ShotTable->RepaintCell(i);
+        }
     }
     RefreshControls(true);
 }

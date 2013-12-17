@@ -42,7 +42,7 @@ public:
     enum ENDPOINT {SMALLPOINT,MEDIUMPOINT,MEDIUMCIRCLE,LARGECIRCLE,ARROW1,ARROW2,ARROW3} EndPoint;  // Line endpoint
     cBrushDefinition::sMarker::MARKERSIZE Size;                                                     // Size of the marker
     enum MARKERPOSITION {TOP,TOPRIGHT,RIGHT,BOTTOMRIGHT,BOTTOM,BOTTOMLEFT,LEFT,TOPLEFT} Position;   // Position of the marker
-    enum MARKERDISTANCE {NEAR,NORMAL,FAR} Distance;                                                 // Distance between to localization on the map and the marker
+    enum MARKERDISTANCE {MARKERDISTNEAR,MARKERDISTNORMAL,MARKERDISTFAR} Distance;                   // Distance between the localization on the map and the marker
 
     explicit                cLocation(cBaseApplicationConfig *ApplicationConfig);
     virtual                 ~cLocation() {}
