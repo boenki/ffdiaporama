@@ -4163,7 +4163,7 @@
     </message>
 </context>
 <context>
-    <name>0050</name>
+    <name>0045</name>
     <message>
         <source>Types of objects in ffDiaporama</source>
         <translation type="unfinished"></translation>
@@ -4202,99 +4202,6 @@
     </message>
     <message>
         <source>Google maps map</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Google maps itinerary</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Time Lapse image sequence</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Slide image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Media file thumbnail</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>0051</name>
-    <message>
-        <source>ffDiaporama object types: Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Work in progress</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>0052</name>
-    <message>
-        <source>ffDiaporama object types: Music file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Work in progress</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>0053</name>
-    <message>
-        <source>ffDiaporama object types: Bitmap image file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Work in progress</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>0054</name>
-    <message>
-        <source>ffDiaporama object types: Bitmap image from clipboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Work in progress</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>0055</name>
-    <message>
-        <source>ffDiaporama object types: Vector image file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Work in progress</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>0056</name>
-    <message>
-        <source>ffDiaporama object types: Video file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Work in progress</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>0057</name>
-    <message>
-        <source>ffDiaporama object types: Google maps map</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Work in progress</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6795,7 +6702,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>For more information on available types of objects see: &lt;a href=&quot;0050.html&quot;&gt;Types of objects in ffDiaporama&lt;/a&gt;</source>
+        <source>For more information on available types of objects see: &lt;a href=&quot;0045.html&quot;&gt;Types of objects in ffDiaporama&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -9697,34 +9604,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Text</source>
-        <translation type="unfinished">Texto</translation>
-    </message>
-    <message>
-        <source>Music file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bitmap image file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bitmap image from clipboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Vector image file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Video file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Google maps map</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Add or modify a location</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9770,10 +9649,6 @@
     <message>
         <source>This documentation is divided into the followed themes:</source>
         <translation>Esta documentação está dividida nos seguintes temas:</translation>
-    </message>
-    <message>
-        <source>Types of objects in ffDiaporama</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

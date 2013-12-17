@@ -1060,6 +1060,7 @@ void DlgRenderVideo::EndThreadEncode() {
         Text=Text+QString("</movie>\n");
         if (file.open(QIODevice::WriteOnly|QIODevice::Text)) {
             QTextStream out(&file);
+            out.setCodec("UTF-8");
             out<<Text;
             file.close();
         }

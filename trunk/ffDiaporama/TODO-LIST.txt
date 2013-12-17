@@ -46,6 +46,7 @@ pb sur
 -Bug en génération NTSC: le son est mal synchronisé (voir: http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=601)
 -Problème de qualité des LUMA (voir: http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=654)
 -(PEPE) Working with shots: By removing a shot and click Undo: do not update the properties of the blocks correctly. I have to close the slide dialog and reopen it  to find everything correctly
+-(SESTAY) Encodage de caractères pour les blocs texte (il y a un problème au sujet des caractères accentués sur des anciens projets). Par contre c'est bon pour les modèles de titre prédéfinis.
 
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité

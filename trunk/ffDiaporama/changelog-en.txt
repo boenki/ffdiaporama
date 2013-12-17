@@ -2,6 +2,18 @@
 * FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
 
+[Commit: 17/12/2013]
+    Bug fixes:
+        -Corrects forcing the English language with the -lang=en startup parameter (regression 20131215)
+        -Fixed a bug in the application of UNDO in the edit slide dialog: Some properties are applied to the following shots while the entire slide is restored
+        -Fixed a bug in the application of some bloc properties to the following shots (20131215 regression)
+        -Fixed a bug reading accented characters when loading project under Windows (regression 20131215)
+
+    New features:
+        -Change the application of animation block properties "Appear" and "Disappear" : These properties are no longer applied to the following shots
+
+--------------------------------------------------------------------------------
+
 [Commit: 16/12/2013]
     Bug fixes:
         -Fixed a bug in the management of cached resources (Lulo)

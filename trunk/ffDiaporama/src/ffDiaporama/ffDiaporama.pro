@@ -311,14 +311,7 @@ OTHER_FILES += \
     ../../WIKI/src_en/0042.html \
     ../../WIKI/src_en/0043.html \
     ../../WIKI/src_en/0044.html \
-    ../../WIKI/src_en/0050.html \
-    ../../WIKI/src_en/0051.html \
-    ../../WIKI/src_en/0052.html \
-    ../../WIKI/src_en/0053.html \
-    ../../WIKI/src_en/0054.html \
-    ../../WIKI/src_en/0055.html \
-    ../../WIKI/src_en/0056.html \
-    ../../WIKI/src_en/0057.html \
+    ../../WIKI/src_en/0045.html \
     ../../WIKI/src_en/0101.html \
     ../../WIKI/src_en/0102.html \
     ../../WIKI/src_en/0103.html \

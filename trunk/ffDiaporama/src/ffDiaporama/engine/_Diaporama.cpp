@@ -482,8 +482,13 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         if (Element.hasAttribute("TextClipArtName"))            TextClipArtName =Element.attribute("TextClipArtName");                      // ClipArt name (if text clipart mode)
         if ((Element.hasAttribute("Text"))&&((!CheckTypeComposition)||(TypeComposition!=COMPOSITIONTYPE_SHOT))) {
             Text=Element.attribute("Text");  // Text of the object
-            if (Text!="") {
-
+            IsTextEmpty=Text.isEmpty();
+            if ((!IsTextEmpty)&&(Text.startsWith("<!DOCTYPE HTML"))) {
+                QTextDocument TextDocument;
+                TextDocument.setHtml(Text);
+                IsTextEmpty =TextDocument.isEmpty();
+            }
+            if (!IsTextEmpty) {
                 if (Element.hasAttribute("FontName"))           FontName        =Element.attribute("FontName");                             // font name
                 if (Element.hasAttribute("FontSize"))           FontSize        =Element.attribute("FontSize").toInt();                     // font size
                 if (Element.hasAttribute("FontColor"))          FontColor       =Element.attribute("FontColor");                            // font color
@@ -871,11 +876,13 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
     RotateXAxis          =CompositionObjectToCopy->RotateXAxis;
     RotateYAxis          =CompositionObjectToCopy->RotateYAxis;
     BlockSpeedWave       =CompositionObjectToCopy->BlockSpeedWave;
-    BlockAnimType        =CompositionObjectToCopy->BlockAnimType;
+    if (!((CompositionObjectToCopy->BlockAnimType==BLOCKANIMTYPE_DISSOLVE)&&((CompositionObjectToCopy->Dissolve==BLOCKANIMVALUE_APPEAR)||(CompositionObjectToCopy->Dissolve==BLOCKANIMVALUE_DISAPPEAR)))) {
+        BlockAnimType        =CompositionObjectToCopy->BlockAnimType;
+        Dissolve             =CompositionObjectToCopy->Dissolve;
+    }
     TurnZAxis            =CompositionObjectToCopy->TurnZAxis;
     TurnXAxis            =CompositionObjectToCopy->TurnXAxis;
     TurnYAxis            =CompositionObjectToCopy->TurnYAxis;
-    Dissolve             =CompositionObjectToCopy->Dissolve;
     Opacity              =CompositionObjectToCopy->Opacity;
     Text                 =CompositionObjectToCopy->Text;
     TextClipArtName      =CompositionObjectToCopy->TextClipArtName;
@@ -1612,6 +1619,7 @@ bool cDiaporamaObject::SaveModelFile(ffd_MODELTYPE TypeModel,QString ModelFileNa
     } else {
         // Save file now
         QTextStream out(&file);
+        out.setCodec("UTF-8");
         domDocument.save(out,4);
         // Iterate for ressources
         for (int i=0;i<ResKeyList.count();i++) {
@@ -2329,6 +2337,7 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow,cReplaceObjectList *ReplaceList,
 
     // Save ffDPart in file now
     QTextStream out(&file);
+    out.setCodec("UTF-8");
     domDocument.save(out,4);
 
     // Iterate for ressources

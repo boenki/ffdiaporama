@@ -24,7 +24,6 @@
 #include <QDir>
 #include <QFile>
 #include <QIODevice>
-#include <QTextStream>
 #include <QProcess>
 #include <QMenu>
 

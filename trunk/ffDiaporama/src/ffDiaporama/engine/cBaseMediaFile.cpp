@@ -820,6 +820,7 @@ bool cffDProjectFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringL
         QTextStream InStream(&file);
         QString     ffDPart;
         bool        EndffDPart=false;
+        InStream.setCodec("UTF-8");
         while (!InStream.atEnd()) {
             QString Line=InStream.readLine();
             if (!EndffDPart) {

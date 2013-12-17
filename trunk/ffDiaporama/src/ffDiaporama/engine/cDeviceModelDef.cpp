@@ -646,6 +646,7 @@ bool cDeviceModelList::SaveConfigurationFile(QString ConfigFileName) {
         return false;
     }
     QTextStream out(&file);
+    out.setCodec("UTF-8");
     domDocument.save(out,4);
     file.close();
     return true;

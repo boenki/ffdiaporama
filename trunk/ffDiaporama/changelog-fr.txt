@@ -2,6 +2,18 @@
 * FFDIAPORAMA 2.1 - trunk (Version Française)
 **************************************************
 
+[Commit: 17/12/2013]
+    Correction de bug :
+        -Corrige le forçage de la langue anglaise avec le paramètre -lang=en (regression 20131215)
+        -Corrige un bug lors de l'application de l'UNDO dans la boite d'édition des slides : Des propriétés sont appliquées aux plans suivants alors que le slide entier est restauré
+        -Corrige un bug lors de l'application des propriétés d'un bloc aux plans suivant (regression 20131215)
+        -Corrige un bug de lecture des caractères accentués lors du chargement de projet sous Windows (regression 20131215)
+
+    Nouveautés :
+        -Modifie l'application des propriétés d'animation de bloc "Apparaitre" et "Disparaitre" : Ces propriétés ne sont plus répercutées aux plans suivant
+
+--------------------------------------------------------------------------------
+
 [Commit: 16/12/2013]
     Correction de bug :
         -Corrige un bug dans la gestion des ressources mise en cache (Lulo)
