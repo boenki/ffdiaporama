@@ -73,6 +73,12 @@ private slots:
     void                    LineColorChanged(int);
     void                    MarkerColorChanged(int);
     void                    TextColorChanged(int);
+    void                    PointFormChanged(int);
+    void                    MarkerFormChanged(int);
+    void                    MarkerSizeChanged(int);
+    void                    MarkerCompoChanged(int);
+    void                    VisibilityChanged(int);
+    void                    DistanceChanged(int);
 
 signals:
     void                    DoRefreshImageObject();

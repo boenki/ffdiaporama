@@ -58,7 +58,6 @@ protected:
     virtual void        keyReleaseEvent(QKeyEvent *event);
 
 private slots:
-    void                s_Event_ClipboardChanged();
     void                s_RefreshSceneImage();
     void                s_RulersBt();
 
@@ -71,38 +70,18 @@ private slots:
     void                s_BlockTable_AddNewSimpleTextBlock();
     void                s_BlockTable_AddNewClipArtTextBlock();
     void                s_BlockTable_AddNewFileBlock();
-    void                s_BlockTable_RemoveBlock();
     void                s_BlockTable_Copy();
     void                s_BlockTable_Cut();
     void                s_BlockTable_Paste();
-    void                s_BlockTable_MoveBlockUp();
-    void                s_BlockTable_MoveBlockDown();
-    void                s_BlockTable_DragMoveBlock(int,int);
 
     // Block settings : Call of other dialog
     void                s_BlockSettings_Arrange();
     void                s_BlockSettings_Edit();
-    void                s_BlockSettings_TextEditor();
     void                s_BlockSettings_ImageEditCorrect();
-    void                s_BlockSettings_Information();
 
     // Block settings : Text
     void                s_BlockSettings_TextZoom(int Value);
     void                s_BlockSettings_TextZoomReset();
-
-    // Block settings : Alignment
-    void                s_BlockTable_AlignTop();
-    void                s_BlockTable_AlignMiddle();
-    void                s_BlockTable_AlignBottom();
-    void                s_BlockTable_AlignLeft();
-    void                s_BlockTable_AlignCenter();
-    void                s_BlockTable_AlignRight();
-    void                s_BlockTable_DistributeHoriz();
-    void                s_BlockTable_DistributeVert();
-
-    // Block settings/Interactive zone messages
-    void                s_BlockSettings_IntZoneTransformBlocks(qreal DeltaX,qreal DeltaY,qreal ScaleX,qreal ScaleY,qreal Sel_X,qreal Sel_Y,qreal Sel_W,qreal Sel_H);
-    void                s_BlockSettings_IntZoneDisplayTransformBlocks(qreal DeltaX,qreal DeltaY,qreal ScaleX,qreal ScaleY,qreal Sel_X,qreal Sel_Y,qreal Sel_W,qreal Sel_H);
 
 private:
     Ui::DlgImageComposer *ui;

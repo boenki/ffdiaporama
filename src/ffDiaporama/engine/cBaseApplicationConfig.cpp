@@ -35,17 +35,18 @@
 
 struct sBrowserTypeDef BrowserTypeDef[BROWSER_TYPE_NBR]={
     // BROWSERString/DefaultPath/SortFile/ShowFoldersFirst/ShowHiddenFilesAndDir/ShowMntDrive/AllowedFilter/CurrentFilter/CurrentMode/DisplayFileName
-     {"Browser",        &DefaultBrowserPath,    SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_ALL,              OBJECTTYPE_MANAGED,     DISPLAY_ICON100,true}    // BROWSER_TYPE_MainWindow
-    ,{"ImageOnly",      &DefaultMediaPath,      SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_IMAGEFILE,        OBJECTTYPE_IMAGEFILE,   DISPLAY_ICON100,true}    // BROWSER_TYPE_IMAGEONLY
-    ,{"ImageVectorOnly",&DefaultMediaPath,      SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_IMAGEVECTOR,      OBJECTTYPE_IMAGEVECTOR, DISPLAY_ICON100,true}    // BROWSER_TYPE_IMAGEVECTORONLY
-    ,{"VideoOnly",      &DefaultMediaPath,      SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_VIDEOFILE,        OBJECTTYPE_VIDEOFILE,   DISPLAY_ICON100,true}    // BROWSER_TYPE_VIDEOONLY
-    ,{"SoundOnly",      &DefaultMusicPath,      SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_MUSICFILE,        OBJECTTYPE_MUSICFILE,   DISPLAY_ICON100,true}    // BROWSER_TYPE_SOUNDONLY
-    ,{"MediaFiles",     &DefaultMediaPath,      SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_MEDIAFILES,       OBJECTTYPE_MANAGED,     DISPLAY_ICON100,true}    // BROWSER_TYPE_MEDIAFILES
-    ,{"Project",        &DefaultProjectPath,    SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_FFDFILE,          OBJECTTYPE_FFDFILE,     DISPLAY_ICON100,true}    // BROWSER_TYPE_PROJECT
-    ,{"Export",         &DefaultExportPath,     SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_FOLDER,           OBJECTTYPE_FOLDER,      DISPLAY_ICON100,true}    // BROWSER_TYPE_EXPORT
-    ,{"RenderVideo",    &DefaultRenderVideoPath,SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_VIDEOFILE,        OBJECTTYPE_VIDEOFILE,   DISPLAY_ICON100,true}    // BROWSER_TYPE_RENDERVIDEO
-    ,{"RenderAudio",    &DefaultRenderAudioPath,SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_MUSICFILE,        OBJECTTYPE_MUSICFILE,   DISPLAY_ICON100,true}    // BROWSER_TYPE_RENDERAUDIO
-    ,{"CaptureImage",   &DefaultCaptureImage,   SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_IMAGEFILE,        OBJECTTYPE_IMAGEFILE,   DISPLAY_ICON100,true}    // BROWSER_TYPE_CAPTUREIMAGE
+     {"Browser",        &DefaultBrowserPath,        SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_ALL,              OBJECTTYPE_MANAGED,     DISPLAY_ICON100,true}    // BROWSER_TYPE_MainWindow
+    ,{"ImageOnly",      &DefaultMediaPath,          SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_IMAGEFILE,        OBJECTTYPE_IMAGEFILE,   DISPLAY_ICON100,true}    // BROWSER_TYPE_IMAGEONLY
+    ,{"ImageVectorOnly",&DefaultMediaPath,          SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_IMAGEVECTOR,      OBJECTTYPE_IMAGEVECTOR, DISPLAY_ICON100,true}    // BROWSER_TYPE_IMAGEVECTORONLY
+    ,{"VideoOnly",      &DefaultMediaPath,          SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_VIDEOFILE,        OBJECTTYPE_VIDEOFILE,   DISPLAY_ICON100,true}    // BROWSER_TYPE_VIDEOONLY
+    ,{"SoundOnly",      &DefaultMusicPath,          SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_MUSICFILE,        OBJECTTYPE_MUSICFILE,   DISPLAY_ICON100,true}    // BROWSER_TYPE_SOUNDONLY
+    ,{"MediaFiles",     &DefaultMediaPath,          SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_MEDIAFILES,       OBJECTTYPE_MANAGED,     DISPLAY_ICON100,true}    // BROWSER_TYPE_MEDIAFILES
+    ,{"Project",        &DefaultProjectPath,        SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_FFDFILE,          OBJECTTYPE_FFDFILE,     DISPLAY_ICON100,true}    // BROWSER_TYPE_PROJECT
+    ,{"Export",         &DefaultExportPath,         SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_FOLDER,           OBJECTTYPE_FOLDER,      DISPLAY_ICON100,true}    // BROWSER_TYPE_EXPORT
+    ,{"RenderVideo",    &DefaultRenderVideoPath,    SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_VIDEOFILE,        OBJECTTYPE_VIDEOFILE,   DISPLAY_ICON100,true}    // BROWSER_TYPE_RENDERVIDEO
+    ,{"RenderAudio",    &DefaultRenderAudioPath,    SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_MUSICFILE,        OBJECTTYPE_MUSICFILE,   DISPLAY_ICON100,true}    // BROWSER_TYPE_RENDERAUDIO
+    ,{"CaptureImage",   &DefaultCaptureImage,       SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_IMAGEFILE,        OBJECTTYPE_IMAGEFILE,   DISPLAY_ICON100,true}    // BROWSER_TYPE_CAPTUREIMAGE
+    ,{"GPSIcon",        &DefaultPositionIconPath,   SORTORDER_BYNAME,1,0,0,FILTERALLOW_OBJECTTYPE_IMAGEFILE,        OBJECTTYPE_IMAGEFILE,   DISPLAY_ICON100,true}    // BROWSER_TYPE_ICONLOCATION
 };
 
 //*****************************************************************************************************************************************
@@ -267,6 +268,7 @@ cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QS
         DefaultRenderAudioPath  = WINDOWS_MUSIC;                // Last folder use for render audio
         DefaultCaptureImage     = WINDOWS_PICTURES;             // Last folder use for captured image
         DefaultBrowserPath      = WINDOWS_DOCUMENTS;
+        DefaultPositionIconPath = WINDOWS_PICTURES;             // Last folder use for icon of GPS location
     #else
         DefaultMediaPath        = QDir::home().absolutePath();  // Last folder use for image/video
         DefaultMusicPath        = QDir::home().absolutePath();  // Last folder use for music
@@ -276,6 +278,7 @@ cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QS
         DefaultRenderAudioPath  = QDir::home().absolutePath();  // Last folder use for render audio
         DefaultCaptureImage     = QDir::home().absolutePath();  // Last folder use for captured image
         DefaultBrowserPath      = "~";   // User home folder
+        DefaultPositionIconPath = QDir::home().absolutePath();  // Last folder use for icon of GPS location
     #endif
 }
 

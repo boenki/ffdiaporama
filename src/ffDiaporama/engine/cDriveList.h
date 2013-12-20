@@ -73,6 +73,7 @@ extern QString  DefaultRenderVideoPath;      // default folder for render video
 extern QString  DefaultRenderAudioPath;      // default folder for render audio
 extern QString  DefaultCaptureImage;         // default folder for captured image
 extern QString  DefaultBrowserPath;          // default folder for integrated browser
+extern QString  DefaultPositionIconPath;     // default folder for icon of GPS location
 
 extern QString ClipArtFolder,CAF;
 extern QString ModelFolder,MFD;

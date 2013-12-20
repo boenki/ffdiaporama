@@ -152,8 +152,9 @@ public:
     struct sMarker {
         QString MarkerColor;
         QString TextColor;
+        QString LineColor;
         enum MARKERVISIBILITY {MARKERHIDE,MARKERSHADE,MARKERSHOW} Visibility;
-        enum MARKERSIZE {SMALL,MEDIUM,LARGE};
+        enum MARKERSIZE {SMALL,MEDIUM,LARGE,VERYLARGE};
     };
 
     QList<sMarker>          Markers;
@@ -204,7 +205,7 @@ public:
     int                     GetHeightForWidth(int WantedWith,QRectF Rect);
     int                     GetWidthForHeight(int WantedHeight,QRectF Rect);
 
-    void                    DrawMarker(QPainter *Painter,QPoint Position,int MarkerNum,sMarker::MARKERVISIBILITY Visibility,sMarker::MARKERSIZE MarkerSize);
+    void                    DrawMarker(QPainter *Painter,QPoint Position,int MarkerNum,sMarker::MARKERVISIBILITY Visibility,QSize MarkerSize,cBrushDefinition::sMarker::MARKERSIZE Size);
     void                    AddMarkerToImage(QImage *DestImage);
 };
 

@@ -688,6 +688,7 @@ void cBrushDefinition::SaveToXML(QDomElement *ParentElement,QString ElementName,
                             QDomElement SubElement=DomDocument.createElement(QString("Marker_%1").arg(MarkerNum));
                             SubElement.setAttribute("MarkerColor",Markers[MarkerNum].MarkerColor);
                             SubElement.setAttribute("TextColor",Markers[MarkerNum].TextColor);
+                            SubElement.setAttribute("LineColor",Markers[MarkerNum].LineColor);
                             SubElement.setAttribute("Visibility", int(Markers[MarkerNum].Visibility));
                             Element.appendChild(SubElement);
                         }
@@ -866,6 +867,7 @@ bool cBrushDefinition::LoadFromXML(QDomElement *ParentElement,QString ElementNam
                         sMarker Marker;
                         if (SubElement.hasAttribute("TextColor"))   Marker.TextColor=SubElement.attribute("TextColor");
                         if (SubElement.hasAttribute("MarkerColor")) Marker.MarkerColor=SubElement.attribute("MarkerColor");
+                        if (SubElement.hasAttribute("LineColor"))   Marker.LineColor=SubElement.attribute("LineColor");
                         if (SubElement.hasAttribute("Visibility"))  Marker.Visibility =(sMarker::MARKERVISIBILITY)SubElement.attribute("Visibility").toInt();
                         Markers.append(Marker);
                         MarkerNum++;
@@ -1343,58 +1345,61 @@ void cBrushDefinition::s_AdjustMinWH() {
 
 //====================================================================================================================
 
-void cBrushDefinition::DrawMarker(QPainter *Painter,QPoint Position,int MarkerNum,sMarker::MARKERVISIBILITY Visibility,sMarker::MARKERSIZE MarkerS) {
+void cBrushDefinition::DrawMarker(QPainter *Painter,QPoint Position,int MarkerNum,sMarker::MARKERVISIBILITY Visibility,QSize MarkerSize,cBrushDefinition::sMarker::MARKERSIZE Size) {
     if ((MarkerNum<0)||(MarkerNum>=Markers.count())||(Visibility==sMarker::MARKERHIDE)||(!MediaObject)||(MediaObject->ObjectType!=OBJECTTYPE_GMAPSMAP)) return;
 
-    cLocation       *Location=((cLocation *)((cGMapsMap *)MediaObject)->List[MarkerNum]);
-    QFont           FontNormal,FontBold;
-    QTextOption     OptionText;
-    QPen            Pen;
-    int             IconSize;
-    QSize           MarkerSize=Location->MarkerSize;
-    QBrush          Brush(QColor(Markers[MarkerNum].MarkerColor));
+    cLocation   *Location=((cLocation *)((cGMapsMap *)MediaObject)->List[MarkerNum]);
+    QFont       FontNormal,FontBold;
+    QTextOption OptionText;
+    int         IconSize,Spacer;
+    double      FontSize;
 
     // Setup FontFactor
-    double FontSize=120;
-    switch (MarkerS) {
-        case sMarker::SMALL:  IconSize=16;    FontSize=60;    break;
-        case sMarker::MEDIUM: IconSize=32;    FontSize=120;   break;
-        case sMarker::LARGE:  IconSize=64;    FontSize=240;   break;
+    switch (Size) {
+        case cBrushDefinition::sMarker::SMALL:      IconSize=24;    FontSize=90;    Spacer=3;   break;
+        case cBrushDefinition::sMarker::MEDIUM:     IconSize=32;    FontSize=120;   Spacer=3;   break;
+        case cBrushDefinition::sMarker::LARGE:      IconSize=48;    FontSize=180;   Spacer=4;   break;
+        case cBrushDefinition::sMarker::VERYLARGE:  IconSize=64;    FontSize=240;   Spacer=4;   break;
     }
 
-    // Setup default pen
-    Pen.setColor(QColor(Markers[MarkerNum].TextColor));
-    Pen.setWidth(1);
-    Pen.setStyle(Qt::SolidLine);
-
     // Setup fonts
-    FontBold  =QFont("Sans serif",9,QFont::Normal,QFont::StyleNormal);      // Font size is adjusted after
-    FontNormal=QFont("Sans serif",9,QFont::Normal,QFont::StyleNormal);      // Font size is adjusted after
-    FontBold.setBold(true);
-    FontBold.setUnderline(false);
-    FontNormal.setUnderline(false);
+    FontNormal=QFont("Sans serif",9,QFont::Normal,false);      // Font size is adjusted after
     #ifdef Q_OS_WIN
-    FontBold.setPointSizeF(double(FontSize*1.1)/ScaleFontAdjust);                       // Scale font
     FontNormal.setPointSizeF(double(FontSize)/ScaleFontAdjust);                         // Scale font
     #else
-    FontBold.setPointSizeF((double(FontSize*1.1)/ScaleFontAdjust)*ScreenFontAdjust);    // Scale font
     FontNormal.setPointSizeF((double(FontSize)/ScaleFontAdjust)*ScreenFontAdjust);      // Scale font
+    #endif
+
+    if ((Location->MarkerCompo!=cLocation::ICONNAMEADDR)&&(Location->MarkerCompo!=cLocation::NAMEADDR)) FontSize=FontSize*2;
+    FontBold  =QFont("Sans serif",9,QFont::Bold,  false);      // Font size is adjusted after
+    #ifdef Q_OS_WIN
+    FontBold.setPointSizeF(double(FontSize*1.1)/ScaleFontAdjust);                       // Scale font
+    #else
+    FontBold.setPointSizeF((double(FontSize*1.1)/ScaleFontAdjust)*ScreenFontAdjust);    // Scale font
     #endif
 
     // Setup OptionText
     OptionText=QTextOption(Qt::AlignLeft|Qt::AlignVCenter);     // Setup alignement
     OptionText.setWrapMode(QTextOption::NoWrap);                // Setup word wrap text option
 
-    // Draw image
-    Painter->save();
-    Painter->setBrush(Brush);
-    Painter->setPen(Pen);
-    Painter->drawRect(Position.x(),Position.y(),MarkerSize.width(),MarkerSize.height());
-    QImage Icon=Location->GetThumb(IconSize);
-    if (!Icon.isNull()) Painter->drawImage(Position.x()+3,Position.y()+3,Icon);
-    Painter->setFont(FontBold);      Painter->drawText(QRect(Position.x()+5+IconSize,Position.y()+3,                            MarkerSize.width()-IconSize-7,(MarkerSize.height()-8)/2),Location->Name,OptionText);
-    Painter->setFont(FontNormal);    Painter->drawText(QRect(Position.x()+5+IconSize,Position.y()+5+((MarkerSize.height()-8)/2),MarkerSize.width()-IconSize-7,(MarkerSize.height()-8)/2),Location->FriendlyAddress,OptionText);
-    Painter->restore();
+    // Draw icon
+    if ((Location->MarkerCompo==cLocation::ICONNAMEADDR)||(Location->MarkerCompo==cLocation::ICONNAME)||(Location->MarkerCompo==cLocation::ICON)) {
+        QImage Icon =Location->GetThumb(IconSize);
+        if (!Icon.isNull()) Painter->drawImage(Position.x()+Spacer,Position.y()+Spacer,Icon);
+    } else IconSize=0;
+
+    // Draw text
+    int XText=Spacer*2+IconSize;
+    Painter->setPen(QPen(QColor(Markers[MarkerNum].TextColor)));
+    if (Location->MarkerCompo!=cLocation::ICON) {
+        Painter->setFont(FontBold);
+        int height=((Location->MarkerCompo==cLocation::ICONNAMEADDR)||(Location->MarkerCompo==cLocation::NAMEADDR))?(MarkerSize.height()-3*Spacer)/2:MarkerSize.height()-2*Spacer;
+        Painter->drawText(QRect(Position.x()+XText,Position.y()+Spacer,MarkerSize.width()-Spacer-XText,height),Location->Name,OptionText);
+    }
+    if ((Location->MarkerCompo==cLocation::ICONNAMEADDR)||(Location->MarkerCompo==cLocation::NAMEADDR)) {
+        Painter->setFont(FontNormal);
+        Painter->drawText(QRect(Position.x()+XText,Position.y()+Spacer*2+(MarkerSize.height()-3*Spacer)/2,MarkerSize.width()-Spacer-XText,(MarkerSize.height()-3*Spacer)/2),Location->FriendlyAddress,OptionText);
+    }
 }
 
 //====================================================================================================================
@@ -1417,125 +1422,88 @@ void cBrushDefinition::AddMarkerToImage(QImage *DestImage) {
     }
 
     QPainter Painter;
-    QPen     Pen;
     Painter.begin(WorkImage);
-    Pen.setColor(Qt::black);
-    Pen.setWidth(2);
-    Pen.setStyle(Qt::SolidLine);
-    Painter.setPen(Pen);
 
-    for (int i=0;i<CurrentMap->List.count();i++) {
-        cLocation   *Location=((cLocation *)CurrentMap->List[i]);
-        int         MakerLineLen=WorkImage->height()/12;
+    for (int i=0;i<CurrentMap->List.count();i++) if (Markers[i].Visibility!=cBrushDefinition::sMarker::MARKERHIDE) {
+        cLocation       *Location=((cLocation *)CurrentMap->List[i]);
+        QPoint          MarkerPoint=CurrentMap->GetLocationPoint(i);
+        QPoint          MarkerPosition;
+        QPoint          MarkerStartLine;
+        int             GPSPointSize,CornerSize,PenSize;
+        QPen            Pen;
+        QPainterPath    MarkerPath,PointPath,LinePath;
+        int             MakerLineLen=1;
 
-        QPoint   MarkerPoint=CurrentMap->GetLocationPoint(i);
-        QPoint   MarkerPosition;
-        QPoint   MarkerStartLine;
-        int      Orientation;
-        QPolygon Arrow;
+        // Compute distance
+        switch (Location->Distance) {
+            case cLocation::MARKERDISTNEAR:    MakerLineLen=WorkImage->height()/24;  break;
+            case cLocation::MARKERDISTNORMAL:  MakerLineLen=WorkImage->height()/17;  break;
+            case cLocation::MARKERDISTFAR:     MakerLineLen=WorkImage->height()/10;  break;
+        }
+
+        // Compute sizes
+        switch (Location->Size) {
+            case cBrushDefinition::sMarker::SMALL:      GPSPointSize=7;     PenSize=1;    CornerSize=6;   break;
+            case cBrushDefinition::sMarker::MEDIUM:     GPSPointSize=10;    PenSize=1;    CornerSize=8;   break;
+            case cBrushDefinition::sMarker::LARGE:      GPSPointSize=13;    PenSize=2;    CornerSize=12;  break;
+            case cBrushDefinition::sMarker::VERYLARGE:  GPSPointSize=16;    PenSize=2;    CornerSize=16;  break;
+        }
 
         // Compute orientation of marker
         if (MarkerPoint.y()>Location->MarkerSize.height()+MakerLineLen) {
-            MarkerPosition =QPoint(MarkerPoint.x()-(Location->MarkerSize.width()/2),MarkerPoint.y()-MakerLineLen-Location->MarkerSize.height());
-            MarkerStartLine=QPoint(MarkerPoint.x(),MarkerPoint.y()-MakerLineLen);
-            Orientation=0;
+            MarkerPosition=QPoint(MarkerPoint.x()-(Location->MarkerSize.width()/2),MarkerPoint.y()-MakerLineLen-Location->MarkerSize.height());
+            MarkerStartLine.setY(MarkerPosition.y()+Location->MarkerSize.height()-1);
         } else {
-            MarkerPosition =QPoint(MarkerPoint.x()-(Location->MarkerSize.width()/2),MarkerPoint.y()+MakerLineLen);
-            MarkerStartLine=QPoint(MarkerPoint.x(),MarkerPoint.y()+MakerLineLen);
-            Orientation=1;
+            MarkerPosition=QPoint(MarkerPoint.x()-(Location->MarkerSize.width()/2),MarkerPoint.y()+MakerLineLen);
+            MarkerStartLine.setY(MarkerPosition.y()+1);
         }
-        DrawMarker(&Painter,MarkerPosition,i,Markers[i].Visibility,Location->Size);
+        if (MarkerPosition.x()<0) MarkerPosition.setX(0);
+        if (MarkerPosition.x()+Location->MarkerSize.width()>DestMapSize.width()) MarkerPosition.setX(DestMapSize.width()-Location->MarkerSize.width());
+        MarkerStartLine.setX(MarkerPosition.x()+Location->MarkerSize.width()/2);
 
-        // Draw Endpoint and line
-        switch (Location->EndPoint) {
-            case cLocation::MEDIUMPOINT:    // Filled 10 pixels circle
-                Painter.setBrush(QBrush(Qt::black,Qt::SolidPattern));
-                Painter.drawEllipse(MarkerPoint,10,10);
-                switch (Orientation) {
-                    case 1:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()+5));   break;
-                    default:
-                    case 0:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()-5));   break;
-                }
+        // Prepare GPS point path
+        switch (Location->MarkerPointForm) {
+            case cLocation::MARKERPOINTPOINT:   PointPath.moveTo(MarkerPoint);                                                                              break;
+            case cLocation::MARKERPOINTCIRCLE:  PointPath.addEllipse(MarkerPoint,GPSPointSize,GPSPointSize);                                                break;
+            case cLocation::MARKERPOINTRECT:    PointPath.addRect(MarkerPoint.x()-GPSPointSize,MarkerPoint.y()-GPSPointSize,GPSPointSize*2,GPSPointSize*2); break;
+        }
+
+        // Prepare line path and marker path
+        int BubbleSize=GPSPointSize*2;
+        if (BubbleSize>(Location->MarkerSize.width()/4)) BubbleSize=Location->MarkerSize.width()/4;
+        switch (Location->MarkerForm) {
+            case cLocation::MARKERFORMRECT:
+                LinePath.moveTo(QPoint(MarkerPoint.x()-PenSize*2,MarkerPoint.y()));
+                LinePath.lineTo(QPoint(MarkerStartLine.x()-PenSize*2,MarkerStartLine.y()));
+                LinePath.lineTo(QPoint(MarkerStartLine.x()+PenSize*2,MarkerStartLine.y()));
+                LinePath.lineTo(QPoint(MarkerPoint.x()+PenSize*2,MarkerPoint.y()));
+                LinePath.lineTo(QPoint(MarkerPoint.x()-PenSize*2,MarkerPoint.y()));
+                MarkerPath.addRect(MarkerPosition.x(),MarkerPosition.y(),Location->MarkerSize.width(),Location->MarkerSize.height());
                 break;
-            case cLocation::MEDIUMCIRCLE:   // Empty 10 pixels circle
-                Painter.setBrush(Qt::NoBrush);
-                Painter.drawEllipse(MarkerPoint,10,10);
-                switch (Orientation) {
-                    case 1:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()+5));   break;
-                    default:
-                    case 0:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()-5));   break;
-                }
-                break;
-            case cLocation::LARGECIRCLE:    // Empty 24 pixels circle
-                Painter.setBrush(Qt::NoBrush);
-                Painter.drawEllipse(MarkerPoint,24,24);
-                switch (Orientation) {
-                    case 1:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()+12));   break;
-                    default:
-                    case 0:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()-12));   break;
-                }
-                break;
-            case cLocation::ARROW1:         // Empty unclosed 24 pixels arrow
-                Painter.drawLine(MarkerStartLine,MarkerPoint);
-                switch (Orientation) {
-                    case 1:
-                        Painter.drawLine(MarkerPoint,QPointF(MarkerPoint.x()-12,MarkerPoint.y()+24));
-                        Painter.drawLine(MarkerPoint,QPointF(MarkerPoint.x()+12,MarkerPoint.y()+24));
-                        break;
-                    default:
-                    case 0:
-                        Painter.drawLine(MarkerPoint,QPointF(MarkerPoint.x()-12,MarkerPoint.y()-24));
-                        Painter.drawLine(MarkerPoint,QPointF(MarkerPoint.x()+12,MarkerPoint.y()-24));
-                        break;
-                }
-                break;
-            case cLocation::ARROW2:         // Filled 24 pixels arrow
-                Painter.setBrush(QBrush(Qt::black,Qt::SolidPattern));
-                Painter.drawLine(MarkerStartLine,MarkerPoint);
-                Arrow.append(MarkerPoint);
-                switch (Orientation) {
-                    case 1:
-                        Arrow.append(QPoint(MarkerPoint.x()+12,MarkerPoint.y()+24));
-                        Arrow.append(QPoint(MarkerPoint.x()-12,MarkerPoint.y()+24));
-                        break;
-                    default:
-                    case 0:
-                        Arrow.append(QPoint(MarkerPoint.x()+12,MarkerPoint.y()-24));
-                        Arrow.append(QPoint(MarkerPoint.x()-12,MarkerPoint.y()-24));
-                        break;
-                }
-                Arrow.append(MarkerPoint);
-                Painter.drawPolygon(Arrow);
-                break;
-            case cLocation::ARROW3:         // Empty closed 24 pixels arrow
-                Painter.setBrush(Qt::NoBrush);
-                Painter.drawLine(MarkerStartLine,MarkerPoint);
-                Arrow.append(MarkerPoint);
-                switch (Orientation) {
-                    case 1:
-                        Arrow.append(QPoint(MarkerPoint.x()+12,MarkerPoint.y()+24));
-                        Arrow.append(QPoint(MarkerPoint.x()-12,MarkerPoint.y()+24));
-                        break;
-                    default:
-                    case 0:
-                        Arrow.append(QPoint(MarkerPoint.x()+12,MarkerPoint.y()-24));
-                        Arrow.append(QPoint(MarkerPoint.x()-12,MarkerPoint.y()-24));
-                        break;
-                }
-                Arrow.append(MarkerPoint);
-                Painter.drawPolygon(Arrow);
-                break;
-            default:
-            case cLocation::SMALLPOINT:     // Filled 4 pixels circle
-                Painter.setBrush(QBrush(Qt::black,Qt::SolidPattern));
-                Painter.drawEllipse(MarkerPoint,4,4);
-                switch (Orientation) {
-                    case 1:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()+2));   break;
-                    default:
-                    case 0:     Painter.drawLine(MarkerStartLine,QPointF(MarkerPoint.x(),MarkerPoint.y()-2));   break;
-                }
+            case cLocation::MARKERFORMBUBLE:
+                LinePath.moveTo(MarkerPoint);
+                LinePath.lineTo(QPoint(MarkerStartLine.x()-BubbleSize,MarkerStartLine.y()));
+                LinePath.lineTo(QPoint(MarkerStartLine.x()+BubbleSize,MarkerStartLine.y()));
+                LinePath.lineTo(MarkerPoint);
+                MarkerPath.addRoundedRect(MarkerPosition.x(),MarkerPosition.y(),Location->MarkerSize.width(),Location->MarkerSize.height(),CornerSize,CornerSize);
                 break;
         }
+        // Make union
+        MarkerPath=MarkerPath.united(LinePath);
+        MarkerPath=MarkerPath.united(PointPath);
+
+        Painter.save();
+        Painter.setBrush(QBrush(QColor(Markers[i].MarkerColor),Qt::SolidPattern));
+        Pen.setColor(QColor(Markers[i].LineColor));
+        Pen.setStyle(Qt::SolidLine);
+        Pen.setWidth(PenSize);
+        Painter.setPen(Pen);
+        if (Markers[i].Visibility==cBrushDefinition::sMarker::MARKERSHADE) Painter.setOpacity(0.3);
+        Painter.drawPath(MarkerPath);
+        PenSize*=2;
+        Painter.setClipRect(MarkerPosition.x()+PenSize,MarkerPosition.y()+PenSize,Location->MarkerSize.width()-2*PenSize,Location->MarkerSize.height()-2*PenSize);
+        DrawMarker(&Painter,MarkerPosition,i,Markers[i].Visibility,Location->MarkerSize,Location->Size);
+        Painter.restore();
     }
     Painter.end();
 

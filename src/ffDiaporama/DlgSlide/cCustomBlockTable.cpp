@@ -30,8 +30,8 @@
 #define ICON_SOUND_OK                       ":/img/object_sound.png"
 #define ICON_SOUND_KO                       ":/img/sound_KO.png"
 #define ICON_HAVEFILTER                     ":/img/Transform.png"
-#define ICON_HAVELOCK                       ":/img/Geometry_Lock.png"
-#define ICON_HAVENOLOCK                     ":/img/Geometry_Unlock.png"
+#define ICON_INHERITDOWNLOCK                ":/img/inheritance_down_lock.png"
+#define ICON_INHERITDOWNUNLOCK              ":/img/inheritance_down_unlock.png"
 
 //********************************************************************************************************************************
 // cBlockTableItemDelegate : Item delegate for block table
@@ -121,7 +121,7 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
     QPen        Pen;
 
 
-    if ((ParentTable->CurrentShotNbr>0)&&(ParentTable->CompositionList->List[index.row()]->SameAsPrevShot))
+    if ((ParentTable->CurrentShotNbr>0)&&(ParentTable->CompositionList->List[index.row()]->BlockInheritance))
         Painter->fillRect(QRect(option.rect.x(),option.rect.y(),option.rect.width(),option.rect.height()),QColor(Qt::lightGray));
 
     // Draw Icon
@@ -131,7 +131,7 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
     Painter->drawImage(QRectF(option.rect.x()+1+RowHeight,option.rect.y()+1+2*(RowHeight/3),16,16),QImage(ParentTable->CompositionList->List[index.row()]->IsVisible?ICON_VISIBLE_OK:ICON_VISIBLE_KO));
 
     // With same as previous shot ?
-    if (ParentTable->CurrentShotNbr>0) Painter->drawImage(QRectF(option.rect.x()+1+RowHeight,option.rect.y()+1,16,16),QImage(ParentTable->CompositionList->List[index.row()]->SameAsPrevShot?ICON_HAVELOCK:ICON_HAVENOLOCK));
+    if (ParentTable->CurrentShotNbr>0) Painter->drawImage(QRectF(option.rect.x()+1+RowHeight,option.rect.y()+1,16,16),QImage(ParentTable->CompositionList->List[index.row()]->BlockInheritance?ICON_INHERITDOWNLOCK:ICON_INHERITDOWNUNLOCK));
 
     // With sound ?
     if ((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->MediaObject)&&(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE))

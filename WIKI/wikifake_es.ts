@@ -3861,6 +3861,10 @@
         <source>Index</source>
         <translation>Índice</translation>
     </message>
+    <message>
+        <source>Types of objects in ffDiaporama</source>
+        <translation type="unfinished">Tipos de objetos en ffDiaporama</translation>
+    </message>
 </context>
 <context>
     <name>0041</name>
@@ -6695,12 +6699,12 @@
         <translation>&lt;a href=&quot;#VIDEOTAG&quot;&gt;Una etiqueta de video&lt;/a&gt; está disponible solo con objetos de video</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;#GMAPSMAPTAG&quot;&gt;The image correct and reframe tag&lt;/a&gt; is available only with Google Maps map object</source>
-        <translation>&lt;a href=&quot;#GMAPSMAPTAG&quot;&gt;La etiqueta de imagen corregida y reencuadrada&lt;/a&gt; está disponible sólo con objetos de mapas de Google Maps</translation>
-    </message>
-    <message>
         <source>For more information on available types of objects see: &lt;a href=&quot;0045.html&quot;&gt;Types of objects in ffDiaporama&lt;/a&gt;</source>
         <translation type="unfinished">Para obtener más información sobre los tipos de objetos disponibles ver: &lt;a href=&quot;0050.html&quot;&gt;Tipos de objetos en ffDiaporama&lt;/a&gt; {0045.?}</translation>
+    </message>
+    <message>
+        <source>&lt;a href=&quot;#GMAPSMAPTAG&quot;&gt;The Google Maps map tag&lt;/a&gt; is available only with Google Maps map object</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8238,10 +8242,6 @@
         <translation>Abrir el diálogo &lt;a href=&quot;0110.html&quot;&gt;Reencuadrar y/o corregir una imagen o video&lt;/a&gt;. Este botón está activo sólo para los objetos que contienen imágenes o videos.</translation>
     </message>
     <message>
-        <source>Block properties locking</source>
-        <translation>Bloqueo de propiedades de un bloque</translation>
-    </message>
-    <message>
         <source>Display information on active block. (Remark: This function is available only for &quot;image&quot; or &quot;video&quot; blocks.)</source>
         <translation>Mostrar la información en el bloque activo. (Nota:. Esta función sólo está disponible para bloques de &quot;imagen&quot; o &quot;video&quot;)</translation>
     </message>
@@ -8670,14 +8670,6 @@
         <translation>Curva de velocidad</translation>
     </message>
     <message>
-        <source>Selects a speed curve for block animations (movement, resizing and rotating of blocks, animation of text and blocks) </source>
-        <translation>Selecciona una curva de velocidad para las animaciones de bloques (movimiento, cambiar el tamaño y rotar los bloques, animación de texto y bloques)</translation>
-    </message>
-    <message>
-        <source>Remark: To change the velocity curve for image animation (graphic effect and framing), edit the image or video and select a velocity in the Image framing and correction dialog</source>
-        <translation>Nota: Para cambiar la curva de velocidad de la animación de imagen (efecto gráfico y encuadre), editar la imagen o vídeo y seleccionar una velocidad en el encuadre de la imagen y el diálogo de corrección</translation>
-    </message>
-    <message>
         <source>Text annimation</source>
         <translation>Animación de texto</translation>
     </message>
@@ -8708,10 +8700,6 @@
     <message>
         <source>Block animation</source>
         <translation>Aimación del bloque</translation>
-    </message>
-    <message>
-        <source> The block animations define which animations will run during the current shot. You can define different animations for every shot! </source>
-        <translation>El bloque de animaciones que definen las animaciones se ejecutarán durante la toma actual. ¡Se pueden definir diferentes animaciones para cada toma!</translation>
     </message>
     <message>
         <source>Multiple rotations</source>
@@ -8770,18 +8758,6 @@
         <translation>El bloque reverbera durante la toma (aparece y luego desaparece). Se proponen 4 velocidades (de lento a muy rápido).</translation>
     </message>
     <message>
-        <source> When the block properties are locked, the modifications made to the block in the preceding shot are echoed in the current shot. </source>
-        <translation>Cuando las propiedades del bloque están bloqueadas, las modificaciones introducidas en el bloque en la toma anterior se repiten en la toma actual.</translation>
-    </message>
-    <message>
-        <source>It defines as well the coordinates, forms and animations properties as the properties defined in the editing dialog of text, image or video. </source>
-        <translation>Se definen así las coordenadas, formas y animaciones como las características que se determinan en el cuadro de diálogo de edición de texto, imagen o video.</translation>
-    </message>
-    <message>
-        <source>The properties locking is available only from the 2nd shot.</source>
-        <translation>El bloqueo de las propiedades sólo está disponible desde la 2 ª toma.</translation>
-    </message>
-    <message>
         <source>See also</source>
         <translation>Consultar también</translation>
     </message>
@@ -8812,10 +8788,6 @@
     <message>
         <source>Open the &lt;a href=&quot;0120.html&quot;&gt;Edit text block dialog&lt;/a&gt;.</source>
         <translation>Abrir el diálogo &lt;a href=&quot;0120.html&quot;&gt;Editar bloque de texto&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <source>Lock or unlock properties of active block. (See: &lt;a href=&quot;#LockProperties&quot;&gt;Block properties locking&lt;/a&gt;)</source>
-        <translation>Bloquear o desbloquear propiedades del bloque activo. (Ver: &lt;a href=&quot;#LockProperties&quot;&gt;Bloqueo de propiedades del bloque&lt;/a&gt;)</translation>
     </message>
     <message>
         <source> If the block is visible during this shot.</source>
@@ -8922,14 +8894,6 @@
         <translation>Cada uno de estos menús contextuales proponen comandos que dependen donde se haya hecho clic.</translation>
     </message>
     <message>
-        <source> If the properties of the block are locked during this shot. (This information does not appear for the 1st shot.)</source>
-        <translation> Si las propiedades del bloque están bloqueadas durante este toma. (Esta información no aparece para el diálogo de la 1ª toma.)</translation>
-    </message>
-    <message>
-        <source> If the properties of the block are unlocked during this shot. (This information does not appear for the 1st shot.)</source>
-        <translation> Si las propiedades del bloque están desbloqueadas durante este toma. (Esta información no aparece para el diálogo de la 1ª toma.)</translation>
-    </message>
-    <message>
         <source>This settings group deals with style management. For more information on style management, see: &lt;a href=&quot;0016.html&quot;&gt;Using style management&lt;/a&gt;</source>
         <translation>Este grupo de ajuste se ocupa de la gestión de estilo. Para obtener más información sobre la gestión de estilo., ver: &lt;a href=&quot;0016.html&quot;&gt;Gsetión de estilos&lt;/a&gt;</translation>
     </message>
@@ -8952,6 +8916,46 @@
     <message>
         <source>Paste block or image from the clipboard and insert it to the end of the block table</source>
         <translation>Pegar el bloque o la imagen desde el portapapeles e insertarlo al final de la tabla del bloque</translation>
+    </message>
+    <message>
+        <source>Selects a speed curve for block animations (movement, resizing and rotating of blocks, animation of text and blocks)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To change the velocity curve for image animation (graphic effect and framing), edit the image or video and select a velocity in the Image framing and correction dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This setting is define for the current shot, so, the modifications made will apply only to current shot. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>These settings are defines for the current shot, so, the modifications made will apply only to current shot. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The block animations define which animations will run during the current shot. You can define different animations for every shot!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> If changes made on previous shot are applied for this block also to this shot. (This information does not appear for the 1st shot.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> If changes made on previous shot are not applied for this block to this shot. (This information does not appear for the 1st shot.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Inheritance changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Inherit changes: If this box is checked, the changes made in a previous shot will be applied to this object in this shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This settings group defines how changes to the block parameters are reflected to the different shots.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -9370,8 +9374,104 @@
         <translation>Agregar o modificar una ubicación</translation>
     </message>
     <message>
-        <source>Work in progress</source>
-        <translation>Trabajo en curso</translation>
+        <source> This dialog allows you to define a location using Google Maps. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the postal adress to find in this zone.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When you press the Enter key, a search is made using Google Maps and the addresses found are used to fill the list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Then select the correct address in the list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the favorite menu: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add to favorite: Adds the current location to the list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update this favorite: Update the favorite using current settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove this favorites: Remove the favorite from the list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The list of the favourite: Use a favorite to fill the dialog box fields.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Friendly address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the address in a more readable form. This form will be used to display the marker.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Friendly name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter a name for this location. This name will be used to display the marker.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select an image to be used as icon to display the marker.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Click on the icon zone or on the </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> button to select an image and edit it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Click on this </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> button to clear the icon.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Map zone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click on a point on the map zone to select it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can also use the slider and the </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> and </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> buttons to modify the zoom level.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

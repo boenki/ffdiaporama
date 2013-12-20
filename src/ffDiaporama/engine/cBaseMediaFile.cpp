@@ -1425,7 +1425,7 @@ bool cGMapsMap::LoadBasicInformationFromDatabase(QDomElement *ParentElement,QStr
             QDomElement SubElement=ParentElement->elementsByTagName(QString("Location_%1").arg(i)).item(0).toElement();
             cLocation *Location=new cLocation(ApplicationConfig);
             Location->LoadFromXML(&SubElement,"",PathForRelativPath,AliasList,ModifyFlag,ResKeyList,DuplicateRes);
-            if ((Location->MarkerSize.isEmpty())) Location->ComputeMarkerSize(GetCurrentImageSize());
+            Location->ComputeMarkerSize(GetCurrentImageSize());
             List.append(Location);
             i++;
         }
@@ -1551,6 +1551,7 @@ QStringList cGMapsMap::GetImageSizeNames() {
     List.append(QApplication::translate("cBaseMediaFile","720px4-16:9 (2560x1440)"));
     List.append(QApplication::translate("cBaseMediaFile","1080p-16:9 (1920x1080)"));
     List.append(QApplication::translate("cBaseMediaFile","1080px4-16:9 (3840x2160)"));
+    List.append(QApplication::translate("cBaseMediaFile","1080px9-16:9 (5760x3240)"));
     return List;
 }
 
@@ -1574,6 +1575,7 @@ QSize cGMapsMap::GetCurrentImageSize() {
         case FS720X4:           return QSize(2560,1440);
         case FS1080P:           return QSize(1920,1080);
         case FS1080X4:          return QSize(3840,2160);
+        case FS1080X9:          return QSize(5760,3240);
     }
     return QSize(600,600);
 }
@@ -1589,6 +1591,7 @@ int cGMapsMap::GetMinZoomLevelForSize() {
         case FS720X4:           return 4;
         case FS1080P:           return 4;
         case FS1080X4:          return 5;
+        case FS1080X9:          return 6;
     }
     return 5;
 }

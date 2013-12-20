@@ -173,6 +173,13 @@ void QCustomDialog::reject() {
 
 //====================================================================================================================
 
+void QCustomDialog::keyReleaseEvent(QKeyEvent *event) {
+    if ((event->modifiers()==Qt::NoModifier)&&(event->key()==Qt::Key_F1)&&(HelpBt)&&(!HelpFile.isEmpty())) help();
+        else QDialog::keyReleaseEvent(event);
+}
+
+//====================================================================================================================
+
 void QCustomDialog::help() {
     ApplicationConfig->PopupHelp->OpenHelp(HelpFile,true);
 }

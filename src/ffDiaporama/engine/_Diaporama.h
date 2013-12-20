@@ -136,7 +136,7 @@ public:
     int                 TypeComposition;        // Type of composition object (COMPOSITIONTYPE_BACKGROUND, COMPOSITIONTYPE_OBJECT, COMPOSITIONTYPE_SHOT)
     int                 IndexKey;
     bool                IsVisible;              // True if block is visible during this shot
-    bool                SameAsPrevShot;         // If true and not first shot then use the same value as in precedent shot
+    bool                BlockInheritance;         // If true and not first shot then use the same value as in precedent shot
 
     // Coordinates attributs of the object (Shot values)
     double              x,y,w,h;                // Position (x,y) and size (width,height)
@@ -199,8 +199,8 @@ public:
                                       bool Transfo=false,double NewX=0,double NewY=0,double NewW=0,double NewH=0,
                                       bool DisplayTextMargin=false,cCompositionObjectContext *PreparedBrush=NULL);
 
-    void                SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList);
-    bool                LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
+    void                SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool SaveBrush);
+    bool                LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes,bool RestoreBrush);
 
     QRectF              GetTextMargin(QRectF Workspace,double  ADJUST_RATIO);
     void                ApplyTextMargin(int TMType);

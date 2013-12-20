@@ -1108,7 +1108,7 @@ If you specify a duration lower than the minimum calculated duration for the sho
               <x>0</x>
               <y>0</y>
               <width>281</width>
-              <height>764</height>
+              <height>821</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1133,7 +1133,7 @@ If you specify a duration lower than the minimum calculated duration for the sho
              <property name="spacing">
               <number>2</number>
              </property>
-             <item row="43" column="1">
+             <item row="44" column="1">
               <layout class="QHBoxLayout" name="horizontalLayout_15">
                <property name="spacing">
                 <number>0</number>
@@ -1241,7 +1241,7 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                </item>
               </layout>
              </item>
-             <item row="11" column="1">
+             <item row="12" column="1">
               <widget class="QComboBox" name="ShapeSizePosCB">
                <property name="font">
                 <font>
@@ -1253,7 +1253,7 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                </property>
               </widget>
              </item>
-             <item row="34" column="0">
+             <item row="35" column="0">
               <widget class="QLabel" name="ScrollXLabel">
                <property name="font">
                 <font>
@@ -1272,7 +1272,7 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                </property>
               </widget>
              </item>
-             <item row="12" column="0">
+             <item row="13" column="0">
               <widget class="QLabel" name="PosSize_X">
                <property name="font">
                 <font>
@@ -1291,7 +1291,7 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                </property>
               </widget>
              </item>
-             <item row="35" column="1">
+             <item row="36" column="1">
               <layout class="QHBoxLayout" name="horizontalLayout_11">
                <property name="spacing">
                 <number>0</number>
@@ -1403,7 +1403,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                </item>
               </layout>
              </item>
-             <item row="41" column="1">
+             <item row="42" column="1">
               <layout class="QHBoxLayout" name="horizontalLayout_13">
                <property name="spacing">
                 <number>0</number>
@@ -1511,7 +1511,7 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                </item>
               </layout>
              </item>
-             <item row="42" column="1">
+             <item row="43" column="1">
               <layout class="QHBoxLayout" name="horizontalLayout_14">
                <property name="spacing">
                 <number>0</number>
@@ -1619,7 +1619,7 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                </item>
               </layout>
              </item>
-             <item row="17" column="0">
+             <item row="18" column="0">
               <widget class="QLabel" name="Rotate_Z">
                <property name="font">
                 <font>
@@ -1638,7 +1638,7 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                </property>
               </widget>
              </item>
-             <item row="18" column="0" colspan="2">
+             <item row="19" column="0" colspan="2">
               <widget class="QLabel" name="label_9">
                <property name="font">
                 <font>
@@ -1651,14 +1651,14 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                 </font>
                </property>
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Block shape :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Block shape (common to all shots):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
                </property>
               </widget>
              </item>
-             <item row="39" column="0" colspan="2">
+             <item row="40" column="0" colspan="2">
               <widget class="QLabel" name="label_16">
                <property name="font">
                 <font>
@@ -1678,7 +1678,7 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                </property>
               </widget>
              </item>
-             <item row="12" column="1">
+             <item row="13" column="1">
               <layout class="QHBoxLayout" name="horizontalLayout_16">
                <property name="spacing">
                 <number>0</number>
@@ -1774,7 +1774,7 @@ This position is defined as a percentage (%) of the total height of the image or
                </item>
               </layout>
              </item>
-             <item row="14" column="1">
+             <item row="15" column="1">
               <layout class="QHBoxLayout" name="horizontalLayout_20">
                <property name="spacing">
                 <number>0</number>
@@ -1872,7 +1872,7 @@ This position is defined as a percentage (%) of the total height of the image or
                </item>
               </layout>
              </item>
-             <item row="13" column="1">
+             <item row="14" column="1">
               <layout class="QHBoxLayout" name="horizontalLayout">
                <property name="spacing">
                 <number>0</number>
@@ -1980,7 +1980,7 @@ This value is defined as a percentage (%) of the total height of the image or in
                </item>
               </layout>
              </item>
-             <item row="26" column="1">
+             <item row="27" column="1">
               <layout class="QHBoxLayout" name="horizontalLayout_6">
                <property name="spacing">
                 <number>0</number>
@@ -2074,7 +2074,7 @@ color: #000000;
                </item>
               </layout>
              </item>
-             <item row="20" column="1">
+             <item row="21" column="1">
               <widget class="QLabel" name="BlockShapeStyleED">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -2096,7 +2096,7 @@ color: #000000;
                </property>
               </widget>
              </item>
-             <item row="29" column="1">
+             <item row="30" column="1">
               <layout class="QHBoxLayout" name="horizontalLayout_10">
                <property name="spacing">
                 <number>2</number>
@@ -2175,7 +2175,7 @@ color: #000000;
                </item>
               </layout>
              </item>
-             <item row="11" column="0">
+             <item row="12" column="0">
               <widget class="QLabel" name="TextFramingStyleLabel_3">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -2194,7 +2194,7 @@ color: #000000;
                </property>
               </widget>
              </item>
-             <item row="31" column="1">
+             <item row="32" column="1">
               <widget class="cCSpeedWaveComboBox" name="SpeedWaveCB">
                <property name="font">
                 <font>
@@ -2211,7 +2211,7 @@ Remark: To change the velocity curve for image animation (graphic effect and fra
                </property>
               </widget>
              </item>
-             <item row="34" column="1">
+             <item row="35" column="1">
               <layout class="QHBoxLayout" name="horizontalLayout_8">
                <property name="spacing">
                 <number>0</number>
@@ -2323,7 +2323,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                </item>
               </layout>
              </item>
-             <item row="26" column="0">
+             <item row="27" column="0">
               <widget class="QLabel" name="PenLabel">
                <property name="font">
                 <font>
@@ -2339,7 +2339,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                </property>
               </widget>
              </item>
-             <item row="16" column="0">
+             <item row="17" column="0">
               <widget class="QLabel" name="Rotate_Y">
                <property name="font">
                 <font>
@@ -2358,7 +2358,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                </property>
               </widget>
              </item>
-             <item row="25" column="0">
+             <item row="26" column="0">
               <widget class="QLabel" name="label_21">
                <property name="font">
                 <font>
@@ -2374,7 +2374,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                </property>
               </widget>
              </item>
-             <item row="42" column="0">
+             <item row="43" column="0">
               <widget class="QLabel" name="TurnXLabel">
                <property name="font">
                 <font>
@@ -2393,7 +2393,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                </property>
               </widget>
              </item>
-             <item row="17" column="1">
+             <item row="18" column="1">
               <layout class="QHBoxLayout" name="horizontalLayout_22">
                <property name="spacing">
                 <number>0</number>
@@ -2488,7 +2488,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                </item>
               </layout>
              </item>
-             <item row="33" column="0">
+             <item row="34" column="0">
               <widget class="QLabel" name="ZoomLabel">
                <property name="font">
                 <font>
@@ -2504,7 +2504,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                </property>
               </widget>
              </item>
-             <item row="30" column="0" colspan="2">
+             <item row="31" column="0" colspan="2">
               <widget class="QLabel" name="label_12">
                <property name="font">
                 <font>
@@ -2524,7 +2524,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                </property>
               </widget>
              </item>
-             <item row="16" column="1">
+             <item row="17" column="1">
               <layout class="QHBoxLayout" name="horizontalLayout_21">
                <property name="spacing">
                 <number>0</number>
@@ -2619,7 +2619,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                </item>
               </layout>
              </item>
-             <item row="40" column="1">
+             <item row="41" column="1">
               <widget class="QCustomComboBox" name="BlockAnimCB">
                <property name="font">
                 <font>
@@ -2636,7 +2636,7 @@ You can define different animations for every shot!
                </property>
               </widget>
              </item>
-             <item row="32" column="0" colspan="2">
+             <item row="33" column="0" colspan="2">
               <widget class="QLabel" name="label_18">
                <property name="font">
                 <font>
@@ -2656,7 +2656,7 @@ You can define different animations for every shot!
                </property>
               </widget>
              </item>
-             <item row="31" column="0">
+             <item row="32" column="0">
               <widget class="QLabel" name="SpeedWaveLabel">
                <property name="font">
                 <font>
@@ -2672,7 +2672,7 @@ You can define different animations for every shot!
                </property>
               </widget>
              </item>
-             <item row="25" column="1">
+             <item row="26" column="1">
               <widget class="QComboBox" name="OpacityCB">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -2691,7 +2691,7 @@ You can define different animations for every shot!
                </property>
               </widget>
              </item>
-             <item row="44" column="0">
+             <item row="45" column="0">
               <widget class="QLabel" name="DissolveLabel">
                <property name="font">
                 <font>
@@ -2707,7 +2707,7 @@ You can define different animations for every shot!
                </property>
               </widget>
              </item>
-             <item row="45" column="1">
+             <item row="46" column="1">
               <spacer name="verticalSpacer">
                <property name="font">
                 <font>
@@ -2726,7 +2726,7 @@ You can define different animations for every shot!
                </property>
               </spacer>
              </item>
-             <item row="41" column="0">
+             <item row="42" column="0">
               <widget class="QLabel" name="TurnZLabel">
                <property name="font">
                 <font>
@@ -2745,7 +2745,7 @@ You can define different animations for every shot!
                </property>
               </widget>
              </item>
-             <item row="23" column="0">
+             <item row="24" column="0">
               <widget class="QLabel" name="BackgroundFormLabel">
                <property name="font">
                 <font>
@@ -2761,7 +2761,7 @@ You can define different animations for every shot!
                </property>
               </widget>
              </item>
-             <item row="27" column="0">
+             <item row="28" column="0">
               <widget class="QLabel" name="label_13">
                <property name="font">
                 <font>
@@ -2777,7 +2777,7 @@ You can define different animations for every shot!
                </property>
               </widget>
              </item>
-             <item row="43" column="0">
+             <item row="44" column="0">
               <widget class="QLabel" name="TurnYLabel">
                <property name="font">
                 <font>
@@ -2796,7 +2796,7 @@ You can define different animations for every shot!
                </property>
               </widget>
              </item>
-             <item row="35" column="0">
+             <item row="36" column="0">
               <widget class="QLabel" name="ScrollYLabel">
                <property name="font">
                 <font>
@@ -2815,7 +2815,7 @@ You can define different animations for every shot!
                </property>
               </widget>
              </item>
-             <item row="10" column="1">
+             <item row="11" column="1">
               <layout class="QHBoxLayout" name="horizontalLayout_5">
                <property name="spacing">
                 <number>0</number>
@@ -2852,7 +2852,7 @@ Three type of constraint are available:
                </item>
               </layout>
              </item>
-             <item row="40" column="0">
+             <item row="41" column="0">
               <widget class="QLabel" name="BlockAnimLabel">
                <property name="font">
                 <font>
@@ -2868,7 +2868,7 @@ Three type of constraint are available:
                </property>
               </widget>
              </item>
-             <item row="20" column="0">
+             <item row="21" column="0">
               <layout class="QHBoxLayout" name="horizontalLayout_3">
                <property name="spacing">
                 <number>2</number>
@@ -2931,11 +2931,11 @@ Three type of constraint are available:
                 </font>
                </property>
                <property name="text">
-                <string>Block coordinates :</string>
+                <string>Inheritance changes:</string>
                </property>
               </widget>
              </item>
-             <item row="13" column="0">
+             <item row="14" column="0">
               <widget class="QLabel" name="PosSize_Width">
                <property name="font">
                 <font>
@@ -2954,7 +2954,7 @@ Three type of constraint are available:
                </property>
               </widget>
              </item>
-             <item row="44" column="1">
+             <item row="45" column="1">
               <widget class="QCustomComboBox" name="DissolveCB">
                <property name="font">
                 <font>
@@ -2969,7 +2969,7 @@ Blink: The block will blink during the shot (appear then disappear). 4 speeds ar
                </property>
               </widget>
              </item>
-             <item row="10" column="0">
+             <item row="11" column="0">
               <widget class="QLabel" name="TextFramingStyleLabel">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -2988,7 +2988,7 @@ Blink: The block will blink during the shot (appear then disappear). 4 speeds ar
                </property>
               </widget>
              </item>
-             <item row="33" column="1">
+             <item row="34" column="1">
               <layout class="QHBoxLayout" name="horizontalLayout_7">
                <property name="spacing">
                 <number>0</number>
@@ -3103,7 +3103,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                </item>
               </layout>
              </item>
-             <item row="14" column="0">
+             <item row="15" column="0">
               <widget class="QLabel" name="Rotate_X">
                <property name="font">
                 <font>
@@ -3122,7 +3122,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                </property>
               </widget>
              </item>
-             <item row="27" column="1">
+             <item row="28" column="1">
               <widget class="QComboBox" name="ShadowEffectCB">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -3143,7 +3143,7 @@ Remark: the position of the shadow is independent of rotation of the block: the 
                </property>
               </widget>
              </item>
-             <item row="23" column="1">
+             <item row="24" column="1">
               <widget class="cCShapeComboBox" name="BackgroundFormCB">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -3181,7 +3181,7 @@ color: #000000;
                </property>
               </widget>
              </item>
-             <item row="24" column="0">
+             <item row="25" column="0">
               <widget class="QLabel" name="TextClipArtLabel">
                <property name="font">
                 <font>
@@ -3197,7 +3197,7 @@ color: #000000;
                </property>
               </widget>
              </item>
-             <item row="24" column="1">
+             <item row="25" column="1">
               <widget class="cCTexteFrameComboBox" name="TextClipArtCB">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -3228,6 +3228,62 @@ color: #000000;
                  <width>16</width>
                  <height>16</height>
                 </size>
+               </property>
+              </widget>
+             </item>
+             <item row="10" column="0" colspan="2">
+              <widget class="QLabel" name="label_19">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                 <italic>true</italic>
+                 <underline>true</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>
+Block coordinates :</string>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="1">
+              <widget class="QCheckBox" name="InheritDownCB">
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="toolTip">
+                <string>If this box is checked, the changes made in a previous shot will be applied to this object in this shot</string>
+               </property>
+               <property name="text">
+                <string>Inherit changes</string>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="0">
+              <widget class="QLabel" name="TextFramingStyleLabel_2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../RSCffDiaporama.qrc">:/img/inheritance_down_unlock.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
               </widget>
              </item>
@@ -3776,36 +3832,6 @@ Note: Hidden video blocks are automatically paused</string>
    </property>
    <property name="toolTip">
     <string>Change the order of the shots by moving the current selected shot a notch towards the right</string>
-   </property>
-   <property name="font">
-    <font/>
-   </property>
-  </action>
-  <action name="actionSameAsPreviousShot">
-   <property name="icon">
-    <iconset resource="../RSCffDiaporama.qrc">
-     <normaloff>:/img/Geometry_Lock.png</normaloff>:/img/Geometry_Lock.png</iconset>
-   </property>
-   <property name="text">
-    <string>Lock properties</string>
-   </property>
-   <property name="toolTip">
-    <string>Lock properties to the same values as defined for the previous shot</string>
-   </property>
-   <property name="font">
-    <font/>
-   </property>
-  </action>
-  <action name="actionUnlockSameAsPreviousShot">
-   <property name="icon">
-    <iconset resource="../RSCffDiaporama.qrc">
-     <normaloff>:/img/Geometry_Unlock.png</normaloff>:/img/Geometry_Unlock.png</iconset>
-   </property>
-   <property name="text">
-    <string>Unlock properties</string>
-   </property>
-   <property name="toolTip">
-    <string>Define properties of this shot</string>
    </property>
    <property name="font">
     <font/>

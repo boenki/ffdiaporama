@@ -42,6 +42,9 @@ QCustomLocationItemDelegate::QCustomLocationItemDelegate(QObject *parent):QStyle
 }
 
 //========================================================================================================================
+#define ICON_SHOW                     ":/img/Visible_OK.png"
+#define ICON_MASK                     ":/img/Visible_MASK.png"
+#define ICON_HIDE                     ":/img/Visible_KO.png"
 
 void QCustomLocationItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
     if (!ParentTable->CurrentMap) return;
@@ -49,7 +52,14 @@ void QCustomLocationItemDelegate::paint(QPainter *Painter,const QStyleOptionView
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
-    ParentTable->CurrentBrush->DrawMarker(Painter,QPoint(option.rect.x()+2,option.rect.y()+2),index.row(),cBrushDefinition::sMarker::MARKERSHOW,cBrushDefinition::sMarker::MEDIUM);
+    Painter->fillRect(option.rect,QBrush(QColor(ParentTable->CurrentBrush->Markers[index.row()].MarkerColor),Qt::SolidPattern));
+    ParentTable->CurrentBrush->DrawMarker(Painter,option.rect.topLeft(),index.row(),cBrushDefinition::sMarker::MARKERSHOW,option.rect.size(),cBrushDefinition::sMarker::MEDIUM);
+
+    switch (ParentTable->CurrentBrush->Markers[index.row()].Visibility) {
+        case cBrushDefinition::sMarker::MARKERHIDE:     Painter->drawImage(option.rect.left()+2,option.rect.top()+2,QImage(ICON_HIDE)); break;
+        case cBrushDefinition::sMarker::MARKERSHADE:    Painter->drawImage(option.rect.left()+2,option.rect.top()+2,QImage(ICON_MASK)); break;
+        case cBrushDefinition::sMarker::MARKERSHOW:     Painter->drawImage(option.rect.left()+2,option.rect.top()+2,QImage(ICON_SHOW)); break;
+    }
 
     // Selection mode (Note: MouseOver is removed because it works correctly only on KDE !)
     if (option.state & QStyle::State_Selected) {
@@ -70,11 +80,12 @@ void QCustomLocationItemDelegate::paint(QPainter *Painter,const QStyleOptionView
 cCustomLocationTable::cCustomLocationTable(QWidget *parent):QTableWidget(parent) {
     CurrentMap=NULL;
     CurrentBrush=NULL;
-    setShowGrid(false);
+    setShowGrid(true);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setSelectionBehavior(QAbstractItemView::SelectRows);
     horizontalHeader()->setStretchLastSection(true);
+    verticalHeader()->setStretchLastSection(false);
     setItemDelegate((QAbstractItemDelegate *)new QCustomLocationItemDelegate(this));
     verticalHeader()->setDefaultSectionSize(38);
 }

@@ -82,46 +82,47 @@ public:
         QWidget     *FocusTab;
     };
 
-    QList<sUndoData>  UndoDataList;
+    QList<sUndoData>            UndoDataList;
 
-    cBaseApplicationConfig  *ApplicationConfig;
-    qlonglong               TypeWindowState;
-    QSplitter               *Splitter;
-    QDomDocument            *Undo;                          // Save object before modification for cancel button
-    QStringList             UndoData;
-    QAbstractButton         *OkBt;
-    QAbstractButton         *CancelBt;
-    QAbstractButton         *UndoBt;
-    QAbstractButton         *HelpBt;
-    QString                 HelpFile;
+    cBaseApplicationConfig      *ApplicationConfig;
+    qlonglong                   TypeWindowState;
+    QSplitter                   *Splitter;
+    QDomDocument                *Undo;                          // Save object before modification for cancel button
+    QStringList                 UndoData;
+    QAbstractButton             *OkBt;
+    QAbstractButton             *CancelBt;
+    QAbstractButton             *UndoBt;
+    QAbstractButton             *HelpBt;
+    QString                     HelpFile;
 
-    explicit        QCustomDialog(cBaseApplicationConfig *BaseApplicationConfig,QWidget *parent = 0);
-                    ~QCustomDialog();
+    explicit                    QCustomDialog(cBaseApplicationConfig *BaseApplicationConfig,QWidget *parent = 0);
+                                ~QCustomDialog();
 
-    virtual void    InitDialog();
+    virtual void                InitDialog();
 
     // Abstract function : need to be overloaded
-    virtual void    DoInitDialog()=0;           // Initialise dialog
-    virtual bool    DoAccept()=0;               // Call when user click on Ok button
-    virtual void    DoRejet()=0;                // Call when user click on Cancel button
-    virtual void    PrepareGlobalUndo()=0;      // Initiale Undo
-    virtual void    DoGlobalUndo()=0;           // Apply Undo : call when user click on Cancel button
+    virtual void                DoInitDialog()=0;           // Initialise dialog
+    virtual bool                DoAccept()=0;               // Call when user click on Ok button
+    virtual void                DoRejet()=0;                // Call when user click on Cancel button
+    virtual void                PrepareGlobalUndo()=0;      // Initiale Undo
+    virtual void                DoGlobalUndo()=0;           // Apply Undo : call when user click on Cancel button
 
-    virtual void    SaveWindowState();
-    virtual void    RestoreWindowState();
+    virtual void                SaveWindowState();
+    virtual void                RestoreWindowState();
 
-    virtual void    AppendPartialUndo(int ActionType,QWidget *FocusWindow,bool ForceAdd,QWidget *FocusTab=NULL,bool DuplicateRessource=false);
-    virtual void    AppendPartialUndo(int ActionType,QString WidgetName,bool ForceAdd,QWidget *FocusTab=NULL,bool DuplicateRessource=false);
-    virtual void    RemoveLastPartialUndo();
+    virtual void                AppendPartialUndo(int ActionType,QWidget *FocusWindow,bool ForceAdd,QWidget *FocusTab=NULL,bool DuplicateRessource=false);
+    virtual void                AppendPartialUndo(int ActionType,QString WidgetName,bool ForceAdd,QWidget *FocusTab=NULL,bool DuplicateRessource=false);
+    virtual void                RemoveLastPartialUndo();
 
-    virtual void    PreparePartialUndo(int,QDomElement,bool) {}     // To be overloaded
-    virtual void    ApplyPartialUndo(int,QDomElement)   {}     // To be overloaded
+    virtual void                PreparePartialUndo(int,QDomElement,bool) {}     // To be overloaded
+    virtual void                ApplyPartialUndo(int,QDomElement)   {}     // To be overloaded
 
-    virtual void    toolTipTowhatsThis(QObject *StartObj);
+    virtual void                toolTipTowhatsThis(QObject *StartObj);
 
 protected:
-    virtual void    accept();
-    virtual void    reject();
+    virtual void                accept();
+    virtual void                reject();
+    virtual void                keyReleaseEvent(QKeyEvent *event);
 
     // Utility functions
     virtual void                DoInitTableWidget(QTableWidget *Table,QString TableColumns);
@@ -130,8 +131,8 @@ protected:
     virtual void                SetCBIndex(QComboBox *CB,int ItemData);                             // Utility function use to set current index in a combobox base on an itemdata
 
 protected slots:
-    virtual void    DoPartialUndo();
-    virtual void    help();
+    virtual void                DoPartialUndo();
+    virtual void                help();
 };
 
 //**********************************************************************************

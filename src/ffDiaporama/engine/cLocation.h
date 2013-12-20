@@ -35,14 +35,13 @@ public:
     int                     ZoomLevel;          // Preferred Map ZoomLevel
     qlonglong               ThumbnailResKey;    // Key of a 64x64 image as thumb
     cBrushDefinition        Icon;               // cBrushDefinition to create thumb
+    QSize                   MarkerSize;         // keep size
 
-    int                     LineWidth;          // Width of the line (from 0 to 10)
-    QString                 LineColor;          // Color of the line
-    QSize                   MarkerSize;
-    enum ENDPOINT {SMALLPOINT,MEDIUMPOINT,MEDIUMCIRCLE,LARGECIRCLE,ARROW1,ARROW2,ARROW3} EndPoint;  // Line endpoint
-    cBrushDefinition::sMarker::MARKERSIZE Size;                                                     // Size of the marker
-    enum MARKERPOSITION {TOP,TOPRIGHT,RIGHT,BOTTOMRIGHT,BOTTOM,BOTTOMLEFT,LEFT,TOPLEFT} Position;   // Position of the marker
-    enum MARKERDISTANCE {MARKERDISTNEAR,MARKERDISTNORMAL,MARKERDISTFAR} Distance;                   // Distance between the localization on the map and the marker
+    enum MARKERCOMPO {ICONNAMEADDR,ICONNAME,ICON,NAME,NAMEADDR}             MarkerCompo;            // Marker composition
+    enum MARKERPOINT {MARKERPOINTPOINT,MARKERPOINTCIRCLE,MARKERPOINTRECT}   MarkerPointForm;        // GPS Position form
+    enum MARKERFORM  {MARKERFORMRECT,MARKERFORMBUBLE}                       MarkerForm;             // Marker form
+    cBrushDefinition::sMarker::MARKERSIZE                                   Size;                   // Size of the marker and the GPS Position
+    enum MARKERDISTANCE {MARKERDISTNEAR,MARKERDISTNORMAL,MARKERDISTFAR}     Distance;               // Distance between the localization on the map and the marker
 
     explicit                cLocation(cBaseApplicationConfig *ApplicationConfig);
     virtual                 ~cLocation() {}

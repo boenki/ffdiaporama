@@ -2,6 +2,21 @@
 * FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
 
+[Commit: ]
+    Bug fixes:
+        -Fixed the bug of not replacing the icon when selecting a favorite in the selection box of GPS positions
+        -Active F1 key to open help in any dialog boxes
+        -Corrects UNDO in the edit slides dialog (repositions the active shot and selections)
+        -Fixed change of properties to the following shots in the edit slides dialog (only applies the current change and not all properties)
+
+    New features:
+        -Change the default framming for the icon of the GPS positions when selecting an image in the selection GPS position dialog
+        -Replaces locking of properties of a block in the edit slides dialog with a new property: inherit changes made in previous shot
+             -Adds a checkbox in the edit slides dialog to enable or disable this property
+             -When you disable this property offers to apply (and apply to the following shot) the properties of this block from the previous shot
+
+--------------------------------------------------------------------------------
+
 [Commit: 17/12/2013]
     Bug fixes:
         -Corrects forcing the English language with the -lang=en startup parameter (regression 20131215)

@@ -205,7 +205,6 @@ void cInteractiveZone::RefreshDisplay() {
                                                                         NULL,1,1,NULL,DiaporamaObject->List[CurrentShotNbr]->StaticDuration,false,
                                                                         (IsCapture)&&(TransfoType!=NOTYETDEFINED),NewRect.left()/SceneRect.width(),NewRect.top()/SceneRect.height(),NewRect.width()/SceneRect.width(),NewRect.height()/SceneRect.height(),
                                                                         (DisplayMode==DisplayMode_TextMargin)&&(BlockTable->CompositionList->List[i]->IsVisible)&&(IsSelected[i]));
-            if ((CurrentShotNbr>0)&&(BlockTable->CompositionList->List[i]->SameAsPrevShot)) P.drawImage(NewRect.center().x()-12,NewRect.center().y()-12,QImage(":/img/Lock24.png"));
         }
 
         P.restore();
@@ -410,7 +409,6 @@ void cInteractiveZone::UpdateIsSelected() {
     IsSelected.clear();
     NbrSelected           =0;
     LockGeometry          =false;
-    SelectionHaveLockBlock=false;
 
     for (int i=0;i<BlockTable->rowCount();i++)  IsSelected.append(false);
     for (int i=0;i<SelList.count();i++)         IsSelected[SelList.at(i).row()]=BlockTable->CompositionList->List[SelList.at(i).row()]->IsVisible;
@@ -418,7 +416,6 @@ void cInteractiveZone::UpdateIsSelected() {
     for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
         NbrSelected++;
         if (BlockTable->CompositionList->List[i]->BackgroundBrush->LockGeometry) LockGeometry=true;
-        if ((CurrentShotNbr>0)&&(BlockTable->CompositionList->List[i]->SameAsPrevShot)) SelectionHaveLockBlock=true;
     }
 }
 
@@ -442,19 +439,19 @@ bool cInteractiveZone::IsInSelectedRect(QPointF Pos) {
 //====================================================================================================================
 
 void cInteractiveZone::ManageCursor(QPointF Pos,Qt::KeyboardModifiers Modifiers) {
-    if      (IsInRect(Pos,QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                      setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeBDiagCursor);  // Bottom left
-    else if (IsInRect(Pos,QRect(CurSelRect.left()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                          setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeFDiagCursor);  // Top left
-    else if (IsInRect(Pos,QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))   setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeHorCursor);    // Left
-    else if (IsInRect(Pos,QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                         setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeBDiagCursor);  // Top right
-    else if (IsInRect(Pos,QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))   setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeHorCursor);    // Right
-    else if (IsInRect(Pos,QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                      setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeFDiagCursor);  // Bottom right
-    else if (IsInRect(Pos,QRect(CurSelRect.left()+CurSelRect.width()/2-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))     setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeVerCursor);    // Top
-    else if (IsInRect(Pos,QRect(CurSelRect.left()+CurSelRect.width()/2-HANDLESIZEX/2,CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))  setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeVerCursor);    // Bottom
+    if      (IsInRect(Pos,QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                      setCursor(Qt::SizeBDiagCursor);  // Bottom left
+    else if (IsInRect(Pos,QRect(CurSelRect.left()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                          setCursor(Qt::SizeFDiagCursor);  // Top left
+    else if (IsInRect(Pos,QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))   setCursor(Qt::SizeHorCursor);    // Left
+    else if (IsInRect(Pos,QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                         setCursor(Qt::SizeBDiagCursor);  // Top right
+    else if (IsInRect(Pos,QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))   setCursor(Qt::SizeHorCursor);    // Right
+    else if (IsInRect(Pos,QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                      setCursor(Qt::SizeFDiagCursor);  // Bottom right
+    else if (IsInRect(Pos,QRect(CurSelRect.left()+CurSelRect.width()/2-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))     setCursor(Qt::SizeVerCursor);    // Top
+    else if (IsInRect(Pos,QRect(CurSelRect.left()+CurSelRect.width()/2-HANDLESIZEX/2,CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))  setCursor(Qt::SizeVerCursor);    // Bottom
     else if (IsInSelectedRect(Pos)) {
-        if      (Modifiers==Qt::NoModifier)                                         setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::OpenHandCursor);
+        if      (Modifiers==Qt::NoModifier)                                         setCursor(Qt::OpenHandCursor);
         else if ((Modifiers==Qt::ControlModifier)||(Modifiers==Qt::ShiftModifier))  setCursor(Qt::PointingHandCursor);
         else if (Modifiers==(Qt::ControlModifier|Qt::ShiftModifier))                setCursor(Qt::CrossCursor);
-        else                                                                        setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::ArrowCursor);
+        else                                                                        setCursor(Qt::ArrowCursor);
     } else setCursor(Qt::ArrowCursor);   // standard
 }
 
@@ -499,7 +496,7 @@ void cInteractiveZone::keyPressEvent(QKeyEvent *event) {
     if ((!BlockTable)||(!BlockTable->CompositionList)) return;
 
     ManageCursor(mapFromGlobal(QCursor::pos()),event->modifiers());
-    if ((!SelectionHaveLockBlock)&&(NbrSelected>0)) {
+    if (NbrSelected>0) {
         double StepX=double(1)/SceneRect.width();
         double StepY=double(1)/SceneRect.height();
 
@@ -659,7 +656,7 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
     //ToLog(LOGMSG_DEBUGTRACE,"IN:cInteractiveZone::mouseMoveEvent");   // Remove : too much
     if ((!BlockTable)||(!BlockTable->CompositionList)) return;
 
-    if ((!IsCapture)||(SelectionHaveLockBlock)) {
+    if (!IsCapture) {
 
         ManageCursor(event->pos(),event->modifiers());
 
@@ -1061,14 +1058,14 @@ void cInteractiveZone::mousePressEvent(QMouseEvent *event) {
 
         } else if (event->modifiers()==Qt::NoModifier) {
             // Resize
-            if ((!SelectionHaveLockBlock)&&(NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))                           TransfoType=RESIZEDOWNLEFT; // Bottom left
-            else if ((!SelectionHaveLockBlock)&&(NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.left()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))                          TransfoType=RESIZEUPLEFT;   // Top left
-            else if ((!SelectionHaveLockBlock)&&(NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))   TransfoType=RESIZELEFT;     // Left
-            else if ((!SelectionHaveLockBlock)&&(NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))                         TransfoType=RESIZEUPRIGHT;  // Top right
-            else if ((!SelectionHaveLockBlock)&&(NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))   TransfoType=RESIZERIGHT;    // Right
-            else if ((!SelectionHaveLockBlock)&&(NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))                      TransfoType=RESIZEDOWNRIGHT;// Bottom right
-            else if ((!SelectionHaveLockBlock)&&(NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.left()+CurSelRect.width()/2-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))     TransfoType=RESIZEUP;       // Top
-            else if ((!SelectionHaveLockBlock)&&(NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.left()+CurSelRect.width()/2-HANDLESIZEX/2,CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))  TransfoType=RESIZEDOWN;     // Bottom
+            if ((NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))                           TransfoType=RESIZEDOWNLEFT; // Bottom left
+            else if ((NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.left()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))                          TransfoType=RESIZEUPLEFT;   // Top left
+            else if ((NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))   TransfoType=RESIZELEFT;     // Left
+            else if ((NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))                         TransfoType=RESIZEUPRIGHT;  // Top right
+            else if ((NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))   TransfoType=RESIZERIGHT;    // Right
+            else if ((NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))                      TransfoType=RESIZEDOWNRIGHT;// Bottom right
+            else if ((NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.left()+CurSelRect.width()/2-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))     TransfoType=RESIZEUP;       // Top
+            else if ((NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.left()+CurSelRect.width()/2-HANDLESIZEX/2,CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))  TransfoType=RESIZEDOWN;     // Bottom
             else {
                 // Move
                 if ((NbrSelected==0)||(!IsInSelectedRect(event->pos()))) {
@@ -1087,7 +1084,7 @@ void cInteractiveZone::mousePressEvent(QMouseEvent *event) {
                         }
                         i--;
                     }
-                } else if ((IsInSelectedRect(event->pos()))&&(!SelectionHaveLockBlock)) {
+                } else if (IsInSelectedRect(event->pos())) {
                     TransfoType=MOVEBLOCK;
                     setCursor(Qt::ClosedHandCursor);
                 }
@@ -1115,6 +1112,6 @@ void cInteractiveZone::mouseReleaseEvent(QMouseEvent *event) {
     IsCapture=false;
 
     // Block move
-    if ((!SelectionHaveLockBlock)&&((Move_X!=0)||(Move_Y!=0)||(Scale_X!=0)||(Scale_Y!=0))) emit TransformBlock(Move_X,Move_Y,Scale_X,Scale_Y,RSel_X,RSel_Y,RSel_W,RSel_H);
+    if (((Move_X!=0)||(Move_Y!=0)||(Scale_X!=0)||(Scale_Y!=0))) emit TransformBlock(Move_X,Move_Y,Scale_X,Scale_Y,RSel_X,RSel_Y,RSel_W,RSel_H);
     ManageCursor(event->pos(),event->modifiers());
 }

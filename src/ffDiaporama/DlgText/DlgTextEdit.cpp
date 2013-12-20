@@ -212,7 +212,7 @@ void DlgTextEdit::PrepareGlobalUndo() {
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
-    CurrentTextItem->SaveToXML(root,"UNDO-DLG-OBJECT","",NULL,false,NULL,NULL);  // Save object
+    CurrentTextItem->SaveToXML(root,"UNDO-DLG-OBJECT","",NULL,false,NULL,NULL,true);  // Save object
     Undo->appendChild(root);                                // Add object to xml document
 }
 
@@ -224,7 +224,7 @@ void DlgTextEdit::DoGlobalUndo() {
 
     // Restore element
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") CurrentTextItem->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false,NULL,false);
+    if (root.tagName()=="UNDO-DLG") CurrentTextItem->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false,NULL,false,true);
 }
 
 //====================================================================================================================
@@ -232,7 +232,7 @@ void DlgTextEdit::DoGlobalUndo() {
 void DlgTextEdit::PreparePartialUndo(int /*ActionType*/,QDomElement root,bool) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::PreparePartialUndo");
 
-    CurrentTextItem->SaveToXML(root,"UNDO-DLG-OBJECT","",NULL,false,NULL,NULL);  // Save object
+    CurrentTextItem->SaveToXML(root,"UNDO-DLG-OBJECT","",NULL,false,NULL,NULL,true);  // Save object
     root.setAttribute("Position",ui->TextEdit->textCursor().position());
 }
 
@@ -241,7 +241,7 @@ void DlgTextEdit::PreparePartialUndo(int /*ActionType*/,QDomElement root,bool) {
 void DlgTextEdit::ApplyPartialUndo(int /*ActionType*/,QDomElement root) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::ApplyPartialUndo");
 
-    CurrentTextItem->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false,NULL,false);
+    CurrentTextItem->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false,NULL,false,true);
     StopMAJSpinbox=true;
     ui->TextEdit->setHtml(CurrentTextItem->Text);
     QTextCursor Cursor=ui->TextEdit->textCursor();
