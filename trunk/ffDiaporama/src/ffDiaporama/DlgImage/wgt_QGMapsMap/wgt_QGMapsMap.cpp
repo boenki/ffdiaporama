@@ -67,6 +67,13 @@ void wgt_QGMapsMap::DoInitDialog() {
     connect(ui->LineColorCB,SIGNAL(PopupClosed(int)),this,SLOT(LineColorChanged(int)));
     connect(ui->MarkerColorCB,SIGNAL(PopupClosed(int)),this,SLOT(MarkerColorChanged(int)));
     connect(ui->TextColorCB,SIGNAL(PopupClosed(int)),this,SLOT(TextColorChanged(int)));
+    connect(ui->PointFormCB,SIGNAL(currentIndexChanged(int)),SLOT(PointFormChanged(int)));
+    connect(ui->MarkerFormCB,SIGNAL(currentIndexChanged(int)),SLOT(MarkerFormChanged(int)));
+    connect(ui->MarkerSizeCB,SIGNAL(currentIndexChanged(int)),SLOT(MarkerSizeChanged(int)));
+    connect(ui->MarkerCompoCB,SIGNAL(currentIndexChanged(int)),SLOT(MarkerCompoChanged(int)));
+    connect(ui->VisibilityCB,SIGNAL(currentIndexChanged(int)),SLOT(VisibilityChanged(int)));
+    connect(ui->DistanceCB,SIGNAL(currentIndexChanged(int)),SLOT(DistanceChanged(int)));
+
     if (!CurrentMap->RequestList.isEmpty()) QTimer::singleShot(LATENCY,this,SLOT(RestartRequest()));
 }
 
@@ -115,25 +122,25 @@ void wgt_QGMapsMap::RefreshControls() {
     cBrushDefinition::sMarker   *CurMarker  =(CurLocation?&CurrentBrush->Markers[GetCurLocationIndex()]:NULL);
 
     ui->MarkerSizeLabel->setEnabled(CurLocation);     ui->MarkerSizeCB->setEnabled(CurLocation);
-    ui->PositionLabel->setEnabled(CurLocation);       ui->PositionCB->setEnabled(CurLocation);
     ui->DistanceLabel->setEnabled(CurLocation);       ui->DistanceCB->setEnabled(CurLocation);
-    ui->LineWidthLabel->setEnabled(CurLocation);      ui->LineWidthSB->setEnabled(CurLocation);
     ui->LineColorLabel->setEnabled(CurLocation);      ui->LineColorCB->setEnabled(CurLocation);
-    ui->EndPointLabel->setEnabled(CurLocation);       ui->EndPointCB->setEnabled(CurLocation);
+    ui->PointFormLabel->setEnabled(CurLocation);      ui->PointFormCB->setEnabled(CurLocation);
+    ui->MarkerFormLabel->setEnabled(CurLocation);     ui->MarkerFormCB->setEnabled(CurLocation);
     ui->MarkerColorLabel->setEnabled(CurLocation);    ui->MarkerColorCB->setEnabled(CurLocation);
     ui->TextColorLabel->setEnabled(CurLocation);      ui->TextColorCB->setEnabled(CurLocation);
     ui->VisibilityLabel->setEnabled(CurLocation);     ui->VisibilityCB->setEnabled(CurLocation);
+    ui->MarkerCompoLabel->setEnabled(CurLocation);    ui->MarkerCompoCB->setEnabled(CurLocation);
 
     if (CurLocation) {
         ui->MarkerSizeCB->setCurrentIndex(CurLocation->Size);
-        ui->PositionCB->setCurrentIndex(CurLocation->Position);
-        ui->DistanceCB->setCurrentIndex(CurLocation->Distance);
-        ui->LineWidthSB->setValue(CurLocation->LineWidth);
-        ui->LineColorCB->SetCurrentColor(&CurLocation->LineColor);
-        ui->EndPointCB->setCurrentIndex(CurLocation->EndPoint);
+        ui->PointFormCB->setCurrentIndex(CurLocation->MarkerPointForm);
+        ui->MarkerFormCB->setCurrentIndex(CurLocation->MarkerForm);
+        ui->MarkerCompoCB->setCurrentIndex(CurLocation->MarkerCompo);
+        ui->LineColorCB->SetCurrentColor(&CurMarker->LineColor);
         ui->TextColorCB->SetCurrentColor(&CurMarker->TextColor);
         ui->MarkerColorCB->SetCurrentColor(&CurMarker->MarkerColor);
         ui->VisibilityCB->setCurrentIndex(CurMarker->Visibility);
+        ui->DistanceCB->setCurrentIndex(CurLocation->Distance);
     }
 
     ui->MapSizeCB->setEnabled(!CurrentMap->List.isEmpty());
@@ -154,7 +161,10 @@ void wgt_QGMapsMap::ResetDisplayMap() {
         W=ui->Map->size().width();
         H=int(double(9)*(double(W)/double(16)));
     }
-    QImage Map=CurrentBrush->GetImageDiskBrush(QRectF(0,0,W,H),true,0,NULL,1,NULL);
+    QImage *ImgMap=CurrentBrush->MediaObject->ImageAt(false);
+    CurrentBrush->AddMarkerToImage(ImgMap);
+    QImage Map=ImgMap->scaledToHeight(ui->Map->height());
+    delete ImgMap;
     ui->Map->setPixmap(QPixmap::fromImage(Map));
     RefreshControls();
 }
@@ -249,6 +259,7 @@ void wgt_QGMapsMap::AddGMapsLocation() {
         cBrushDefinition::sMarker Marker;
         Marker.MarkerColor="#ffffff";
         Marker.TextColor="#000000";
+        Marker.LineColor="#000000";
         Marker.Visibility =cBrushDefinition::sMarker::MARKERSHOW;
 
         // Append this marker to all shots
@@ -351,10 +362,10 @@ void wgt_QGMapsMap::LineColorChanged(int) {
     int Index=GetCurLocationIndex();
     if ((Index<0)||(Index>=CurrentMap->List.count())) return;
     ParentDialog->AppendPartialUndo(DlgImageCorrection::UNDOACTION_GMAPSMAPPART,ui->LineColorCB,false,this,false);
-    ((cLocation *)CurrentMap->List[Index])->LineColor=ui->LineColorCB->GetCurrentColor();
+    CurrentBrush->Markers[Index].LineColor=ui->LineColorCB->GetCurrentColor();
     if (!ui->MarkerColorCB->IsPopupOpen) {
         StopMaj=true;
-        ui->LineColorCB->SetCurrentColor(&((cLocation *)CurrentMap->List[Index])->LineColor);
+        ui->LineColorCB->SetCurrentColor(&CurrentBrush->Markers[Index].LineColor);
         StopMaj=false;
         ResetDisplayMap();
         ui->LocationTable->setUpdatesEnabled(false);
@@ -384,8 +395,7 @@ void wgt_QGMapsMap::MarkerColorChanged(int) {
 
 void wgt_QGMapsMap::TextColorChanged(int) {
     if (StopMaj) return;
-    int Index=GetCurLocationIndex();
-    if ((Index<0)||(Index>=CurrentMap->List.count())) return;
+    int Index=GetCurLocationIndex();    if ((Index<0)||(Index>=CurrentMap->List.count())) return;
     ParentDialog->AppendPartialUndo(DlgImageCorrection::UNDOACTION_GMAPSMAPPART,ui->TextColorCB,false,this,false);
     CurrentBrush->Markers[Index].TextColor=ui->TextColorCB->GetCurrentColor();
     if (!ui->MarkerColorCB->IsPopupOpen) {
@@ -396,4 +406,64 @@ void wgt_QGMapsMap::TextColorChanged(int) {
         ui->LocationTable->setUpdatesEnabled(false);
         ui->LocationTable->setUpdatesEnabled(true);
     }
+}
+
+//====================================================================================================================
+
+void wgt_QGMapsMap::PointFormChanged(int newform) {
+    if (StopMaj) return;
+    int Index=GetCurLocationIndex();    if ((Index<0)||(Index>=CurrentMap->List.count())) return;
+    ParentDialog->AppendPartialUndo(DlgImageCorrection::UNDOACTION_GMAPSMAPPART,ui->PointFormCB,true,this,true);
+    ((cLocation *)CurrentMap->List[Index])->MarkerPointForm=(cLocation::MARKERPOINT)newform;
+    ResetDisplayMap();
+}
+
+//====================================================================================================================
+
+void wgt_QGMapsMap::MarkerFormChanged(int newform) {
+    if (StopMaj) return;
+    int Index=GetCurLocationIndex();    if ((Index<0)||(Index>=CurrentMap->List.count())) return;
+    ParentDialog->AppendPartialUndo(DlgImageCorrection::UNDOACTION_GMAPSMAPPART,ui->MarkerFormCB,true,this,true);
+    ((cLocation *)CurrentMap->List[Index])->MarkerForm=(cLocation::MARKERFORM)newform;
+    ResetDisplayMap();
+}
+
+//====================================================================================================================
+
+void wgt_QGMapsMap::MarkerSizeChanged(int newsize) {
+    if (StopMaj) return;
+    int Index=GetCurLocationIndex();    if ((Index<0)||(Index>=CurrentMap->List.count())) return;
+    ParentDialog->AppendPartialUndo(DlgImageCorrection::UNDOACTION_GMAPSMAPPART,ui->MarkerSizeCB,true,this,true);
+    ((cLocation *)CurrentMap->List[Index])->Size=(cBrushDefinition::sMarker::MARKERSIZE)newsize;
+    ResetDisplayMap();
+}
+
+//====================================================================================================================
+
+void wgt_QGMapsMap::MarkerCompoChanged(int newcompo) {
+    if (StopMaj) return;
+    int Index=GetCurLocationIndex();    if ((Index<0)||(Index>=CurrentMap->List.count())) return;
+    ParentDialog->AppendPartialUndo(DlgImageCorrection::UNDOACTION_GMAPSMAPPART,ui->MarkerCompoCB,true,this,true);
+    ((cLocation *)CurrentMap->List[Index])->MarkerCompo=(cLocation::MARKERCOMPO)newcompo;
+    ResetDisplayMap();
+}
+
+//====================================================================================================================
+
+void wgt_QGMapsMap::VisibilityChanged(int newvisibility) {
+    if (StopMaj) return;
+    int Index=GetCurLocationIndex();    if ((Index<0)||(Index>=CurrentMap->List.count())) return;
+    ParentDialog->AppendPartialUndo(DlgImageCorrection::UNDOACTION_GMAPSMAPPART,ui->VisibilityCB,true,this,true);
+    CurrentBrush->Markers[Index].Visibility=(cBrushDefinition::sMarker::MARKERVISIBILITY)newvisibility;
+    ResetDisplayMap();
+}
+
+//====================================================================================================================
+
+void wgt_QGMapsMap::DistanceChanged(int newdistance) {
+    if (StopMaj) return;
+    int Index=GetCurLocationIndex();    if ((Index<0)||(Index>=CurrentMap->List.count())) return;
+    ParentDialog->AppendPartialUndo(DlgImageCorrection::UNDOACTION_GMAPSMAPPART,ui->DistanceCB,true,this,true);
+    ((cLocation *)CurrentMap->List[Index])->Distance=(cLocation::MARKERDISTANCE)newdistance;
+    ResetDisplayMap();
 }

@@ -58,7 +58,6 @@ public:
     QList<bool>         IsSelected;
     int                 NbrSelected;
     bool                LockGeometry;
-    bool                SelectionHaveLockBlock;         // True if selection contains block with SameAsPreviousShot propertie
 
     // Selection rectangle properties
     qreal               AspectRatio;                    // Aspect ratio of the (multi)selection rectangle

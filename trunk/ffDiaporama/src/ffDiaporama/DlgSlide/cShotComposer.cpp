@@ -23,15 +23,8 @@
 #include "CustomCtrl/cCShapeComboBox.h"
 #include "CustomCtrl/cCColorComboBox.h"
 
-#define ISVIDEO(OBJECT)                 ((OBJECT->MediaObject)&&(OBJECT->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE))
-#define ISBLOCKVALIDE()                 ((!InRefreshControls)&&(BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject))
-#define ISBLOCKVALIDEVISIBLE()          (ISBLOCKVALIDE()&&(CurrentCompoObject->IsVisible))
-#define GETUI(WIDGETNAME)               findChild<QWidget *>(WIDGETNAME)
-#define GETDOUBLESPINBOX(WIDGETNAME)    findChild<QDoubleSpinBox *>(WIDGETNAME)
-#define GETSPINBOX(WIDGETNAME)          findChild<QSpinBox *>(WIDGETNAME)
-#define GETSLIDER(WIDGETNAME)           findChild<QSlider *>(WIDGETNAME)
-#define GETCOMBOBOX(WIDGETNAME)         findChild<QComboBox *>(WIDGETNAME)
-#define GETBUTTON(WIDGETNAME)           findChild<QToolButton *>(WIDGETNAME)
+#include "DlgInfoFile/DlgInfoFile.h"
+#include "DlgText/DlgTextEdit.h"
 
 //====================================================================================================================
 
@@ -52,7 +45,7 @@ cShotComposer::cShotComposer(cDiaporamaObject *DiaporamaObject,cBaseApplicationC
     InRefreshControls       =false;
     InSelectionChange       =false;
     BlockSelectMode         =SELECTMODE_NONE;
-    SelectionHaveLockBlock  =false;
+    NoPrepUndo              =false;
 }
 
 //====================================================================================================================
@@ -65,6 +58,8 @@ void cShotComposer::DoInitDialog() {
     BlockTable->ApplicationConfig               =ApplicationConfig;
     BlockTable->CurrentSlide                    =CurrentSlide;
     if (ShotTable) ShotTable->DiaporamaObject   =CurrentSlide;
+
+    if (GETUI("InheritDownCB")) connect(GETCHECKBOX("InheritDownCB"),SIGNAL(clicked()),this,SLOT(s_BlockSettings_BlockInheritances()));
 
     // Block settings : Coordinates
     if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
@@ -133,6 +128,9 @@ void cShotComposer::DoInitDialog() {
     connect(GETUI("PenSizeEd"),         SIGNAL(valueChanged(int)),          this,SLOT(s_BlockSettings_ShapePenSize(int)));
     connect(GETUI("ShadowColorCB"),     SIGNAL(currentIndexChanged(int)),   this,SLOT(s_BlockSettings_ShapeShadowColor(int)));
     connect(GETUI("BlockShapeStyleBT"), SIGNAL(pressed()),                  this,SLOT(s_BlockSettings_BlockShapeStyleBT()));
+
+    s_Event_ClipboardChanged();           // Setup clipboard button state
+    connect(QApplication::clipboard(),SIGNAL(dataChanged()),this,SLOT(s_Event_ClipboardChanged()));
 }
 
 //====================================================================================================================
@@ -233,38 +231,31 @@ void cShotComposer::CopyBlockProperties(cCompositionObject *SourceBlock,cComposi
     DestBlock->BackgroundBrush->BrushImage          =SourceBlock->BackgroundBrush->BrushImage;
 }
 
-void cShotComposer::ApplyToContexte(bool ApplyGlobal,bool ResetAllThumbs) {
+void cShotComposer::ResetThumbs(bool ResetAllThumbs) {
+    if (ShotTable) for (int i=(ResetAllThumbs?0:CurrentShotNbr);i<CurrentSlide->List.count();i++) {
+        if (i==0) ApplicationConfig->SlideThumbsTable->ClearThumbs(CurrentSlide->ThumbnailKey);
+        ShotTable->RepaintCell(i);
+    }
+}
+
+void cShotComposer::ApplyToContexte(bool ResetAllThumbs) {
     if (!CurrentCompoObject) return;
 
     // Apply to GlobalComposition objects
     for (int j=0;j<CurrentSlide->ObjectComposition.List.count();j++) if (CurrentCompoObject->IndexKey==CurrentSlide->ObjectComposition.List[j]->IndexKey)
         CopyBlockProperties(CurrentCompoObject,CurrentSlide->ObjectComposition.List[j]);
 
-    if (ApplyGlobal) {
-        //ApplyGlobalPropertiesToAllShots(CurrentCompoObject);
-        // Apply to Shots Composition objects
-        for (int i=0;i<CurrentSlide->List.count();i++) for (int j=0;j<CurrentSlide->List[i]->ShotComposition.List.count();j++) if (CurrentCompoObject->IndexKey==CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey)
-            CopyBlockProperties(CurrentCompoObject,CurrentSlide->List[i]->ShotComposition.List[j]);
+    // Apply to Shots Composition objects
+    for (int i=0;i<CurrentSlide->List.count();i++) for (int j=0;j<CurrentSlide->List[i]->ShotComposition.List.count();j++) if (CurrentCompoObject->IndexKey==CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey)
+        CopyBlockProperties(CurrentCompoObject,CurrentSlide->List[i]->ShotComposition.List[j]);
 
-    } else {
+    // Reset thumbs if needed
+    ResetThumbs(ResetAllThumbs);
 
-        // Apply values of previous shot to all shot for this object
-        for (int ShotNum=CurrentShotNbr+1;ShotNum<CurrentSlide->List.count();ShotNum++) for (int Block=0;Block<CurrentSlide->List[CurrentShotNbr]->ShotComposition.List.count();Block++) {
-            cCompositionObject *ShotObject=NULL;
-            for (int i=0;i<CurrentSlide->List[ShotNum]->ShotComposition.List.count();i++)
-                if (CurrentSlide->List[ShotNum]->ShotComposition.List[i]->IndexKey==CurrentCompoObject->IndexKey)
-                    ShotObject=CurrentSlide->List[ShotNum]->ShotComposition.List[i];
-            if ((ShotObject!=NULL)&&(!ShotObject->SameAsPrevShot)) {
-                ShotObject->CopyFromCompositionObject(CurrentCompoObject);
-                if ((ShotObject->BackgroundBrush->MediaObject)&&(ShotObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP))
-                    ShotObject->BackgroundBrush->Markers=CurrentCompoObject->BackgroundBrush->Markers;
-            }
-        }
-        for (int i=(ResetAllThumbs?0:CurrentShotNbr);i<CurrentSlide->List.count();i++) {
-            if (i==0) ApplicationConfig->SlideThumbsTable->ClearThumbs(CurrentSlide->ThumbnailKey);
-            if (ShotTable) ShotTable->RepaintCell(i);
-        }
-    }
+    // Reset blocks table
+    RefreshBlockTable(CurrentCompoObjectNbr);
+
+    // Reset controls
     RefreshControls(true);
 }
 
@@ -278,6 +269,14 @@ cCompositionObject *cShotComposer::GetGlobalCompositionObject(int IndexKey) {
 
 //====================================================================================================================
 
+void cShotComposer::s_Event_ClipboardChanged() {
+    QWidget *Action;
+    Action=GETUI("actionAddImageClipboard"); if (Action) Action->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasImage()));
+    Action=GETUI("actionPaste");             if (Action) Action->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&((QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/block"))||(QApplication::clipboard()->mimeData()->hasImage())));
+}
+
+//====================================================================================================================
+
 void cShotComposer::RefreshControls(bool UpdateInteractiveZone) {
     InRefreshControls=true;
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -287,15 +286,21 @@ void cShotComposer::RefreshControls(bool UpdateInteractiveZone) {
         qreal Ratio_X,Ratio_Y;
         ComputeBlockRatio(CurrentCompoObject,Ratio_X,Ratio_Y);
 
+        if (GETUI("InheritDownCB")) {
+            GETUI("InheritDownCB")->setEnabled(CurrentShotNbr!=0);
+            if (GETCHECKBOX("InheritDownCB")->isChecked()!=!CurrentCompoObject->BlockInheritance)
+                GETCHECKBOX("InheritDownCB")->setChecked(!CurrentCompoObject->BlockInheritance);
+        }
+
         // Position, size and rotation
         GETUI("PosSize_X")->     setEnabled(true);
         GETUI("PosSize_Y")->     setEnabled(true);
         GETUI("PosSize_Width")-> setEnabled(true);
         GETUI("PosSize_Height")->setEnabled(true);
-        GETDOUBLESPINBOX("PosXEd")->        setEnabled(!SelectionHaveLockBlock);
-        GETDOUBLESPINBOX("PosYEd")->        setEnabled(!SelectionHaveLockBlock);
-        GETDOUBLESPINBOX("WidthEd")->       setEnabled(!SelectionHaveLockBlock);
-        GETDOUBLESPINBOX("HeightEd")->      setEnabled(!SelectionHaveLockBlock);
+        GETDOUBLESPINBOX("PosXEd")->        setEnabled(true);
+        GETDOUBLESPINBOX("PosYEd")->        setEnabled(true);
+        GETDOUBLESPINBOX("WidthEd")->       setEnabled(true);
+        GETDOUBLESPINBOX("HeightEd")->      setEnabled(true);
 
         if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
             GETDOUBLESPINBOX("PosXEd")->  setRange(-200,200);                                                  GETDOUBLESPINBOX("PosXEd")->  setValue(CurrentCompoObject->x*100/Ratio_X);
@@ -310,34 +315,34 @@ void cShotComposer::RefreshControls(bool UpdateInteractiveZone) {
         }
 
         // Rotation
-        GETUI("Rotate_X")-> setEnabled(!SelectionHaveLockBlock);
-        GETSPINBOX("RotateXED")-> setEnabled(!SelectionHaveLockBlock);
-        GETUI("ResetRotateXBT")->setEnabled(!SelectionHaveLockBlock);
-        GETSLIDER("RotateXSLD")->setEnabled(!SelectionHaveLockBlock);
-        GETUI("Rotate_Y")-> setEnabled(!SelectionHaveLockBlock);
-        GETSPINBOX("RotateYED")-> setEnabled(!SelectionHaveLockBlock);
-        GETUI("ResetRotateYBT")->setEnabled(!SelectionHaveLockBlock);
-        GETSLIDER("RotateYSLD")->setEnabled(!SelectionHaveLockBlock);
-        GETUI("Rotate_Z")-> setEnabled(!SelectionHaveLockBlock);
-        GETSPINBOX("RotateZED")-> setEnabled(!SelectionHaveLockBlock);
-        GETUI("ResetRotateZBT")->setEnabled(!SelectionHaveLockBlock);
-        GETSLIDER("RotateZSLD")->setEnabled(!SelectionHaveLockBlock);
+        GETUI("Rotate_X")-> setEnabled(true);
+        GETSPINBOX("RotateXED")-> setEnabled(true);
+        GETUI("ResetRotateXBT")->setEnabled(true);
+        GETSLIDER("RotateXSLD")->setEnabled(true);
+        GETUI("Rotate_Y")-> setEnabled(true);
+        GETSPINBOX("RotateYED")-> setEnabled(true);
+        GETUI("ResetRotateYBT")->setEnabled(true);
+        GETSLIDER("RotateYSLD")->setEnabled(true);
+        GETUI("Rotate_Z")-> setEnabled(true);
+        GETSPINBOX("RotateZED")-> setEnabled(true);
+        GETUI("ResetRotateZBT")->setEnabled(true);
+        GETSLIDER("RotateZSLD")->setEnabled(true);
 
         GETSPINBOX("RotateXED")->setValue(CurrentCompoObject->RotateXAxis);                       GETSLIDER("RotateXSLD")->setValue(CurrentCompoObject->RotateXAxis);
         GETSPINBOX("RotateYED")->setValue(CurrentCompoObject->RotateYAxis);                       GETSLIDER("RotateYSLD")->setValue(CurrentCompoObject->RotateYAxis);
         GETSPINBOX("RotateZED")->setValue(CurrentCompoObject->RotateZAxis);                       GETSLIDER("RotateZSLD")->setValue(CurrentCompoObject->RotateZAxis);
 
         // Shape part
-        GETUI("BlockShapeStyleBT")->setEnabled(!SelectionHaveLockBlock);
-        GETUI("BlockShapeStyleED")->setEnabled(!SelectionHaveLockBlock);
-        GETUI("BackgroundFormCB")->setEnabled(!SelectionHaveLockBlock);
-        GETUI("PenSizeEd")->       setEnabled(!SelectionHaveLockBlock);
-        GETUI("PenColorCB")->      setEnabled(!SelectionHaveLockBlock && (CurrentCompoObject->PenSize!=0));
-        GETUI("PenStyleCB")->      setEnabled(!SelectionHaveLockBlock && (CurrentCompoObject->PenSize!=0));
-        GETUI("OpacityCB")->       setEnabled(!SelectionHaveLockBlock);
-        GETUI("ShadowEffectCB")->  setEnabled(!SelectionHaveLockBlock);
-        GETUI("ShadowEffectED")->  setEnabled(!SelectionHaveLockBlock && (CurrentCompoObject->FormShadow!=0));
-        GETUI("ShadowColorCB")->   setEnabled(!SelectionHaveLockBlock && (CurrentCompoObject->FormShadow!=0));
+        GETUI("BlockShapeStyleBT")->setEnabled(true);
+        GETUI("BlockShapeStyleED")->setEnabled(true);
+        GETUI("BackgroundFormCB")->setEnabled(true);
+        GETUI("PenSizeEd")->       setEnabled(true);
+        GETUI("PenColorCB")->      setEnabled(CurrentCompoObject->PenSize!=0);
+        GETUI("PenStyleCB")->      setEnabled(CurrentCompoObject->PenSize!=0);
+        GETUI("OpacityCB")->       setEnabled(true);
+        GETUI("ShadowEffectCB")->  setEnabled(true);
+        GETUI("ShadowEffectED")->  setEnabled(CurrentCompoObject->FormShadow!=0);
+        GETUI("ShadowColorCB")->   setEnabled(CurrentCompoObject->FormShadow!=0);
 
         SetCBIndex(GETCOMBOBOX("BackgroundFormCB"),CurrentCompoObject->BackgroundForm);
         GETSPINBOX("PenSizeEd")->      setValue(int(CurrentCompoObject->PenSize));
@@ -354,6 +359,11 @@ void cShotComposer::RefreshControls(bool UpdateInteractiveZone) {
         }
 
     } else {
+
+        if (GETUI("InheritDownCB")) {
+            GETUI("InheritDownCB")->setEnabled(false);
+            GETCHECKBOX("InheritDownCB")->setChecked(false);
+        }
 
         // Position, size and rotation
         GETUI("PosSize_X")->          setEnabled(false);
@@ -411,31 +421,84 @@ void cShotComposer::RefreshControls(bool UpdateInteractiveZone) {
 }
 
 //====================================================================================================================
+
+void cShotComposer::s_BlockSettings_BlockInheritances() {
+    if (!ISBLOCKVALIDEVISIBLE()) return;
+    if (CurrentShotNbr==0) return;
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,"InheritDownCB",true);
+    CurrentCompoObject->BlockInheritance=!GETCHECKBOX("InheritDownCB")->isChecked();
+    if (!CurrentCompoObject->BlockInheritance) {
+
+        // Search this block in previous shot
+        cCompositionObject *SourceCompo=NULL;
+        for (int Block=0;Block<CurrentSlide->List[CurrentShotNbr-1]->ShotComposition.List.count();Block++)
+          if (CurrentSlide->List[CurrentShotNbr-1]->ShotComposition.List[Block]->IndexKey==CurrentCompoObject->IndexKey)
+              SourceCompo=CurrentSlide->List[CurrentShotNbr-1]->ShotComposition.List[Block];
+
+        if ((SourceCompo)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgSlideProperties","Reactivate the inheritance of changes"),
+                                  QApplication::translate("DlgSlideProperties","Do you want to apply to this block the properties it has in the previous shot?"),
+                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) {
+            bool ContAPPLY=true;
+            int  ShotNum=CurrentShotNbr;
+            while ((ContAPPLY)&&(ShotNum<CurrentSlide->List.count())) {
+                for (int Block=0;ContAPPLY && Block<CurrentSlide->List[CurrentShotNbr]->ShotComposition.List.count();Block++)
+                 for (int ToSearch=0;ContAPPLY && ToSearch<CurrentSlide->List[ShotNum]->ShotComposition.List.count();ToSearch++)
+                  if (CurrentSlide->List[ShotNum]->ShotComposition.List[ToSearch]->IndexKey==CurrentCompoObject->IndexKey) {
+                    cCompositionObject *ShotObject=CurrentSlide->List[ShotNum]->ShotComposition.List[ToSearch];
+                    if (!ShotObject->BlockInheritance) {
+                        ShotObject->x               =SourceCompo->x;
+                        ShotObject->y               =SourceCompo->y;
+                        ShotObject->w               =SourceCompo->w;
+                        ShotObject->h               =SourceCompo->h;
+                        ShotObject->RotateZAxis     =SourceCompo->RotateZAxis;
+                        ShotObject->RotateXAxis     =SourceCompo->RotateXAxis;
+                        ShotObject->RotateYAxis     =SourceCompo->RotateYAxis;
+                        ShotObject->BlockSpeedWave  =SourceCompo->BlockSpeedWave;
+                        ShotObject->BlockAnimType   =SourceCompo->BlockAnimType;
+                        ShotObject->TurnZAxis       =SourceCompo->TurnZAxis;
+                        ShotObject->TurnXAxis       =SourceCompo->TurnXAxis;
+                        ShotObject->TurnYAxis       =SourceCompo->TurnYAxis;
+                        ShotObject->Dissolve        =SourceCompo->Dissolve;
+                        ShotObject->BackgroundBrush->CopyFromBrushDefinition(SourceCompo->BackgroundBrush);
+                    } else ContAPPLY=false;
+                }
+                ShotNum++;
+            }
+        }
+    }
+    ApplyToContexte(false);
+}
+
+//====================================================================================================================
 // Handler for position, size & rotation controls
 //====================================================================================================================
 
 //========= X position
 void cShotComposer::s_BlockSettings_PosXValue(double Value) {
     if (!ISBLOCKVALIDEVISIBLE()) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_POSX,"PosXEd",false);
-    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT)    CurrentCompoObject->x=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,"PosXEd",false);
+    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT)    CurrentCompoObject->x=Value/100;                            // DisplayUnit==DISPLAYUNIT_PERCENT
         else                                                    CurrentCompoObject->x=(Value/InteractiveZone->DisplayW);    // DisplayUnit==DISPLAYUNIT_PIXELS
+    // Apply values of previous shot to all shot for this object
+    APPLY1TONEXT(x);
     ApplyToContexte(false);
 }
 
 //========= Y position
 void cShotComposer::s_BlockSettings_PosYValue(double Value) {
     if (!ISBLOCKVALIDEVISIBLE()) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_POSY,"PosYEd",false);
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,"PosYEd",false);
     if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT)    CurrentCompoObject->y=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
         else                                                    CurrentCompoObject->y=(Value/InteractiveZone->DisplayH);    // DisplayUnit==DISPLAYUNIT_PIXELS
+    // Apply values of previous shot to all shot for this object
+    APPLY1TONEXT(y);
     ApplyToContexte(false);
 }
 
 //========= Width
 void cShotComposer::s_BlockSettings_PosWidthValue(double Value) {
     if (!ISBLOCKVALIDEVISIBLE()) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_WIDTH,"WidthEd",false);
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,"WidthEd",false);
 
     qreal Ratio_X,Ratio_Y;
     ComputeBlockRatio(CurrentCompoObject,Ratio_X,Ratio_Y);
@@ -444,13 +507,15 @@ void cShotComposer::s_BlockSettings_PosWidthValue(double Value) {
         else                                                    CurrentCompoObject->w=(Value/InteractiveZone->DisplayW)*Ratio_X;
     if (CurrentCompoObject->BackgroundBrush->LockGeometry)      CurrentCompoObject->h=((CurrentCompoObject->w*InteractiveZone->DisplayW)*CurrentCompoObject->BackgroundBrush->AspectRatio)/InteractiveZone->DisplayH;
         else                                                    CurrentCompoObject->BackgroundBrush->AspectRatio=(CurrentCompoObject->h*InteractiveZone->DisplayH)/(CurrentCompoObject->w*InteractiveZone->DisplayW);
+    // Apply values of previous shot to all shot for this object
+    APPLY3TONEXT(w,h,BackgroundBrush->AspectRatio);
     ApplyToContexte(false);
 }
 
 //========= Height
 void cShotComposer::s_BlockSettings_PosHeightValue(double Value) {
     if (!ISBLOCKVALIDEVISIBLE()) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_HEIGHT,"HeightEd",false);
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,"HeightEd",false);
 
     qreal Ratio_X,Ratio_Y;
     ComputeBlockRatio(CurrentCompoObject,Ratio_X,Ratio_Y);
@@ -459,30 +524,38 @@ void cShotComposer::s_BlockSettings_PosHeightValue(double Value) {
         else                                                    CurrentCompoObject->h=(Value/InteractiveZone->DisplayH)*Ratio_Y;
     if (CurrentCompoObject->BackgroundBrush->LockGeometry)      CurrentCompoObject->w=((CurrentCompoObject->h*InteractiveZone->DisplayH)/CurrentCompoObject->BackgroundBrush->AspectRatio)/InteractiveZone->DisplayW;
         else                                                    CurrentCompoObject->BackgroundBrush->AspectRatio=(CurrentCompoObject->h*InteractiveZone->DisplayH)/(CurrentCompoObject->w*InteractiveZone->DisplayW);
+    // Apply values of previous shot to all shot for this object
+    APPLY3TONEXT(w,h,BackgroundBrush->AspectRatio);
     ApplyToContexte(false);
 }
 
 //========= X Rotation value
 void cShotComposer::s_BlockSettings_RotateXValue(int Value) {
     if (!ISBLOCKVALIDEVISIBLE()) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_ROTATEX,"RotateXED",false);
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,"RotateXED",false);
     CurrentCompoObject->RotateXAxis=Value;
+    // Apply values of previous shot to all shot for this object
+    APPLY1TONEXT(RotateXAxis);
     ApplyToContexte(false);
 }
 
 //========= Y Rotation value
 void cShotComposer::s_BlockSettings_RotateYValue(int Value) {
     if (!ISBLOCKVALIDEVISIBLE()) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_ROTATEY,"RotateYED",false);
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,"RotateYED",false);
     CurrentCompoObject->RotateYAxis=Value;
+    // Apply values of previous shot to all shot for this object
+    APPLY1TONEXT(RotateYAxis);
     ApplyToContexte(false);
 }
 
 //========= Z Rotation value
 void cShotComposer::s_BlockSettings_RotateZValue(int Value) {
     if (!ISBLOCKVALIDEVISIBLE()) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_ROTATEZ,"RotateZED",false);
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,"RotateZED",false);
     CurrentCompoObject->RotateZAxis=Value;
+    // Apply values of previous shot to all shot for this object
+    APPLY1TONEXT(RotateZAxis);
     ApplyToContexte(false);
 }
 
@@ -492,18 +565,13 @@ void cShotComposer::s_BlockSettings_RotateZValue(int Value) {
 
 void cShotComposer::s_BlockSettings_BlockShapeStyleBT() {
     if (!ISBLOCKVALIDEVISIBLE()) return;
-    AppendPartialUndo(UNDOACTION_STYLE_SHAPE,InteractiveZone,false);
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,InteractiveZone,false);
     QString ActualStyle =CurrentCompoObject->GetBlockShapeStyle();
     QString Item        =ApplicationConfig->StyleBlockShapeCollection.PopupCollectionMenu(this,ApplicationConfig,ActualStyle);
     GETBUTTON("BlockShapeStyleBT")->setDown(false);
     if (Item!="") {
         CurrentCompoObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(Item));
         ApplyToContexte(true);
-        RefreshBlockTable(CurrentCompoObjectNbr);
-        if (ShotTable) {
-            ShotTable->setUpdatesEnabled(false);
-            ShotTable->setUpdatesEnabled(true);
-        }
     }
 }
 
@@ -511,7 +579,7 @@ void cShotComposer::s_BlockSettings_BlockShapeStyleBT() {
 void cShotComposer::s_BlockSettings_ShapeTextClipArtChIndex() {
     if (!ISBLOCKVALIDEVISIBLE()) return;
     if (CurrentCompoObject->TextClipArtName=="") return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_TEXTCLIPART,"TextClipArtCB",false);
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,"TextClipArtCB",false);
     CurrentCompoObject->TextClipArtName=((cCTexteFrameComboBox *)GETCOMBOBOX("TextClipArtCB"))->GetCurrentTextFrame();
     cTextFrameObject *TFO=&TextFrameList.List[TextFrameList.SearchImage(CurrentCompoObject->TextClipArtName)];
     CurrentCompoObject->TMx=TFO->TMx;
@@ -520,119 +588,74 @@ void cShotComposer::s_BlockSettings_ShapeTextClipArtChIndex() {
     CurrentCompoObject->TMh=TFO->TMh;
     CurrentCompoObject->ApplyTextStyle(TFO->TextStyle);
     ApplyToContexte(true);
-    RefreshBlockTable(CurrentCompoObjectNbr);
-    if (ShotTable) {
-        ShotTable->setUpdatesEnabled(false);
-        ShotTable->setUpdatesEnabled(true);
-    }
 }
 
 //========= Background forme
 void cShotComposer::s_BlockSettings_ShapeBackgroundForm() {
     if (!ISBLOCKVALIDEVISIBLE()) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEFORM,"BackgroundFormCB",false);
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,"BackgroundFormCB",false);
     CurrentCompoObject->BackgroundForm=((cCShapeComboBox *)GETCOMBOBOX("BackgroundFormCB"))->GetCurrentFrameShape();
     ApplyToContexte(true);
-    RefreshBlockTable(CurrentCompoObjectNbr);
-    if (ShotTable) {
-        ShotTable->setUpdatesEnabled(false);
-        ShotTable->setUpdatesEnabled(true);
-    }
 }
 
 //========= Opacity
 void cShotComposer::s_BlockSettings_ShapeOpacity(int Style) {
     if (!ISBLOCKVALIDEVISIBLE()) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEOPACITY,"OpacityCB",false);
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,"OpacityCB",false);
     CurrentCompoObject->Opacity=Style;
     ApplyToContexte(true);
-    RefreshBlockTable(CurrentCompoObjectNbr);
-    if (ShotTable) {
-        ShotTable->setUpdatesEnabled(false);
-        ShotTable->setUpdatesEnabled(true);
-    }
 }
 
 //========= Border pen size
 void cShotComposer::s_BlockSettings_ShapePenSize(int) {
     if (!ISBLOCKVALIDEVISIBLE()) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEPENSIZE,"PenSizeEd",false);
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,"PenSizeEd",false);
     CurrentCompoObject->PenSize=GETSPINBOX("PenSizeEd")->value();
     GETCOMBOBOX("PenColorCB")->setEnabled(CurrentCompoObject->PenSize!=0);
     GETCOMBOBOX("PenStyleCB")->setEnabled(CurrentCompoObject->PenSize!=0);
     ApplyToContexte(true);
-    RefreshBlockTable(CurrentCompoObjectNbr);
-    if (ShotTable) {
-        ShotTable->setUpdatesEnabled(false);
-        ShotTable->setUpdatesEnabled(true);
-    }
 }
 
 //========= Border pen style
 void cShotComposer::s_BlockSettings_ShapePenStyle(int index) {
     if (!ISBLOCKVALIDEVISIBLE()) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEPENSTYLE,"PenStyleCB",false);
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,"PenStyleCB",false);
     CurrentCompoObject->PenStyle=GETCOMBOBOX("PenStyleCB")->itemData(index).toInt();
     ApplyToContexte(true);
-    RefreshBlockTable(CurrentCompoObjectNbr);
-    if (ShotTable) {
-        ShotTable->setUpdatesEnabled(false);
-        ShotTable->setUpdatesEnabled(true);
-    }
 }
 
 //========= Border pen color
 void cShotComposer::s_BlockSettings_ShapePenColor(int) {
     if (!ISBLOCKVALIDEVISIBLE()) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEPENCOLOR,"PenColorCB",false);
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,"PenColorCB",false);
     CurrentCompoObject->PenColor=((cCColorComboBox *)GETCOMBOBOX("PenColorCB"))->GetCurrentColor();
     ApplyToContexte(true);
-    RefreshBlockTable(CurrentCompoObjectNbr);
-    if (ShotTable) {
-        ShotTable->setUpdatesEnabled(false);
-        ShotTable->setUpdatesEnabled(true);
-    }
 }
 
 //========= Shape shadow style
 void cShotComposer::s_BlockSettings_ShapeShadowFormValue(int value) {
     if (!ISBLOCKVALIDEVISIBLE()) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPESHADOWFORM,"ShadowEffectCB",false);
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,"ShadowEffectCB",false);
     CurrentCompoObject->FormShadow=value;
     GETSPINBOX("ShadowEffectED")->setEnabled(CurrentCompoObject->FormShadow!=0);
     GETCOMBOBOX("ShadowColorCB")->setEnabled(CurrentCompoObject->FormShadow!=0);
     ApplyToContexte(true);
-    RefreshBlockTable(CurrentCompoObjectNbr);
-    if (ShotTable) {
-        ShotTable->setUpdatesEnabled(false);
-        ShotTable->setUpdatesEnabled(true);
-    }
 }
 
 //========= Shape shadow distance
 void cShotComposer::s_BlockSettings_ShapeShadowDistanceValue(int value) {
     if (!ISBLOCKVALIDEVISIBLE()) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPESHADOWDIST,GETSPINBOX("ShadowColorCB"),false);
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,"ShadowEffectED",false);
     CurrentCompoObject->FormShadowDistance =value;
     ApplyToContexte(true);
-    RefreshBlockTable(CurrentCompoObjectNbr);
-    if (ShotTable) {
-        ShotTable->setUpdatesEnabled(false);
-        ShotTable->setUpdatesEnabled(true);
-    }
 }
 
 //========= shadow color
 void cShotComposer::s_BlockSettings_ShapeShadowColor(int) {
     if (!ISBLOCKVALIDEVISIBLE()) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPESHADOWCOLOR,"ShadowColorCB",false);
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,"ShadowColorCB",false);
     CurrentCompoObject->FormShadowColor=((cCColorComboBox *)GETCOMBOBOX("ShadowColorCB"))->GetCurrentColor();
     ApplyToContexte(true);
-    RefreshBlockTable(CurrentCompoObjectNbr);
-    if (ShotTable) {
-        ShotTable->setUpdatesEnabled(false);
-        ShotTable->setUpdatesEnabled(true);
-    }
 }
 
 //====================================================================================================================
@@ -666,14 +689,12 @@ void cShotComposer::s_BlockTable_SelectionChanged() {
     NbrSelected             =0;
     CurrentCompoObjectNbr   =-1;
     CurrentCompoObject      =NULL;
-    SelectionHaveLockBlock  =false;
 
     for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
         if (NbrSelected==0) {
             CurrentCompoObjectNbr=i;
             CurrentCompoObject   =CompositionList->List[CurrentCompoObjectNbr];
         }
-        if ((CurrentShotNbr>0)&&(CurrentCompoObject->SameAsPrevShot)) SelectionHaveLockBlock=true;
         NbrSelected++;
     }
     if (NbrSelected==0)             BlockSelectMode=SELECTMODE_NONE;
@@ -681,4 +702,294 @@ void cShotComposer::s_BlockTable_SelectionChanged() {
         else                        BlockSelectMode=SELECTMODE_MULTIPLE;
 
     RefreshControls(false);
+}
+
+//====================================================================================================================
+
+void cShotComposer::s_BlockTable_MoveBlockUp() {
+    s_BlockTable_SelectionChanged(); // Refresh selection
+    if (BlockSelectMode!=SELECTMODE_ONE) return;
+    if (CurrentCompoObjectNbr<1) return;
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,BlockTable,true);
+    CompositionList->List.swap(CurrentCompoObjectNbr,CurrentCompoObjectNbr-1);
+    // Reset thumbs if needed
+    ResetThumbs(false);
+    // Reset blocks table
+    RefreshBlockTable(CurrentCompoObjectNbr-1);
+}
+
+//====================================================================================================================
+
+void cShotComposer::s_BlockTable_MoveBlockDown() {
+    s_BlockTable_SelectionChanged(); // Refresh selection
+    if (BlockSelectMode!=SELECTMODE_ONE) return;
+    if (CurrentCompoObjectNbr>=CompositionList->List.count()-1) return;
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,BlockTable,true);
+    CompositionList->List.swap(CurrentCompoObjectNbr+1,CurrentCompoObjectNbr);
+    // Reset thumbs if needed
+    ResetThumbs(false);
+    // Reset blocks table
+    RefreshBlockTable(CurrentCompoObjectNbr+1);
+}
+
+//====================================================================================================================
+
+void cShotComposer::s_BlockTable_DragMoveBlock(int Src,int Dst) {
+    if (Src>=CompositionList->List.count()) return;
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,BlockTable,true);
+    if (Src<Dst) Dst--;
+    CompositionList->List.insert(Dst,CompositionList->List.takeAt(Src));
+    // Reset thumbs if needed
+    ResetThumbs(false);
+    // Reset blocks table
+    RefreshBlockTable(Dst);
+}
+
+//********************************************************************************************************************
+//                                                  BLOCKS ALIGNMENT
+//********************************************************************************************************************
+
+void cShotComposer::s_BlockTable_AlignTop() {
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,InteractiveZone,true);
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
+        CompositionList->List[i]->y=InteractiveZone->Sel_Y;
+        CurrentCompoObject=CompositionList->List[i];
+        APPLY1TONEXT(y);    // Apply values of previous shot to all shot for this object
+    }
+    ApplyToContexte(false);
+}
+
+void cShotComposer::s_BlockTable_AlignMiddle() {
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,InteractiveZone,true);
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
+        CompositionList->List[i]->y=(InteractiveZone->Sel_Y+InteractiveZone->Sel_H/2)-CompositionList->List[i]->h/2;
+        CurrentCompoObject=CompositionList->List[i];
+        APPLY1TONEXT(y);    // Apply values of previous shot to all shot for this object
+    }
+    ApplyToContexte(false);
+}
+
+void cShotComposer::s_BlockTable_AlignBottom() {
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,InteractiveZone,true);
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
+        CompositionList->List[i]->y=(InteractiveZone->Sel_Y+InteractiveZone->Sel_H)-CompositionList->List[i]->h;
+        CurrentCompoObject=CompositionList->List[i];
+        APPLY1TONEXT(y);    // Apply values of previous shot to all shot for this object
+    }
+    ApplyToContexte(false);
+}
+
+void cShotComposer::s_BlockTable_AlignLeft() {
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,InteractiveZone,true);
+    for (int i=0;i<IsSelected.count();i++) {
+        if (IsSelected[i]) CompositionList->List[i]->x=InteractiveZone->Sel_X;
+        CurrentCompoObject=CompositionList->List[i];
+        APPLY1TONEXT(x);    // Apply values of previous shot to all shot for this object
+    }
+    ApplyToContexte(false);
+}
+
+void cShotComposer::s_BlockTable_AlignCenter() {
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,InteractiveZone,true);
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
+        CompositionList->List[i]->x=(InteractiveZone->Sel_X+InteractiveZone->Sel_W/2)-CompositionList->List[i]->w/2;
+        CurrentCompoObject=CompositionList->List[i];
+        APPLY1TONEXT(x);    // Apply values of previous shot to all shot for this object
+    }
+    ApplyToContexte(false);
+}
+
+void cShotComposer::s_BlockTable_AlignRight() {
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,InteractiveZone,true);
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
+        CompositionList->List[i]->x=(InteractiveZone->Sel_X+InteractiveZone->Sel_W)-CompositionList->List[i]->w;
+        CurrentCompoObject=CompositionList->List[i];
+        APPLY1TONEXT(x);    // Apply values of previous shot to all shot for this object
+    }
+    ApplyToContexte(false);
+}
+
+void cShotComposer::s_BlockTable_DistributeHoriz() {
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,InteractiveZone,true);
+
+    // 1st step : compute available space and create list
+    QList<SortBlock> List;
+    qreal           SpaceW   =InteractiveZone->Sel_W;
+    qreal           CurrentX =InteractiveZone->Sel_X;
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
+        SpaceW=SpaceW-CompositionList->List[i]->w;
+        List.append(MakeSortBlock(i,CompositionList->List[i]->x));
+    }
+    SpaceW=SpaceW/qreal(List.count()-1);
+
+    // 2nd step : sort blocks
+    for (int i=0;i<List.count();i++)
+        for (int j=0;j<List.count()-1;j++)
+            if (List[j].Position>List[j+1].Position) List.swap(j,j+1);
+
+    // Last step : move blocks
+    for (int i=0;i<List.count();i++) {
+        CompositionList->List[List[i].Index]->x=CurrentX;
+        CurrentX=CurrentX+CompositionList->List[List[i].Index]->w+SpaceW;
+        CurrentCompoObject=CompositionList->List[i];
+        APPLY1TONEXT(x);    // Apply values of previous shot to all shot for this object
+    }
+    ApplyToContexte(false);
+}
+
+void cShotComposer::s_BlockTable_DistributeVert() {
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,InteractiveZone,true);
+
+    // 1st step : compute available space and create list
+    QList<SortBlock> List;
+    qreal   SpaceH   =InteractiveZone->Sel_H;
+    qreal   CurrentY =InteractiveZone->Sel_Y;
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
+        SpaceH=SpaceH-CompositionList->List[i]->h;
+        List.append(MakeSortBlock(i,CompositionList->List[i]->y));
+    }
+    SpaceH=SpaceH/qreal(List.count()-1);
+
+    // 2nd step : sort blocks
+    for (int i=0;i<List.count();i++)
+        for (int j=0;j<List.count()-1;j++)
+            if (List[j].Position>List[j+1].Position) List.swap(j,j+1);
+
+    // Last step : move blocks
+    for (int i=0;i<List.count();i++) {
+        CompositionList->List[List[i].Index]->y=CurrentY;
+        CurrentY=CurrentY+CompositionList->List[List[i].Index]->h+SpaceH;
+        CurrentCompoObject=CompositionList->List[i];
+        APPLY1TONEXT(x);    // Apply values of previous shot to all shot for this object
+    }
+    ApplyToContexte(false);
+}
+
+//====================================================================================================================
+
+void cShotComposer::s_BlockTable_RemoveBlock() {
+    if (BlockSelectMode==SELECTMODE_ONE) {
+        if ((ApplicationConfig->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgSlideProperties","Remove block"),QApplication::translate("DlgSlideProperties","Are you sure you want to delete this block?"),
+                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No)) return;
+    } else if (BlockSelectMode==SELECTMODE_MULTIPLE) {
+        if ((ApplicationConfig->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgSlideProperties","Remove blocks"),QApplication::translate("DlgSlideProperties","Are you sure you want to delete these blocks?"),
+                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No)) return;
+    }
+
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,BlockTable,true);
+    for (int i=CompositionList->List.count()-1;i>=0;i--) if (IsSelected[i]) {
+
+        // Get indexkey of block
+        int KeyToDelete=CompositionList->List[i]->IndexKey;
+
+        // Delete block from all shots of the slide
+        for (int j=0;j<CurrentSlide->List.count();j++) {
+            int k=0;
+            while (k<CurrentSlide->List[j]->ShotComposition.List.count()) {
+                if (CurrentSlide->List[j]->ShotComposition.List[k]->IndexKey==KeyToDelete) delete CurrentSlide->List[j]->ShotComposition.List.takeAt(k);
+                    else k++;
+            }
+        }
+
+        // Delete block from global composition list of the slide
+        int k=0;
+        while (k<CurrentSlide->ObjectComposition.List.count()) {
+            if (CurrentSlide->ObjectComposition.List[k]->IndexKey==KeyToDelete) delete CurrentSlide->ObjectComposition.List.takeAt(k);
+                else k++;
+        }
+    }
+
+    // Reset thumbs if needed
+    ResetThumbs(true);
+    // Reset blocks table
+    RefreshBlockTable(CurrentCompoObjectNbr>=CompositionList->List.count()?CurrentCompoObjectNbr-1:CurrentCompoObjectNbr);
+
+    // Ensure nothing is selected
+    BlockTable->clearSelection();
+}
+
+//====================================================================================================================
+//========= Open text editor
+void cShotComposer::s_BlockSettings_TextEditor() {
+    if (!ISBLOCKVALIDEVISIBLE()) return;
+    if (!NoPrepUndo) AppendPartialUndo(UNDOACTION_FULL_SLIDE,InteractiveZone,true);
+    NoPrepUndo=false;
+
+    InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_TextMargin;
+    InteractiveZone->RefreshDisplay();
+    DlgTextEdit Dlg(CurrentSlide->Parent,CurrentCompoObject,ApplicationConfig,&ApplicationConfig->StyleTextCollection,&ApplicationConfig->StyleTextBackgroundCollection,this);
+    Dlg.InitDialog();
+    connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));
+    if (Dlg.exec()==0) {
+        InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_BlockShape;
+        ApplyToContexte(true);
+    } else {
+        InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_BlockShape;
+        RemoveLastPartialUndo();
+        RefreshControls();
+    }
+}
+
+//====================================================================================================================
+//========= Open Information dialog
+
+void cShotComposer::s_BlockSettings_Information() {
+    if (!ISBLOCKVALIDEVISIBLE()) return;
+    DlgInfoFile Dlg(CurrentCompoObject->BackgroundBrush->MediaObject,ApplicationConfig,this);
+    Dlg.InitDialog();
+    Dlg.exec();
+}
+
+//====================================================================================================================
+// Handler for interactive zone
+//====================================================================================================================
+
+void cShotComposer::s_BlockSettings_IntZoneTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y,qreal RSel_X,qreal RSel_Y,qreal RSel_W,qreal RSel_H) {
+    AppendPartialUndo(UNDOACTION_FULL_SLIDE,InteractiveZone,true);
+
+    for (int i=0;i<IsSelected.count();i++) if ((IsSelected[i])&&(CompositionList->List[i]->IsVisible)) {
+        qreal   RatioScale_X=(RSel_W+Scale_X)/RSel_W;
+        qreal   RatioScale_Y=(RSel_H+Scale_Y)/RSel_H;
+
+        CompositionList->List[i]->x=RSel_X+Move_X+(CompositionList->List[i]->x-RSel_X)*RatioScale_X;
+        CompositionList->List[i]->y=RSel_Y+Move_Y+(CompositionList->List[i]->y-RSel_Y)*RatioScale_Y;
+        CompositionList->List[i]->w=CompositionList->List[i]->w*RatioScale_X;
+        if (CompositionList->List[i]->w<0.002) CompositionList->List[i]->w=0.002;
+        if (CompositionList->List[i]->BackgroundBrush->LockGeometry) CompositionList->List[i]->h=((CompositionList->List[i]->w*InteractiveZone->DisplayW)*CompositionList->List[i]->BackgroundBrush->AspectRatio)/InteractiveZone->DisplayH;
+            else CompositionList->List[i]->h=CompositionList->List[i]->h*RatioScale_Y;
+        if (CompositionList->List[i]->h<0.002) CompositionList->List[i]->h=0.002;
+    }
+    // Apply values of previous shot to all shot for this object
+    APPLY4TONEXT(x,y,w,h);
+    ApplyToContexte(false);
+}
+
+void cShotComposer::s_BlockSettings_IntZoneDisplayTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y,qreal RSel_X,qreal RSel_Y,qreal RSel_W,qreal RSel_H) {
+    InRefreshControls=true;
+
+    int     i           =CurrentCompoObjectNbr;
+    qreal   RatioScale_X=(RSel_W+Scale_X)/RSel_W;
+    qreal   RatioScale_Y=(RSel_H+Scale_Y)/RSel_H;
+    QRectF  tmpRect     =PolygonToRectF(ComputePolygon(CompositionList->List[i]->BackgroundForm,
+                                                       CompositionList->List[i]->x*InteractiveZone->DisplayW,CompositionList->List[i]->y*InteractiveZone->DisplayH,
+                                                       CompositionList->List[i]->w*InteractiveZone->DisplayW,CompositionList->List[i]->h*InteractiveZone->DisplayH));
+    qreal   Ratio_X     =(CompositionList->List[i]->x*InteractiveZone->DisplayW)/tmpRect.width();
+    qreal   Ratio_Y     =(CompositionList->List[i]->h*InteractiveZone->DisplayH)/tmpRect.height();
+    qreal   x           =RSel_X+Move_X+(CompositionList->List[i]->x-RSel_X)*RatioScale_X;
+    qreal   y           =RSel_Y+Move_Y+(CompositionList->List[i]->y-RSel_Y)*RatioScale_Y;
+    qreal   w           =CompositionList->List[i]->w*RatioScale_X; if (w<0.002) w=0.002;
+    qreal   h           =(CompositionList->List[i]->BackgroundBrush->LockGeometry?((w*InteractiveZone->DisplayW)*CompositionList->List[i]->BackgroundBrush->AspectRatio)/InteractiveZone->DisplayH:CompositionList->List[i]->h*RatioScale_Y); if (h<0.002) h=0.002;
+
+    if (ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
+        GETDOUBLESPINBOX("PosXEd")->  setValue(x*100/Ratio_X);
+        GETDOUBLESPINBOX("PosYEd")->  setValue(y*100/Ratio_Y);
+        GETDOUBLESPINBOX("WidthEd")-> setValue(w*100/Ratio_X);
+        GETDOUBLESPINBOX("HeightEd")->setValue(h*100/Ratio_Y);
+    } else { // DisplayUnit==DISPLAYUNIT_PIXELS
+        GETDOUBLESPINBOX("PosXEd")->  setValue(x*InteractiveZone->DisplayW/Ratio_X);
+        GETDOUBLESPINBOX("PosYEd")->  setValue(y*InteractiveZone->DisplayH/Ratio_Y);
+        GETDOUBLESPINBOX("WidthEd")-> setValue(w*InteractiveZone->DisplayW/Ratio_X);
+        GETDOUBLESPINBOX("HeightEd")->setValue(h*InteractiveZone->DisplayH/Ratio_Y);
+    }
+    InRefreshControls=false;
 }

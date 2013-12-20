@@ -254,7 +254,7 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cB
 
 void cCompositionObject::InitDefaultValues() {
     IsVisible               = true;
-    SameAsPrevShot          = false;
+    BlockInheritance          = false;
 
     IsFullScreen            = false;
     x                       = 0.25;         // Position (x,y) and size (width,height)
@@ -366,7 +366,7 @@ QRectF cCompositionObject::GetTextMargin(QRectF Workspace,double  ADJUST_RATIO) 
 
 //====================================================================================================================
 
-void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList) {
+void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool SaveBrush) {
     // Force a refresh of IsTextEmpty flag
     QTextDocument TextDocument;
     TextDocument.setHtml(Text);
@@ -378,7 +378,7 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     Element.setAttribute("TypeComposition",TypeComposition);
     Element.setAttribute("IndexKey",IndexKey);
     Element.setAttribute("IsVisible",IsVisible?"1":"0");
-    Element.setAttribute("SameAsPrevShot",SameAsPrevShot?"1":"0");
+    Element.setAttribute("SameAsPrevShot",BlockInheritance?"1":"0");
 
     // Attribut of the object
     Element.setAttribute("x",x);                                    // Position x
@@ -441,14 +441,14 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     if (FormShadowDistance!=DEFAULT_SHAPE_SHADOWDISTANCE)   Element.setAttribute("FormShadowDistance",FormShadowDistance);          // Distance from form to shadow
     if (FormShadowColor!=DEFAULT_SHAPE_SHADOWCOLOR)         Element.setAttribute("FormShadowColor",FormShadowColor);                // Shadow color
 
-    BackgroundBrush->SaveToXML(&Element,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);    // Brush of the background of the form
+    if (SaveBrush) BackgroundBrush->SaveToXML(&Element,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);    // Brush of the background of the form
 
     domDocument.appendChild(Element);
 }
 
 //====================================================================================================================
 
-bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
+bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes,bool RestoreBrush) {
     InitDefaultValues();
 
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
@@ -458,7 +458,7 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         if (Element.hasAttribute("TypeComposition"))            TypeComposition =Element.attribute("TypeComposition").toInt();
         if (Element.hasAttribute("IndexKey"))                   IndexKey        =Element.attribute("IndexKey").toInt();
         if (Element.hasAttribute("IsVisible"))                  IsVisible       =Element.attribute("IsVisible")=="1";
-        if (Element.hasAttribute("SameAsPrevShot"))             SameAsPrevShot  =Element.attribute("SameAsPrevShot")=="1";
+        if (Element.hasAttribute("SameAsPrevShot"))             BlockInheritance=Element.attribute("SameAsPrevShot")=="1";
 
         // Attribut of the object
         if (Element.hasAttribute("x"))                          x               =GetDoubleValue(Element,"x");                           // Position x
@@ -577,9 +577,11 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
             PenSize                   =0;        // border=0
             BackgroundBrush->BrushType=0;        // brushtype=no brush
         }
-        bool ModifyFlag;
-        IsOk=BackgroundBrush->LoadFromXML(&Element,"BackgroundBrush",PathForRelativPath,AliasList,&ModifyFlag,ResKeyList,DuplicateRes);  // Brush of the background of the form
-        if (ModifyFlag) ((MainWindow *)ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
+        if (RestoreBrush) {
+            bool ModifyFlag;
+            IsOk=BackgroundBrush->LoadFromXML(&Element,"BackgroundBrush",PathForRelativPath,AliasList,&ModifyFlag,ResKeyList,DuplicateRes);  // Brush of the background of the form
+            if (ModifyFlag) ((MainWindow *)ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
+        }
 
         // Ensure unvisible video have no sound !
         if ((!IsVisible)&&(BackgroundBrush->MediaObject)&&(BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)) BackgroundBrush->SoundVolume=0;
@@ -1156,7 +1158,6 @@ void cCompositionObject::DrawCompositionObject(cDiaporamaObject *Object,QPainter
                     for (int i=0;i<PolygonList.count();i++) Painter->drawPolygon(PolygonList.at(i));
                     if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
                 }
-
                 //**********************************************************************************
                 // Text part
                 //**********************************************************************************
@@ -1307,7 +1308,7 @@ void cCompositionList::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     // Save composition list
     Element.setAttribute("TypeComposition",TypeComposition);
     Element.setAttribute("CompositionNumber",List.count());
-    for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,true,ReplaceList,ResKeyList);
+    for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,true,ReplaceList,ResKeyList,true);
     domDocument.appendChild(Element);
 }
 
@@ -1324,7 +1325,7 @@ bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         int CompositionNumber=Element.attribute("CompositionNumber").toInt();
         for (int i=0;i<CompositionNumber;i++) {
             cCompositionObject *CompositionObject=new cCompositionObject(TypeComposition,0,((MainWindow *)ApplicationConfig->TopLevelWindow)->ApplicationConfig,this);    // IndexKey will be load from XML
-            if (!CompositionObject->LoadFromXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ObjectComposition,AliasList,true,ResKeyList,DuplicateRes)) {
+            if (!CompositionObject->LoadFromXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ObjectComposition,AliasList,true,ResKeyList,DuplicateRes,true)) {
                 //IsOk=false;
                 delete CompositionObject;
             } else {

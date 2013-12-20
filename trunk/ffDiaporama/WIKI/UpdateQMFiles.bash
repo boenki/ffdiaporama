@@ -46,4 +46,4 @@ PREPLANGUAGE "ru"
 PREPLANGUAGE "it"
 PREPLANGUAGE "el"
 PREPLANGUAGE "de"
-
+cp ../locale/wiki_* ~/.ffDiaporama

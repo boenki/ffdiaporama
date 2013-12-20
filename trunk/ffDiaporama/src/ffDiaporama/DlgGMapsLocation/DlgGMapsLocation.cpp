@@ -160,7 +160,7 @@ void DlgGMapsLocation::AddressChanged(QString NewText) {
     if (StopMaj) return;
     Location->Address=NewText;
     Location->FriendlyAddress=NewText;
-    StopMaj=true;
+    StopMaj=true;   qDebug()<<"AddressChanged";
     ui->AddressNameED->setText(NewText);
     StopMaj=false;
     ui->OKBT->setEnabled(!Location->Address.isEmpty() && !Location->Name.isEmpty() && (ui->AdresseCB->currentIndex()!=-1));
@@ -216,7 +216,7 @@ void DlgGMapsLocation::httpGetLatLngFinished() {
         int             errorLine,errorColumn;
         QDomDocument    domDocument;
         NoMap=true;
-        StopMaj=true;
+        StopMaj=true; qDebug()<<"httpGetLatLngReadyRead";
         ui->AdresseCB->clear();
         StopMaj=false;
         NoMap=false;
@@ -243,23 +243,25 @@ void DlgGMapsLocation::httpGetLatLngFinished() {
                         RetryCount++;
                     } else NoMoreRetry();
                 } else {
+                    StopMaj=true; qDebug()<<"httpGetLatLngReadyRead-2";
                     int Child=1;
                     NoMap=true;
                     while (root.childNodes().at(Child).toElement().nodeName()=="result") {
                         QDomElement Element=root.childNodes().at(Child).toElement();
-                        StopMaj=true;
                         ui->AdresseCB->addItem(GetNodeValue(Element,"formatted_address"),
                                                QVariant(QPointF(GetNodeValue(Element,"geometry##location##lng").toDouble(),
                                                                 GetNodeValue(Element,"geometry##location##lat").toDouble()))
                                                );
-                        StopMaj=false;
                         Child++;
                     }
+                    ui->AdresseCB->setCurrentIndex(0);
                     NoMap=false;
-                    RefreshMap();
+                    StopMaj=false;
                     Location->FriendlyAddress=ui->AdresseCB->currentText();
                     ui->AddressNameED->setText(Location->FriendlyAddress);
+                    AddressChanged(0);
                     ui->AdresseCB->showPopup();
+                    //RefreshMap();
                 }
             }
         }
@@ -337,7 +339,7 @@ void DlgGMapsLocation::httpGetAddressFinished() {
         int             errorLine,errorColumn;
         QDomDocument    domDocument;
         NoMap=true;
-        StopMaj=true;
+        StopMaj=true; qDebug()<<"httpGetAddressFinished";
         ui->AdresseCB->clear();
         StopMaj=false;
         NoMap=false;
@@ -359,7 +361,7 @@ void DlgGMapsLocation::httpGetAddressFinished() {
             } else {
                 if (GetNodeValue(root,"status")=="ZERO_RESULTS") {
                     NoMap=true;
-                    StopMaj=true;
+                    StopMaj=true; qDebug()<<"httpGetAddressFinished-2";
                     ui->AdresseCB->addItem(QString("Unknown (%1/%2)").arg(Location->GPS_cx).arg(Location->GPS_cy),QVariant(QPointF(Location->GPS_cx,Location->GPS_cy)));
                     StopMaj=false;
                     NoMap=false;
@@ -375,7 +377,7 @@ void DlgGMapsLocation::httpGetAddressFinished() {
                     while (root.childNodes().at(Child).toElement().nodeName()=="result") {
                         QDomElement Element=root.childNodes().at(Child).toElement();
                         NoMap=true;
-                        StopMaj=true;
+                        StopMaj=true; qDebug()<<"httpGetAddressFinished-3";
                         ui->AdresseCB->addItem(GetNodeValue(Element,"formatted_address"),
                                                QVariant(QPointF(GetNodeValue(Element,"geometry##location##lng").toDouble(),
                                                                 GetNodeValue(Element,"geometry##location##lat").toDouble()))
@@ -406,7 +408,7 @@ void DlgGMapsLocation::AddressChanged(int) {
             QPointF PointF      =ui->AdresseCB->itemData(CurrentIndex).toPointF();
             Location->GPS_cx    =PointF.x();
             Location->GPS_cy    =PointF.y();
-            StopMaj=true;
+            StopMaj=true; qDebug()<<"AddressChanged(int)";
             Location->FriendlyAddress=Location->Address;
             ui->AddressNameED->setText(Location->FriendlyAddress);
             StopMaj=false;
@@ -517,6 +519,7 @@ void DlgGMapsLocation::SelectIcon() {
         delete ContextMenu;
         if (!Action) return;
         if (Action==ui->actionSelectAnotherFile) {
+            ApplicationConfig->SettingsTable->SetTextValue("GPSIcon_path",QFileInfo(Location->Icon.MediaObject->FileName()).absolutePath());
             ClearIcon();
             delete Location->Icon.MediaObject;
             Location->Icon.MediaObject=NULL;
@@ -526,7 +529,7 @@ void DlgGMapsLocation::SelectIcon() {
     }
     if (!Location->Icon.MediaObject) {
         QStringList FileList;
-        DlgFileExplorer Dlg(BROWSER_TYPE_IMAGEONLY,false,false,false,QApplication::translate("MainWindow","Select an image file"),ApplicationConfig,this);
+        DlgFileExplorer Dlg(BROWSER_TYPE_ICONLOCATION,false,false,false,QApplication::translate("MainWindow","Select an image file"),ApplicationConfig,this);
         Dlg.InitDialog();
         if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
         if (FileList.count()==0) return;
@@ -552,7 +555,8 @@ void DlgGMapsLocation::SelectIcon() {
                 delete Location->Icon.MediaObject;
                 Location->Icon.MediaObject=NULL;
             } else {
-                Location->Icon.ApplyAutoFraming(AUTOFRAMING_WIDTHMIDLEMIN,1); // square as max
+                ApplicationConfig->ImagesCache.RemoveImageObject(Location->ThumbnailResKey,-1);
+                Location->Icon.ApplyAutoFraming(AUTOFRAMING_HEIGHTMIDLEMIN,1); // square as max
                 QImage Thumb=Location->Icon.GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
                 Location->Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&Location->ThumbnailResKey,Thumb);
                 Location->Icon.BrushType=BRUSHTYPE_IMAGEDISK;
@@ -626,7 +630,7 @@ void DlgGMapsLocation::Favorite() {
         else if (ActionType==FAVACTIONTYPE_UPD)     Location->UpdateFavorite();
         else if (ActionType==FAVACTIONTYPE_REMOVE)  Location->RemoveFavorite();
         else if (Action->text()!="") {
-            StopMaj=true;
+            StopMaj=true; qDebug()<<"Favorite";
             qlonglong Key=Action->data().toInt() & ~FAVACTIONTYPE_ACTIONTYPE;
             Location->LoadFromFavorite(Key);
             ui->AdresseCB->clear();

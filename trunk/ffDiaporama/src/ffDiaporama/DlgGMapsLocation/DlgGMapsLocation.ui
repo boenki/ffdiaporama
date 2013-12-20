@@ -242,7 +242,7 @@
           </sizepolicy>
          </property>
          <property name="toolTip">
-          <string>Enter postal adress to found</string>
+          <string>Enter the postal adress to find in this zone.</string>
          </property>
          <property name="editable">
           <bool>true</bool>
@@ -251,6 +251,9 @@
        </item>
        <item>
         <widget class="QToolButton" name="FavoriteBT">
+         <property name="toolTip">
+          <string>Open the favorite menu</string>
+         </property>
          <property name="text">
           <string notr="true"/>
          </property>

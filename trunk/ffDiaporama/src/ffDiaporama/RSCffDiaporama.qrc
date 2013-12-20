@@ -383,5 +383,8 @@
         <file>img/MediaIcons/48x48/gmaps.png</file>
         <file>img/MediaIcons/100x100/gmaps.png</file>
         <file>img/EditGMaps.png</file>
+        <file>img/inheritance_down_lock.png</file>
+        <file>img/inheritance_down_unlock.png</file>
+        <file>img/Visible_MASK.png</file>
     </qresource>
 </RCC>

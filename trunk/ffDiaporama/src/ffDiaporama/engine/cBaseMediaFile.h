@@ -297,6 +297,7 @@ public:
         FS720X4,            // 2560x1440
         FS1080P,            // 1920x1080
         FS1080X4,           // 3840x2160
+        FS1080X9,           // 5760x3240
         GMapsImageSize_NBR
     } ImageSize;                            // Image size of the map
 

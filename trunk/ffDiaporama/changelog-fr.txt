@@ -2,6 +2,21 @@
 * FFDIAPORAMA 2.1 - trunk (Version Française)
 **************************************************
 
+[Commit: ]
+    Correction de bug :
+        -Corrige le bug de non remplacement de l'icône lors de la sélection d'un favoris dans la boite de sélection des positions GPS
+        -Rend actif la touche F1 dans toute les boites de dialog
+        -Corrige l'UNDO dans la boite d'édition des slides (repositionne sur le plan actif et remet les sélections)
+        -Corrige l'application des modifications des propriétés vers les plans suivant dans la boite d'édition des slides (n'applique que la modification en cours et non plus l'ensemble des propriétés)
+
+    Nouveautés :
+        -Change le cadrage par défaut pour l'icône des positions GPS lors de la sélection d'une image dans la boite de sélection des positions GPS
+        -Remplace le verrouillage des propriétés d'un bloc, dans la boite d'édition des slides, par une nouvelle propriété : hériter les modifications faites dans les plans précédents
+            -Ajoute une case à cocher dans la boite d'édition des slides pour activer ou désactiver cette propriété
+            -Lors de la désactivation de cette propriété, propose de reprendre (et d'appliquer aux plans suivants) les propriétés de ce bloc du plan précédent
+
+--------------------------------------------------------------------------------
+
 [Commit: 17/12/2013]
     Correction de bug :
         -Corrige le forçage de la langue anglaise avec le paramètre -lang=en (regression 20131215)
@@ -9,19 +24,15 @@
         -Corrige un bug lors de l'application des propriétés d'un bloc aux plans suivant (regression 20131215)
         -Corrige un bug de lecture des caractères accentués lors du chargement de projet sous Windows (regression 20131215)
 
-    Nouveautés :
-        -Modifie l'application des propriétés d'animation de bloc "Apparaitre" et "Disparaitre" : Ces propriétés ne sont plus répercutées aux plans suivant
-
 --------------------------------------------------------------------------------
 
 [Commit: 16/12/2013]
     Correction de bug :
         -Corrige un bug dans la gestion des ressources mise en cache (Lulo)
         -Corrige un bug lors de la mise à jours de la table de localisation dans la base de données utilisateur (database version 5 vers 6)
-        -Corrige les positions des marqueurs dans les cartes >720p (Mise à l'échelle) pour la prévisualisation et l'onglet GMap de la boite d'édition des images/video/gmap
 
     Nouveautés :
-        -Mets en cache les icônes des marqueurs pour accélérer les générations et rafraichissement de carte GMaps
+        -Mets en cache les icônes des marqueurs pour accélérer les générations et rafraichissements des cartes GMaps
         -Ajoute l'affichage des marqueurs des cartes GMaps dans l'onglet image de la boite d'édition des images/video/gmap
 
 --------------------------------------------------------------------------------
@@ -38,7 +49,7 @@
         -Ajoute un champ Friendly address dans la boite de sélection des localisations GPS et dans la table des localisations favorites
         -Redesign l'onglet d'édition des cartes GMap dans la boite d'édition des images/vidéos/carte GMap
         -La suppression d'une localisation de regénère plus de carte dans l'onglet d'édition des cartes GMap
-        -Commence la prise en charge des marqueurs des cartes GMap (pour le moment toutes les options ne sont pas encore prises en charge et il y a des erreurs de positionnement sur les cartes >720p)
+        -Commence la prise en charge des marqueurs des cartes GMap
 
 --------------------------------------------------------------------------------
 

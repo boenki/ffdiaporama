@@ -20,12 +20,13 @@
 
 #include "cLocation.h"
 
-#define DEFAULT_LineWidth   1
-#define DEFAULT_LineColor   "#000000"
-#define DEFAULT_EndPoint    cLocation::SMALLPOINT
-#define DEFAULT_Size        cBrushDefinition::sMarker::MEDIUM
-#define DEFAULT_Position    cLocation::TOP
-#define DEFAULT_Distance    cLocation::MARKERDISTNORMAL
+#define DEFAULT_LineColor           "#000000"
+#define DEFAULT_MarkerPointForm     cLocation::MARKERPOINTPOINT
+#define DEFAULT_MarkerForm          cLocation::MARKERFORMRECT
+#define DEFAULT_MarkerCompo         cLocation::ICONNAMEADDR
+#define DEFAULT_Size                cBrushDefinition::sMarker::MEDIUM
+#define DEFAULT_Position            cLocation::TOP
+#define DEFAULT_Distance            cLocation::MARKERDISTNORMAL
 
 cLocation::cLocation(cBaseApplicationConfig *ApplicationConfig):Icon(NULL,ApplicationConfig) {
     FavKey          =-1;
@@ -33,11 +34,10 @@ cLocation::cLocation(cBaseApplicationConfig *ApplicationConfig):Icon(NULL,Applic
     GPS_cx          =0;
     GPS_cy          =0;
     ZoomLevel       =13;
-    LineWidth       =DEFAULT_LineWidth;
-    LineColor       =DEFAULT_LineColor;
-    EndPoint        =DEFAULT_EndPoint;
+    MarkerPointForm =DEFAULT_MarkerPointForm;
+    MarkerForm      =DEFAULT_MarkerForm;
+    MarkerCompo     =DEFAULT_MarkerCompo;
     Size            =DEFAULT_Size;
-    Position        =DEFAULT_Position;
     Distance        =DEFAULT_Distance;
 }
 
@@ -52,12 +52,11 @@ void cLocation::SaveToXML(QDomElement *ParentElement,QString,QString PathForRela
     ParentElement->setAttribute("ZoomLevel",ZoomLevel);
     ParentElement->setAttribute("MarkerW",MarkerSize.width());
     ParentElement->setAttribute("MarkerH",MarkerSize.height());
-    if (LineWidth!=DEFAULT_LineWidth)   ParentElement->setAttribute("LineWidth",LineWidth);
-    if (LineColor!=DEFAULT_LineColor)   ParentElement->setAttribute("LineColor",LineColor);
-    if (Size!=DEFAULT_Size)             ParentElement->setAttribute("Size",int(Size));
-    if (Position!=DEFAULT_Position)     ParentElement->setAttribute("Position",int(Position));
-    if (Distance!=DEFAULT_Distance)     ParentElement->setAttribute("Distance",int(Distance));
-    if (EndPoint!=DEFAULT_EndPoint)     ParentElement->setAttribute("EndPoint",int(EndPoint));
+    if (Size!=DEFAULT_Size)                         ParentElement->setAttribute("Size",int(Size));
+    if (Distance!=DEFAULT_Distance)                 ParentElement->setAttribute("Distance",int(Distance));
+    if (MarkerPointForm!=DEFAULT_MarkerPointForm)   ParentElement->setAttribute("MarkerPointForm",int(MarkerPointForm));
+    if (MarkerForm!=DEFAULT_MarkerForm)             ParentElement->setAttribute("MarkerForm",int(MarkerForm));
+    if (MarkerCompo!=DEFAULT_MarkerCompo)           ParentElement->setAttribute("MarkerCompo",int(MarkerCompo));
     Icon.SaveToXML(ParentElement,"Icon",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);
     if (ResKeyList) ResKeyList->append(ThumbnailResKey);
     ParentElement->setAttribute("ThumbResKey",ThumbnailResKey);
@@ -67,25 +66,29 @@ void cLocation::SaveToXML(QDomElement *ParentElement,QString,QString PathForRela
 
 bool cLocation::LoadFromXML(QDomElement *ParentElement,QString,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
     bool IsOk;
-    if (ParentElement->hasAttribute("Name"))        Name            =ParentElement->attribute("Name");
-    if (ParentElement->hasAttribute("Address"))     Address         =ParentElement->attribute("Address");
-    if (ParentElement->hasAttribute("FAddress"))    FriendlyAddress =ParentElement->attribute("FAddress");
-    if (ParentElement->hasAttribute("GPS_cx"))      GPS_cx          =GetDoubleValue(*ParentElement,"GPS_cx");
-    if (ParentElement->hasAttribute("GPS_cy"))      GPS_cy          =GetDoubleValue(*ParentElement,"GPS_cy");
-    if (ParentElement->hasAttribute("ZoomLevel"))   ZoomLevel       =ParentElement->attribute("ZoomLevel").toInt();
-    if (ParentElement->hasAttribute("MarkerW"))     MarkerSize.setWidth(ParentElement->attribute("MarkerW").toInt());
-    if (ParentElement->hasAttribute("MarkerH"))     MarkerSize.setHeight(ParentElement->attribute("MarkerH").toInt());
-    if (ParentElement->hasAttribute("LineWidth"))   LineWidth       =ParentElement->attribute("LineWidth").toInt();
-    if (ParentElement->hasAttribute("LineColor"))   LineColor       =ParentElement->attribute("LineColor");
-    if (ParentElement->hasAttribute("Size"))        Size            =(cBrushDefinition::sMarker::MARKERSIZE)ParentElement->attribute("Size").toInt();
-    if (ParentElement->hasAttribute("Position"))    Position        =(MARKERPOSITION)ParentElement->attribute("Position").toInt();
-    if (ParentElement->hasAttribute("Distance"))    Distance        =(MARKERDISTANCE)ParentElement->attribute("Distance").toInt();
-    if (ParentElement->hasAttribute("EndPoint"))    EndPoint        =(ENDPOINT)ParentElement->attribute("EndPoint").toInt();
-    if (ParentElement->hasAttribute("ThumbResKey")) ThumbnailResKey =ParentElement->attribute("ThumbResKey").toLongLong();
+    if (ParentElement->hasAttribute("Name"))            Name            =ParentElement->attribute("Name");
+    if (ParentElement->hasAttribute("Address"))         Address         =ParentElement->attribute("Address");
+    if (ParentElement->hasAttribute("FAddress"))        FriendlyAddress =ParentElement->attribute("FAddress");
+    if (ParentElement->hasAttribute("GPS_cx"))          GPS_cx          =GetDoubleValue(*ParentElement,"GPS_cx");
+    if (ParentElement->hasAttribute("GPS_cy"))          GPS_cy          =GetDoubleValue(*ParentElement,"GPS_cy");
+    if (ParentElement->hasAttribute("ZoomLevel"))       ZoomLevel       =ParentElement->attribute("ZoomLevel").toInt();
+    if (ParentElement->hasAttribute("MarkerW"))         MarkerSize.setWidth(ParentElement->attribute("MarkerW").toInt());
+    if (ParentElement->hasAttribute("MarkerH"))         MarkerSize.setHeight(ParentElement->attribute("MarkerH").toInt());
+    if (ParentElement->hasAttribute("Size"))            Size            =(cBrushDefinition::sMarker::MARKERSIZE)ParentElement->attribute("Size").toInt();
+    if (ParentElement->hasAttribute("Distance"))        Distance        =(MARKERDISTANCE)ParentElement->attribute("Distance").toInt();
+    if (ParentElement->hasAttribute("MarkerCompo"))     MarkerCompo     =(MARKERCOMPO)ParentElement->attribute("MarkerCompo").toInt();
+    if (ParentElement->hasAttribute("MarkerForm"))      MarkerForm      =(MARKERFORM)ParentElement->attribute("MarkerForm").toInt();
+    if (ParentElement->hasAttribute("ThumbResKey"))     ThumbnailResKey =ParentElement->attribute("ThumbResKey").toLongLong();
     IsOk=Icon.LoadFromXML(ParentElement,"Icon",PathForRelativPath,AliasList,ModifyFlag,ResKeyList,DuplicateRes);
     if ((IsOk)&&(ThumbnailResKey==-1)) {
-        QImage ThumbImage=Icon.GetImageDiskBrush(QRect(0,0,64,64),true,0,NULL,1,NULL);
-        Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailResKey,ThumbImage);
+        QImage ThumbImage;
+        if (Icon.MediaObject) {
+            ThumbImage=Icon.GetImageDiskBrush(QRect(0,0,64,64),true,0,NULL,1,NULL);
+            Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailResKey,ThumbImage);
+        } else {
+            ThumbImage=QImage(64,64,QImage::Format_ARGB32_Premultiplied);
+            ThumbImage.fill(Qt::white);
+        }
     } else {
         // Translate ThumbnailResKey is needed
         if (ResKeyList) {
@@ -109,7 +112,11 @@ bool cLocation::LoadFromXML(QDomElement *ParentElement,QString,QString PathForRe
 //========================================================================================================================
 
 void cLocation::AddToFavorite() {
-    QImage  Image=Icon.GetImageDiskBrush(QRect(0,0,64,64),true,0,NULL,1,NULL);
+    QImage  Image;
+    if (Icon.MediaObject) Icon.GetImageDiskBrush(QRect(0,0,64,64),true,0,NULL,1,NULL); else {
+        Image=QImage(64,64,QImage::Format_ARGB32_Premultiplied);
+        Image.fill(Qt::white);
+    }
     QDomDocument domDocument;
     QDomElement  root=domDocument.createElement("Icon");
     domDocument.appendChild(root);
@@ -120,7 +127,11 @@ void cLocation::AddToFavorite() {
 //========================================================================================================================
 
 void cLocation::UpdateFavorite() {
-    QImage  Image=Icon.GetImageDiskBrush(QRect(0,0,64,64),true,0,NULL,1,NULL);
+    QImage  Image;
+    if (Icon.MediaObject) Icon.GetImageDiskBrush(QRect(0,0,64,64),true,0,NULL,1,NULL); else {
+        Image=QImage(64,64,QImage::Format_ARGB32_Premultiplied);
+        Image.fill(Qt::white);
+    }
     QDomDocument domDocument;
     QDomElement  root=domDocument.createElement("Icon");
     domDocument.appendChild(root);
@@ -168,8 +179,14 @@ bool cLocation::LoadFromFavorite(qlonglong Key) {
                 QDomElement Element=domDocument.elementsByTagName("Icon").item(0).toElement();
                 Icon.LoadFromXML(&Element,"Icon","",NULL,NULL,NULL,true);
                 QImage ThumbImage;
-                if (Thumb.isNull()) ThumbImage=Icon.GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
-                    else            ThumbImage=Thumb;
+                if (Thumb.isNull()) {
+                    ThumbImage=Icon.GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
+                    if (Icon.MediaObject) Icon.GetImageDiskBrush(QRect(0,0,64,64),true,0,NULL,1,NULL); else {
+                        ThumbImage=QImage(64,64,QImage::Format_ARGB32_Premultiplied);
+                        ThumbImage.fill(Qt::white);
+                    }
+                } else ThumbImage=Thumb;
+                Icon.ApplicationConfig->ImagesCache.RemoveImageObject(ThumbnailResKey,-1);
                 Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailResKey,ThumbImage);
                 return true;
             }
@@ -201,12 +218,18 @@ bool cLocation::SearchInFavorite() {
 
 QImage cLocation::GetThumb(int IconSize) {
     QImage Thumb;
-    cLuLoImageCacheObject *ImageObject=Icon.ApplicationConfig->ImagesCache.FindObject(ThumbnailResKey,-1,QDateTime(),0,true,true);
-    if (ImageObject) Thumb=ImageObject->ValidateCacheRenderImageNC(ThumbnailResKey);
-    if (Thumb.isNull()) {
-        Thumb=Icon.GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
-        Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailResKey,Thumb);
-        if (ImageObject) ImageObject->CacheRenderImage=new QImage(Thumb.copy());
+    if (Icon.MediaObject) {
+        cLuLoImageCacheObject *ImageObject=Icon.ApplicationConfig->ImagesCache.FindObject(ThumbnailResKey,-1,QDateTime(),0,true,true);
+        if (ImageObject) Thumb=ImageObject->ValidateCacheRenderImageNC(ThumbnailResKey);
+        if (Thumb.isNull()) {
+            Thumb=Icon.GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
+        } else {
+            Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailResKey,Thumb);
+            if (ImageObject) ImageObject->CacheRenderImage=new QImage(Thumb.copy());
+        }
+    } else {
+        Thumb=QImage(64,64,QImage::Format_ARGB32_Premultiplied);
+        Thumb.fill(Qt::white);
     }
     if ((!Thumb.isNull())&&(Thumb.width()!=IconSize)) Thumb=Thumb.scaledToWidth(IconSize);
     return Thumb;
@@ -216,36 +239,47 @@ QImage cLocation::GetThumb(int IconSize) {
 
 void cLocation::ComputeMarkerSize(QSize MapImageSize) {
     QFont   FontNormal,FontBold;
-    int     IconSize;
+    int     IconSize,Spacer,NameWidth,AddressWidth,FullSpacer,H;
+    double  FontSize;
 
     // Setup FontFactor
-    double FontSize=120;
     switch (Size) {
-        case cBrushDefinition::sMarker::SMALL:  IconSize=16;    FontSize=60;    break;
-        case cBrushDefinition::sMarker::MEDIUM: IconSize=32;    FontSize=120;   break;
-        case cBrushDefinition::sMarker::LARGE:  IconSize=64;    FontSize=240;   break;
+        case cBrushDefinition::sMarker::SMALL:      IconSize=24;    FontSize=90;    Spacer=3;   break;
+        case cBrushDefinition::sMarker::MEDIUM:     IconSize=32;    FontSize=120;   Spacer=3;   break;
+        case cBrushDefinition::sMarker::LARGE:      IconSize=48;    FontSize=180;   Spacer=4;   break;
+        case cBrushDefinition::sMarker::VERYLARGE:  IconSize=64;    FontSize=240;   Spacer=4;   break;
     }
 
     // Setup fonts
-    FontBold  =QFont("Sans serif",9,QFont::Normal,QFont::StyleNormal);      // Font size is adjusted after
-    FontNormal=QFont("Sans serif",9,QFont::Normal,QFont::StyleNormal);      // Font size is adjusted after
-    FontBold.setBold(true);
-    FontBold.setUnderline(false);
-    FontNormal.setUnderline(false);
+    FontNormal=QFont("Sans serif",9,QFont::Normal,false);      // Font size is adjusted after
     #ifdef Q_OS_WIN
-    FontBold.setPointSizeF(double(FontSize*1.1)/ScaleFontAdjust);                       // Scale font
     FontNormal.setPointSizeF(double(FontSize)/ScaleFontAdjust);                         // Scale font
     #else
-    FontBold.setPointSizeF((double(FontSize*1.1)/ScaleFontAdjust)*ScreenFontAdjust);    // Scale font
     FontNormal.setPointSizeF((double(FontSize)/ScaleFontAdjust)*ScreenFontAdjust);      // Scale font
     #endif
+    QFontMetrics fmn(FontNormal);
+    AddressWidth=fmn.boundingRect(QRect(0,0,MapImageSize.width(),MapImageSize.height()),0,Address).width()*1.02;
+
+    if ((MarkerCompo!=ICONNAMEADDR)&&(MarkerCompo!=NAMEADDR)) FontSize=FontSize*2;
+    FontBold  =QFont("Sans serif",9,QFont::Bold,  false);      // Font size is adjusted after
+    #ifdef Q_OS_WIN
+    FontBold.setPointSizeF(double(FontSize*1.1)/ScaleFontAdjust);                       // Scale font
+    #else
+    FontBold.setPointSizeF((double(FontSize*1.1)/ScaleFontAdjust)*ScreenFontAdjust);    // Scale font
+    #endif
+    QFontMetrics fmb(FontBold);
+    NameWidth=fmb.boundingRect(QRect(0,0,MapImageSize.width(),MapImageSize.height()),0,Name).width()*1.02;
+
+    switch (MarkerCompo) {
+        case ICONNAMEADDR:  FullSpacer=IconSize+Spacer*4;                                                   H=IconSize+Spacer*2;                                                            break;
+        case ICONNAME:      FullSpacer=IconSize+Spacer*4;                   AddressWidth=0;                 H=IconSize+Spacer*2;                                                            break;
+        case ICON:          FullSpacer=IconSize+Spacer*2;   NameWidth=0;    AddressWidth=0;                 H=IconSize+Spacer*2;                                                            break;
+        case NAME:          FullSpacer=Spacer*2;                            AddressWidth=0;     IconSize=0; H=QFontMetrics(FontBold).height()+Spacer*2;                                     break;
+        case NAMEADDR:      FullSpacer=Spacer*2;                                                IconSize=0; H=QFontMetrics(FontBold).height()+QFontMetrics(FontNormal).height()+Spacer*3;   break;
+    }
 
     // Compute MarkerSize
-    MarkerSize.setWidth(QFontMetrics(FontBold).width(Name)+8+IconSize);
-    MarkerSize.setHeight(IconSize+6);
-
-    int nW=QFontMetrics(FontNormal).width(Address)+8+IconSize;
-    if (nW>MarkerSize.width())  MarkerSize.setWidth(nW);
-    if (MarkerSize.width()>(MapImageSize.width()*0.6-8-IconSize))   MarkerSize.setWidth(MapImageSize.width()*0.6-8-IconSize);   // Not more than 60% of the map width
-    if (MarkerSize.height()>(MapImageSize.height()*0.6-6-IconSize)) MarkerSize.setWidth(MapImageSize.width()*0.6-6-IconSize);   // Not more than 60% of the map width
+    MarkerSize.setWidth((NameWidth>AddressWidth?NameWidth:AddressWidth)+FullSpacer);
+    //if (MarkerSize.width()>(MapImageSize.width()*0.6)) MarkerSize.setWidth(MapImageSize.width()*0.6);     // Not more than 60% of the map width
+    MarkerSize.setHeight(H);
 }
