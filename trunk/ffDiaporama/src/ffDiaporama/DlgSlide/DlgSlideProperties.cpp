@@ -85,6 +85,8 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,cBaseAp
     CurrentShot                     =NULL;
     FramingCB_CurrentBrush          =NULL;
     FramingCB_CurrentShot           =-1;
+    actionAddImageClipboard         =ui->actionAddImageClipboard;
+    actionPaste                     =ui->actionPaste;
 }
 
 //====================================================================================================================
@@ -1440,6 +1442,7 @@ void DlgSlideProperties::s_BlockTable_AddImageClipboard() {
     if (!SlideData->hasImage()) return;
     QImage ImageClipboard=qvariant_cast<QImage>(SlideData->imageData());
     if (ImageClipboard.isNull()) return;
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     cImageClipboard *MediaObject=new cImageClipboard(ApplicationConfig);
     MediaObject->CreatDateTime=QDateTime().currentDateTime();
     ApplicationConfig->SlideThumbsTable->SetThumbs(&MediaObject->RessourceKey,ImageClipboard);
@@ -1449,6 +1452,7 @@ void DlgSlideProperties::s_BlockTable_AddImageClipboard() {
     ResetThumbs(true);
     // Reset blocks table
     RefreshBlockTable(BlockTable->rowCount()-1);
+    QApplication::restoreOverrideCursor();
 }
 
 //====================================================================================================================
@@ -1596,6 +1600,9 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
 
     QString FileName    =CurrentBrush->MediaObject->ShortName();
     bool UpdateSlideName=(CurrentSlide->SlideName==FileName);
+
+    cBrushDefinition SavedBrush(CurrentCompoObject,ApplicationConfig);
+    SavedBrush.CopyFromBrushDefinition(CurrentCompoObject->BackgroundBrush);
 
     DlgImageCorrection Dlg(CurrentCompoObject,&CurrentCompoObject->BackgroundForm,CurrentCompoObject->BackgroundBrush,Position,
                            CurrentSlide->Parent->ImageGeometry,CurrentSlide->Parent->ImageAnimSpeedWave,ApplicationConfig,this);
@@ -1810,6 +1817,9 @@ void DlgSlideProperties::s_BlockSettings_ChangeFramingStyle() {
     if (StopMajFramingStyle) return;
     if (!ISBLOCKVALIDEVISIBLE()) return;
     AppendPartialUndo(UNDOACTION_FULL_SLIDE,InteractiveZone,true);
+
+    cBrushDefinition SavedBrush(CurrentCompoObject,ApplicationConfig);
+    SavedBrush.CopyFromBrushDefinition(CurrentCompoObject->BackgroundBrush);
 
     cBrushDefinition *CurrentBrush=CurrentCompoObject->BackgroundBrush;
     int AutoCompo=CurrentCompoObject->GetAutoCompoSize(CurrentSlide->Parent->ImageGeometry);

@@ -81,9 +81,6 @@ QImage cLuLoImageCacheObject::ValidateCacheRenderImageNC(qlonglong RessourceKey)
 
             // Load image from disk
             ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
-            if (QFileInfo(FileName).suffix().toLower()=="svg") {
-                //qDebug()<<"SVG";
-            }
             QImageReader Img(FileName);
             CacheRenderImage=new QImage(Img.read());
             if ((CacheRenderImage)&&(CacheRenderImage->isNull())) {
@@ -169,13 +166,10 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
                 QImage Image;
                 ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file from ressource"));
                 LuLoImageCache->ThumbsTable->GetThumbs(&RessourceKey,&Image);
-                if (Image.height()>PREVIEWMAXHEIGHT) Image=Image.scaledToHeight(PREVIEWMAXHEIGHT);
-                // For ressource, always use CacheRenderImage
-                CacheRenderImage=new QImage(Image);
 
                 // then copy it at correct size into CachePreviewImage
-                if (CacheRenderImage->height()<=PREVIEWMAXHEIGHT) CachePreviewImage=CacheRenderImage;
-                    else CachePreviewImage=new QImage(CacheRenderImage->scaledToHeight(PREVIEWMAXHEIGHT,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+                if (Image.height()<=PREVIEWMAXHEIGHT) CachePreviewImage=new QImage(Image);
+                    else CachePreviewImage=new QImage(Image.scaledToHeight(PREVIEWMAXHEIGHT,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
 
             } else {
 

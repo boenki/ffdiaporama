@@ -36,7 +36,7 @@ class DlgGMapsGeneration : public QCustomDialog {
 Q_OBJECT
 public:
     int                     NbrSection;
-
+    bool                    DuplicateRessource;
     cGMapsMap               *MediaObject;
     QImage                  DestMap;
     QByteArray              ReceiveMap;
@@ -44,7 +44,7 @@ public:
     QNetworkAccessManager   NetworkAccessManager;
     QNetworkReply           *GetMapNetReply;
 
-    explicit                DlgGMapsGeneration(cGMapsMap *MediaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
+    explicit                DlgGMapsGeneration(cGMapsMap *MediaObject,bool DuplicateRessource,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
                             ~DlgGMapsGeneration();
 
     // function to be overloaded

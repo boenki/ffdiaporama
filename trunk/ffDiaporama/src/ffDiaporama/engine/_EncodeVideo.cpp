@@ -947,8 +947,6 @@ bool cEncodeVideo::DoEncode() {
 
     CloseEncoder();
 
-    //qDebug()<<"Prepare"<<Prepare<<"LoadSources"<<LoadSources<<"Assembly"<<Assembly<<"Audio"<<Audio<<"Video"<<Video;
-
     return Continue;
 }
 

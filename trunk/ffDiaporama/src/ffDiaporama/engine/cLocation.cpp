@@ -223,9 +223,10 @@ QImage cLocation::GetThumb(int IconSize) {
         if (ImageObject) Thumb=ImageObject->ValidateCacheRenderImageNC(ThumbnailResKey);
         if (Thumb.isNull()) {
             Thumb=Icon.GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
-        } else {
-            Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailResKey,Thumb);
-            if (ImageObject) ImageObject->CacheRenderImage=new QImage(Thumb.copy());
+            if (!Thumb.isNull()) {
+                Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailResKey,Thumb);
+                if (ImageObject) ImageObject->CacheRenderImage=new QImage(Thumb.copy());
+            }
         }
     } else {
         Thumb=QImage(64,64,QImage::Format_ARGB32_Premultiplied);

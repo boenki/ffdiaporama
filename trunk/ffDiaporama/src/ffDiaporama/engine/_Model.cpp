@@ -255,7 +255,6 @@ QDomDocument cModelListItem::LoadModelFile(ffd_MODELTYPE TypeModel,QString Model
                     break;
             }
             ErrorMsg=ErrorMsg+"\n"+ModelFileName;
-            qDebug()<<ffDPart;
             CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("cModelList","Error","Error message"),ErrorMsg,QMessageBox::Close);
         }
     }

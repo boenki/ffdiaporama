@@ -1626,10 +1626,6 @@ Please retry in one hour.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enter postal adress to found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Click on the map to select a location</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1739,6 +1735,14 @@ Do you want to resume the generation now?</source>
     </message>
     <message>
         <source>Give a friendly address for this location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the postal adress to find in this zone.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the favorite menu</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2161,22 +2165,6 @@ Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quin
         <translation>Aggiungi un nuovo blocco testo ClipArt</translation>
     </message>
     <message>
-        <source>Remove block</source>
-        <translation>Rimuove blocco</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this block?</source>
-        <translation>Sei sicuro di voler eliminare questo blocco?</translation>
-    </message>
-    <message>
-        <source>Remove blocks</source>
-        <translation>Rimuove blocchi</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete these blocks?</source>
-        <translation>Sei sicuro di voler eliminare questi blocchi?</translation>
-    </message>
-    <message>
         <source>Text</source>
         <comment>Default text value</comment>
         <translation>Testo</translation>
@@ -2285,6 +2273,14 @@ Quando i righelli sono attivati, il mouse si aggancerà automaticamente ai bordi
     <message>
         <source>&amp;Help</source>
         <translation>A&amp;iuto</translation>
+    </message>
+    <message>
+        <source>Export current map to a file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export map</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3802,10 +3798,6 @@ ripresa</translation>
         <translation>Modifica blocco</translation>
     </message>
     <message>
-        <source>Block coordinates :</source>
-        <translation>Coordinate blocco :</translation>
-    </message>
-    <message>
         <source>Total duration :</source>
         <translation>Durata totale :</translation>
     </message>
@@ -3876,20 +3868,12 @@ blocco</translation>
         <translation>Visibile</translation>
     </message>
     <message>
-        <source>Lock properties</source>
-        <translation>Blocco propietà</translation>
-    </message>
-    <message>
         <source>Hide</source>
         <translation>Nascondi</translation>
     </message>
     <message>
         <source>Move to foreground</source>
         <translation>Spostare verso il primo piano</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Block shape :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Blocco forma :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Text animation :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -3984,14 +3968,6 @@ blocco</translation>
         <translation>Cambiare l&apos;ordine delle riprese muovendo la ripresa correntemente selezionata una tacca verso destra</translation>
     </message>
     <message>
-        <source>Lock properties to the same values as defined for the previous shot</source>
-        <translation>Blocca le propietà allo stesso valore definito per l&apos;inquadratura precedente</translation>
-    </message>
-    <message>
-        <source>Define properties of this shot</source>
-        <translation>Definire le propietà di questa ripresa</translation>
-    </message>
-    <message>
         <source>Hide the active block</source>
         <translation>Nascondere il blocco attivo</translation>
     </message>
@@ -4038,10 +4014,6 @@ blocco</translation>
     <message>
         <source>Speed wave :</source>
         <translation>Velocità onda :</translation>
-    </message>
-    <message>
-        <source>Unlock properties</source>
-        <translation>Sblocca propietà</translation>
     </message>
     <message>
         <source>distribute horizontally</source>
@@ -4417,6 +4389,36 @@ speciale</translation>
     </message>
     <message>
         <source>Create a new block using image from clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Inheritance changes:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>
+Block coordinates :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the changes made in a previous shot will be applied to this object in this shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Inherit changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reactivate the inheritance of changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to apply to this block the properties it has in the previous shot?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>
+Block shape (common to all shots):</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6325,10 +6327,6 @@ Vuoi scaricarla ora?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Duplicate ressources to prepare undo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Init multimedia browser...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7338,6 +7336,14 @@ Vuoi scaricarla ora?</translation>
         <comment>File type</comment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>720px9-16:9 (3840x2160)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1080px9-16:9 (5760x3240)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>cDeviceModelList</name>
@@ -7931,19 +7937,11 @@ Esempio: se Y=25 % del primo trimestre nella parte superiore dell&apos;immagine 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Position:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Properties for all shots</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Distance:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Marker point:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7967,15 +7965,115 @@ Esempio: se Y=25 % del primo trimestre nella parte superiore dell&apos;immagine 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Line width:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Marker size:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Text color:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GPS Position form:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define a form for the GPS position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Circle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rectangle</source>
+        <translation type="unfinished">Rettangolo</translation>
+    </message>
+    <message>
+        <source>Marker form:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define a form for the marker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bubble</source>
+        <translation type="unfinished">Bolla</translation>
+    </message>
+    <message>
+        <source>Composition:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Icon+Name+Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Icon+Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name+Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the size of the marker and the GPS position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Small</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Medium</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Large</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Huge</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Near</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation type="unfinished">Normale</translation>
+    </message>
+    <message>
+        <source>Far</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation type="unfinished">Nascondi</translation>
+    </message>
+    <message>
+        <source>Masked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Visible</source>
+        <translation type="unfinished">Visibile</translation>
+    </message>
+    <message>
+        <source>Do you want include the markers on the map?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

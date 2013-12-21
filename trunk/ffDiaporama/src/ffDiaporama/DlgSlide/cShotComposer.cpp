@@ -46,6 +46,8 @@ cShotComposer::cShotComposer(cDiaporamaObject *DiaporamaObject,cBaseApplicationC
     InSelectionChange       =false;
     BlockSelectMode         =SELECTMODE_NONE;
     NoPrepUndo              =false;
+    actionAddImageClipboard =NULL;
+    actionPaste             =NULL;
 }
 
 //====================================================================================================================
@@ -270,9 +272,10 @@ cCompositionObject *cShotComposer::GetGlobalCompositionObject(int IndexKey) {
 //====================================================================================================================
 
 void cShotComposer::s_Event_ClipboardChanged() {
-    QWidget *Action;
-    Action=GETUI("actionAddImageClipboard"); if (Action) Action->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasImage()));
-    Action=GETUI("actionPaste");             if (Action) Action->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&((QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/block"))||(QApplication::clipboard()->mimeData()->hasImage())));
+    bool    HasImage=(QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasImage());
+    bool    CanPaste=(QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/block"));
+    if (actionAddImageClipboard) actionAddImageClipboard->setEnabled(HasImage);
+    if (actionPaste)             actionPaste->setEnabled(CanPaste);
 }
 
 //====================================================================================================================

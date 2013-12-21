@@ -51,12 +51,13 @@ void cCustomMapWidget::mouseReleaseEvent(QMouseEvent *ev) {
 
 DlgGMapsLocation::DlgGMapsLocation(cLocation *Location,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgGMapsLocation) {
     ui->setupUi(this);
-    OkBt          =ui->OKBT;
-    CancelBt      =ui->CancelBt;
-    HelpBt        =ui->HelpBt;
-    HelpFile      ="0123";
-    this->Location=Location;
-    StopMaj       =false;
+    OkBt            =ui->OKBT;
+    CancelBt        =ui->CancelBt;
+    HelpBt          =ui->HelpBt;
+    HelpFile        ="0123";
+    this->Location  =Location;
+    PrevRessourceKey=Location->ThumbnailResKey;
+    StopMaj         =false;
 }
 
 //============================================================================================================================
@@ -127,7 +128,8 @@ void DlgGMapsLocation::PrepareGlobalUndo() {
 
 void DlgGMapsLocation::DoGlobalUndo() {
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") Location->LoadFromXML(&root,"UNDO-DLG-OBJECT","",NULL,NULL,NULL,false);
+    if (root.tagName()=="UNDO-DLG")
+        Location->LoadFromXML(&root,"UNDO-DLG-OBJECT","",NULL,NULL,NULL,false);
 }
 
 //============================================================================================================================
@@ -160,7 +162,7 @@ void DlgGMapsLocation::AddressChanged(QString NewText) {
     if (StopMaj) return;
     Location->Address=NewText;
     Location->FriendlyAddress=NewText;
-    StopMaj=true;   qDebug()<<"AddressChanged";
+    StopMaj=true;
     ui->AddressNameED->setText(NewText);
     StopMaj=false;
     ui->OKBT->setEnabled(!Location->Address.isEmpty() && !Location->Name.isEmpty() && (ui->AdresseCB->currentIndex()!=-1));
@@ -216,7 +218,7 @@ void DlgGMapsLocation::httpGetLatLngFinished() {
         int             errorLine,errorColumn;
         QDomDocument    domDocument;
         NoMap=true;
-        StopMaj=true; qDebug()<<"httpGetLatLngReadyRead";
+        StopMaj=true;
         ui->AdresseCB->clear();
         StopMaj=false;
         NoMap=false;
@@ -243,7 +245,7 @@ void DlgGMapsLocation::httpGetLatLngFinished() {
                         RetryCount++;
                     } else NoMoreRetry();
                 } else {
-                    StopMaj=true; qDebug()<<"httpGetLatLngReadyRead-2";
+                    StopMaj=true;
                     int Child=1;
                     NoMap=true;
                     while (root.childNodes().at(Child).toElement().nodeName()=="result") {
@@ -339,7 +341,7 @@ void DlgGMapsLocation::httpGetAddressFinished() {
         int             errorLine,errorColumn;
         QDomDocument    domDocument;
         NoMap=true;
-        StopMaj=true; qDebug()<<"httpGetAddressFinished";
+        StopMaj=true;
         ui->AdresseCB->clear();
         StopMaj=false;
         NoMap=false;
@@ -361,7 +363,7 @@ void DlgGMapsLocation::httpGetAddressFinished() {
             } else {
                 if (GetNodeValue(root,"status")=="ZERO_RESULTS") {
                     NoMap=true;
-                    StopMaj=true; qDebug()<<"httpGetAddressFinished-2";
+                    StopMaj=true;
                     ui->AdresseCB->addItem(QString("Unknown (%1/%2)").arg(Location->GPS_cx).arg(Location->GPS_cy),QVariant(QPointF(Location->GPS_cx,Location->GPS_cy)));
                     StopMaj=false;
                     NoMap=false;
@@ -377,7 +379,7 @@ void DlgGMapsLocation::httpGetAddressFinished() {
                     while (root.childNodes().at(Child).toElement().nodeName()=="result") {
                         QDomElement Element=root.childNodes().at(Child).toElement();
                         NoMap=true;
-                        StopMaj=true; qDebug()<<"httpGetAddressFinished-3";
+                        StopMaj=true;
                         ui->AdresseCB->addItem(GetNodeValue(Element,"formatted_address"),
                                                QVariant(QPointF(GetNodeValue(Element,"geometry##location##lng").toDouble(),
                                                                 GetNodeValue(Element,"geometry##location##lat").toDouble()))
@@ -408,7 +410,7 @@ void DlgGMapsLocation::AddressChanged(int) {
             QPointF PointF      =ui->AdresseCB->itemData(CurrentIndex).toPointF();
             Location->GPS_cx    =PointF.x();
             Location->GPS_cy    =PointF.y();
-            StopMaj=true; qDebug()<<"AddressChanged(int)";
+            StopMaj=true;
             Location->FriendlyAddress=Location->Address;
             ui->AddressNameED->setText(Location->FriendlyAddress);
             StopMaj=false;
@@ -500,11 +502,15 @@ void DlgGMapsLocation::ClickOnMap() {
 
 void DlgGMapsLocation::ClearIcon() {
     if (Location->Icon.MediaObject) {
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+        if (PrevRessourceKey==Location->ThumbnailResKey) Location->ThumbnailResKey=-1;  // To keep previous thumb
+        ApplicationConfig->ImagesCache.RemoveImageObject(Location->ThumbnailResKey,-1);
         Location->Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&Location->ThumbnailResKey,QImage());
         delete Location->Icon.MediaObject;
         Location->Icon.MediaObject=NULL;
         Location->Icon.BrushType=BRUSHTYPE_SOLID;
         ui->IconBT->setIcon(QIcon(QPixmap().fromImage(QImage())));
+        QApplication::restoreOverrideCursor();
     }
 }
 
@@ -549,30 +555,36 @@ void DlgGMapsLocation::SelectIcon() {
             break;
         }
         if (IsValide &&(Location->Icon.MediaObject)) {
+            QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
             QImage *Image=Location->Icon.MediaObject->ImageAt(true);
             if (!Image) {
                 IsValide=false;
                 delete Location->Icon.MediaObject;
                 Location->Icon.MediaObject=NULL;
             } else {
-                ApplicationConfig->ImagesCache.RemoveImageObject(Location->ThumbnailResKey,-1);
                 Location->Icon.ApplyAutoFraming(AUTOFRAMING_HEIGHTMIDLEMIN,1); // square as max
                 QImage Thumb=Location->Icon.GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
+                if (PrevRessourceKey==Location->ThumbnailResKey) Location->ThumbnailResKey=-1;  // To keep previous thumb
+                ApplicationConfig->ImagesCache.RemoveImageObject(Location->ThumbnailResKey,-1);
                 Location->Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&Location->ThumbnailResKey,Thumb);
                 Location->Icon.BrushType=BRUSHTYPE_IMAGEDISK;
                 ui->IconBT->setIcon(QIcon(QPixmap().fromImage(Thumb)));
             }
             delete Image;
+            QApplication::restoreOverrideCursor();
         }
     }
     if (Location->Icon.MediaObject && Location->Icon.MediaObject->IsValide) {
         DlgImageCorrection Dlg(NULL,0,&Location->Icon,0,GEOMETRY_SQUARE,SPEEDWAVE_LINEAR,ApplicationConfig,this);
         Dlg.InitDialog();
         if (Dlg.exec()==0) {
+            QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
             QImage Thumb=Location->Icon.GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
-            ApplicationConfig->SlideThumbsTable->SetThumbs(&Location->ThumbnailResKey,Thumb);
+            if (PrevRessourceKey==Location->ThumbnailResKey) Location->ThumbnailResKey=-1;  // To keep previous thumb
             ApplicationConfig->ImagesCache.RemoveImageObject(Location->ThumbnailResKey,-1);
+            ApplicationConfig->SlideThumbsTable->SetThumbs(&Location->ThumbnailResKey,Thumb);
             ui->IconBT->setIcon(QIcon(QPixmap().fromImage(Thumb)));
+            QApplication::restoreOverrideCursor();
         }
     }
 }
@@ -630,7 +642,7 @@ void DlgGMapsLocation::Favorite() {
         else if (ActionType==FAVACTIONTYPE_UPD)     Location->UpdateFavorite();
         else if (ActionType==FAVACTIONTYPE_REMOVE)  Location->RemoveFavorite();
         else if (Action->text()!="") {
-            StopMaj=true; qDebug()<<"Favorite";
+            StopMaj=true;
             qlonglong Key=Action->data().toInt() & ~FAVACTIONTYPE_ACTIONTYPE;
             Location->LoadFromFavorite(Key);
             ui->AdresseCB->clear();

@@ -2,7 +2,25 @@
 * FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
 
-[Commit: ]
+[Commit: 21/12/2013] - ffDiaporama 2.1 devel 20131221
+    Bug fixes:
+        -Fixed the problem of slow display of the markers on the GMaps map during animations
+        -Fixed the map display in the GMaps tab: Ensure that the map is never truncated and the display is centered
+        -Fixed the problem of quality of the GMaps map when they are in high resolution
+        -Fixed the activation/deactivation of paster actions in the edit slides dialog [regression 12.17.2013]
+        -Fixed applying changes of altered properties in the edit image/video/GMap dialog to the following shots in the edit slides dialog (only applies the changed properties and not all properties)
+
+    New features:
+        -No longer duplicate resources when opening Edit image/video/gmap dialog when it comes gmap object (accelerates the opening of the box)
+        -Replaces the dual display buffer for GMap markers objects with a simple buffer display for preview (faster)
+        -Adds "Export Map" button in the Edit image/video/gmap dialog
+        -Replaces the default export as jpg format with png format for all captures (image from video editor, image from preview and map from GMaps tab)
+        -Adds very high resolution map image formats: 720px9-16:9 (3840x2160) and 1080px9-16:9 (5760x3240)
+        -Remove empty removable drives from the list of drives managed by the multimedia browser [Windows]
+
+--------------------------------------------------------------------------------
+
+[Commit: 20/12/2013]
     Bug fixes:
         -Fixed the bug of not replacing the icon when selecting a favorite in the selection box of GPS positions
         -Active F1 key to open help in any dialog boxes
@@ -57,7 +75,7 @@
 
 --------------------------------------------------------------------------------
 
-[Commit: 13/12/2013] - ffDiaporama 2.1 devel 12/12/2013
+[Commit: 13/12/2013] - ffDiaporama 2.1 devel 20131212
     Bug fixes:
         -Fixed the bug on the images in the generation of WIKI
         -Fixed bug regarding titles of untranslated pages in the generation of WIKI (highlight them instead of hide them)
