@@ -55,6 +55,7 @@ class DlgGMapsLocation : public QCustomDialog {
 Q_OBJECT
 public:
     cLocation               *Location;
+    qlonglong               PrevRessourceKey;
     cCustomMapWidget        *MapWidget;
     QString                 ReceiveLatLng;
     QByteArray              ReceiveMap;

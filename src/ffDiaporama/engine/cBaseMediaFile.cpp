@@ -1549,6 +1549,7 @@ QStringList cGMapsMap::GetImageSizeNames() {
     List.append(QApplication::translate("cBaseMediaFile","Small (640x360)"));
     List.append(QApplication::translate("cBaseMediaFile","720p-16:9 (1280x720)"));
     List.append(QApplication::translate("cBaseMediaFile","720px4-16:9 (2560x1440)"));
+    List.append(QApplication::translate("cBaseMediaFile","720px9-16:9 (3840x2160)"));
     List.append(QApplication::translate("cBaseMediaFile","1080p-16:9 (1920x1080)"));
     List.append(QApplication::translate("cBaseMediaFile","1080px4-16:9 (3840x2160)"));
     List.append(QApplication::translate("cBaseMediaFile","1080px9-16:9 (5760x3240)"));
@@ -1573,6 +1574,7 @@ QSize cGMapsMap::GetCurrentImageSize() {
         case Small:             return QSize(640,360);
         case FS720P:            return QSize(1280,720);
         case FS720X4:           return QSize(2560,1440);
+        case FS720X9:           return QSize(3840,2160);
         case FS1080P:           return QSize(1920,1080);
         case FS1080X4:          return QSize(3840,2160);
         case FS1080X9:          return QSize(5760,3240);
@@ -1589,6 +1591,7 @@ int cGMapsMap::GetMinZoomLevelForSize() {
         case Small:             return 2;
         case FS720P:            return 3;
         case FS720X4:           return 4;
+        case FS720X9:           return 5;
         case FS1080P:           return 4;
         case FS1080X4:          return 5;
         case FS1080X9:          return 6;
@@ -3313,7 +3316,6 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                 RetImage=ConvertYUVToRGB(PreviewMode,CacheImage[i]->FiltFrame?CacheImage[i]->FiltFrame:CacheImage[i]->FrameBufferYUV);
                 ToLog(LOGMSG_DEBUGTRACE,QString("Video image for position %1 => return image at %2").arg(Position).arg(CacheImage[i]->Position));
             } else {
-                //QString A; for (int jj=0;jj<CacheImage.count();jj++) A=A+QString("%1 ").arg(CacheImage[jj]->Position); qDebug()<<A;
                 ToLog(LOGMSG_CRITICAL,QString("No video image return for position %1 => return image at %2").arg(Position).arg(CacheImage[0]->Position));
                 RetImage=ConvertYUVToRGB(PreviewMode,CacheImage[0]->FiltFrame?CacheImage[0]->FiltFrame:CacheImage[0]->FrameBufferYUV);
             }

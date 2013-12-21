@@ -1106,9 +1106,9 @@ If you specify a duration lower than the minimum calculated duration for the sho
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>0</y>
+              <y>-225</y>
               <width>281</width>
-              <height>821</height>
+              <height>820</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1651,7 +1651,8 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                 </font>
                </property>
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Block shape (common to all shots):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>
+Block shape (common to all shots):</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -3969,14 +3970,14 @@ Note: Hidden video blocks are automatically paused</string>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>cCSpeedWaveComboBox</class>
-   <extends>QComboBox</extends>
-   <header>CustomCtrl/cCSpeedWaveComboBox.h</header>
-  </customwidget>
-  <customwidget>
    <class>cCColorComboBox</class>
    <extends>QComboBox</extends>
    <header>CustomCtrl/cCColorComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>cCSpeedWaveComboBox</class>
+   <extends>QComboBox</extends>
+   <header>CustomCtrl/cCSpeedWaveComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>QCustomComboBox</class>

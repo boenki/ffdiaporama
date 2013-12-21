@@ -27,10 +27,12 @@
 
 //====================================================================================================================
 
-DlgGMapsGeneration::DlgGMapsGeneration(cGMapsMap *MediaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgGMapsGeneration) {
-    this->MediaObject=MediaObject;
-    RetryCount       =0;
-    GetMapNetReply   =NULL;
+DlgGMapsGeneration::DlgGMapsGeneration(cGMapsMap *MediaObject,bool DuplicateRessource,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgGMapsGeneration) {
+    this->MediaObject       =MediaObject;
+    this->DuplicateRessource=DuplicateRessource;
+    RetryCount              =0;
+    GetMapNetReply          =NULL;
+
     ui->setupUi(this);
     CancelBt=ui->CancelBt;
 }
@@ -44,8 +46,11 @@ DlgGMapsGeneration::~DlgGMapsGeneration() {
 //====================================================================================================================
 
 void DlgGMapsGeneration::DoRejet() {
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     RetryCount=MAXRETRY;
+    if (DuplicateRessource) MediaObject->RessourceKey=-1;
     ApplicationConfig->SlideThumbsTable->SetThumbs(&MediaObject->RessourceKey,DestMap);
+    QApplication::restoreOverrideCursor();
 }
 
 //====================================================================================================================
@@ -128,10 +133,13 @@ void DlgGMapsGeneration::NoMoreRetry() {
 
 void DlgGMapsGeneration::RequestGoogle() {
     if ((RetryCount>=MAXRETRY)||(MediaObject->RequestList.isEmpty())) {
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
         if (MediaObject->RequestList.isEmpty()) ui->StatusBar->setText("");
             else                                ui->StatusBar->setText(QApplication::translate("DlgGMapsGeneration","%1 pending section(s) should be retrieve later").arg(MediaObject->RequestList.count()));
         // update ressource in database (keep actual map even if sections pending)
+        if (DuplicateRessource) MediaObject->RessourceKey=-1;
         ApplicationConfig->SlideThumbsTable->SetThumbs(&MediaObject->RessourceKey,DestMap);
+        QApplication::restoreOverrideCursor();
         accept();
         return;
     }

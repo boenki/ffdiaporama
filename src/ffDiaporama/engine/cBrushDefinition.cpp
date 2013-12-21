@@ -1407,22 +1407,12 @@ void cBrushDefinition::DrawMarker(QPainter *Painter,QPoint Position,int MarkerNu
 void cBrushDefinition::AddMarkerToImage(QImage *DestImage) {
     if ((!MediaObject)||(MediaObject->ObjectType!=OBJECTTYPE_GMAPSMAP)) return;
 
-    cGMapsMap *CurrentMap=(cGMapsMap *)MediaObject;
-    QSize     DestMapSize=CurrentMap->GetCurrentImageSize();
-    QImage    *WorkImage=DestImage;
-
-    if (DestImage->size()!=DestMapSize) {
-        QPainter Painter;
-        WorkImage=new QImage(DestMapSize.width(),DestMapSize.height(),QImage::Format_ARGB32_Premultiplied);
-        Painter.begin(WorkImage);
-        Painter.setCompositionMode(QPainter::CompositionMode_Source);
-        Painter.fillRect(QRect(0,0,DestMapSize.width(),DestMapSize.height()),Qt::transparent);
-        Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        Painter.end();
-    }
+    cGMapsMap   *CurrentMap=(cGMapsMap *)MediaObject;
+    QSize       DestMapSize=CurrentMap->GetCurrentImageSize();
 
     QPainter Painter;
-    Painter.begin(WorkImage);
+    Painter.begin(DestImage);
+    if (DestImage->size()!=DestMapSize) Painter.setWindow(0,0,DestMapSize.width(),DestMapSize.height());
 
     for (int i=0;i<CurrentMap->List.count();i++) if (Markers[i].Visibility!=cBrushDefinition::sMarker::MARKERHIDE) {
         cLocation       *Location=((cLocation *)CurrentMap->List[i]);
@@ -1436,9 +1426,9 @@ void cBrushDefinition::AddMarkerToImage(QImage *DestImage) {
 
         // Compute distance
         switch (Location->Distance) {
-            case cLocation::MARKERDISTNEAR:    MakerLineLen=WorkImage->height()/24;  break;
-            case cLocation::MARKERDISTNORMAL:  MakerLineLen=WorkImage->height()/17;  break;
-            case cLocation::MARKERDISTFAR:     MakerLineLen=WorkImage->height()/10;  break;
+            case cLocation::MARKERDISTNEAR:    MakerLineLen=DestMapSize.height()/24;  break;
+            case cLocation::MARKERDISTNORMAL:  MakerLineLen=DestMapSize.height()/17;  break;
+            case cLocation::MARKERDISTFAR:     MakerLineLen=DestMapSize.height()/10;  break;
         }
 
         // Compute sizes
@@ -1506,10 +1496,4 @@ void cBrushDefinition::AddMarkerToImage(QImage *DestImage) {
         Painter.restore();
     }
     Painter.end();
-
-    if (WorkImage!=DestImage) {
-        Painter.begin(DestImage);
-        Painter.drawImage(0,0,WorkImage->scaled(DestImage->size(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-        Painter.end();
-    }
 }

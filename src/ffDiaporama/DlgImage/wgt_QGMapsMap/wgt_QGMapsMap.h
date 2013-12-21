@@ -36,13 +36,14 @@ Q_OBJECT
 public:
     cBrushDefinition        *CurrentBrush;
     QCustomDialog           *ParentDialog;
+    QPushButton             *ExportMapBT;
     cGMapsMap               *CurrentMap;
     bool                    StopMaj;
 
     explicit                wgt_QGMapsMap(QWidget *parent = 0);
                             ~wgt_QGMapsMap();
 
-    void                    DoInitWidget(QCustomDialog *ParentDialog,cBrushDefinition *CurrentBrush);
+    void                    DoInitWidget(QCustomDialog *ParentDialog,QPushButton *ExportMapBT,cBrushDefinition *CurrentBrush);
     void                    DoInitDialog();
     void                    RefreshControls();
     void                    WinFocus();
@@ -58,6 +59,7 @@ protected:
     virtual void            resizeEvent(QResizeEvent *);
 
 private slots:
+    void                    ExportMap();
     void                    LocationSelectionChanged();
     void                    RestartRequest();
     void                    AddGMapsLocation();
@@ -68,7 +70,7 @@ private slots:
     void                    MapSizeChanged(int);
     void                    DoubleClickedLocation(QModelIndex);
 
-    void                    RequestGoogle();
+    void                    RequestGoogle(bool DuplicateRessource=true);
 
     void                    LineColorChanged(int);
     void                    MarkerColorChanged(int);

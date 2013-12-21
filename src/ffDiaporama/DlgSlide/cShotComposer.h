@@ -36,23 +36,26 @@ public:
         UNDOACTION_FULL_SLIDE
     };
 
-    bool                    InRefreshControls;
-    bool                    InSelectionChange;
-    bool                    NoPrepUndo;
+    QAction                     *actionAddImageClipboard;
+    QAction                     *actionPaste;
 
-    double                  DisplayW,DisplayH;
-    cDiaporamaObject        *CurrentSlide;              // Current slide
-    double                  ProjectGeometry;
-    cInteractiveZone        *InteractiveZone;
-    cCustomBlockTable       *BlockTable;
-    cCustomShotTable        *ShotTable;
-    cCompositionObject      *CurrentCompoObject;        // Current block object (if selection mode = SELECTMODE_ONE)
-    int                     CurrentCompoObjectNbr;      // Number of Current block object (if selection mode = SELECTMODE_ONE)
-    int                     CurrentShotNbr;             // Current shot number (if selection mode = SELECTMODE_ONE)
-    SELECTMODE              BlockSelectMode;            // Current block selection mode
-    cCompositionList        *CompositionList;           // Link to current block List
-    QList<bool>             IsSelected;                 // Table of selection state in the current block list
-    int                     NbrSelected;                // Number of selected blocks
+    bool                        InRefreshControls;
+    bool                        InSelectionChange;
+    bool                        NoPrepUndo;
+
+    double                      DisplayW,DisplayH;
+    cDiaporamaObject            *CurrentSlide;              // Current slide
+    double                      ProjectGeometry;
+    cInteractiveZone            *InteractiveZone;
+    cCustomBlockTable           *BlockTable;
+    cCustomShotTable            *ShotTable;
+    cCompositionObject          *CurrentCompoObject;        // Current block object (if selection mode = SELECTMODE_ONE)
+    int                         CurrentCompoObjectNbr;      // Number of Current block object (if selection mode = SELECTMODE_ONE)
+    int                         CurrentShotNbr;             // Current shot number (if selection mode = SELECTMODE_ONE)
+    SELECTMODE                  BlockSelectMode;            // Current block selection mode
+    cCompositionList            *CompositionList;           // Link to current block List
+    QList<bool>                 IsSelected;                 // Table of selection state in the current block list
+    int                         NbrSelected;                // Number of selected blocks
 
     explicit                    cShotComposer(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent = 0);
     virtual void                DoInitDialog();
@@ -149,7 +152,7 @@ protected:
 #define GETBUTTON(WIDGETNAME)           findChild<QToolButton *>(WIDGETNAME)
 #define GETCHECKBOX(WIDGETNAME)         findChild<QCheckBox *>(WIDGETNAME)
 
-#define APPLY1TONEXT(FIELD) ({                                                                                                          \
+#define APPLY1TONEXT(FIELD) {                                                                                                           \
     bool ContAPPLY=true;                                                                                                                \
     int  ShotNum=CurrentShotNbr+1;                                                                                                      \
     while ((ContAPPLY)&&(ShotNum<CurrentSlide->List.count())) {                                                                         \
@@ -157,14 +160,14 @@ protected:
          for (int ToSearch=0;ContAPPLY && ToSearch<CurrentSlide->List[ShotNum]->ShotComposition.List.count();ToSearch++)                \
           if (CurrentSlide->List[ShotNum]->ShotComposition.List[ToSearch]->IndexKey==CurrentCompoObject->IndexKey) {                    \
             cCompositionObject *ShotObject=CurrentSlide->List[ShotNum]->ShotComposition.List[ToSearch];                                 \
-            if (!ShotObject->BlockInheritance) ShotObject->FIELD=CurrentCompoObject->FIELD;                                               \
+            if (!ShotObject->BlockInheritance) ShotObject->FIELD=CurrentCompoObject->FIELD;                                             \
                 else ContAPPLY=false;                                                                                                   \
         }                                                                                                                               \
         ShotNum++;                                                                                                                      \
     }                                                                                                                                   \
-})
+}
 
-#define APPLY2TONEXT(FIELD1,FIELD2) ({                                                                                                  \
+#define APPLY2TONEXT(FIELD1,FIELD2) {                                                                                                   \
     bool ContAPPLY=true;                                                                                                                \
     int  ShotNum=CurrentShotNbr+1;                                                                                                      \
     while ((ContAPPLY)&&(ShotNum<CurrentSlide->List.count())) {                                                                         \
@@ -172,16 +175,16 @@ protected:
          for (int ToSearch=0;ContAPPLY && ToSearch<CurrentSlide->List[ShotNum]->ShotComposition.List.count();ToSearch++)                \
           if (CurrentSlide->List[ShotNum]->ShotComposition.List[ToSearch]->IndexKey==CurrentCompoObject->IndexKey) {                    \
             cCompositionObject *ShotObject=CurrentSlide->List[ShotNum]->ShotComposition.List[ToSearch];                                 \
-            if (!ShotObject->BlockInheritance) {                                                                                          \
+            if (!ShotObject->BlockInheritance) {                                                                                        \
                 ShotObject->FIELD1=CurrentCompoObject->FIELD1;                                                                          \
                 ShotObject->FIELD2=CurrentCompoObject->FIELD2;                                                                          \
             } else ContAPPLY=false;                                                                                                     \
         }                                                                                                                               \
         ShotNum++;                                                                                                                      \
     }                                                                                                                                   \
-})
+}
 
-#define APPLY3TONEXT(FIELD1,FIELD2,FIELD3) ({                                                                                           \
+#define APPLY3TONEXT(FIELD1,FIELD2,FIELD3) {                                                                                            \
     bool ContAPPLY=true;                                                                                                                \
     int  ShotNum=CurrentShotNbr+1;                                                                                                      \
     while ((ContAPPLY)&&(ShotNum<CurrentSlide->List.count())) {                                                                         \
@@ -189,7 +192,7 @@ protected:
          for (int ToSearch=0;ContAPPLY && ToSearch<CurrentSlide->List[ShotNum]->ShotComposition.List.count();ToSearch++)                \
           if (CurrentSlide->List[ShotNum]->ShotComposition.List[ToSearch]->IndexKey==CurrentCompoObject->IndexKey) {                    \
             cCompositionObject *ShotObject=CurrentSlide->List[ShotNum]->ShotComposition.List[ToSearch];                                 \
-            if (!ShotObject->BlockInheritance) {                                                                                          \
+            if (!ShotObject->BlockInheritance) {                                                                                        \
                 ShotObject->FIELD1=CurrentCompoObject->FIELD1;                                                                          \
                 ShotObject->FIELD2=CurrentCompoObject->FIELD2;                                                                          \
                 ShotObject->FIELD3=CurrentCompoObject->FIELD3;                                                                          \
@@ -197,9 +200,9 @@ protected:
         }                                                                                                                               \
         ShotNum++;                                                                                                                      \
     }                                                                                                                                   \
-})
+}
 
-#define APPLY4TONEXT(FIELD1,FIELD2,FIELD3,FIELD4) ({                                                                                    \
+#define APPLY4TONEXT(FIELD1,FIELD2,FIELD3,FIELD4) {                                                                                     \
     bool ContAPPLY=true;                                                                                                                \
     int  ShotNum=CurrentShotNbr+1;                                                                                                      \
     while ((ContAPPLY)&&(ShotNum<CurrentSlide->List.count())) {                                                                         \
@@ -207,7 +210,7 @@ protected:
          for (int ToSearch=0;ContAPPLY && ToSearch<CurrentSlide->List[ShotNum]->ShotComposition.List.count();ToSearch++)                \
           if (CurrentSlide->List[ShotNum]->ShotComposition.List[ToSearch]->IndexKey==CurrentCompoObject->IndexKey) {                    \
             cCompositionObject *ShotObject=CurrentSlide->List[ShotNum]->ShotComposition.List[ToSearch];                                 \
-            if (!ShotObject->BlockInheritance) {                                                                                          \
+            if (!ShotObject->BlockInheritance) {                                                                                        \
                 ShotObject->FIELD1=CurrentCompoObject->FIELD1;                                                                          \
                 ShotObject->FIELD2=CurrentCompoObject->FIELD2;                                                                          \
                 ShotObject->FIELD3=CurrentCompoObject->FIELD3;                                                                          \
@@ -216,9 +219,11 @@ protected:
         }                                                                                                                               \
         ShotNum++;                                                                                                                      \
     }                                                                                                                                   \
-})
+}
 
-#define APPLYBACKGROUNDBRUSH() ({                                                                                                       \
+#define SUBAPPLY(FIELD) {if (CurrentCompoObject->BackgroundBrush->FIELD!=SavedBrush.FIELD) ShotObject->BackgroundBrush->FIELD=CurrentCompoObject->BackgroundBrush->FIELD;}
+
+#define APPLYBACKGROUNDBRUSH() {                                                                                                       \
     bool ContAPPLY=true;                                                                                                                \
     int  ShotNum=CurrentShotNbr+1;                                                                                                      \
     while ((ContAPPLY)&&(ShotNum<CurrentSlide->List.count())) {                                                                         \
@@ -226,12 +231,49 @@ protected:
          for (int ToSearch=0;ContAPPLY && ToSearch<CurrentSlide->List[ShotNum]->ShotComposition.List.count();ToSearch++)                \
           if (CurrentSlide->List[ShotNum]->ShotComposition.List[ToSearch]->IndexKey==CurrentCompoObject->IndexKey) {                    \
             cCompositionObject *ShotObject=CurrentSlide->List[ShotNum]->ShotComposition.List[ToSearch];                                 \
-            if (!ShotObject->BlockInheritance) {                                                                                          \
-                ShotObject->BackgroundBrush->CopyFromBrushDefinition(CurrentCompoObject->BackgroundBrush);                              \
+            if (!ShotObject->BlockInheritance) {                                                                                        \
+                SUBAPPLY(PatternType)                                                                                                   \
+                SUBAPPLY(GradientOrientation)                                                                                           \
+                SUBAPPLY(ColorD)                                                                                                        \
+                SUBAPPLY(ColorF)                                                                                                        \
+                SUBAPPLY(ColorIntermed)                                                                                                 \
+                SUBAPPLY(Intermediate)                                                                                                  \
+                SUBAPPLY(BrushImage)                                                                                                    \
+                SUBAPPLY(MediaObject)                                                                                                   \
+                SUBAPPLY(SoundVolume)                                                                                                   \
+                SUBAPPLY(Deinterlace)                                                                                                   \
+                SUBAPPLY(ImageRotation)                                                                                                 \
+                SUBAPPLY(X)                                                                                                             \
+                SUBAPPLY(Y)                                                                                                             \
+                SUBAPPLY(ZoomFactor)                                                                                                    \
+                SUBAPPLY(Brightness)                                                                                                    \
+                SUBAPPLY(Contrast)                                                                                                      \
+                SUBAPPLY(Gamma)                                                                                                         \
+                SUBAPPLY(Red)                                                                                                           \
+                SUBAPPLY(Green)                                                                                                         \
+                SUBAPPLY(Blue)                                                                                                          \
+                SUBAPPLY(LockGeometry)                                                                                                  \
+                SUBAPPLY(FullFilling)                                                                                                   \
+                SUBAPPLY(AspectRatio)                                                                                                   \
+                SUBAPPLY(GaussBlurSharpenSigma)                                                                                         \
+                SUBAPPLY(BlurSharpenRadius)                                                                                             \
+                SUBAPPLY(QuickBlurSharpenSigma)                                                                                         \
+                SUBAPPLY(TypeBlurSharpen)                                                                                               \
+                SUBAPPLY(Desat)                                                                                                         \
+                SUBAPPLY(Swirl)                                                                                                         \
+                SUBAPPLY(Implode)                                                                                                       \
+                SUBAPPLY(OnOffFilter)                                                                                                   \
+                SUBAPPLY(ImageSpeedWave)                                                                                                \
+                for (int MarkNum=0;MarkNum<ShotObject->BackgroundBrush->Markers.count();MarkNum++) {                                    \
+                    SUBAPPLY(Markers[MarkNum].MarkerColor)                                                                              \
+                    SUBAPPLY(Markers[MarkNum].TextColor)                                                                                \
+                    SUBAPPLY(Markers[MarkNum].LineColor)                                                                                \
+                    SUBAPPLY(Markers[MarkNum].Visibility)                                                                               \
+                }                                                                                                                       \
             } else ContAPPLY=false;                                                                                                     \
         }                                                                                                                               \
         ShotNum++;                                                                                                                      \
     }                                                                                                                                   \
-})
+}
 
 #endif // CSHOTCOMPOSER_H

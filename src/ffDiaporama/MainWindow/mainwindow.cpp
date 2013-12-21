@@ -2400,11 +2400,12 @@ void MainWindow::s_VideoPlayer_SaveImageEvent() {
         int Width =Format.left(Format.indexOf("x")).toInt();
         int Height=Format.mid(Format.indexOf("x")+1).toInt();
         QString OutputFileName=QDir::toNativeSeparators(ApplicationConfig->SettingsTable->GetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_CAPTUREIMAGE].BROWSERString),DefaultProjectPath));
-        QString Filter="JPG (*.jpg)";
+        QString Filter="PNG (*.png)";
         if (!OutputFileName.endsWith(QDir::separator())) OutputFileName=OutputFileName+QDir::separator();
         OutputFileName=OutputFileName+QApplication::translate("MainWindow","Capture image");
         OutputFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Select destination file"),OutputFileName,"PNG (*.png);;JPG (*.jpg)",&Filter);
         if (OutputFileName!="") {
+            QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
             if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->SettingsTable->SetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_CAPTUREIMAGE].BROWSERString),QFileInfo(OutputFileName).absolutePath());     // Keep folder for next use
             if ((Filter.toLower().indexOf("png")!=-1)&&(!OutputFileName.endsWith(".png"))) OutputFileName=OutputFileName+".png";
             if ((Filter.toLower().indexOf("jpg")!=-1)&&(!OutputFileName.endsWith(".jpg"))) OutputFileName=OutputFileName+".jpg";
@@ -2416,6 +2417,7 @@ void MainWindow::s_VideoPlayer_SaveImageEvent() {
             Diaporama->LoadSources(Frame,Width,Height,false,true,PreparedTransitBrushList,PreparedBrushList);
             Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,Width,Height);
             Frame->RenderedImage.save(OutputFileName,0,100);
+            QApplication::restoreOverrideCursor();
             delete Frame;
         }
     }

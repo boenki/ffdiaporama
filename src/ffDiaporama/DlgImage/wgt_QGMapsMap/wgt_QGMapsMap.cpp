@@ -38,9 +38,10 @@ wgt_QGMapsMap::~wgt_QGMapsMap() {
 
 //====================================================================================================================
 
-void wgt_QGMapsMap::DoInitWidget(QCustomDialog *ParentDialog,cBrushDefinition *CurrentBrush) {
+void wgt_QGMapsMap::DoInitWidget(QCustomDialog *ParentDialog,QPushButton *ExportMapBT,cBrushDefinition *CurrentBrush) {
     this->ParentDialog=ParentDialog;
     this->CurrentBrush=CurrentBrush;
+    this->ExportMapBT =ExportMapBT;
     CurrentMap=(cGMapsMap *)CurrentBrush->MediaObject;
     ui->LocationTable->CurrentMap=CurrentMap;
     ui->LocationTable->CurrentBrush=CurrentBrush;
@@ -54,6 +55,7 @@ void wgt_QGMapsMap::DoInitDialog() {
     ui->ImageSizeCB->addItems(CurrentMap->GetImageSizeNames());
 
     // define handler
+    connect(ExportMapBT,SIGNAL(pressed()),SLOT(ExportMap()));
     connect(ui->AddGMapsLocationBT,SIGNAL(pressed()),SLOT(AddGMapsLocation()));
     connect(ui->EditLocationBT,SIGNAL(pressed()),SLOT(EditLocation()));
     connect(ui->RemoveLocationBT,SIGNAL(pressed()),SLOT(RemoveLocation()));
@@ -146,6 +148,7 @@ void wgt_QGMapsMap::RefreshControls() {
     ui->MapSizeCB->setEnabled(!CurrentMap->List.isEmpty());
     ui->EditLocationBT->setEnabled(CurLocation);
     ui->RemoveLocationBT->setEnabled(CurrentMap->List.count()>1);
+    ExportMapBT->setEnabled(CurrentMap->RequestList.isEmpty() && !CurrentMap->List.isEmpty());
     StopMaj=false;
 }
 
@@ -163,7 +166,8 @@ void wgt_QGMapsMap::ResetDisplayMap() {
     }
     QImage *ImgMap=CurrentBrush->MediaObject->ImageAt(false);
     CurrentBrush->AddMarkerToImage(ImgMap);
-    QImage Map=ImgMap->scaledToHeight(ui->Map->height());
+
+    QImage Map=ImgMap->scaledToHeight(H);
     delete ImgMap;
     ui->Map->setPixmap(QPixmap::fromImage(Map));
     RefreshControls();
@@ -206,14 +210,15 @@ void wgt_QGMapsMap::RestartRequest() {
     if (CustomMessageBox(this,QMessageBox::Question,APPLICATION_NAME,
                      QApplication::translate("DlgGMapsLocation","The map has not been fully generated.\nDo you want to resume the generation now?"),
                      QMessageBox::Yes|QMessageBox::No,QMessageBox::Yes)==QMessageBox::Yes)
-        RequestGoogle();
+        RequestGoogle(false);
 }
 
-void wgt_QGMapsMap::RequestGoogle() {
-    DlgGMapsGeneration Dlg(CurrentMap,ParentDialog->ApplicationConfig,this);
+void wgt_QGMapsMap::RequestGoogle(bool DuplicateRessource) {
+    qlonglong PrevRessourceKey=CurrentMap->RessourceKey;
+    DlgGMapsGeneration Dlg(CurrentMap,DuplicateRessource,ParentDialog->ApplicationConfig,this);
     Dlg.InitDialog();
     Dlg.exec();
-    ParentDialog->ApplicationConfig->ImagesCache.RemoveImageObject(CurrentMap->RessourceKey,-1);
+    ParentDialog->ApplicationConfig->ImagesCache.RemoveImageObject(PrevRessourceKey,-1);
     ResetDisplayMap();
     emit DoRefreshImageObject();
 }
@@ -341,15 +346,16 @@ void wgt_QGMapsMap::DoubleClickedLocation(QModelIndex) {
     if (StopMaj) return;
     int CurIndex=GetCurLocationIndex();
     if (CurIndex!=-1) {
-        double GPSxOld=((cLocation *)CurrentMap->List.at(CurIndex))->GPS_cx;
-        double GPSyOld=((cLocation *)CurrentMap->List.at(CurIndex))->GPS_cy;
+        cLocation *CurLocation=((cLocation *)CurrentMap->List.at(CurIndex));
+        double GPSxOld=CurLocation->GPS_cx;
+        double GPSyOld=CurLocation->GPS_cy;
         ParentDialog->AppendPartialUndo(DlgImageCorrection::UNDOACTION_GMAPSMAPPART,ui->LocationTable,true,this,true);
-        DlgGMapsLocation Dlg((cLocation *)CurrentMap->List.at(CurIndex),ParentDialog->ApplicationConfig,this);
+        DlgGMapsLocation Dlg(CurLocation,ParentDialog->ApplicationConfig,this);
         Dlg.InitDialog();
         if (Dlg.exec()==0) {
             ui->LocationTable->setUpdatesEnabled(false);
             ui->LocationTable->setUpdatesEnabled(true);
-            if ((GPSxOld!=((cLocation *)CurrentMap->List.at(CurIndex))->GPS_cx)||(GPSyOld!=((cLocation *)CurrentMap->List.at(CurIndex))->GPS_cy)) UpdateDisplayMap();
+            if ((GPSxOld!=CurLocation->GPS_cx)||(GPSyOld!=CurLocation->GPS_cy)) UpdateDisplayMap();
                 else ResetDisplayMap(); // if same GPS position, only redraw markers
         } else ParentDialog->RemoveLastPartialUndo();
     }
@@ -466,4 +472,29 @@ void wgt_QGMapsMap::DistanceChanged(int newdistance) {
     ParentDialog->AppendPartialUndo(DlgImageCorrection::UNDOACTION_GMAPSMAPPART,ui->DistanceCB,true,this,true);
     ((cLocation *)CurrentMap->List[Index])->Distance=(cLocation::MARKERDISTANCE)newdistance;
     ResetDisplayMap();
+}
+
+//====================================================================================================================
+
+void wgt_QGMapsMap::ExportMap() {
+    QString OutputFileName=QDir::toNativeSeparators(ParentDialog->ApplicationConfig->SettingsTable->GetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_CAPTUREIMAGE].BROWSERString),DefaultProjectPath));
+    QString Filter="PNG (*.png)";
+    if (!OutputFileName.endsWith(QDir::separator())) OutputFileName=OutputFileName+QDir::separator();
+    OutputFileName=OutputFileName+QApplication::translate("MainWindow","Capture image");
+    OutputFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Select destination file"),OutputFileName,"PNG (*.png);;JPG (*.jpg)",&Filter);
+    if (OutputFileName!="") {
+        if (ParentDialog->ApplicationConfig->RememberLastDirectories) ParentDialog->ApplicationConfig->SettingsTable->SetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_CAPTUREIMAGE].BROWSERString),QFileInfo(OutputFileName).absolutePath());     // Keep folder for next use
+        if ((Filter.toLower().indexOf("png")!=-1)&&(!OutputFileName.endsWith(".png"))) OutputFileName=OutputFileName+".png";
+        if ((Filter.toLower().indexOf("jpg")!=-1)&&(!OutputFileName.endsWith(".jpg"))) OutputFileName=OutputFileName+".jpg";
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+        QImage *ImgMap=CurrentBrush->MediaObject->ImageAt(false);
+        QApplication::restoreOverrideCursor();
+        if (CustomMessageBox(this,QMessageBox::Question,APPLICATION_NAME,
+                         QApplication::translate("wgt_QGMapsMap","Do you want include the markers on the map?"),
+                         QMessageBox::Yes|QMessageBox::No,QMessageBox::Yes)==QMessageBox::Yes) CurrentBrush->AddMarkerToImage(ImgMap);
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+        ImgMap->save(OutputFileName);
+        QApplication::restoreOverrideCursor();
+        delete ImgMap;
+    }
 }

@@ -109,7 +109,7 @@ void wgt_QEditVideo::s_Deinterlace(int) {
 void wgt_QEditVideo::s_Event_SaveImageEvent() {
     ui->VideoPlayer->SetPlayerToPause();
     QString OutputFileName=ParentDialog->ApplicationConfig->SettingsTable->GetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_CAPTUREIMAGE].BROWSERString),DefaultCaptureImage);
-    QString Filter="JPG (*.jpg)";
+    QString Filter="PNG (*.png)";
     if (!OutputFileName.endsWith(QDir::separator())) OutputFileName=OutputFileName+QDir::separator();
     OutputFileName=OutputFileName+QApplication::translate("MainWindow","Capture image");
     OutputFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Select destination file"),OutputFileName,"PNG (*.png);;JPG (*.jpg)",&Filter);
@@ -117,9 +117,10 @@ void wgt_QEditVideo::s_Event_SaveImageEvent() {
         if (ParentDialog->ApplicationConfig->RememberLastDirectories) ParentDialog->ApplicationConfig->SettingsTable->SetTextValue(QString("%1_path").arg(BrowserTypeDef[BROWSER_TYPE_CAPTUREIMAGE].BROWSERString),QFileInfo(OutputFileName).absolutePath());     // Keep folder for next use
         if ((Filter.toLower().indexOf("png")!=-1)&&(!OutputFileName.endsWith(".png"))) OutputFileName=OutputFileName+".png";
         if ((Filter.toLower().indexOf("jpg")!=-1)&&(!OutputFileName.endsWith(".jpg"))) OutputFileName=OutputFileName+".jpg";
-
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
         QImage *Image=((cVideoFile *)CurrentBrush->MediaObject)->ImageAt(false,ui->VideoPlayer->ActualPosition,NULL,CurrentBrush->Deinterlace,1,false,true);
         Image->save(OutputFileName,0,100);
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
         delete Image;
     }
 }

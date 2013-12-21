@@ -2,12 +2,31 @@
 * FFDIAPORAMA 2.1 - trunk (Version Française)
 **************************************************
 
-[Commit: ]
+[Commit: 21/12/2013] - ffDiaporama 2.1 devel 20131221
+    Correction de bug :
+        -Corrige le problème de lenteur dans l'affichage des marqueurs sur les cartes GMaps lors des animations
+        -Corrige l'affichage de la carte dans l'onglet GMaps : s'assure que la carte n'est jamais tronquée et que l'affichage est centré
+        -Corrige le problème de qualité des cartes GMaps  quand elles sont en haute résolution
+        -Corrige l'activation/désactivation des actions de collage dans la boite d'édition des slides [regression 17/12/2013]
+        -Corrige l'application des modifications des propriétés modifiées dans la boite d'edition des images/vidéo/GMap vers les plans suivants
+         dans la boite d'édition des slides (n'applique que la modification en cours et non plus l'ensemble des propriétés)
+
+    Nouveautés :
+        -Ne duplique plus systématiquement les ressources à l'ouverture de la boite de dialog d'édition image/video/gmap quand il s'agit d'objet gmap (accélère l'ouverture de la boite)
+        -Remplace l'affichage en double buffer des marqueurs des objets gmap par un affichage en simple buffer pour la preview (plus rapide)
+        -Ajoute un bouton "Exporter la carte" dans la boite de dialog d'édition image/video/gmap quand il s'agit d'objet gmap
+        -Remplace le format d'export par défaut de jpg à png pour toutes les captures (image de l'éditeur video, image de la prévisualisation et carte dans l'onglet GMaps)
+        -Ajoute des formats de carte GMaps très haute résolution : 720px9-16:9 (3840x2160) et 1080px9-16:9 (5760x3240)
+        -Supprime les unités de disques amovible vide de la liste des unités gérées dans le navigateur multimédia [Windows]
+
+--------------------------------------------------------------------------------
+
+[Commit: 20/12/2013]
     Correction de bug :
         -Corrige le bug de non remplacement de l'icône lors de la sélection d'un favoris dans la boite de sélection des positions GPS
         -Rend actif la touche F1 dans toute les boites de dialog
         -Corrige l'UNDO dans la boite d'édition des slides (repositionne sur le plan actif et remet les sélections)
-        -Corrige l'application des modifications des propriétés vers les plans suivant dans la boite d'édition des slides (n'applique que la modification en cours et non plus l'ensemble des propriétés)
+        -Corrige l'application des modifications des propriétés vers les plans suivants dans la boite d'édition des slides (n'applique que la modification en cours et non plus l'ensemble des propriétés)
 
     Nouveautés :
         -Change le cadrage par défaut pour l'icône des positions GPS lors de la sélection d'une image dans la boite de sélection des positions GPS
@@ -53,7 +72,7 @@
 
 --------------------------------------------------------------------------------
 
-[Commit: 13/12/2013] - ffDiaporama 2.1 devel 12/12/2013
+[Commit: 13/12/2013] - ffDiaporama 2.1 devel 20131212
     Correction de bug :
         -Corrige le bug sur les images dans la génération du WIKI
         -Corrige un bug dans la génération du WIKI en n'ajoutant plus de surlignage sur les titres non traduit des pages

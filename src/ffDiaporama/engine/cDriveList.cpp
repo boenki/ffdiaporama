@@ -50,6 +50,27 @@ QString MFD                     ="";
 
 //*******************************************************************************************************************************************************
 
+#ifdef Q_OS_WIN
+    bool IsDriveAvailable(QString Path) {
+        Path.replace("/","\\");
+
+        WCHAR       Drive[256+1];
+        WCHAR       VolumeName[256+1];
+        WCHAR       SysName[256+1];
+        DWORD       SerialNumber;
+        DWORD       MaxComponent;
+        DWORD       FileSysFlag;
+
+        QString PhysicalPath=Path;
+        if ((PhysicalPath[1]==':')&&(PhysicalPath[2]=='\\')) PhysicalPath=PhysicalPath.left(3);
+        MultiByteToWideChar(CP_ACP,0,PhysicalPath.toLocal8Bit(),-1,Drive,256+1);
+        if ((GetDriveType(Drive)==DRIVE_REMOVABLE)&&
+            (!GetVolumeInformation(Drive,VolumeName,sizeof(WCHAR)*(256+1),&SerialNumber,&MaxComponent,&FileSysFlag,SysName,sizeof(WCHAR)*(256+1))))
+                return false;
+        return true;
+    }
+#endif
+
 cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *ApplicationConfig) {
     Flag        =2;         // New DriveDesc
     Label       ="";
@@ -382,7 +403,7 @@ void cDriveList::UpdateDriveList() {
             if (((((Path.length()>=3)&&(Path.at(1)==":")&&(Path.at(2)=="\\")&&(Path.at(0)>='C')&&(Path.at(0)<='Z'))||   // If it's a drive
                    (Path.startsWith("\\\\"))                                                                            // or it's a network path
                   )&&(!SearchDrive(Path))                                                                               // and it's not yet included
-                )) List.append(cDriveDesc(Path,"",ApplicationConfig));
+                )) if (IsDriveAvailable(Path)) List.append(cDriveDesc(Path,"",ApplicationConfig));
         }
     #elif defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
 

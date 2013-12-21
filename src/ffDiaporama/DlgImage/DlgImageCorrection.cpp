@@ -91,6 +91,8 @@ void DlgImageCorrection::DoInitDialog() {
         default: break; // To avoid warning
     }
 
+    if (!GMapsWidget) ui->ExportMapBT->setVisible(false);
+
     // Define common handler
     connect(ui->TabWidget,SIGNAL(currentChanged(int)),this,SLOT(s_TabWidgetChanged(int)));
     s_TabWidgetChanged(ui->TabWidget->currentIndex());  // To force WinFocus/LostFocus to tab widgets
@@ -140,7 +142,7 @@ void DlgImageCorrection::PrepareGlobalUndo() {
 
 //====================================================================================================================
 
-void DlgImageCorrection::PreparePartialUndo(int /*ActionType*/,QDomElement root,bool DuplicateRessource) {
+void DlgImageCorrection::PreparePartialUndo(int /*ActionType*/,QDomElement root,bool /*DuplicateRessource*/) {
     QString BrushFileName=CurrentBrush->MediaObject->FileName();
     root.setAttribute("BrushFileName",BrushFileName);
     root.setAttribute("BackgroundForm",*BackgroundForm);
@@ -148,16 +150,7 @@ void DlgImageCorrection::PreparePartialUndo(int /*ActionType*/,QDomElement root,
     CurrentBrush->SaveToXML(&root,"UNDO-DLG-OBJECT","",true,NULL,NULL);    // Save object
     // if object have embeded ressource, then load mediaobject
     if (CurrentBrush->MediaObject->RessourceKey!=-1) {
-        if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP) {
-            CurrentBrush->MediaObject->SaveToXML(&root,"UNDO-DLG-OBJECT","",true,NULL,NULL);
-            // duplicate ressource and imagecache to keep previous map
-            if (DuplicateRessource) {
-                ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Duplicate ressources to prepare undo"));
-                ApplicationConfig->DuplicateRessource(&CurrentBrush->MediaObject->RessourceKey);
-                for (int i=0;i<((cGMapsMap *)CurrentBrush->MediaObject)->List.count();i++)
-                    ApplicationConfig->DuplicateRessource(&((cLocation *)((cGMapsMap *)CurrentBrush->MediaObject)->List[i])->ThumbnailResKey);
-            }
-        }
+        if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP) CurrentBrush->MediaObject->SaveToXML(&root,"UNDO-DLG-OBJECT","",true,NULL,NULL);
     }
     // special case for video object
     if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
@@ -292,7 +285,7 @@ void DlgImageCorrection::CreateVideoTag() {
 void DlgImageCorrection::CreateGMapsTag() {
     GMapsWidget=new wgt_QGMapsMap();
     GMapsWidget->setObjectName("TabGMaps");
-    GMapsWidget->DoInitWidget(this,CurrentBrush);
+    GMapsWidget->DoInitWidget(this,ui->ExportMapBT,CurrentBrush);
     GMapsWidget->DoInitDialog();
     TabLayout->addWidget(GMapsWidget);
     QIcon VideoIcon;
