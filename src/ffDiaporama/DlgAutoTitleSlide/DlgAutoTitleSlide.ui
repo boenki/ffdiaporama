@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>524</width>
-    <height>414</height>
+    <height>498</height>
    </rect>
   </property>
   <property name="font">
@@ -35,7 +35,7 @@
    <property name="spacing">
     <number>4</number>
    </property>
-   <item row="11" column="0" colspan="2">
+   <item row="12" column="0" colspan="2">
     <layout class="QHBoxLayout" name="BottomLayout">
      <property name="spacing">
       <number>0</number>
@@ -74,7 +74,7 @@
         <string>Previous</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/arrow_left.png</normaloff>:/img/arrow_left.png</iconset>
        </property>
       </widget>
@@ -88,7 +88,7 @@
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -102,7 +102,7 @@
         <string>Next</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/arrow_right.png</normaloff>:/img/arrow_right.png</iconset>
        </property>
       </widget>
@@ -129,7 +129,7 @@
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -143,7 +143,7 @@
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
       </widget>
@@ -199,19 +199,6 @@
      </attribute>
     </widget>
    </item>
-   <item row="4" column="0" colspan="2">
-    <widget class="QCheckBox" name="OverrideProjectDateCB">
-     <property name="toolTip">
-      <string>If this box is checked, the date of the chapter is different from the date of the project.
-
-Remark: It is often useful to differentiate the date of the chapter of the date of the project.
-For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</string>
-     </property>
-     <property name="text">
-      <string>Chapter date different from project date</string>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <property name="spacing">
@@ -237,7 +224,7 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
          <string>Project title</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/object_text.png</normaloff>:/img/object_text.png</iconset>
         </property>
        </item>
@@ -246,7 +233,7 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
          <string>Chapter title</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/Chapter_big.png</normaloff>:/img/Chapter_big.png</iconset>
         </property>
        </item>
@@ -255,7 +242,7 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
          <string>Credit title</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/medal.png</normaloff>:/img/medal.png</iconset>
         </property>
        </item>
@@ -280,78 +267,7 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
      </item>
     </layout>
    </item>
-   <item row="6" column="0">
-    <widget class="QLabel" name="OverrideDateLabel">
-     <property name="text">
-      <string>Override date:</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1">
-    <widget class="QDateEdit" name="ChapterEventDateED">
-     <property name="toolTip">
-      <string>Select a date for the chapter.</string>
-     </property>
-     <property name="calendarPopup">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="ChapterNameLabel">
-     <property name="text">
-      <string>Chapter name:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="ChapterEventDateLabel">
-     <property name="text">
-      <string>Event date:</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QLineEdit" name="ChapterNameED">
-     <property name="toolTip">
-      <string>Enter here the title of the chapter (if the &quot;Chapter name different from slide name&quot; box is checked).</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
-     <property name="spacing">
-      <number>2</number>
-     </property>
-     <item>
-      <widget class="QCheckBox" name="OverrideDateCB">
-       <property name="toolTip">
-        <string>If this box is checked, you can enter a longtime different from that generated from the date of the chapter.</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="ChapterDateED">
-       <property name="toolTip">
-        <string>Enter here a date, in a free format, for the chapter</string>
-       </property>
-       <property name="maxLength">
-        <number>200</number>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="10" column="0" colspan="2">
+   <item row="11" column="0" colspan="2">
     <widget class="Line" name="line_3">
      <property name="minimumSize">
       <size>
@@ -364,7 +280,312 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
      </property>
     </widget>
    </item>
-   <item row="7" column="0" colspan="2">
+   <item row="2" column="0" colspan="2">
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>506</width>
+        <height>226</height>
+       </rect>
+      </property>
+      <layout class="QFormLayout" name="formLayout">
+       <property name="fieldGrowthPolicy">
+        <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+       </property>
+       <property name="horizontalSpacing">
+        <number>4</number>
+       </property>
+       <property name="verticalSpacing">
+        <number>4</number>
+       </property>
+       <property name="leftMargin">
+        <number>4</number>
+       </property>
+       <property name="topMargin">
+        <number>4</number>
+       </property>
+       <property name="rightMargin">
+        <number>4</number>
+       </property>
+       <property name="bottomMargin">
+        <number>4</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="ChapterNameLabel">
+         <property name="text">
+          <string>Chapter name:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="ChapterNameED">
+         <property name="toolTip">
+          <string>Enter here the title of the chapter (if the &quot;Chapter name different from slide name&quot; box is checked).</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QCheckBox" name="OverrideProjectDateCB">
+         <property name="toolTip">
+          <string>If this box is checked, the date of the chapter is different from the date of the project.
+
+Remark: It is often useful to differentiate the date of the chapter of the date of the project.
+For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</string>
+         </property>
+         <property name="text">
+          <string>Chapter date different from project date</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="ChapterEventDateLabel">
+         <property name="text">
+          <string>Event date:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QDateEdit" name="ChapterEventDateED">
+         <property name="toolTip">
+          <string>Select a date for the chapter.</string>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="OverrideDateLabel">
+           <property name="text">
+            <string>Override date:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QCheckBox" name="OverrideDateCB">
+             <property name="toolTip">
+              <string>If this box is checked, you can enter a longtime different from that generated from the date of the chapter.</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QPlainTextEdit" name="ChapterDateED">
+           <property name="toolTip">
+            <string>Enter here a date, in a free format, for the chapter</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="4" column="0" colspan="2">
+        <widget class="QCheckBox" name="OverrideProjectLocationCB">
+         <property name="toolTip">
+          <string>If this box is checked, the date of the chapter is different from the date of the project.
+
+Remark: It is often useful to differentiate the date of the chapter of the date of the project.
+For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</string>
+         </property>
+         <property name="text">
+          <string>Chapter location different from project location</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="LocationLabel">
+         <property name="text">
+          <string>Event location:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QFrame" name="LocationFrame">
+           <property name="minimumSize">
+            <size>
+             <width>10</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QFrame {
+background-color: white;
+border: 1px solid darkgray;
+}</string>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::Box</enum>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <property name="spacing">
+             <number>2</number>
+            </property>
+            <property name="leftMargin">
+             <number>2</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>2</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="LocationIcon">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QFrame {
+background-color: transparent;
+border: 0;
+}</string>
+              </property>
+              <property name="text">
+               <string notr="true"/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="Location">
+              <property name="styleSheet">
+               <string notr="true">QFrame {
+background-color: transparent;
+border: 0;
+}</string>
+              </property>
+              <property name="text">
+               <string notr="true"/>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="LocationBT">
+           <property name="toolTip">
+            <string>Select the location of the event of the project</string>
+           </property>
+           <property name="text">
+            <string notr="true"/>
+           </property>
+           <property name="icon">
+            <iconset resource="../RSCffDiaporama.qrc">
+             <normaloff>:/img/EditGMaps.png</normaloff>:/img/EditGMaps.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="ClearLocationBT">
+           <property name="toolTip">
+            <string>Clear this location</string>
+           </property>
+           <property name="text">
+            <string notr="true"/>
+           </property>
+           <property name="icon">
+            <iconset resource="../RSCffDiaporama.qrc">
+             <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item row="10" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <property name="spacing">
       <number>2</number>
@@ -384,7 +605,7 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
         <string>&amp;Project properties</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/PrjProperties.png</normaloff>:/img/PrjProperties.png</iconset>
        </property>
       </widget>
@@ -405,7 +626,7 @@ Standard slide are fully customizable.</string>
         <string>&amp;Convert to standard slide</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/transparent.png</normaloff>:/img/transparent.png</iconset>
        </property>
       </widget>
@@ -421,6 +642,29 @@ Standard slide are fully customizable.</string>
    <header>DlgAutoTitleSlide/cCustomTitleModelTable.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <tabstops>
+  <tabstop>SlideTypeCB</tabstop>
+  <tabstop>SlideCatCB</tabstop>
+  <tabstop>ModelTable</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>ChapterNameED</tabstop>
+  <tabstop>OverrideProjectDateCB</tabstop>
+  <tabstop>ChapterEventDateED</tabstop>
+  <tabstop>OverrideDateCB</tabstop>
+  <tabstop>ChapterDateED</tabstop>
+  <tabstop>OverrideProjectLocationCB</tabstop>
+  <tabstop>LocationBT</tabstop>
+  <tabstop>ClearLocationBT</tabstop>
+  <tabstop>ProjectPropertiesBt</tabstop>
+  <tabstop>ConvertSlideBT</tabstop>
+  <tabstop>OKPreviousBT</tabstop>
+  <tabstop>OKBT</tabstop>
+  <tabstop>OKNextBT</tabstop>
+  <tabstop>CancelBt</tabstop>
+  <tabstop>HelpBt</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../RSCffDiaporama.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -109,8 +109,17 @@ void DlgApplicationSettings::DoInitDialog() {
     ui->AppendObjectCB->setCurrentIndex(ApplicationConfig->AppendObject?1:0);
     ui->AskUserToRemove->setChecked(ApplicationConfig->AskUserToRemove);
 
+    // Network settings
+    ui->ProxyCB->setChecked(ApplicationConfig->UseNetworkProxy);
+    ui->ProxyAddrED->setText(ApplicationConfig->NetworkProxy);
+    ui->ProxyPortED->setText(ApplicationConfig->NetworkProxyPort?QString("%1").arg(ApplicationConfig->NetworkProxyPort):"");
+    ui->ProxyLoginED->setText(ApplicationConfig->NetworkProxyUser);
+    ui->ProxyPWDED->setText(ApplicationConfig->NetworkProxyPWD);
+    s_ProxyChanged();
+
     // Various options
     ui->ShortDateFmtCB->setCurrentIndex(ui->ShortDateFmtCB->findText(ApplicationConfig->ShortDateFormat));
+    ui->DistanceUnitCB->setCurrentIndex(ApplicationConfig->DistanceUnit);
 
     // Video options
     ui->Crop1088To1080CB->setChecked(ApplicationConfig->Crop1088To1080);
@@ -136,6 +145,7 @@ void DlgApplicationSettings::DoInitDialog() {
     ui->TransitionDurationCB->setCurrentIndex(ui->TransitionDurationCB->findText(Duration));
     ui->DefaultTitleCB->setCurrentIndex(ApplicationConfig->DefaultTitleFilling);
     ui->DefaultAuthorED->setText(ApplicationConfig->DefaultAuthor);
+    ui->DefaultAlbumED->setText(ApplicationConfig->DefaultAlbum);
     ui->ID3V2ComptatibilityCB->setChecked(ApplicationConfig->ID3V2Comptatibility);
 
     ui->DefaultThumbCB->PrepareTable(false,ApplicationConfig->ThumbnailModels);
@@ -315,6 +325,7 @@ void DlgApplicationSettings::DoInitDialog() {
     connect(ui->CheckConfigBT,SIGNAL(clicked()),this,SLOT(s_CheckConfig()));
     connect(ui->DBManageDevicesBT,SIGNAL(clicked()),this,SLOT(s_ManageDevices()));
     connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(TabChanged(int)));
+    connect(ui->ProxyCB,SIGNAL(clicked()),this,SLOT(s_ProxyChanged()));
 
     ui->tabWidget->setCurrentIndex(0);
 }
@@ -396,6 +407,13 @@ bool DlgApplicationSettings::DoAccept() {
         default : ApplicationConfig->MemCacheMaxValue=int64_t(256*int64_t(1024*1024));     break;
     }
 
+    // Network settings
+    ApplicationConfig->UseNetworkProxy =ui->ProxyCB->isChecked();
+    ApplicationConfig->NetworkProxy    =ui->ProxyAddrED->text();
+    ApplicationConfig->NetworkProxyPort=ui->ProxyPortED->text().toInt();
+    ApplicationConfig->NetworkProxyUser=ui->ProxyLoginED->text();
+    ApplicationConfig->NetworkProxyPWD =ui->ProxyPWDED->text();
+
     // Editor Options part
     ApplicationConfig->AppendObject                 =ui->AppendObjectCB->currentIndex()==1;
     ApplicationConfig->AskUserToRemove              =ui->AskUserToRemove->isChecked();
@@ -417,9 +435,10 @@ bool DlgApplicationSettings::DoAccept() {
     ApplicationConfig->FixedDuration                =int(ui->StaticShotED->value()*1000);
     ApplicationConfig->ImageGeometry                =(ffd_GEOMETRY)ui->GeometryCombo->currentIndex();
     ApplicationConfig->DefaultTitleFilling          =ui->DefaultTitleCB->currentIndex();
-    ApplicationConfig->DefaultAuthor                =ui->DefaultAuthorED->text();
+    ApplicationConfig->DefaultAlbum                 =ui->DefaultAlbumED->text();
     ApplicationConfig->ID3V2Comptatibility          =ui->ID3V2ComptatibilityCB->isChecked();
     ApplicationConfig->ShortDateFormat              =ui->ShortDateFmtCB->itemText(ui->ShortDateFmtCB->currentIndex());
+    ApplicationConfig->DistanceUnit                 =(cBaseApplicationConfig::DISTANCEUNIT)ui->DistanceUnitCB->currentIndex();
     ApplicationConfig->DefaultThumbnailName         =ui->DefaultThumbCB->GetCurrentModel();
 
     ApplicationConfig->DefaultBlock_Text_TextST     =ApplicationConfig->StyleTextCollection.EncodeString(ui->ST_Text_TextCB,GEOMETRY_NONE,-1);
@@ -536,6 +555,15 @@ void DlgApplicationSettings::s_ManageDevices() {
     DlgManageDevices Dlg(&ApplicationConfig->DeviceModelList,ApplicationConfig,this);
     Dlg.InitDialog();
     Dlg.exec();
+}
+
+//====================================================================================================================
+
+void DlgApplicationSettings::s_ProxyChanged() {
+    ui->ProxyAddrED->setEnabled(ui->ProxyCB->isChecked());      ui->ProxyAddrLabel->setEnabled(ui->ProxyCB->isChecked());
+    ui->ProxyPortED->setEnabled(ui->ProxyCB->isChecked());      ui->ProxyPortLabel->setEnabled(ui->ProxyCB->isChecked());
+    ui->ProxyLoginED->setEnabled(ui->ProxyCB->isChecked());     ui->ProxyLoginLabel->setEnabled(ui->ProxyCB->isChecked());
+    ui->ProxyPWDED->setEnabled(ui->ProxyCB->isChecked());       ui->ProxyPWDLabel->setEnabled(ui->ProxyCB->isChecked());
 }
 
 //====================================================================================================================

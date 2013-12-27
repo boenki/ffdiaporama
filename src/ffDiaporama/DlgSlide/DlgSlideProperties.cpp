@@ -1424,7 +1424,7 @@ void DlgSlideProperties::s_BlockTable_AddGMapsMapBlock() {
     // Create an GMapsMap wrapper
     cGMapsMap   *MediaObject=new cGMapsMap(ApplicationConfig);
     MediaObject->CreatDateTime=QDateTime().currentDateTime();
-    MediaObject->CreateDefaultImage();   // create default image
+    MediaObject->CreateDefaultImage(CurrentSlide->Parent);   // create default image
     MediaObject->GetInformationFromFile("",NULL,NULL,-1);
     DoAddBlock(MediaObject,CurrentSlide->ObjectComposition.List.count());
     // Reset thumbs if needed
@@ -1477,8 +1477,8 @@ void DlgSlideProperties::s_BlockTable_Copy() {
     for (int i=0;i<CompositionList->List.count();i++) if (IsSelected[i]) {
         QDomElement         Element=Object.createElement(QString("Block-%1").arg(BlockNum));
         cCompositionObject  *GlobalBlock=GetGlobalCompositionObject(CompositionList->List[i]->IndexKey);
-        GlobalBlock->SaveToXML(Element,"CLIPBOARD-BLOCK-GLOBAL",CurrentSlide->Parent->ProjectFileName,true,true,NULL,NULL,true);                // Save global object
-        CompositionList->List[i]->SaveToXML(Element,"CLIPBOARD-BLOCK-SHOT",CurrentSlide->Parent->ProjectFileName,true,true,NULL,NULL,true);     // Save shot object
+        GlobalBlock->SaveToXML(Element,"CLIPBOARD-BLOCK-GLOBAL",CurrentSlide->Parent->ProjectFileName,true,true,NULL,NULL,true,false);                // Save global object
+        CompositionList->List[i]->SaveToXML(Element,"CLIPBOARD-BLOCK-SHOT",CurrentSlide->Parent->ProjectFileName,true,true,NULL,NULL,true,false);     // Save shot object
         root.appendChild(Element);
         BlockNum++;
     }
@@ -1520,9 +1520,8 @@ void DlgSlideProperties::s_BlockTable_Paste() {
                 GlobalBlock->IndexKey=CurrentSlide->NextIndexKey;
 
                 cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,CurrentSlide->NextIndexKey,ApplicationConfig,this);
-                ShotBlock.LoadFromXML(Element,"CLIPBOARD-BLOCK-SHOT","",NULL,NULL,true,NULL,true,true);
-
                 ShotBlock.IndexKey=CurrentSlide->NextIndexKey;
+                ShotBlock.LoadFromXML(Element,"CLIPBOARD-BLOCK-SHOT","",&CurrentSlide->ObjectComposition,NULL,true,NULL,true,true,GlobalBlock);
                 ShotBlock.BackgroundBrush->MediaObject=GlobalBlock->BackgroundBrush->MediaObject;
                 ShotBlock.BackgroundBrush->DeleteMediaObject=false;
                 ShotBlock.Text=GlobalBlock->Text;
@@ -1542,6 +1541,11 @@ void DlgSlideProperties::s_BlockTable_Paste() {
                 for (int i=0;i<CurrentSlide->List.count();i++) {
                     CurrentSlide->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CurrentSlide->NextIndexKey,ApplicationConfig,&CurrentSlide->List[i]->ShotComposition));
                     CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(&ShotBlock);
+
+                    // Copy markers (if exist)
+                    for (int j=0;j<ShotBlock.BackgroundBrush->Markers.count();j++)
+                        CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->BackgroundBrush->Markers.append(ShotBlock.BackgroundBrush->Markers[j]);
+
                     // Ensure new object is not visible in previous shot
                     if (i<CurrentShotNbr) {
                         CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->IsVisible=false;

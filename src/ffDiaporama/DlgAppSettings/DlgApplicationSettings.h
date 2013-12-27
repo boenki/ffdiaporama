@@ -52,6 +52,7 @@ private slots:
     void            s_CheckConfig();
     void            s_ManageDevices();
     void            TabChanged(int);
+    void            s_ProxyChanged();
 
     void            FileFormatCombo(int);
     void            SoundtrackFileFormatCombo(int);

@@ -192,6 +192,7 @@ public:
                         ~cCompositionObject();
 
     void                InitDefaultValues();
+    void                CopyBlockProperties(cCompositionObject *SourceBlock,cCompositionObject *DestBlock);
     void                CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
     void                DrawCompositionObject(cDiaporamaObject *Object,QPainter *Painter,double  ADJUST_RATIO,double width,double height,bool PreviewMode,int64_t Position,
                                       cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PreviousCompositionObject,
@@ -199,8 +200,8 @@ public:
                                       bool Transfo=false,double NewX=0,double NewY=0,double NewW=0,double NewH=0,
                                       bool DisplayTextMargin=false,cCompositionObjectContext *PreparedBrush=NULL);
 
-    void                SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool SaveBrush);
-    bool                LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes,bool RestoreBrush);
+    void                SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool SaveBrush,bool IsModel);
+    bool                LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes,bool RestoreBrush,cCompositionObject *GlobalBlock=NULL);
 
     QRectF              GetTextMargin(QRectF Workspace,double  ADJUST_RATIO);
     void                ApplyTextMargin(int TMType);
@@ -240,7 +241,7 @@ public:
     explicit                    cCompositionList(QObject *Parent);
                                 ~cCompositionList();
 
-    void                        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList);
+    void                        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
     bool                        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,cBaseApplicationConfig *ApplicationConfig,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
 };
 
@@ -257,7 +258,7 @@ public:
     explicit                cDiaporamaShot(cDiaporamaObject *Parent);
                             ~cDiaporamaShot();
 
-    void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool LimitedInfo,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList);
+    void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool LimitedInfo,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
     bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
 };
 
@@ -288,6 +289,7 @@ public:
     QDate                   ChapterEventDate;           // Chapter event date (if OverrideProjectEventDate is true)
     bool                    OverrideChapterLongDate;    // if true then chapter long date is different from project long date
     QString                 ChapterLongDate;            // Chapter long date (if OverrideChapterLongDate is true)
+    void                    *ChapterLocation;           // Chapter location (NULL if same as project)
 
     // Background definition
     bool                    BackgroundType;             // Background type : false=same as precedent - true=new background definition
@@ -456,6 +458,7 @@ public:
     void                    UpdateInformation();
     void                    UpdateChapterInformation();
     void                    UpdateStatInformation();
+    cDiaporamaObject        *GetChapterDefObject(cDiaporamaObject *Object);
 
     // Thread functions
     void                    PrepareMusicBloc(bool PreviewMode,int Column,int64_t Position,cSoundBlockList *MusicTrack);
@@ -467,6 +470,8 @@ public:
 
     void                    CreateObjectContextList(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurrentObject,bool PreviewMode,bool AddStartPos,QList<cCompositionObjectContext *> &PreparedBrushList,QObject *Parent);
     void                    PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurrentObject,bool AddStartPos,QList<cCompositionObjectContext *> &PreparedBrushList);
+
+    void                    UpdateGMapsObject(bool ProposeAll=false);
 };
 
 #endif // CDIAPORAMA_H

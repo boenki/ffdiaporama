@@ -150,6 +150,7 @@ private slots:
     void    s_Action_AddTitle();
     void    s_Action_AddEmptyTitle();
     void    s_Action_AddAutoTitleSlide();
+    void    s_Action_AddGMap();
     void    s_Action_AddProject();
     void    DoAddFile();
     void    DoAppendFile();

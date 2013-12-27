@@ -71,17 +71,18 @@ cThumbnailComboBox::cThumbnailComboBox(QWidget *parent):QComboBox(parent) {
     setView(Table);
     ItemDelegate.ComboBox=this;
     setItemDelegate(&ItemDelegate);
-    this->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    ((QTableWidget *)view())->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    ((QTableWidget *)view())->verticalHeader()->setDefaultSectionSize(THUMB_THUMBHEIGHT+DECAL*2);
+    ((QTableWidget *)view())->horizontalHeader()->setDefaultSectionSize(THUMB_THUMBWITH+DECAL*2);
+    ((QTableWidget *)view())->setFixedWidth((THUMB_THUMBWITH+DECAL*2)*NBRCOLUMN+18);
     connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
+    setIconSize(QSize(THUMB_THUMBWITH,THUMB_THUMBHEIGHT));
 }
 
 //========================================================================================================================
 
 void cThumbnailComboBox::PrepareTable(bool AllowCustomized,cModelList *Table) {
     ModelTable=Table;
-    this->view()->setFixedWidth((THUMB_THUMBWITH+DECAL*2)*NBRCOLUMN+18);
-    setIconSize(QSize(THUMB_THUMBWITH,THUMB_THUMBHEIGHT));
-    setFixedSize(QSize((THUMB_THUMBWITH+DECAL*2)+18+4,THUMB_THUMBHEIGHT+DECAL*2+4));
 
     int CurIndex  =((QTableWidget *)view())->currentRow()*NBRCOLUMN+((QTableWidget *)view())->currentColumn();
     while (count()>0) removeItem(count()-1);
@@ -90,12 +91,8 @@ void cThumbnailComboBox::PrepareTable(bool AllowCustomized,cModelList *Table) {
     int NbrRow=NbrItem/NBRCOLUMN;
     if (NbrRow*NBRCOLUMN<NbrItem) NbrRow++;
 
-    for (int i=0;i<NBRCOLUMN;i++) ((QTableWidget *)view())->setColumnWidth(i,THUMB_THUMBWITH+DECAL*2);
-
-    for (int i=0;i<NbrRow;i++) {
+    for (int i=0;i<NbrRow;i++)
         addItem(QIcon(QPixmap().fromImage(ModelTable->List[i*NBRCOLUMN]->PrepareImage(0,Diaporama,ModelTable->List[i*NBRCOLUMN]->Name=="*"?ProjectThumbnail:NULL))),"");
-        ((QTableWidget *)view())->setRowHeight(i,THUMB_THUMBHEIGHT+DECAL*2);
-    }
 
     ((QTableWidget *)view())->setCurrentCell(CurIndex/NBRCOLUMN,CurIndex-(CurIndex/NBRCOLUMN)*NBRCOLUMN);
     setCurrentIndex(CurIndex/NBRCOLUMN);

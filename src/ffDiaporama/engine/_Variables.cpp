@@ -20,6 +20,7 @@
 
 // Specific inclusions
 #include "_Variables.h"
+#include "cLocation.h"
 
 cHTMLConversion HTMLConverter;
 cVariable       Variable;
@@ -114,6 +115,8 @@ cVariable::cVariable() {
     Variables.append(cVariableItem("PAI"));
     Variables.append(cVariableItem("PAP"));
     Variables.append(cVariableItem("PAL"));
+    Variables.append(cVariableItem("PLN"));
+    Variables.append(cVariableItem("PLA"));
     Variables.append(cVariableItem("PCT"));
     Variables.append(cVariableItem("PDD"));
     Variables.append(cVariableItem("PSC"));
@@ -131,6 +134,8 @@ cVariable::cVariable() {
     Variables.append(cVariableItem("CCI"));
     Variables.append(cVariableItem("CCD"));
     Variables.append(cVariableItem("CCT"));
+    Variables.append(cVariableItem("CLN"));
+    Variables.append(cVariableItem("CLA"));
     Variables.append(cVariableItem("CLD"));
     Variables.append(cVariableItem("CSD"));
     Variables.append(cVariableItem("CYR"));
@@ -171,7 +176,8 @@ QString cVariable::ResolveTextVariable(cDiaporamaObject *Object,QString SourceTe
         else if (Variables[i].VarName=="PAU") VarName=Object->Parent->ProjectInfo->Author;
         else if (Variables[i].VarName=="PAI") VarName=QApplication::translate("Variables","%1 presents").arg(Object->Parent->ProjectInfo->Author);
         else if (Variables[i].VarName=="PAP") VarName=QApplication::translate("Variables","A %1 production").arg(Object->Parent->ProjectInfo->Author);
-        else if (Variables[i].VarName=="PAL") VarName=Object->Parent->ProjectInfo->Album;
+        else if (Variables[i].VarName=="PLN") VarName=Object->Parent->ProjectInfo->Location?((cLocation *)Object->Parent->ProjectInfo->Location)->Name:QApplication::translate("Variables","Project's location not set (Name)");
+        else if (Variables[i].VarName=="PLA") VarName=Object->Parent->ProjectInfo->Location?((cLocation *)Object->Parent->ProjectInfo->Location)->FriendlyAddress:QApplication::translate("Variables","Project's location not set (Address)");
         else if (Variables[i].VarName=="PCT") VarName=Object->Parent->ProjectInfo->Comment;
         else if (Variables[i].VarName=="PDD") { VarName=Object->Parent->ProjectInfo->Duration.toString("HH:mm:ss.zzz"); VarName=VarName.left(VarName.lastIndexOf(".")); }
         else if (Variables[i].VarName=="PSC") VarName=QString("%1").arg(Object->Parent->List.count());
@@ -195,6 +201,8 @@ QString cVariable::ResolveTextVariable(cDiaporamaObject *Object,QString SourceTe
         else if (Variables[i].VarName=="CCI") VarName=QApplication::translate("Variables","Chapter %1").arg(ChapterNumber);
         else if (Variables[i].VarName=="CCD") VarName=GetInformationValue(ChapterNum+"Duration",&Object->Parent->ProjectInfo->ChaptersProperties);
         else if (Variables[i].VarName=="CCT") VarName=QString("%1").arg(Object->Parent->ProjectInfo->NbrChapters);
+        else if (Variables[i].VarName=="CLN") VarName=GetInformationValue(ChapterNum+"LocationName",&Object->Parent->ProjectInfo->ChaptersProperties);
+        else if (Variables[i].VarName=="CLA") VarName=GetInformationValue(ChapterNum+"LocationAddress",&Object->Parent->ProjectInfo->ChaptersProperties);
 
         // Current chapter date values
         else if (Variables[i].VarName=="CSD") VarName=GetInformationValue(ChapterNum+"Date",&Object->Parent->ProjectInfo->ChaptersProperties);
@@ -275,6 +283,8 @@ QString cVariable::PopupVariableMenu(QWidget *ParentWindow) {
     AppendAction(PropertiesMenu,ParentWindow,QApplication::translate("Variables","Project author as <Author presents>")+"\t%PAI%");
     AppendAction(PropertiesMenu,ParentWindow,QApplication::translate("Variables","Project author as <A Author production>")+"\t%PAP%");
     AppendAction(PropertiesMenu,ParentWindow,QApplication::translate("Variables","Project album")+"\t%PAL%");
+    AppendAction(PropertiesMenu,ParentWindow,QApplication::translate("Variables","Project location name")+"\t%PLN%");
+    AppendAction(PropertiesMenu,ParentWindow,QApplication::translate("Variables","Project location address")+"\t%PLA%");
     AppendAction(PropertiesMenu,ParentWindow,QApplication::translate("Variables","Project comment")+"\t%PCT%");
     AppendAction(PropertiesMenu,ParentWindow,QApplication::translate("Variables","Project duration")+"\t%PDD%");
     AppendAction(PropertiesMenu,ParentWindow,QApplication::translate("Variables","Project slide count")+"\t%PSC%");
@@ -295,6 +305,8 @@ QString cVariable::PopupVariableMenu(QWidget *ParentWindow) {
     AppendAction(ChapterMenu,ParentWindow,QApplication::translate("Variables","Current chapter number as \"Chapter N°\"")+"\t%CCI%");
     AppendAction(ChapterMenu,ParentWindow,QApplication::translate("Variables","Current chapter duration")+"\t%CCD%");
     AppendAction(ChapterMenu,ParentWindow,QApplication::translate("Variables","Chapter count")+"\t%CCT%");
+    AppendAction(PropertiesMenu,ParentWindow,QApplication::translate("Variables","Current chapter location name")+"\t%CLN%");
+    AppendAction(PropertiesMenu,ParentWindow,QApplication::translate("Variables","Current chapter location address")+"\t%CLA%");
 
     AppendAction(ChapterDateMenu,ParentWindow,QApplication::translate("Variables","Long date")+"\t%CLD%");
     AppendAction(ChapterDateMenu,ParentWindow,QApplication::translate("Variables","Short date")+"\t%CSD%");

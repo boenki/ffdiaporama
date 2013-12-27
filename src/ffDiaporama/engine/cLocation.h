@@ -27,17 +27,17 @@
 
 class cLocation {
 public:
-    qlonglong               FavKey;             // Database key of favorite definition for this location (or -1 if it's not a favorite)
-    QString                 Name;               // Friendly name
-    QString                 Address;            // Address as text
-    QString                 FriendlyAddress;    // Friendly address
-    double                  GPS_cx,GPS_cy;      // GPS position (longitude/latitude)
-    int                     ZoomLevel;          // Preferred Map ZoomLevel
-    qlonglong               ThumbnailResKey;    // Key of a 64x64 image as thumb
-    cBrushDefinition        Icon;               // cBrushDefinition to create thumb
-    QSize                   MarkerSize;         // keep size
-
-    enum MARKERCOMPO {ICONNAMEADDR,ICONNAME,ICON,NAME,NAMEADDR}             MarkerCompo;            // Marker composition
+    enum LOCATIONTYPE {FREE,PROJECT,CHAPTER}                                LocationType;           // Indicate if this location is a link to another location
+    qlonglong                                                               FavKey;                 // Database key of favorite definition for this location (or -1 if it's not a favorite)
+    QString                                                                 Name;                   // Friendly name
+    QString                                                                 Address;                // Address as text
+    QString                                                                 FriendlyAddress;        // Friendly address
+    double                                                                  GPS_cx,GPS_cy;          // GPS position (longitude/latitude)
+    int                                                                     ZoomLevel;              // Preferred Map ZoomLevel
+    qlonglong                                                               ThumbnailResKey;        // Key of a 64x64 image as thumb
+    cBrushDefinition                                                        Icon;                   // cBrushDefinition to create thumb
+    QSize                                                                   MarkerSize;             // keep size
+    enum MARKERCOMPO {ICONNAMEADDR,ICONNAME,ICON,NAME,NAMEADDR,ADDR}        MarkerCompo;            // Marker composition
     enum MARKERPOINT {MARKERPOINTPOINT,MARKERPOINTCIRCLE,MARKERPOINTRECT}   MarkerPointForm;        // GPS Position form
     enum MARKERFORM  {MARKERFORMRECT,MARKERFORMBUBLE}                       MarkerForm;             // Marker form
     cBrushDefinition::sMarker::MARKERSIZE                                   Size;                   // Size of the marker and the GPS Position
@@ -46,7 +46,8 @@ public:
     explicit                cLocation(cBaseApplicationConfig *ApplicationConfig);
     virtual                 ~cLocation() {}
 
-    virtual void            SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList);
+    virtual void            CopyFromLocation(cLocation *Src);
+    virtual void            SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
     virtual bool            LoadFromXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
 
     virtual QImage          GetThumb(int IconSize);
@@ -55,8 +56,6 @@ public:
     virtual void            RemoveFavorite();
     virtual bool            LoadFromFavorite(qlonglong Key);
     virtual bool            SearchInFavorite();
-
-    virtual void            ComputeMarkerSize(QSize MapImageSize);
 
 signals:
 

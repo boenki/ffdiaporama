@@ -153,7 +153,7 @@ public:
         QString MarkerColor;
         QString TextColor;
         QString LineColor;
-        enum MARKERVISIBILITY {MARKERHIDE,MARKERSHADE,MARKERSHOW} Visibility;
+        enum MARKERVISIBILITY {MARKERHIDE,MARKERSHADE,MARKERSHOW,MARKERTABLE} Visibility;
         enum MARKERSIZE {SMALL,MEDIUM,LARGE,VERYLARGE};
     };
 
@@ -164,8 +164,11 @@ public:
 
     void                    InitDefaultValues();
 
+    void                    *GetDiaporamaObject();
+    void                    *GetDiaporama();
+
     void                    CopyFromBrushDefinition(cBrushDefinition *BrushToCopy);
-    void                    SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList);
+    void                    SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
     bool                    LoadFromXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
     QBrush                  *GetBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush);
 
@@ -205,7 +208,9 @@ public:
     int                     GetHeightForWidth(int WantedWith,QRectF Rect);
     int                     GetWidthForHeight(int WantedHeight,QRectF Rect);
 
-    void                    DrawMarker(QPainter *Painter,QPoint Position,int MarkerNum,sMarker::MARKERVISIBILITY Visibility,QSize MarkerSize,cBrushDefinition::sMarker::MARKERSIZE Size);
+    void                    GetRealLocation(void **Location,void **RealLocation);
+    void                    DrawMarker(QPainter *Painter,QPoint Position,int MarkerNum,sMarker::MARKERVISIBILITY Visibility,QSize MarkerSize,cBrushDefinition::sMarker::MARKERSIZE Size,bool DisplayType=false);
+    void                    ComputeMarkerSize(void *Location,QSize MapImageSize);
     void                    AddMarkerToImage(QImage *DestImage);
 };
 

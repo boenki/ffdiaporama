@@ -52,11 +52,11 @@ public:
     int                 VideoCodecSubId;
     sIMAGEDEF           *ImageDef;
 
-    int64_t             LastVideoPts;
-    int64_t             IncreasingVideoPts;
+    qreal               LastVideoPts;
+    qreal               IncreasingVideoPts;
     int64_t             VideoFrameNbr;
     AVStream            *VideoStream;
-    double              dFPS;
+    qreal               dFPS;
     int                 InternalWidth,InternalHeight,ExtendV;
     AVFrame             *VideoFrame;
     struct SwsContext   *VideoFrameConverter;           // Converter from QImage to YUV image
@@ -71,8 +71,8 @@ public:
     int                 AudioSampleRate;
     int                 AudioCodecSubId;
 
-    int64_t             LastAudioPts;
-    int64_t             IncreasingAudioPts;
+    qreal               LastAudioPts;
+    qreal               IncreasingAudioPts;
     int64_t             AudioFrameNbr;
     AVStream            *AudioStream;
     AVFrame             *AudioFrame;
@@ -91,7 +91,8 @@ public:
     QTime               StartTime;                      // Time the process start
     QTime               LastCheckTime;                  // Last time the loop start
 
-    int64_t             RenderedFrame,Position;
+    int64_t             RenderedFrame;
+    qreal               Position;
     int                 Column,ColumnStart,AdjustedDuration;
 
     QList<cCompositionObjectContext *> PreparedTransitBrushList;

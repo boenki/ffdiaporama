@@ -358,6 +358,10 @@ public:
     bool                    PartitionMode;                              // If true, partition mode is on
     int                     WindowDisplayMode;
     bool                    WikiFollowInterface;                        // If true Wiki follow the interface
+    bool                    UseNetworkProxy;                            // If true use a proxy to access to internet
+    QString                 NetworkProxy;                               // Network proxy address
+    int                     NetworkProxyPort;                           // Network proxy port
+    QString                 NetworkProxyUser,NetworkProxyPWD;           // Network proxy login/pwd
 
     // Editor options
     bool                    AppendObject;                               // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
@@ -405,13 +409,15 @@ public:
     int                     NoShotDuration;                             // Default duration for fixed image when is alone (no shot)
     int                     FixedDuration;                              // Default duration for fixed image
     QString                 DefaultAuthor;                              // Default Author name
+    QString                 DefaultAlbum;                               // Default Album name
     int                     DefaultTitleFilling;                        // Default Title filling mode
     int                     DefaultTransitionSpeedWave;                 // Default Speed wave for transition
     int                     DefaultBlockAnimSpeedWave;                  // Default Speed wave for block animation
     int                     DefaultImageAnimSpeedWave;                  // Default Speed wave for image framing and correction animation
     bool                    ID3V2Comptatibility;
     QString                 DefaultThumbnailName;                       // Default Thumbnail
-    QString                 ShortDateFormat;
+    QString                 ShortDateFormat;                            // Short date format to be used with variables
+    enum DISTANCEUNIT {KILOMETERS,MILES} DistanceUnit;                  // Distance unit to be used with gmaps object
 
     // Default transition
     bool                    RandomTransition;                           // if true randomize a transition
@@ -485,6 +491,8 @@ public:
 
     virtual QString         GetValideWEBLanguage(QString Language);
     virtual void            PreloadSystemIcons();
+
+    QNetworkAccessManager   *GetNetworkAccessManager(QObject *parent);
 
     QStringList             LoadBrowserFavoritesFromDabase();
     void                    SaveBrowserFavoritesToDabase(QStringList BrowserFavorites);

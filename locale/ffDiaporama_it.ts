@@ -871,6 +871,75 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
         <translation>Definisce il valore predefinito per il campo Autore (spesso chiamato Artista dai Sistemi Media Center)
 Note: questo campo è limitato a 30 caratteri per rimanere compatibile con i jukebox</translation>
     </message>
+    <message>
+        <source>Distance unit :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This option lets you specify the unit to be used for distances.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Kilometers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Miles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Album :</source>
+        <translation type="unfinished">Album :</translation>
+    </message>
+    <message>
+        <source>Defines the default value for the field Album
+Note: this field is limited to 30 characters to remain compatible with jukebox</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Proxy address :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Network settings&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check this box if your network requires that you use a proxy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use a proxy to access the Internet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter address of the proxy host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the port number to access the proxy or nothing to use default port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Proxy port :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the login name to access the proxy or nothing if no login is required</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the login password to access the proxy or nothing if no login is required</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgAutoTitleSlide</name>
@@ -1005,6 +1074,22 @@ Diapositive standard sono tutte personalizzabili.</translation>
     <message>
         <source>&amp;Help</source>
         <translation>A&amp;iuto</translation>
+    </message>
+    <message>
+        <source>Chapter location different from project location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Event location:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the location of the event of the project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear this location</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1237,6 +1322,22 @@ Ad esempio, se il progetto è &quot;mia vacanza da 1 a 15&quot;, il capitolo pu�
     <message>
         <source>&amp;Help</source>
         <translation>A&amp;iuto</translation>
+    </message>
+    <message>
+        <source>Event location:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter location different from project location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the location of the event of the project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear this location</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1743,6 +1844,11 @@ Do you want to resume the generation now?</source>
     </message>
     <message>
         <source>Open the favorite menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A map on slide %1 must be regenerated.
+Do you want to do it now?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4931,10 +5037,6 @@ Le scelte possibili sono di 0,5 secondi (molto veloce) a 10 secondi (molto lento
         <translation>Commento :</translation>
     </message>
     <message>
-        <source>Chapters :</source>
-        <translation>Capitoli :</translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
         <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
@@ -4956,10 +5058,6 @@ Le scelte possibili sono di 0,5 secondi (molto veloce) a 10 secondi (molto lento
         <translation>#;Diapositiva;Titolo;Inizio;Fine;Durata</translation>
     </message>
     <message>
-        <source>Project</source>
-        <translation>Progetto</translation>
-    </message>
-    <message>
         <source>Project geometry:</source>
         <translation>Geometrica progetto:</translation>
     </message>
@@ -4974,10 +5072,6 @@ Le scelte possibili sono di 0,5 secondi (molto veloce) a 10 secondi (molto lento
     <message>
         <source>Cinema (2.35:1)</source>
         <translation>Cinema (2.35:1)</translation>
-    </message>
-    <message>
-        <source>Default options</source>
-        <translation>Opzioni predefinite</translation>
     </message>
     <message>
         <source>Block animation:</source>
@@ -5084,50 +5178,20 @@ Osservazione: Questo campo è generalmente mostrato dai sistemi di indicizzazion
         <translation>Sovrascrivi data :</translation>
     </message>
     <message>
-        <source>Options for speed wave</source>
-        <translation>Opzioni per velocità onda</translation>
-    </message>
-    <message>
         <source>Defines the model use as default thumbnail</source>
         <translation>Definisce il modello usato come miniatura predefinita</translation>
-    </message>
-    <message>
-        <source>Thumbnail :</source>
-        <translation>Miniatura :</translation>
-    </message>
-    <message>
-        <source>
-Options for joined ressources</source>
-        <translation>
-Opzioni per unire risorse</translation>
     </message>
     <message>
         <source>Customize the thumbnail only for this project (without creating a new thumbnail model)</source>
         <translation>Personalizza la miniatura solo per questo progetto (senza creare un nuovo modello di miniatura)</translation>
     </message>
     <message>
-        <source>Customize</source>
-        <translation>Personalizza</translation>
-    </message>
-    <message>
         <source>Create a new model from this thumbnail or edit custom thumbnail</source>
         <translation>Crea un nuovo modello da questa miniatura o modifica la miniatura personalizzata</translation>
     </message>
     <message>
-        <source>Edit custom
-thumbnail</source>
-        <translation>Modifica miniatura
-personalizzata</translation>
-    </message>
-    <message>
         <source>Expor thumbnail to a jpeg file</source>
         <translation>Esporta miniatura in un file jpeg</translation>
-    </message>
-    <message>
-        <source>Export
-thumbnail</source>
-        <translation>Esporta
-miniatura</translation>
     </message>
     <message>
         <source>Export thumbnail</source>
@@ -5165,6 +5229,28 @@ personalizzato</translation>
     <message>
         <source>Enter here the date of the event of the project as a free text</source>
         <translation>Inserisci qui la data dell&apos;evento del progetto come un testo libero</translation>
+    </message>
+    <message>
+        <source>
+Options for speed wave</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>
+Chapters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Event location:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the location of the event of the project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear this location</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6330,6 +6416,22 @@ Vuoi scaricarla ora?</translation>
         <source>Init multimedia browser...</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Edit this location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define a location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a Google Maps map</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTable</name>
@@ -7169,6 +7271,30 @@ Vuoi scaricarla ora?</translation>
         <comment>Project statistics-Music</comment>
         <translation> da «%1»</translation>
     </message>
+    <message>
+        <source>Project location name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project location address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter location name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter location address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project&apos;s location not set (Name)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project&apos;s location not set (Address)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>cBaseMediaFile</name>
@@ -7342,6 +7468,38 @@ Vuoi scaricarla ora?</translation>
     </message>
     <message>
         <source>1080px9-16:9 (5760x3240)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The map must be regenerated because the locations have changed or project&apos;s location no set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project&apos;s location must be defined to produce this Google Maps map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1
+Zoom %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Small</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>cBrushDefinition</name>
+    <message>
+        <source>Error: Project&apos;s location no set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project&apos;s location (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter&apos;s location (%1)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8074,6 +8232,26 @@ Esempio: se Y=25 % del primo trimestre nella parte superiore dell&apos;immagine 
     </message>
     <message>
         <source>Do you want include the markers on the map?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add project&apos;s location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add chapter&apos;s location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Localizations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

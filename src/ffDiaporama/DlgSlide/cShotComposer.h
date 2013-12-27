@@ -61,7 +61,6 @@ public:
     virtual void                DoInitDialog();
 
     // Utility function used to apply modification from one shot to next shot and/or global composition
-    virtual void                CopyBlockProperties(cCompositionObject *SourceBlock,cCompositionObject *DestBlock);
     virtual void                ResetThumbs(bool ResetAllThumbs);
     virtual void                ApplyToContexte(bool ResetAllThumbs);
     virtual cCompositionObject  *GetGlobalCompositionObject(int IndexKey);      // Return CompositionObject in the global composition list for specific IndexKey

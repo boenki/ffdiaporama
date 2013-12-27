@@ -21,7 +21,9 @@
 // Specific inclusions
 #include "_Diaporama.h"
 #include "_Variables.h"
+#include "cLocation.h"
 #include "CustomCtrl/_QCustomDialog.h"
+#include "DlgGMapsLocation/DlgGMapsGeneration.h"
 #include "MainWindow/mainwindow.h"
 
 #include <QAbstractTextDocumentLayout>
@@ -366,7 +368,7 @@ QRectF cCompositionObject::GetTextMargin(QRectF Workspace,double  ADJUST_RATIO) 
 
 //====================================================================================================================
 
-void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool SaveBrush) {
+void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool SaveBrush,bool IsModel) {
     // Force a refresh of IsTextEmpty flag
     QTextDocument TextDocument;
     TextDocument.setHtml(Text);
@@ -441,14 +443,14 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     if (FormShadowDistance!=DEFAULT_SHAPE_SHADOWDISTANCE)   Element.setAttribute("FormShadowDistance",FormShadowDistance);          // Distance from form to shadow
     if (FormShadowColor!=DEFAULT_SHAPE_SHADOWCOLOR)         Element.setAttribute("FormShadowColor",FormShadowColor);                // Shadow color
 
-    if (SaveBrush) BackgroundBrush->SaveToXML(&Element,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);    // Brush of the background of the form
+    if (SaveBrush) BackgroundBrush->SaveToXML(&Element,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,IsModel);    // Brush of the background of the form
 
     domDocument.appendChild(Element);
 }
 
 //====================================================================================================================
 
-bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes,bool RestoreBrush) {
+bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes,bool RestoreBrush,cCompositionObject *GlobalBlock) {
     InitDefaultValues();
 
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
@@ -456,9 +458,11 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         bool    IsOk=true;
 
         if (Element.hasAttribute("TypeComposition"))            TypeComposition =Element.attribute("TypeComposition").toInt();
-        if (Element.hasAttribute("IndexKey"))                   IndexKey        =Element.attribute("IndexKey").toInt();
         if (Element.hasAttribute("IsVisible"))                  IsVisible       =Element.attribute("IsVisible")=="1";
         if (Element.hasAttribute("SameAsPrevShot"))             BlockInheritance=Element.attribute("SameAsPrevShot")=="1";
+
+        // Special case for paste operation (indexkey was changed)
+        if (GlobalBlock) IndexKey=GlobalBlock->IndexKey; else if (Element.hasAttribute("IndexKey")) IndexKey=Element.attribute("IndexKey").toInt();
 
         // Attribut of the object
         if (Element.hasAttribute("x"))                          x               =GetDoubleValue(Element,"x");                           // Position x
@@ -864,6 +868,51 @@ void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
         else if (((MainWindow *)ApplicationConfig->TopLevelWindow)->Diaporama->ImageGeometry==GEOMETRY_40_17) { DisplayW=1920; DisplayH=816;  }
         BackgroundBrush->AspectRatio =(h*DisplayH)/(w*DisplayW);
     }
+}
+
+//====================================================================================================================
+
+void cCompositionObject::CopyBlockProperties(cCompositionObject *SourceBlock,cCompositionObject *DestBlock) {
+    if (SourceBlock==DestBlock) return;
+
+    // Attribut of the text part
+    DestBlock->Text                 =SourceBlock->Text;                     // Text of the object
+    DestBlock->TextClipArtName      =SourceBlock->TextClipArtName;          // Text ClipArt of the object
+    DestBlock->FontName             =SourceBlock->FontName;                 // font name
+    DestBlock->FontSize             =SourceBlock->FontSize;                 // font size
+    DestBlock->FontColor            =SourceBlock->FontColor;                // font color
+    DestBlock->FontShadowColor      =SourceBlock->FontShadowColor;          // font shadow color
+    DestBlock->IsBold               =SourceBlock->IsBold;                   // true if bold mode
+    DestBlock->IsItalic             =SourceBlock->IsItalic;                 // true if Italic mode
+    DestBlock->IsUnderline          =SourceBlock->IsUnderline;              // true if Underline mode
+    DestBlock->HAlign               =SourceBlock->HAlign;                   // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
+    DestBlock->VAlign               =SourceBlock->VAlign;                   // Vertical alignement : 0=up, 1=center, 2=bottom
+    DestBlock->StyleText            =SourceBlock->StyleText;                // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+    DestBlock->TMType               =SourceBlock->TMType;                   // Text margins type (0=full shape, 1=shape default, 2=custom)
+    DestBlock->TMx                  =SourceBlock->TMx;                      // Text margins
+    DestBlock->TMy                  =SourceBlock->TMy;                      // Text margins
+    DestBlock->TMw                  =SourceBlock->TMw;                      // Text margins
+    DestBlock->TMh                  =SourceBlock->TMh;                      // Text margins
+
+    // Attribut of the shap part
+    DestBlock->BackgroundForm       =SourceBlock->BackgroundForm;           // Type of the form : 0=None, 1=Rectangle, 2=RoundRect, 3=Buble, 4=Ellipse, 5=Triangle UP (Polygon)
+    DestBlock->PenSize              =SourceBlock->PenSize;                  // Width of the border of the form
+    DestBlock->PenStyle             =SourceBlock->PenStyle;                 // Style of the pen border of the form
+    DestBlock->PenColor             =SourceBlock->PenColor;                 // Color of the border of the form
+    DestBlock->FormShadow           =SourceBlock->FormShadow;               // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
+    DestBlock->FormShadowDistance   =SourceBlock->FormShadowDistance;       // Distance from form to shadow
+    DestBlock->FormShadowColor      =SourceBlock->FormShadowColor;          // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
+    DestBlock->Opacity              =SourceBlock->Opacity;                  // Opacity of the form
+
+    // Attribut of the BackgroundBrush of the shap part
+    DestBlock->BackgroundBrush->BrushType           =SourceBlock->BackgroundBrush->BrushType;
+    DestBlock->BackgroundBrush->PatternType         =SourceBlock->BackgroundBrush->PatternType;
+    DestBlock->BackgroundBrush->GradientOrientation =SourceBlock->BackgroundBrush->GradientOrientation;
+    DestBlock->BackgroundBrush->ColorD              =SourceBlock->BackgroundBrush->ColorD;
+    DestBlock->BackgroundBrush->ColorF              =SourceBlock->BackgroundBrush->ColorF;
+    DestBlock->BackgroundBrush->ColorIntermed       =SourceBlock->BackgroundBrush->ColorIntermed;
+    DestBlock->BackgroundBrush->Intermediate        =SourceBlock->BackgroundBrush->Intermediate;
+    DestBlock->BackgroundBrush->BrushImage          =SourceBlock->BackgroundBrush->BrushImage;
 }
 
 //====================================================================================================================
@@ -1302,13 +1351,13 @@ cCompositionList::~cCompositionList() {
 
 //====================================================================================================================
 
-void cCompositionList::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList) {
+void cCompositionList::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     // Save composition list
     Element.setAttribute("TypeComposition",TypeComposition);
     Element.setAttribute("CompositionNumber",List.count());
-    for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,true,ReplaceList,ResKeyList,true);
+    for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,true,ReplaceList,ResKeyList,true,IsModel);
     domDocument.appendChild(Element);
 }
 
@@ -1357,12 +1406,12 @@ cDiaporamaShot::~cDiaporamaShot() {
 
 //===============================================================
 
-void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool LimitedInfo,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList) {
+void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool LimitedInfo,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
 
-    if (!LimitedInfo) Element.setAttribute("StaticDuration",qlonglong(StaticDuration));                           // Duration (in msec) of the static part animation
-    ShotComposition.SaveToXML(Element,"ShotComposition",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);   // Composition list for this object
+    if (!LimitedInfo) Element.setAttribute("StaticDuration",qlonglong(StaticDuration));                                         // Duration (in msec) of the static part animation
+    ShotComposition.SaveToXML(Element,"ShotComposition",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,IsModel);    // Composition list for this object
     domDocument.appendChild(Element);
 }
 
@@ -1417,6 +1466,7 @@ void cDiaporamaObject::InitDefaultValues() {
     OverrideProjectEventDate                = DEFAULT_CHAPTEROVERRIDE;
     ChapterEventDate                        = Parent->ProjectInfo->EventDate;
     OverrideChapterLongDate                 = DEFAULT_CHAPTEROVERRIDE;
+    ChapterLocation                         = NULL;
     ChapterLongDate                         = "";
     BackgroundType                          = false;                        // Background type : false=same as precedent - true=new background definition
     BackgroundBrush->BrushType              = BRUSHTYPE_SOLID;
@@ -1438,6 +1488,10 @@ cDiaporamaObject::~cDiaporamaObject() {
     if (BackgroundBrush) {
         delete BackgroundBrush;
         BackgroundBrush=NULL;
+    }
+    if (ChapterLocation) {
+        delete ((cLocation *)ChapterLocation);
+        ChapterLocation=NULL;
     }
     while (List.count()>0) delete List.takeLast();
 }
@@ -1697,7 +1751,11 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
         if (StartNewChapter && !ChapterName.isEmpty())                                      Element.setAttribute("ChapterName",             ChapterName);
         if (OverrideChapterLongDate && !ChapterLongDate.isEmpty())                          Element.setAttribute("ChapterLongDate",         ChapterLongDate);
         if (OverrideProjectEventDate && (ChapterEventDate!=Parent->ProjectInfo->EventDate)) Element.setAttribute("ChapterEventDate",        ChapterEventDate.toString(Qt::ISODate));
-
+        if (ChapterLocation) {
+            QDomElement SubElement=DomDocument.createElement("ChapterLocation");
+            ((cLocation *)ChapterLocation)->SaveToXML(&SubElement,"",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,false);
+            Element.appendChild(SubElement);
+        }
 
         // Transition properties
         SubElement=DomDocument.createElement("Transition");
@@ -1714,7 +1772,7 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
         if (MusicReduceFactor!=DEFAULT_MUSICREDUCEFACTOR)   Element.setAttribute("MusicReduceFactor",QString("%1").arg(MusicReduceFactor,0,'f'));   // factor for volume reduction if MusicReduceVolume is true
         if (MusicList.count()>0) {
             Element.setAttribute("MusicNumber",MusicList.count());                           // Number of file in the playlist
-            for (int i=0;i<MusicList.count();i++) MusicList[i].SaveToXML(&Element,"Music-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);
+            for (int i=0;i<MusicList.count();i++) MusicList[i].SaveToXML(&Element,"Music-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,false);
         }
 
         if ((ThumbnailKey!=-1)&&(SaveThumbAllowed)) {
@@ -1725,17 +1783,17 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
         // Background properties
         SubElement=DomDocument.createElement("Background");
         SubElement.setAttribute("BackgroundType",BackgroundType?"1":"0");                                        // Background type : false=same as precedent - true=new background definition
-        BackgroundBrush->SaveToXML(&SubElement,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);             // Background brush
+        BackgroundBrush->SaveToXML(&SubElement,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,false);  // Background brush
         Element.appendChild(SubElement);
 
     }
 
     // Global blocks composition table
-    ObjectComposition.SaveToXML(Element,"ObjectComposition",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);         // ObjectComposition
+    ObjectComposition.SaveToXML(Element,"ObjectComposition",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,ElementName==TITLEMODEL_ELEMENTNAME);         // ObjectComposition
 
     // Shots definitions
     Element.setAttribute("ShotNumber",List.count());
-    for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,(ElementName==THUMBMODEL_ELEMENTNAME),ReplaceList,ResKeyList);
+    for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,(ElementName==THUMBMODEL_ELEMENTNAME),ReplaceList,ResKeyList,ElementName==TITLEMODEL_ELEMENTNAME);
 
     domDocument.appendChild(Element);
 }
@@ -1749,6 +1807,7 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
         bool IsOk=true;
+        bool ModifyFlag=false;
 
         // Load shot list
         List.clear();
@@ -1773,6 +1832,12 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             if (Element.hasAttribute("ChapterEventDate"))           ChapterEventDate        =ChapterEventDate.fromString(Element.attribute("ChapterEventDate"),Qt::ISODate);
             ChapterEventDate=OverrideProjectEventDate?ChapterEventDate:Parent->ProjectInfo->EventDate;
             ChapterLongDate =OverrideProjectEventDate?OverrideChapterLongDate?ChapterLongDate:FormatLongDate(ChapterEventDate):Parent->ProjectInfo->LongDate;
+            if ((Element.elementsByTagName("ChapterLocation").length()>0)&&(Element.elementsByTagName("ChapterLocation").item(0).isElement()==true)) {
+                QDomElement SubElement=Element.elementsByTagName("ChapterLocation").item(0).toElement();
+                if (ChapterLocation) delete (cLocation *)ChapterLocation;
+                ChapterLocation=new cLocation(Parent->ApplicationConfig);
+                ((cLocation *)ChapterLocation)->LoadFromXML(&SubElement,"",PathForRelativPath,AliasList,&ModifyFlag,ResKeyList,DuplicateRes);
+            }
 
             // Compatibility with version prior to 1.7
             if ((Parent->ProjectInfo->ffDRevision<"20130725")&&((StartNewChapter)||(GetSlideNumber()==0))) ChapterName=SlideName;
@@ -1796,7 +1861,6 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                 int MusicNumber   =Element.attribute("MusicNumber").toInt();                // Number of file in the playlist
                 for (int i=0;i<MusicNumber;i++) {
                     cMusicObject *MusicObject=new cMusicObject(((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->ApplicationConfig);
-                    bool ModifyFlag=false;
                     if (!MusicObject->LoadFromXML(&Element,"Music-"+QString("%1").arg(i),PathForRelativPath,AliasList,&ModifyFlag)) IsOk=false;
                     MusicList.append(*MusicObject);
                     if (ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
@@ -1817,8 +1881,10 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             if (Element.hasAttribute("ThumbRessource")) {
                 if (ResKeyList) {
                     int ResKey=Element.attribute("ThumbRessource").toLongLong();
-                    for (int ResNum=0;ResNum<ResKeyList->count();ResNum++)
-                        if (ResKey==ResKeyList->at(ResNum).OrigKey) ThumbnailKey=ResKeyList->at(ResNum).NewKey;
+                    for (int ResNum=0;ResNum<ResKeyList->count();ResNum++) if (ResKey==ResKeyList->at(ResNum).OrigKey) {
+                        ResKey=ResKeyList->at(ResNum).NewKey;
+                        break;
+                    }
                 } else ThumbnailKey=Element.attribute("ThumbRessource").toLongLong();
             }
 
@@ -1933,6 +1999,7 @@ cDiaporama::cDiaporama(cBaseApplicationConfig *TheApplicationConfig,bool LoadDef
     ProjectFileName             = "";                                                               // Path and name of current file project
     ProjectInfo->Composer       = QString(APPLICATION_NAME)+QString(" ")+CurrentAppName;
     ProjectInfo->Author         = ApplicationConfig->DefaultAuthor;
+    ProjectInfo->Album          = ApplicationConfig->DefaultAlbum;
     ProjectInfo->DefaultLanguage= ApplicationConfig->DefaultLanguage;
     TransitionSpeedWave         = ApplicationConfig->DefaultTransitionSpeedWave;                    // Speed wave for transition
     BlockAnimSpeedWave          = ApplicationConfig->DefaultBlockAnimSpeedWave;                     // Speed wave for block animation
@@ -2000,6 +2067,8 @@ void cDiaporama::UpdateChapterInformation() {
         ProjectInfo->ChaptersProperties.append("Chapter_"+ChapterNum+":title"   +QString("##")+(List[i]->StartNewChapter?List[i]->ChapterName:ProjectInfo->Title));
         ProjectInfo->ChaptersProperties.append("Chapter_"+ChapterNum+":Date"    +QString("##")+(List[i]->OverrideProjectEventDate?List[i]->ChapterEventDate:ProjectInfo->EventDate).toString(ApplicationConfig->ShortDateFormat));
         ProjectInfo->ChaptersProperties.append("Chapter_"+ChapterNum+":LongDate"+QString("##")+(List[i]->OverrideProjectEventDate?List[i]->OverrideChapterLongDate?List[i]->ChapterLongDate:FormatLongDate(List[i]->ChapterEventDate):ProjectInfo->LongDate));
+        ProjectInfo->ChaptersProperties.append("Chapter_"+ChapterNum+":LocationName"+QString("##")+(List[i]->ChapterLocation?((cLocation *)List[i]->ChapterLocation)->Name:ProjectInfo->Location?((cLocation *)ProjectInfo->Location)->Name:QApplication::translate("Variables","Project's location not set (Name)")));
+        ProjectInfo->ChaptersProperties.append("Chapter_"+ChapterNum+":LocationAddress"+QString("##")+(List[i]->ChapterLocation?((cLocation *)List[i]->ChapterLocation)->FriendlyAddress:ProjectInfo->Location?((cLocation *)ProjectInfo->Location)->FriendlyAddress:QApplication::translate("Variables","Project's location not set (Address)")));
     }
 }
 
@@ -2068,6 +2137,19 @@ void cDiaporama::UpdateStatInformation() {
 
         }
     }
+}
+
+//====================================================================================================================
+
+cDiaporamaObject *cDiaporama::GetChapterDefObject(cDiaporamaObject *Object) {
+    // Find current Object
+    cDiaporamaObject *CurChapter=NULL;
+    int              ObjectNum=0;
+    while ((ObjectNum<List.count())&&(List[ObjectNum]!=Object)) {
+        if (List[ObjectNum]->StartNewChapter) CurChapter=List[ObjectNum];
+        ObjectNum++;
+    }
+    return CurChapter;
 }
 
 //====================================================================================================================
@@ -2307,6 +2389,7 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow,cReplaceObjectList *ReplaceList,
             if (ProjectInfo->Title.length()>30) ProjectInfo->Title=ProjectInfo->Title.left(30);
         }
         if (ProjectInfo->Author=="") ProjectInfo->Author=ApplicationConfig->DefaultAuthor;
+        if (ProjectInfo->Album=="")  ProjectInfo->Album =ApplicationConfig->DefaultAlbum;
         ProjectInfo->Composer=QString(APPLICATION_NAME)+QString(" ")+CurrentAppName;
     }
     ProjectInfo->ffDRevision=CurrentAppVersion;
@@ -2316,7 +2399,7 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow,cReplaceObjectList *ReplaceList,
     domDocument.appendChild(root);
 
     // Save project properties
-    ProjectInfo->SaveToXML(&root,"",ProjectFileName,false,ReplaceList,&ResKeyList);
+    ProjectInfo->SaveToXML(&root,"",ProjectFileName,false,ReplaceList,&ResKeyList,false);
     ProjectThumbnail->SaveToXML(root,THUMBMODEL_ELEMENTNAME,ProjectFileName,false,ReplaceList,&ResKeyList,true);
 
     // Save basic information on project
@@ -2765,6 +2848,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
 }
 
 //============================================================================================
+
 void cDiaporama::CloseUnusedLibAv(int CurrentCell) {
     // Parse all unused slide to close unused libav buffer, codec, ...
     for (int i=0;i<List.count();i++) {
@@ -2774,6 +2858,70 @@ void cDiaporama::CloseUnusedLibAv(int CurrentCell) {
     }
     //ApplicationConfig->ImagesCache.FreeMemoryToMaxValue(NULL);
 }
+
+
+//============================================================================================
+
+void cDiaporama::UpdateGMapsObject(bool ProposeAll) {
+    cLocation *PrjLocation=(cLocation *)ProjectInfo->Location;
+    cLocation *ChpLocation=PrjLocation;
+    for (int i=0;i<List.count();i++) {
+        if (List[i]->StartNewChapter) {
+            if (List[i]->ChapterLocation) ChpLocation=(cLocation *)List[i]->ChapterLocation;
+                else ChpLocation=PrjLocation;
+        }
+        for (int j=0;j<List[i]->ObjectComposition.List.count();j++) if ((List[i]->ObjectComposition.List[j]->BackgroundBrush->MediaObject)&&(List[i]->ObjectComposition.List[j]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP)) {
+            cGMapsMap *CurrentMap=(cGMapsMap *)List[i]->ObjectComposition.List[j]->BackgroundBrush->MediaObject;
+            bool      Propose=false;
+            bool      FullRefresh=false;
+            for (int loc=0;loc<CurrentMap->List.count();loc++) {
+                cLocation *Location=(cLocation *)CurrentMap->List[loc];
+                if (Location->LocationType==cLocation::PROJECT) {
+                    if ((ProposeAll)&&(!CurrentMap->IsMapValide)) {
+                        Propose=true;
+                    } else if ((PrjLocation)&&((Location->Name!=PrjLocation->Name)||(Location->FriendlyAddress!=PrjLocation->FriendlyAddress)||(Location->GPS_cx!=PrjLocation->GPS_cx)||(Location->GPS_cy!=PrjLocation->GPS_cy))) {
+                        if ((PrjLocation)&&((Location->GPS_cx!=PrjLocation->GPS_cx)||(Location->GPS_cy!=PrjLocation->GPS_cy))) {
+                            FullRefresh=true;
+                            CurrentMap->IsValide=false;
+                        }
+                        Propose=true;
+                    }
+                } else if (Location->LocationType==cLocation::CHAPTER) {
+                    if ((ProposeAll)&&(!CurrentMap->IsMapValide)) {
+                        Propose=true;
+                    } else if ((ChpLocation)&&((Location->Name!=ChpLocation->Name)||(Location->FriendlyAddress!=ChpLocation->FriendlyAddress)||(Location->GPS_cx!=ChpLocation->GPS_cx)||(Location->GPS_cy!=ChpLocation->GPS_cy))) {
+                        if ((PrjLocation)&&((Location->GPS_cx!=ChpLocation->GPS_cx)||(Location->GPS_cy!=ChpLocation->GPS_cy))) {
+                            FullRefresh=true;
+                            CurrentMap->IsValide=false;
+                        }
+                        Propose=true;
+                    }
+                }
+                if (Propose) {
+                    cLocation *RealLoc=NULL;
+                    List[i]->ObjectComposition.List[j]->BackgroundBrush->GetRealLocation((void **)&Location,(void **)&RealLoc);
+                    Propose=(Location!=NULL)&&(RealLoc!=NULL);
+                }
+            }
+            if (Propose) {
+                qlonglong PrevRessourceKey=CurrentMap->RessourceKey;
+                if ((FullRefresh)&&(CustomMessageBox(ApplicationConfig->TopLevelWindow,QMessageBox::Question,APPLICATION_NAME,
+                             QApplication::translate("DlgGMapsLocation","A map on slide %1 must be regenerated.\nDo you want to do it now?").arg(i+1),
+                             QMessageBox::Yes|QMessageBox::No,QMessageBox::Yes)==QMessageBox::Yes)) {
+                    DlgGMapsGeneration Dlg(List[i]->ObjectComposition.List[j]->BackgroundBrush,CurrentMap,false,ApplicationConfig,ApplicationConfig->TopLevelWindow);
+                    Dlg.InitDialog();
+                    Dlg.exec();
+                }
+                // Reset cache of map object
+                ApplicationConfig->ImagesCache.RemoveImageObject(PrevRessourceKey,-1);
+                // Reset thumbnail of slide
+                ApplicationConfig->SlideThumbsTable->ClearThumbs(List[i]->ThumbnailKey);
+                IsModify=true;
+            }
+        }
+    }
+}
+
 //*********************************************************************************************************************************************
 // Class object for rendering
 //*********************************************************************************************************************************************

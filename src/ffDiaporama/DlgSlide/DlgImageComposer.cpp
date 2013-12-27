@@ -406,8 +406,8 @@ void DlgImageComposer::s_BlockTable_Copy() {
         QDomElement         Element=Object.createElement(QString("Block-%1").arg(BlockNum));
         cCompositionObject  *GlobalBlock=GetGlobalCompositionObject(CompositionList->List[i]->IndexKey);
 
-        GlobalBlock->SaveToXML(Element,"CLIPBOARD-BLOCK-GLOBAL",ffdProject->ProjectFileName,true,true,NULL,NULL,true);                // Save global object
-        CompositionList->List[i]->SaveToXML(Element,"CLIPBOARD-BLOCK-SHOT",ffdProject->ProjectFileName,true,true,NULL,NULL,true);     // Save shot object
+        GlobalBlock->SaveToXML(Element,"CLIPBOARD-BLOCK-GLOBAL",ffdProject->ProjectFileName,true,true,NULL,NULL,true,false);                // Save global object
+        CompositionList->List[i]->SaveToXML(Element,"CLIPBOARD-BLOCK-SHOT",ffdProject->ProjectFileName,true,true,NULL,NULL,true,false);     // Save shot object
         root.appendChild(Element);
         BlockNum++;
     }

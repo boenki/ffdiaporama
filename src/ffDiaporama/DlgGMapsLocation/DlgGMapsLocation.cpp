@@ -51,19 +51,21 @@ void cCustomMapWidget::mouseReleaseEvent(QMouseEvent *ev) {
 
 DlgGMapsLocation::DlgGMapsLocation(cLocation *Location,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgGMapsLocation) {
     ui->setupUi(this);
-    OkBt            =ui->OKBT;
-    CancelBt        =ui->CancelBt;
-    HelpBt          =ui->HelpBt;
-    HelpFile        ="0123";
-    this->Location  =Location;
-    PrevRessourceKey=Location->ThumbnailResKey;
-    StopMaj         =false;
+    OkBt                =ui->OKBT;
+    CancelBt            =ui->CancelBt;
+    HelpBt              =ui->HelpBt;
+    HelpFile            ="0123";
+    this->Location      =Location;
+    PrevRessourceKey    =Location->ThumbnailResKey;
+    StopMaj             =false;
+    NetworkAccessManager=ApplicationConfig->GetNetworkAccessManager(this);
 }
 
 //============================================================================================================================
 
 DlgGMapsLocation::~DlgGMapsLocation() {
     delete ui;
+    if (NetworkAccessManager) NetworkAccessManager->deleteLater();
 }
 
 //============================================================================================================================
@@ -118,9 +120,9 @@ void DlgGMapsLocation::DoInitDialog() {
 
 void DlgGMapsLocation::PrepareGlobalUndo() {
     Undo=new QDomDocument(APPLICATION_NAME);
-    QDomElement root=Undo->createElement("UNDO-DLG");                   // Create xml document and root
-    Location->SaveToXML(&root,"UNDO-DLG-OBJECT","",true,NULL,NULL);     // Save object
-    Undo->appendChild(root);                                            // Add object to xml document
+    QDomElement root=Undo->createElement("UNDO-DLG");                       // Create xml document and root
+    Location->SaveToXML(&root,"UNDO-DLG-OBJECT","",true,NULL,NULL,false);   // Save object
+    Undo->appendChild(root);                                                // Add object to xml document
 }
 
 //============================================================================================================================
@@ -438,7 +440,7 @@ void DlgGMapsLocation::UserEnterAddress() {
     QUrl url=QString("http://maps.googleapis.com/maps/api/geocode/xml?address=%1&sensor=false").arg(Current);
     GetLatLngAtWork=true;
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    GetLatLngNetReply = NetworkAccessManager.get(QNetworkRequest(url));
+    GetLatLngNetReply = NetworkAccessManager->get(QNetworkRequest(url));
     connect(GetLatLngNetReply,SIGNAL(finished()), this,SLOT(httpGetLatLngFinished()));
     connect(GetLatLngNetReply,SIGNAL(readyRead()),this,SLOT(httpGetLatLngReadyRead()));
 }
@@ -478,7 +480,7 @@ void DlgGMapsLocation::RefreshMap() {
     ui->ZoomUp->setEnabled(false);
     GetMapAtWork=true;
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    GetMapNetReply = NetworkAccessManager.get(QNetworkRequest(url));
+    GetMapNetReply = NetworkAccessManager->get(QNetworkRequest(url));
     connect(GetMapNetReply,SIGNAL(finished()), this,SLOT(httpGetMapFinished()));
     connect(GetMapNetReply,SIGNAL(readyRead()),this,SLOT(httpGetMapReadyRead()));
 }
@@ -493,7 +495,7 @@ void DlgGMapsLocation::ClickOnMap() {
     QUrl url=QString("http://maps.googleapis.com/maps/api/geocode/xml?latlng=%1,%2&sensor=false").arg(Location->GPS_cy).arg(Location->GPS_cx);
     GetAddressAtWork=true;
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    GetAddressNetReply = NetworkAccessManager.get(QNetworkRequest(url));
+    GetAddressNetReply = NetworkAccessManager->get(QNetworkRequest(url));
     connect(GetAddressNetReply,SIGNAL(finished()), this,SLOT(httpGetAddressFinished()));
     connect(GetAddressNetReply,SIGNAL(readyRead()),this,SLOT(httpGetAddressReadyRead()));
 }

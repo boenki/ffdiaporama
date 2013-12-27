@@ -335,8 +335,8 @@ bool cEncodeVideo::OpenEncoder(cDiaporama *Diaporama,QString OutputFileName,int 
     // Init counter
     //=======================================
 
-    dFPS    =double(VideoFrameRate.den)/double(VideoFrameRate.num);
-    NbrFrame=int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide))*dFPS/1000);    // Number of frame to generate
+    dFPS    =qreal(VideoFrameRate.den)/qreal(VideoFrameRate.num);
+    NbrFrame=int(qreal(Diaporama->GetPartialDuration(FromSlide,ToSlide))*dFPS/1000);    // Number of frame to generate
 
     return true;
 }
@@ -717,7 +717,7 @@ bool cEncodeVideo::DoEncode() {
     int                     FrameSize     =0;
     QObject                 FakeParentObject(NULL);
 
-    IncreasingVideoPts=double(1000)/double(dFPS);
+    IncreasingVideoPts=qreal(1000)/dFPS;
 
     // Init RenderMusic and ToEncodeMusic
     if (AudioStream) {

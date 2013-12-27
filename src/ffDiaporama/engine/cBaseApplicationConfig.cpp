@@ -31,6 +31,7 @@
 #include <QTextDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QNetworkProxy>
 #include "HelpPopup/HelpPopup.h"
 
 struct sBrowserTypeDef BrowserTypeDef[BROWSER_TYPE_NBR]={
@@ -108,7 +109,7 @@ DownloadObject::DownloadObject(QString FileName,QObject *parent):QObject(parent)
     Status              =false;
     NetworkDataFileName =FileName;
     loop                =NULL;
-    NetworkManager      =new QNetworkAccessManager(this);
+    NetworkManager      =ApplicationConfig->GetNetworkAccessManager(this);
     GetNewtorkDataReply =NetworkManager->get(QNetworkRequest(QUrl(QString(LOCAL_WEBURL)+NetworkDataFileName)));
     int httpstatuscode  =GetNewtorkDataReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toUInt();
 
@@ -393,7 +394,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage) {
     //************************************
     // set language
     //************************************
-    // First thing to do is to load ForceLanguage from USERCONFIGFILE and install AppTranslator to fix text codec !
+    // First thing to do is to load ForceLanguage, UseNetworkProxy and NetworkProxy from USERCONFIGFILE and install AppTranslator to fix text codec !
     QFile           file(UserConfigFile);
     QDomDocument    domDocument;
     QDomElement     root;
@@ -407,7 +408,12 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage) {
             domDocument.setContent(domDocument.toString(4),true,&errorStr,&errorLine,&errorColumn);
             if ((root.elementsByTagName("GlobalPreferences").length()>0)&&(root.elementsByTagName("GlobalPreferences").item(0).isElement()==true)) {
                 QDomElement Element=root.elementsByTagName("GlobalPreferences").item(0).toElement();
-                if ((Element.hasAttribute("ForceLanguage"))&&(ForceLanguage=="")) ForceLanguage=Element.attribute("ForceLanguage");
+                if ((Element.hasAttribute("ForceLanguage"))&&(ForceLanguage=="")) ForceLanguage   =Element.attribute("ForceLanguage");
+                if (Element.hasAttribute("UseNetworkProxy"))                      UseNetworkProxy =Element.attribute("UseNetworkProxy")!="0";
+                if (Element.hasAttribute("NetworkProxy"))                         NetworkProxy    =Element.attribute("NetworkProxy");
+                if (Element.hasAttribute("NetworkProxyPort"))                     NetworkProxyPort=Element.attribute("NetworkProxyPort").toInt();
+                if (Element.hasAttribute("NetworkProxyUser"))                     NetworkProxyUser=Element.attribute("NetworkProxyUser");
+                if (Element.hasAttribute("NetworkProxyPWD"))                      NetworkProxyPWD =Element.attribute("NetworkProxyPWD");
             }
         }
     }
@@ -618,6 +624,11 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
             if (Element.hasAttribute("DefaultTransitionDuration"))  DefaultTransitionDuration   =Element.attribute("DefaultTransitionDuration").toInt();
             if (Element.hasAttribute("AskUserToRemove"))            AskUserToRemove             =Element.attribute("AskUserToRemove")!="0";
             if (Element.hasAttribute("WikiFollowInterface"))        WikiFollowInterface         =Element.attribute("WikiFollowInterface")!="0";
+            if (Element.hasAttribute("UseNetworkProxy"))            UseNetworkProxy             =Element.attribute("UseNetworkProxy")!="0";
+            if (Element.hasAttribute("NetworkProxy"))               NetworkProxy                =Element.attribute("NetworkProxy");
+            if (Element.hasAttribute("NetworkProxyPort"))           NetworkProxyPort            =Element.attribute("NetworkProxyPort").toInt();
+            if (Element.hasAttribute("NetworkProxyUser"))           NetworkProxyUser            =Element.attribute("NetworkProxyUser");
+            if (Element.hasAttribute("NetworkProxyPWD"))            NetworkProxyPWD             =Element.attribute("NetworkProxyPWD");
             if ((Element.hasAttribute("SlideRuler"))&&(Element.attribute("SlideRuler")!="0"))   SlideRuler=RULER_DEFAULT;
             if (Element.hasAttribute("DlgSlideRuler"))              SlideRuler                  =Element.attribute("DlgSlideRuler").toInt();
             if (Element.hasAttribute("ThumbRuler"))                 ThumbRuler                  =Element.attribute("ThumbRuler").toInt();
@@ -642,11 +653,13 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
             if (Element.hasAttribute("FixedDuration"))              FixedDuration               =Element.attribute("FixedDuration").toInt();
             if (Element.hasAttribute("DefaultTitleFilling"))        DefaultTitleFilling         =Element.attribute("DefaultTitleFilling").toInt();
             if (Element.hasAttribute("DefaultAuthor"))              DefaultAuthor               =Element.attribute("DefaultAuthor");
+            if (Element.hasAttribute("DefaultAlbum"))               DefaultAlbum                =Element.attribute("DefaultAlbum");
             if (Element.hasAttribute("DefaultTransitionSpeedWave")) DefaultTransitionSpeedWave  =Element.attribute("DefaultTransitionSpeedWave").toInt();
             if (Element.hasAttribute("DefaultBlockAnimSpeedWave"))  DefaultBlockAnimSpeedWave   =Element.attribute("DefaultBlockAnimSpeedWave").toInt();
             if (Element.hasAttribute("DefaultImageAnimSpeedWave"))  DefaultImageAnimSpeedWave   =Element.attribute("DefaultImageAnimSpeedWave").toInt();
             if (Element.hasAttribute("ID3V2Comptatibility"))        ID3V2Comptatibility         =Element.attribute("ID3V2Comptatibility")!="0";
             if (Element.hasAttribute("ShortDateFormat"))            ShortDateFormat             =Element.attribute("ShortDateFormat");
+            if (Element.hasAttribute("DistanceUnit"))               DistanceUnit                =(DISTANCEUNIT)Element.attribute("DistanceUnit").toInt();
 
             // Compatibility with version prior to 1.5
             if (Element.hasAttribute("SpeedWave")) {
@@ -804,6 +817,12 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
     Element.setAttribute("DefaultTransitionDuration",   DefaultTransitionDuration);
     Element.setAttribute("AskUserToRemove",             AskUserToRemove?"1":"0");
     Element.setAttribute("WikiFollowInterface",         WikiFollowInterface?"1":"0");
+    Element.setAttribute("UseNetworkProxy",             UseNetworkProxy?"1":"0");
+    Element.setAttribute("NetworkProxy",                NetworkProxy);
+    Element.setAttribute("NetworkProxyPort",            NetworkProxyPort);
+    Element.setAttribute("NetworkProxyUser",            NetworkProxyUser);
+    Element.setAttribute("NetworkProxyPWD",             NetworkProxyPWD);
+
     Element.setAttribute("DlgSlideRuler",               SlideRuler);
     Element.setAttribute("ThumbRuler",                  ThumbRuler);
     Element.setAttribute("FramingRuler",                FramingRuler?"1":"0");
@@ -814,12 +833,14 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
     Element.setAttribute("NoShotDuration",              NoShotDuration);
     Element.setAttribute("FixedDuration",               FixedDuration);
     Element.setAttribute("DefaultAuthor",               DefaultAuthor);
+    Element.setAttribute("DefaultAlbum",                DefaultAlbum);
     Element.setAttribute("DefaultTitleFilling",         DefaultTitleFilling);
     Element.setAttribute("DefaultTransitionSpeedWave",  DefaultTransitionSpeedWave);
     Element.setAttribute("DefaultBlockAnimSpeedWave",   DefaultBlockAnimSpeedWave);
     Element.setAttribute("DefaultImageAnimSpeedWave",   DefaultImageAnimSpeedWave);
     Element.setAttribute("ID3V2Comptatibility",         ID3V2Comptatibility?"1":"0");
     Element.setAttribute("ShortDateFormat",             ShortDateFormat);
+    Element.setAttribute("DistanceUnit",                DistanceUnit);
 
     SubElement=domDocument.createElement("DefaultBlock_Text");
     SubElement.setAttribute("TextST",                   DefaultBlock_Text_TextST);
@@ -919,6 +940,7 @@ void cBaseApplicationConfig::InitValues() {
     AskUserToRemove             = true;                     // If true, user must answer to a confirmation dialog box to remove slide
     AppendObject                = false;                    // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
     WikiFollowInterface         = true;
+    UseNetworkProxy             = false;                    // If true use a proxy to access to internet
     DisplayUnit                 = 1;                        // Display coordinates unit
     DefaultFraming              = 2;                        // 0=Width, 1=Height, 2=Full
     TimelineHeight              = TIMELINEMINHEIGH;         // Initial height of the timeline
@@ -933,12 +955,14 @@ void cBaseApplicationConfig::InitValues() {
     FramingRuler                = true;                     // if true, ruler is on in framing/correction dialog box
     DefaultTitleFilling         = 0;                        // Default Title filling mode
     DefaultAuthor               = "";                       // Default Author name
+    DefaultAlbum                = "";                       // Default Album name
     DefaultTransitionSpeedWave  = SPEEDWAVE_SINQUARTER;     // Default Speed wave for transition
     DefaultBlockAnimSpeedWave   = SPEEDWAVE_LINEAR;         // Default Speed wave for block animation
     DefaultImageAnimSpeedWave   = SPEEDWAVE_LINEAR;         // Default Speed wave for image framing and correction animation
     ID3V2Comptatibility         = false;                    // if true, ffd project properties field are limited to 30 characters
     DefaultThumbnailName        = "100000";
     ShortDateFormat             = QApplication::translate("DlgApplicationSettings","MM/dd/yyyy","Default Date format : dd/MM/yyyy or MM/dd/yyyy or yyyy/MM/dd or dd.MM.yyyy and so on...");
+    DistanceUnit                = KILOMETERS;
 
     DefaultFormat               = 1;                        // Default format = avi
     DefaultNameProjectName      = true;                     // Use project name as default name for rendering
@@ -1046,4 +1070,16 @@ void cBaseApplicationConfig::DuplicateRessource(qlonglong *RessourceKey) {
     if (ImgCache->CacheRenderImage)  NewImgCache->CacheRenderImage =new QImage(*ImgCache->CacheRenderImage);
     NewImgCache->ByteCount=ImgCache->ByteCount;
     ImagesCache.List.prepend(NewImgCache);
+}
+
+//====================================================================================================================
+// return a QNetworkAccessManager object configured with proxy if needed
+
+QNetworkAccessManager *cBaseApplicationConfig::GetNetworkAccessManager(QObject *parent) {
+    QNetworkAccessManager *NAM=new QNetworkAccessManager(parent);
+    if (UseNetworkProxy) {
+        QNetworkProxy Proxy(QNetworkProxy::HttpProxy,NetworkProxy,NetworkProxyPort,NetworkProxyUser,NetworkProxyPWD);
+        NAM->setProxy(Proxy);
+    }
+    return NAM;
 }

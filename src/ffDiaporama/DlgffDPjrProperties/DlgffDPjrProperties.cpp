@@ -22,9 +22,11 @@
 #include "ui_DlgffDPjrProperties.h"
 
 #include "engine/cTextFrame.h"
+#include "engine/cLocation.h"
 #include "CustomCtrl/cCTexteFrameComboBox.h"
 
 #include "DlgSlide/DlgImageComposer.h"
+#include "DlgGMapsLocation/DlgGMapsLocation.h"
 
 //====================================================================================================================
 
@@ -35,8 +37,9 @@ DlgffDPjrProperties::DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject
 
     this->IsPrjCreate=IsPrjCreate;
     this->ffdProject =ffdProject;
-    ui->setupUi(this);
+    IsLocationChanged=false;
 
+    ui->setupUi(this);
     CancelBt=ui->CancelBt;
     OkBt    =ui->OkBt;
     HelpBt  =ui->HelpBt;
@@ -57,7 +60,6 @@ void DlgffDPjrProperties::DoInitDialog() {
     } else {
         setWindowTitle(QApplication::translate("DlgffDPjrProperties","Project properties"));
     }
-    ui->tabWidget->setCurrentIndex(0);
     ui->GeometryCombo->setCurrentIndex(ffdProject->ImageGeometry);
     ui->GeometryCombo->setEnabled(IsPrjCreate);
     ui->TitleED->setText(ffdProject->ProjectInfo->Title);
@@ -99,6 +101,14 @@ void DlgffDPjrProperties::DoInitDialog() {
     ui->ThumbCB->PrepareTable(true,ApplicationConfig->ThumbnailModels);
     ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
 
+    if (ffdProject->ProjectInfo->Location) {
+        ui->Location->setText(QString("%1 (%2)").arg(((cLocation *)ffdProject->ProjectInfo->Location)->Name).arg(((cLocation *)ffdProject->ProjectInfo->Location)->FriendlyAddress));
+        ui->LocationIcon->setPixmap(QPixmap().fromImage(((cLocation *)ffdProject->ProjectInfo->Location)->GetThumb(16)));
+    } else {
+        ui->Location->setText("");
+        ui->LocationIcon->setPixmap(QPixmap());
+    }
+
     // Define handler
     connect(ui->DateEdit,SIGNAL(dateChanged(const QDate &)),this,SLOT(EventDateChanged(const QDate &)));
     connect(ui->OverrideDateCB,SIGNAL(stateChanged(int)),this,SLOT(OverrideDateChanged(int)));
@@ -106,8 +116,13 @@ void DlgffDPjrProperties::DoInitDialog() {
     connect(ui->EditThumbBT,SIGNAL(clicked()),this,SLOT(EditThumb()));
     connect(ui->ExportThumbBT,SIGNAL(clicked()),this,SLOT(ExportThumb()));
     connect(ui->ThumbCB,SIGNAL(itemSelectionHaveChanged()),this,SLOT(ThumbChanged()));
-    connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(TabChanged(int)));
+    connect(ui->TitleED,SIGNAL(textChanged(QString)),this,SLOT(TitleChanged(QString)));
+    connect(ui->AlbumED,SIGNAL(textChanged(QString)),this,SLOT(AlbumChanged(QString)));
+    connect(ui->AuthorED,SIGNAL(textChanged(QString)),this,SLOT(AuthorChanged(QString)));
+    connect(ui->LocationBT,SIGNAL(pressed()),this,SLOT(SelectLocation()));
+    connect(ui->ClearLocationBT,SIGNAL(pressed()),this,SLOT(ClearLocation()));
 
+    ui->ThumbCB->MakeIcons();    // Refresh icons for curstom combo
     ThumbChanged();
 }
 
@@ -129,7 +144,7 @@ void DlgffDPjrProperties::PrepareGlobalUndo() {
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG"); // Create xml document and root
-    ffdProject->ProjectInfo->SaveToXML(&root,"",ffdProject->ProjectFileName,true,NULL,NULL);
+    ffdProject->ProjectInfo->SaveToXML(&root,"",ffdProject->ProjectFileName,true,NULL,NULL,false);
     ffdProject->ProjectThumbnail->SaveToXML(root,"UNDO-DLG-ProjectThumbnail",ffdProject->ProjectFileName,true,NULL,NULL,false);
     Undo->appendChild(root); // Add object to xml document
 }
@@ -154,19 +169,38 @@ bool DlgffDPjrProperties::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::DoAccept");
 
     if (IsPrjCreate) ffdProject->ImageGeometry=(ffd_GEOMETRY)ui->GeometryCombo->currentIndex();
-    ffdProject->ProjectInfo->Title          =ui->TitleED->text();
+    ffdProject->ProjectInfo->Album          =ui->AlbumED->text();
+    ffdProject->ProjectInfo->Author         =ui->AuthorED->text();
     ffdProject->ProjectInfo->LongDate       =ui->DateED->toPlainText();
     ffdProject->ProjectInfo->EventDate      =ui->DateEdit->date();
     ffdProject->ProjectInfo->OverrideDate   =ui->OverrideDateCB->isChecked();
-    ffdProject->ProjectInfo->Author         =ui->AuthorED->text();
-    ffdProject->ProjectInfo->Album          =ui->AlbumED->text();
     ffdProject->ProjectInfo->Comment        =ui->CommentED->toPlainText();
     ffdProject->ProjectInfo->DefaultLanguage=ui->LanguageED->text();
     ffdProject->TransitionSpeedWave         =ui->TransitionSpeedWaveCB->GetCurrentValue();
     ffdProject->BlockAnimSpeedWave          =ui->BlockSpeedWaveCB->GetCurrentValue();
     ffdProject->ImageAnimSpeedWave          =ui->ImageSpeedWaveCB->GetCurrentValue();
     ffdProject->ThumbnailName               =ui->ThumbCB->GetCurrentModel();
+
+    if (IsLocationChanged) ffdProject->UpdateGMapsObject();
+
     return true;
+}
+
+//====================================================================================================================
+
+void DlgffDPjrProperties::TitleChanged(QString) {
+    ffdProject->ProjectInfo->Title=ui->TitleED->text();
+    ui->ThumbCB->MakeIcons();    // Refresh icons for curstom combo
+}
+
+void DlgffDPjrProperties::AlbumChanged(QString) {
+    ffdProject->ProjectInfo->Album=ui->AlbumED->text();
+    ui->ThumbCB->MakeIcons();    // Refresh icons for curstom combo
+}
+
+void DlgffDPjrProperties::AuthorChanged(QString) {
+    ffdProject->ProjectInfo->Author=ui->AuthorED->text();
+    ui->ThumbCB->MakeIcons();    // Refresh icons for curstom combo
 }
 
 //====================================================================================================================
@@ -178,6 +212,7 @@ void DlgffDPjrProperties::EventDateChanged(const QDate &NewDate) {
         ffdProject->ProjectInfo->LongDate=FormatLongDate(ffdProject->ProjectInfo->EventDate);
         ui->DateED->setPlainText(ffdProject->ProjectInfo->LongDate);
     }
+    ui->ThumbCB->MakeIcons();    // Refresh icons for curstom combo
 }
 
 //====================================================================================================================
@@ -190,6 +225,7 @@ void DlgffDPjrProperties::OverrideDateChanged(int) {
         ui->DateED->setPlainText(ffdProject->ProjectInfo->LongDate);
     }
     ui->DateED->setEnabled(ui->OverrideDateCB->isChecked());
+    ui->ThumbCB->MakeIcons();    // Refresh icons for curstom combo
 }
 
 //====================================================================================================================
@@ -277,17 +313,6 @@ void DlgffDPjrProperties::EditThumb() {
 
 //====================================================================================================================
 
-void DlgffDPjrProperties::TabChanged(int NewTab) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::TabChanged");
-
-    if (NewTab==1) {
-        ui->ThumbCB->MakeIcons();    // Refresh icons for curstom combo
-        DoAccept();
-    }
-}
-
-//====================================================================================================================
-
 void DlgffDPjrProperties::ThumbChanged() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::ThumbChanged");
     ffdProject->ThumbnailName=ui->ThumbCB->GetCurrentModel();
@@ -310,4 +335,78 @@ void DlgffDPjrProperties::ThumbChanged() {
         ui->AdminEditThumbBT->setText(QApplication::translate("DlgffDPjrProperties","Create\ncustom model"));
         ui->AdminEditThumbBT->setEnabled(true);
     }
+}
+
+//====================================================================================================================
+#define FAVACTIONTYPE_ACTIONTYPE    0xF000
+#define FAVACTIONTYPE_EDIT          0x1000
+#define FAVACTIONTYPE_SELECT        0x8000
+
+void DlgffDPjrProperties::SelectLocation() {
+    QMenu       *ContextMenu=new QMenu(this);
+    bool        AddSep=false;
+
+    QAction     *Add=CreateMenuAction(QIcon(":/img/gmap_add.png"),
+                                      ffdProject->ProjectInfo->Location?QApplication::translate("MainWindow","Edit this location"):QApplication::translate("MainWindow","Define a location"),
+                                      FAVACTIONTYPE_EDIT,false,false,this);
+    ContextMenu->addAction(Add);
+
+    QSqlQuery   Query(ApplicationConfig->Database->db);
+    QString     QueryString("SELECT Key,Name,FAddress,Thumbnail FROM Location ORDER BY LOWER(Name)");
+    Query.prepare(QueryString);
+    if (!Query.exec()) DisplayLastSQLError(&Query); else while (Query.next()) {
+        bool      Ret;
+        qlonglong Key=Query.value(0).toLongLong(&Ret);
+        if (Ret) {
+            if (!AddSep) {
+                ContextMenu->addSeparator();
+                AddSep=true;
+            }
+            QString     Name   =Query.value(1).toString();
+            QString     Address=Query.value(2).toString();
+            QByteArray  Data   =Query.value(3).toByteArray();
+            QImage      Thumb; Thumb.loadFromData(Data);
+            bool        IsCurrent=(Key==(ffdProject->ProjectInfo->Location?((cLocation *)ffdProject->ProjectInfo->Location)->FavKey:-1));
+            QAction *Act=CreateMenuAction(QIcon(QPixmap().fromImage(Thumb)),QString("%1 (%2)").arg(Name).arg(Address),FAVACTIONTYPE_SELECT+Key,true,IsCurrent,this);
+            ContextMenu->addAction(Act);
+        }
+    }
+
+    QAction *Action=ContextMenu->exec(QCursor::pos());
+    if (Action) {
+        int ActionType=Action->data().toInt() & FAVACTIONTYPE_ACTIONTYPE;
+        if (ActionType==FAVACTIONTYPE_EDIT) {
+            cLocation *PrevLocation=(cLocation *)ffdProject->ProjectInfo->Location;
+            if (!((cLocation *)ffdProject->ProjectInfo->Location)) ffdProject->ProjectInfo->Location=new cLocation(ApplicationConfig);
+            DlgGMapsLocation Dlg((cLocation *)ffdProject->ProjectInfo->Location,ApplicationConfig,this);
+            Dlg.InitDialog();
+            if ((Dlg.exec()!=0)&&(!PrevLocation)) {
+                delete (cLocation *)ffdProject->ProjectInfo->Location;
+                ffdProject->ProjectInfo->Location=NULL;
+            }
+        } else if (Action->text()!="") {
+            qlonglong Key=Action->data().toInt() & ~FAVACTIONTYPE_ACTIONTYPE;
+            if (!ffdProject->ProjectInfo->Location) ffdProject->ProjectInfo->Location=new cLocation(ApplicationConfig);
+            ((cLocation *)ffdProject->ProjectInfo->Location)->LoadFromFavorite(Key);
+        }
+    }
+    ui->LocationBT->setDown(false);
+    if (ffdProject->ProjectInfo->Location) {
+        ui->Location->setText(QString("%1 (%2)").arg(((cLocation *)ffdProject->ProjectInfo->Location)->Name).arg(((cLocation *)ffdProject->ProjectInfo->Location)->FriendlyAddress));
+        ui->LocationIcon->setPixmap(QPixmap().fromImage(((cLocation *)ffdProject->ProjectInfo->Location)->GetThumb(16)));
+    } else {
+        ui->Location->setText("");
+        ui->LocationIcon->setPixmap(QPixmap());
+    }
+    IsLocationChanged=true;
+}
+
+//====================================================================================================================
+
+void DlgffDPjrProperties::ClearLocation() {
+    if (ffdProject->ProjectInfo->Location) delete ((cLocation *)ffdProject->ProjectInfo->Location);
+    ffdProject->ProjectInfo->Location=NULL;
+    ui->Location->setText("");
+    ui->LocationIcon->setPixmap(QPixmap());
+    IsLocationChanged=true;
 }

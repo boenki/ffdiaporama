@@ -147,10 +147,10 @@ void DlgImageCorrection::PreparePartialUndo(int /*ActionType*/,QDomElement root,
     root.setAttribute("BrushFileName",BrushFileName);
     root.setAttribute("BackgroundForm",*BackgroundForm);
     // Save object
-    CurrentBrush->SaveToXML(&root,"UNDO-DLG-OBJECT","",true,NULL,NULL);    // Save object
+    CurrentBrush->SaveToXML(&root,"UNDO-DLG-OBJECT","",true,NULL,NULL,false);    // Save object
     // if object have embeded ressource, then load mediaobject
     if (CurrentBrush->MediaObject->RessourceKey!=-1) {
-        if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP) CurrentBrush->MediaObject->SaveToXML(&root,"UNDO-DLG-OBJECT","",true,NULL,NULL);
+        if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP) CurrentBrush->MediaObject->SaveToXML(&root,"UNDO-DLG-OBJECT","",true,NULL,NULL,false);
     }
     // special case for video object
     if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {

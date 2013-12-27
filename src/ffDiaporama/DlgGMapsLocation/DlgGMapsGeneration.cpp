@@ -20,6 +20,7 @@
 
 #include "DlgGMapsGeneration.h"
 #include "ui_DlgGMapsGeneration.h"
+#include "engine/cLocation.h"
 
 #include <QUrl>
 
@@ -27,11 +28,13 @@
 
 //====================================================================================================================
 
-DlgGMapsGeneration::DlgGMapsGeneration(cGMapsMap *MediaObject,bool DuplicateRessource,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgGMapsGeneration) {
+DlgGMapsGeneration::DlgGMapsGeneration(cBrushDefinition *CurrentBrush,cGMapsMap *MediaObject,bool DuplicateRessource,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgGMapsGeneration) {
+    this->CurrentBrush      =CurrentBrush;
     this->MediaObject       =MediaObject;
     this->DuplicateRessource=DuplicateRessource;
     RetryCount              =0;
     GetMapNetReply          =NULL;
+    NetworkAccessManager    =ApplicationConfig->GetNetworkAccessManager(this);
 
     ui->setupUi(this);
     CancelBt=ui->CancelBt;
@@ -41,6 +44,7 @@ DlgGMapsGeneration::DlgGMapsGeneration(cGMapsMap *MediaObject,bool DuplicateRess
 
 DlgGMapsGeneration::~DlgGMapsGeneration() {
     delete ui;
+    if (NetworkAccessManager) NetworkAccessManager->deleteLater();
 }
 
 //====================================================================================================================
@@ -55,12 +59,38 @@ void DlgGMapsGeneration::DoRejet() {
 
 //====================================================================================================================
 void DlgGMapsGeneration::DoInitDialog() {
+    MediaObject->IsValide=true;
+    MediaObject->IsMapValide=true;
+    // resolve variables locations by transfering their GPS position to the locations of the List location
+    for (int i=0;i<MediaObject->List.count();i++) if (((cLocation *)MediaObject->List[i])->LocationType!=cLocation::FREE) {
+        cLocation *Location=((cLocation *)MediaObject->List[i]);
+        cLocation *RealLoc=NULL;
+
+        if ((Location)&&(Location->LocationType==cLocation::PROJECT)) {
+            cDiaporama *Diaporama=(cDiaporama *)CurrentBrush->GetDiaporama();
+            if (Diaporama) RealLoc=(cLocation *)Diaporama->ProjectInfo->Location;
+        } else if ((Location)&&(Location->LocationType==cLocation::CHAPTER)) {
+            cDiaporamaObject *DiaporamaObject=(cDiaporamaObject *)CurrentBrush->GetDiaporamaObject();
+            if (DiaporamaObject) {
+                cDiaporamaObject *ChapterObject=DiaporamaObject->Parent->GetChapterDefObject(DiaporamaObject);
+                if ((ChapterObject)&&(ChapterObject->ChapterLocation)) RealLoc=(cLocation *)ChapterObject->ChapterLocation;
+                    else RealLoc=(cLocation *)DiaporamaObject->Parent->ProjectInfo->Location;
+            }
+        }
+        if (RealLoc) {
+            Location->GPS_cx         =RealLoc->GPS_cx;
+            Location->GPS_cy         =RealLoc->GPS_cy;
+            Location->Name           =RealLoc->Name;
+            Location->FriendlyAddress=RealLoc->FriendlyAddress;
+        } else MediaObject->IsMapValide=false;
+    }
+    if (!MediaObject->IsMapValide) MediaObject->RequestList.clear();
     if (MediaObject->RequestList.isEmpty()) {
         // create new empty image
-        DestMap=MediaObject->CreateDefaultImage();
+        DestMap=MediaObject->CreateDefaultImage((cDiaporama *)CurrentBrush->GetDiaporama());
 
         // Create sections to be computed
-        MediaObject->ComputeSectionList();
+        if (MediaObject->IsMapValide) MediaObject->ComputeSectionList();
 
     } else ApplicationConfig->SlideThumbsTable->GetThumbs(&MediaObject->RessourceKey,&DestMap);
     QSize IMSize=MediaObject->GetCurrentImageSize();
@@ -145,7 +175,7 @@ void DlgGMapsGeneration::RequestGoogle() {
     }
     if (!MediaObject->RequestList.isEmpty()) ui->StatusBar->setText(QApplication::translate("DlgGMapsGeneration","%1 pending section(s) to retrieve from Google Maps").arg(MediaObject->RequestList.count()));
     ReceiveMap.clear();
-    GetMapNetReply=NetworkAccessManager.get(QNetworkRequest(QUrl(MediaObject->RequestList[0].GoogleRequest)));
+    GetMapNetReply=NetworkAccessManager->get(QNetworkRequest(QUrl(MediaObject->RequestList[0].GoogleRequest)));
     connect(GetMapNetReply,SIGNAL(finished()), this,SLOT(httpGetMapFinished()));
     connect(GetMapNetReply,SIGNAL(readyRead()),this,SLOT(httpGetMapReadyRead()));
 }
