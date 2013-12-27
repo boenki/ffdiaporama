@@ -104,7 +104,7 @@ protected slots:
 private:
     Ui::DlgGMapsLocation    *ui;
 
-    QNetworkAccessManager   NetworkAccessManager;
+    QNetworkAccessManager   *NetworkAccessManager;
     bool                    GetLatLngAtWork,GetMapAtWork,GetAddressAtWork,NoMap;
     QNetworkReply           *GetLatLngNetReply,*GetMapNetReply,*GetAddressNetReply;
     int                     RetryCount;

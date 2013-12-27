@@ -133,8 +133,6 @@ QImage cModelListItem::PrepareImage(int64_t Position,cDiaporama *DiaporamaToUse,
     Thumb.fill(Qt::black);
 
 
-
-
     QPainter P;
     P.begin(&Thumb);
     P.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
@@ -146,7 +144,7 @@ QImage cModelListItem::PrepareImage(int64_t Position,cDiaporama *DiaporamaToUse,
 
     // Construct collection
     for (int j=0;j<Info->CurrentObject_CurrentShot->ShotComposition.List.count();j++)
-        PreparedBrushList.append(new cCompositionObjectContext(j,true,true,Info,Thumb.width(),Thumb.height(),
+        PreparedBrushList.append(new cCompositionObjectContext(j,true,true,Info,Thumb.width(),Thumb.height()+1,
                                                            Info->CurrentObject_CurrentShot,PreviousShot,NULL,0,0,this));
     // Compute each item of the collection
     for (int aa=0;aa<PreparedBrushList.count();aa++) PreparedBrushList[aa]->Compute();

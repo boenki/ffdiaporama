@@ -48,17 +48,18 @@ QCustomLocationItemDelegate::QCustomLocationItemDelegate(QObject *parent):QStyle
 
 void QCustomLocationItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
     if (!ParentTable->CurrentMap) return;
-    if (index.row()>ParentTable->CurrentMap->List.count()) return;
+    if ((index.row()>ParentTable->CurrentMap->List.count())||(index.row()>=ParentTable->CurrentBrush->Markers.count()))  return;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     Painter->fillRect(option.rect,QBrush(QColor(ParentTable->CurrentBrush->Markers[index.row()].MarkerColor),Qt::SolidPattern));
-    ParentTable->CurrentBrush->DrawMarker(Painter,option.rect.topLeft(),index.row(),cBrushDefinition::sMarker::MARKERSHOW,option.rect.size(),cBrushDefinition::sMarker::MEDIUM);
+    ParentTable->CurrentBrush->DrawMarker(Painter,option.rect.topLeft(),index.row(),cBrushDefinition::sMarker::MARKERTABLE,option.rect.size(),cBrushDefinition::sMarker::MEDIUM,true);
 
     switch (ParentTable->CurrentBrush->Markers[index.row()].Visibility) {
-        case cBrushDefinition::sMarker::MARKERHIDE:     Painter->drawImage(option.rect.left()+2,option.rect.top()+2,QImage(ICON_HIDE)); break;
-        case cBrushDefinition::sMarker::MARKERSHADE:    Painter->drawImage(option.rect.left()+2,option.rect.top()+2,QImage(ICON_MASK)); break;
-        case cBrushDefinition::sMarker::MARKERSHOW:     Painter->drawImage(option.rect.left()+2,option.rect.top()+2,QImage(ICON_SHOW)); break;
+        case cBrushDefinition::sMarker::MARKERHIDE:     Painter->drawImage(option.rect.left()+2,option.rect.top()+2,QImage(ICON_HIDE).scaledToHeight(16)); break;
+        case cBrushDefinition::sMarker::MARKERSHADE:    Painter->drawImage(option.rect.left()+2,option.rect.top()+2,QImage(ICON_MASK).scaledToHeight(16)); break;
+        default:
+        case cBrushDefinition::sMarker::MARKERSHOW:     Painter->drawImage(option.rect.left()+2,option.rect.top()+2,QImage(ICON_SHOW).scaledToHeight(16)); break;
     }
 
     // Selection mode (Note: MouseOver is removed because it works correctly only on KDE !)

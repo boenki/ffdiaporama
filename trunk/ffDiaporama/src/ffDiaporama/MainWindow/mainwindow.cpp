@@ -38,6 +38,7 @@
 #include "CustomCtrl/QCustomHorizSplitter.h"
 #include "engine/cTextFrame.h"
 #include "engine/_Variables.h"
+#include "engine/cLocation.h"
 
 #include "HelpPopup/HelpPopup.h"
 #include "DlgInfoFile/DlgInfoFile.h"
@@ -56,6 +57,8 @@
 #include "DlgFileExplorer/DlgFileExplorer.h"
 #include "DlgAutoTitleSlide/DlgAutoTitleSlide.h"
 #include "DlgExportProject/DlgExportProject.h"
+#include "DlgGMapsLocation/DlgGMapsGeneration.h"
+#include "DlgImage/DlgImageCorrection.h"
 
 #include <cmath>
 
@@ -266,6 +269,7 @@ void MainWindow::InitWindow() {
     ui->actionRandomize_transition->setIconVisibleInMenu(true);
     ui->actionAddEmptySlide->setIconVisibleInMenu(true);
     ui->actionAddAutoTitleSlide->setIconVisibleInMenu(true);
+    ui->actionAddGMap->setIconVisibleInMenu(true);
     ui->actionSaveProjectAs->setIconVisibleInMenu(true);
     ui->actionExportProject->setIconVisibleInMenu(true);
 
@@ -326,6 +330,7 @@ void MainWindow::InitWindow() {
     connect(ui->actionAddTitle,SIGNAL(triggered()),this,SLOT(s_Action_AddTitle()));
     connect(ui->actionAddEmptySlide,SIGNAL(triggered()),this,SLOT(s_Action_AddEmptyTitle()));
     connect(ui->actionAddAutoTitleSlide,SIGNAL(triggered()),this,SLOT(s_Action_AddAutoTitleSlide()));
+    connect(ui->actionAddGMap,SIGNAL(triggered()),this,SLOT(s_Action_AddGMap()));
 
     connect(ui->ActionAddProject_BT,SIGNAL(released()),this,SLOT(s_Action_AddProject()));
     connect(ui->ActionAddProject_BT_2,SIGNAL(released()),this,SLOT(s_Action_AddProject()));
@@ -677,7 +682,7 @@ void MainWindow::showEvent(QShowEvent *) {
 
         // Check BUILDVERSION to propose to the user to upgrade the application if a new one is available on internet
         // Start a network process to give last ffdiaporama version from internet web site
-        QNetworkAccessManager *mNetworkManager=new QNetworkAccessManager(this);
+        QNetworkAccessManager *mNetworkManager=ApplicationConfig->GetNetworkAccessManager(this);
         connect(mNetworkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(DoCheckBUILDVERSION(QNetworkReply*)));
         QUrl            url(BUILDVERSION_WEBURL);
         mNetworkManager->get(QNetworkRequest(url));
@@ -1680,12 +1685,15 @@ void MainWindow::DoOpenFileObject() {
             DlgWorkingTaskDialog=NULL;
         }
 
-        SetModifyFlag(Diaporama->IsModify);
         (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->ActualPosition=-1;
         AdjustRuller(0);    // Set first slide as current
 
         QApplication::restoreOverrideCursor();
         ToStatusBar("");
+        // Update gmaps object (if needed)
+        Diaporama->UpdateGMapsObject(true);
+        // finaly set modify flag
+        SetModifyFlag(Diaporama->IsModify);
     }
 }
 
@@ -1782,6 +1790,7 @@ void MainWindow::s_Action_AddTitle() {
     QMenu *ContextMenu=new QMenu(this);
     ContextMenu->addAction(ui->actionAddEmptySlide);
     ContextMenu->addAction(ui->actionAddAutoTitleSlide);
+    ContextMenu->addAction(ui->actionAddGMap);
     ContextMenu->exec(QCursor::pos());
     delete ContextMenu;
 }
@@ -1846,11 +1855,40 @@ void MainWindow::s_Action_AddAutoTitleSlide() {
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     QApplication::restoreOverrideCursor();
     int Ret=Dlg.exec();
-    if (Ret==4) {
-        DlgSlideProperties Dlg(Diaporama->List[CurIndex],ApplicationConfig,this);
-        Dlg.InitDialog();
-        connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
-        Ret=Dlg.exec();
+    if (Ret!=1) { // ok, ok next or ok previous
+        if (Ret==4) { // Convert
+            DlgSlideProperties Dlg(Diaporama->List[CurIndex],ApplicationConfig,this);
+            Dlg.InitDialog();
+            connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
+            Ret=Dlg.exec();
+        }
+
+        // Force an update of gmaps objects
+        for (int i=0;i<Diaporama->List[CurIndex]->ObjectComposition.List.count();i++) {
+            if ((Diaporama->List[CurIndex]->ObjectComposition.List[i]->BackgroundBrush->MediaObject)&&
+                (Diaporama->List[CurIndex]->ObjectComposition.List[i]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP)) {
+                cGMapsMap *CurrentMap=(cGMapsMap *)Diaporama->List[CurIndex]->ObjectComposition.List[i]->BackgroundBrush->MediaObject;
+                bool      HaveVarLocation=false;
+                bool      AllLocationValide=true;
+                for (int j=0;j<CurrentMap->List.count();j++) if (((cLocation *)CurrentMap->List[j])->LocationType!=cLocation::FREE) {
+                    HaveVarLocation=true;
+                    cLocation *Location=(cLocation *)CurrentMap->List[j];
+                    cLocation *RealLoc=NULL;
+                    Diaporama->List[CurIndex]->ObjectComposition.List[i]->BackgroundBrush->GetRealLocation((void **)&Location,(void **)&RealLoc);
+                    if ((Location==NULL)||(RealLoc==NULL)) AllLocationValide=false;
+                }
+                if (HaveVarLocation) {
+                    if (AllLocationValide) {
+                        DlgGMapsGeneration Dlg(Diaporama->List[CurIndex]->ObjectComposition.List[i]->BackgroundBrush,CurrentMap,false,ApplicationConfig,this);
+                        Dlg.InitDialog();
+                        Dlg.exec();
+                    } else CurrentMap->CreateDefaultImage(Diaporama);
+                }
+            }
+        }
+
+        // Reset thumbnails of this slide
+        ApplicationConfig->SlideThumbsTable->ClearThumbs(Diaporama->List[CurIndex]->ThumbnailKey);
 
         AdjustRuller();
 
@@ -1860,7 +1898,115 @@ void MainWindow::s_Action_AddAutoTitleSlide() {
                 ApplicationConfig->SlideThumbsTable->ClearThumbs(Diaporama->List[i]->ThumbnailKey);
 
 
-    } else if (Ret!=0) {
+    } else { // Cancel
+        delete Diaporama->List.takeAt(CurIndex);
+        AdjustRuller(SavedCurIndex);
+        CurIndex=SavedCurIndex;
+    }
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    ui->timeline->ResetDisplay(CurIndex);    // FLAGSTOPITEMSELECTION is set to false by ResetDisplay
+    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+    ui->timeline->setUpdatesEnabled(true);
+    QApplication::restoreOverrideCursor();
+}
+
+void MainWindow::s_Action_AddGMap() {
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    SavedCurIndex=Diaporama->CurrentCol;
+    CurIndex     =Diaporama->List.count()==0?0:(ApplicationConfig->AppendObject?Diaporama->List.count()-1:Diaporama->CurrentCol)+1;
+
+    Diaporama->List.insert(CurIndex,new cDiaporamaObject(Diaporama));
+    cDiaporamaObject *DiaporamaObject       =Diaporama->List[CurIndex];
+    DiaporamaObject->List[0]->Parent        =DiaporamaObject;
+    DiaporamaObject->List[0]->StaticDuration=ApplicationConfig->NoShotDuration;
+    DiaporamaObject->Parent                 =Diaporama;
+
+    // Create an GMapsMap wrapper
+    cGMapsMap   *MediaObject=new cGMapsMap(ApplicationConfig);
+    MediaObject->CreatDateTime=QDateTime().currentDateTime();
+    MediaObject->CreateDefaultImage(Diaporama);   // create default image
+    MediaObject->GetInformationFromFile("",NULL,NULL,-1);
+
+    // Add this block
+    Diaporama->List[CurIndex]->ObjectComposition.List.insert(0,new cCompositionObject(COMPOSITIONTYPE_OBJECT,Diaporama->List[CurIndex]->NextIndexKey,ApplicationConfig,&Diaporama->List[CurIndex]->ObjectComposition));
+    cCompositionObject  *CompositionObject=Diaporama->List[CurIndex]->ObjectComposition.List[0];
+    cCompositionObject  *ShotCompoObject  =NULL;
+    cBrushDefinition    *CurrentBrush     =CompositionObject->BackgroundBrush;
+
+    // Set CompositionObject to full screen
+    CompositionObject->x=0;
+    CompositionObject->y=0;
+    CompositionObject->w=1;
+    CompositionObject->h=1;
+
+    // Set other values
+    CompositionObject->Text     ="";
+    CompositionObject->PenSize  =0;
+    CurrentBrush->BrushType     =BRUSHTYPE_IMAGEDISK;
+
+    // Create an cImageClipboard wrapper
+    CurrentBrush->MediaObject=MediaObject;
+
+    // Apply Styles
+    CompositionObject->ApplyTextStyle(ApplicationConfig->StyleTextCollection.GetStyleDef(ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_TextST)));
+    CompositionObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_ShapeST)));
+    qreal ProjectGeometry=qreal(Diaporama->ImageGeometry==GEOMETRY_4_3?1440:Diaporama->ImageGeometry==GEOMETRY_16_9?1080:Diaporama->ImageGeometry==GEOMETRY_40_17?816:1920)/qreal(1920);
+    CurrentBrush->ApplyAutoFraming(ApplicationConfig->DefaultBlockSL[CurrentBrush->GetImageType()].AutoFraming,ProjectGeometry);
+    CompositionObject->ApplyAutoCompoSize(ApplicationConfig->DefaultBlockSL[CurrentBrush->GetImageType()].AutoCompo,Diaporama->ImageGeometry);
+
+    // Inc NextIndexKey
+    Diaporama->List[CurIndex]->NextIndexKey++;
+
+    // Now create and append a shot composition block to all shot
+    for (int i=0;i<Diaporama->List[CurIndex]->List.count();i++) {
+        Diaporama->List[CurIndex]->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig,&Diaporama->List[CurIndex]->List[i]->ShotComposition));
+        Diaporama->List[CurIndex]->List[i]->ShotComposition.List[Diaporama->List[CurIndex]->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
+    }
+
+    // Now setup transition
+    if (Diaporama->ApplicationConfig->RandomTransition) {
+        qsrand(QTime(0,0,0,0).msecsTo(QTime::currentTime()));
+        int Random=qrand();
+        Random=int(double(IconList.List.count())*(double(Random)/double(RAND_MAX)));
+        if (Random<IconList.List.count()) {
+            Diaporama->List[CurIndex]->TransitionFamilly=IconList.List[Random].TransitionFamilly;
+            Diaporama->List[CurIndex]->TransitionSubType=IconList.List[Random].TransitionSubType;
+        }
+    } else {
+        Diaporama->List[CurIndex]->TransitionFamilly=Diaporama->ApplicationConfig->DefaultTransitionFamilly;
+        Diaporama->List[CurIndex]->TransitionSubType=Diaporama->ApplicationConfig->DefaultTransitionSubType;
+    }
+    Diaporama->List[CurIndex]->TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
+
+    // Compute Optimisation Flags
+    for (int aa=0;aa<Diaporama->List[CurIndex]->List.count();aa++)
+        for (int bb=0;bb<Diaporama->List[CurIndex]->List[aa]->ShotComposition.List.count();bb++)
+            Diaporama->List[CurIndex]->List[aa]->ShotComposition.List[bb]->ComputeOptimisationFlags(aa>0?Diaporama->List[CurIndex]->List[aa-1]->ShotComposition.List[bb]:NULL);
+
+    AdjustRuller(CurIndex);
+    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+
+    QApplication::restoreOverrideCursor();
+
+    ShotCompoObject=Diaporama->List[CurIndex]->List[0]->ShotComposition.List[0];
+    DlgImageCorrection Dlg(ShotCompoObject,&ShotCompoObject->BackgroundForm,ShotCompoObject->BackgroundBrush,0,Diaporama->ImageGeometry,Diaporama->ImageAnimSpeedWave,ApplicationConfig,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) {
+        // Lulo object must be removed
+        ApplicationConfig->ImagesCache.RemoveImageObject(CompositionObject->BackgroundBrush->MediaObject->RessourceKey,CompositionObject->BackgroundBrush->MediaObject->FileKey);
+
+        // Apply to GlobalComposition objects
+        CompositionObject->CopyFromCompositionObject(ShotCompoObject);
+        CompositionObject->BackgroundBrush->TypeComposition=CompositionObject->TypeComposition; // because CopyFromCompositionObject force it to COMPOSITIONTYPE_SHOT
+
+        // Reset thumbnails of this slide
+        ApplicationConfig->SlideThumbsTable->ClearThumbs(Diaporama->List[CurIndex]->ThumbnailKey);
+
+        // Set title flag
+        SetModifyFlag(true);
+
+    } else { // Cancel
         delete Diaporama->List.takeAt(CurIndex);
         AdjustRuller(SavedCurIndex);
         CurIndex=SavedCurIndex;

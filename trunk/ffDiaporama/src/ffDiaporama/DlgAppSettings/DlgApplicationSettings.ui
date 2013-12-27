@@ -95,7 +95,7 @@
             <x>0</x>
             <y>0</y>
             <width>666</width>
-            <height>575</height>
+            <height>769</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -114,17 +114,129 @@
            <property name="spacing">
             <number>4</number>
            </property>
-           <item row="18" column="0">
-            <widget class="QLabel" name="label_34">
+           <item row="30" column="0">
+            <widget class="QLabel" name="label_57">
              <property name="text">
-              <string>Coordinates unit :</string>
+              <string>Short date format :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>AppendObjectCB</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="34" column="0">
+            <widget class="QLabel" name="label_61">
+             <property name="text">
+              <string>Distance unit :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>AppendObjectCB</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="29" column="0">
+            <widget class="QLabel" name="label_58">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>true</underline>
+              </font>
+             </property>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Various options&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+             </property>
+            </widget>
+           </item>
+           <item row="11" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <property name="spacing">
+              <number>2</number>
+             </property>
+             <item>
+              <widget class="QComboBox" name="PreviewFrameRateCB">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Defines the number of images per second which will be generated to show the preview.
+Note: the higher this number, the more smooth the preview will be. On the other hand, more computer resources will be required. Reduce this number on slow computers or if the gauge for your multimedia reader is frequently in the red zone.</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string notr="true">3.125</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">6</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">8.333</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">12.5</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">18.75</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_6">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>fps (Reduce this value for slow computer)</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="22" column="0">
+            <widget class="QLabel" name="label_100">
+             <property name="text">
+              <string>Video deinterlacing :</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>
-           <item row="28" column="0">
+           <item row="2" column="0" colspan="2">
+            <widget class="QCheckBox" name="RememberLastDirectoriesCH">
+             <property name="toolTip">
+              <string>If this box is checked, the directories for images, videos, projects, music and the generation of your movie will be saved and reused the next time you use ffDiaporama.</string>
+             </property>
+             <property name="text">
+              <string>Remember last used folders</string>
+             </property>
+            </widget>
+           </item>
+           <item row="35" column="0">
             <spacer name="verticalSpacer_2">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -137,112 +249,21 @@
              </property>
             </spacer>
            </item>
-           <item row="21" column="0">
-            <widget class="QLabel" name="label_99">
-             <property name="text">
-              <string>Video cropping :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="19" column="1">
-            <widget class="QComboBox" name="AppendObjectCB">
+           <item row="34" column="1">
+            <widget class="QComboBox" name="DistanceUnitCB">
              <property name="toolTip">
-              <string>This option allows you to adjust the positions occupied by new objects inserted into the timeline.
-- If Insert after the current selected object is selected, then the new slides will be created after the current slide.
-- If Append to the end of the project is selected, then the new slides will be created at the end of the project.</string>
+              <string>This option lets you specify the unit to be used for distances.</string>
              </property>
              <item>
               <property name="text">
-               <string>Insert after current object</string>
+               <string>Kilometers</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>Append at project end</string>
+               <string>Miles</string>
               </property>
              </item>
-            </widget>
-           </item>
-           <item row="7" column="0" colspan="2">
-            <layout class="QHBoxLayout" name="horizontalLayout_16">
-             <item>
-              <widget class="QLabel" name="MemCacheProfilLabel">
-               <property name="text">
-                <string>Memory profil :</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="MemCacheProfilCB">
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Defines the quantity of memory used as cache memory by ffDiaporama. This parameter is important because it allows to adapt ffDiaporama to your hardware.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <item>
-                <property name="text">
-                 <string>256 Mb</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>512 Mb</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>1 Gb</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>2 Gb</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="MemCacheProfilSpacer">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="0" column="0" colspan="2">
-            <widget class="QLabel" name="label_3">
-             <property name="font">
-              <font>
-               <weight>75</weight>
-               <bold>true</bold>
-               <underline>true</underline>
-              </font>
-             </property>
-             <property name="text">
-              <string>Application options</string>
-             </property>
-            </widget>
-           </item>
-           <item row="21" column="1">
-            <widget class="QCheckBox" name="Crop1088To1080CB">
-             <property name="toolTip">
-              <string>If the Automatically crop 1920×1088 video to 1920×1080 is checked then video images are automatically cropped.
-Remark: Some manufacturers produce FullHD videos 1920×1088 rather than 1920×1080. They make it to accelerate the encoding which is faster with a multiple of 16 lines. But this size is not 16:9. To keep the whole image, not only the image is deformed to fit into the screen but besides black bands appear on the sides. To avoid all these problems, by checking this box, these videos are truncated to be returned to the 1920×1080 sizes. Then 4 lines are cut at the top and bottom.</string>
-             </property>
-             <property name="text">
-              <string>Automatically crop 1920x1088 video to 1920x1080</string>
-             </property>
             </widget>
            </item>
            <item row="12" column="1">
@@ -304,171 +325,13 @@ Beyond this height, the videos are automatically reduced for creating images.</s
              </item>
             </layout>
            </item>
-           <item row="14" column="0">
-            <widget class="QLabel" name="label_7">
+           <item row="21" column="0">
+            <widget class="QLabel" name="label_99">
              <property name="text">
-              <string>Sound sample rate :</string>
+              <string>Video cropping :</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>PreviewFrameRateCB</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0" colspan="2">
-            <widget class="QCheckBox" name="RestoreWindowCH">
-             <property name="toolTip">
-              <string>If this box is checked, the sizes and the positions of all windows and dialogs will be saved and reused the next time you use ffDiaporama.</string>
-             </property>
-             <property name="text">
-              <string>Remember size and position of windows</string>
-             </property>
-            </widget>
-           </item>
-           <item row="10" column="0" colspan="2">
-            <widget class="QLabel" name="label_4">
-             <property name="font">
-              <font>
-               <weight>75</weight>
-               <bold>true</bold>
-               <underline>true</underline>
-              </font>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Preview options&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QCheckBox" name="DisableTooltipsCB">
-             <property name="toolTip">
-              <string>If this box is checked, tooltips will no longer appear in dialog boxes (only what's this will be available).</string>
-             </property>
-             <property name="text">
-              <string>Disable tooltips in dialog box</string>
-             </property>
-            </widget>
-           </item>
-           <item row="22" column="1">
-            <widget class="QCheckBox" name="DeinterlaceCB">
-             <property name="toolTip">
-              <string>If the Activate deinterlace filter when add new MTS videos is checked, deinterlace filter will automatically be activated for all .mts videos added to the project.
-Remark: Some manufacturers produce videos using interlaced mode. They make it to accelerate the encoding. The problem is it deforms the image on which moved lines appear. For more information on interlaced video, see Wikipedia page on interlaced video.</string>
-             </property>
-             <property name="text">
-              <string>Activate deinterlace filter when add new MTS videos</string>
-             </property>
-            </widget>
-           </item>
-           <item row="18" column="1">
-            <widget class="QComboBox" name="UnitCB">
-             <property name="toolTip">
-              <string>This option allows to select the unit for the coordinates which will be used in the properties dialog.
- You can choose:
- - Percentage: Coordinates (X, Y, Width and Height) are expressed in percentages
- - Pixel: Coordinates (X, Y, Width and Height) are expressed in pixels relative to a screen in 1080p mode</string>
-             </property>
-             <item>
-              <property name="text">
-               <string>Percent</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Pixel</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="11" column="0">
-            <widget class="QLabel" name="label_5">
-             <property name="text">
-              <string>Frame rate :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>PreviewFrameRateCB</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="20" column="1">
-            <widget class="QCheckBox" name="AskUserToRemove">
-             <property name="toolTip">
-              <string>If this box is checked, a confirmation prompt will be displayed every time you remove an object:
-- A slide from the main window
--A shot or block from the slide properties dialog box</string>
-             </property>
-             <property name="text">
-              <string>Ask user confirmation to remove slide, object or shot</string>
-             </property>
-            </widget>
-           </item>
-           <item row="12" column="0">
-            <widget class="QLabel" name="label_59">
-             <property name="text">
-              <string>Max video preview height :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>PreviewFrameRateCB</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
-            <widget class="QCheckBox" name="SDLAudioModeCB">
-             <property name="toolTip">
-              <string>if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</string>
-             </property>
-             <property name="text">
-              <string>SDL Audio use old mode</string>
-             </property>
-            </widget>
-           </item>
-           <item row="13" column="0">
-            <widget class="QLabel" name="label_42">
-             <property name="text">
-              <string>Image smoothing :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="17" column="0" colspan="2">
-            <widget class="QLabel" name="label">
-             <property name="font">
-              <font>
-               <weight>75</weight>
-               <bold>true</bold>
-               <underline>true</underline>
-              </font>
-             </property>
-             <property name="text">
-              <string>
-Editor options (when adding objects)</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0" colspan="2">
-            <widget class="QCheckBox" name="RasterModeCB">
-             <property name="toolTip">
-              <string>If this box is checked, the graphic system &quot;raster&quot; is used instead of the default graphic system. This option is used only at application start up.
-The &quot;raster&quot; Graphics accelerates the display but can raise problems on some computer in particular with KDE.</string>
-             </property>
-             <property name="text">
-              <string>Enable &quot;raster&quot; Graphics System (Need application restart)</string>
              </property>
             </widget>
            </item>
@@ -485,6 +348,197 @@ The &quot;raster&quot; Graphics accelerates the display but can raise problems o
              </property>
             </widget>
            </item>
+           <item row="14" column="0">
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>Sound sample rate :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>PreviewFrameRateCB</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="19" column="1">
+            <widget class="QComboBox" name="AppendObjectCB">
+             <property name="toolTip">
+              <string>This option allows you to adjust the positions occupied by new objects inserted into the timeline.
+- If Insert after the current selected object is selected, then the new slides will be created after the current slide.
+- If Append to the end of the project is selected, then the new slides will be created at the end of the project.</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>Insert after current object</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Append at project end</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QCheckBox" name="SDLAudioModeCB">
+             <property name="toolTip">
+              <string>if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</string>
+             </property>
+             <property name="text">
+              <string>SDL Audio use old mode</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QCheckBox" name="DisableTooltipsCB">
+             <property name="toolTip">
+              <string>If this box is checked, tooltips will no longer appear in dialog boxes (only what's this will be available).</string>
+             </property>
+             <property name="text">
+              <string>Disable tooltips in dialog box</string>
+             </property>
+            </widget>
+           </item>
+           <item row="20" column="1">
+            <widget class="QCheckBox" name="AskUserToRemove">
+             <property name="toolTip">
+              <string>If this box is checked, a confirmation prompt will be displayed every time you remove an object:
+- A slide from the main window
+-A shot or block from the slide properties dialog box</string>
+             </property>
+             <property name="text">
+              <string>Ask user confirmation to remove slide, object or shot</string>
+             </property>
+            </widget>
+           </item>
+           <item row="11" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Frame rate :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>PreviewFrameRateCB</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="25" column="0">
+            <widget class="QLabel" name="ProxyAddrLabel">
+             <property name="text">
+              <string>Proxy address :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>AppendObjectCB</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0" colspan="2">
+            <layout class="QHBoxLayout" name="horizontalLayout_16">
+             <item>
+              <widget class="QLabel" name="MemCacheProfilLabel">
+               <property name="text">
+                <string>Memory profil :</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="MemCacheProfilCB">
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Defines the quantity of memory used as cache memory by ffDiaporama. This parameter is important because it allows to adapt ffDiaporama to your hardware.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>256 Mb</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>512 Mb</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>1 Gb</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>2 Gb</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="MemCacheProfilSpacer">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="30" column="1">
+            <widget class="QComboBox" name="ShortDateFmtCB">
+             <property name="toolTip">
+              <string>This option allows you to specify the format in which computed dates are displayed.</string>
+             </property>
+             <item>
+              <property name="text">
+               <string notr="true">dd/MM/yyyy</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">MM/dd/yyyy</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">yyyy/MM/dd</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">dd.MM.yyyy</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">MM.dd.yyyy</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">yyyy.MM.dd</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="18" column="0">
+            <widget class="QLabel" name="label_34">
+             <property name="text">
+              <string>Coordinates unit :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
            <item row="13" column="1">
             <widget class="QCheckBox" name="SmoothImageDuringPreviewCB">
              <property name="toolTip">
@@ -493,6 +547,101 @@ Remark: This effect consumes lots of resources and can result in slow preview on
              </property>
              <property name="text">
               <string>Smooth image during preview</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="2">
+            <widget class="QCheckBox" name="RestoreWindowCH">
+             <property name="toolTip">
+              <string>If this box is checked, the sizes and the positions of all windows and dialogs will be saved and reused the next time you use ffDiaporama.</string>
+             </property>
+             <property name="text">
+              <string>Remember size and position of windows</string>
+             </property>
+            </widget>
+           </item>
+           <item row="22" column="1">
+            <widget class="QCheckBox" name="DeinterlaceCB">
+             <property name="toolTip">
+              <string>If the Activate deinterlace filter when add new MTS videos is checked, deinterlace filter will automatically be activated for all .mts videos added to the project.
+Remark: Some manufacturers produce videos using interlaced mode. They make it to accelerate the encoding. The problem is it deforms the image on which moved lines appear. For more information on interlaced video, see Wikipedia page on interlaced video.</string>
+             </property>
+             <property name="text">
+              <string>Activate deinterlace filter when add new MTS videos</string>
+             </property>
+            </widget>
+           </item>
+           <item row="23" column="0" colspan="2">
+            <widget class="QLabel" name="label_62">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>true</underline>
+              </font>
+             </property>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Network settings&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+             </property>
+            </widget>
+           </item>
+           <item row="20" column="0">
+            <widget class="QLabel" name="label_33">
+             <property name="text">
+              <string>Object deletion :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="12" column="0">
+            <widget class="QLabel" name="label_59">
+             <property name="text">
+              <string>Max video preview height :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>PreviewFrameRateCB</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" colspan="2">
+            <widget class="QLabel" name="label_3">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>true</underline>
+              </font>
+             </property>
+             <property name="text">
+              <string>Application options</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0" colspan="2">
+            <widget class="QCheckBox" name="OpenWEBNewVersionCH">
+             <property name="toolTip">
+              <string>If this box is checked, a dialog box will appear at startup the next time a new version will be available.</string>
+             </property>
+             <property name="text">
+              <string>Offer to open the download Web page when a new version is available</string>
+             </property>
+            </widget>
+           </item>
+           <item row="24" column="1">
+            <widget class="QCheckBox" name="ProxyCB">
+             <property name="toolTip">
+              <string>Check this box if your network requires that you use a proxy</string>
+             </property>
+             <property name="text">
+              <string>Use a proxy to access the Internet</string>
              </property>
             </widget>
            </item>
@@ -544,109 +693,111 @@ Remark: This effect consumes lots of resources and can result in slow preview on
              </item>
             </layout>
            </item>
-           <item row="11" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
-             <property name="spacing">
-              <number>2</number>
-             </property>
-             <item>
-              <widget class="QComboBox" name="PreviewFrameRateCB">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>Defines the number of images per second which will be generated to show the preview.
-Note: the higher this number, the more smooth the preview will be. On the other hand, more computer resources will be required. Reduce this number on slow computers or if the gauge for your multimedia reader is frequently in the red zone.</string>
-               </property>
-               <item>
-                <property name="text">
-                 <string notr="true">3.125</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string notr="true">6</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string notr="true">8.333</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string notr="true">12.5</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string notr="true">18.75</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_6">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>fps (Reduce this value for slow computer)</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="2" column="0" colspan="2">
-            <widget class="QCheckBox" name="RememberLastDirectoriesCH">
-             <property name="toolTip">
-              <string>If this box is checked, the directories for images, videos, projects, music and the generation of your movie will be saved and reused the next time you use ffDiaporama.</string>
+           <item row="17" column="0" colspan="2">
+            <widget class="QLabel" name="label">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>true</underline>
+              </font>
              </property>
              <property name="text">
-              <string>Remember last used folders</string>
+              <string>
+Editor options (when adding objects)</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
              </property>
             </widget>
            </item>
-           <item row="22" column="0">
-            <widget class="QLabel" name="label_100">
+           <item row="13" column="0">
+            <widget class="QLabel" name="label_42">
              <property name="text">
-              <string>Video deinterlacing :</string>
+              <string>Image smoothing :</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>
-           <item row="20" column="0">
-            <widget class="QLabel" name="label_33">
+           <item row="18" column="1">
+            <widget class="QComboBox" name="UnitCB">
+             <property name="toolTip">
+              <string>This option allows to select the unit for the coordinates which will be used in the properties dialog.
+ You can choose:
+ - Percentage: Coordinates (X, Y, Width and Height) are expressed in percentages
+ - Pixel: Coordinates (X, Y, Width and Height) are expressed in pixels relative to a screen in 1080p mode</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>Percent</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Pixel</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="10" column="0" colspan="2">
+            <widget class="QLabel" name="label_4">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>true</underline>
+              </font>
+             </property>
              <property name="text">
-              <string>Object deletion :</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Preview options&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
              </property>
             </widget>
            </item>
-           <item row="6" column="0" colspan="2">
-            <widget class="QCheckBox" name="OpenWEBNewVersionCH">
+           <item row="3" column="0" colspan="2">
+            <widget class="QCheckBox" name="RasterModeCB">
              <property name="toolTip">
-              <string>If this box is checked, a dialog box will appear at startup the next time a new version will be available.</string>
+              <string>If this box is checked, the graphic system &quot;raster&quot; is used instead of the default graphic system. This option is used only at application start up.
+The &quot;raster&quot; Graphics accelerates the display but can raise problems on some computer in particular with KDE.</string>
              </property>
              <property name="text">
-              <string>Offer to open the download Web page when a new version is available</string>
+              <string>Enable &quot;raster&quot; Graphics System (Need application restart)</string>
              </property>
             </widget>
            </item>
-           <item row="24" column="0">
-            <widget class="QLabel" name="label_57">
+           <item row="25" column="1">
+            <widget class="QLineEdit" name="ProxyAddrED">
+             <property name="toolTip">
+              <string>Enter address of the proxy host</string>
+             </property>
+            </widget>
+           </item>
+           <item row="21" column="1">
+            <widget class="QCheckBox" name="Crop1088To1080CB">
+             <property name="toolTip">
+              <string>If the Automatically crop 1920×1088 video to 1920×1080 is checked then video images are automatically cropped.
+Remark: Some manufacturers produce FullHD videos 1920×1088 rather than 1920×1080. They make it to accelerate the encoding which is faster with a multiple of 16 lines. But this size is not 16:9. To keep the whole image, not only the image is deformed to fit into the screen but besides black bands appear on the sides. To avoid all these problems, by checking this box, these videos are truncated to be returned to the 1920×1080 sizes. Then 4 lines are cut at the top and bottom.</string>
+             </property>
              <property name="text">
-              <string>Short date format :</string>
+              <string>Automatically crop 1920x1088 video to 1920x1080</string>
+             </property>
+            </widget>
+           </item>
+           <item row="26" column="1">
+            <widget class="QLineEdit" name="ProxyPortED">
+             <property name="toolTip">
+              <string>Enter the port number to access the proxy or nothing to use default port</string>
+             </property>
+            </widget>
+           </item>
+           <item row="26" column="0">
+            <widget class="QLabel" name="ProxyPortLabel">
+             <property name="text">
+              <string>Proxy port :</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -656,57 +807,46 @@ Note: the higher this number, the more smooth the preview will be. On the other 
              </property>
             </widget>
            </item>
-           <item row="24" column="1">
-            <widget class="QComboBox" name="ShortDateFmtCB">
-             <property name="toolTip">
-              <string>This option allows you to specify the format in which computed dates are displayed.</string>
-             </property>
-             <item>
-              <property name="text">
-               <string notr="true">dd/MM/yyyy</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string notr="true">MM/dd/yyyy</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string notr="true">yyyy/MM/dd</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string notr="true">dd.MM.yyyy</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string notr="true">MM.dd.yyyy</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string notr="true">yyyy.MM.dd</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="23" column="0">
-            <widget class="QLabel" name="label_58">
-             <property name="font">
-              <font>
-               <weight>75</weight>
-               <bold>true</bold>
-               <underline>true</underline>
-              </font>
-             </property>
+           <item row="27" column="0">
+            <widget class="QLabel" name="ProxyLoginLabel">
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Various options&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>Login :</string>
              </property>
              <property name="alignment">
-              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>AppendObjectCB</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="28" column="0">
+            <widget class="QLabel" name="ProxyPWDLabel">
+             <property name="text">
+              <string>Password :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>AppendObjectCB</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="27" column="1">
+            <widget class="QLineEdit" name="ProxyLoginED">
+             <property name="toolTip">
+              <string>Enter the login name to access the proxy or nothing if no login is required</string>
+             </property>
+            </widget>
+           </item>
+           <item row="28" column="1">
+            <widget class="QLineEdit" name="ProxyPWDED">
+             <property name="toolTip">
+              <string>Enter the login password to access the proxy or nothing if no login is required</string>
+             </property>
+             <property name="echoMode">
+              <enum>QLineEdit::Password</enum>
              </property>
             </widget>
            </item>
@@ -751,9 +891,9 @@ Note: the higher this number, the more smooth the preview will be. On the other 
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
-            <width>579</width>
-            <height>1182</height>
+            <y>-505</y>
+            <width>666</width>
+            <height>1212</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
@@ -772,7 +912,7 @@ Note: the higher this number, the more smooth the preview will be. On the other 
            <property name="spacing">
             <number>4</number>
            </property>
-           <item row="15" column="3">
+           <item row="16" column="3">
             <layout class="QHBoxLayout" name="horizontalLayout_12">
              <property name="spacing">
               <number>2</number>
@@ -802,7 +942,7 @@ Note: the higher this number, the more smooth the preview will be. On the other 
              </item>
             </layout>
            </item>
-           <item row="10" column="1">
+           <item row="11" column="1">
             <widget class="QLabel" name="label_13">
              <property name="text">
               <string>Next shot duration:</string>
@@ -815,7 +955,14 @@ Note: the higher this number, the more smooth the preview will be. On the other 
              </property>
             </widget>
            </item>
-           <item row="35" column="1" colspan="3">
+           <item row="31" column="1">
+            <widget class="QLabel" name="label_56">
+             <property name="text">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="36" column="1" colspan="3">
             <layout class="QGridLayout" name="gridLayout_27">
              <property name="leftMargin">
               <number>0</number>
@@ -1212,7 +1359,7 @@ Remark: This setting apply to all image formats.</string>
              </item>
             </layout>
            </item>
-           <item row="9" column="3">
+           <item row="10" column="3">
             <layout class="QHBoxLayout" name="horizontalLayout_7">
              <property name="spacing">
               <number>2</number>
@@ -1252,7 +1399,7 @@ Remark: This setting apply to all image formats.</string>
              </item>
             </layout>
            </item>
-           <item row="21" column="3">
+           <item row="22" column="3">
             <widget class="QComboBox" name="ST_Text_ShapeCB">
              <property name="toolTip">
               <string>Allows to select the style of the shape to applied to the new text blocks.
@@ -1263,7 +1410,7 @@ This style defines the shape (rectangle, circle, …), the border, the opaquenes
              </property>
             </widget>
            </item>
-           <item row="20" column="3">
+           <item row="21" column="3">
             <widget class="QComboBox" name="ST_Text_BackgroundCB">
              <property name="toolTip">
               <string>Allows to select the style of background applied to the new text blocks.
@@ -1274,14 +1421,14 @@ This style defines the transparency of the block and its filling.</string>
              </property>
             </widget>
            </item>
-           <item row="17" column="1">
+           <item row="18" column="1">
             <widget class="QLabel" name="label_51">
              <property name="text">
               <string notr="true"/>
              </property>
             </widget>
            </item>
-           <item row="18" column="1" colspan="3">
+           <item row="19" column="1" colspan="3">
             <layout class="QHBoxLayout" name="horizontalLayout">
              <property name="spacing">
               <number>2</number>
@@ -1310,7 +1457,7 @@ This style defines the transparency of the block and its filling.</string>
                 <enum>Qt::AutoText</enum>
                </property>
                <property name="pixmap">
-                <pixmap>:/img/help.png</pixmap>
+                <pixmap resource="../RSCffDiaporama.qrc">:/img/help.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -1336,7 +1483,7 @@ This style defines the transparency of the block and its filling.</string>
              </item>
             </layout>
            </item>
-           <item row="31" column="1" colspan="3">
+           <item row="32" column="1" colspan="3">
             <layout class="QHBoxLayout" name="horizontalLayout_9">
              <property name="spacing">
               <number>2</number>
@@ -1365,7 +1512,7 @@ This style defines the transparency of the block and its filling.</string>
                 <enum>Qt::AutoText</enum>
                </property>
                <property name="pixmap">
-                <pixmap>:/img/help.png</pixmap>
+                <pixmap resource="../RSCffDiaporama.qrc">:/img/help.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -1391,7 +1538,7 @@ This style defines the transparency of the block and its filling.</string>
              </item>
             </layout>
            </item>
-           <item row="4" column="3">
+           <item row="5" column="3">
             <layout class="QHBoxLayout" name="horizontalLayout_11">
              <property name="spacing">
               <number>2</number>
@@ -1442,7 +1589,7 @@ This style defines the transparency of the block and its filling.</string>
              </item>
             </layout>
            </item>
-           <item row="29" column="1" colspan="3">
+           <item row="30" column="1" colspan="3">
             <layout class="QGridLayout" name="gridLayout_9">
              <property name="leftMargin">
               <number>0</number>
@@ -1839,7 +1986,7 @@ Remark: This setting apply to all image formats.</string>
              </item>
             </layout>
            </item>
-           <item row="19" column="3">
+           <item row="20" column="3">
             <widget class="QComboBox" name="ST_Text_TextCB">
              <property name="toolTip">
               <string>Allows to select the characters style applied to the new text blocks.
@@ -1850,7 +1997,7 @@ This style defines the font, its size, its color and the shadow effects applied 
              </property>
             </widget>
            </item>
-           <item row="21" column="1">
+           <item row="22" column="1">
             <widget class="QLabel" name="label_39">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -1866,7 +2013,7 @@ This style defines the font, its size, its color and the shadow effects applied 
              </property>
             </widget>
            </item>
-           <item row="4" column="1">
+           <item row="5" column="1">
             <widget class="QLabel" name="label_94">
              <property name="text">
               <string>Default language :</string>
@@ -1886,7 +2033,7 @@ This style defines the font, its size, its color and the shadow effects applied 
              </property>
             </widget>
            </item>
-           <item row="12" column="3">
+           <item row="13" column="3">
             <layout class="QHBoxLayout" name="horizontalLayout_13">
              <property name="spacing">
               <number>2</number>
@@ -1919,7 +2066,7 @@ Randomly from the transition library</string>
                 <string notr="true"/>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../RSCffDiaporama.qrc">
                  <normaloff>:/img/random.png</normaloff>:/img/random.png</iconset>
                </property>
                <attribute name="buttonGroup">
@@ -1943,7 +2090,7 @@ No transition</string>
                 <string notr="true"/>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../RSCffDiaporama.qrc">
                  <normaloff>:/img/Transitions/tr-00-00.png</normaloff>:/img/Transitions/tr-00-00.png</iconset>
                </property>
                <attribute name="buttonGroup">
@@ -1967,7 +2114,7 @@ Crossfade transition</string>
                 <string notr="true"/>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../RSCffDiaporama.qrc">
                  <normaloff>:/img/Transitions/tr-00-01.png</normaloff>:/img/Transitions/tr-00-01.png</iconset>
                </property>
                <attribute name="buttonGroup">
@@ -2062,8 +2209,8 @@ Crossfade transition</string>
              </item>
             </layout>
            </item>
-           <item row="30" column="1">
-            <widget class="QLabel" name="label_56">
+           <item row="25" column="1">
+            <widget class="QLabel" name="label_55">
              <property name="text">
               <string notr="true"/>
              </property>
@@ -2092,7 +2239,7 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="8" column="1">
+           <item row="9" column="1">
             <widget class="QLabel" name="label_18">
              <property name="text">
               <string>Project geometry:</string>
@@ -2105,14 +2252,7 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="24" column="1">
-            <widget class="QLabel" name="label_55">
-             <property name="text">
-              <string notr="true"/>
-             </property>
-            </widget>
-           </item>
-           <item row="25" column="1" colspan="3">
+           <item row="26" column="1" colspan="3">
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <property name="spacing">
               <number>2</number>
@@ -2141,7 +2281,7 @@ Crossfade transition</string>
                 <enum>Qt::AutoText</enum>
                </property>
                <property name="pixmap">
-                <pixmap>:/img/help.png</pixmap>
+                <pixmap resource="../RSCffDiaporama.qrc">:/img/help.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -2167,7 +2307,7 @@ Crossfade transition</string>
              </item>
             </layout>
            </item>
-           <item row="9" column="1">
+           <item row="10" column="1">
             <widget class="QLabel" name="label_11">
              <property name="text">
               <string>1st shot duration:</string>
@@ -2180,7 +2320,7 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="14" column="1">
+           <item row="15" column="1">
             <widget class="QLabel" name="label_17">
              <property name="text">
               <string>Transition:</string>
@@ -2193,7 +2333,7 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="16" column="3">
+           <item row="17" column="3">
             <layout class="QHBoxLayout" name="horizontalLayout_14">
              <property name="spacing">
               <number>2</number>
@@ -2223,7 +2363,7 @@ Crossfade transition</string>
              </item>
             </layout>
            </item>
-           <item row="7" column="1" colspan="3">
+           <item row="8" column="1" colspan="3">
             <widget class="QLabel" name="label_32">
              <property name="font">
               <font>
@@ -2240,7 +2380,7 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="22" column="1">
+           <item row="23" column="1">
             <widget class="QLabel" name="label_40">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -2256,7 +2396,7 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="16" column="1">
+           <item row="17" column="1">
             <widget class="QLabel" name="label_46">
              <property name="text">
               <string>Image animation:</string>
@@ -2269,7 +2409,7 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="8" column="3">
+           <item row="9" column="3">
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <property name="spacing">
               <number>2</number>
@@ -2326,7 +2466,7 @@ Note: the geometry of a project is defined once and for all when it is created. 
              </item>
             </layout>
            </item>
-           <item row="23" column="3">
+           <item row="24" column="3">
             <widget class="QComboBox" name="ST_Text_LockingCB">
              <property name="toolTip">
               <string>Allows to Select the geometric constraint applied to the new text blocks.
@@ -2338,7 +2478,7 @@ Note: the geometry of a project is defined once and for all when it is created. 
              </property>
             </widget>
            </item>
-           <item row="19" column="1">
+           <item row="20" column="1">
             <widget class="QLabel" name="label_37">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -2381,7 +2521,7 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
              </item>
             </widget>
            </item>
-           <item row="23" column="1">
+           <item row="24" column="1">
             <widget class="QLabel" name="label_43">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -2397,7 +2537,7 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
              </property>
             </widget>
            </item>
-           <item row="14" column="3">
+           <item row="15" column="3">
             <layout class="QHBoxLayout" name="horizontalLayout_10">
              <property name="spacing">
               <number>2</number>
@@ -2427,7 +2567,18 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
              </item>
             </layout>
            </item>
-           <item row="12" column="1">
+           <item row="4" column="3">
+            <widget class="QLineEdit" name="DefaultAuthorED">
+             <property name="toolTip">
+              <string>Defines the default value for the field Author (often so called Artist by Media Center Systems)
+Note: this field is limited to 30 characters to remain compatible with jukebox</string>
+             </property>
+             <property name="maxLength">
+              <number>30</number>
+             </property>
+            </widget>
+           </item>
+           <item row="13" column="1">
             <widget class="QLabel" name="label_25">
              <property name="text">
               <string>Default transition:</string>
@@ -2437,7 +2588,7 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
              </property>
             </widget>
            </item>
-           <item row="13" column="1" colspan="3">
+           <item row="14" column="1" colspan="3">
             <widget class="QLabel" name="label_44">
              <property name="font">
               <font>
@@ -2454,18 +2605,7 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
              </property>
             </widget>
            </item>
-           <item row="3" column="3">
-            <widget class="QLineEdit" name="DefaultAuthorED">
-             <property name="toolTip">
-              <string>Defines the default value for the field Author (often so called Artist by Media Center Systems)
-Note: this field is limited to 30 characters to remain compatible with jukebox</string>
-             </property>
-             <property name="maxLength">
-              <number>30</number>
-             </property>
-            </widget>
-           </item>
-           <item row="20" column="1">
+           <item row="21" column="1">
             <widget class="QLabel" name="label_38">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -2481,7 +2621,7 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
              </property>
             </widget>
            </item>
-           <item row="15" column="1">
+           <item row="16" column="1">
             <widget class="QLabel" name="label_45">
              <property name="text">
               <string>Block animation:</string>
@@ -2494,7 +2634,7 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
              </property>
             </widget>
            </item>
-           <item row="10" column="3">
+           <item row="11" column="3">
             <layout class="QHBoxLayout" name="horizontalLayout_8">
              <property name="spacing">
               <number>2</number>
@@ -2534,7 +2674,17 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
              </item>
             </layout>
            </item>
-           <item row="3" column="1">
+           <item row="6" column="3">
+            <widget class="QCheckBox" name="ID3V2ComptatibilityCB">
+             <property name="toolTip">
+              <string>For more compatibility with the standard id3v2, check this box to limit Title, Author and Album fields to 30 characters</string>
+             </property>
+             <property name="text">
+              <string>Enhance id3v2 comptatibility</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
             <widget class="QLabel" name="label_93">
              <property name="text">
               <string>Author :</string>
@@ -2544,7 +2694,7 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
              </property>
             </widget>
            </item>
-           <item row="22" column="3">
+           <item row="23" column="3">
             <widget class="QComboBox" name="ST_Text_CoordCB">
              <property name="toolTip">
               <string>Allows to select, for every project geometry, the style of the location applied to the new text blocks.
@@ -2555,17 +2705,7 @@ This style defines the size, the coordinates, the rotations and the geometrical 
              </property>
             </widget>
            </item>
-           <item row="5" column="3">
-            <widget class="QCheckBox" name="ID3V2ComptatibilityCB">
-             <property name="toolTip">
-              <string>For more compatibility with the standard id3v2, check this box to limit Title, Author and Album fields to 30 characters</string>
-             </property>
-             <property name="text">
-              <string>Enhance id3v2 comptatibility</string>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="1">
+           <item row="7" column="1">
             <widget class="QLabel" name="label_97">
              <property name="text">
               <string>Default thumbnail :</string>
@@ -2575,7 +2715,7 @@ This style defines the size, the coordinates, the rotations and the geometrical 
              </property>
             </widget>
            </item>
-           <item row="6" column="3">
+           <item row="7" column="3">
             <widget class="cThumbnailComboBox" name="DefaultThumbCB">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2597,6 +2737,27 @@ This style defines the size, the coordinates, the rotations and the geometrical 
                <width>60</width>
                <height>100</height>
               </size>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLabel" name="label_103">
+             <property name="text">
+              <string>Album :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="3">
+            <widget class="QLineEdit" name="DefaultAlbumED">
+             <property name="toolTip">
+              <string>Defines the default value for the field Album
+Note: this field is limited to 30 characters to remain compatible with jukebox</string>
+             </property>
+             <property name="maxLength">
+              <number>30</number>
              </property>
             </widget>
            </item>
@@ -2642,7 +2803,7 @@ This style defines the size, the coordinates, the rotations and the geometrical 
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>429</width>
+            <width>666</width>
             <height>604</height>
            </rect>
           </property>
@@ -3278,7 +3439,7 @@ Use title project as video name: Use the title defined in the project properties
         <string>Check Configuration</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/config.png</normaloff>:/img/config.png</iconset>
        </property>
       </widget>
@@ -3292,7 +3453,7 @@ Use title project as video name: Use the title defined in the project properties
         <string>Manage Devices</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/db.png</normaloff>:/img/db.png</iconset>
        </property>
       </widget>
@@ -3319,7 +3480,7 @@ Use title project as video name: Use the title defined in the project properties
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -3333,7 +3494,7 @@ Use title project as video name: Use the title defined in the project properties
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -3347,7 +3508,7 @@ Use title project as video name: Use the title defined in the project properties
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
       </widget>
@@ -3369,13 +3530,17 @@ Use title project as video name: Use the title defined in the project properties
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>tabWidget</tabstop>
   <tabstop>scrollArea_2</tabstop>
   <tabstop>RestoreWindowCH</tabstop>
   <tabstop>RememberLastDirectoriesCH</tabstop>
   <tabstop>RasterModeCB</tabstop>
+  <tabstop>DisableTooltipsCB</tabstop>
   <tabstop>SDLAudioModeCB</tabstop>
+  <tabstop>OpenWEBNewVersionCH</tabstop>
   <tabstop>MemCacheProfilCB</tabstop>
   <tabstop>PreviewFrameRateCB</tabstop>
+  <tabstop>MaxVideoPreviewHeightCB</tabstop>
   <tabstop>SmoothImageDuringPreviewCB</tabstop>
   <tabstop>PreviewAudioRateCB</tabstop>
   <tabstop>UnitCB</tabstop>
@@ -3383,9 +3548,20 @@ Use title project as video name: Use the title defined in the project properties
   <tabstop>AskUserToRemove</tabstop>
   <tabstop>Crop1088To1080CB</tabstop>
   <tabstop>DeinterlaceCB</tabstop>
+  <tabstop>ProxyCB</tabstop>
+  <tabstop>ProxyAddrED</tabstop>
+  <tabstop>ProxyPortED</tabstop>
+  <tabstop>ProxyLoginED</tabstop>
+  <tabstop>ProxyPWDED</tabstop>
+  <tabstop>ShortDateFmtCB</tabstop>
+  <tabstop>DistanceUnitCB</tabstop>
+  <tabstop>scrollArea_3</tabstop>
   <tabstop>DefaultTitleCB</tabstop>
+  <tabstop>DefaultAlbumED</tabstop>
   <tabstop>DefaultAuthorED</tabstop>
   <tabstop>LanguageED</tabstop>
+  <tabstop>ID3V2ComptatibilityCB</tabstop>
+  <tabstop>DefaultThumbCB</tabstop>
   <tabstop>GeometryCombo</tabstop>
   <tabstop>NoShotED</tabstop>
   <tabstop>StaticShotED</tabstop>
@@ -3409,7 +3585,6 @@ Use title project as video name: Use the title defined in the project properties
   <tabstop>STBlockSL_2_CoordCB</tabstop>
   <tabstop>STBlockSL_3_FramingCB</tabstop>
   <tabstop>STBlockSL_3_CoordCB</tabstop>
-  <tabstop>scrollArea</tabstop>
   <tabstop>STBlockSL_4_FramingCB</tabstop>
   <tabstop>STBlockSL_4_CoordCB</tabstop>
   <tabstop>STBlockSL_5_FramingCB</tabstop>
@@ -3430,7 +3605,10 @@ Use title project as video name: Use the title defined in the project properties
   <tabstop>STBlockBA_5_CoordCB</tabstop>
   <tabstop>STBlockBA_6_FramingCB</tabstop>
   <tabstop>STBlockBA_6_CoordCB</tabstop>
+  <tabstop>scrollArea</tabstop>
   <tabstop>DefaultNameProjectNameCB</tabstop>
+  <tabstop>ExportThumbCB</tabstop>
+  <tabstop>ExportXBMCNfoCB</tabstop>
   <tabstop>SmartphoneTypeCB</tabstop>
   <tabstop>SmartphoneModelCB</tabstop>
   <tabstop>MMSystemTypeCB</tabstop>
@@ -3454,10 +3632,11 @@ Use title project as video name: Use the title defined in the project properties
   <tabstop>DBManageDevicesBT</tabstop>
   <tabstop>OkBt</tabstop>
   <tabstop>CancelBt</tabstop>
-  <tabstop>scrollArea_3</tabstop>
-  <tabstop>tabWidget</tabstop>
+  <tabstop>HelpBt</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../RSCffDiaporama.qrc"/>
+ </resources>
  <connections/>
  <buttongroups>
   <buttongroup name="TransitionButtons"/>

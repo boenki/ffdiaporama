@@ -34,6 +34,7 @@ Q_OBJECT
 public:
     cDiaporama          *ffdProject;
     bool                IsPrjCreate;
+    bool                IsLocationChanged;
 
     explicit DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent = 0);
     ~DlgffDPjrProperties();
@@ -46,13 +47,17 @@ public:
     virtual void        DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
 
 private slots:
+    void                TitleChanged(QString);
+    void                AlbumChanged(QString);
+    void                AuthorChanged(QString);
     void                EventDateChanged(const QDate &NewDate);
     void                OverrideDateChanged(int);
     void                EditThumb();
     void                AdminEditThumb();
     void                ExportThumb();
     void                ThumbChanged();
-    void                TabChanged(int);
+    void                SelectLocation();
+    void                ClearLocation();
 
 private:
     Ui::DlgffDPjrProperties *ui;

@@ -54,7 +54,7 @@ extern int TaglibMajorVersion,TaglibMinorVersion,TaglibPatchVersion;
 const double dPI=                           3.14159265358979323846;
 #define RADIANS(a)                          (a*dPI/180)
 #define DEGREES(a)                          (a*180/dPI)
-#define KMTOMILES(KM)                       ((KM/0.621371192))
+#define KMTOMILES(KM)                       ((KM*0.621371192))
 
 // Utility defines and macro used to managed GPS and Google Pixel unit
 #define GPS2PIXEL_X(GPSX,ZOOMLEVEL,SCALE)   ((256*(GPSX+180)/360)*(pow(2,ZOOMLEVEL))*SCALE)
@@ -122,9 +122,9 @@ public:
     virtual QImage          *ImageAt(bool /*PreviewMode*/)                                                                                                      {return NULL;}
 
     virtual bool            LoadBasicInformationFromDatabase(QDomElement *,QString,QString,QStringList *,bool *,QList<cSlideThumbsTable::TRResKeyItem> *,bool)  {return false;}
-    virtual void            SaveBasicInformationToDatabase(QDomElement *,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *)                          {}
+    virtual void            SaveBasicInformationToDatabase(QDomElement *,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *,bool)                     {}
     virtual bool            LoadFromXML(QDomElement *,QString,QString,QStringList *,bool *,QList<cSlideThumbsTable::TRResKeyItem> *,bool )                      {return true;}
-    virtual void            SaveToXML(QDomElement *,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *)                                               {}
+    virtual void            SaveToXML(QDomElement *,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *,bool)                                          {}
 
     virtual void            Reset();
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey=-1);
@@ -157,8 +157,8 @@ public:
     explicit cUnmanagedFile(cBaseApplicationConfig *ApplicationConfig);
 
     virtual QString         GetFileTypeStr();
-    virtual bool            LoadBasicInformationFromDatabase(QDomElement *,QString,QString,QStringList *,bool *,QList<cSlideThumbsTable::TRResKeyItem> *,bool)    { return true;}
-    virtual void            SaveBasicInformationToDatabase(QDomElement *,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *)                          { /*Nothing to do*/}
+    virtual bool            LoadBasicInformationFromDatabase(QDomElement *,QString,QString,QStringList *,bool *,QList<cSlideThumbsTable::TRResKeyItem> *,bool)  { return true;}
+    virtual void            SaveBasicInformationToDatabase(QDomElement *,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *,bool)                     { /*Nothing to do*/}
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size)                                                                                     { return ApplicationConfig->DefaultFILEIcon.GetIcon(Size); }
     virtual QString         GetTechInfo(QStringList *)                                                                                                          { return ""; }
     virtual QString         GetTAGInfo(QStringList *)                                                                                                           { return ""; }
@@ -172,8 +172,8 @@ public:
     explicit cFolder(cBaseApplicationConfig *ApplicationConfig);
 
     virtual QString         GetFileTypeStr();
-    virtual bool            LoadBasicInformationFromDatabase(QDomElement *,QString,QString,QStringList *,bool *,QList<cSlideThumbsTable::TRResKeyItem> *,bool)    { return true;}
-    virtual void            SaveBasicInformationToDatabase(QDomElement *,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *)                          { /*Nothing to do*/}
+    virtual bool            LoadBasicInformationFromDatabase(QDomElement *,QString,QString,QStringList *,bool *,QList<cSlideThumbsTable::TRResKeyItem> *,bool)  { return true;}
+    virtual void            SaveBasicInformationToDatabase(QDomElement *,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *,bool)                     { /*Nothing to do*/}
     virtual bool            GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties);
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size)                                                                                     { return ApplicationConfig->DefaultFOLDERIcon.GetIcon(Size); }
     virtual QString         GetTechInfo(QStringList *)                                                                                                          { return ""; }
@@ -199,21 +199,23 @@ public:
     QString     DefaultLanguage;    // Default Language (ISO 639 language code)
     int         NbrChapters;        // Number of chapters in the file
     QStringList ChaptersProperties; // Properties of chapters
+    void        *Location;          // a link to a cLocation object
 
-    explicit cffDProjectFile(cBaseApplicationConfig *ApplicationConfig);
+    explicit                cffDProjectFile(cBaseApplicationConfig *ApplicationConfig);
+    virtual                 ~cffDProjectFile();
 
     void                    InitDefaultValues();
 
     virtual QString         GetFileTypeStr();
     virtual bool            LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
-    virtual void            SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList);
+    virtual void            SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
     virtual bool            GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties);
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return ApplicationConfig->DefaultFFDIcon.GetIcon(Size); }
 
     virtual QString         GetTechInfo(QStringList *ExtendedProperties);
     virtual QString         GetTAGInfo(QStringList *ExtendedProperties);
 
-    void                    SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList);
+    void                    SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
     bool                    LoadFromXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
 };
 
@@ -232,7 +234,7 @@ public:
     virtual QImage          *ImageAt(bool PreviewMode);
     virtual QString         GetFileTypeStr();
     virtual bool            LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
-    virtual void            SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList);
+    virtual void            SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
     virtual bool            GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties);
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return (ObjectType==OBJECTTYPE_THUMBNAIL?ApplicationConfig->DefaultThumbIcon:ApplicationConfig->DefaultIMAGEIcon).GetIcon(Size); }
     virtual QString         GetTechInfo(QStringList *ExtendedProperties);
@@ -254,12 +256,12 @@ public:
 
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey);
     virtual bool            LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
-    virtual void            SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList);
+    virtual void            SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
     virtual bool            GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties);
     virtual QStringList     GetSummaryText(QStringList *ExtendedProperties);   // return 3 lines to display Summary of media file in dialog box which need them
 
     virtual bool            LoadFromXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
-    virtual void            SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList);
+    virtual void            SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
 };
 
 //*********************************************************************************************************************************************
@@ -282,6 +284,7 @@ public:
     int                     Scale;          // Google Scale level of the actual map
     double                  MapCx;          // Center X position of the actual map in Google pixel unit
     double                  MapCy;          // Center Y position of the actual map in Google pixel unit
+    bool                    IsMapValide;    // True if map was succesfully generated
 
     enum GMapsMapType {
         Roadmap,
@@ -305,12 +308,16 @@ public:
     explicit                cGMapsMap(cBaseApplicationConfig *ApplicationConfig);
                             ~cGMapsMap();
 
+    virtual void            SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
+
     virtual QString         GetFileTypeStr()                                { return QApplication::translate("cBaseMediaFile","Google Maps map","File type"); }
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return ApplicationConfig->DefaultGMapsIcon.GetIcon(Size); }
 
+    virtual QImage          *ImageAt(bool PreviewMode);
+
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey);
     virtual bool            LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
-    virtual void            SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList);
+    virtual void            SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
     virtual bool            GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties);
     virtual QString         GetTechInfo(QStringList *ExtendedProperties);
     virtual QString         GetTAGInfo(QStringList *ExtendedProperties);
@@ -319,13 +326,15 @@ public:
     virtual QStringList     GetGoogleMapTypeNames();
     virtual QStringList     GetMapTypeNames();
     virtual QStringList     GetImageSizeNames();
+    virtual QStringList     GetShortImageSizeNames();
 
     virtual QString         GetCurrentGoogleMapTypeName();
     virtual QString         GetCurrentMapTypeName();
-    virtual QString         GetCurrentImageSizeName();
+
+    virtual QString         GetCurrentImageSizeName(bool Full=true);
     virtual QSize           GetCurrentImageSize();
 
-    virtual QImage          CreateDefaultImage();                       // Create a new empty image (to be fill by requests to Google)
+    virtual QImage          CreateDefaultImage(cDiaporama *Diaporama);  // Create a new empty image (to be fill by requests to Google)
     virtual int             ComputeNbrSection(int Size,int Divisor);    // Compute number of sections needed to create map for current image size
     virtual void            ComputeSectionList();                       // Create sections to request to Google
 
@@ -383,7 +392,7 @@ public:
 
     virtual QString         GetFileTypeStr();
     virtual bool            LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
-    virtual void            SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList);
+    virtual void            SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
     virtual bool            CheckFormatValide(QWidget *);
     virtual bool            GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties);
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size);
@@ -456,7 +465,7 @@ public:
     cMusicObject(cBaseApplicationConfig *ApplicationConfig);
 
     virtual bool            CheckFormatValide(QWidget *);
-    void                    SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList);
+    void                    SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
     bool                    LoadFromXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag);
 };
 

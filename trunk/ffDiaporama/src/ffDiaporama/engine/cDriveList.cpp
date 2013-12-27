@@ -64,7 +64,7 @@ QString MFD                     ="";
         QString PhysicalPath=Path;
         if ((PhysicalPath[1]==':')&&(PhysicalPath[2]=='\\')) PhysicalPath=PhysicalPath.left(3);
         MultiByteToWideChar(CP_ACP,0,PhysicalPath.toLocal8Bit(),-1,Drive,256+1);
-        if ((GetDriveType(Drive)==DRIVE_REMOVABLE)&&
+        if (((GetDriveType(Drive)==DRIVE_REMOVABLE)||(GetDriveType(Drive)==DRIVE_CDROM))&&
             (!GetVolumeInformation(Drive,VolumeName,sizeof(WCHAR)*(256+1),&SerialNumber,&MaxComponent,&FileSysFlag,SysName,sizeof(WCHAR)*(256+1))))
                 return false;
         return true;

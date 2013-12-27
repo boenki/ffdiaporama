@@ -756,6 +756,38 @@
         <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with Â«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;Â» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
         <translation>Ein Volltext zusammengesetzt aus: Dem &lt;U&gt;&lt;B&gt;&lt;I&gt;Kurzdatum&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;mit &lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama Version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; auf einem Computer mit dem &lt;U&gt;&lt;B&gt;&lt;I&gt;Betriebssystem&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Anzahl von Kernen/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Kernen/CPU). </translation>
     </message>
+    <message>
+        <source>%PLN%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project location name&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PLA%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project location address&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CLN%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter location name (if one is defined or project&apos;s location name).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CLA%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter location address (if one is defined or project&apos;s location address).</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0014</name>
@@ -1594,6 +1626,10 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Allows you to paste the slide or the image currently in the clipboard into the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a map: Allows you to add a Google Maps map. The &lt;a href=&quot;0110.html&quot;&gt;correct, reframe or cut image or video dialog&lt;/a&gt; appears.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5278,6 +5314,66 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <source>Fill with project folder name when project save : The title will take the same name as the folder in which is save the .ffd file</source>
         <translation>Der Projektname wird beim Speichern des Projektes festgelegt : Der Titel erhält den selben Namen wie die .ffd Datei</translation>
     </message>
+    <message>
+        <source>Network settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use a proxy to access the Internet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check this box if your network requires that you use a proxy.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Proxy address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter address of the proxy host.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Proxy port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the port number to access the proxy or nothing to use default port.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the login name to access the proxy or nothing if no login is required.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the login password to access the proxy or nothing if no login is required.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Distance unit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This option lets you specify the unit to be used for distances.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation type="unfinished">Album</translation>
+    </message>
+    <message>
+        <source>Defines the default value for the field Album</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0102</name>
@@ -5501,10 +5597,6 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <translation>Anmerkung: Es ist oft sinnvol,l das Kapiteldatum unterschiedlich zum Projektdatum zu machen.</translation>
     </message>
     <message>
-        <source>For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</source>
-        <translation>Zum Beispiel: Wenn das Projekt &quot;Mein Urlaub von 1 bis 15&quot;, kann das Kapitel auf 3 eingeschränkt sein.</translation>
-    </message>
-    <message>
         <source>Event date</source>
         <translation>Datum des Ereignisses</translation>
     </message>
@@ -5543,6 +5635,50 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     <message>
         <source>This button allows you to convert this slide to a standard slide which are fully customizable.</source>
         <translation>Dieser Knopf konvertiert dieses Dia in ein Standard Dia, das völlig anpassbar ist.</translation>
+    </message>
+    <message>
+        <source>For example, if the project is &lt;U&gt;My vacation from 1 to 15&lt;/U&gt;, the chapter may be limited to the &lt;U&gt;3&lt;/U&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter location different from project location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the location of the chapter is different from the location of the project. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remark: It is often useful to differentiate the location of the chapter of the location of the project. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For example, if the project location is &lt;U&gt;where I rented for the holidays&lt;/U&gt;, the chapter location may be &lt;U&gt;where I went on tour&lt;/U&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Event location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The location where the chapter&apos;s event took place</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click on this </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> button to select a location from the &lt;a href=&quot;0123.html&quot;&gt;Add or modify a location&lt;/a&gt; dialog or using a favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> button to remove actual location (set to empty)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remark: These fields and buttons are enabled only if the &lt;I&gt;&lt;B&gt;Chapter location different from project location&lt;/B&gt;&lt;/I&gt; check box is checked.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5715,10 +5851,6 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <translation>Anmerkung: Es ist oft sinnvoll, das Kapiteldatum unterschiedlich zum Projektdatum zu machen.</translation>
     </message>
     <message>
-        <source>For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</source>
-        <translation>Zum Beispiel: Wenn das Projekt &quot;Mein Urlaub von 1 bis 15&quot;, kann das Kapitel nur auf 3 beschränkt sein.</translation>
-    </message>
-    <message>
         <source>Event date</source>
         <translation>Datum des Ereignisses</translation>
     </message>
@@ -5745,6 +5877,50 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     <message>
         <source>This dialog allows you to define settings for the chapter information of the slide:</source>
         <translation>In diesem Dialog können Sie die Einstellungen für die Kapitelinformationen des Dia festlegen:</translation>
+    </message>
+    <message>
+        <source>For example, if the project is &lt;U&gt;My vacation from 1 to 15&lt;/U&gt;, the chapter may be limited to the &lt;U&gt;3&lt;/U&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter location different from project location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the location of the chapter is different from the location of the project. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remark: It is often useful to differentiate the location of the chapter of the location of the project. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For example, if the project location is &lt;U&gt;where I rented for the holidays&lt;/U&gt;, the chapter location may be &lt;U&gt;where I went on tour&lt;/U&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Event location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The location where the chapter&apos;s event took place</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click on this </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> button to select a location from the &lt;a href=&quot;0123.html&quot;&gt;Add or modify a location&lt;/a&gt; dialog or using a favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> button to remove actual location (set to empty)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remark: These fields and buttons are enabled only if the &lt;I&gt;&lt;B&gt;Chapter location different from project location&lt;/B&gt;&lt;/I&gt; check box is checked.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5862,10 +6038,6 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     <message>
         <source>Remarks:</source>
         <translation>Anmerkung:</translation>
-    </message>
-    <message>
-        <source>The Project tab</source>
-        <translation>Der Projekttab</translation>
     </message>
     <message>
         <source>Settable fields</source>
@@ -6012,16 +6184,8 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <translation>Kein Support</translation>
     </message>
     <message>
-        <source>The option tab</source>
-        <translation>Der Tab Optionen</translation>
-    </message>
-    <message>
         <source>Options for speed waves</source>
         <translation>Optionen für die Anstiegskurve</translation>
-    </message>
-    <message>
-        <source> These options sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot; </source>
-        <translation> Diese Option legt die Geschwindigkeitskurve fest, wann immer die entsprechende Option auf &quot;Projektstandard&quot; gesetzt wird</translation>
     </message>
     <message>
         <source>Transition</source>
@@ -6156,40 +6320,16 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <translation> Kapitel, die in diesem Projekt vorhanden sind, werden aufgelistet. (Um die Kapitel zu verändern, verwenden Sie den Kapitelknopf im Dialog &lt;a href=&quot;0119.html&quot;&gt;Dia ändern&lt;/a&gt;.) </translation>
     </message>
     <message>
-        <source>Options for joined ressources</source>
-        <translation>Optionen für das Zusammenführen von Ressourcen</translation>
-    </message>
-    <message>
-        <source> These options allow you to define the thumbnail that will be attached to the video file when rendering </source>
-        <translation> Mit dieser Option legen Sie das Vorschaubild fest, das dem erstelltem Video beigefügt wird </translation>
-    </message>
-    <message>
         <source>Thumbnail</source>
         <translation>Vorschaubild</translation>
-    </message>
-    <message>
-        <source>Defines the model use as default thumbnail. The combobox contains the available thumbnails: </source>
-        <translation>Legt das Modell für das Standardvorschaubild fest. Die Auswahlbox enthält die verfügbaren Vorschaubilder: </translation>
-    </message>
-    <message>
-        <source>Edit custom thumbnail</source>
-        <translation>Ändern benutzerdefiniertes Vorschaubild</translation>
     </message>
     <message>
         <source>Create a new model from this thumbnail or edit custom thumbnail. Opens the &lt;a href=&quot;0117.html&quot;&gt;Edit thumbnail dialog&lt;/a&gt;.</source>
         <translation>Erstellen eines neuen Modells von diesem Vorschaubild oder Ändern dieses Vorschaubilds. Öffnet den Dialog &lt;a href=&quot;0117.html&quot;&gt;Vorschaubild ändern&lt;/a&gt;.</translation>
     </message>
     <message>
-        <source>Customize</source>
-        <translation>Anpassen</translation>
-    </message>
-    <message>
         <source>Customize the thumbnail only for this project (without creating a new thumbnail model). Opens the &lt;a href=&quot;0117.html&quot;&gt;Edit thumbnail dialog&lt;/a&gt;.</source>
         <translation>Anpassen des Vorschaubildes nur für dieses Projekt (ohne ein neues Modell für Vorschaubilder zu erstellen). Öffnet den Dialog &lt;a href=&quot;0117.html&quot;&gt;Vorschaubild ändern&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <source>Export thumbnail</source>
-        <translation>Vorschaubild exportieren</translation>
     </message>
     <message>
         <source>Expor thumbnail to a jpeg file. By default, the proposed file name is &quot;folder.jpg&quot;. ffDiaporama and many </source>
@@ -6212,20 +6352,40 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <translation> es wird nur die erste Zeile gelesen.</translation>
     </message>
     <message>
-        <source> If this icon appears, then the thumbnail is a custom model thumbnail (Ie, a custom model thumbnail that you have added to your collection of thumbnail model).</source>
-        <translation> Wenn dieses Symbol erscheint, dann verwendet dieses Vorschaubild ein benutzerdefiniertes Modell (genauer: Ein Modell für Vorschaubilder, das Sie zu Ihrer Auswahl an Vorschaubildermodellen hinzugefügt hatten).</translation>
-    </message>
-    <message>
-        <source> If this icon appears, then the thumbnail is a custom thumbnail for this project only (Ie, not based on a model).</source>
-        <translation> Wenn dieses Symbol erscheint, dann ist dieses ein benutzerdefiniertes Vorschaubild nur für dieses Projekt (genauer: nicht basierend auf einem Modell).</translation>
-    </message>
-    <message>
         <source>Remark: Video formats do not support all the chapters in the same way:</source>
         <translation>Anmerkung: Videoformate unterstützen nicht alle Kapitel in der selben Art:</translation>
     </message>
     <message>
         <source> This dialog allows you to define the information which qualifies the project. </source>
         <translation> Dieser Dialog erlaubt die Festlegung der Informationen, die das Projekt beschreiben. </translation>
+    </message>
+    <message>
+        <source>These options allow you to define the thumbnail that will be attached to the video file when rendering </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Event location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The location where the project&apos;s event took place</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click on this </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> button to select a location from the &lt;a href=&quot;0123.html&quot;&gt;Add or modify a location&lt;/a&gt; dialog or using a favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> button to remove actual location (set to empty)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>These options sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot; </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

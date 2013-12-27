@@ -190,49 +190,6 @@ void cShotComposer::ComputeBlockRatio(cCompositionObject *Block,qreal &Ratio_X,q
     Ratio_Y=(Block->h*InteractiveZone->DisplayH)/tmpRect.height();
 }
 
-void cShotComposer::CopyBlockProperties(cCompositionObject *SourceBlock,cCompositionObject *DestBlock) {
-    if (SourceBlock==DestBlock) return;
-
-    // Attribut of the text part
-    DestBlock->Text                 =SourceBlock->Text;                     // Text of the object
-    DestBlock->TextClipArtName      =SourceBlock->TextClipArtName;          // Text ClipArt of the object
-    DestBlock->FontName             =SourceBlock->FontName;                 // font name
-    DestBlock->FontSize             =SourceBlock->FontSize;                 // font size
-    DestBlock->FontColor            =SourceBlock->FontColor;                // font color
-    DestBlock->FontShadowColor      =SourceBlock->FontShadowColor;          // font shadow color
-    DestBlock->IsBold               =SourceBlock->IsBold;                   // true if bold mode
-    DestBlock->IsItalic             =SourceBlock->IsItalic;                 // true if Italic mode
-    DestBlock->IsUnderline          =SourceBlock->IsUnderline;              // true if Underline mode
-    DestBlock->HAlign               =SourceBlock->HAlign;                   // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
-    DestBlock->VAlign               =SourceBlock->VAlign;                   // Vertical alignement : 0=up, 1=center, 2=bottom
-    DestBlock->StyleText            =SourceBlock->StyleText;                // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
-    DestBlock->TMType               =SourceBlock->TMType;                   // Text margins type (0=full shape, 1=shape default, 2=custom)
-    DestBlock->TMx                  =SourceBlock->TMx;                      // Text margins
-    DestBlock->TMy                  =SourceBlock->TMy;                      // Text margins
-    DestBlock->TMw                  =SourceBlock->TMw;                      // Text margins
-    DestBlock->TMh                  =SourceBlock->TMh;                      // Text margins
-
-    // Attribut of the shap part
-    DestBlock->BackgroundForm       =SourceBlock->BackgroundForm;           // Type of the form : 0=None, 1=Rectangle, 2=RoundRect, 3=Buble, 4=Ellipse, 5=Triangle UP (Polygon)
-    DestBlock->PenSize              =SourceBlock->PenSize;                  // Width of the border of the form
-    DestBlock->PenStyle             =SourceBlock->PenStyle;                 // Style of the pen border of the form
-    DestBlock->PenColor             =SourceBlock->PenColor;                 // Color of the border of the form
-    DestBlock->FormShadow           =SourceBlock->FormShadow;               // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
-    DestBlock->FormShadowDistance   =SourceBlock->FormShadowDistance;       // Distance from form to shadow
-    DestBlock->FormShadowColor      =SourceBlock->FormShadowColor;          // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
-    DestBlock->Opacity              =SourceBlock->Opacity;                  // Opacity of the form
-
-    // Attribut of the BackgroundBrush of the shap part
-    DestBlock->BackgroundBrush->BrushType           =SourceBlock->BackgroundBrush->BrushType;
-    DestBlock->BackgroundBrush->PatternType         =SourceBlock->BackgroundBrush->PatternType;
-    DestBlock->BackgroundBrush->GradientOrientation =SourceBlock->BackgroundBrush->GradientOrientation;
-    DestBlock->BackgroundBrush->ColorD              =SourceBlock->BackgroundBrush->ColorD;
-    DestBlock->BackgroundBrush->ColorF              =SourceBlock->BackgroundBrush->ColorF;
-    DestBlock->BackgroundBrush->ColorIntermed       =SourceBlock->BackgroundBrush->ColorIntermed;
-    DestBlock->BackgroundBrush->Intermediate        =SourceBlock->BackgroundBrush->Intermediate;
-    DestBlock->BackgroundBrush->BrushImage          =SourceBlock->BackgroundBrush->BrushImage;
-}
-
 void cShotComposer::ResetThumbs(bool ResetAllThumbs) {
     if (ShotTable) for (int i=(ResetAllThumbs?0:CurrentShotNbr);i<CurrentSlide->List.count();i++) {
         if (i==0) ApplicationConfig->SlideThumbsTable->ClearThumbs(CurrentSlide->ThumbnailKey);
@@ -245,11 +202,11 @@ void cShotComposer::ApplyToContexte(bool ResetAllThumbs) {
 
     // Apply to GlobalComposition objects
     for (int j=0;j<CurrentSlide->ObjectComposition.List.count();j++) if (CurrentCompoObject->IndexKey==CurrentSlide->ObjectComposition.List[j]->IndexKey)
-        CopyBlockProperties(CurrentCompoObject,CurrentSlide->ObjectComposition.List[j]);
+        CurrentCompoObject->CopyBlockProperties(CurrentCompoObject,CurrentSlide->ObjectComposition.List[j]);
 
     // Apply to Shots Composition objects
     for (int i=0;i<CurrentSlide->List.count();i++) for (int j=0;j<CurrentSlide->List[i]->ShotComposition.List.count();j++) if (CurrentCompoObject->IndexKey==CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey)
-        CopyBlockProperties(CurrentCompoObject,CurrentSlide->List[i]->ShotComposition.List[j]);
+        CurrentCompoObject->CopyBlockProperties(CurrentCompoObject,CurrentSlide->List[i]->ShotComposition.List[j]);
 
     // Reset thumbs if needed
     ResetThumbs(ResetAllThumbs);

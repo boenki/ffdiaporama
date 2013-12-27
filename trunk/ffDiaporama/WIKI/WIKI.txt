@@ -71,4 +71,4 @@ ok                  0041.html       ffDiaporama command line arguments
 ok                  0042.html       ffDiaporama project files
 ok                  0043.html       The configuration files for ffDiaporama
 ok                  0044.html       XBMC nfo files
-ok                  0045.html       Types of objects in ffDiaporama
+--                  0045.html       Types of objects in ffDiaporama

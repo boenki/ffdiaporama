@@ -374,7 +374,7 @@ bool cBaseMediaFile::GetFullInformationFromFile() {
             QDomDocument domDocument;
             QDomElement  root=domDocument.createElement("BasicProperties");
             domDocument.appendChild(root);
-            SaveBasicInformationToDatabase(&root,"","",false,NULL,NULL);
+            SaveBasicInformationToDatabase(&root,"","",false,NULL,NULL,false);
             IsInformationValide=ApplicationConfig->FilesTable->SetBasicProperties(FileKey,domDocument.toString())&&
                                 ApplicationConfig->FilesTable->SetExtendedProperties(FileKey,&ExtendedProperties)&&
                                 ApplicationConfig->FilesTable->SetThumbs(FileKey,&Icon.Icon16,&Icon.Icon100);
@@ -679,6 +679,11 @@ cffDProjectFile::cffDProjectFile(cBaseApplicationConfig *ApplicationConfig):cBas
     InitDefaultValues();
 }
 
+cffDProjectFile::~cffDProjectFile() {
+    if (Location) delete (cLocation *)Location;
+    Location=NULL;
+}
+
 //====================================================================================================================
 
 void cffDProjectFile::InitDefaultValues() {
@@ -691,7 +696,8 @@ void cffDProjectFile::InitDefaultValues() {
     Comment         =QApplication::translate("cModelList","Project comment");
     Composer        ="";
     DefaultLanguage =ApplicationConfig->DefaultLanguage;
-    ffDRevision     =CurrentAppVersion;;
+    ffDRevision     =CurrentAppVersion;
+    Location        =NULL;
 }
 
 //====================================================================================================================
@@ -702,8 +708,8 @@ bool cffDProjectFile::LoadBasicInformationFromDatabase(QDomElement *ParentElemen
 
 //====================================================================================================================
 
-void cffDProjectFile::SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList) {
-    SaveToXML(ParentElement,ElementName,PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);
+void cffDProjectFile::SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool) {
+    SaveToXML(ParentElement,ElementName,PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,false);
 
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement("Project");
@@ -714,7 +720,7 @@ void cffDProjectFile::SaveBasicInformationToDatabase(QDomElement *ParentElement,
 
 //====================================================================================================================
 
-void cffDProjectFile::SaveToXML(QDomElement *ParentElement,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *) {
+void cffDProjectFile::SaveToXML(QDomElement *ParentElement,QString,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement("ffDiaporamaProjectProperties");
     Element.setAttribute("Title",Title);
@@ -739,12 +745,17 @@ void cffDProjectFile::SaveToXML(QDomElement *ParentElement,QString,QString,bool,
         SubElement.setAttribute("InSlide",  GetInformationValue("Chapter_"+ChapterNum+":InSlide",&ChaptersProperties));
         Element.appendChild(SubElement);
     }
+    if (Location) {
+        QDomElement SubElement=DomDocument.createElement("PrjLocation");
+        ((cLocation *)Location)->SaveToXML(&SubElement,"",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,IsModel);
+        Element.appendChild(SubElement);
+    }
     ParentElement->appendChild(Element);
 }
 
 //====================================================================================================================
 
-bool cffDProjectFile::LoadFromXML(QDomElement *ParentElement,QString,QString,QStringList *,bool *,QList<cSlideThumbsTable::TRResKeyItem> *,bool) {
+bool cffDProjectFile::LoadFromXML(QDomElement *ParentElement,QString,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
     InitDefaultValues();
     bool IsOk=false;
     if ((ParentElement->elementsByTagName("ffDiaporamaProjectProperties").length()>0)&&(ParentElement->elementsByTagName("ffDiaporamaProjectProperties").item(0).isElement()==true)) {
@@ -787,6 +798,12 @@ bool cffDProjectFile::LoadFromXML(QDomElement *ParentElement,QString,QString,QSt
                     ChaptersProperties.append("Chapter_"+ChapterNum+":InSlide" +QString("##")+InSlide);
                 }
             }
+        }
+        if ((Element.elementsByTagName("PrjLocation").length()>0)&&(Element.elementsByTagName("PrjLocation").item(0).isElement()==true)) {
+            QDomElement SubElement=Element.elementsByTagName("PrjLocation").item(0).toElement();
+            if (Location) delete (cLocation *)Location;
+            Location=new cLocation(ApplicationConfig);
+            ((cLocation *)Location)->LoadFromXML(&SubElement,"",PathForRelativPath,AliasList,ModifyFlag,ResKeyList,DuplicateRes);
         }
         IsOk=true;
     }
@@ -833,7 +850,7 @@ bool cffDProjectFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringL
         if (domDocument.setContent(ffDPart,true,&errorStr,&errorLine,&errorColumn)) {
             root = domDocument.documentElement();
             // Load project properties
-            if (root.tagName()==FFD_APPLICATION_ROOTNAME) LoadFromXML(&root,"","",NULL,NULL,NULL,false);
+            if (root.tagName()==FFD_APPLICATION_ROOTNAME) LoadFromXML(&root,"",QFileInfo(file.fileName()).absolutePath(),NULL,NULL,NULL,false);
         }
         file.close();
     }
@@ -902,7 +919,7 @@ bool cImageFile::LoadBasicInformationFromDatabase(QDomElement *ParentElement,QSt
 
 //====================================================================================================================
 
-void cImageFile::SaveBasicInformationToDatabase(QDomElement *ParentElement,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *) {
+void cImageFile::SaveBasicInformationToDatabase(QDomElement *ParentElement,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *,bool) {
     ParentElement->setAttribute("ImageWidth",         ImageWidth);
     ParentElement->setAttribute("ImageHeight",        ImageHeight);
     ParentElement->setAttribute("ImageOrientation",   ImageOrientation);
@@ -1289,7 +1306,7 @@ bool cImageClipboard::LoadBasicInformationFromDatabase(QDomElement *ParentElemen
 
 //====================================================================================================================
 
-void cImageClipboard::SaveBasicInformationToDatabase(QDomElement *ParentElement,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *) {
+void cImageClipboard::SaveBasicInformationToDatabase(QDomElement *ParentElement,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *,bool) {
     ParentElement->setAttribute("ImageWidth",        ImageWidth);
     ParentElement->setAttribute("ImageHeight",       ImageHeight);
     ParentElement->setAttribute("ImageOrientation",  ImageOrientation);
@@ -1356,7 +1373,10 @@ bool cImageClipboard::LoadFromXML(QDomElement *ParentElement,QString ElementName
         if (LoadBasicInformationFromDatabase(&SubElement,ElementName,PathForRelativPath,AliasList,ModifyFlag,ResKeyList,DuplicateRes)) {
             if (ResKeyList) {
                 RessourceKey=SubElement.attribute("RessourceKey").toLongLong();
-                for (int ResNum=0;ResNum<ResKeyList->count();ResNum++) if (RessourceKey==ResKeyList->at(ResNum).OrigKey) RessourceKey=ResKeyList->at(ResNum).NewKey;
+                for (int ResNum=0;ResNum<ResKeyList->count();ResNum++) if (RessourceKey==ResKeyList->at(ResNum).OrigKey) {
+                    RessourceKey=ResKeyList->at(ResNum).NewKey;
+                    break;
+                }
             } else RessourceKey=SubElement.attribute("RessourceKey").toLongLong();
             // if DuplicateRes (for exemple during a paste operation)
             if ((DuplicateRes)&&(RessourceKey!=-1)) {
@@ -1372,10 +1392,10 @@ bool cImageClipboard::LoadFromXML(QDomElement *ParentElement,QString ElementName
 
 //====================================================================================================================
 
-void cImageClipboard::SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList) {
+void cImageClipboard::SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel) {
     QDomDocument    DomDocument;
     QDomElement     SubElement=DomDocument.createElement(ObjectName);
-    SaveBasicInformationToDatabase(&SubElement,ElementName,PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);
+    SaveBasicInformationToDatabase(&SubElement,ElementName,PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,IsModel);
     SubElement.setAttribute("RessourceKey",RessourceKey);
     if (ResKeyList) {
         // Check if RessourceKey is already in the ResKeyList
@@ -1399,6 +1419,8 @@ cGMapsMap::cGMapsMap(cBaseApplicationConfig *ApplicationConfig):cImageClipboard(
     ImageSize   =Small;
     ZoomLevel   =13;
     Scale       =1;
+    IsMapValide =false;
+    IsValide    =true;
 }
 
 //====================================================================================================================
@@ -1409,15 +1431,42 @@ cGMapsMap::~cGMapsMap() {
 
 //====================================================================================================================
 
+void cGMapsMap::SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel) {
+    QDomDocument    DomDocument;
+    QDomElement     SubElement=DomDocument.createElement(ObjectName);
+    bool            HaveVarLoc=false;
+
+    // if model, then check if map depends on projet or chapter location
+    if (IsModel) for (int i=0;i<List.count();i++) if (((cLocation *)List[i])->LocationType!=cLocation::FREE) HaveVarLoc=true;
+
+    SaveBasicInformationToDatabase(&SubElement,ElementName,PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,IsModel);
+
+    if ((!IsModel)||(IsModel && !HaveVarLoc)) {
+        SubElement.setAttribute("RessourceKey",RessourceKey);
+        if (ResKeyList) {
+            // Check if RessourceKey is already in the ResKeyList
+            bool ToAppend=true;
+            for (int i=0;i<ResKeyList->count();i++) if (ResKeyList->at(i)==RessourceKey) ToAppend=false;
+            // If not found, then add it to the list
+            if (ToAppend) ResKeyList->append(RessourceKey);
+        }
+    } else SubElement.setAttribute("RessourceKey",-1); // Don't save ressource if model and map depends on projet or chapter location
+    ParentElement->appendChild(SubElement);
+}
+
+//====================================================================================================================
+
 bool cGMapsMap::LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
     int i;
     if (cImageClipboard::LoadBasicInformationFromDatabase(ParentElement,ElementName,PathForRelativPath,AliasList,ModifyFlag,ResKeyList,DuplicateRes)) {
-        if (ParentElement->hasAttribute("MapType"))   MapType  =(GMapsMapType)ParentElement->attribute("MapType").toInt();
+        if (ParentElement->hasAttribute("MapType"))   MapType    =(GMapsMapType)ParentElement->attribute("MapType").toInt();
         if (ParentElement->hasAttribute("ImageSize")) ImageSize  =(GMapsImageSize)ParentElement->attribute("ImageSize").toInt();
-        if (ParentElement->hasAttribute("ZoomLevel")) ZoomLevel=ParentElement->attribute("ZoomLevel").toInt();
-        if (ParentElement->hasAttribute("Scale"))     Scale    =ParentElement->attribute("Scale").toInt();
-        if (ParentElement->hasAttribute("MapCx"))     MapCx    =GetDoubleValue(*ParentElement,"MapCx");
-        if (ParentElement->hasAttribute("MapCy"))     MapCy    =GetDoubleValue(*ParentElement,"MapCy");
+        if (ParentElement->hasAttribute("ZoomLevel")) ZoomLevel  =ParentElement->attribute("ZoomLevel").toInt();
+        if (ParentElement->hasAttribute("Scale"))     Scale      =ParentElement->attribute("Scale").toInt();
+        if (ParentElement->hasAttribute("MapCx"))     MapCx      =GetDoubleValue(*ParentElement,"MapCx");
+        if (ParentElement->hasAttribute("MapCy"))     MapCy      =GetDoubleValue(*ParentElement,"MapCy");
+        if (ParentElement->hasAttribute("MapValide")) IsMapValide=ParentElement->attribute("MapValide")=="1";
+
         // Loading of locations list
         while (List.count()) delete (cLocation *)List.takeLast();
         i=0;
@@ -1425,7 +1474,6 @@ bool cGMapsMap::LoadBasicInformationFromDatabase(QDomElement *ParentElement,QStr
             QDomElement SubElement=ParentElement->elementsByTagName(QString("Location_%1").arg(i)).item(0).toElement();
             cLocation *Location=new cLocation(ApplicationConfig);
             Location->LoadFromXML(&SubElement,"",PathForRelativPath,AliasList,ModifyFlag,ResKeyList,DuplicateRes);
-            Location->ComputeMarkerSize(GetCurrentImageSize());
             List.append(Location);
             i++;
         }
@@ -1451,9 +1499,16 @@ bool cGMapsMap::LoadBasicInformationFromDatabase(QDomElement *ParentElement,QStr
 
 //====================================================================================================================
 
-void cGMapsMap::SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList) {
+void cGMapsMap::SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel) {
     QDomDocument Document;
-    cImageClipboard::SaveBasicInformationToDatabase(ParentElement,ElementName,PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);
+    cImageClipboard::SaveBasicInformationToDatabase(ParentElement,ElementName,PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,IsModel);
+
+    bool HaveVarLoc=false;
+
+    // if model, then check if map depends on projet or chapter location
+    if (IsModel) for (int i=0;i<List.count();i++) if (((cLocation *)List[i])->LocationType!=cLocation::FREE) HaveVarLoc=true;
+
+    ParentElement->setAttribute("MapValide",(IsMapValide && !HaveVarLoc)?"1":"0");
     ParentElement->setAttribute("MapType",MapType);
     ParentElement->setAttribute("ImageSize",ImageSize);
     ParentElement->setAttribute("ZoomLevel",ZoomLevel);
@@ -1463,7 +1518,7 @@ void cGMapsMap::SaveBasicInformationToDatabase(QDomElement *ParentElement,QStrin
     // Saving of locations list
     for (int i=0;i<List.count();i++) {
         QDomElement SubElement=Document.createElement(QString("Location_%1").arg(i));
-        ((cLocation *)List.at(i))->SaveToXML(&SubElement,"",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList);
+        ((cLocation *)List[i])->SaveToXML(&SubElement,"",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,IsModel);
         ParentElement->appendChild(SubElement);
     }
     // Saving of pending request sections list
@@ -1526,6 +1581,34 @@ QStringList cGMapsMap::GetSummaryText(QStringList *ExtendedProperties) {
 
 //====================================================================================================================
 
+QImage *cGMapsMap::ImageAt(bool PreviewMode) {
+    if (RessourceKey==-1) {
+        QImage   *Img=new QImage(":/img/defaultmap.png");  // If no ressource at this point then we are displaying a model !
+        QString  Text=QApplication::translate("cBaseMediaFile","%1\nZoom %2").arg(GetCurrentImageSizeName(false)).arg(ZoomLevel);
+        QPainter P;
+        P.begin(Img);
+        QFont font= QApplication::font();
+        font.setPixelSize(double(Img->height())/double(6));
+        P.setFont(font);
+        P.setPen(QPen(Qt::black));
+        P.drawText(QRectF(0,0,Img->width()-2,Img->height()-2),Text,QTextOption(Qt::AlignHCenter|Qt::AlignVCenter));
+        P.drawText(QRectF(1,0,Img->width()-2,Img->height()-2),Text,QTextOption(Qt::AlignHCenter|Qt::AlignVCenter));
+        P.drawText(QRectF(2,0,Img->width()-2,Img->height()-2),Text,QTextOption(Qt::AlignHCenter|Qt::AlignVCenter));
+        P.drawText(QRectF(0,2,Img->width()-2,Img->height()-2),Text,QTextOption(Qt::AlignHCenter|Qt::AlignVCenter));
+        P.drawText(QRectF(1,2,Img->width()-2,Img->height()-2),Text,QTextOption(Qt::AlignHCenter|Qt::AlignVCenter));
+        P.drawText(QRectF(2,2,Img->width()-2,Img->height()-2),Text,QTextOption(Qt::AlignHCenter|Qt::AlignVCenter));
+        P.drawText(QRectF(0,1,Img->width()-2,Img->height()-2),Text,QTextOption(Qt::AlignHCenter|Qt::AlignVCenter));
+        P.drawText(QRectF(2,1,Img->width()-2,Img->height()-2),Text,QTextOption(Qt::AlignHCenter|Qt::AlignVCenter));
+        P.setPen(QPen(Qt::white));
+        P.drawText(QRectF(1,1,Img->width()-2,Img->height()-2),Text,QTextOption(Qt::AlignHCenter|Qt::AlignVCenter));
+        P.end();
+        return Img;
+    }   else if (IsMapValide)   return cImageClipboard::ImageAt(PreviewMode);
+        else                    return new QImage(CreateDefaultImage(NULL));
+}
+
+//====================================================================================================================
+
 QStringList cGMapsMap::GetGoogleMapTypeNames() {
     QStringList GoogleMapTypeName;
     GoogleMapTypeName.append("roadmap");
@@ -1541,6 +1624,18 @@ QStringList cGMapsMap::GetMapTypeNames() {
     List.append(QApplication::translate("cBaseMediaFile","Satellite"));
     List.append(QApplication::translate("cBaseMediaFile","Terrain"));
     List.append(QApplication::translate("cBaseMediaFile","Hybrid"));
+    return List;
+}
+
+QStringList cGMapsMap::GetShortImageSizeNames() {
+    QStringList List;
+    List.append(QApplication::translate("cBaseMediaFile","Small"));
+    List.append("720p");
+    List.append("720px4");
+    List.append("720px9");
+    List.append("1080p");
+    List.append("1080px4");
+    List.append("1080px9");
     return List;
 }
 
@@ -1564,8 +1659,9 @@ QString cGMapsMap::GetCurrentGoogleMapTypeName() {
     return GetGoogleMapTypeNames().at(MapType);
 }
 
-QString cGMapsMap::GetCurrentImageSizeName() {
-    return GetImageSizeNames().at(ImageSize);
+QString cGMapsMap::GetCurrentImageSizeName(bool Full) {
+    if (Full) return GetImageSizeNames().at(ImageSize);
+        else  return GetShortImageSizeNames().at(ImageSize);
 }
 
 QSize cGMapsMap::GetCurrentImageSize() {
@@ -1644,9 +1740,10 @@ QStringList cGMapsMap::GetMapSizesPerZoomLevel() {
         double  GPS1y =PIXEL2GPS_Y(PIX0y+H,i,Scale);
         double  Width =DISTANCE(GPS0x,GPS0y,GPS1x,GPS0y);
         double  Height=DISTANCE(GPS0x,GPS0y,GPS0x,GPS1y);
-        if (((List.count()==1)||((Width>=WWidth)&&(Height>=WHeight)))&&(Width>=0.4)&&(Height>=0.4))
-            DistanceList.append(QString("Zoom %1: %2 km x %3 km").arg(i).arg(Width,0,'f',3).arg(Height,0,'f',3));
-            else DistanceList.append(QString());
+        if (((List.count()==1)||((Width>=WWidth)&&(Height>=WHeight)))&&(Width>=0.4)&&(Height>=0.4)) {
+            if (ApplicationConfig->DistanceUnit==cBaseApplicationConfig::MILES) DistanceList.append(QString("Zoom %1: %2 miles x %3 miles").arg(i).arg(KMTOMILES(Width),0,'f',3).arg(KMTOMILES(Height),0,'f',3));
+                else                                                            DistanceList.append(QString("Zoom %1: %2 km x %3 km").arg(i).arg(Width,0,'f',3).arg(Height,0,'f',3));
+        } else DistanceList.append(QString());
     }
     return DistanceList;
 }
@@ -1699,7 +1796,7 @@ QPoint cGMapsMap::GetLocationPoint(int Index) {
 
 //====================================================================================================================
 
-QImage cGMapsMap::CreateDefaultImage() {
+QImage cGMapsMap::CreateDefaultImage(cDiaporama *Diaporama) {
     // clear request list (delete any pending section)
     RequestList.clear();
 
@@ -1712,8 +1809,27 @@ QImage cGMapsMap::CreateDefaultImage() {
     ImageHeight  =Image.height();
     Image.fill(Qt::white);
 
-    // add a message on the image if location list is empty
-    if (List.isEmpty()) {
+    // search if list contains Project's or Chapter's location
+    bool HaveLinkLoc=false;
+    for (int i=0;i<List.count();i++) if (((cLocation *)List[i])->LocationType!=cLocation::FREE) HaveLinkLoc=true;
+
+    if ((HaveLinkLoc)&&((!Diaporama)||(Diaporama->ProjectInfo->Location==NULL))) {
+        // add a message on the image if project location is empty
+        QPainter Painter;
+        Painter.begin(&Image);
+        QFont font= QApplication::font();
+        font.setPixelSize(double(Image.height())/double(20));
+        Painter.setFont(font);
+        if (!Diaporama) Painter.drawText(QRectF(0,0,Image.width(),Image.height()),
+                             Qt::AlignHCenter|Qt::AlignCenter|Qt::TextWordWrap,
+                             QApplication::translate("cBaseMediaFile","The map must be regenerated because the locations have changed or project's location no set"));
+            else        Painter.drawText(QRectF(0,0,Image.width(),Image.height()),
+                             Qt::AlignHCenter|Qt::AlignCenter|Qt::TextWordWrap,
+                             QApplication::translate("cBaseMediaFile","Project's location must be defined to produce this Google Maps map"));
+
+        Painter.end();
+    } else if (List.isEmpty()) {
+        // add a message on the image if location list is empty
         QPainter Painter;
         Painter.begin(&Image);
         QFont font= QApplication::font();
@@ -1840,7 +1956,7 @@ bool cVideoFile::LoadBasicInformationFromDatabase(QDomElement *ParentElement,QSt
 
 //====================================================================================================================
 
-void cVideoFile::SaveBasicInformationToDatabase(QDomElement *ParentElement,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *) {
+void cVideoFile::SaveBasicInformationToDatabase(QDomElement *ParentElement,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *,bool) {
     ParentElement->setAttribute("ImageWidth",        ImageWidth);
     ParentElement->setAttribute("ImageHeight",       ImageHeight);
     ParentElement->setAttribute("ImageOrientation",  ImageOrientation);
@@ -3601,7 +3717,7 @@ bool cMusicObject::CheckFormatValide(QWidget *Window) {
 
 //====================================================================================================================
 
-void cMusicObject::SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *) {
+void cMusicObject::SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *,bool) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     QString         TheFileName;

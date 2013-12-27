@@ -35,16 +35,17 @@ namespace Ui {
 class DlgGMapsGeneration : public QCustomDialog {
 Q_OBJECT
 public:
+    cBrushDefinition        *CurrentBrush;
     int                     NbrSection;
     bool                    DuplicateRessource;
     cGMapsMap               *MediaObject;
     QImage                  DestMap;
     QByteArray              ReceiveMap;
     int                     RetryCount;
-    QNetworkAccessManager   NetworkAccessManager;
+    QNetworkAccessManager   *NetworkAccessManager;
     QNetworkReply           *GetMapNetReply;
 
-    explicit                DlgGMapsGeneration(cGMapsMap *MediaObject,bool DuplicateRessource,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
+    explicit                DlgGMapsGeneration(cBrushDefinition *CurrentBrush,cGMapsMap *MediaObject,bool DuplicateRessource,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
                             ~DlgGMapsGeneration();
 
     // function to be overloaded

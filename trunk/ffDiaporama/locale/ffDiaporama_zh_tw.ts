@@ -817,6 +817,75 @@ Editor options (when adding objects)</source>
 Note: this field is limited to 30 characters to remain compatible with jukebox</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Distance unit :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This option lets you specify the unit to be used for distances.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Kilometers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Miles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Album :</source>
+        <translation type="unfinished">專輯：</translation>
+    </message>
+    <message>
+        <source>Defines the default value for the field Album
+Note: this field is limited to 30 characters to remain compatible with jukebox</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Proxy address :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Network settings&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check this box if your network requires that you use a proxy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use a proxy to access the Internet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter address of the proxy host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the port number to access the proxy or nothing to use default port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Proxy port :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the login name to access the proxy or nothing if no login is required</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the login password to access the proxy or nothing if no login is required</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgAutoTitleSlide</name>
@@ -947,6 +1016,22 @@ Standard slide are fully customizable.</source>
     <message>
         <source>&amp;Help</source>
         <translation>求助(&amp;H)</translation>
+    </message>
+    <message>
+        <source>Chapter location different from project location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Event location:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the location of the event of the project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear this location</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1168,6 +1253,22 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     <message>
         <source>&amp;Help</source>
         <translation>求助(&amp;H)</translation>
+    </message>
+    <message>
+        <source>Event location:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter location different from project location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the location of the event of the project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear this location</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1666,6 +1767,11 @@ Do you want to resume the generation now?</source>
     </message>
     <message>
         <source>Open the favorite menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A map on slide %1 must be regenerated.
+Do you want to do it now?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4673,10 +4779,6 @@ The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</
         <translation>評論：</translation>
     </message>
     <message>
-        <source>Chapters :</source>
-        <translation>章節：</translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
         <translation>採納修改然後離開對話方塊</translation>
     </message>
@@ -4698,10 +4800,6 @@ The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</
         <translation>#;投影片;標題;開始;結束;持續時間</translation>
     </message>
     <message>
-        <source>Project</source>
-        <translation>專案</translation>
-    </message>
-    <message>
         <source>Project geometry:</source>
         <translation>專案位置與尺寸：</translation>
     </message>
@@ -4716,10 +4814,6 @@ The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</
     <message>
         <source>Cinema (2.35:1)</source>
         <translation>Cinema (2.35:1)</translation>
-    </message>
-    <message>
-        <source>Default options</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Block animation:</source>
@@ -4810,20 +4904,7 @@ Remark: This field is often shown by indexing system and jukeboxes under the ter
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Options for speed wave</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Defines the model use as default thumbnail</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Thumbnail :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>
-Options for joined ressources</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4831,25 +4912,11 @@ Options for joined ressources</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Customize</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Create a new model from this thumbnail or edit custom thumbnail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Edit custom
-thumbnail</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Expor thumbnail to a jpeg file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Export
-thumbnail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4885,6 +4952,28 @@ custom model</source>
     </message>
     <message>
         <source>Enter here the date of the event of the project as a free text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>
+Options for speed wave</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>
+Chapters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Event location:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the location of the event of the project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear this location</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6044,6 +6133,22 @@ Do you want to download it now?</source>
         <source>Init multimedia browser...</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Edit this location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define a location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a Google Maps map</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTable</name>
@@ -6881,6 +6986,30 @@ Do you want to download it now?</source>
         <comment>Project statistics-Music</comment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Project location name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project location address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter location name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter location address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project&apos;s location not set (Name)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project&apos;s location not set (Address)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>cBaseMediaFile</name>
@@ -7054,6 +7183,38 @@ Do you want to download it now?</source>
     </message>
     <message>
         <source>1080px9-16:9 (5760x3240)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The map must be regenerated because the locations have changed or project&apos;s location no set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project&apos;s location must be defined to produce this Google Maps map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1
+Zoom %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Small</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>cBrushDefinition</name>
+    <message>
+        <source>Error: Project&apos;s location no set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project&apos;s location (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter&apos;s location (%1)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7761,6 +7922,26 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
     </message>
     <message>
         <source>Do you want include the markers on the map?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add project&apos;s location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add chapter&apos;s location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Localizations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

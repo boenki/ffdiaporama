@@ -2,6 +2,27 @@
 * FFDIAPORAMA 2.1 - trunk (Version Française)
 **************************************************
 
+[Commit: 27/12/2013] - ffDiaporama 2.1 devel 20131227
+    Correction de bug :
+        -Corrige un gros bug dans le rechargement des projets contenant des ressources
+        -Corrige un crash lors de copier/couper/coller de carte GMpas dans la boite d'édition des slides
+        -Améliore la synchronisation audio/vidéo lors des encodages en NTSC
+
+    Nouveautés :
+        -Redesign la boite des propriétés du projet pour supprimer les onglets et ajouter la localisation de l'évenement
+        -Ajoute la possibilité de modifier la localisation de l'évenement dans la boite d'édition des chapitres et dans la partie chapitre de la boite d'édition des slides automatiques
+        -Transforme le champs "Supplanter la date" de la boite d'édition des slides automatiques en multi-lignes
+        -Ajoute des variables de texte %PLN% et %PLA% correspondant aux nom et adresse de la localisation de l'évenement du projet
+        -Ajoute des variables de texte %CLN% et %CLA% correspondant aux nom et adresse de la localisation de l'évenement du chapitre en cours
+        -Ajoute le champs "Album du projet par defaut" et la sélection des "unités de distance" à utiliser dans la boite de configuration de l'application
+        -Modifie le bouton "Ajouter une localisation" de l'onglet GMap de la boite d'edition image/video/gmap pour utiliser les localisations du projet ou du chapitre ou de sélectionner directement un favoris
+        -Ajoute une option "Ajouter une carte" dans le sous menu qui apparait lorsqu'on click sur Ajouter un titre dans la fenêtre principal
+        -Ajoute des modèles de Titre fixe et animé contenant une carte GMap basée sur la localisation du projet
+        -Ajoute des options dans la boite de configuration pour déclarer un proxy pour accéder à internet
+        -Supprime les unités de CD-ROM vide de la liste des unités gérées dans le navigateur multimédia [Windows]
+
+--------------------------------------------------------------------------------
+
 [Commit: 21/12/2013] - ffDiaporama 2.1 devel 20131221
     Correction de bug :
         -Corrige le problème de lenteur dans l'affichage des marqueurs sur les cartes GMaps lors des animations

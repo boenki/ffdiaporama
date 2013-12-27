@@ -386,5 +386,6 @@
         <file>img/inheritance_down_lock.png</file>
         <file>img/inheritance_down_unlock.png</file>
         <file>img/Visible_MASK.png</file>
+        <file>img/defaultmap.png</file>
     </qresource>
 </RCC>

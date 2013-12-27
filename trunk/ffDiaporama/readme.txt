@@ -133,7 +133,7 @@ Build ffDiaporama for openSUSE
 Build ffDiaporama for Fedora
 ----------------------------
 
-    Fedora 19 (Qt 5.1.1/ffmpeg 1.2.4)
+    Fedora 19 (Qt 5.1.1/ffmpeg 1.2.4) and Fedora 20 (Qt 5.2.0/ffmpeg 2.1.1)
         Installation prerequisites:
             sudo yum groupinstall development-tools
             sudo yum install gcc-c++

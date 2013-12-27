@@ -2,6 +2,27 @@
 * FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
 
+[Commit: 27/12/2013] - ffDiaporama 2.1 devel 20131227
+    Bug fixes:
+        -Fixed a big bug in reloading projects with resources
+        -Fixed a crash when copy/cut/ paste GMpas map in the edit slides dialogs
+        -Improves audio/video sync when encoding NTSC
+
+    New features:
+        -Redesign Project properties dialog to remove the tabs and to add the location of the event
+        -Adds the ability to override the location of the event in the edit chapters dialog and the in the chapter zone of the edit automatic slides dialog
+        -Turns the field "Override the date" of the edit automatic slides in multi-lines
+        -Adds text variables PLN%% and%% PLA corresponding to the name and address of the location of the project's event
+        -Adds text variables CLN%% and%% CLA corresponding to the name and address of the location of the current chapter's event
+        -Adds fields "Default project album" and "select distance unit to be used" in the application configuration dialog box
+        -Changes the button "Add Location" of the tab GMap of the edit image/video/gmap dialog to allow use of the project's or chapter's location or to directly select a favorite
+        -Adds an option "Add a map" in the sub menu that appears when you click Add a title in the main window
+        -Adds Title models fixed and animated containing a GMap map based on the project's location
+        -Adds options in the configuration dialog to declare a proxy for internet access
+        -Remove empty CD-ROM drives from the list of drives managed by the multimedia browser [Windows]
+
+--------------------------------------------------------------------------------
+
 [Commit: 21/12/2013] - ffDiaporama 2.1 devel 20131221
     Bug fixes:
         -Fixed the problem of slow display of the markers on the GMaps map during animations

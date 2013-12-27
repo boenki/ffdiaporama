@@ -76,7 +76,7 @@ void wgt_QGMapsMap::DoInitDialog() {
     connect(ui->VisibilityCB,SIGNAL(currentIndexChanged(int)),SLOT(VisibilityChanged(int)));
     connect(ui->DistanceCB,SIGNAL(currentIndexChanged(int)),SLOT(DistanceChanged(int)));
 
-    if (!CurrentMap->RequestList.isEmpty()) QTimer::singleShot(LATENCY,this,SLOT(RestartRequest()));
+    if ((!CurrentMap->RequestList.isEmpty())||((CurrentMap->List.count()>0)&&(!CurrentMap->IsMapValide))) QTimer::singleShot(LATENCY,this,SLOT(RestartRequest()));
 }
 
 //====================================================================================================================
@@ -147,7 +147,7 @@ void wgt_QGMapsMap::RefreshControls() {
 
     ui->MapSizeCB->setEnabled(!CurrentMap->List.isEmpty());
     ui->EditLocationBT->setEnabled(CurLocation);
-    ui->RemoveLocationBT->setEnabled(CurrentMap->List.count()>1);
+    ui->RemoveLocationBT->setEnabled(CurrentMap->List.count()>0);
     ExportMapBT->setEnabled(CurrentMap->RequestList.isEmpty() && !CurrentMap->List.isEmpty());
     StopMaj=false;
 }
@@ -156,7 +156,7 @@ void wgt_QGMapsMap::RefreshControls() {
 
 void wgt_QGMapsMap::ResetDisplayMap() {
     // Compute marker size
-    for (int i=0;i<CurrentMap->List.count();i++) ((cLocation *)CurrentMap->List[i])->ComputeMarkerSize(CurrentMap->GetCurrentImageSize());
+    for (int i=0;i<CurrentMap->List.count();i++) CurrentBrush->ComputeMarkerSize(CurrentMap->List[i],CurrentMap->GetCurrentImageSize());
     // Setup map
     int H=ui->Map->size().height();
     int W=int(double(16)*(double(H)/double(9)));
@@ -177,30 +177,30 @@ void wgt_QGMapsMap::ResetDisplayMap() {
 
 void wgt_QGMapsMap::UpdateDisplayMap() {
     if (StopMaj) return;
-    RefreshControls();
     // Clear previous pending
     if (!CurrentMap->RequestList.isEmpty()) CurrentMap->RequestList.clear();
-    // if at least one location, do a map generation
-    if (!CurrentMap->List.isEmpty()) RequestGoogle();
+    RequestGoogle();
 }
 
 //====================================================================================================================
 
 void wgt_QGMapsMap::UpdateMapSizes() {
-    ui->MapSizeCB->clear();
-    if (CurrentMap->List.count()>0) {
-        QStringList AllSize     =CurrentMap->GetMapSizesPerZoomLevel();
-        int         MinZoomLevel=-1;
-        int         MaxZoomLevel=-1;
-        for (int i=0;i<AllSize.count();i++) if (!AllSize[i].isNull()) {
-            if (MinZoomLevel==-1) MinZoomLevel=i;
-            MaxZoomLevel=i;
-            ui->MapSizeCB->addItem(AllSize[i],QVariant(i));
+    if (CurrentMap->IsMapValide) {
+        ui->MapSizeCB->clear();
+        if (CurrentMap->List.count()>0) {
+            QStringList AllSize     =CurrentMap->GetMapSizesPerZoomLevel();
+            int         MinZoomLevel=-1;
+            int         MaxZoomLevel=-1;
+            for (int i=0;i<AllSize.count();i++) if (!AllSize[i].isNull()) {
+                if (MinZoomLevel==-1) MinZoomLevel=i;
+                MaxZoomLevel=i;
+                ui->MapSizeCB->addItem(AllSize[i],QVariant(i));
+            }
+            if (CurrentMap->ZoomLevel>MaxZoomLevel) CurrentMap->ZoomLevel=MaxZoomLevel;
+            if (CurrentMap->ZoomLevel<MinZoomLevel) CurrentMap->ZoomLevel=MinZoomLevel;
+            for (int i=0;i<ui->MapSizeCB->count();i++) if (CurrentMap->ZoomLevel==ui->MapSizeCB->itemData(i)) ui->MapSizeCB->setCurrentIndex(i);
+            ui->MapSizeCB->setEnabled(true);
         }
-        if (CurrentMap->ZoomLevel>MaxZoomLevel) CurrentMap->ZoomLevel=MaxZoomLevel;
-        if (CurrentMap->ZoomLevel<MinZoomLevel) CurrentMap->ZoomLevel=MinZoomLevel;
-        for (int i=0;i<ui->MapSizeCB->count();i++) if (CurrentMap->ZoomLevel==ui->MapSizeCB->itemData(i)) ui->MapSizeCB->setCurrentIndex(i);
-        ui->MapSizeCB->setEnabled(true);
     }
 }
 
@@ -215,7 +215,7 @@ void wgt_QGMapsMap::RestartRequest() {
 
 void wgt_QGMapsMap::RequestGoogle(bool DuplicateRessource) {
     qlonglong PrevRessourceKey=CurrentMap->RessourceKey;
-    DlgGMapsGeneration Dlg(CurrentMap,DuplicateRessource,ParentDialog->ApplicationConfig,this);
+    DlgGMapsGeneration Dlg(CurrentBrush,CurrentMap,DuplicateRessource,ParentDialog->ApplicationConfig,this);
     Dlg.InitDialog();
     Dlg.exec();
     ParentDialog->ApplicationConfig->ImagesCache.RemoveImageObject(PrevRessourceKey,-1);
@@ -251,14 +251,66 @@ void wgt_QGMapsMap::MapSizeChanged(int newsize) {
 }
 
 //====================================================================================================================
+#define FAVACTIONTYPE_ACTIONTYPE    0xF000
+#define FAVACTIONTYPE_ADDFREE       0x1000
+#define FAVACTIONTYPE_ADDPROJECT    0x2000
+#define FAVACTIONTYPE_ADDCHAPTER    0x4000
+#define FAVACTIONTYPE_SELECT        0x8000
 
 void wgt_QGMapsMap::AddGMapsLocation() {
     if (StopMaj) return;
-    ParentDialog->AppendPartialUndo(DlgImageCorrection::UNDOACTION_GMAPSMAPPART,ui->LocationTable,true,this,true);
-    cLocation           *Location=new cLocation(ParentDialog->ApplicationConfig);
-    DlgGMapsLocation    Dlg(Location,ParentDialog->ApplicationConfig,this);
-    Dlg.InitDialog();
-    if (Dlg.exec()==0) {
+
+    QMenu       *ContextMenu=new QMenu(this);
+    bool        AddSep      =false;
+    cLocation   *Location   =NULL;
+
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/gmap_add.png"),    QApplication::translate("wgt_QGMapsMap","Add a location"),        FAVACTIONTYPE_ADDFREE,   false,false,this));
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/ffdiaporama.png"), QApplication::translate("wgt_QGMapsMap","Add project's location"),FAVACTIONTYPE_ADDPROJECT,false,false,this));
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Chapter.png"),     QApplication::translate("wgt_QGMapsMap","Add chapter's location"),FAVACTIONTYPE_ADDCHAPTER,false,false,this));
+
+    QSqlQuery   Query(ParentDialog->ApplicationConfig->Database->db);
+    QString     QueryString("SELECT Key,Name,FAddress,Thumbnail FROM Location ORDER BY LOWER(Name)");
+    Query.prepare(QueryString);
+    if (!Query.exec()) DisplayLastSQLError(&Query); else while (Query.next()) {
+        bool      Ret;
+        qlonglong Key=Query.value(0).toLongLong(&Ret);
+        if (Ret) {
+            if (!AddSep) {
+                ContextMenu->addSeparator();
+                AddSep=true;
+            }
+            QString     Name   =Query.value(1).toString();
+            QString     Address=Query.value(2).toString();
+            QByteArray  Data   =Query.value(3).toByteArray();
+            QImage      Thumb; Thumb.loadFromData(Data);
+            ContextMenu->addAction(CreateMenuAction(QIcon(QPixmap().fromImage(Thumb)),QString("%1 (%2)").arg(Name).arg(Address),FAVACTIONTYPE_SELECT+Key,true,false,this));
+        }
+    }
+
+    QAction *Action=ContextMenu->exec(QCursor::pos());
+    if (Action) {
+        int ActionType=Action->data().toInt() & FAVACTIONTYPE_ACTIONTYPE;
+        if (ActionType==FAVACTIONTYPE_ADDPROJECT) {
+            Location=new cLocation(ParentDialog->ApplicationConfig);
+            Location->LocationType=cLocation::PROJECT;
+        } else if (ActionType==FAVACTIONTYPE_ADDCHAPTER) {
+            Location=new cLocation(ParentDialog->ApplicationConfig);
+            Location->LocationType=cLocation::CHAPTER;
+        } else if (ActionType==FAVACTIONTYPE_ADDFREE) {
+            Location=new cLocation(ParentDialog->ApplicationConfig);
+            DlgGMapsLocation Dlg(Location,ParentDialog->ApplicationConfig,this);
+            Dlg.InitDialog();
+            if (Dlg.exec()!=0) {
+                delete Location;
+                Location=NULL;
+            }
+        } else if (Action->text()!="") {
+            Location=new cLocation(ParentDialog->ApplicationConfig);
+            Location->LoadFromFavorite(Action->data().toInt() & ~FAVACTIONTYPE_ACTIONTYPE);
+        }
+    }
+    if (Location) {
+        ParentDialog->AppendPartialUndo(DlgImageCorrection::UNDOACTION_GMAPSMAPPART,ui->LocationTable,true,this,true);
         ui->LocationTable->setUpdatesEnabled(false);
         CurrentMap->List.append(Location);
         cBrushDefinition::sMarker Marker;
@@ -286,10 +338,8 @@ void wgt_QGMapsMap::AddGMapsLocation() {
         ui->LocationTable->setRowCount(CurrentMap->List.count());
         ui->LocationTable->setUpdatesEnabled(true);
         UpdateDisplayMap();
-    } else {
-        delete Location;
-        ParentDialog->RemoveLastPartialUndo();
     }
+    ui->AddGMapsLocationBT->setDown(false);
 }
 
 //====================================================================================================================
@@ -320,7 +370,7 @@ void wgt_QGMapsMap::RemoveLocation() {
         if (!Found) CurrentBrush->Markers.removeAt(CurIndex);   // if not shots found then remove it directly from CurrentBrush
 
         ui->LocationTable->setUpdatesEnabled(true);
-        ResetDisplayMap();
+        if ((CurrentMap->List.count()>0)&&(CurrentMap->IsMapValide)) ResetDisplayMap(); else UpdateDisplayMap();
     }
 }
 
@@ -347,17 +397,19 @@ void wgt_QGMapsMap::DoubleClickedLocation(QModelIndex) {
     int CurIndex=GetCurLocationIndex();
     if (CurIndex!=-1) {
         cLocation *CurLocation=((cLocation *)CurrentMap->List.at(CurIndex));
-        double GPSxOld=CurLocation->GPS_cx;
-        double GPSyOld=CurLocation->GPS_cy;
-        ParentDialog->AppendPartialUndo(DlgImageCorrection::UNDOACTION_GMAPSMAPPART,ui->LocationTable,true,this,true);
-        DlgGMapsLocation Dlg(CurLocation,ParentDialog->ApplicationConfig,this);
-        Dlg.InitDialog();
-        if (Dlg.exec()==0) {
-            ui->LocationTable->setUpdatesEnabled(false);
-            ui->LocationTable->setUpdatesEnabled(true);
-            if ((GPSxOld!=CurLocation->GPS_cx)||(GPSyOld!=CurLocation->GPS_cy)) UpdateDisplayMap();
-                else ResetDisplayMap(); // if same GPS position, only redraw markers
-        } else ParentDialog->RemoveLastPartialUndo();
+        if (CurLocation->LocationType==cLocation::FREE) {
+            double GPSxOld=CurLocation->GPS_cx;
+            double GPSyOld=CurLocation->GPS_cy;
+            ParentDialog->AppendPartialUndo(DlgImageCorrection::UNDOACTION_GMAPSMAPPART,ui->LocationTable,true,this,true);
+            DlgGMapsLocation Dlg(CurLocation,ParentDialog->ApplicationConfig,this);
+            Dlg.InitDialog();
+            if (Dlg.exec()==0) {
+                ui->LocationTable->setUpdatesEnabled(false);
+                ui->LocationTable->setUpdatesEnabled(true);
+                if ((GPSxOld!=CurLocation->GPS_cx)||(GPSyOld!=CurLocation->GPS_cy)) UpdateDisplayMap();
+                    else ResetDisplayMap(); // if same GPS position, only redraw markers
+            } else ParentDialog->RemoveLastPartialUndo();
+        }
     }
 }
 
