@@ -1,4 +1,4 @@
-(C) 2011-2013 Dominique LEVRAY <domledom@laposte.net>
+(C) 2011-2014 Dominique LEVRAY <domledom@laposte.net>
 
 ffDiaporama use these third party libraries :
     QT <http://qt.digia.com/>

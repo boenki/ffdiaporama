@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
+    Copyright (C) 2011-2014 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -44,6 +44,54 @@ DlgAbout::~DlgAbout() {
 void DlgAbout::DoInitDialog() {
     QString FName,Text;
     QFile   File;
+
+    if (ApplicationConfig->CurrentLanguage!="fr") FName=ApplicationConfig->StartingPath+QDir::separator()+QString("changelog-en.txt");
+        else FName=ApplicationConfig->StartingPath+QDir::separator()+QString("changelog-fr.txt");
+    File.setFileName(FName);
+    if (File.open(QIODevice::ReadOnly|QIODevice::Text)) {
+        Text=File.readAll();
+        ui->ChangelogED->setText(Text);
+        File.close();
+    } else {
+        ui->tabWidget->removeTab(5);
+    }
+
+    Text.clear();
+    if (ApplicationConfig->CurrentLanguage!="en") FName=ApplicationConfig->UserConfigPath+QString("%1_VERSION.TXT").arg(ApplicationConfig->CurrentLanguage);
+        else FName=ApplicationConfig->UserConfigPath+QString("LOCALEVERSION.TXT").arg(ApplicationConfig->CurrentLanguage);
+    File.setFileName(FName);
+    if (File.open(QIODevice::ReadOnly|QIODevice::Text)) {
+        while (!File.atEnd()) {
+            QString Line=File.readLine();
+            if (Line.indexOf("=")<0) Line=QApplication::translate("DlgAbout","Interface translation version: ")+Line+"\n\ten\t100%\n"; else {
+                if (Line.indexOf("to translate")) Line.replace("to translate",QApplication::translate("DlgAbout","to translate"));
+                Line="\t"+Line;
+                Line.replace(" = ","\t");
+            }
+            Text.append(Line);
+        }
+        File.close();
+    }
+
+    if (ApplicationConfig->CurrentLanguage!="en") FName=ApplicationConfig->UserConfigPath+QString("%1_WIKIVERSION.TXT").arg(ApplicationConfig->CurrentLanguage);
+        else FName=ApplicationConfig->UserConfigPath+QString("WIKIVERSION.TXT").arg(ApplicationConfig->CurrentLanguage);
+    File.setFileName(FName);
+    if (File.open(QIODevice::ReadOnly|QIODevice::Text)) {
+        while (!File.atEnd()) {
+            QString Line=File.readLine();
+            if (Line.indexOf("=")<0) {
+                if (!Text.isEmpty()) Text.append("\n");
+                Line=QApplication::translate("DlgAbout","WIKI translation version: ")+Line+"\n\ten\t100%\n";
+            } else {
+                if (Line.indexOf("to translate")) Line.replace("to translate",QApplication::translate("DlgAbout","to translate"));
+                Line="\t"+Line;
+                Line.replace(" = ","\t");
+            }
+            Text.append(Line);
+        }
+        File.close();
+    }
+    if (!Text.isEmpty()) ui->TranslationED->setText(Text); else ui->tabWidget->removeTab(4);
 
     FName=QString("clipart")+QDir::separator()+QString("openclipart-0.18-svgonly-readme.txt");
     File.setFileName(FName);

@@ -1567,24 +1567,12 @@
         <translation>Apre la &lt;a href=&quot;0104.html&quot;&gt;finestra proprietà sfondo&lt;/a&gt; (Equivalente a doppio clic sulla traccia sfondo)</translation>
     </message>
     <message>
-        <source>F6 </source>
-        <translation>F6 </translation>
-    </message>
-    <message>
         <source>Depending on the slide type, open the &lt;a href=&quot;0119.html&quot;&gt;slide properties dialog&lt;/a&gt; if it&apos;s a standard slide or open the &lt;a href=&quot;0103.html&quot;&gt;predefined title slide properties dialog&lt;/a&gt; if it&apos;s a predefined title slide. (Equivalent to a double click on the mounting track)</source>
         <translation>Dipendenze sul tipo diapositiva, apre la &lt;a href=&quot;0119.html&quot;&gt;finestra proprietà diapositiva&lt;/a&gt; se è una diapositiva standard o apre la &lt;a href=&quot;0103.html&quot;&gt;finestra proprietà titolo diapositiva predefinita&lt;/a&gt; se è una diapositiva titolo predefinito. (Equivalente a doppio clic sulla traccia di montaggio)</translation>
     </message>
     <message>
-        <source>F7 </source>
-        <translation>F7 </translation>
-    </message>
-    <message>
         <source>Open the &lt;a href=&quot;0114.html&quot;&gt;music properties dialog&lt;/a&gt; (Equivalent to a double click on the music track)</source>
         <translation>Apre la &lt;a href=&quot;0114.html&quot;&gt;finestra proprietà musica&lt;/a&gt; (Equivale a doppio clic sulla traccia musica)</translation>
-    </message>
-    <message>
-        <source>F8 </source>
-        <translation>F8 </translation>
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0122.html&quot;&gt;transition properties dialog&lt;/a&gt; (Equivalent to a double click on the transition)</source>
@@ -2546,14 +2534,6 @@
         <translation>Android</translation>
     </message>
     <message>
-        <source>1.5/1.6</source>
-        <translation>1.5/1.6</translation>
-    </message>
-    <message>
-        <source>2.1/2.2/2.3</source>
-        <translation>2.1/2.2/2.3</translation>
-    </message>
-    <message>
         <source>Many manufacturers made or still make phones using the Google Android operating system.</source>
         <translation>Molti produttori fanno telefoni che utilizzano il sistema operativo Android di Google.</translation>
     </message>
@@ -2618,20 +2598,8 @@
         <translation>Linux</translation>
     </message>
     <message>
-        <source>800x480</source>
-        <translation>800x480</translation>
-    </message>
-    <message>
-        <source>854x480</source>
-        <translation>854x480</translation>
-    </message>
-    <message>
         <source>Tablet examples: Archos 4/5/70/Arnova 10, Dell Streak, Creative ZiiO 7</source>
         <translation>Esempi tablet: Archos 4/5/70/Arnova 10, Dell Streak, Creative ZiiO 7</translation>
-    </message>
-    <message>
-        <source>1024x600</source>
-        <translation>1024x600</translation>
     </message>
     <message>
         <source>XGA</source>
@@ -2642,20 +2610,8 @@
         <translation>Esempi tablet: Archos 101, Samsung Galaxy Tab, HTC Flyer, Hannspree HANNSpad SN10T, Toshiba Folio 100</translation>
     </message>
     <message>
-        <source>1024x768</source>
-        <translation>1024x768</translation>
-    </message>
-    <message>
         <source>Tablet examples: HP TouchPad</source>
         <translation>Esempi tablet: HP TouchPad</translation>
-    </message>
-    <message>
-        <source>1280x800</source>
-        <translation>1280x800</translation>
-    </message>
-    <message>
-        <source>720p</source>
-        <translation>720p</translation>
     </message>
     <message>
         <source>Tablet examples: ASUS Eee Pad, Motorola Xoom, Packard Bell Liberty Tab, LG Optimus Pad, Archos G9</source>
@@ -3134,10 +3090,6 @@
         <translation>http://en.wikipedia.org/wiki/WebM</translation>
     </message>
     <message>
-        <source>H263</source>
-        <translation>H263</translation>
-    </message>
-    <message>
         <source>Sorenson H.263</source>
         <translation>Sorenson H.263</translation>
     </message>
@@ -3464,10 +3416,6 @@
         <translation>Formato file Flash 2005</translation>
     </message>
     <message>
-        <source>H263</source>
-        <translation>H263</translation>
-    </message>
-    <message>
         <source>MP3</source>
         <translation>MP3</translation>
     </message>
@@ -3623,14 +3571,6 @@
         <translation>RIM 240</translation>
     </message>
     <message>
-        <source>4:3</source>
-        <translation>4:3</translation>
-    </message>
-    <message>
-        <source>240x180</source>
-        <translation>240x180</translation>
-    </message>
-    <message>
         <source>24 FPS</source>
         <translation>24 FPS</translation>
     </message>
@@ -3639,24 +3579,8 @@
         <translation>Speciale formato usato sui piccoli schermi del Blackberry</translation>
     </message>
     <message>
-        <source>6:9</source>
-        <translation>6:9</translation>
-    </message>
-    <message>
-        <source>240x136</source>
-        <translation>240x136</translation>
-    </message>
-    <message>
-        <source>40:17</source>
-        <translation>40:17</translation>
-    </message>
-    <message>
         <source>QVGA</source>
         <translation>QVGA</translation>
-    </message>
-    <message>
-        <source>320x240</source>
-        <translation>320x240</translation>
     </message>
     <message>
         <source>25 FPS</source>
@@ -3671,68 +3595,24 @@
         <translation>Utilizzato principalmente su Internet e dagli smartphone di prima generazione e lettori video portatili.</translation>
     </message>
     <message>
-        <source>16:9</source>
-        <translation>16:9</translation>
-    </message>
-    <message>
-        <source>320x180</source>
-        <translation>320x180</translation>
-    </message>
-    <message>
-        <source>320x136</source>
-        <translation>320x136</translation>
-    </message>
-    <message>
         <source>HVGA</source>
         <translation>HVGA</translation>
-    </message>
-    <message>
-        <source>426x320</source>
-        <translation>426x320</translation>
     </message>
     <message>
         <source>Used mainly on the Internet and by second generation smartphones and mobile video players. &lt;B&gt;Because this format does not respect the traditional video geometry&lt;/B&gt;, &lt;B&gt;black bands appear to fill the screen to 480x320.&lt;/B&gt;</source>
         <translation>Utilizzato principalmente su Internet e dagli smartphone di seconda generazione e lettori video portatili. &lt;B&gt;Poiché questo formato non rispetta la tradizionale geometria video&lt;/B&gt;, &lt;B&gt; bande nere appaiono per riempire lo schermo di 480x320.&lt;/B&gt;</translation>
     </message>
     <message>
-        <source>480x270</source>
-        <translation>480x270</translation>
-    </message>
-    <message>
-        <source>480x204</source>
-        <translation>480x204</translation>
-    </message>
-    <message>
         <source>VGA</source>
         <translation>VGA</translation>
-    </message>
-    <message>
-        <source>640x480</source>
-        <translation>640x480</translation>
     </message>
     <message>
         <source>Used mainly on the Internet and by some smartphones.</source>
         <translation>Utilizzato principalmente su Internet e da alcuni smartphone.</translation>
     </message>
     <message>
-        <source>640x360</source>
-        <translation>640x360</translation>
-    </message>
-    <message>
-        <source>640x272</source>
-        <translation>640x272</translation>
-    </message>
-    <message>
         <source>SD-DVD</source>
         <translation>SD-DVD</translation>
-    </message>
-    <message>
-        <source>720x576</source>
-        <translation>720x576</translation>
-    </message>
-    <message>
-        <source>720x480</source>
-        <translation>720x480</translation>
     </message>
     <message>
         <source>The old television format for cathode ray tubes. Note that this format was specifically created for equipment with oval points: It is the anamorphism of the points that determines the geometry. That is why &lt;B&gt;it is absolutely necessary to avoid this format for anything other than television sets with cathode ray tubes.&lt;/B&gt;</source>
@@ -3747,40 +3627,12 @@
         <translation>Utilizzato principalmente su Internet e dagli smartphone di nuova generazione e lettori video portatili. Questo formato si è diffuso e ha sostituito i vecchi formati QVGA, HVGA e VGA utilizzati negli anni 2000-2010. &lt;B&gt; Poiché questo formato non rispetta le tradizionali geometrie video, bande nere per riempire lo schermo di 800x480. &lt;/B&gt;</translation>
     </message>
     <message>
-        <source>800x450</source>
-        <translation>800x450</translation>
-    </message>
-    <message>
-        <source>800x340</source>
-        <translation>800x340</translation>
-    </message>
-    <message>
         <source>XGA</source>
         <translation>XGA</translation>
     </message>
     <message>
-        <source>1024x768</source>
-        <translation>1024x768</translation>
-    </message>
-    <message>
         <source>Historically this format was used only by computers (fixed or portable). Now we meet it more and more on tablet computers like the iPad.</source>
         <translation>Storicamente questo formato è stato utilizzato solo da computer (fissi o portatili). Ora li incontriamo sempre di più sui computer tablet come l&apos;iPad.</translation>
-    </message>
-    <message>
-        <source>1024x576</source>
-        <translation>1024x576</translation>
-    </message>
-    <message>
-        <source>1024x436</source>
-        <translation>1024x436</translation>
-    </message>
-    <message>
-        <source>720p</source>
-        <translation>720p</translation>
-    </message>
-    <message>
-        <source>960x720</source>
-        <translation>960x720</translation>
     </message>
     <message>
         <source>23,976 FPS</source>
@@ -3791,32 +3643,8 @@
         <translation>Oggi, questo formato è ampiamente utilizzato su Internet, in particolare social network e siti di condivisione video. Lo troviamo anche che su alcuni dispositivi &quot;home cinema&quot;.</translation>
     </message>
     <message>
-        <source>1280x720</source>
-        <translation>1280x720</translation>
-    </message>
-    <message>
-        <source>1280x544</source>
-        <translation>1280x544</translation>
-    </message>
-    <message>
-        <source>1080p</source>
-        <translation>1080p</translation>
-    </message>
-    <message>
-        <source>1440x1080</source>
-        <translation>1440x1080</translation>
-    </message>
-    <message>
         <source>This is the real &quot;home cinema&quot; format. It is used by the Blue Ray players and the &quot;home cinema&quot; devices.</source>
         <translation>Questo è il vero formato &quot;home cinema&quot;. E &apos;utilizzato dai lettori Blu Ray e i dispositivi &quot;home cinema&quot;.</translation>
-    </message>
-    <message>
-        <source>1920x1080</source>
-        <translation>1920x1080</translation>
-    </message>
-    <message>
-        <source>1920x816</source>
-        <translation>1920x816</translation>
     </message>
     <message>
         <source>Note that many other resolutions exists but which are not used by ffDiaporama.</source>
@@ -4244,10 +4072,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Google Maps specific issues</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>There are several things to know about Google Maps</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4304,10 +4128,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>720p-16:9</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>1280x720 (0.9 MPix)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4325,10 +4145,6 @@
     </message>
     <message>
         <source>Useful for creating a full-screen &lt;B&gt;animated&lt;/B&gt; map in a 720p project or to add an &lt;B&gt;animated&lt;/B&gt; map to a title slide in a 1080p project</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>1080p-16:9</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4372,48 +4188,16 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>640x360</source>
-        <translation type="unfinished">640x360</translation>
-    </message>
-    <message>
-        <source>720p</source>
-        <translation type="unfinished">720p</translation>
-    </message>
-    <message>
         <source>720p x4</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>1080p</source>
-        <translation type="unfinished">1080p</translation>
-    </message>
-    <message>
-        <source>1080 x4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>2</source>
-        <translation type="unfinished">1080p {2?}</translation>
     </message>
     <message>
         <source>15011.315 km x 8613.829 km</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>3</source>
-        <translation type="unfinished">1080p {3?}</translation>
-    </message>
-    <message>
         <source>12509.429 km x 5930.123 km</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>4</source>
-        <translation type="unfinished">1080p {4?}</translation>
     </message>
     <message>
         <source>6254.715 km x 3351.985 km</source>
@@ -4424,20 +4208,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>5</source>
-        <translation type="unfinished">1080p {5?}</translation>
-    </message>
-    <message>
         <source>3127.357 km x 1737.202 km</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>9382.072 km x 4760.424 km</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>6</source>
-        <translation type="unfinished">1080p {6?}</translation>
     </message>
     <message>
         <source>1563.679 km x 876.788 km</source>
@@ -4448,20 +4224,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>7</source>
-        <translation type="unfinished">1080p {7?}</translation>
-    </message>
-    <message>
         <source>781.839 km x 439.436 km</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>2345.518 km x 1310.024 km</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>8</source>
-        <translation type="unfinished">1080p {8?}</translation>
     </message>
     <message>
         <source>390.920 km x 219.849 km</source>
@@ -4472,20 +4240,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>9</source>
-        <translation type="unfinished">1080p {9?}</translation>
-    </message>
-    <message>
         <source>195.460 km x 109.941 km</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>586.379 km x 329.691 km</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>10</source>
-        <translation type="unfinished">1080p {10?}</translation>
     </message>
     <message>
         <source>97.730 km x 54.972 km</source>
@@ -4496,20 +4256,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>11</source>
-        <translation type="unfinished">1080p {11?}</translation>
-    </message>
-    <message>
         <source>48.865 km x 27.486 km</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>146.595 km x 82.457 km</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>12</source>
-        <translation type="unfinished">1080p {12?}</translation>
     </message>
     <message>
         <source>24.432 km x 13.743 km</source>
@@ -4520,20 +4272,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>13</source>
-        <translation type="unfinished">1080p {13?}</translation>
-    </message>
-    <message>
         <source>12.216 km x 6.872 km</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>36.649 km x 20.615 km</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>14</source>
-        <translation type="unfinished">1080p {14?}</translation>
     </message>
     <message>
         <source>6.108 km x 3.436 km</source>
@@ -4544,20 +4288,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>15</source>
-        <translation type="unfinished">1080p {15?}</translation>
-    </message>
-    <message>
         <source>3.054 km x 1.718 km</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>9.162 km x 5.154 km</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>16</source>
-        <translation type="unfinished">1080p {16?}</translation>
     </message>
     <message>
         <source>1.527 km x 0.859 km</source>
@@ -4568,10 +4304,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>17</source>
-        <translation type="unfinished">1080p {17?}</translation>
-    </message>
-    <message>
         <source>0.764 km x 0.429 km</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4580,16 +4312,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>18</source>
-        <translation type="unfinished">1080p {18?}</translation>
-    </message>
-    <message>
         <source>1.145 km x 0.644 km</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>19</source>
-        <translation type="unfinished">1080p {19?}</translation>
     </message>
     <message>
         <source>Notes:</source>
@@ -4605,6 +4329,62 @@
     </message>
     <message>
         <source>Google Maps zoom levels 20 and 11 are useless with ffDiaporama Google Maps don&apos;t respect perfect alignment when using high zoom level.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bitmap image file and Bitmap image from clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google Maps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama can use music file in the following formats: wav, aac, adts, ac3, mp2, mp3, m4a or m4b or m4p, 3g2 or 3ga or 3gp, ogg or oga, spx, wma, flac</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>See also: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Definition of music file on Wikipedia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama can use bitmap images in the following formats: bmp, gif (but not animated gif), jpg or jpeg, png, pbm, pgm, ppm, tiff or tif, xbm, xpm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: FFD uses the filename extension to determine the type of image. It is therefore necessary that this extension was valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Definition of Bitmap image file on Wikipedia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama can use vector images in the following formats: svg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Definition of vector image file on Wikipedia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama can use video files in the following formats: avi, mov, mpg or mpeg, mkv, mp4 or m4v, flv, 3gp, ogv, webm, dv, wmv, mts or m2ts or mod</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: mts, m2ts and mod files are stream formats (AVCHD) which involve some limitations. For more information on AVCHD, see: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced Video Coding High Definition on Wikipedia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Definition of video file on Wikipedia</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5297,10 +5077,6 @@
     <message>
         <source>Defines the model use as default thumbnail. Thumbnails are images that are generated along with the videos. These images are used as a poster by most </source>
         <translation>Definisce l&apos;uso del modello come miniatura predefinita. Le miniature sono immagini che vengono generate insieme ai video. Queste immagini sono utilizzate maggiormente come un poster </translation>
-    </message>
-    <message>
-        <source>. </source>
-        <translation>. </translation>
     </message>
     <message>
         <source>Defines the default value for the field Author that is often so called Artist by </source>
@@ -6116,10 +5892,6 @@
         <translation>I seguenti campi vengono visualizzati: </translation>
     </message>
     <message>
-        <source>#</source>
-        <translation>#</translation>
-    </message>
-    <message>
         <source>Chapter number</source>
         <translation>Numero capitolo</translation>
     </message>
@@ -6242,10 +6014,6 @@
     <message>
         <source>Media Center Systems</source>
         <translation>Sistemi Media Center</translation>
-    </message>
-    <message>
-        <source>.</source>
-        <translation>.</translation>
     </message>
     <message>
         <source>Remark:</source>
@@ -6842,10 +6610,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Work in progress ...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>this dialog box is organized in tab that are available depending on the type of the object to edit.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6863,6 +6627,182 @@
     </message>
     <message>
         <source>&lt;a href=&quot;#GMAPSMAPTAG&quot;&gt;The Google Maps map tag&lt;/a&gt; is available only with Google Maps map object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>On the upper left part, you define the map properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>On the bottom left part, the map is displayed with markers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>On the upper right part, the table of location is displayed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>On the bottom right part, you define the properties of the selected location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The map properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Map type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the type of the map. You can select between the four Google Maps possibilities:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Roadmap</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Satellite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Terrain</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hybrid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Map size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the size of the map. This size represents the distance in width and height of the map.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Smaller the zoom is and huger the area represented by the map is.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Higher the zoom is and smaller the area represented by the map is.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image size</source>
+        <translation type="unfinished">Dimensione immagine</translation>
+    </message>
+    <message>
+        <source>Define the size of the image generated for the map. ffDiaporama proposes to generate maps of several image sizes, so, to create a fluid zoom animation, you can use a large image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The table of locations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a location from the &lt;a href=&quot;0123.html&quot;&gt;Add or modify a location&lt;/a&gt; dialog or using a favorite.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit current location. Open the &lt;a href=&quot;0123.html&quot;&gt;Add or modify a location&lt;/a&gt; dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove current location.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The marker properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Properties for all shots</source>
+        <translation type="unfinished">Proprietà per tutti gli scatti</translation>
+    </message>
+    <message>
+        <source>This settings group defines properties for all shots, so, the modifications made to the following properties will apply to all shots. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GPS Position form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define a form for the GPS position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Marker form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define a form for the marker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Composition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defined what information will be displayed in the marker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the size of the marker and the GPS position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Distance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defined where to display the marker (the distance between the marker and the GPS position)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Properties for this shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This settings group defines properties for the current shot, so you can create animation of makers by defining different properties for each shots.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the color of the text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Background color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the color of the background of the marker, of the GPS position and of the part between the two</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Line color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the color of the border</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Visibility</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defined if the marker is visible, half-visible (masked) or hidden</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6955,10 +6895,6 @@
     <message>
         <source>For every track, the following information is shown: </source>
         <translation>Per ogni traccia, le seguenti informazioni saranno mostrate: </translation>
-    </message>
-    <message>
-        <source>#</source>
-        <translation>#</translation>
     </message>
     <message>
         <source>Track number</source>
@@ -7696,11 +7632,6 @@
     <message>
         <source>At the dialog bottom</source>
         <translation>Nella finestra in basso</translation>
-    </message>
-    <message>
-        <source>. </source>
-        <translatorcomment>. </translatorcomment>
-        <translation></translation>
     </message>
     <message>
         <source>For more information on joined files, see &lt;a href=&quot;003A.html&quot;&gt;File attachments&lt;/a&gt;</source>

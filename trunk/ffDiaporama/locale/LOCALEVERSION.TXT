@@ -1,1 +1,11 @@
-20131227
+20140103
+fr = 100% (1853/1853)
+it = 99% (1841/1853) 12 to translate
+de = 99% (1841/1853) 12 to translate
+nl = 55% (1035/1853) 818 to translate
+es = 99% (1841/1853) 12 to translate
+pt = 99% (1841/1853) 12 to translate
+ru = 89% (1660/1853) 193 to translate
+el = 89% (1660/1853) 193 to translate
+cz = 14% (277/1853) 1576 to translate
+zh_tw = 32% (608/1853) 1245 to translate

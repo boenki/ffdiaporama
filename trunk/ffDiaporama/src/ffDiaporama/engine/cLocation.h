@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
+    Copyright (C) 2011-2014 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ public:
     double                                                                  GPS_cx,GPS_cy;          // GPS position (longitude/latitude)
     int                                                                     ZoomLevel;              // Preferred Map ZoomLevel
     qlonglong                                                               ThumbnailResKey;        // Key of a 64x64 image as thumb
-    cBrushDefinition                                                        Icon;                   // cBrushDefinition to create thumb
+    cBrushDefinition                                                        *Icon;                  // cBrushDefinition to create thumb
     QSize                                                                   MarkerSize;             // keep size
     enum MARKERCOMPO {ICONNAMEADDR,ICONNAME,ICON,NAME,NAMEADDR,ADDR}        MarkerCompo;            // Marker composition
     enum MARKERPOINT {MARKERPOINTPOINT,MARKERPOINTCIRCLE,MARKERPOINTRECT}   MarkerPointForm;        // GPS Position form
@@ -44,7 +44,7 @@ public:
     enum MARKERDISTANCE {MARKERDISTNEAR,MARKERDISTNORMAL,MARKERDISTFAR}     Distance;               // Distance between the localization on the map and the marker
 
     explicit                cLocation(cBaseApplicationConfig *ApplicationConfig);
-    virtual                 ~cLocation() {}
+    virtual                 ~cLocation();
 
     virtual void            CopyFromLocation(cLocation *Src);
     virtual void            SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);

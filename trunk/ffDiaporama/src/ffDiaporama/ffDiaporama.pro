@@ -343,7 +343,6 @@ OTHER_FILES += \
     ../../WIKI/PREPLANGUAGE.cmd \
     ../../WIKI/wiki.css \
     ../../readme.txt \
-    ../../translation.txt \
     ../../changelog-fr.txt \
     ../../changelog-en.txt \
     ../../WIKI/WIKI.txt

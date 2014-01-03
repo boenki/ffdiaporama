@@ -143,7 +143,7 @@ public:
 
     virtual bool            DoUpgradeTableVersion(qlonglong CurrentVersion);
 
-    qlonglong               GetFileKey(qlonglong FolderKey,QString ShortName,int MediaFileType);
+    qlonglong               GetFileKey(qlonglong FolderKey,QString ShortName,int MediaFileType,bool ForceRefresh=false);
     QString                 GetShortName(qlonglong FileKey);
     QString                 GetFileName(qlonglong FileKey);
     void                    UpdateTableForFolder(qlonglong FolderKey,bool ForceRefresh);

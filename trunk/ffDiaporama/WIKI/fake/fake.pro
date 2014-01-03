@@ -23,7 +23,6 @@ HEADERS += fake.h
 TRANSLATIONS += ../wikifake_fr.ts \
                 ../wikifake_it.ts \
                 ../wikifake_de.ts \
-#                ../wikifake_nl.ts \
                 ../wikifake_es.ts \
                 ../wikifake_pt.ts \
                 ../wikifake_ru.ts \

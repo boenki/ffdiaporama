@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
+    Copyright (C) 2011-2014 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -264,10 +264,17 @@ protected:
                 SUBAPPLY(OnOffFilter)                                                                                                   \
                 SUBAPPLY(ImageSpeedWave)                                                                                                \
                 for (int MarkNum=0;MarkNum<ShotObject->BackgroundBrush->Markers.count();MarkNum++) {                                    \
-                    SUBAPPLY(Markers[MarkNum].MarkerColor)                                                                              \
-                    SUBAPPLY(Markers[MarkNum].TextColor)                                                                                \
-                    SUBAPPLY(Markers[MarkNum].LineColor)                                                                                \
-                    SUBAPPLY(Markers[MarkNum].Visibility)                                                                               \
+                    if (MarkNum<SavedBrush.Markers.count()) {                                                                           \
+                        SUBAPPLY(Markers[MarkNum].MarkerColor)                                                                          \
+                        SUBAPPLY(Markers[MarkNum].TextColor)                                                                            \
+                        SUBAPPLY(Markers[MarkNum].LineColor)                                                                            \
+                        SUBAPPLY(Markers[MarkNum].Visibility)                                                                           \
+                    } else {                                                                                                            \
+                        ShotObject->BackgroundBrush->Markers[MarkNum].MarkerColor=CurrentCompoObject->BackgroundBrush->Markers[MarkNum].MarkerColor;    \
+                        ShotObject->BackgroundBrush->Markers[MarkNum].TextColor  =CurrentCompoObject->BackgroundBrush->Markers[MarkNum].TextColor;      \
+                        ShotObject->BackgroundBrush->Markers[MarkNum].LineColor  =CurrentCompoObject->BackgroundBrush->Markers[MarkNum].LineColor;      \
+                        ShotObject->BackgroundBrush->Markers[MarkNum].Visibility =CurrentCompoObject->BackgroundBrush->Markers[MarkNum].Visibility;     \
+                    }                                                                                                                   \
                 }                                                                                                                       \
             } else ContAPPLY=false;                                                                                                     \
         }                                                                                                                               \

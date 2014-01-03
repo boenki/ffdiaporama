@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
+    Copyright (C) 2011-2014 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -1521,7 +1521,7 @@ void DlgSlideProperties::s_BlockTable_Paste() {
 
                 cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,CurrentSlide->NextIndexKey,ApplicationConfig,this);
                 ShotBlock.IndexKey=CurrentSlide->NextIndexKey;
-                ShotBlock.LoadFromXML(Element,"CLIPBOARD-BLOCK-SHOT","",&CurrentSlide->ObjectComposition,NULL,true,NULL,true,true,GlobalBlock);
+                ShotBlock.LoadFromXML(Element,"CLIPBOARD-BLOCK-SHOT","",&CurrentSlide->ObjectComposition,NULL,true,NULL,false,true,GlobalBlock);    // No duplicate ressource on paste
                 ShotBlock.BackgroundBrush->MediaObject=GlobalBlock->BackgroundBrush->MediaObject;
                 ShotBlock.BackgroundBrush->DeleteMediaObject=false;
                 ShotBlock.Text=GlobalBlock->Text;

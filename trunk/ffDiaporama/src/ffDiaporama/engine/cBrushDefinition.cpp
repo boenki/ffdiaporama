@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
+    Copyright (C) 2011-2014 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -627,7 +627,6 @@ void cBrushDefinition::SaveToXML(QDomElement *ParentElement,QString ElementName,
             if (ReplaceList) {
                 BrushFileName=ReplaceList->GetDestinationFileName(BrushFileName);
             } else {
-                BrushFileName=BrushFileName;
                 if ((PathForRelativPath!="")&&(BrushFileName!="")) {
                     if (ForceAbsolutPath)
                         BrushFileName=QDir::cleanPath(QDir(QFileInfo(PathForRelativPath).absolutePath()).absoluteFilePath(BrushFileName));
@@ -1609,7 +1608,7 @@ void cBrushDefinition::AddMarkerToImage(QImage *DestImage) {
             Pen.setStyle(Qt::SolidLine);
             Pen.setWidth(PenSize);
             Painter.setPen(Pen);
-            if (Markers[i].Visibility==cBrushDefinition::sMarker::MARKERSHADE) Painter.setOpacity(0.3);
+            if (Markers[i].Visibility==cBrushDefinition::sMarker::MARKERSHADE) Painter.setOpacity(0.5);
             Painter.drawPath(MarkerPath);
             PenSize*=2;
             Painter.setClipRect(MarkerPosition.x()+PenSize,MarkerPosition.y()+PenSize,Location->MarkerSize.width()-2*PenSize,Location->MarkerSize.height()-2*PenSize);

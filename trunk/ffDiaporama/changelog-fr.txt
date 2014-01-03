@@ -2,6 +2,22 @@
 * FFDIAPORAMA 2.1 - trunk (Version Française)
 **************************************************
 
+[Commit: 03/01/2014] - ffDiaporama 2.1 devel 20140103
+    Correction de bug :
+        -Corrige un plantage lors de la fermeture de la boite d'edition image/video/gmap lorsque des localisations ont été ajoutées
+        -Corrige l'affichage des dates de création et de modification des fichiers dans l'explorateur multimédia (Sous windows, la date de modification peut être invalide)
+
+    Nouveautés :
+        -Augmente légèrement l'opacité des marqueurs masqués (ils étaient vraiment trop peu visible)
+        -Met le champ Nom en 1er dans la boite de dialogue d'édition des localisations (plus logique)
+        -Accélère les sélections/déselections de fichiers dans l'explorateur multimédia
+        -N'affiche plus les durées à 0 dans l'explorateur multimédia en mode détail
+        -Modifie le comportement du refresh dans l'explorateur multimédia : force une mise à complète des fichiers
+        -Ajoute un onglet Changelog (avec le contenu du fichier changelog) et un onglet Traduction (avec l'état des traductions) dans la boite A propos de
+        -Ne duplique plus les cartes GMap lors des copier/coller tant que les localisations n'ont pas été changées (pour réduire la taille des fichiers .ffd)
+
+--------------------------------------------------------------------------------
+
 [Commit: 27/12/2013] - ffDiaporama 2.1 devel 20131227
     Correction de bug :
         -Corrige un gros bug dans le rechargement des projets contenant des ressources

@@ -27,11 +27,32 @@
         <translation>確定(&amp;O)</translation>
     </message>
     <message>
-        <source>Copyright (C) 2011-2013 Dominique Levray</source>
-        <translation>著作權©2011-2013 Dominique Levray</translation>
+        <source>Texturemate</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Texturemate</source>
+        <source>Translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note:
+If you want to help us or by completing an incomplete translation, or by translating the application into another language, do not hesitate to contact us on the forum.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Interface translation version: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>to translate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>WIKI translation version: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changelog</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7805,10 +7826,6 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Select the color of the line to be used to draw the border</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Line color:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7942,6 +7959,30 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
     </message>
     <message>
         <source>Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defined what information will be displayed in the marker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defined where to display the marker (the distance between the marker and the GPS position)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the color of the text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the color of the background of the marker, of the GPS position and of the part between the two</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defined if the marker is visible, half-visible (masked) or hidden</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the color of the border</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

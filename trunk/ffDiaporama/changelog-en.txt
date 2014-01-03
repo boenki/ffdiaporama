@@ -2,6 +2,22 @@
 * FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
 
+[Commit: 03/01/2014] - ffDiaporama 2.1 devel 20140103
+    Bug fixes:
+        -Fixed a crash when closing the edit image/video/gmap when locations were added
+        -Fixed the display of dates of creation and modification of files in the media browser (Under Windows, the modification date may be invalid)
+
+    New features:
+        -Increases slightly opacity of masked markers (they were really too few visible)
+        -Move the Name field at first position in the edit locations dialog (more logical)
+        -Accelerates selections/unselection of files in multimedia browser
+        -No longer displays duration equals to 0 in the multimedia browser
+        -Changes the behavior of the multimedia browser refresh: Force complete update of files
+        -Adds a Changelog tab (with the content of Changelog file) and a Translation tab (with the translation status) in the About dialog
+        -No longer duplicate GMap map during paste as location have not been changed (to reduce size of .ffd file)
+
+--------------------------------------------------------------------------------
+
 [Commit: 27/12/2013] - ffDiaporama 2.1 devel 20131227
     Bug fixes:
         -Fixed a big bug in reloading projects with resources

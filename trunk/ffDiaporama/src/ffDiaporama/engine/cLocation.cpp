@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
+    Copyright (C) 2011-2014 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 #define DEFAULT_Position            cLocation::TOP
 #define DEFAULT_Distance            cLocation::MARKERDISTNORMAL
 
-cLocation::cLocation(cBaseApplicationConfig *ApplicationConfig):Icon(NULL,ApplicationConfig) {
+cLocation::cLocation(cBaseApplicationConfig *ApplicationConfig) {
     LocationType    =FREE;
     FavKey          =-1;
     ThumbnailResKey =-1;
@@ -40,6 +40,12 @@ cLocation::cLocation(cBaseApplicationConfig *ApplicationConfig):Icon(NULL,Applic
     MarkerCompo     =DEFAULT_MarkerCompo;
     Size            =DEFAULT_Size;
     Distance        =DEFAULT_Distance;
+    Icon            =new cBrushDefinition(NULL,ApplicationConfig);
+}
+
+cLocation::~cLocation() {
+    delete Icon;
+    Icon=NULL;
 }
 
 //========================================================================================================================
@@ -60,7 +66,7 @@ void cLocation::CopyFromLocation(cLocation *Src) {
     MarkerForm      =Src->MarkerForm;
     Size            =Src->Size;
     Distance        =Src->Distance;
-    Icon.CopyFromBrushDefinition(&Src->Icon);
+    Icon->CopyFromBrushDefinition(Src->Icon);
 }
 
 //========================================================================================================================
@@ -76,7 +82,7 @@ void cLocation::SaveToXML(QDomElement *ParentElement,QString,QString PathForRela
     if (LocationType==FREE) {
         ParentElement->setAttribute("Address",Address);
         ParentElement->setAttribute("ZoomLevel",ZoomLevel);
-        Icon.SaveToXML(ParentElement,"Icon",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,false);
+        Icon->SaveToXML(ParentElement,"Icon",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,false);
         if (ResKeyList) ResKeyList->append(ThumbnailResKey);
         ParentElement->setAttribute("ThumbResKey",ThumbnailResKey);
     }
@@ -102,12 +108,12 @@ bool cLocation::LoadFromXML(QDomElement *ParentElement,QString,QString PathForRe
         if (ParentElement->hasAttribute("Address"))         Address         =ParentElement->attribute("Address");
         if (ParentElement->hasAttribute("ZoomLevel"))       ZoomLevel       =ParentElement->attribute("ZoomLevel").toInt();
         if (ParentElement->hasAttribute("ThumbResKey"))     ThumbnailResKey =ParentElement->attribute("ThumbResKey").toLongLong();
-        IsOk=Icon.LoadFromXML(ParentElement,"Icon",PathForRelativPath,AliasList,ModifyFlag,ResKeyList,DuplicateRes);
+        IsOk=Icon->LoadFromXML(ParentElement,"Icon",PathForRelativPath,AliasList,ModifyFlag,ResKeyList,DuplicateRes);
         if ((IsOk)&&(ThumbnailResKey==-1)) {
             QImage ThumbImage;
-            if (Icon.MediaObject) {
-                ThumbImage=Icon.GetImageDiskBrush(QRect(0,0,64,64),true,0,NULL,1,NULL);
-                Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailResKey,ThumbImage);
+            if (Icon->MediaObject) {
+                ThumbImage=Icon->GetImageDiskBrush(QRect(0,0,64,64),true,0,NULL,1,NULL);
+                Icon->ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailResKey,ThumbImage);
             } else {
                 ThumbImage=QImage(64,64,QImage::Format_ARGB32_Premultiplied);
                 ThumbImage.fill(Qt::white);
@@ -121,9 +127,9 @@ bool cLocation::LoadFromXML(QDomElement *ParentElement,QString,QString PathForRe
             // Duplicate ressource if needed
             if (DuplicateRes) {
                 QImage ThumbImage;
-                Icon.ApplicationConfig->SlideThumbsTable->GetThumbs(&ThumbnailResKey,&ThumbImage);
+                Icon->ApplicationConfig->SlideThumbsTable->GetThumbs(&ThumbnailResKey,&ThumbImage);
                 ThumbnailResKey=-1;
-                Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailResKey,ThumbImage);
+                Icon->ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailResKey,ThumbImage);
             }
         }
         if (FavKey==-1) SearchInFavorite();
@@ -143,37 +149,37 @@ bool cLocation::LoadFromXML(QDomElement *ParentElement,QString,QString PathForRe
 
 void cLocation::AddToFavorite() {
     QImage  Image;
-    if (Icon.MediaObject) Icon.GetImageDiskBrush(QRect(0,0,64,64),true,0,NULL,1,NULL); else {
+    if (Icon->MediaObject) Icon->GetImageDiskBrush(QRect(0,0,64,64),true,0,NULL,1,NULL); else {
         Image=QImage(64,64,QImage::Format_ARGB32_Premultiplied);
         Image.fill(Qt::white);
     }
     QDomDocument domDocument;
     QDomElement  root=domDocument.createElement("Icon");
     domDocument.appendChild(root);
-    Icon.SaveToXML(&root,"Icon","",true,NULL,NULL,false);
-    FavKey=Icon.ApplicationConfig->LocationTable->AppendLocation(Name,Address,FriendlyAddress,GPS_cy,GPS_cx,ZoomLevel,domDocument.toString(),Image);
+    Icon->SaveToXML(&root,"Icon","",true,NULL,NULL,false);
+    FavKey=Icon->ApplicationConfig->LocationTable->AppendLocation(Name,Address,FriendlyAddress,GPS_cy,GPS_cx,ZoomLevel,domDocument.toString(),Image);
 }
 
 //========================================================================================================================
 
 void cLocation::UpdateFavorite() {
     QImage  Image;
-    if (Icon.MediaObject) Icon.GetImageDiskBrush(QRect(0,0,64,64),true,0,NULL,1,NULL); else {
+    if (Icon->MediaObject) Icon->GetImageDiskBrush(QRect(0,0,64,64),true,0,NULL,1,NULL); else {
         Image=QImage(64,64,QImage::Format_ARGB32_Premultiplied);
         Image.fill(Qt::white);
     }
     QDomDocument domDocument;
     QDomElement  root=domDocument.createElement("Icon");
     domDocument.appendChild(root);
-    Icon.SaveToXML(&root,"Icon","",true,NULL,NULL,false);
-    Icon.ApplicationConfig->LocationTable->UpdateLocation(FavKey,Name,Address,FriendlyAddress,GPS_cy,GPS_cx,ZoomLevel,domDocument.toString(),Image);
+    Icon->SaveToXML(&root,"Icon","",true,NULL,NULL,false);
+    Icon->ApplicationConfig->LocationTable->UpdateLocation(FavKey,Name,Address,FriendlyAddress,GPS_cy,GPS_cx,ZoomLevel,domDocument.toString(),Image);
 }
 
 //========================================================================================================================
 
 void cLocation::RemoveFavorite() {
     if (FavKey==-1) return;
-    QSqlQuery Query(Icon.ApplicationConfig->Database->db);
+    QSqlQuery Query(Icon->ApplicationConfig->Database->db);
     Query.prepare(QString("DELETE FROM Location WHERE Key=:Key"));
     Query.bindValue(":Key",FavKey,QSql::In);
     if (!Query.exec()) DisplayLastSQLError(&Query);
@@ -182,7 +188,7 @@ void cLocation::RemoveFavorite() {
 //=====================================================================================================
 
 bool cLocation::LoadFromFavorite(qlonglong Key) {
-    QSqlQuery Query(Icon.ApplicationConfig->Database->db);
+    QSqlQuery Query(Icon->ApplicationConfig->Database->db);
     Query.prepare(QString("SELECT Name,Address,FAddress,Latitude,Longitude,Zoomlevel,Icon,Thumbnail FROM Location WHERE Key=:Key"));
     Query.bindValue(":Key",Key,QSql::In);
     if (!Query.exec()) {
@@ -207,17 +213,17 @@ bool cLocation::LoadFromFavorite(qlonglong Key) {
         if (domDocument.setContent(sIcon,true,&errorStr,&errorLine,&errorColumn)) {
             if ((domDocument.elementsByTagName("Icon").length()>0)&&(domDocument.elementsByTagName("Icon").item(0).isElement()==true)) {
                 QDomElement Element=domDocument.elementsByTagName("Icon").item(0).toElement();
-                Icon.LoadFromXML(&Element,"Icon","",NULL,NULL,NULL,true);
+                Icon->LoadFromXML(&Element,"Icon","",NULL,NULL,NULL,true);
                 QImage ThumbImage;
                 if (Thumb.isNull()) {
-                    ThumbImage=Icon.GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
-                    if (Icon.MediaObject) Icon.GetImageDiskBrush(QRect(0,0,64,64),true,0,NULL,1,NULL); else {
+                    ThumbImage=Icon->GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
+                    if (Icon->MediaObject) Icon->GetImageDiskBrush(QRect(0,0,64,64),true,0,NULL,1,NULL); else {
                         ThumbImage=QImage(64,64,QImage::Format_ARGB32_Premultiplied);
                         ThumbImage.fill(Qt::white);
                     }
                 } else ThumbImage=Thumb;
-                Icon.ApplicationConfig->ImagesCache.RemoveImageObject(ThumbnailResKey,-1);
-                Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailResKey,ThumbImage);
+                Icon->ApplicationConfig->ImagesCache.RemoveImageObject(ThumbnailResKey,-1);
+                Icon->ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailResKey,ThumbImage);
                 return true;
             }
         }
@@ -229,7 +235,7 @@ bool cLocation::LoadFromFavorite(qlonglong Key) {
 
 bool cLocation::SearchInFavorite() {
     bool      IsOk=false;
-    QSqlQuery Query(Icon.ApplicationConfig->Database->db);
+    QSqlQuery Query(Icon->ApplicationConfig->Database->db);
     Query.prepare(QString("SELECT Key FROM Location WHERE Latitude=:Latitude AND Longitude=:Longitude"));
     Query.bindValue(":Latitude", GPS_cy,QSql::In);
     Query.bindValue(":Longitude",GPS_cx,QSql::In);
@@ -248,13 +254,13 @@ bool cLocation::SearchInFavorite() {
 
 QImage cLocation::GetThumb(int IconSize) {
     QImage Thumb;
-    if (Icon.MediaObject) {
-        cLuLoImageCacheObject *ImageObject=Icon.ApplicationConfig->ImagesCache.FindObject(ThumbnailResKey,-1,QDateTime(),0,true,true);
+    if (Icon->MediaObject) {
+        cLuLoImageCacheObject *ImageObject=Icon->ApplicationConfig->ImagesCache.FindObject(ThumbnailResKey,-1,QDateTime(),0,true,true);
         if (ImageObject) Thumb=ImageObject->ValidateCacheRenderImageNC(ThumbnailResKey);
         if (Thumb.isNull()) {
-            Thumb=Icon.GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
+            Thumb=Icon->GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
             if (!Thumb.isNull()) {
-                Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailResKey,Thumb);
+                Icon->ApplicationConfig->SlideThumbsTable->SetThumbs(&ThumbnailResKey,Thumb);
                 if (ImageObject) ImageObject->CacheRenderImage=new QImage(Thumb.copy());
             }
         }

@@ -352,7 +352,7 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
+          <y>-42</y>
           <width>279</width>
           <height>275</height>
          </rect>
@@ -458,7 +458,7 @@
          <item row="3" column="1">
           <widget class="QComboBox" name="MarkerCompoCB">
            <property name="toolTip">
-            <string>Define a form for the marker</string>
+            <string>Defined what information will be displayed in the marker</string>
            </property>
            <item>
             <property name="text">
@@ -535,6 +535,9 @@
          </item>
          <item row="6" column="1">
           <widget class="QComboBox" name="DistanceCB">
+           <property name="toolTip">
+            <string>Defined where to display the marker (the distance between the marker and the GPS position)</string>
+           </property>
            <item>
             <property name="text">
              <string>Near</string>
@@ -604,7 +607,7 @@
               </font>
              </property>
              <property name="toolTip">
-              <string>Select the color of the line to be used to draw the border</string>
+              <string>Defines the color of the text</string>
              </property>
              <property name="iconSize">
               <size>
@@ -668,7 +671,7 @@
               </font>
              </property>
              <property name="toolTip">
-              <string>Select the color of the line to be used to draw the border</string>
+              <string>Defines the color of the background of the marker, of the GPS position and of the part between the two</string>
              </property>
              <property name="iconSize">
               <size>
@@ -702,6 +705,9 @@
          </item>
          <item row="16" column="1">
           <widget class="QComboBox" name="VisibilityCB">
+           <property name="toolTip">
+            <string>Defined if the marker is visible, half-visible (masked) or hidden</string>
+           </property>
            <item>
             <property name="text">
              <string>Hide</string>
@@ -758,7 +764,7 @@
               </font>
              </property>
              <property name="toolTip">
-              <string>Select the color of the line to be used to draw the border</string>
+              <string>Defines the color of the border</string>
              </property>
              <property name="iconSize">
               <size>

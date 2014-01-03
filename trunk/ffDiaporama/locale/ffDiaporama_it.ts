@@ -31,8 +31,29 @@
         <translation>Texturemate</translation>
     </message>
     <message>
-        <source>Copyright (C) 2011-2013 Dominique Levray</source>
-        <translation>Copyright (C) 2011-2013 Dominique Levray</translation>
+        <source>Translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note:
+If you want to help us or by completing an incomplete translation, or by translating the application into another language, do not hesitate to contact us on the forum.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Interface translation version: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>to translate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>WIKI translation version: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changelog</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -873,72 +894,73 @@ Note: questo campo è limitato a 30 caratteri per rimanere compatibile con i juk
     </message>
     <message>
         <source>Distance unit :</source>
-        <translation type="unfinished"></translation>
+        <translation>Unità di distanza :</translation>
     </message>
     <message>
         <source>This option lets you specify the unit to be used for distances.</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa opzione consente di specificare l&apos;unità da utilizzare per le distanze.</translation>
     </message>
     <message>
         <source>Kilometers</source>
-        <translation type="unfinished"></translation>
+        <translation>Chilometri</translation>
     </message>
     <message>
         <source>Miles</source>
-        <translation type="unfinished"></translation>
+        <translation>Miglia</translation>
     </message>
     <message>
         <source>Album :</source>
-        <translation type="unfinished">Album :</translation>
+        <translation>Album :</translation>
     </message>
     <message>
         <source>Defines the default value for the field Album
 Note: this field is limited to 30 characters to remain compatible with jukebox</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce il valore predefinito per il campo Album
+Nota: questo campo è limitato a 30 caratteri per essere compatibile con jukebox</translation>
     </message>
     <message>
         <source>Proxy address :</source>
-        <translation type="unfinished"></translation>
+        <translation>Indirizzo Proxy :</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Network settings&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Impostazioni rete&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Check this box if your network requires that you use a proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona questa casella se la rete richiede l&apos;utilizzo di un proxy</translation>
     </message>
     <message>
         <source>Use a proxy to access the Internet</source>
-        <translation type="unfinished"></translation>
+        <translation>Usare un proxy per accedere a Internet</translation>
     </message>
     <message>
         <source>Enter address of the proxy host</source>
-        <translation type="unfinished"></translation>
+        <translation>Inserire l&apos;indirizzo host del proxy</translation>
     </message>
     <message>
         <source>Enter the port number to access the proxy or nothing to use default port</source>
-        <translation type="unfinished"></translation>
+        <translation>Immettere il numero di porta per accedere al proxy o nulla per utilizzare la porta di default</translation>
     </message>
     <message>
         <source>Proxy port :</source>
-        <translation type="unfinished"></translation>
+        <translation>Porta Proxy :</translation>
     </message>
     <message>
         <source>Login :</source>
-        <translation type="unfinished"></translation>
+        <translation>Login :</translation>
     </message>
     <message>
         <source>Password :</source>
-        <translation type="unfinished"></translation>
+        <translation>Password :</translation>
     </message>
     <message>
         <source>Enter the login name to access the proxy or nothing if no login is required</source>
-        <translation type="unfinished"></translation>
+        <translation>Immettere il nome di login per accedere al proxy o nulla se non è richiesto alcun login</translation>
     </message>
     <message>
         <source>Enter the login password to access the proxy or nothing if no login is required</source>
-        <translation type="unfinished"></translation>
+        <translation>Immettere la password di login per accedere al proxy o nulla se non è richiesto alcun login</translation>
     </message>
 </context>
 <context>
@@ -1077,19 +1099,19 @@ Diapositive standard sono tutte personalizzabili.</translation>
     </message>
     <message>
         <source>Chapter location different from project location</source>
-        <translation type="unfinished"></translation>
+        <translation>Posizione capitolo diversa dalla posizione del progetto</translation>
     </message>
     <message>
         <source>Event location:</source>
-        <translation type="unfinished"></translation>
+        <translation>Posizione dell&apos;evento:</translation>
     </message>
     <message>
         <source>Select the location of the event of the project</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezionare la posizione evento del progetto</translation>
     </message>
     <message>
         <source>Clear this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancella questa posizione</translation>
     </message>
 </context>
 <context>
@@ -1325,19 +1347,19 @@ Ad esempio, se il progetto è &quot;mia vacanza da 1 a 15&quot;, il capitolo pu�
     </message>
     <message>
         <source>Event location:</source>
-        <translation type="unfinished"></translation>
+        <translation>Posizione evento:</translation>
     </message>
     <message>
         <source>Chapter location different from project location</source>
-        <translation type="unfinished"></translation>
+        <translation>Posizione capitolo diversa dalla posizione del progetto</translation>
     </message>
     <message>
         <source>Select the location of the event of the project</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezionare la posizione dell&apos;evento del progetto</translation>
     </message>
     <message>
         <source>Clear this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancella questa posizione</translation>
     </message>
 </context>
 <context>
@@ -1667,189 +1689,196 @@ Giallo: il componente funziona parzialmente
     <name>DlgGMapsGeneration</name>
     <message>
         <source>Generate Google Maps map</source>
-        <translation type="unfinished"></translation>
+        <translation>Genera mappa Google Maps</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Annulla le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Annulla</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Download failed: %1. =&gt; wait 1sec and retry</source>
-        <translation type="unfinished"></translation>
+        <translation>Download fallito: %1. =&gt; attendi 1sec e riprova</translation>
     </message>
     <message>
         <source>Error decoding image received from Google Maps</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore decodifica Immagine ricevuto da Google Maps</translation>
     </message>
     <message>
         <source>Google stop responding
 May be you have reach the maximum number of request allowed.
 Please retry in one hour.</source>
-        <translation type="unfinished"></translation>
+        <translation>Google ha spesso di rispondere
+Può essere che hai raggiungere il numero massimo di richiesta di permesso.
+Per favore riprova tra un&apos;ora.</translation>
     </message>
     <message>
         <source>%1 pending section(s) should be retrieve later</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 sezioni in sospeso devrebbero essere recuperate più tardi</translation>
     </message>
     <message>
         <source>%1 pending section(s) to retrieve from Google Maps</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 sezioni in sospeso recuperate da Google Maps</translation>
     </message>
 </context>
 <context>
     <name>DlgGMapsLocation</name>
     <message>
         <source>Select a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona una posizione</translation>
     </message>
     <message>
         <source>Give a friendly name for this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Dare un nome descrittivo per questa posizione</translation>
     </message>
     <message>
         <source>Icon:</source>
-        <translation type="unfinished"></translation>
+        <translation>Icona:</translation>
     </message>
     <message>
         <source>Click to select an icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Clicca per selezionare un&apos;icona</translation>
     </message>
     <message>
         <source>Edit icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica icona</translation>
     </message>
     <message>
         <source>Remove icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuovi icona</translation>
     </message>
     <message>
         <source>Click on the map to select a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Clicca sulla mappa per selezionare una posizione</translation>
     </message>
     <message>
         <source>Increase zoom level</source>
-        <translation type="unfinished"></translation>
+        <translation>Aumenta livello zoom</translation>
     </message>
     <message>
         <source>Adjust zoom level</source>
-        <translation type="unfinished"></translation>
+        <translation>Regola livello zoom</translation>
     </message>
     <message>
         <source>Decrease zoom level</source>
-        <translation type="unfinished"></translation>
+        <translation>Diminiusci livello zoom</translation>
     </message>
     <message>
         <source>Latitude:</source>
-        <translation type="unfinished"></translation>
+        <translation>Latitudine:</translation>
     </message>
     <message>
         <source>Longitude:</source>
-        <translation type="unfinished"></translation>
+        <translation>Longitudine:</translation>
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Annulla le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Annulla</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished">Molsta aiuto riguardo a questa finestra</translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation type="unfinished">A&amp;iuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
     <message>
         <source>Select another file</source>
-        <translation type="unfinished">Seleziona un&apos;altro file</translation>
+        <translation>Seleziona un&apos;altro file</translation>
     </message>
     <message>
         <source>Edit current image</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica immagine corrente</translation>
     </message>
     <message>
         <source>Google stop responding
 May be you have reach the maximum number of request allowed.
 Please retry in one hour.</source>
-        <translation type="unfinished"></translation>
+        <translation>Google ha spesso di rispondere
+Può essere che hai raggiungere il numero massimo di richiesta di permesso.
+Per favore riprova tra un&apos;ora.</translation>
     </message>
     <message>
         <source>Incorect addres ? (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Indirizzo errato ? (%1)</translation>
     </message>
     <message>
         <source>Google said: %1
 Are you sure to have written the address correctly?</source>
-        <translation type="unfinished"></translation>
+        <translation>Google ha detto: %1
+Sei sicuro di aver scritto l&apos;indirizzo corretto?</translation>
     </message>
     <message>
         <source>Error parsing XML</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore analisi XML</translation>
     </message>
     <message>
         <source>Error parsing XML / incorrect root</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore analisi XML / radice errata</translation>
     </message>
     <message>
         <source>Erreur de parsing XML / status KO</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore analisi XML / stato KO</translation>
     </message>
     <message>
         <source>Download failed: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Download fallito: %1.</translation>
     </message>
     <message>
         <source>Error decoding image reveived from Google Maps</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore decodifica immagine ricevuto da Google Maps</translation>
     </message>
     <message>
         <source>The map has not been fully generated.
 Do you want to resume the generation now?</source>
-        <translation type="unfinished"></translation>
+        <translation>La mappa non è completamente generata.
+Vuoi riprendere la generazione ora?</translation>
     </message>
     <message>
         <source>Friendly name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome descrittivo:</translation>
     </message>
     <message>
         <source>Google address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Indirizzo Google:</translation>
     </message>
     <message>
         <source>Friendly address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Indirizzo descrittivo:</translation>
     </message>
     <message>
         <source>Give a friendly address for this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Dare un nome descrittivo per questa posizione</translation>
     </message>
     <message>
         <source>Enter the postal adress to find in this zone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Inserire l&apos;indirizzo postale da trovare in questa zona.</translation>
     </message>
     <message>
         <source>Open the favorite menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Apre il menù Preferiti</translation>
     </message>
     <message>
         <source>A map on slide %1 must be regenerated.
 Do you want to do it now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Una mappa sulla diapositiva %1 deve essere rigenerata.
+Vuoi farlo ora?</translation>
     </message>
 </context>
 <context>
@@ -2382,11 +2411,11 @@ Quando i righelli sono attivati, il mouse si aggancerà automaticamente ai bordi
     </message>
     <message>
         <source>Export current map to a file</source>
-        <translation type="unfinished"></translation>
+        <translation>Esporta mappa corrente in un file</translation>
     </message>
     <message>
         <source>Export map</source>
-        <translation type="unfinished"></translation>
+        <translation>Esporta mappa</translation>
     </message>
 </context>
 <context>
@@ -4491,41 +4520,43 @@ speciale</translation>
     </message>
     <message>
         <source>Add image from clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi immagine dagli appunti</translation>
     </message>
     <message>
         <source>Create a new block using image from clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea un nuovo blocco utilizzando l&apos;immagine degli appunti</translation>
     </message>
     <message>
         <source>Inheritance changes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifiche ereditarietà:</translation>
     </message>
     <message>
         <source>
 Block coordinates :</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Coordinate blocco :</translation>
     </message>
     <message>
         <source>If this box is checked, the changes made in a previous shot will be applied to this object in this shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Se questa casella è segnata, le modifiche apportate in uno scatto precedente verranno applicate a questo oggetto in questo scatto</translation>
     </message>
     <message>
         <source>Inherit changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Eredita modifiche</translation>
     </message>
     <message>
         <source>Reactivate the inheritance of changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Riattivare l&apos;eredità dei cambiamenti</translation>
     </message>
     <message>
         <source>Do you want to apply to this block the properties it has in the previous shot?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vuoi applicare a questo blocco le proprietà che ha nello scatto precedente?</translation>
     </message>
     <message>
         <source>
 Block shape (common to all shots):</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Bloccare forma (comune a tutti gli scatti):</translation>
     </message>
 </context>
 <context>
@@ -5233,24 +5264,26 @@ personalizzato</translation>
     <message>
         <source>
 Options for speed wave</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Opzioni per la velocità onda</translation>
     </message>
     <message>
         <source>
 Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Capitoli</translation>
     </message>
     <message>
         <source>Event location:</source>
-        <translation type="unfinished"></translation>
+        <translation>Posizione evento:</translation>
     </message>
     <message>
         <source>Select the location of the event of the project</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezionare la posizione evento del progetto</translation>
     </message>
     <message>
         <source>Clear this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancella questa posizione</translation>
     </message>
 </context>
 <context>
@@ -6380,57 +6413,57 @@ Vuoi scaricarla ora?</translation>
     </message>
     <message>
         <source>Select an image file</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona un file immagine</translation>
     </message>
     <message>
         <source>Update this favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica questo preferito</translation>
     </message>
     <message>
         <source>Remove this favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuovi questo preferito</translation>
     </message>
     <message>
         <source>Error getting image from clipboard</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Errore nel prendere l&apos;immagine dagli appunti</translation>
     </message>
     <message>
         <source>Impossible to read an image from the file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile leggere l&apos;immagine dal file</translation>
     </message>
     <message>
         <source>Loading file from ressource</source>
-        <translation type="unfinished"></translation>
+        <translation>Caricamento file da risorsa</translation>
     </message>
     <message>
         <source>Error loading ressource</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore caricamento risorsa</translation>
     </message>
     <message>
         <source>Init translations...</source>
-        <translation type="unfinished"></translation>
+        <translation>Inizializzazione traduzioni...</translation>
     </message>
     <message>
         <source>Init multimedia browser...</source>
-        <translation type="unfinished"></translation>
+        <translation>Inizializzazione navigatore multimediale...</translation>
     </message>
     <message>
         <source>Edit this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica questa posizione</translation>
     </message>
     <message>
         <source>Define a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Definire una posizione</translation>
     </message>
     <message>
         <source>Add a map</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi una mappa</translation>
     </message>
     <message>
         <source>Add a Google Maps map</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi una mappa Google Maps</translation>
     </message>
 </context>
 <context>
@@ -7273,27 +7306,27 @@ Vuoi scaricarla ora?</translation>
     </message>
     <message>
         <source>Project location name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome posizione del progetto</translation>
     </message>
     <message>
         <source>Project location address</source>
-        <translation type="unfinished"></translation>
+        <translation>Indirizzo posizione progetto</translation>
     </message>
     <message>
         <source>Current chapter location name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome posizione capitolo corrente</translation>
     </message>
     <message>
         <source>Current chapter location address</source>
-        <translation type="unfinished"></translation>
+        <translation>Indirizzo posizione capitolo corrente</translation>
     </message>
     <message>
         <source>Project&apos;s location not set (Name)</source>
-        <translation type="unfinished"></translation>
+        <translation>Posizione del progetto non impostata (Nome)</translation>
     </message>
     <message>
         <source>Project&apos;s location not set (Address)</source>
-        <translation type="unfinished"></translation>
+        <translation>Posizione del progetto non impostata (Indirizzo)</translation>
     </message>
 </context>
 <context>
@@ -7386,121 +7419,122 @@ Vuoi scaricarla ora?</translation>
     </message>
     <message>
         <source>Map type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo mappa</translation>
     </message>
     <message>
         <source>Image size</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimensione immagine</translation>
     </message>
     <message>
         <source>Map zoom and size</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoom mappa e dimensione</translation>
     </message>
     <message>
         <source>Map latitude</source>
-        <translation type="unfinished"></translation>
+        <translation>Latitudine mappa</translation>
     </message>
     <message>
         <source>Map longitude</source>
-        <translation type="unfinished"></translation>
+        <translation>Longitudine mappa</translation>
     </message>
     <message>
         <source>%1 location(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 posizione(i)</translation>
     </message>
     <message>
         <source>GPS Coordinates %1 / %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Coordinate GPS %1 / %2</translation>
     </message>
     <message>
         <source>Roadmap</source>
-        <translation type="unfinished"></translation>
+        <translation>Mappa stradale</translation>
     </message>
     <message>
         <source>Satellite</source>
-        <translation type="unfinished"></translation>
+        <translation>Satellite</translation>
     </message>
     <message>
         <source>Terrain</source>
-        <translation type="unfinished"></translation>
+        <translation>Terreno</translation>
     </message>
     <message>
         <source>Hybrid</source>
-        <translation type="unfinished"></translation>
+        <translation>Ibrida</translation>
     </message>
     <message>
         <source>Small (640x360)</source>
-        <translation type="unfinished"></translation>
+        <translation>Piccola (640x360)</translation>
     </message>
     <message>
         <source>720p-16:9 (1280x720)</source>
-        <translation type="unfinished"></translation>
+        <translation>720p-16:9 (1280x720)</translation>
     </message>
     <message>
         <source>720px4-16:9 (2560x1440)</source>
-        <translation type="unfinished"></translation>
+        <translation>720px4-16:9 (2560x1440)</translation>
     </message>
     <message>
         <source>1080p-16:9 (1920x1080)</source>
-        <translation type="unfinished"></translation>
+        <translation>1080p-16:9 (1920x1080)</translation>
     </message>
     <message>
         <source>1080px4-16:9 (3840x2160)</source>
-        <translation type="unfinished"></translation>
+        <translation>1080px4-16:9 (3840x2160)</translation>
     </message>
     <message>
         <source>Select at least one location to produce Google Maps map</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezionare almeno una posizione per produrre una mappa Google Maps</translation>
     </message>
     <message>
         <source>Image from clipboard</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Immagine dagli appunti</translation>
     </message>
     <message>
         <source>Google Maps map</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Mappa Google Maps</translation>
     </message>
     <message>
         <source>720px9-16:9 (3840x2160)</source>
-        <translation type="unfinished"></translation>
+        <translation>720px9-16:9 (3840x2160)</translation>
     </message>
     <message>
         <source>1080px9-16:9 (5760x3240)</source>
-        <translation type="unfinished"></translation>
+        <translation>1080px9-16:9 (5760x3240)</translation>
     </message>
     <message>
         <source>The map must be regenerated because the locations have changed or project&apos;s location no set</source>
-        <translation type="unfinished"></translation>
+        <translation>La mappa deve essere rigenerata, perché le posizioni sono cambiate o la località del progetto non è impostata</translation>
     </message>
     <message>
         <source>Project&apos;s location must be defined to produce this Google Maps map</source>
-        <translation type="unfinished"></translation>
+        <translation>La posizione del progetto deve essere definita per produrre questa mappa Google Maps</translation>
     </message>
     <message>
         <source>%1
 Zoom %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1
+Zoom %2</translation>
     </message>
     <message>
         <source>Small</source>
-        <translation type="unfinished"></translation>
+        <translation>Piccolo</translation>
     </message>
 </context>
 <context>
     <name>cBrushDefinition</name>
     <message>
         <source>Error: Project&apos;s location no set</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore: Posizione progetto non impostata</translation>
     </message>
     <message>
         <source>Project&apos;s location (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Posizione progetto (%1)</translation>
     </message>
     <message>
         <source>Chapter&apos;s location (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Posizione capitolo (%1)</translation>
     </message>
 </context>
 <context>
@@ -8056,202 +8090,222 @@ Esempio: se Y=25 % del primo trimestre nella parte superiore dell&apos;immagine 
     <name>wgt_QGMapsMap</name>
     <message>
         <source>Define the size of the map</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce la dimensione della mappa</translation>
     </message>
     <message>
         <source>Map type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo mappa:</translation>
     </message>
     <message>
         <source>Define the type of the map</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce il tipo di mappa</translation>
     </message>
     <message>
         <source>Define the size of the image generated for the map</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce la dimensione dell&apos;immagine generata per la mappa</translation>
     </message>
     <message>
         <source>Image size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimensione immagine:</translation>
     </message>
     <message>
         <source>Map size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimensione mappa:</translation>
     </message>
     <message>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation>Posizione</translation>
     </message>
     <message>
         <source>Use Google Maps to select a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilizza Google Maps per selezionare una posizione</translation>
     </message>
     <message>
         <source>Edit current location</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica posizione corrente</translation>
     </message>
     <message>
         <source>Remove current location</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuovi posizione corrente</translation>
     </message>
     <message>
         <source>Properties for all shots</source>
-        <translation type="unfinished"></translation>
+        <translation>Proprietà per tutti gli scatti</translation>
     </message>
     <message>
         <source>Distance:</source>
-        <translation type="unfinished"></translation>
+        <translation>Distanza:</translation>
     </message>
     <message>
         <source>Properties for this shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Proprietà per questo scatto</translation>
     </message>
     <message>
         <source>Background color:</source>
-        <translation type="unfinished"></translation>
+        <translation>Colore sfondo:</translation>
     </message>
     <message>
         <source>Visibility:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select the color of the line to be used to draw the border</source>
-        <translation type="unfinished">Selezionare il colore della linea utilizzata per disegnare il bordo</translation>
+        <translation>Visibilità:</translation>
     </message>
     <message>
         <source>Line color:</source>
-        <translation type="unfinished"></translation>
+        <translation>Colore linea:</translation>
     </message>
     <message>
         <source>Text color:</source>
-        <translation type="unfinished"></translation>
+        <translation>Colore testo:</translation>
     </message>
     <message>
         <source>GPS Position form:</source>
-        <translation type="unfinished"></translation>
+        <translation>Posizione GPS da:</translation>
     </message>
     <message>
         <source>Define a form for the GPS position</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce un modulo per la posizione GPS</translation>
     </message>
     <message>
         <source>Point</source>
-        <translation type="unfinished"></translation>
+        <translation>Punto</translation>
     </message>
     <message>
         <source>Circle</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerchio</translation>
     </message>
     <message>
         <source>Rectangle</source>
-        <translation type="unfinished">Rettangolo</translation>
+        <translation>Rettangolo</translation>
     </message>
     <message>
         <source>Marker form:</source>
-        <translation type="unfinished"></translation>
+        <translation>Indicatore da:</translation>
     </message>
     <message>
         <source>Define a form for the marker</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce un modulo per l&apos;indicatore</translation>
     </message>
     <message>
         <source>Bubble</source>
-        <translation type="unfinished">Bolla</translation>
+        <translation>Bolla</translation>
     </message>
     <message>
         <source>Composition:</source>
-        <translation type="unfinished"></translation>
+        <translation>Composizione:</translation>
     </message>
     <message>
         <source>Icon+Name+Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Icona+Nome+Indirizzo</translation>
     </message>
     <message>
         <source>Icon+Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Icona+Nome</translation>
     </message>
     <message>
         <source>Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Icona</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome</translation>
     </message>
     <message>
         <source>Name+Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome+Indirizzo</translation>
     </message>
     <message>
         <source>Size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimensione:</translation>
     </message>
     <message>
         <source>Define the size of the marker and the GPS position</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce la dimensione dell&apos;indicatore e la posizione GPS</translation>
     </message>
     <message>
         <source>Small</source>
-        <translation type="unfinished"></translation>
+        <translation>Piccolo</translation>
     </message>
     <message>
         <source>Medium</source>
-        <translation type="unfinished"></translation>
+        <translation>Medio</translation>
     </message>
     <message>
         <source>Large</source>
-        <translation type="unfinished"></translation>
+        <translation>Grande</translation>
     </message>
     <message>
         <source>Huge</source>
-        <translation type="unfinished"></translation>
+        <translation>Enorme</translation>
     </message>
     <message>
         <source>Near</source>
-        <translation type="unfinished"></translation>
+        <translation>Vicino</translation>
     </message>
     <message>
         <source>Normal</source>
-        <translation type="unfinished">Normale</translation>
+        <translation>Normale</translation>
     </message>
     <message>
         <source>Far</source>
-        <translation type="unfinished"></translation>
+        <translation>Lontano</translation>
     </message>
     <message>
         <source>Hide</source>
-        <translation type="unfinished">Nascondi</translation>
+        <translation>Nascosto</translation>
     </message>
     <message>
         <source>Masked</source>
-        <translation type="unfinished"></translation>
+        <translation>Mascherato</translation>
     </message>
     <message>
         <source>Visible</source>
-        <translation type="unfinished">Visibile</translation>
+        <translation>Visibile</translation>
     </message>
     <message>
         <source>Do you want include the markers on the map?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vuoi includere gli indicatori sulla mappa?</translation>
     </message>
     <message>
         <source>Add a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi una posizione</translation>
     </message>
     <message>
         <source>Add project&apos;s location</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi posizione progetto</translation>
     </message>
     <message>
         <source>Add chapter&apos;s location</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi posizione capitolo</translation>
     </message>
     <message>
         <source>Localizations</source>
-        <translation type="unfinished"></translation>
+        <translation>Localizzazione</translation>
     </message>
     <message>
         <source>Address</source>
+        <translation>Indirizzo</translation>
+    </message>
+    <message>
+        <source>Defined what information will be displayed in the marker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defined where to display the marker (the distance between the marker and the GPS position)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the color of the text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the color of the background of the marker, of the GPS position and of the part between the two</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defined if the marker is visible, half-visible (masked) or hidden</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the color of the border</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

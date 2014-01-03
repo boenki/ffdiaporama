@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
+    Copyright (C) 2011-2014 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -67,7 +67,8 @@ cBaseMediaFile *MediaFileItem::CreateBaseMediaFile() const {
     switch (ObjectType) {
         case OBJECTTYPE_FOLDER   :      MediaObject=new cFolder(ApplicationConfig);                  break;
         case OBJECTTYPE_UNMANAGED:      MediaObject=new cUnmanagedFile(ApplicationConfig);           break;
-        case OBJECTTYPE_FFDFILE  :      MediaObject=new cffDProjectFile(ApplicationConfig);          break;
+        case OBJECTTYPE_FFDFILE  :
+            MediaObject=new cffDProjectFile(ApplicationConfig);          break;
         case OBJECTTYPE_IMAGEVECTOR:
         case OBJECTTYPE_IMAGEFILE:      MediaObject=new cImageFile(ApplicationConfig);               break;
         case OBJECTTYPE_VIDEOFILE:      MediaObject=new cVideoFile(ApplicationConfig);              break;
@@ -251,6 +252,7 @@ QCustomFolderTable::QCustomFolderTable(QWidget *parent):QTableWidget(parent) {
     IconDelegate            =(QAbstractItemDelegate *)new QCustomStyledItemDelegate(this);
     ApplicationConfig       =NULL;
     StopAllEvent            =false;
+    InSelChange             =false;
     CurrentShowFolderNumber =0;
     CurrentShowFilesNumber  =0;
     CurrentShowFolderNumber =0;
@@ -330,6 +332,15 @@ QMimeData *QCustomFolderTable::mimeData(const QList <QTableWidgetItem *>) const 
 
 //====================================================================================================================
 
+void QCustomFolderTable::selectAll() {
+    InSelChange=true;
+    QTableWidget::selectAll();
+    InSelChange=false;
+    emit RefreshFolderInfo();
+}
+
+//====================================================================================================================
+
 void QCustomFolderTable::keyReleaseEvent(QKeyEvent *event) {
     if ((selectionModel()->selectedIndexes().count()>0)&&(!event->isAutoRepeat())) {
         if (event->matches(QKeySequence::Delete))   emit RemoveFiles();
@@ -352,7 +363,7 @@ QString QCustomFolderTable::GetTextForColumn(int Col,cBaseMediaFile *MediaObject
     else if (ColName==QApplication::translate("QCustomFolderTable","File Type","Column header"))        TextToDisplay=MediaObject->GetFileTypeStr();
     else if (ColName==QApplication::translate("QCustomFolderTable","File Size","Column header"))        TextToDisplay=MediaObject->GetFileSizeStr();
     else if (ColName==QApplication::translate("QCustomFolderTable","File Date","Column header"))        TextToDisplay=MediaObject->GetFileDateTimeStr();
-    else if (ColName==QApplication::translate("QCustomFolderTable","Duration","Column header"))         TextToDisplay=MediaObject->Duration.toString("HH:mm:ss.zzz");
+    else if (ColName==QApplication::translate("QCustomFolderTable","Duration","Column header"))         TextToDisplay=MediaObject->Duration!=QTime(0,0,0,0)?MediaObject->Duration.toString("HH:mm:ss.zzz"):"";
     else if (ColName==QApplication::translate("QCustomFolderTable","Image Size","Column header"))       TextToDisplay=MediaObject->GetImageSizeStr(cBaseMediaFile::SIZEONLY);
     else if (ColName==QApplication::translate("QCustomFolderTable","Image Format","Column header"))     TextToDisplay=MediaObject->GetImageSizeStr(cBaseMediaFile::FMTONLY);
     else if (ColName==QApplication::translate("QCustomFolderTable","Image Geometry","Column header"))   TextToDisplay=MediaObject->GetImageSizeStr(cBaseMediaFile::GEOONLY);
@@ -691,6 +702,7 @@ void QCustomFolderTable::mouseReleaseEvent(QMouseEvent *event) {
         QTableWidget::mouseReleaseEvent(event);
         return;
     }
+    InSelChange=true;
     if ((CurrentMode==DISPLAY_ICON100)&&(event->button()==Qt::LeftButton)&&(event->modifiers()!=Qt::ShiftModifier)&&(event->modifiers()!=Qt::ControlModifier)) {
         // Get item number under mouse
         int ThumbWidth  =columnWidth(0);
@@ -703,11 +715,14 @@ void QCustomFolderTable::mouseReleaseEvent(QMouseEvent *event) {
         selectionModel()->select(model()->index(row,col,QModelIndex()),QItemSelectionModel::Select);
         setCurrentCell(row,col,QItemSelectionModel::Select|QItemSelectionModel::Current);
     } else QTableWidget::mouseReleaseEvent(event);
+    InSelChange=false;
+    emit RefreshFolderInfo();
 }
 
 //====================================================================================================================
 
 void QCustomFolderTable::mousePressEvent(QMouseEvent *event) {
+    InSelChange=true;
     if ((CurrentMode!=DISPLAY_ICON100)||(event->button()!=Qt::LeftButton)) {
         QTableWidget::mousePressEvent(event);
     } else if ((rowCount()>0)&&(columnCount()>0)) {
@@ -730,6 +745,7 @@ void QCustomFolderTable::mousePressEvent(QMouseEvent *event) {
             QTableWidget::mousePressEvent(event);
         }
     }
+    InSelChange=false;
 }
 
 //====================================================================================================================
