@@ -39,7 +39,7 @@ ok                  0105.html           Chapter properties
 ok                  0114.html           Music properties
 ok                  0122.html           Transition properties
 ok                  0121.html           Select transition duration for a set of slides
---                  0110.html           Correct, reframe or cut image or video
+ok                  0110.html           Correct, reframe or cut image or video
 ok                  0120.html           Edit text
 ok                  0123.html           Add or modify a location
 

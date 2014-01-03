@@ -271,6 +271,16 @@ QString cKeepTagConversion::ToNormal(QString Source) {
 
 //======================================================================================================================
 
+bool HaveText(QString Text) {
+    int CountText=0;
+    for (int i=0;i<Text.length();i++) {
+        if ((Text[i]>='A')&&(Text[i]<='Z')) CountText++;
+        if ((Text[i]>='a')&&(Text[i]<='z')) CountText++;
+        if (Text[i]>=128) CountText++;
+    }
+    return CountText>1;
+}
+
 void ToLog(QString Message) {
     std::cout << QString(Message+"\n").toLocal8Bit().constData() << std::flush;
 }
@@ -299,7 +309,7 @@ void ToLogT(int Level,QString Text) {
                 NewText=NewText.mid(NewText.toLower().indexOf("<a")+2);
                 NewText=NewText.mid(NewText.indexOf(">")+1);
             }
-            if (!NewText.contains("<div>&nbsp;</div>"))
+            if (!NewText.contains("<div>&nbsp;</div>") && HaveText(NewText))
                 TextStream<<QString("\tStr=QApplication::translate(\"%1\",\"%2\");\n").arg(CurrentSrc).arg(NewText).toUtf8();
 
         } else if (Mode==MakeMode) {
@@ -309,7 +319,8 @@ void ToLogT(int Level,QString Text) {
                 QString TT=Text.mid(Text.toLower().indexOf("<a")+2);
                 TT=TT.mid(TT.indexOf(">")+1);
                 TT=TT.left(TT.toLower().lastIndexOf("</a>"));
-                QString NewTT=Translator.translate(CurrentSrc.toUtf8().constData(),TT.toUtf8().constData());
+
+                QString NewTT=HaveText(TT)?Translator.translate(CurrentSrc.toUtf8().constData(),TT.toUtf8().constData()):TT;
                 if (NewTT.isEmpty()) {
                     if ((Language!="en")&&(!IsHeader)) NewTT="<span style=\"background-color:#FFFF00;\">"+HTMLConverter.ToHTML(KeepConverter.ToKeep(TT))+"</span>";
                         else NewTT=HTMLConverter.ToHTML(KeepConverter.ToKeep(TT));
@@ -319,7 +330,7 @@ void ToLogT(int Level,QString Text) {
                 }
                 TR=Text.replace(TT,NewTT);
             } else {
-                TR=Translator.translate(CurrentSrc.toUtf8().constData(),Text.toUtf8().constData());
+                TR=HaveText(Text)?Translator.translate(CurrentSrc.toUtf8().constData(),Text.toUtf8().constData()):Text;
                 if (TR.isEmpty()) {
                     if ((Language!="en")&&(!IsHeader)) TR="<span style=\"background-color:#FFFF00;\">"+HTMLConverter.ToHTML(KeepConverter.ToKeep(Text))+"</span>";
                         else TR=HTMLConverter.ToHTML(KeepConverter.ToKeep(Text));

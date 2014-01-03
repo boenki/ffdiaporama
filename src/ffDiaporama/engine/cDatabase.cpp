@@ -473,7 +473,7 @@ cFilesTable::cFilesTable(cDatabase *Database):cDatabaseTable(Database) {
 // Get the key associated to a file
 // If file not found in the database, then create it
 
-qlonglong cFilesTable::GetFileKey(qlonglong FolderKey,QString ShortName,int MediaFileType) {
+qlonglong cFilesTable::GetFileKey(qlonglong FolderKey,QString ShortName,int MediaFileType,bool ForceRefresh) {
     QSqlQuery   Query(Database->db);
     bool        Ret=false;
     qlonglong   FileKey=-1;
@@ -483,6 +483,19 @@ qlonglong cFilesTable::GetFileKey(qlonglong FolderKey,QString ShortName,int Medi
     if (!Query.exec()) DisplayLastSQLError(&Query); else while (Query.next()) if (!Query.value(0).isNull()) {
         Ret=true;
         FileKey=Query.value(0).toLongLong(&Ret);
+        if (ForceRefresh) {
+            QString   FullPath=((cFolderTable *)Database->GetTable(TypeTable_FolderTable))->GetFolderPath(FolderKey)+ShortName;
+            QFileInfo FileInfo(FullPath);
+            Query.prepare(QString("UPDATE %1 SET Timestamp=:Timestamp,CreatDateTime=:CreatDateTime,ModifDateTime=:ModifDateTime,FileSize=:FileSize,MediaFileType=:MediaFileType,"\
+                                  "BasicProperties=NULL,ExtendedProperties=NULL,Thumbnail16=NULL,Thumbnail100=NULL WHERE Key=:Key").arg(TableName));
+            Query.bindValue(":Key",          FileKey,                                                   QSql::In);
+            Query.bindValue(":Timestamp",    FileInfo.lastModified().toMSecsSinceEpoch(),               QSql::In);
+            Query.bindValue(":CreatDateTime",FileInfo.lastModified(),                                   QSql::In);
+            Query.bindValue(":ModifDateTime",FileInfo.created(),                                        QSql::In);
+            Query.bindValue(":FileSize",     FileInfo.size(),                                           QSql::In);
+            Query.bindValue(":MediaFileType",MediaFileType,                                             QSql::In);
+            if (!Query.exec()) DisplayLastSQLError(&Query);
+        }
     }
     if (!Ret) {
         // File not found : then add it to the table
@@ -638,7 +651,7 @@ void cFilesTable::UpdateTableForFolder(qlonglong FolderKey,bool ForceRefresh) {
                     else if (File.suffix().toLower()=="ffd")                                                            ObjectType=OBJECTTYPE_FFDFILE;
                     else if (File.isDir())                                                                              ObjectType=OBJECTTYPE_FOLDER;
 
-                GetFileKey(FolderKey,File.fileName(),ObjectType);
+                GetFileKey(FolderKey,File.fileName(),ObjectType,ForceRefresh);
             }
         }
         ((cFolderTable *)Database->GetTable(TypeTable_FolderTable))->UpdateFolderTimestamp(Folder,FolderKey);
@@ -671,11 +684,12 @@ bool cFilesTable::GetBasicProperties(qlonglong FileKey,QString *Properties,QStri
         bool        Ret=true;
         qlonglong   Timestamp=0;
         if (!Query.value(0).isNull())           *Properties   =Query.value(0).toString();                                               else Ret=false;
-        if ((Ret)&&(!Query.value(1).isNull()))  Timestamp     =Query.value(1).toLongLong(&Ret);                                         else Ret=false;
+        if ((Ret)&&(!Query.value(4).isNull()))  *ModifDateTime=QDateTime().fromString(Query.value(4).toString(),Qt::ISODate);           else Ret=false;
+        if ((Ret)&&(!Query.value(3).isNull()))  *CreatDateTime=QDateTime().fromString(Query.value(3).toString(),Qt::ISODate);           else Ret=false;
         if ((Ret)&&(!Query.value(2).isNull()))  *FileSize     =Query.value(2).toLongLong(&Ret);                                         else Ret=false;
-        if ((Ret)&&(!Query.value(3).isNull()))  *CreatDateTime=Query.value(3).toDateTime();                                             else Ret=false;
-        if ((Ret)&&(!Query.value(4).isNull()))  *ModifDateTime=Query.value(4).toDateTime();                                             else Ret=false;
+        if ((Ret)&&(!Query.value(1).isNull()))  Timestamp     =Query.value(1).toLongLong(&Ret);                                         else Ret=false;
         Ret=Ret && (Timestamp==QFileInfo(FileName).lastModified().toMSecsSinceEpoch());
+        if (*ModifDateTime<*CreatDateTime) *ModifDateTime=*CreatDateTime;
         return Ret;
     }
     return false;

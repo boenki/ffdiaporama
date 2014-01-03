@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
+    Copyright (C) 2011-2014 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -95,6 +95,7 @@ public:
     bool                    IsAddToProjectAllowed;
     bool                    IsRemoveAllowed;
     bool                    IsRenameAllowed;
+    bool                    InSelChange;
 
     // Actual values
     int                     CurrentShowFolderNumber;
@@ -128,6 +129,7 @@ public:
     virtual void            mouseDoubleClickEvent(QMouseEvent *);
     virtual void            mouseReleaseEvent(QMouseEvent *);
     virtual void            mousePressEvent(QMouseEvent *event);
+    virtual void            selectAll();
 
     virtual void            SetMode();
     virtual void            FillListFolder(QString Path);

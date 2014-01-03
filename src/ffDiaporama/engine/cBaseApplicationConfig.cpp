@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
+    Copyright (C) 2011-2014 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -427,10 +427,39 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage) {
         CurrentSubLanguage=QLocale::system().name().toLower();
     }
 
+    //======================================== Download version files from internet
+
+    QString ActualTRVersion  ="00000000";
+    QString WebTRVersion     ="00000000";
+    QString ActualWIKIVersion="00000000";
+    QString WebWIKIVersion   ="00000000";
+
+    // try to download version from the web site
+    if ((DownloadFile("LOCALEVERSION.TXT"))&&(QFileInfo(UserConfigPath+QString("LOCALEVERSION.TXT")).exists())) {
+        QFile File(UserConfigPath+QString("LOCALEVERSION.TXT"));
+        if (File.open(QFile::ReadOnly | QFile::Text)) {
+            QTextStream InStream(&File);
+            InStream.setCodec("UTF-8");
+            WebTRVersion=InStream.readLine();
+            File.close();
+        }
+    }
+
+    // try to download version from the web site
+    if ((DownloadFile("WIKIVERSION.TXT"))&&(QFileInfo(UserConfigPath+QString("WIKIVERSION.TXT")).exists())) {
+        QFile File(UserConfigPath+QString("WIKIVERSION.TXT"));
+        if (File.open(QFile::ReadOnly | QFile::Text)) {
+            QTextStream InStream(&File);
+            InStream.setCodec("UTF-8");
+            WebWIKIVersion=InStream.readLine();
+            File.close();
+        }
+    }
+
     if (CurrentLanguage!="en") {
         // try to download locales from the web site
-        QString ActualVersion="00000000";
-        QString WebVersion   ="00000000";
+
+        //======================================== INTERFACE
 
         // get actual version for this language
         if (QFileInfo(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentSubLanguage)).exists()) {
@@ -438,7 +467,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage) {
             if (File.open(QFile::ReadOnly | QFile::Text)) {
                 QTextStream InStream(&File);
                 InStream.setCodec("UTF-8");
-                ActualVersion=InStream.readLine();
+                ActualTRVersion=InStream.readLine();
                 File.close();
             }
         } else if (QFileInfo(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentLanguage)).exists()) {
@@ -446,42 +475,63 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage) {
             if (File.open(QFile::ReadOnly | QFile::Text)) {
                 QTextStream InStream(&File);
                 InStream.setCodec("UTF-8");
-                ActualVersion=InStream.readLine();
-                File.close();
-            }
-        }
-
-        // try to download version from the web site
-        if ((DownloadFile("LOCALEVERSION.TXT"))&&(QFileInfo(UserConfigPath+QString("LOCALEVERSION.TXT")).exists())) {
-            QFile File(UserConfigPath+QString("LOCALEVERSION.TXT"));
-            if (File.open(QFile::ReadOnly | QFile::Text)) {
-                QTextStream InStream(&File);
-                InStream.setCodec("UTF-8");
-                WebVersion=InStream.readLine();
+                ActualTRVersion=InStream.readLine();
                 File.close();
             }
         }
 
         // if actual version is outdated or local file not exist in the home folder
-        if ((ActualVersion<WebVersion)||(
+        if ((ActualTRVersion<WebTRVersion)||(
             (!QFileInfo(UserConfigPath+QString(APPLICATION_NAME)+QString("_")+QString(CurrentSubLanguage)+QString(".qm")).exists())&&
             (!QFileInfo(UserConfigPath+QString(APPLICATION_NAME)+QString("_")+QString(CurrentLanguage)+QString(".qm")).exists()))) {
 
             if (DownloadFile(QString(APPLICATION_NAME)+QString("_")+QString(CurrentSubLanguage)+QString(".qm"))) {
                 DownloadFile(QString("qt_")+QString(CurrentSubLanguage)+QString(".qm"));
-                DownloadFile(QString("wiki_")+QString(CurrentSubLanguage)+QString(".qch"));
-                DownloadFile(QString("wiki_")+QString(CurrentSubLanguage)+QString(".qhc"));
                 if (QFileInfo(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentSubLanguage)).exists()) QFile(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentSubLanguage)).remove();
                 QFile(UserConfigPath+QString("LOCALEVERSION.TXT")).rename(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentSubLanguage));
             } else if (DownloadFile(QString(APPLICATION_NAME)+QString("_")+QString(CurrentLanguage)+QString(".qm"))) {
                 DownloadFile(QString("qt_")+QString(CurrentLanguage)+QString(".qm"));
-                DownloadFile(QString("wiki_")+QString(CurrentLanguage)+QString(".qch"));
-                DownloadFile(QString("wiki_")+QString(CurrentLanguage)+QString(".qhc"));
                 if (QFileInfo(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentLanguage)).exists()) QFile(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentLanguage)).remove();
                 QFile(UserConfigPath+QString("LOCALEVERSION.TXT")).rename(UserConfigPath+QString("%1_VERSION.TXT").arg(CurrentLanguage));
             }
-
         }
+
+        //======================================== WIKI
+
+        // get actual version for this language
+        if (QFileInfo(UserConfigPath+QString("%1_WIKIVERSION.TXT").arg(CurrentSubLanguage)).exists()) {
+            QFile File(UserConfigPath+QString("%1_WIKIVERSION.TXT").arg(CurrentSubLanguage));
+            if (File.open(QFile::ReadOnly | QFile::Text)) {
+                QTextStream InStream(&File);
+                InStream.setCodec("UTF-8");
+                ActualWIKIVersion=InStream.readLine();
+                File.close();
+            }
+        } else if (QFileInfo(UserConfigPath+QString("%1_WIKIVERSION.TXT").arg(CurrentLanguage)).exists()) {
+            QFile File(UserConfigPath+QString("%1_WIKIVERSION.TXT").arg(CurrentLanguage));
+            if (File.open(QFile::ReadOnly | QFile::Text)) {
+                QTextStream InStream(&File);
+                InStream.setCodec("UTF-8");
+                ActualWIKIVersion=InStream.readLine();
+                File.close();
+            }
+        }
+
+        // if actual version is outdated or local file not exist in the home folder
+        if ((ActualWIKIVersion<WebWIKIVersion)||(
+            (!QFileInfo(UserConfigPath+QString("wiki_")+QString(CurrentSubLanguage)+QString(".qch")).exists())&&
+            (!QFileInfo(UserConfigPath+QString("wiki_")+QString(CurrentLanguage)+QString(".qch")).exists()))) {
+
+            if (DownloadFile(QString("wiki_")+QString(CurrentSubLanguage)+QString(".qch")) && DownloadFile(QString("wiki_")+QString(CurrentSubLanguage)+QString(".qhc"))) {
+                if (QFileInfo(UserConfigPath+QString("%1_WIKIVERSION.TXT").arg(CurrentSubLanguage)).exists()) QFile(UserConfigPath+QString("%1_WIKIVERSION.TXT").arg(CurrentSubLanguage)).remove();
+                QFile(UserConfigPath+QString("WIKIVERSION.TXT")).rename(UserConfigPath+QString("%1_WIKIVERSION.TXT").arg(CurrentSubLanguage));
+            } else if (DownloadFile(QString("wiki_")+QString(CurrentLanguage)+QString(".qch")) && DownloadFile(QString("wiki_")+QString(CurrentLanguage)+QString(".qhc"))) {
+                if (QFileInfo(UserConfigPath+QString("%1_WIKIVERSION.TXT").arg(CurrentLanguage)).exists()) QFile(UserConfigPath+QString("%1_WIKIVERSION.TXT").arg(CurrentLanguage)).remove();
+                QFile(UserConfigPath+QString("WIKIVERSION.TXT")).rename(UserConfigPath+QString("%1_WIKIVERSION.TXT").arg(CurrentLanguage));
+            }
+        }
+
+        //========================================
 
         // Now, try to use locales
         if (QFileInfo(UserConfigPath+QString(APPLICATION_NAME)+QString("_")+QString(CurrentSubLanguage)+QString(".qm")).exists()) {

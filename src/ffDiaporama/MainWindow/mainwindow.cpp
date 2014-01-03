@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
+    Copyright (C) 2011-2014 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -2917,7 +2917,7 @@ void MainWindow::s_Action_PasteFromClipboard() {
                 if ((root.elementsByTagName(QString("CLIPBOARD_%1").arg(i)).length()>0)&&(root.elementsByTagName(QString("CLIPBOARD_%1").arg(i)).item(0).isElement()==true)) {
                     QDomElement SlideClipboard=root.elementsByTagName(QString("CLIPBOARD_%1").arg(i)).item(0).toElement();
                     Diaporama->List.insert(CurIndex,new cDiaporamaObject(Diaporama));
-                    Diaporama->List[CurIndex]->LoadFromXML(SlideClipboard,"CLIPBOARD-OBJECT","",NULL,NULL,true);
+                    Diaporama->List[CurIndex]->LoadFromXML(SlideClipboard,"CLIPBOARD-OBJECT","",NULL,NULL,false);   // No duplicate ressource on paste
                     CurIndex++;
                 }
             }

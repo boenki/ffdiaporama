@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
+    Copyright (C) 2011-2014 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -333,13 +333,15 @@ cBaseMediaFile::~cBaseMediaFile() {
 //====================================================================================================================
 
 QString cBaseMediaFile::FileName() {
-    return ApplicationConfig->FoldersTable->GetFolderPath(FolderKey)+ShortName();
+    if (CachedFileName.isEmpty()) CachedFileName=ApplicationConfig->FoldersTable->GetFolderPath(FolderKey)+ApplicationConfig->FilesTable->GetShortName(FileKey);
+    return CachedFileName;
 }
 
 //====================================================================================================================
 
 QString cBaseMediaFile::ShortName() {
-    return ApplicationConfig->FilesTable->GetShortName(FileKey);
+     if (CachedFileName.isEmpty()) CachedFileName=ApplicationConfig->FoldersTable->GetFolderPath(FolderKey)+ApplicationConfig->FilesTable->GetShortName(FileKey);
+    return QFileInfo(CachedFileName).fileName();
 }
 
 //====================================================================================================================
@@ -387,6 +389,7 @@ bool cBaseMediaFile::GetFullInformationFromFile() {
 
 bool cBaseMediaFile::GetInformationFromFile(QString FileName,QStringList *AliasList,bool *ModifyFlag,qlonglong GivenFolderKey) {
     if (ModifyFlag) *ModifyFlag=false;
+    if ((!CachedFileName.isEmpty())&&(CachedFileName!=FileName)) CachedFileName="";
 
     // Use aliaslist
     if ((AliasList)&&(!QFileInfo(FileName).exists())) {
@@ -1800,8 +1803,9 @@ QImage cGMapsMap::CreateDefaultImage(cDiaporama *Diaporama) {
     // clear request list (delete any pending section)
     RequestList.clear();
 
-    // remove object from Lulo if it exist
-    ApplicationConfig->ImagesCache.RemoveImageObject(RessourceKey,FileKey);
+    // Create a new ressource key
+    RessourceKey=-1;
+    //ApplicationConfig->ImagesCache.RemoveImageObject(RessourceKey,FileKey);   // remove object from Lulo if it exist
 
     // create new empty image
     QImage Image(GetCurrentImageSize(),QImage::Format_ARGB32_Premultiplied);

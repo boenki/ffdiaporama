@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
+    Copyright (C) 2011-2014 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -99,6 +99,7 @@ public:
     qlonglong               FileKey;                        // Key index of this file in the Files table of the database
     qlonglong               FolderKey;                      // Key index of the folder containing this file in the Folders table of the database
     qlonglong               RessourceKey;                   // Key index of this ressource in the slidethumb table of the database
+    QString                 CachedFileName;                 // To speed up browser
 
     int64_t                 FileSize;                       // filesize
     QDateTime               CreatDateTime;                  // Original date/time

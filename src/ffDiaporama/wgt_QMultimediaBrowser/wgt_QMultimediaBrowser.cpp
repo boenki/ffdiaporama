@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
+    Copyright (C) 2011-2014 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -202,6 +202,10 @@ void wgt_QMultimediaBrowser::DoBrowserRefreshFolderInfo() {
 //====================================================================================================================
 
 void wgt_QMultimediaBrowser::DoBrowserRefreshSelectedFileInfo() {
+    if (ui->FolderTable->InSelChange) return;
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
     QList<cBaseMediaFile*> MediaList;
     ui->FolderTable->GetCurrentSelectedMediaFile(&MediaList);
 
@@ -304,6 +308,8 @@ void wgt_QMultimediaBrowser::DoBrowserRefreshSelectedFileInfo() {
     }
     while (!MediaList.isEmpty()) delete MediaList.takeLast();
     RefreshControls();
+
+    QApplication::restoreOverrideCursor();
 }
 
 //====================================================================================================================

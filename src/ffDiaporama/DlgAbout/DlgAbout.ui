@@ -67,7 +67,7 @@
         <string notr="true"/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../../../../../../../../../home/dominique/Dev/ffdiaporama/trunk/ffDiaporama/src/ffDiaporama/RSCffDiaporama.qrc">:/img/logo_big.png</pixmap>
+        <pixmap resource="../RSCffDiaporama.qrc">:/img/logo_big.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -120,7 +120,7 @@
            <item>
             <widget class="QLabel" name="label_18">
              <property name="text">
-              <string>Copyright (C) 2011-2013 Dominique Levray</string>
+              <string notr="true">Copyright (C) 2011-2014 Dominique Levray</string>
              </property>
             </widget>
            </item>
@@ -133,6 +133,9 @@
            </item>
            <item>
             <widget class="QPlainTextEdit" name="plainTextEdit">
+             <property name="lineWrapMode">
+              <enum>QPlainTextEdit::WidgetWidth</enum>
+             </property>
              <property name="plainText">
               <string notr="true">GNU GENERAL PUBLIC LICENSE
 
@@ -263,8 +266,8 @@ This General Public License does not permit incorporating your program into prop
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>98</width>
-                <height>78</height>
+                <width>652</width>
+                <height>547</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_2">
@@ -285,6 +288,9 @@ This General Public License does not permit incorporating your program into prop
                </property>
                <item row="5" column="2">
                 <widget class="QTextEdit" name="CreditsED">
+                 <property name="lineWrapMode">
+                  <enum>QTextEdit::NoWrap</enum>
+                 </property>
                  <property name="readOnly">
                   <bool>true</bool>
                  </property>
@@ -301,8 +307,26 @@ This General Public License does not permit incorporating your program into prop
            <string>Texturemate</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_3">
+           <property name="spacing">
+            <number>4</number>
+           </property>
+           <property name="leftMargin">
+            <number>4</number>
+           </property>
+           <property name="topMargin">
+            <number>4</number>
+           </property>
+           <property name="rightMargin">
+            <number>4</number>
+           </property>
+           <property name="bottomMargin">
+            <number>4</number>
+           </property>
            <item>
             <widget class="QTextEdit" name="TexturemateED">
+             <property name="lineWrapMode">
+              <enum>QTextEdit::NoWrap</enum>
+             </property>
              <property name="readOnly">
               <bool>true</bool>
              </property>
@@ -315,8 +339,106 @@ This General Public License does not permit incorporating your program into prop
            <string notr="true">Openclipart</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_6">
+           <property name="spacing">
+            <number>4</number>
+           </property>
+           <property name="leftMargin">
+            <number>4</number>
+           </property>
+           <property name="topMargin">
+            <number>4</number>
+           </property>
+           <property name="rightMargin">
+            <number>4</number>
+           </property>
+           <property name="bottomMargin">
+            <number>4</number>
+           </property>
            <item>
             <widget class="QTextEdit" name="OpenclipartED">
+             <property name="lineWrapMode">
+              <enum>QTextEdit::NoWrap</enum>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="Translation">
+          <attribute name="title">
+           <string>Translation</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_7">
+           <property name="spacing">
+            <number>4</number>
+           </property>
+           <property name="leftMargin">
+            <number>4</number>
+           </property>
+           <property name="topMargin">
+            <number>4</number>
+           </property>
+           <property name="rightMargin">
+            <number>4</number>
+           </property>
+           <property name="bottomMargin">
+            <number>4</number>
+           </property>
+           <item>
+            <widget class="QTextEdit" name="TranslationED">
+             <property name="lineWrapMode">
+              <enum>QTextEdit::NoWrap</enum>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="font">
+              <font>
+               <italic>true</italic>
+              </font>
+             </property>
+             <property name="text">
+              <string>Note:
+If you want to help us or by completing an incomplete translation, or by translating the application into another language, do not hesitate to contact us on the forum.</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="Changelog">
+          <attribute name="title">
+           <string>Changelog</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <property name="spacing">
+            <number>4</number>
+           </property>
+           <property name="leftMargin">
+            <number>4</number>
+           </property>
+           <property name="topMargin">
+            <number>4</number>
+           </property>
+           <property name="rightMargin">
+            <number>4</number>
+           </property>
+           <property name="bottomMargin">
+            <number>4</number>
+           </property>
+           <item>
+            <widget class="QTextEdit" name="ChangelogED">
+             <property name="lineWrapMode">
+              <enum>QTextEdit::NoWrap</enum>
+             </property>
              <property name="readOnly">
               <bool>true</bool>
              </property>
@@ -412,7 +534,7 @@ This General Public License does not permit incorporating your program into prop
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../../../../../../../home/dominique/Dev/ffdiaporama/trunk/ffDiaporama/src/ffDiaporama/RSCffDiaporama.qrc">
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -422,7 +544,7 @@ This General Public License does not permit incorporating your program into prop
   </layout>
  </widget>
  <resources>
-  <include location="../../../../../../../../../home/dominique/Dev/ffdiaporama/trunk/ffDiaporama/src/ffDiaporama/RSCffDiaporama.qrc"/>
+  <include location="../RSCffDiaporama.qrc"/>
  </resources>
  <connections/>
 </ui>

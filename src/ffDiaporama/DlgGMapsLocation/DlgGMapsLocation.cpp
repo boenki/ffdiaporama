@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2013 Dominique Levray <domledom@laposte.net>
+    Copyright (C) 2011-2014 Dominique Levray <domledom@laposte.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -503,14 +503,14 @@ void DlgGMapsLocation::ClickOnMap() {
 //============================================================================================================================
 
 void DlgGMapsLocation::ClearIcon() {
-    if (Location->Icon.MediaObject) {
+    if (Location->Icon->MediaObject) {
         QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
         if (PrevRessourceKey==Location->ThumbnailResKey) Location->ThumbnailResKey=-1;  // To keep previous thumb
         ApplicationConfig->ImagesCache.RemoveImageObject(Location->ThumbnailResKey,-1);
-        Location->Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&Location->ThumbnailResKey,QImage());
-        delete Location->Icon.MediaObject;
-        Location->Icon.MediaObject=NULL;
-        Location->Icon.BrushType=BRUSHTYPE_SOLID;
+        Location->Icon->ApplicationConfig->SlideThumbsTable->SetThumbs(&Location->ThumbnailResKey,QImage());
+        delete Location->Icon->MediaObject;
+        Location->Icon->MediaObject=NULL;
+        Location->Icon->BrushType=BRUSHTYPE_SOLID;
         ui->IconBT->setIcon(QIcon(QPixmap().fromImage(QImage())));
         QApplication::restoreOverrideCursor();
     }
@@ -519,7 +519,7 @@ void DlgGMapsLocation::ClearIcon() {
 //============================================================================================================================
 
 void DlgGMapsLocation::SelectIcon() {
-    if (Location->Icon.MediaObject) {
+    if (Location->Icon->MediaObject) {
         QMenu *ContextMenu=new QMenu(this);
         ContextMenu->addAction(ui->actionSelectAnotherFile);
         ContextMenu->addAction(ui->actionEditCurrentImage);
@@ -527,15 +527,15 @@ void DlgGMapsLocation::SelectIcon() {
         delete ContextMenu;
         if (!Action) return;
         if (Action==ui->actionSelectAnotherFile) {
-            ApplicationConfig->SettingsTable->SetTextValue("GPSIcon_path",QFileInfo(Location->Icon.MediaObject->FileName()).absolutePath());
+            ApplicationConfig->SettingsTable->SetTextValue("GPSIcon_path",QFileInfo(Location->Icon->MediaObject->FileName()).absolutePath());
             ClearIcon();
-            delete Location->Icon.MediaObject;
-            Location->Icon.MediaObject=NULL;
-            Location->Icon.BrushType=BRUSHTYPE_SOLID;
+            delete Location->Icon->MediaObject;
+            Location->Icon->MediaObject=NULL;
+            Location->Icon->BrushType=BRUSHTYPE_SOLID;
             ui->IconBT->setIcon(QIcon(QPixmap().fromImage(QImage())));
         }
     }
-    if (!Location->Icon.MediaObject) {
+    if (!Location->Icon->MediaObject) {
         QStringList FileList;
         DlgFileExplorer Dlg(BROWSER_TYPE_ICONLOCATION,false,false,false,QApplication::translate("MainWindow","Select an image file"),ApplicationConfig,this);
         Dlg.InitDialog();
@@ -548,40 +548,40 @@ void DlgGMapsLocation::SelectIcon() {
         // Search if file is an image
         for (int i=0;i<ApplicationConfig->AllowImageExtension.count();i++) if (ApplicationConfig->AllowImageExtension[i]==Extension) {
             // Create an image wrapper
-            Location->Icon.MediaObject=new cImageFile(ApplicationConfig);
-            IsValide=Location->Icon.MediaObject->GetInformationFromFile(BrushFileName,NULL,&ModifyFlag,-1);
+            Location->Icon->MediaObject=new cImageFile(ApplicationConfig);
+            IsValide=Location->Icon->MediaObject->GetInformationFromFile(BrushFileName,NULL,&ModifyFlag,-1);
             if (!IsValide) {
-                delete Location->Icon.MediaObject;
-                Location->Icon.MediaObject=NULL;
+                delete Location->Icon->MediaObject;
+                Location->Icon->MediaObject=NULL;
             }
             break;
         }
-        if (IsValide &&(Location->Icon.MediaObject)) {
+        if (IsValide &&(Location->Icon->MediaObject)) {
             QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-            QImage *Image=Location->Icon.MediaObject->ImageAt(true);
+            QImage *Image=Location->Icon->MediaObject->ImageAt(true);
             if (!Image) {
                 IsValide=false;
-                delete Location->Icon.MediaObject;
-                Location->Icon.MediaObject=NULL;
+                delete Location->Icon->MediaObject;
+                Location->Icon->MediaObject=NULL;
             } else {
-                Location->Icon.ApplyAutoFraming(AUTOFRAMING_HEIGHTMIDLEMIN,1); // square as max
-                QImage Thumb=Location->Icon.GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
+                Location->Icon->ApplyAutoFraming(AUTOFRAMING_HEIGHTMIDLEMIN,1); // square as max
+                QImage Thumb=Location->Icon->GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
                 if (PrevRessourceKey==Location->ThumbnailResKey) Location->ThumbnailResKey=-1;  // To keep previous thumb
                 ApplicationConfig->ImagesCache.RemoveImageObject(Location->ThumbnailResKey,-1);
-                Location->Icon.ApplicationConfig->SlideThumbsTable->SetThumbs(&Location->ThumbnailResKey,Thumb);
-                Location->Icon.BrushType=BRUSHTYPE_IMAGEDISK;
+                Location->Icon->ApplicationConfig->SlideThumbsTable->SetThumbs(&Location->ThumbnailResKey,Thumb);
+                Location->Icon->BrushType=BRUSHTYPE_IMAGEDISK;
                 ui->IconBT->setIcon(QIcon(QPixmap().fromImage(Thumb)));
             }
             delete Image;
             QApplication::restoreOverrideCursor();
         }
     }
-    if (Location->Icon.MediaObject && Location->Icon.MediaObject->IsValide) {
-        DlgImageCorrection Dlg(NULL,0,&Location->Icon,0,GEOMETRY_SQUARE,SPEEDWAVE_LINEAR,ApplicationConfig,this);
+    if (Location->Icon->MediaObject && Location->Icon->MediaObject->IsValide) {
+        DlgImageCorrection Dlg(NULL,0,Location->Icon,0,GEOMETRY_SQUARE,SPEEDWAVE_LINEAR,ApplicationConfig,this);
         Dlg.InitDialog();
         if (Dlg.exec()==0) {
             QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-            QImage Thumb=Location->Icon.GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
+            QImage Thumb=Location->Icon->GetImageDiskBrush(QRect(0,0,64,64),false,0,NULL,1,NULL);
             if (PrevRessourceKey==Location->ThumbnailResKey) Location->ThumbnailResKey=-1;  // To keep previous thumb
             ApplicationConfig->ImagesCache.RemoveImageObject(Location->ThumbnailResKey,-1);
             ApplicationConfig->SlideThumbsTable->SetThumbs(&Location->ThumbnailResKey,Thumb);
