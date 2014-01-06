@@ -34,18 +34,19 @@
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="329"/>
         <source>Translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Переводы</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="362"/>
         <source>Note:
 If you want to help us or by completing an incomplete translation, or by translating the application into another language, do not hesitate to contact us on the forum.</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание:
+Если вы хотите помочь нам завершить неполный перевод или перевести приложение на другой язык, не стесняйтесь обращаться к нам на форум.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="374"/>
         <source>Changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>История изменений</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="486"/>
@@ -55,18 +56,18 @@ If you want to help us or by completing an incomplete translation, or by transla
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.cpp" line="66"/>
         <source>Interface translation version: </source>
-        <translation type="unfinished"></translation>
+        <translation>Версия перевода интерфейса: </translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.cpp" line="67"/>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.cpp" line="86"/>
         <source>to translate</source>
-        <translation type="unfinished"></translation>
+        <translation>требует перевода</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.cpp" line="84"/>
         <source>WIKI translation version: </source>
-        <translation type="unfinished"></translation>
+        <translation>Версия перевода WIKI: </translation>
     </message>
 </context>
 <context>
@@ -732,77 +733,77 @@ Editor options (when adding objects)</source>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="133"/>
         <source>Distance unit :</source>
-        <translation type="unfinished"></translation>
+        <translation>Единица измерения расстояния :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="255"/>
         <source>This option lets you specify the unit to be used for distances.</source>
-        <translation type="unfinished"></translation>
+        <translation>Этот параметр позволяет выбрать единицу измерения расстояния.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="259"/>
         <source>Kilometers</source>
-        <translation type="unfinished"></translation>
+        <translation>Километры</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="264"/>
         <source>Miles</source>
-        <translation type="unfinished"></translation>
+        <translation>Мили</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="431"/>
         <source>Proxy address :</source>
-        <translation type="unfinished"></translation>
+        <translation>Прокси адрес :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="584"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Network settings&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Параметры сети&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="641"/>
         <source>Check this box if your network requires that you use a proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>Установите этот флажок, если в вашей сети требуется использование прокси-сервера</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="644"/>
         <source>Use a proxy to access the Internet</source>
-        <translation type="unfinished"></translation>
+        <translation>Использовать прокси для доступа в Интернет</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="775"/>
         <source>Enter address of the proxy host</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите адрес прокси-сервера</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="793"/>
         <source>Enter the port number to access the proxy or nothing to use default port</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите номер порта для доступа к прокси или оставьте пустым, чтобы использовать порт по умолчанию</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="800"/>
         <source>Proxy port :</source>
-        <translation type="unfinished"></translation>
+        <translation>Порт :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="813"/>
         <source>Login :</source>
-        <translation type="unfinished"></translation>
+        <translation>Логин :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="826"/>
         <source>Password :</source>
-        <translation type="unfinished"></translation>
+        <translation>Пароль :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="839"/>
         <source>Enter the login name to access the proxy or nothing if no login is required</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите имя пользователя для доступа к прокси или оставьте пустым, если логин не требуется</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="846"/>
         <source>Enter the login password to access the proxy or nothing if no login is required</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите пароль пользователя для доступа к прокси или оставьте пустым, если пароль не требуется</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1370"/>
@@ -846,13 +847,14 @@ This style defines the transparency of the block and its filling.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2746"/>
         <source>Album :</source>
-        <translation type="unfinished">Альбом :</translation>
+        <translation>Альбом :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2756"/>
         <source>Defines the default value for the field Album
 Note: this field is limited to 30 characters to remain compatible with jukebox</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите значение по умолчанию для поля Альбом
+Примечание: это поле не должно превышать 30 символов для обеспечения совместимости с мультимедиа плеерами</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2775"/>
@@ -1344,22 +1346,22 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="461"/>
         <source>Chapter location different from project location</source>
-        <translation type="unfinished"></translation>
+        <translation>Местоположение главы отличается от местоположения проекта</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="468"/>
         <source>Event location:</source>
-        <translation type="unfinished"></translation>
+        <translation>Местоположение события:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="557"/>
         <source>Select the location of the event of the project</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбор местоположения события проекта</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="571"/>
         <source>Clear this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить это местоположение</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="602"/>
@@ -1673,22 +1675,22 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="186"/>
         <source>Event location:</source>
-        <translation type="unfinished"></translation>
+        <translation>Местоположение события:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="202"/>
         <source>Chapter location different from project location</source>
-        <translation type="unfinished"></translation>
+        <translation>Местоположение главы отличается от местоположения проекта</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="282"/>
         <source>Select the location of the event of the project</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбор местоположения события проекта</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="296"/>
         <source>Clear this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить это местоположение</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="324"/>
@@ -2135,44 +2137,46 @@ Yellow: The component works partially
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsGeneration.ui" line="14"/>
         <source>Generate Google Maps map</source>
-        <translation type="unfinished"></translation>
+        <translation>Создание карты Google Maps</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsGeneration.ui" line="68"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Отменить изменения и выйти из диалогового окна</translation>
+        <translation>Отменить изменения и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsGeneration.ui" line="71"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Отмена</translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsGeneration.cpp" line="121"/>
         <source>Download failed: %1. =&gt; wait 1sec and retry</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка загрузки: %1. =&gt; подождите 1 сек и попробуйте снова</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsGeneration.cpp" line="135"/>
         <source>Error decoding image received from Google Maps</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка декодирования изображений, полученных от Google Maps</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsGeneration.cpp" line="158"/>
         <source>Google stop responding
 May be you have reach the maximum number of request allowed.
 Please retry in one hour.</source>
-        <translation type="unfinished"></translation>
+        <translation>Google не отвечает на запросы
+Возможно, вы превысили максимально допустимое количество запросов.
+Пожалуйста, попробуйте снова через час.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsGeneration.cpp" line="168"/>
         <source>%1 pending section(s) should be retrieve later</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 раздел(ов) ожидается для последующего получения</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsGeneration.cpp" line="176"/>
         <source>%1 pending section(s) to retrieve from Google Maps</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 раздел(ов) ожидается для извлечения из Google Maps</translation>
     </message>
 </context>
 <context>
@@ -2180,191 +2184,196 @@ Please retry in one hour.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="19"/>
         <source>Select a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбор местоположения</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="291"/>
         <source>Give a friendly name for this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите имя для этого местоположения</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="69"/>
         <source>Icon:</source>
-        <translation type="unfinished"></translation>
+        <translation>Значок:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="114"/>
         <source>Click to select an icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Нажмите, чтобы выбрать значок</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="147"/>
         <source>Edit icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить значок</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="161"/>
         <source>Remove icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить значок</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="281"/>
         <source>Friendly name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Понятное имя:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="222"/>
         <source>Enter the postal adress to find in this zone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите почтовый адрес, чтобы найти в этой зоне.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="232"/>
         <source>Open the favorite menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть Избранное</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="248"/>
         <source>Google address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Адрес Google:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="258"/>
         <source>Friendly address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Понятный адрес:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="268"/>
         <source>Give a friendly address for this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите удобный адрес для этого местоположения</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="338"/>
         <source>Click on the map to select a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Нажмите на карту, чтобы выбрать местоположение</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="374"/>
         <source>Increase zoom level</source>
-        <translation type="unfinished"></translation>
+        <translation>Увеличение масштаба</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="400"/>
         <source>Adjust zoom level</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить масштаб</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="431"/>
         <source>Decrease zoom level</source>
-        <translation type="unfinished"></translation>
+        <translation>Уменьшение масштаба</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="464"/>
         <source>Latitude:</source>
-        <translation type="unfinished"></translation>
+        <translation>Широта:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="471"/>
         <source>Longitude:</source>
-        <translation type="unfinished"></translation>
+        <translation>Долгота:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="518"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Применить изменения и выйти из диалогового окна</translation>
+        <translation>Применить изменения и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="521"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Ок</translation>
+        <translation>&amp;Ок</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="532"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Отменить изменения и выйти из диалогового окна</translation>
+        <translation>Отменить изменения и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="535"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Отмена</translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="546"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished">Показать справку об этом диалоговом окне</translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="549"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Справка</translation>
+        <translation>&amp;Справка</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="566"/>
         <source>Select another file</source>
-        <translation type="unfinished">Выбрать другой файл</translation>
+        <translation>Выбрать другой файл</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="575"/>
         <source>Edit current image</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить текущее изображение</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="191"/>
         <source>Google stop responding
 May be you have reach the maximum number of request allowed.
 Please retry in one hour.</source>
-        <translation type="unfinished"></translation>
+        <translation>Google не отвечает на запросы
+Возможно, вы превысили максимально допустимое количество запросов.
+Пожалуйста, попробуйте снова через час.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="209"/>
         <source>Incorect addres ? (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Неправильный адрес ? (%1)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="211"/>
         <source>Google said: %1
 Are you sure to have written the address correctly?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ответ Google: %1
+Вы уверены, что правильно написали адрес?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="229"/>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="352"/>
         <source>Error parsing XML</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка чтения XML</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="238"/>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="361"/>
         <source>Error parsing XML / incorrect root</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка чтения XML / недопустимый root</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="245"/>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="375"/>
         <source>Erreur de parsing XML / status KO</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка чтения XML / статус KO</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="291"/>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="332"/>
         <source>Download failed: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка загрузки: %1.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="303"/>
         <source>Error decoding image reveived from Google Maps</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка декодирования изображений, полученных от Google Maps</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp" line="211"/>
         <source>The map has not been fully generated.
 Do you want to resume the generation now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Карта сформирована неполностью.
+Хотите возобновить создание карты сейчас?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2909"/>
         <source>A map on slide %1 must be regenerated.
 Do you want to do it now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Карта на слайде %1 должна быть создана заново.
+Хотите сделать это сейчас?</translation>
     </message>
 </context>
 <context>
@@ -2913,12 +2922,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="100"/>
         <source>Export current map to a file</source>
-        <translation type="unfinished"></translation>
+        <translation>Экспортировать текущую карту в файл</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="103"/>
         <source>Export map</source>
-        <translation type="unfinished"></translation>
+        <translation>Экспорт карты</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="169"/>
@@ -4861,7 +4870,7 @@ Three type of constraint are available:
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2935"/>
         <source>Inheritance changes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Наследование изменений:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2967"/>
@@ -4922,17 +4931,19 @@ The selected shape will be used as:
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3252"/>
         <source>
 Block coordinates :</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Координаты блока :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3265"/>
         <source>If this box is checked, the changes made in a previous shot will be applied to this object in this shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Если этот флажок установлен, изменения, сделанные на предыдущем кадре, будет применены к данному объекту на этом кадре</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3268"/>
         <source>Inherit changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Наследовать
+изменения</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3353"/>
@@ -5121,12 +5132,12 @@ Note: Hidden video blocks are automatically paused</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3964"/>
         <source>Add image from clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить изображение из буфера обмена</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3967"/>
         <source>Create a new block using image from clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать новый блок из изображения в буфере обмена</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/cShotComposer.cpp" line="832"/>
@@ -5410,7 +5421,8 @@ Information</source>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1654"/>
         <source>
 Block shape (common to all shots):</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Форма блока (общая для всех кадров):</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3356"/>
@@ -5531,12 +5543,12 @@ Block shape (common to all shots):</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/cShotComposer.cpp" line="398"/>
         <source>Reactivate the inheritance of changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Возобновить наследование изменений</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/cShotComposer.cpp" line="399"/>
         <source>Do you want to apply to this block the properties it has in the previous shot?</source>
-        <translation type="unfinished"></translation>
+        <translation>Хотите применить к этому блоку его свойства из предыдущего кадра?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="133"/>
@@ -6471,18 +6483,20 @@ Remark: This field is often shown by indexing system and jukeboxes under the ter
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="211"/>
         <source>
 Options for speed wave</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Параметры скорости</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="515"/>
         <source>
 Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Главы</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="654"/>
         <source>Event location:</source>
-        <translation type="unfinished"></translation>
+        <translation>Местоположение события:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="690"/>
@@ -6492,12 +6506,12 @@ Chapters</source>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="779"/>
         <source>Select the location of the event of the project</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбор местоположения события проекта</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="793"/>
         <source>Clear this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить это местоположение</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="129"/>
@@ -7158,17 +7172,17 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3731"/>
         <source>Add a map</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить карту</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3734"/>
         <source>Add a Google Maps map</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить карту Google Maps</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="540"/>
         <source>Select an image file</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать файл изображения</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="605"/>
@@ -7182,12 +7196,12 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="606"/>
         <source>Update this favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновить это Избранное</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="607"/>
         <source>Remove this favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить это Избранное</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="424"/>
@@ -7438,7 +7452,7 @@ and help</source>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="944"/>
         <source>Impossible to read an image from the file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно прочитать изображение из файла</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2000"/>
@@ -7599,12 +7613,12 @@ Image geometry in this file is not the same than the current project</source>
         <location filename="../src/ffDiaporama/engine/cLuLoImageCache.cpp" line="71"/>
         <location filename="../src/ffDiaporama/engine/cLuLoImageCache.cpp" line="167"/>
         <source>Loading file from ressource</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка файла из ресурсов</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cLuLoImageCache.cpp" line="75"/>
         <source>Error loading ressource</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка загрузки ресурсов</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cLuLoImageCache.cpp" line="83"/>
@@ -7645,7 +7659,7 @@ ffDiaporama can&apos;t start</source>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="120"/>
         <source>Init translations...</source>
-        <translation type="unfinished"></translation>
+        <translation>Инициализация переводов...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="130"/>
@@ -7766,7 +7780,7 @@ Do you want to create one slide for each chapters ?</source>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2822"/>
         <source>Error getting image from clipboard</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка получения изображения из буфера обмена</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="676"/>
@@ -8070,7 +8084,7 @@ Do you want to overwrite it?</source>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="280"/>
         <source>Init multimedia browser...</source>
-        <translation type="unfinished"></translation>
+        <translation>Инициализация мультимедиа Проводника...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="419"/>
@@ -8225,14 +8239,14 @@ Do you want to open it nevertheless?</source>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.cpp" line="189"/>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="350"/>
         <source>Edit this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить это местоположение</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.cpp" line="387"/>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.cpp" line="189"/>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="350"/>
         <source>Define a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Определить местоположение</translation>
     </message>
 </context>
 <context>
@@ -9227,12 +9241,12 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="286"/>
         <source>Project location name</source>
-        <translation type="unfinished"></translation>
+        <translation>Название местоположения проекта</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="287"/>
         <source>Project location address</source>
-        <translation type="unfinished"></translation>
+        <translation>Адрес местоположения проекта</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="288"/>
@@ -9338,12 +9352,12 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="308"/>
         <source>Current chapter location name</source>
-        <translation type="unfinished"></translation>
+        <translation>Название местоположения текущей главы</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="309"/>
         <source>Current chapter location address</source>
-        <translation type="unfinished"></translation>
+        <translation>Адрес местоположения текущей главы</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="319"/>
@@ -9374,13 +9388,13 @@ Do you want to open it nevertheless?</source>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2070"/>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="179"/>
         <source>Project&apos;s location not set (Name)</source>
-        <translation type="unfinished"></translation>
+        <translation>Местоположение проекта не задано (Название)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2071"/>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="180"/>
         <source>Project&apos;s location not set (Address)</source>
-        <translation type="unfinished"></translation>
+        <translation>Местоположение проекта не задано (Адрес)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2104"/>
@@ -9512,118 +9526,119 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1554"/>
         <source>Map type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип карты</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1555"/>
         <source>Image size</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер изображения</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1556"/>
         <source>Map zoom and size</source>
-        <translation type="unfinished"></translation>
+        <translation>Масштаб и размер карты</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1557"/>
         <source>Map latitude</source>
-        <translation type="unfinished"></translation>
+        <translation>Широта карты</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1558"/>
         <source>Map longitude</source>
-        <translation type="unfinished"></translation>
+        <translation>Долгота карты</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1566"/>
         <source>%1 location(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 местоположение(ий)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1581"/>
         <source>GPS Coordinates %1 / %2</source>
-        <translation type="unfinished"></translation>
+        <translation>GPS координаты %1 / %2</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1590"/>
         <source>%1
 Zoom %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1
+Масштаб %2</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1626"/>
         <source>Roadmap</source>
-        <translation type="unfinished"></translation>
+        <translation>Дорожная карта</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1627"/>
         <source>Satellite</source>
-        <translation type="unfinished"></translation>
+        <translation>Вид со спутника</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1628"/>
         <source>Terrain</source>
-        <translation type="unfinished"></translation>
+        <translation>Географическая карта</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1629"/>
         <source>Hybrid</source>
-        <translation type="unfinished"></translation>
+        <translation>Смешанная (спутник + дорожная)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1635"/>
         <source>Small</source>
-        <translation type="unfinished"></translation>
+        <translation>Маленькая</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1647"/>
         <source>Small (640x360)</source>
-        <translation type="unfinished"></translation>
+        <translation>Маленькая (640x360)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1648"/>
         <source>720p-16:9 (1280x720)</source>
-        <translation type="unfinished"></translation>
+        <translation>720p-16:9 (1280x720)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1649"/>
         <source>720px4-16:9 (2560x1440)</source>
-        <translation type="unfinished"></translation>
+        <translation>720px4-16:9 (2560x1440)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1650"/>
         <source>720px9-16:9 (3840x2160)</source>
-        <translation type="unfinished"></translation>
+        <translation>720px9-16:9 (3840x2160)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1651"/>
         <source>1080p-16:9 (1920x1080)</source>
-        <translation type="unfinished"></translation>
+        <translation>1080p-16:9 (1920x1080)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1652"/>
         <source>1080px4-16:9 (3840x2160)</source>
-        <translation type="unfinished"></translation>
+        <translation>1080px4-16:9 (3840x2160)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1653"/>
         <source>1080px9-16:9 (5760x3240)</source>
-        <translation type="unfinished"></translation>
+        <translation>1080px9-16:9 (5760x3240)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1828"/>
         <source>The map must be regenerated because the locations have changed or project&apos;s location no set</source>
-        <translation type="unfinished"></translation>
+        <translation>Карта должна быть создана заново, потому что местоположения изменились или не установлены</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1831"/>
         <source>Project&apos;s location must be defined to produce this Google Maps map</source>
-        <translation type="unfinished"></translation>
+        <translation>Местоположение проекта должно быть определено для получения этой карты Google Maps</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1843"/>
         <source>Select at least one location to produce Google Maps map</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите хотя бы одно местоположение для составления карты Google Maps</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2457"/>
@@ -9675,13 +9690,13 @@ Zoom %2</source>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.h" line="255"/>
         <source>Image from clipboard</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Изображения из буфера обмена</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.h" line="314"/>
         <source>Google Maps map</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Карта Google Maps</translation>
     </message>
 </context>
 <context>
@@ -9692,19 +9707,19 @@ Zoom %2</source>
         <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="1469"/>
         <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="1470"/>
         <source>Error: Project&apos;s location no set</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка: местоположение проекта не задано</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="1400"/>
         <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="1401"/>
         <source>Project&apos;s location (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Местоположение проекта (%1)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="1403"/>
         <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="1404"/>
         <source>Chapter&apos;s location (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Местоположение главы (%1)</translation>
     </message>
 </context>
 <context>
@@ -10409,278 +10424,278 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="123"/>
         <source>Define the size of the map</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите размер карты</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="94"/>
         <source>Map type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип карты:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="110"/>
         <source>Define the type of the map</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите тип карты</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="136"/>
         <source>Define the size of the image generated for the map</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите размер создаваемого изображения карты</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="143"/>
         <source>Image size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер изображения:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="239"/>
         <source>Localizations</source>
-        <translation type="unfinished"></translation>
+        <translation>Местоположения</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="394"/>
         <source>Properties for all shots</source>
-        <translation type="unfinished"></translation>
+        <translation>Свойства для всех кадров</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="401"/>
         <source>GPS Position form:</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма GPS позиции:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="408"/>
         <source>Define a form for the GPS position</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите форму для отображения GPS позиции</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="412"/>
         <source>Point</source>
-        <translation type="unfinished"></translation>
+        <translation>Точка</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="417"/>
         <source>Circle</source>
-        <translation type="unfinished"></translation>
+        <translation>Круг</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="422"/>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="441"/>
         <source>Rectangle</source>
-        <translation type="unfinished">Прямоугольник</translation>
+        <translation>Прямоугольник</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="430"/>
         <source>Marker form:</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма маркера:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="437"/>
         <source>Define a form for the marker</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите форму маркера</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="446"/>
         <source>Bubble</source>
-        <translation type="unfinished">Пузырь</translation>
+        <translation>Пузырь</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="454"/>
         <source>Composition:</source>
-        <translation type="unfinished"></translation>
+        <translation>Содержимое:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="461"/>
         <source>Defined what information will be displayed in the marker</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите информацию, отображаемую в маркере</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="465"/>
         <source>Icon+Name+Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Значок+Название+Адрес</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="470"/>
         <source>Icon+Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Значок+Название</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="475"/>
         <source>Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Значок</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="480"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Название</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="485"/>
         <source>Name+Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Название+Адрес</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="490"/>
         <source>Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Адрес</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="498"/>
         <source>Size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="505"/>
         <source>Define the size of the marker and the GPS position</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите размер маркера и GPS положения</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="509"/>
         <source>Small</source>
-        <translation type="unfinished"></translation>
+        <translation>Маленький</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="514"/>
         <source>Medium</source>
-        <translation type="unfinished"></translation>
+        <translation>Средний</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="519"/>
         <source>Large</source>
-        <translation type="unfinished"></translation>
+        <translation>Большой</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="524"/>
         <source>Huge</source>
-        <translation type="unfinished"></translation>
+        <translation>Огромный</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="532"/>
         <source>Distance:</source>
-        <translation type="unfinished"></translation>
+        <translation>Расстояние:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="539"/>
         <source>Defined where to display the marker (the distance between the marker and the GPS position)</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите где показывать маркер (расстояние между маркером и GPS позицией)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="610"/>
         <source>Defines the color of the text</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите цвет текста</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="674"/>
         <source>Defines the color of the background of the marker, of the GPS position and of the part between the two</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите цвет фона маркера, GPS позиции и части между ними</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="709"/>
         <source>Defined if the marker is visible, half-visible (masked) or hidden</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите видимость маркера: видим, полувидим или скрыт</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="767"/>
         <source>Defines the color of the border</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите цвет границы</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="567"/>
         <source>Properties for this shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Свойства этого кадра</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="638"/>
         <source>Background color:</source>
-        <translation type="unfinished"></translation>
+        <translation>Цвет фона:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="702"/>
         <source>Visibility:</source>
-        <translation type="unfinished"></translation>
+        <translation>Видимость:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="543"/>
         <source>Near</source>
-        <translation type="unfinished"></translation>
+        <translation>Близко</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="548"/>
         <source>Normal</source>
-        <translation type="unfinished">Без изменений</translation>
+        <translation>Нормально</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="553"/>
         <source>Far</source>
-        <translation type="unfinished"></translation>
+        <translation>Далеко</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="713"/>
         <source>Hide</source>
-        <translation type="unfinished">Скрыть</translation>
+        <translation>Скрыть</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="718"/>
         <source>Masked</source>
-        <translation type="unfinished"></translation>
+        <translation>Полувидимый</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="723"/>
         <source>Visible</source>
-        <translation type="unfinished">Показать</translation>
+        <translation>Показать</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="731"/>
         <source>Line color:</source>
-        <translation type="unfinished"></translation>
+        <translation>Цвет линий:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="574"/>
         <source>Text color:</source>
-        <translation type="unfinished"></translation>
+        <translation>Цвет текста:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="84"/>
         <source>Map size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер карты:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="330"/>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation>Местоположение</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="246"/>
         <source>Use Google Maps to select a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Использовать Google Maps для выбора местоположения</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="260"/>
         <source>Edit current location</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить текущее местоположение</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="274"/>
         <source>Remove current location</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить текущее местоположение</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp" line="267"/>
         <source>Add a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить местоположение</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp" line="268"/>
         <source>Add project&apos;s location</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить местоположение проекта</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp" line="269"/>
         <source>Add chapter&apos;s location</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить местоположение главы</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp" line="545"/>
         <source>Do you want include the markers on the map?</source>
-        <translation type="unfinished"></translation>
+        <translation>Хотите включить маркеры на карте?</translation>
     </message>
 </context>
 <context>

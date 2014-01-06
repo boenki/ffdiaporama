@@ -306,7 +306,7 @@ public:
     double                  MusicReduceFactor;          // factor for volume reduction if MusicReduceVolume is true
 
     // Transition
-    int                     TransitionFamilly;          // Transition familly
+    TRFAMILLY               TransitionFamilly;          // Transition familly
     int                     TransitionSubType;          // Transition type in the familly
     int64_t                 TransitionDuration;         // Transition duration (in msec)
     int                     TransitionSpeedWave;        // Transition SpeedWave
@@ -374,7 +374,7 @@ public:
     //=====> Transitionnal object
     bool                IsTransition;                           // True if transition in progress
     double              TransitionPCTDone;                      // PCT achevement for transition
-    int                 TransitionFamilly;                      // Transition familly
+    TRFAMILLY           TransitionFamilly;                      // Transition familly
     int                 TransitionSubType;                      // Transition type in the familly
     int64_t             TransitionDuration;                     // Transition duration (in msec)
     int                 TransitObject_Number;                   // Object number

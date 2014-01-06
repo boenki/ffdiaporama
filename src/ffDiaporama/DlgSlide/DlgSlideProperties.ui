@@ -64,11 +64,6 @@
        <height>56</height>
       </size>
      </property>
-     <property name="font">
-      <font>
-       <pointsize>8</pointsize>
-      </font>
-     </property>
      <property name="styleSheet">
       <string notr="true">QToolButton {
 	background-color: transparent;
@@ -109,13 +104,13 @@ QToolButton:pressed {
        <widget class="QToolButton" name="ChapterBT">
         <property name="minimumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
@@ -163,13 +158,13 @@ Information</string>
         </property>
         <property name="minimumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
@@ -210,13 +205,13 @@ shot</string>
         </property>
         <property name="minimumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
@@ -258,13 +253,13 @@ shot</string>
        <widget class="QToolButton" name="AddTextBlock">
         <property name="minimumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
@@ -302,13 +297,13 @@ text</string>
        <widget class="QToolButton" name="AddFileBlock">
         <property name="minimumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
@@ -348,13 +343,13 @@ file</string>
        <widget class="QToolButton" name="AddSpecialBlock">
         <property name="minimumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
@@ -401,13 +396,13 @@ special</string>
        <widget class="QToolButton" name="EditBT">
         <property name="minimumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
@@ -442,13 +437,13 @@ block</string>
        <widget class="QToolButton" name="ArrangeBT">
         <property name="minimumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
@@ -483,13 +478,13 @@ block</string>
        <widget class="QToolButton" name="InfoBlockBT">
         <property name="minimumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
@@ -531,13 +526,13 @@ information</string>
        <widget class="QToolButton" name="SaveModelBT">
         <property name="minimumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>60</width>
+          <width>62</width>
           <height>56</height>
          </size>
         </property>
@@ -616,12 +611,6 @@ model</string>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="font">
-         <font>
-          <family>Sans Serif</family>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
         <property name="text">
          <string>Slide name:</string>
         </property>
@@ -637,12 +626,6 @@ model</string>
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <family>Sans Serif</family>
-          <pointsize>9</pointsize>
-         </font>
         </property>
         <property name="toolTip">
          <string>Define a name for the slide. It is this name which will appear on the thumbnail in the main window timeline</string>
@@ -844,11 +827,6 @@ Remark :
           </item>
           <item>
            <widget class="QTimeEdit" name="ShotDurationED">
-            <property name="font">
-             <font>
-              <pointsize>9</pointsize>
-             </font>
-            </property>
             <property name="toolTip">
              <string>Indicate here the duration of the currently selected shot
 
@@ -896,11 +874,7 @@ If you specify a duration lower than the minimum calculated duration for the sho
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>9</pointsize>
-              <weight>50</weight>
               <italic>true</italic>
-              <bold>false</bold>
              </font>
             </property>
             <property name="styleSheet">
@@ -936,6 +910,12 @@ If you specify a duration lower than the minimum calculated duration for the sho
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>305</width>
+         <height>0</height>
+        </size>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <property name="spacing">
@@ -1075,12 +1055,6 @@ If you specify a duration lower than the minimum calculated duration for the sho
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="font">
-            <font>
-             <family>Sans Serif</family>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
@@ -1106,13 +1080,13 @@ If you specify a duration lower than the minimum calculated duration for the sho
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-225</y>
-              <width>281</width>
+              <y>0</y>
+              <width>289</width>
               <height>820</height>
              </rect>
             </property>
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -1158,12 +1132,6 @@ If you specify a duration lower than the minimum calculated duration for the sho
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Define the number of rotations around the X axis that is to be made during this shot.
 
@@ -1194,12 +1162,6 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Define the number of rotations around the X axis that is to be made during this shot.
 
@@ -1221,12 +1183,6 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                </item>
                <item>
                 <widget class="QToolButton" name="ResetTurnYBT">
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Reset to zero</string>
                  </property>
@@ -1243,11 +1199,6 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
              </item>
              <item row="12" column="1">
               <widget class="QComboBox" name="ShapeSizePosCB">
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="toolTip">
                 <string>Allows you to select a pre-defined block size</string>
                </property>
@@ -1255,12 +1206,6 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
              </item>
              <item row="35" column="0">
               <widget class="QLabel" name="ScrollXLabel">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string notr="true"/>
                </property>
@@ -1274,12 +1219,6 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
              </item>
              <item row="13" column="0">
               <widget class="QLabel" name="PosSize_X">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string notr="true"/>
                </property>
@@ -1316,12 +1255,6 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Scroll text from bottom to top.
 
@@ -1351,12 +1284,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Scroll text from bottom to top.
 
@@ -1383,12 +1310,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                </item>
                <item>
                 <widget class="QToolButton" name="ScrollYResetBT">
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Reset to zero</string>
                  </property>
@@ -1428,12 +1349,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Define the number of rotations around the Z axis that is to be made during this shot.
 
@@ -1464,12 +1379,6 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Define the number of rotations around the Z axis that is to be made during this shot.
 
@@ -1491,12 +1400,6 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                </item>
                <item>
                 <widget class="QToolButton" name="ResetTurnZBT">
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Reset to zero</string>
                  </property>
@@ -1536,12 +1439,6 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Define the number of rotations around the Y axis that is to be made during this shot.
 
@@ -1572,12 +1469,6 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Define the number of rotations around the Y axis that is to be made during this shot.
 
@@ -1599,12 +1490,6 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                </item>
                <item>
                 <widget class="QToolButton" name="ResetTurnXBT">
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Reset to zero</string>
                  </property>
@@ -1621,12 +1506,6 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
              </item>
              <item row="18" column="0">
               <widget class="QLabel" name="Rotate_Z">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string notr="true"/>
                </property>
@@ -1642,8 +1521,6 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
               <widget class="QLabel" name="label_9">
                <property name="font">
                 <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
                  <weight>50</weight>
                  <italic>true</italic>
                  <bold>false</bold>
@@ -1663,8 +1540,6 @@ Block shape (common to all shots):</string>
               <widget class="QLabel" name="label_16">
                <property name="font">
                 <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
                  <weight>50</weight>
                  <italic>true</italic>
                  <bold>false</bold>
@@ -1692,12 +1567,6 @@ Block shape (common to all shots):</string>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Represents the horizontal offset of the block from the left.
 This position is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</string>
@@ -1724,12 +1593,6 @@ This position is defined as a percentage (%) of the total width of the image or 
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="text">
                   <string notr="true"/>
                  </property>
@@ -1748,12 +1611,6 @@ This position is defined as a percentage (%) of the total width of the image or 
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
                  </property>
                  <property name="toolTip">
                   <string>Represents the vertical offset of the block from the top.
@@ -1800,12 +1657,6 @@ This position is defined as a percentage (%) of the total height of the image or
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Define the angle of rotation about the z-axis (expressed in degrees)</string>
                  </property>
@@ -1828,12 +1679,6 @@ This position is defined as a percentage (%) of the total height of the image or
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Define the angle of rotation about the z-axis (expressed in degrees)</string>
                  </property>
@@ -1853,12 +1698,6 @@ This position is defined as a percentage (%) of the total height of the image or
                </item>
                <item>
                 <widget class="QToolButton" name="ResetRotateZBT">
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Reset to zero</string>
                  </property>
@@ -1898,12 +1737,6 @@ This position is defined as a percentage (%) of the total height of the image or
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Represents the width of the block.
 This value is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog box.</string>
@@ -1930,12 +1763,6 @@ This value is defined as a percentage (%) of the total width of the image or in 
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="text">
                   <string notr="true"/>
                  </property>
@@ -1954,12 +1781,6 @@ This value is defined as a percentage (%) of the total width of the image or in 
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
                  </property>
                  <property name="toolTip">
                   <string>Represents the height of the block.
@@ -2006,12 +1827,6 @@ This value is defined as a percentage (%) of the total height of the image or in
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Defines the thickness of the border.
 
@@ -2031,12 +1846,6 @@ A value of 10 corresponds to 10 points on a 1920×1080 FullHD screen, but only t
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Select the color of the line to be used to draw the border</string>
                  </property>
@@ -2055,12 +1864,6 @@ A value of 10 corresponds to 10 points on a 1920×1080 FullHD screen, but only t
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
                  </property>
                  <property name="toolTip">
                   <string>Select the type of line (solid, dotted line, etc.)</string>
@@ -2082,12 +1885,6 @@ color: #000000;
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
                </property>
                <property name="toolTip">
                 <string>This settings group deals with style management.</string>
@@ -2122,12 +1919,6 @@ color: #000000;
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Define the distance between the block and its shadow</string>
                  </property>
@@ -2144,12 +1935,6 @@ color: #000000;
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Select the color of the shadow</string>
                  </property>
@@ -2163,12 +1948,6 @@ color: #000000;
                </item>
                <item>
                 <widget class="QLabel" name="label_5">
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="text">
                   <string notr="true"/>
                  </property>
@@ -2197,11 +1976,6 @@ color: #000000;
              </item>
              <item row="32" column="1">
               <widget class="cCSpeedWaveComboBox" name="SpeedWaveCB">
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="toolTip">
                 <string>Selects a speed curve for block animations (movement, resizing and rotating of blocks, animation of text and blocks)
 
@@ -2237,12 +2011,6 @@ Remark: To change the velocity curve for image animation (graphic effect and fra
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Scroll text from left to right.
 
@@ -2272,12 +2040,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Scroll text from left to right.
 
@@ -2304,12 +2066,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                </item>
                <item>
                 <widget class="QToolButton" name="ScrollXResetBT">
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Reset to zero</string>
                  </property>
@@ -2326,12 +2082,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
              </item>
              <item row="27" column="0">
               <widget class="QLabel" name="PenLabel">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string>Border :</string>
                </property>
@@ -2342,12 +2092,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
              </item>
              <item row="17" column="0">
               <widget class="QLabel" name="Rotate_Y">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string notr="true"/>
                </property>
@@ -2361,12 +2105,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
              </item>
              <item row="26" column="0">
               <widget class="QLabel" name="label_21">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string>Opacity :</string>
                </property>
@@ -2377,12 +2115,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
              </item>
              <item row="43" column="0">
               <widget class="QLabel" name="TurnXLabel">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string notr="true"/>
                </property>
@@ -2419,12 +2151,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Define the angle of rotation about the y-axis (expressed in degrees)</string>
                  </property>
@@ -2447,12 +2173,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Define the angle of rotation about the y-axis (expressed in degrees)</string>
                  </property>
@@ -2469,12 +2189,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                </item>
                <item>
                 <widget class="QToolButton" name="ResetRotateYBT">
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Reset to zero</string>
                  </property>
@@ -2491,12 +2205,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
              </item>
              <item row="34" column="0">
               <widget class="QLabel" name="ZoomLabel">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string>Zoom :</string>
                </property>
@@ -2509,8 +2217,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
               <widget class="QLabel" name="label_12">
                <property name="font">
                 <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
                  <weight>50</weight>
                  <italic>true</italic>
                  <bold>false</bold>
@@ -2550,12 +2256,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Define the angle of rotation about the x-axis (expressed in degrees)</string>
                  </property>
@@ -2578,12 +2278,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Define the angle of rotation about the x-axis (expressed in degrees)</string>
                  </property>
@@ -2600,12 +2294,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                </item>
                <item>
                 <widget class="QToolButton" name="ResetRotateXBT">
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Reset to zero</string>
                  </property>
@@ -2622,12 +2310,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
              </item>
              <item row="41" column="1">
               <widget class="QCustomComboBox" name="BlockAnimCB">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="toolTip">
                 <string>The block animations define which animations will run during the current shot.
 
@@ -2641,8 +2323,6 @@ You can define different animations for every shot!
               <widget class="QLabel" name="label_18">
                <property name="font">
                 <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
                  <weight>50</weight>
                  <italic>true</italic>
                  <bold>false</bold>
@@ -2659,12 +2339,6 @@ You can define different animations for every shot!
              </item>
              <item row="32" column="0">
               <widget class="QLabel" name="SpeedWaveLabel">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string>Speed wave :</string>
                </property>
@@ -2681,12 +2355,6 @@ You can define different animations for every shot!
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="toolTip">
                 <string>Select the opaqueness of the block</string>
                </property>
@@ -2694,12 +2362,6 @@ You can define different animations for every shot!
              </item>
              <item row="45" column="0">
               <widget class="QLabel" name="DissolveLabel">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string>Dissolve :</string>
                </property>
@@ -2710,12 +2372,6 @@ You can define different animations for every shot!
              </item>
              <item row="46" column="1">
               <spacer name="verticalSpacer">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>8</pointsize>
-                </font>
-               </property>
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
                </property>
@@ -2729,12 +2385,6 @@ You can define different animations for every shot!
              </item>
              <item row="42" column="0">
               <widget class="QLabel" name="TurnZLabel">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string notr="true"/>
                </property>
@@ -2748,12 +2398,6 @@ You can define different animations for every shot!
              </item>
              <item row="24" column="0">
               <widget class="QLabel" name="BackgroundFormLabel">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string>Shape :</string>
                </property>
@@ -2764,12 +2408,6 @@ You can define different animations for every shot!
              </item>
              <item row="28" column="0">
               <widget class="QLabel" name="label_13">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string>Shadow :</string>
                </property>
@@ -2780,12 +2418,6 @@ You can define different animations for every shot!
              </item>
              <item row="44" column="0">
               <widget class="QLabel" name="TurnYLabel">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string notr="true"/>
                </property>
@@ -2799,12 +2431,6 @@ You can define different animations for every shot!
              </item>
              <item row="36" column="0">
               <widget class="QLabel" name="ScrollYLabel">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string notr="true"/>
                </property>
@@ -2823,11 +2449,6 @@ You can define different animations for every shot!
                </property>
                <item>
                 <widget class="cCFramingComboBox" name="FramingStyleCB">
-                 <property name="font">
-                  <font>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Allows you to select a reframing style for the image.
 It has the same effect as selecting a style in the Image framing and correction dialog.</string>
@@ -2836,11 +2457,6 @@ It has the same effect as selecting a style in the Image framing and correction 
                </item>
                <item>
                 <widget class="QComboBox" name="TextFramingStyleCB">
-                 <property name="font">
-                  <font>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Allows you to select the geometrical constraints to be applied to the block.
 
@@ -2855,12 +2471,6 @@ Three type of constraint are available:
              </item>
              <item row="41" column="0">
               <widget class="QLabel" name="BlockAnimLabel">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string>Type :</string>
                </property>
@@ -2895,12 +2505,6 @@ Three type of constraint are available:
                </item>
                <item>
                 <widget class="QToolButton" name="BlockShapeStyleBT">
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="text">
                   <string notr="true"/>
                  </property>
@@ -2925,8 +2529,6 @@ Three type of constraint are available:
                </property>
                <property name="font">
                 <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
                  <italic>true</italic>
                  <underline>true</underline>
                 </font>
@@ -2938,12 +2540,6 @@ Three type of constraint are available:
              </item>
              <item row="14" column="0">
               <widget class="QLabel" name="PosSize_Width">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string notr="true"/>
                </property>
@@ -2957,12 +2553,6 @@ Three type of constraint are available:
              </item>
              <item row="45" column="1">
               <widget class="QCustomComboBox" name="DissolveCB">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="toolTip">
                 <string>Appear: The block will appear during the shot
 Disappear: The block will disappear during the shot
@@ -3014,12 +2604,6 @@ Blink: The block will blink during the shot (appear then disappear). 4 speeds ar
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Define a zoom value for the text.
 
@@ -3048,12 +2632,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
                  </property>
                  <property name="toolTip">
                   <string>Define a zoom value for the text.
@@ -3084,12 +2662,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                </item>
                <item>
                 <widget class="QToolButton" name="ZoomResetBT">
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>9</pointsize>
-                  </font>
-                 </property>
                  <property name="toolTip">
                   <string>Reset to 100%</string>
                  </property>
@@ -3106,12 +2678,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
              </item>
              <item row="15" column="0">
               <widget class="QLabel" name="Rotate_X">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string notr="true"/>
                </property>
@@ -3131,12 +2697,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="toolTip">
                 <string>Select in which corner the shadow will be positioned (or no shadow).
 
@@ -3151,12 +2711,6 @@ Remark: the position of the shadow is independent of rotation of the block: the 
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
                </property>
                <property name="toolTip">
                 <string>Allows you to select a shape for the block.
@@ -3184,12 +2738,6 @@ color: #000000;
              </item>
              <item row="25" column="0">
               <widget class="QLabel" name="TextClipArtLabel">
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
                <property name="text">
                 <string>Clip-Art :</string>
                </property>
@@ -3205,12 +2753,6 @@ color: #000000;
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
                </property>
                <property name="toolTip">
                 <string>Select a clip-art</string>
@@ -3242,8 +2784,6 @@ color: #000000;
                </property>
                <property name="font">
                 <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
                  <italic>true</italic>
                  <underline>true</underline>
                 </font>
@@ -3256,10 +2796,11 @@ Block coordinates :</string>
              </item>
              <item row="8" column="1">
               <widget class="QCheckBox" name="InheritDownCB">
-               <property name="font">
-                <font>
-                 <pointsize>9</pointsize>
-                </font>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
                </property>
                <property name="toolTip">
                 <string>If this box is checked, the changes made in a previous shot will be applied to this object in this shot</string>
@@ -3343,12 +2884,6 @@ Block coordinates :</string>
      </item>
      <item>
       <widget class="QPushButton" name="RulersBT">
-       <property name="font">
-        <font>
-         <family>Sans Serif</family>
-         <pointsize>7</pointsize>
-        </font>
-       </property>
        <property name="toolTip">
         <string>Allows you to open the rulers settings dialog.</string>
        </property>

@@ -41,7 +41,7 @@ public:
     int                     AnimationTime;
     bool                    IsMultiple;
     // Previous values
-    int                     TransitionFamilly;
+    TRFAMILLY               TransitionFamilly;
     int                     TransitionSubType;
     int                     TransitionDuration;
 

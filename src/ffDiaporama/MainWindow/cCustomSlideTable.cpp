@@ -155,7 +155,7 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         DrawThumbnailsBox(TransitionSize+3,2,BackThumbWidth,BackThumbHeight,Painter,NULL);
 
         // Draw background transition box & icon (if transition exist)
-        if (Object->BackgroundType) DrawThumbnailsBox(2,(ThumbHeight/4-32)/2-1,32,32,Painter,IsTransition?IconList.GetIcon(0,1):IconList.GetIcon(0,0));
+        if (Object->BackgroundType) DrawThumbnailsBox(2,(ThumbHeight/4-32)/2-1,32,32,Painter,IsTransition?IconList.GetIcon(TRANSITIONFAMILLY_BASE,1):IconList.GetIcon(TRANSITIONFAMILLY_BASE,0));
 
 
         //==========================================================================================================================
@@ -163,7 +163,7 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         //==========================================================================================================================
 
         // Transition box
-        DrawThumbnailsBox(2,ThumbHeight/4+2-1,32,32,Painter,IsTransition?IconList.GetIcon(Object->TransitionFamilly,Object->TransitionSubType):IconList.GetIcon(0,0));
+        DrawThumbnailsBox(2,ThumbHeight/4+2-1,32,32,Painter,IsTransition?IconList.GetIcon(Object->TransitionFamilly,Object->TransitionSubType):IconList.GetIcon(TRANSITIONFAMILLY_BASE,0));
 
         int     NewThumbWidth       = ThumbWidth-TransitionSize-6;
         int     NewThumbHeight      = ParentTable->Diaporama->GetHeightForWidth(NewThumbWidth);

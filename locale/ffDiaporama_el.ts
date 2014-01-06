@@ -22,33 +22,33 @@
         <translation>Αυτό το πρόγραμμα υπόκειται στην άδεια GPL έκδοση 2:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="232"/>
+        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="235"/>
         <source>Credits</source>
         <translation>Ευχαριστίες</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="301"/>
+        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="307"/>
         <source>Texturemate</source>
         <translation>Texturemate</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="329"/>
+        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="371"/>
         <source>Translation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="362"/>
+        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="407"/>
         <source>Note:
 If you want to help us or by completing an incomplete translation, or by translating the application into another language, do not hesitate to contact us on the forum.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="374"/>
+        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="419"/>
         <source>Changelog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="486"/>
+        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="534"/>
         <source>&amp;Ok</source>
         <translation>&amp;Εντάξει</translation>
     </message>
@@ -763,77 +763,77 @@ Editor options (when adding objects)</source>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="133"/>
         <source>Distance unit :</source>
-        <translation type="unfinished"></translation>
+        <translation>Μονάδα απόστασης:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="255"/>
         <source>This option lets you specify the unit to be used for distances.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτή η επιλογή σας επιτρέπει να καθορίσετε τη μονάδα μέτρησης αποστάσεων.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="259"/>
         <source>Kilometers</source>
-        <translation type="unfinished"></translation>
+        <translation>Χιλιόμετρα</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="264"/>
         <source>Miles</source>
-        <translation type="unfinished"></translation>
+        <translation>Μίλια</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="431"/>
         <source>Proxy address :</source>
-        <translation type="unfinished"></translation>
+        <translation>Διεύθυνση διαμεσολαβητή:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="584"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Network settings&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Ρυθμίσεις δικτύου&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="641"/>
         <source>Check this box if your network requires that you use a proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε αυτό το πλαίσιο αν απαιτείται η χρήση διαμεσολαβητή από το δίκτυό σας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="644"/>
         <source>Use a proxy to access the Internet</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση διαμεσολαβητή για πρόσβαση στο διαδίκτυο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="775"/>
         <source>Enter address of the proxy host</source>
-        <translation type="unfinished"></translation>
+        <translation>Εισάγετε τη διεύθυνση του διαμεσολαβητή</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="793"/>
         <source>Enter the port number to access the proxy or nothing to use default port</source>
-        <translation type="unfinished"></translation>
+        <translation>Εισάγετε τον αριθμό της θύρας πρόσβασης του διαμεσολαβητή ή αφήστε το κενό για να χρησιμοποιηθεί η εξ ορισμού θύρα</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="800"/>
         <source>Proxy port :</source>
-        <translation type="unfinished"></translation>
+        <translation>Θύρα διαμεσολαβητή:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="813"/>
         <source>Login :</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήστης:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="826"/>
         <source>Password :</source>
-        <translation type="unfinished"></translation>
+        <translation>Κωδικός πρόσβασης:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="839"/>
         <source>Enter the login name to access the proxy or nothing if no login is required</source>
-        <translation type="unfinished"></translation>
+        <translation>Εισάγετε το όνομα σύνδεσης για την πρόσβαση στο διαμεσολαβητή ή αφήστε το κενό αν δεν απαιτείται ταυτοποίηση</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="846"/>
         <source>Enter the login password to access the proxy or nothing if no login is required</source>
-        <translation type="unfinished"></translation>
+        <translation>Εισάγετε τον κωδικό για την πρόσβαση στο διαμεσολαβητή ή αφήστε το κενό αν δεν απαιτείται ταυτοποίηση</translation>
     </message>
     <message utf8="true">
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1405"/>
@@ -886,13 +886,14 @@ This style defines the transparency of the block and its filling.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2746"/>
         <source>Album :</source>
-        <translation type="unfinished">Άλμπουμ:</translation>
+        <translation>Άλμπουμ:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2756"/>
         <source>Defines the default value for the field Album
 Note: this field is limited to 30 characters to remain compatible with jukebox</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορίζει την προκαθορισμένη τιμή για το πεδίο Άλμπουμ
+Σημείωση: αυτό το πεδίο έχει περιορισμό 30 χαρακτήρων ώστε να παραμένει συμβατό με το jukebox</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2772"/>
@@ -1037,7 +1038,7 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3002"/>
         <source>Lossless :</source>
-        <translation>Μη απωλεστικό</translation>
+        <translation>Μη απωλεστικό:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2573"/>
@@ -1348,22 +1349,22 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="461"/>
         <source>Chapter location different from project location</source>
-        <translation type="unfinished"></translation>
+        <translation>Τοποθεσία κεφαλαίου διαφορετική από την τοποθεσία του έργου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="468"/>
         <source>Event location:</source>
-        <translation type="unfinished"></translation>
+        <translation>Τοποθεσία γεγονότος:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="557"/>
         <source>Select the location of the event of the project</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε την ημερομηνία του γεγονότος του έργου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="571"/>
         <source>Clear this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθαρισμός της τοποθεσίας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="602"/>
@@ -1669,22 +1670,22 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="186"/>
         <source>Event location:</source>
-        <translation type="unfinished"></translation>
+        <translation>Τοποθεσία γεγονότος:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="202"/>
         <source>Chapter location different from project location</source>
-        <translation type="unfinished"></translation>
+        <translation>Τοποθεσία κεφαλαίου διαφορετική από την τοποθεσία του έργου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="282"/>
         <source>Select the location of the event of the project</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε την ημερομηνία του γεγονότος του έργου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="296"/>
         <source>Clear this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθαρισμός της τοποθεσίας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="312"/>
@@ -2128,44 +2129,46 @@ Yellow: The component works partially
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsGeneration.ui" line="14"/>
         <source>Generate Google Maps map</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία χάρτη Google Maps</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsGeneration.ui" line="68"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Ακύρωση των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
+        <translation>Ακύρωση των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsGeneration.ui" line="71"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Ακύρωση</translation>
+        <translation>&amp;Ακύρωση</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsGeneration.cpp" line="121"/>
         <source>Download failed: %1. =&gt; wait 1sec and retry</source>
-        <translation type="unfinished"></translation>
+        <translation>Η λήψη απέτυχε: %1. =&gt; αναμένετε 1 δευτ. και προσπαθήστε ξανά</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsGeneration.cpp" line="135"/>
         <source>Error decoding image received from Google Maps</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα αποκωδικοποίησης της ληφθείσας εικόνας από το Google Maps </translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsGeneration.cpp" line="158"/>
         <source>Google stop responding
 May be you have reach the maximum number of request allowed.
 Please retry in one hour.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το Google σταμάτησε να ανταποκρίνεται
+Ίσως έχετε φτάσει στο όριο των επιτρεπόμενων αιτήσεων.
+Παρακαλώ προσπαθήστε πάλι μετά από μια ώρα.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsGeneration.cpp" line="168"/>
         <source>%1 pending section(s) should be retrieve later</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 εκκρεμής ενότητα(ες), θα πρέπει να γίνει λήψη αργότερα</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsGeneration.cpp" line="176"/>
         <source>%1 pending section(s) to retrieve from Google Maps</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 εκκρεμής ενότητα(ες) προς λήψη από το Google Maps</translation>
     </message>
 </context>
 <context>
@@ -2173,191 +2176,208 @@ Please retry in one hour.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="19"/>
         <source>Select a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε μια τοποθεσία</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="291"/>
         <source>Give a friendly name for this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Δώστε ένα όνομα για αυτήν την τοποθεσία</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="69"/>
         <source>Icon:</source>
-        <translation type="unfinished"></translation>
+        <translation>Εικονίδιο:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="114"/>
         <source>Click to select an icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Κάντε κλικ για να επιλέξετε ένα εικονίδιο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="147"/>
         <source>Edit icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεξεργασία του εικονιδίου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="161"/>
         <source>Remove icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση του εικονιδίου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="281"/>
         <source>Friendly name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Όνομα:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="222"/>
         <source>Enter the postal adress to find in this zone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εισάγετε την ταχυδρομική διεύθυνση προς αναζήτηση σε αυτήν τη ζώνη.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="232"/>
         <source>Open the favorite menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνοιγμα του μενού των προτιμώμενων</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="248"/>
         <source>Google address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Διεύθυνση Google:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="258"/>
         <source>Friendly address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Διεύθυνση:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="268"/>
         <source>Give a friendly address for this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποδείξτε μια διεύθυνση σε μια πιο ευανάγνωστη μορφή για αυτήν την τοποθεσία</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="338"/>
         <source>Click on the map to select a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Κάντε κλικ στον χάρτη για να επιλέξετε μια τοποθεσία</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="374"/>
         <source>Increase zoom level</source>
-        <translation type="unfinished"></translation>
+        <translation>Αύξηση του επιπέδου εστίασης</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="400"/>
         <source>Adjust zoom level</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσαρμογή του επιπέδου εστίασης</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="431"/>
         <source>Decrease zoom level</source>
-        <translation type="unfinished"></translation>
+        <translation>Μείωση του επιπέδου εστίασης</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="464"/>
         <source>Latitude:</source>
-        <translation type="unfinished"></translation>
+        <translation>Γεωγραφικό πλάτος:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="471"/>
         <source>Longitude:</source>
-        <translation type="unfinished"></translation>
+        <translation>Γεωγραφικό μήκος:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="518"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
+        <translation>Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="521"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Εντάξει</translation>
+        <translation>&amp;Εντάξει</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="532"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Ακύρωση των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
+        <translation>Ακύρωση των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="535"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Ακύρωση</translation>
+        <translation>&amp;Ακύρωση</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="546"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished">Εμφανίζει τη βοήθεια για αυτόν τον διάλογο</translation>
+        <translation>Εμφανίζει τη βοήθεια για αυτόν τον διάλογο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="549"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Βοήθεια</translation>
+        <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="566"/>
         <source>Select another file</source>
-        <translation type="unfinished">Επιλογή ενός άλλου αρχείου</translation>
+        <translation>Επιλογή ενός άλλου αρχείου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.ui" line="575"/>
         <source>Edit current image</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεξεργασία της τρέχουσας εικόνας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="191"/>
         <source>Google stop responding
 May be you have reach the maximum number of request allowed.
 Please retry in one hour.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το Google σταμάτησε να ανταποκρίνεται
+Ίσως έχετε φτάσει στο όριο των επιτρεπόμενων αιτήσεων.
+Παρακαλώ προσπαθήστε πάλι μετά από μια ώρα.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="209"/>
         <source>Incorect addres ? (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Εσφαλμένη διεύθυνση; (%1)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="211"/>
         <source>Google said: %1
 Are you sure to have written the address correctly?</source>
-        <translation type="unfinished"></translation>
+        <translation>Το Google απάντησε: %1
+Είστε σίγουρος-η ότι έχετε συμπληρώσει σωστά τη διεύθυνση;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="229"/>
-        <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="352"/>
         <source>Error parsing XML</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα ανάγνωσης του XML</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="238"/>
-        <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="361"/>
         <source>Error parsing XML / incorrect root</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα ανάγνωσης του XML / εσφαλμένο root</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="245"/>
-        <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="375"/>
         <source>Erreur de parsing XML / status KO</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα ανάγνωσης του XML / κατάστασης KO</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="291"/>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="332"/>
         <source>Download failed: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η λήψη απέτυχε: %1.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="303"/>
         <source>Error decoding image reveived from Google Maps</source>
+        <translation>Σφάλμα αποκωδικοποίησης της ληφθείσας εικόνας από το Google Maps</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="352"/>
+        <source>XML parsing error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="361"/>
+        <source>XML parsing error / incorrect root</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="375"/>
+        <source>XML parsing error / status KO</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp" line="211"/>
         <source>The map has not been fully generated.
 Do you want to resume the generation now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Η δημιουργία του χάρτη δεν έχει ολοκληρωθεί.
+Θέλετε να συνεχίσετε τη δημιουργία τώρα;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2909"/>
         <source>A map on slide %1 must be regenerated.
 Do you want to do it now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ένας χάρτης της διαφάνειας %1 πρέπει να αναδημιουργηθεί.
+Θέλετε να γίνει τώρα;</translation>
     </message>
 </context>
 <context>
@@ -2908,12 +2928,12 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="100"/>
         <source>Export current map to a file</source>
-        <translation type="unfinished"></translation>
+        <translation>Εξαγωγή του χάρτη σε αρχείο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="103"/>
         <source>Export map</source>
-        <translation type="unfinished"></translation>
+        <translation>Εξαγωγή χάρτη</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="169"/>
@@ -4777,7 +4797,8 @@ information</source>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1654"/>
         <source>
 Block shape (common to all shots):</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Σχήμα του τμήματος (κοινό σε όλα τα στιγμιότυπα):</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1675"/>
@@ -5234,7 +5255,7 @@ Three type of constraint are available:
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2935"/>
         <source>Inheritance changes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Κληρονομικότητα αλλαγών:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2967"/>
@@ -5290,17 +5311,18 @@ The selected shape will be used as:
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3252"/>
         <source>
 Block coordinates :</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Συντεταγμένες τμήματος:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3265"/>
         <source>If this box is checked, the changes made in a previous shot will be applied to this object in this shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν το πλαίσιο είναι επιλεγμένο, οι πραγματοποιηθείσες αλλαγές σε αυτό το αντικείμενο στα προηγούμενα στιγμιότυπα θα εφαρμοστούν σε αυτό το αντικείμενο στο συγκεκριμένο στιγμιότυπο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3268"/>
         <source>Inherit changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Κληρονόμηση των αλλαγών</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3353"/>
@@ -5393,12 +5415,12 @@ Note: Hidden video blocks are automatically paused</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3964"/>
         <source>Add image from clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη εικόνας από το πρόχειρο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3967"/>
         <source>Create a new block using image from clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία ενός νέου τμήματος χρησιμοποιώντας μια εικόνα από το πρόχειρο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3565"/>
@@ -5534,12 +5556,12 @@ shot</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/cShotComposer.cpp" line="398"/>
         <source>Reactivate the inheritance of changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Επανενεργοποίηση της κληρονομικότητας των αλλαγών</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/cShotComposer.cpp" line="399"/>
         <source>Do you want to apply to this block the properties it has in the previous shot?</source>
-        <translation type="unfinished"></translation>
+        <translation>Θέλετε να εφαρμοστούν σε αυτό το τμήμα οι ιδιότητες που έχει στα προηγούμενα στιγμιότυπα;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="133"/>
@@ -6510,28 +6532,30 @@ Remark: Video formats do not support all the chapters in the same way.</source>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="211"/>
         <source>
 Options for speed wave</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Επιλογές για την καμπύλη ταχύτητας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="515"/>
         <source>
 Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Κεφάλαια</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="654"/>
         <source>Event location:</source>
-        <translation type="unfinished"></translation>
+        <translation>Τοποθεσία γεγονότος:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="779"/>
         <source>Select the location of the event of the project</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε την ημερομηνία του γεγονότος του έργου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="793"/>
         <source>Clear this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθαρισμός της τοποθεσίας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="838"/>
@@ -7143,17 +7167,17 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3731"/>
         <source>Add a map</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη ενός χάρτη</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3734"/>
         <source>Add a Google Maps map</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη ενός χάρτη Google Maps</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="540"/>
         <source>Select an image file</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε ένα αρχείο εικόνας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="605"/>
@@ -7167,12 +7191,12 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="606"/>
         <source>Update this favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενημέρωση του προτιμώμενου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="607"/>
         <source>Remove this favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση από τα προτιμώμενα</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="424"/>
@@ -7407,14 +7431,14 @@ and help</source>
         <translation>Ανάγνωση αρχείου διαμόρφωσης</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2013"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2014"/>
         <source>Impossible to read one image from the file</source>
         <comment>Error message</comment>
         <translation>Αδύνατη η ανάγνωση μιας εικόνας από το αρχείο</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1992"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3701"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1993"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3702"/>
         <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
         <comment>Error message</comment>
         <translation>Αυτή η εφαρμογή υποστηρίζει μόνο κομμάτια ήχου με δειγματοληψία μη υπογεγραμμένου 8bit ή υπογεγραμμένου 16bit</translation>
@@ -7423,17 +7447,17 @@ and help</source>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="944"/>
         <source>Impossible to read an image from the file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Αδύνατη η ανάγνωση μιας εικόνας από το αρχείο</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2000"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3709"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2001"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3710"/>
         <source>This application support only mono or stereo audio track</source>
         <comment>Error message</comment>
         <translation>Αυτή η εφαρμογή υποστηρίζει κομμάτια ήχου mono ή stereo μόνο</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3695"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3696"/>
         <source>No audio track found</source>
         <comment>Error message</comment>
         <translation>Δεν βρέθηκε κομμάτι ήχου</translation>
@@ -7466,14 +7490,14 @@ and help</source>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1672"/>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2417"/>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="945"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1985"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1993"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2001"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2014"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3689"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3696"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3702"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3710"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1986"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1994"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2002"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2015"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3690"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3697"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3703"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3711"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Σφάλμα</translation>
@@ -7589,12 +7613,12 @@ Image geometry in this file is not the same than the current project</source>
         <location filename="../src/ffDiaporama/engine/cLuLoImageCache.cpp" line="71"/>
         <location filename="../src/ffDiaporama/engine/cLuLoImageCache.cpp" line="167"/>
         <source>Loading file from ressource</source>
-        <translation type="unfinished"></translation>
+        <translation>Φόρτωση του αρχείου από τις πηγές</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cLuLoImageCache.cpp" line="75"/>
         <source>Error loading ressource</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα φόρτωσης της πηγής</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cLuLoImageCache.cpp" line="83"/>
@@ -7635,7 +7659,7 @@ ffDiaporama can&apos;t start</source>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="120"/>
         <source>Init translations...</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχικοποίηση των μεταφράσεων...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="130"/>
@@ -7773,7 +7797,7 @@ Do you want to create one slide for each chapters ?</source>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2822"/>
         <source>Error getting image from clipboard</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα λήψης της εικόνας από το πρόχειρο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp" line="676"/>
@@ -8074,7 +8098,7 @@ Do you want to overwrite it?</source>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="280"/>
         <source>Init multimedia browser...</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχικοποίηση του περιηγητή πολυμέσων...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1175"/>
@@ -8133,8 +8157,8 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="652"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1338"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1984"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3688"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1985"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3689"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation>Μη υποστηριζόμενη μορφή</translation>
@@ -8210,14 +8234,14 @@ Do you want to open it nevertheless?</source>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.cpp" line="189"/>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="350"/>
         <source>Edit this location</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεξεργασία της τοποθεσίας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.cpp" line="387"/>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.cpp" line="189"/>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="350"/>
         <source>Define a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορισμός μιας τοποθεσίας</translation>
     </message>
 </context>
 <context>
@@ -9118,13 +9142,13 @@ Do you want to open it nevertheless?</source>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2070"/>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="179"/>
         <source>Project&apos;s location not set (Name)</source>
-        <translation type="unfinished"></translation>
+        <translation>Δεν έχει οριστεί η τοποθεσία του έργου (Όνομα)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2071"/>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="180"/>
         <source>Project&apos;s location not set (Address)</source>
-        <translation type="unfinished"></translation>
+        <translation>Δεν έχει οριστεί η τοποθεσία του έργου (Διεύθυνση)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2104"/>
@@ -9289,12 +9313,12 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="286"/>
         <source>Project location name</source>
-        <translation type="unfinished"></translation>
+        <translation>Όνομα της τοποθεσίας του έργου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="287"/>
         <source>Project location address</source>
-        <translation type="unfinished"></translation>
+        <translation>Διεύθυνση της τοποθεσίας του έργου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="288"/>
@@ -9400,12 +9424,12 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="308"/>
         <source>Current chapter location name</source>
-        <translation type="unfinished"></translation>
+        <translation>Όνομα τοποθεσίας του τρέχοντος κεφαλαίου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="309"/>
         <source>Current chapter location address</source>
-        <translation type="unfinished"></translation>
+        <translation>Διεύθυνση τοποθεσίας του τρέχοντος κεφαλαίου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="319"/>
@@ -9497,133 +9521,134 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1554"/>
         <source>Map type</source>
-        <translation type="unfinished"></translation>
+        <translation>Τύπος χάρτη</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1555"/>
         <source>Image size</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγεθος εικόνας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1556"/>
         <source>Map zoom and size</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγεθος και εστίαση χάρτη</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1557"/>
         <source>Map latitude</source>
-        <translation type="unfinished"></translation>
+        <translation>Γεωγραφικό πλάτος χάρτη</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1558"/>
         <source>Map longitude</source>
-        <translation type="unfinished"></translation>
+        <translation>Γεωγραφικό μήκος χάρτη</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1566"/>
         <source>%1 location(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 τοποθεσία(ες)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1581"/>
         <source>GPS Coordinates %1 / %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Συντεταγμένες GPS %1 / %2</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1590"/>
         <source>%1
 Zoom %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1
+Εστίαση %2</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1626"/>
         <source>Roadmap</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαδρομή</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1627"/>
         <source>Satellite</source>
-        <translation type="unfinished"></translation>
+        <translation>Δορυφόρος</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1628"/>
         <source>Terrain</source>
-        <translation type="unfinished"></translation>
+        <translation>Έδαφος</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1629"/>
         <source>Hybrid</source>
-        <translation type="unfinished"></translation>
+        <translation>Υβριδικό</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1635"/>
         <source>Small</source>
-        <translation type="unfinished"></translation>
+        <translation>Μικρό</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1647"/>
         <source>Small (640x360)</source>
-        <translation type="unfinished"></translation>
+        <translation>Μικρό (640x360)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1648"/>
         <source>720p-16:9 (1280x720)</source>
-        <translation type="unfinished"></translation>
+        <translation>720p-16:9 (1280x720)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1649"/>
         <source>720px4-16:9 (2560x1440)</source>
-        <translation type="unfinished"></translation>
+        <translation>720px4-16:9 (2560x1440)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1650"/>
         <source>720px9-16:9 (3840x2160)</source>
-        <translation type="unfinished"></translation>
+        <translation>720px9-16:9 (3840x2160)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1651"/>
         <source>1080p-16:9 (1920x1080)</source>
-        <translation type="unfinished"></translation>
+        <translation>1080p-16:9 (1920x1080)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1652"/>
         <source>1080px4-16:9 (3840x2160)</source>
-        <translation type="unfinished"></translation>
+        <translation>1080px4-16:9 (3840x2160)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1653"/>
         <source>1080px9-16:9 (5760x3240)</source>
-        <translation type="unfinished"></translation>
+        <translation>1080px9-16:9 (5760x3240)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1828"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1829"/>
         <source>The map must be regenerated because the locations have changed or project&apos;s location no set</source>
-        <translation type="unfinished"></translation>
+        <translation>Πρέπει να γίνει αναδημιουργηθεί ο χάρτης διότι οι έχουν αλλάξει οι τοποθεσίες ή δεν έχει οριστεί η τοποθεσία του έργου</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1831"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1832"/>
         <source>Project&apos;s location must be defined to produce this Google Maps map</source>
-        <translation type="unfinished"></translation>
+        <translation>Για την αναπαραγωγή του χάρτη Google Maps θα πρέπει να οριστεί η τοποθεσία του έργου</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1843"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1844"/>
         <source>Select at least one location to produce Google Maps map</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε τουλάχιστον μια τοποθεσία για την αναπαραγωγή του χάρτη Google Maps</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2457"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2458"/>
         <source>Video</source>
         <comment>File type</comment>
         <translation>Βίντεο</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2456"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2457"/>
         <source>Music</source>
         <comment>File type</comment>
         <translation>Μουσική</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2161"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2162"/>
         <source>Mono</source>
         <comment>Audio channels mode</comment>
         <translation>Mono</translation>
@@ -9640,7 +9665,7 @@ Zoom %2</source>
         <translation>ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2162"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2163"/>
         <source>Stereo</source>
         <comment>Audio channels mode</comment>
         <translation>Stereo</translation>
@@ -9660,13 +9685,13 @@ Zoom %2</source>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.h" line="255"/>
         <source>Image from clipboard</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Εικόνας από το πρόχειρο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.h" line="314"/>
         <source>Google Maps map</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Χάρτης Google Maps</translation>
     </message>
 </context>
 <context>
@@ -9677,19 +9702,19 @@ Zoom %2</source>
         <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="1469"/>
         <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="1470"/>
         <source>Error: Project&apos;s location no set</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα: Δεν έχει οριστεί η τοποθεσία του έργου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="1400"/>
         <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="1401"/>
         <source>Project&apos;s location (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Τοποθεσία έργου (%1)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="1403"/>
         <location filename="../src/ffDiaporama/engine/cBrushDefinition.cpp" line="1404"/>
         <source>Chapter&apos;s location (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Τοποθεσία του κεφαλαίου (%1)</translation>
     </message>
 </context>
 <context>
@@ -10395,83 +10420,83 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="123"/>
         <source>Define the size of the map</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορίζει το μεγέθους του χάρτη</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="94"/>
         <source>Map type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Τύπος χάρτη:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="110"/>
         <source>Define the type of the map</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορίζει τον τύπο του χάρτη</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="136"/>
         <source>Define the size of the image generated for the map</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορίζει το μέγεθος της δημιουργηθείσας εικόνας για τον χάρτη</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="143"/>
         <source>Image size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγεθος εικόνας:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="239"/>
         <source>Localizations</source>
-        <translation type="unfinished"></translation>
+        <translation>Εντοπισμός</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="394"/>
         <source>Properties for all shots</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιδιότητες για όλα τα στιγμιότυπα</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="401"/>
         <source>GPS Position form:</source>
-        <translation type="unfinished"></translation>
+        <translation>Μορφή της θέσης GPS:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="408"/>
         <source>Define a form for the GPS position</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορίζει τη μορφή της θέσης GPS</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="412"/>
         <source>Point</source>
-        <translation type="unfinished"></translation>
+        <translation>Τελεία</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="417"/>
         <source>Circle</source>
-        <translation type="unfinished"></translation>
+        <translation>Κύκλος</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="422"/>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="441"/>
         <source>Rectangle</source>
-        <translation type="unfinished">Ορθογώνιο</translation>
+        <translation>Ορθογώνιο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="430"/>
         <source>Marker form:</source>
-        <translation type="unfinished"></translation>
+        <translation>Μορφή του σημαδευτή:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="437"/>
         <source>Define a form for the marker</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορίζει τη μορφή του σημαδευτή</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="446"/>
         <source>Bubble</source>
-        <translation type="unfinished">Σφαίρα</translation>
+        <translation>Φυσαλίδα</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="454"/>
         <source>Composition:</source>
-        <translation type="unfinished"></translation>
+        <translation>Σύνθεση:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="461"/>
@@ -10481,67 +10506,67 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="465"/>
         <source>Icon+Name+Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Εικονίδιο + Όνομα + Διεύθυνση</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="470"/>
         <source>Icon+Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Εικονίδιο + Όνομα</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="475"/>
         <source>Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Εικονίδιο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="480"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Όνομα</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="485"/>
         <source>Name+Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Όνομα + Διεύθυνση</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="490"/>
         <source>Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Διεύθυνση</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="498"/>
         <source>Size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγεθος:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="505"/>
         <source>Define the size of the marker and the GPS position</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορίζει το μέγεθος του σημαδευτή και τη θέση GPS</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="509"/>
         <source>Small</source>
-        <translation type="unfinished"></translation>
+        <translation>Μικρό</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="514"/>
         <source>Medium</source>
-        <translation type="unfinished"></translation>
+        <translation>Μεσαίο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="519"/>
         <source>Large</source>
-        <translation type="unfinished"></translation>
+        <translation>Μεγάλο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="524"/>
         <source>Huge</source>
-        <translation type="unfinished"></translation>
+        <translation>Τεράστιο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="532"/>
         <source>Distance:</source>
-        <translation type="unfinished"></translation>
+        <translation>Απόσταση:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="539"/>
@@ -10549,9 +10574,19 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="567"/>
+        <source>Properties for this shot</source>
+        <translation>Ιδιότητες του στιγμιότυπου</translation>
+    </message>
+    <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="610"/>
         <source>Defines the color of the text</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="638"/>
+        <source>Background color:</source>
+        <translation>Χρώμα φόντου:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="674"/>
@@ -10559,9 +10594,9 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="709"/>
-        <source>Defined if the marker is visible, half-visible (masked) or hidden</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="702"/>
+        <source>Visibility:</source>
+        <translation>Ορατότητα:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="767"/>
@@ -10569,104 +10604,94 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="567"/>
-        <source>Properties for this shot</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="638"/>
-        <source>Background color:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="702"/>
-        <source>Visibility:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="543"/>
         <source>Near</source>
-        <translation type="unfinished"></translation>
+        <translation>Κοντά</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="548"/>
         <source>Normal</source>
-        <translation type="unfinished">Τυπικό</translation>
+        <translation>Κανονικό</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="553"/>
         <source>Far</source>
+        <translation>Μακριά</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="709"/>
+        <source>Defined if the marker is visible, half-visible (masked) or hidden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="713"/>
         <source>Hide</source>
-        <translation type="unfinished">Απόκρυψη</translation>
+        <translation>Απόκρυψη</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="718"/>
         <source>Masked</source>
-        <translation type="unfinished"></translation>
+        <translation>Κρυμμένο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="723"/>
         <source>Visible</source>
-        <translation type="unfinished">Ορατό</translation>
+        <translation>Ορατό</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="731"/>
         <source>Line color:</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρώμα γραμμής:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="574"/>
         <source>Text color:</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρώμα κειμένου:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="84"/>
         <source>Map size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγεθος του χάρτη:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="330"/>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation>Τοποθεσία</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="246"/>
         <source>Use Google Maps to select a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση του Google Maps για τον εντοπισμό της τοποθεσίας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="260"/>
         <source>Edit current location</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεξεργασία της τρέχουσας τοποθεσίας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="274"/>
         <source>Remove current location</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση της τρέχουσας τοποθεσίας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp" line="267"/>
         <source>Add a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη μιας τοποθεσίας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp" line="268"/>
         <source>Add project&apos;s location</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη της τοποθεσίας του έργου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp" line="269"/>
         <source>Add chapter&apos;s location</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη της τοποθεσίας του κεφαλαίου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp" line="545"/>
         <source>Do you want include the markers on the map?</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιθυμείτε την συμπερίληψη των σημαδευτών στον χάρτη;</translation>
     </message>
 </context>
 <context>

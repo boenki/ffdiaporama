@@ -2,6 +2,15 @@
 * FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
 
+[Commit: 06/01/2014]
+    New features:
+        -Compute some LUMA rather than using files to improve their quality
+         -Treat the 24 LUMA-BAR transitions
+         -Treat the first 24 LUMA-CLOCK transitions
+        -Removes unused LUMA files (reduces packet size)
+
+--------------------------------------------------------------------------------
+
 [Commit: 03/01/2014] - ffDiaporama 2.1 devel 20140103
     Bug fixes:
         -Fixed a crash when closing the edit image/video/gmap when locations were added

@@ -349,7 +349,7 @@ void DlgGMapsLocation::httpGetAddressFinished() {
         NoMap=false;
         if (!domDocument.setContent(ReceiveAddress,true,&errorStr,&errorLine,&errorColumn)) {
             if (RetryCount<MAXRETRY) {
-                ToLog(LOGMSG_WARNING,QApplication::translate("DlgGMapsLocation","Error parsing XML"));
+                ToLog(LOGMSG_WARNING,QApplication::translate("DlgGMapsLocation","XML parsing error"));
                 QTimer::singleShot(LATENCY,this,SLOT(ClickOnMap()));     // Retry
                 RetryCount++;
             } else NoMoreRetry();
@@ -358,7 +358,7 @@ void DlgGMapsLocation::httpGetAddressFinished() {
             QDomElement root=domDocument.documentElement();
             if (root.tagName()!="GeocodeResponse") {
                 if (RetryCount<MAXRETRY) {
-                    ToLog(LOGMSG_WARNING,QApplication::translate("DlgGMapsLocation","Error parsing XML / incorrect root"));
+                    ToLog(LOGMSG_WARNING,QApplication::translate("DlgGMapsLocation","XML parsing error / incorrect root"));
                     QTimer::singleShot(LATENCY,this,SLOT(ClickOnMap()));     // Retry
                     RetryCount++;
                 } else NoMoreRetry();
@@ -372,7 +372,7 @@ void DlgGMapsLocation::httpGetAddressFinished() {
                     RefreshMap();
                 } else if (GetNodeValue(root,"status")!="OK") {
                     if (RetryCount<MAXRETRY) {
-                        ToLog(LOGMSG_WARNING,QApplication::translate("DlgGMapsLocation","Erreur de parsing XML / status KO"));
+                        ToLog(LOGMSG_WARNING,QApplication::translate("DlgGMapsLocation","XML parsing error / status KO"));
                         QTimer::singleShot(LATENCY,this,SLOT(ClickOnMap()));     // Retry
                         RetryCount++;
                     } else NoMoreRetry();

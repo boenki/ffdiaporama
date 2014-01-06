@@ -424,7 +424,7 @@ bool DlgApplicationSettings::DoAccept() {
     ApplicationConfig->DefaultTransitionDuration    =int(GetDoubleValue(ui->TransitionDurationCB->currentText())*double(1000));
     ApplicationConfig->RandomTransition             =ui->RandomTransitionRD->isChecked();
     ApplicationConfig->DefaultTransitionSubType     =(ui->NoTransitionRD->isChecked()?0:1);
-    ApplicationConfig->DefaultTransitionFamilly     =0;
+    ApplicationConfig->DefaultTransitionFamilly     =TRANSITIONFAMILLY_BASE;
 
     // ProjectDefault part
     ApplicationConfig->DefaultTransitionSpeedWave   =ui->TransitionSpeedWaveCB->GetCurrentValue();
