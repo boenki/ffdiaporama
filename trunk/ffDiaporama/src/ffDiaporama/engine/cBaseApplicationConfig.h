@@ -421,7 +421,7 @@ public:
 
     // Default transition
     bool                    RandomTransition;                           // if true randomize a transition
-    int                     DefaultTransitionFamilly;                   // Transition familly
+    TRFAMILLY               DefaultTransitionFamilly;                   // Transition familly
     int                     DefaultTransitionSubType;                   // Transition type in the familly
     int                     DefaultTransitionDuration;                  // Transition duration (in msec)
 

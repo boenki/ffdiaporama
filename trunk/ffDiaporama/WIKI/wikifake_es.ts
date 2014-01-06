@@ -4334,59 +4334,59 @@
     </message>
     <message>
         <source>Bitmap image file and Bitmap image from clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivo de imagen de mapa de bits e imagen de mapa de bits desde el portapapeles</translation>
     </message>
     <message>
         <source>Google Maps</source>
-        <translation type="unfinished"></translation>
+        <translation>Google Maps</translation>
     </message>
     <message>
         <source>ffDiaporama can use music file in the following formats: wav, aac, adts, ac3, mp2, mp3, m4a or m4b or m4p, 3g2 or 3ga or 3gp, ogg or oga, spx, wma, flac</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama puede utilizar archivos de música en los siguientes formatos: wav, aac, adts, ac3, mp2, mp3, m4a or m4b or m4p, 3g2 or 3ga or 3gp, ogg or oga, spx, wma, flac</translation>
     </message>
     <message>
         <source>See also: </source>
-        <translation type="unfinished"></translation>
+        <translation>Consultar también:</translation>
     </message>
     <message>
         <source>Definition of music file on Wikipedia</source>
-        <translation type="unfinished"></translation>
+        <translation>Definición del archivo de música en Wikipedia</translation>
     </message>
     <message>
         <source>ffDiaporama can use bitmap images in the following formats: bmp, gif (but not animated gif), jpg or jpeg, png, pbm, pgm, ppm, tiff or tif, xbm, xpm</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama puede utilizar las imágenes de mapa de bits en los siguientes formatos: bmp, gif (pero no gif animado), jpg o jpeg, png, PBM, PGM, ppm, tiff o tif, xbm, xpm</translation>
     </message>
     <message>
         <source>Note: FFD uses the filename extension to determine the type of image. It is therefore necessary that this extension was valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: FFD utiliza la extensión de nombre de archivo para determinar el tipo de imagen. Por lo tanto, es necesario que esta extensión sea válida.</translation>
     </message>
     <message>
         <source>Definition of Bitmap image file on Wikipedia</source>
-        <translation type="unfinished"></translation>
+        <translation>Definición de archivo de imagen de mapa de bits en la Wikipedia</translation>
     </message>
     <message>
         <source>ffDiaporama can use vector images in the following formats: svg</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama puede utilizar imágenes de vectores en los siguientes formatos: svg</translation>
     </message>
     <message>
         <source>Definition of vector image file on Wikipedia</source>
-        <translation type="unfinished"></translation>
+        <translation>Definición de archivo de imagen del vector en Wikipedia</translation>
     </message>
     <message>
         <source>ffDiaporama can use video files in the following formats: avi, mov, mpg or mpeg, mkv, mp4 or m4v, flv, 3gp, ogv, webm, dv, wmv, mts or m2ts or mod</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama puede usar archivos de vídeo en los siguientes formatos: avi, mov, mpg o mpeg, avi, mp4 o m4v, flv, 3gp, OGV, WebM, dv, wmv, mts o m2ts o mod</translation>
     </message>
     <message>
         <source>Note: mts, m2ts and mod files are stream formats (AVCHD) which involve some limitations. For more information on AVCHD, see: </source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: mts, m2ts y archivos mod son formatos de flujo (AVCHD) que implican algunas limitaciones. Para obtener más información sobre AVCHD, consultar:</translation>
     </message>
     <message>
         <source>Advanced Video Coding High Definition on Wikipedia</source>
-        <translation type="unfinished"></translation>
+        <translation>Advanced Video Coding Alta definición en Wikipedia</translation>
     </message>
     <message>
         <source>Definition of video file on Wikipedia</source>
-        <translation type="unfinished"></translation>
+        <translation>Definición de archivo de vídeo en Wikipedia</translation>
     </message>
 </context>
 <context>
@@ -6632,179 +6632,179 @@
     </message>
     <message>
         <source>On the upper left part, you define the map properties</source>
-        <translation type="unfinished"></translation>
+        <translation>En la parte superior izquierda, se definen las propiedades del mapa</translation>
     </message>
     <message>
         <source>On the bottom left part, the map is displayed with markers</source>
-        <translation type="unfinished"></translation>
+        <translation>En la parte inferior izquierda, el mapa se muestra con marcadores</translation>
     </message>
     <message>
         <source>On the upper right part, the table of location is displayed</source>
-        <translation type="unfinished"></translation>
+        <translation>En la parte superior derecha, se muestra la tabla de ubicación</translation>
     </message>
     <message>
         <source>On the bottom right part, you define the properties of the selected location</source>
-        <translation type="unfinished"></translation>
+        <translation>En la parte inferior derecha, se definen las propiedades de la ubicación seleccionada</translation>
     </message>
     <message>
         <source>The map properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Propiedades del mapa</translation>
     </message>
     <message>
         <source>Map type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo de mapa</translation>
     </message>
     <message>
         <source>Define the type of the map. You can select between the four Google Maps possibilities:</source>
-        <translation type="unfinished"></translation>
+        <translation>Definir el tipo de mapa. Puedes seleccionar entre las cuatro posibilidades de Google Maps:</translation>
     </message>
     <message>
         <source>Roadmap</source>
-        <translation type="unfinished"></translation>
+        <translation>Mapa de carreteras</translation>
     </message>
     <message>
         <source>Satellite</source>
-        <translation type="unfinished"></translation>
+        <translation>Satelite</translation>
     </message>
     <message>
         <source>Terrain</source>
-        <translation type="unfinished"></translation>
+        <translation>Terreno</translation>
     </message>
     <message>
         <source>Hybrid</source>
-        <translation type="unfinished"></translation>
+        <translation>Híbrido</translation>
     </message>
     <message>
         <source>Map size</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamaño de mapa</translation>
     </message>
     <message>
         <source>Define the size of the map. This size represents the distance in width and height of the map.</source>
-        <translation type="unfinished"></translation>
+        <translation>Definir el tamaño del mapa. Este tamaño representa la distancia en anchura y altura del mapa.</translation>
     </message>
     <message>
         <source>Smaller the zoom is and huger the area represented by the map is.</source>
-        <translation type="unfinished"></translation>
+        <translation>Disminuir el zoom y aumentar el area representada por el mapa.</translation>
     </message>
     <message>
         <source>Higher the zoom is and smaller the area represented by the map is.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aumentar el zoom y disminuir el area representada por el mapa.</translation>
     </message>
     <message>
         <source>Image size</source>
-        <translation type="unfinished">Tamaño de imagen</translation>
+        <translation>Tamaño de imagen</translation>
     </message>
     <message>
         <source>Define the size of the image generated for the map. ffDiaporama proposes to generate maps of several image sizes, so, to create a fluid zoom animation, you can use a large image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Definir el tamaño de la imagen generada por el mapa. ffDiaporama propone generar mapas de varios tamaños, por lo que, para crear una animación de zoom fluido se puede utilizar una imagen de gran tamaño.</translation>
     </message>
     <message>
         <source>The table of locations</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabla de ubicaciones</translation>
     </message>
     <message>
         <source>Select a location from the &lt;a href=&quot;0123.html&quot;&gt;Add or modify a location&lt;/a&gt; dialog or using a favorite.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar una ubicación en el diálogo &lt;a href=&quot;0123.html&quot;&gt;Añadir o modificar una ubicación&lt;/a&gt; o usar un favorito.</translation>
     </message>
     <message>
         <source>Edit current location. Open the &lt;a href=&quot;0123.html&quot;&gt;Add or modify a location&lt;/a&gt; dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Editar ubicación actual. Abrir el diálogo &lt;a href=&quot;0123.html&quot;&gt;Añadir o modificar una ubicación&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Remove current location.</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar ubicación actual.</translation>
     </message>
     <message>
         <source>The marker properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Propiedades del marcador</translation>
     </message>
     <message>
         <source>Properties for all shots</source>
-        <translation type="unfinished">Propiedades para todas las tomas</translation>
+        <translation>Propiedades para todas las tomas</translation>
     </message>
     <message>
         <source>This settings group defines properties for all shots, so, the modifications made to the following properties will apply to all shots. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este grupo define la configuración de propiedades para todas las tomas, por lo que, las modificaciones realizadas a las siguientes propiedades se aplicarán a todas las tomas. Para entender las diferencias entre las propiedades que se aplican a todas las tomas y las que se aplican sólo a la toma actual, consultar: &lt;a href=&quot;0010.html&quot;&gt;Cómo trabaja ffDiaporama&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>GPS Position form</source>
-        <translation type="unfinished"></translation>
+        <translation>Forma Posición GPS</translation>
     </message>
     <message>
         <source>Define a form for the GPS position</source>
-        <translation type="unfinished"></translation>
+        <translation>Definir una forma para la posición GPS</translation>
     </message>
     <message>
         <source>Marker form</source>
-        <translation type="unfinished"></translation>
+        <translation>Forma del marcador</translation>
     </message>
     <message>
         <source>Define a form for the marker</source>
-        <translation type="unfinished"></translation>
+        <translation>Definir una forma del marcador</translation>
     </message>
     <message>
         <source>Composition</source>
-        <translation type="unfinished"></translation>
+        <translation>Composición</translation>
     </message>
     <message>
         <source>Defined what information will be displayed in the marker</source>
-        <translation type="unfinished"></translation>
+        <translation>Definir qué información se mostrará en el marcador</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamaño</translation>
     </message>
     <message>
         <source>Define the size of the marker and the GPS position</source>
-        <translation type="unfinished"></translation>
+        <translation>Definir el tamaño del marcador y posición GPS</translation>
     </message>
     <message>
         <source>Distance</source>
-        <translation type="unfinished"></translation>
+        <translation>Distancia</translation>
     </message>
     <message>
         <source>Defined where to display the marker (the distance between the marker and the GPS position)</source>
-        <translation type="unfinished"></translation>
+        <translation>Definir dónde mostrar el marcador (la distancia entre el marcador y la posición GPS)</translation>
     </message>
     <message>
         <source>Properties for this shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Propiedades de esta toma</translation>
     </message>
     <message>
         <source>This settings group defines properties for the current shot, so you can create animation of makers by defining different properties for each shots.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este grupo de la configuración define las propiedades de la toma actual, por lo que puedes crear la animación de los marcadores definiendo las diferentes propiedades de cada toma.</translation>
     </message>
     <message>
         <source>Text color</source>
-        <translation type="unfinished"></translation>
+        <translation>Color del texto</translation>
     </message>
     <message>
         <source>Defines the color of the text</source>
-        <translation type="unfinished"></translation>
+        <translation>Definir el color del texto</translation>
     </message>
     <message>
         <source>Background color</source>
-        <translation type="unfinished"></translation>
+        <translation>Color del fondo</translation>
     </message>
     <message>
         <source>Defines the color of the background of the marker, of the GPS position and of the part between the two</source>
-        <translation type="unfinished"></translation>
+        <translation>Definir el color del fondo del marcador, de la posición GPS y de la parte entre los dos</translation>
     </message>
     <message>
         <source>Line color</source>
-        <translation type="unfinished"></translation>
+        <translation>Color de línea</translation>
     </message>
     <message>
         <source>Defines the color of the border</source>
-        <translation type="unfinished"></translation>
+        <translation>Definir el color del borde</translation>
     </message>
     <message>
         <source>Visibility</source>
-        <translation type="unfinished"></translation>
+        <translation>Visibilidad</translation>
     </message>
     <message>
         <source>Defined if the marker is visible, half-visible (masked) or hidden</source>
-        <translation type="unfinished"></translation>
+        <translation>Definir si el marcador es visible, medio-visible (enmascarado) u oculto</translation>
     </message>
 </context>
 <context>

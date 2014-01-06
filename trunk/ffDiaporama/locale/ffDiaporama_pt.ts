@@ -22,33 +22,33 @@
         <translation>Este software é licenciado sob a GPL versão 2:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="232"/>
+        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="235"/>
         <source>Credits</source>
         <translation>Créditos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="301"/>
+        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="307"/>
         <source>Texturemate</source>
         <translation>Textura mate</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="329"/>
+        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="371"/>
         <source>Translation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="362"/>
+        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="407"/>
         <source>Note:
 If you want to help us or by completing an incomplete translation, or by translating the application into another language, do not hesitate to contact us on the forum.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="374"/>
+        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="419"/>
         <source>Changelog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="486"/>
+        <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="534"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
@@ -2329,19 +2329,16 @@ Você tem certeza de ter escrito o endereço correctamente?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="229"/>
-        <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="352"/>
         <source>Error parsing XML</source>
         <translation>Erro ao analisar XML</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="238"/>
-        <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="361"/>
         <source>Error parsing XML / incorrect root</source>
         <translation>Erro de análise XML / raiz incorreta</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="245"/>
-        <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="375"/>
         <source>Erreur de parsing XML / status KO</source>
         <translation>Erro de análise XML / status KO</translation>
     </message>
@@ -2355,6 +2352,21 @@ Você tem certeza de ter escrito o endereço correctamente?</translation>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="303"/>
         <source>Error decoding image reveived from Google Maps</source>
         <translation> Erro recebido do Google Maps na Descodificação de imagens</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="352"/>
+        <source>XML parsing error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="361"/>
+        <source>XML parsing error / incorrect root</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="375"/>
+        <source>XML parsing error / status KO</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp" line="211"/>
@@ -7415,14 +7427,14 @@ e Ajuda</translation>
         <translation>Ler arquivo de configuração</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2013"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2014"/>
         <source>Impossible to read one image from the file</source>
         <comment>Error message</comment>
         <translation>Impossível ler uma imagem do arquivo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1992"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3701"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1993"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3702"/>
         <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
         <comment>Error message</comment>
         <translation>Esta aplicação somente suporta trilhas de audio com o formato 8 bits não assignado ou 16 bites assignado</translation>
@@ -7434,14 +7446,14 @@ e Ajuda</translation>
         <translation>Impossível ler uma imagem a partir do ficheiro</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2000"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3709"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2001"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3710"/>
         <source>This application support only mono or stereo audio track</source>
         <comment>Error message</comment>
         <translation>Esta aplicação somente suporta trilhas de audio mono ou estéro</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3695"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3696"/>
         <source>No audio track found</source>
         <comment>Error message</comment>
         <translation>Faixa de áudio não encontrada</translation>
@@ -7468,14 +7480,14 @@ e Ajuda</translation>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1672"/>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2417"/>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="945"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1985"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1993"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2001"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2014"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3689"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3696"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3702"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3710"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1986"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1994"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2002"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2015"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3690"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3697"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3703"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3711"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Erro</translation>
@@ -8141,8 +8153,8 @@ Você quer abri-lo mesmo assim?</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="652"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1338"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1984"/>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3688"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1985"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="3689"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation>Formato não suportado</translation>
@@ -9607,34 +9619,34 @@ Zoom %2</translation>
         <translation>1080px9-16:9 (5760x3240)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1828"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1829"/>
         <source>The map must be regenerated because the locations have changed or project&apos;s location no set</source>
         <translation>O mapa deve ser regenerado, porque os locais mudaram ou localização do projecto não está definido</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1831"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1832"/>
         <source>Project&apos;s location must be defined to produce this Google Maps map</source>
         <translation>Localização do projecto devem ser definidos para produzir este mapa do Google Maps</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1843"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1844"/>
         <source>Select at least one location to produce Google Maps map</source>
         <translation>Seleccione pelo menos um local para produzir mapa do Google Maps</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2457"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2458"/>
         <source>Video</source>
         <comment>File type</comment>
         <translation>Video</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2456"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2457"/>
         <source>Music</source>
         <comment>File type</comment>
         <translation>Musica</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2161"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2162"/>
         <source>Mono</source>
         <comment>Audio channels mode</comment>
         <translation>Mono</translation>
@@ -9651,7 +9663,7 @@ Zoom %2</translation>
         <translation>ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2162"/>
+        <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2163"/>
         <source>Stereo</source>
         <comment>Audio channels mode</comment>
         <translation>Estereo</translation>

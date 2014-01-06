@@ -2452,7 +2452,7 @@ void MainWindow::DoAddFile() {
                 Diaporama->List[CurIndex]->TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
             } else {
                 // No transition for chapter > 1
-                Diaporama->List[CurIndex]->TransitionFamilly =0;
+                Diaporama->List[CurIndex]->TransitionFamilly =TRANSITIONFAMILLY_BASE;
                 Diaporama->List[CurIndex]->TransitionSubType =0;
                 Diaporama->List[CurIndex]->TransitionDuration=0;
             }
@@ -3130,7 +3130,7 @@ void MainWindow::s_ActionMultiple_RemoveTransition() {
     ui->timeline->CurrentSelectionList(&SlideList);
 
     for (int i=0;i<SlideList.count();i++) {
-        Diaporama->List[SlideList[i]]->TransitionFamilly=0;
+        Diaporama->List[SlideList[i]]->TransitionFamilly=TRANSITIONFAMILLY_BASE;
         Diaporama->List[SlideList[i]]->TransitionSubType=0;
     }
 
@@ -3151,8 +3151,8 @@ void MainWindow::s_ActionMultiple_SelectTransition() {
     Dlg.InitDialog();
     int Ret=Dlg.exec();
     if (Ret==0) {
-        int         Familly =Diaporama->List[Diaporama->CurrentCol]->TransitionFamilly;
-        int         SubType =Diaporama->List[Diaporama->CurrentCol]->TransitionSubType;
+        TRFAMILLY Familly =Diaporama->List[Diaporama->CurrentCol]->TransitionFamilly;
+        int       SubType =Diaporama->List[Diaporama->CurrentCol]->TransitionSubType;
         int64_t   Duration=Diaporama->List[Diaporama->CurrentCol]->TransitionDuration;
         for (int i=0;i<SlideList.count();i++) {
             Diaporama->List[SlideList[i]]->TransitionFamilly    =Familly;

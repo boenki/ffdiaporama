@@ -1880,6 +1880,18 @@ Do you want to do it now?</source>
         <translation>Una mappa sulla diapositiva %1 deve essere rigenerata.
 Vuoi farlo ora?</translation>
     </message>
+    <message>
+        <source>XML parsing error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>XML parsing error / incorrect root</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>XML parsing error / status KO</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgImageComposer</name>

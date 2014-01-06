@@ -1795,6 +1795,18 @@ Do you want to resume the generation now?</source>
 Do you want to do it now?</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>XML parsing error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>XML parsing error / incorrect root</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>XML parsing error / status KO</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgImageComposer</name>

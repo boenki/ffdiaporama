@@ -1845,7 +1845,7 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             // Transition properties
             if ((Element.elementsByTagName("Transition").length()>0)&&(Element.elementsByTagName("Transition").item(0).isElement()==true)) {
                 QDomElement SubElement=Element.elementsByTagName("Transition").item(0).toElement();
-                TransitionFamilly =SubElement.attribute("TransitionFamilly").toInt();                                                           // Transition familly
+                TransitionFamilly =(TRFAMILLY)SubElement.attribute("TransitionFamilly").toInt();                                                           // Transition familly
                 TransitionSubType =SubElement.attribute("TransitionSubType").toInt();                                                           // Transition type in the familly
                 if (SubElement.hasAttribute("TransitionDuration"))  TransitionDuration=SubElement.attribute("TransitionDuration").toInt();                                                          // Transition duration (in msec)
                 if (SubElement.hasAttribute("TransitionSpeedWave")) TransitionSpeedWave=SubElement.attribute("TransitionSpeedWave").toInt();    // Transition speed wave

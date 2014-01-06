@@ -107,7 +107,7 @@ void DlgTransitionProperties::DoInitDialog() {
     //=================> Init PreviousFrame object
 
     // Change Object settings to force a transition
-    DiaporamaObject->TransitionFamilly =1;
+    DiaporamaObject->TransitionFamilly =TRANSITIONFAMILLY_ZOOMINOUT;
     DiaporamaObject->TransitionSubType =0;
     DiaporamaObject->TransitionDuration=TransitionDuration;
 
@@ -176,7 +176,7 @@ void DlgTransitionProperties::DoGlobalUndo() {
 bool DlgTransitionProperties::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::DoAccept");
 
-    DiaporamaObject->TransitionFamilly  =ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
+    DiaporamaObject->TransitionFamilly  =(TRFAMILLY)ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
     DiaporamaObject->TransitionSubType  =ui->TransitionTable->currentRow()*ui->TransitionTable->columnCount()+ui->TransitionTable->currentColumn();
     DiaporamaObject->TransitionDuration =int64_t(GetDoubleValue(ui->TransitionDurationCB->currentText())*double(1000));
     DiaporamaObject->TransitionSpeedWave=ui->SpeedWaveCB->GetCurrentValue();
@@ -200,24 +200,24 @@ void DlgTransitionProperties::s_ChTransitionTypeCB(int NewValue) {
 
     MaxItem=0;
     switch (NewValue) {
-    case TRANSITIONFAMILLY_BASE        : MaxItem=TRANSITIONMAXSUBTYPE_BASE;         break;
-    case TRANSITIONFAMILLY_ZOOMINOUT   : MaxItem=TRANSITIONMAXSUBTYPE_ZOOMINOUT;    break;
-    case TRANSITIONFAMILLY_PUSH        : MaxItem=TRANSITIONMAXSUBTYPE_PUSH;         break;
-    case TRANSITIONFAMILLY_SLIDE       : MaxItem=TRANSITIONMAXSUBTYPE_SLIDE;        break;
-    case TRANSITIONFAMILLY_DEFORM      : MaxItem=TRANSITIONMAXSUBTYPE_DEFORM;       break;
-    case TRANSITIONFAMILLY_LUMA_BAR    : MaxItem=LumaList_Bar.List.count();         break;
-    case TRANSITIONFAMILLY_LUMA_BOX    : MaxItem=LumaList_Box.List.count();         break;
-    case TRANSITIONFAMILLY_LUMA_CENTER : MaxItem=LumaList_Center.List.count();      break;
-    case TRANSITIONFAMILLY_LUMA_CHECKER: MaxItem=LumaList_Checker.List.count();     break;
-    case TRANSITIONFAMILLY_LUMA_CLOCK  : MaxItem=LumaList_Clock.List.count();       break;
-    case TRANSITIONFAMILLY_LUMA_SNAKE  : MaxItem=LumaList_Snake.List.count();       break;
-    default                            : MaxItem=0;                                 break;
+        case TRANSITIONFAMILLY_BASE        : MaxItem=TRANSITIONMAXSUBTYPE_BASE;         break;
+        case TRANSITIONFAMILLY_ZOOMINOUT   : MaxItem=TRANSITIONMAXSUBTYPE_ZOOMINOUT;    break;
+        case TRANSITIONFAMILLY_PUSH        : MaxItem=TRANSITIONMAXSUBTYPE_PUSH;         break;
+        case TRANSITIONFAMILLY_SLIDE       : MaxItem=TRANSITIONMAXSUBTYPE_SLIDE;        break;
+        case TRANSITIONFAMILLY_DEFORM      : MaxItem=TRANSITIONMAXSUBTYPE_DEFORM;       break;
+        case TRANSITIONFAMILLY_LUMA_BAR    : MaxItem=LumaList_Bar.List.count();         break;
+        case TRANSITIONFAMILLY_LUMA_BOX    : MaxItem=LumaList_Box.List.count();         break;
+        case TRANSITIONFAMILLY_LUMA_CENTER : MaxItem=LumaList_Center.List.count();      break;
+        case TRANSITIONFAMILLY_LUMA_CHECKER: MaxItem=LumaList_Checker.List.count();     break;
+        case TRANSITIONFAMILLY_LUMA_CLOCK  : MaxItem=LumaList_Clock.List.count();       break;
+        case TRANSITIONFAMILLY_LUMA_SNAKE  : MaxItem=LumaList_Snake.List.count();       break;
+        default                            : MaxItem=0;                                 break;
     }
 
     AnimationTime=0;
 
     // Adjust TransitionFamilly
-    PreviousFrame->TransitionFamilly=NewValue;
+    PreviousFrame->TransitionFamilly=(TRFAMILLY)NewValue;
     // Create a frame object base on PreviousFrame
     cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo();
     Frame->Copy(PreviousFrame);
@@ -279,7 +279,7 @@ void DlgTransitionProperties::s_ChTransitionCB(int) {
     }
 
     // Change Object settings to force a transition
-    DiaporamaObject->TransitionFamilly  =1;
+    DiaporamaObject->TransitionFamilly  =TRANSITIONFAMILLY_ZOOMINOUT;
     DiaporamaObject->TransitionSubType  =0;
     DiaporamaObject->TransitionDuration =int(GetDoubleValue(ui->TransitionDurationCB->currentText())*double(1000));
 
@@ -303,7 +303,7 @@ void DlgTransitionProperties::s_ChTransitionCB(int) {
     AnimationTime=0;
 
     // Adjust Transition
-    PreviousFrame->TransitionFamilly =ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
+    PreviousFrame->TransitionFamilly =(TRFAMILLY)ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
     PreviousFrame->TransitionSubType =ui->TransitionTable->currentRow()*ui->TransitionTable->columnCount()+ui->TransitionTable->currentColumn();
     PreviousFrame->TransitionDuration=int(GetDoubleValue(ui->TransitionDurationCB->currentText())*double(1000));
 

@@ -42,7 +42,7 @@ int  LUMADLG_WIDTH=0;
 // Global class containing icons of transitions
 //*********************************************************************************************************************************************
 
-cIconObject::cIconObject(int TheTransitionFamilly,int TheTransitionSubType) {
+cIconObject::cIconObject(TRFAMILLY TheTransitionFamilly,int TheTransitionSubType) {
     TransitionFamilly=TheTransitionFamilly;
     TransitionSubType=TheTransitionSubType;
     QString Familly=QString("%1").arg(TransitionFamilly);   if (Familly.length()<2) Familly="0"+Familly;
@@ -57,10 +57,10 @@ cIconObject::cIconObject(int TheTransitionFamilly,int TheTransitionSubType) {
 
 //====================================================================================================================
 
-cIconObject::cIconObject(int TheTransitionFamilly,int TheTransitionSubType,QImage LumaImage) {
+cIconObject::cIconObject(TRFAMILLY TheTransitionFamilly,int TheTransitionSubType,cLumaObject *Luma) {
     TransitionFamilly=TheTransitionFamilly;
     TransitionSubType=TheTransitionSubType;
-    Icon=LumaImage.scaled(QSize(32,32),Qt::IgnoreAspectRatio/*,Qt::SmoothTransformation*/);
+    if (Luma->OriginalLuma.isNull()) Icon=Luma->GetLuma(32,32); else Icon=Luma->OriginalLuma.scaled(QSize(32,32),Qt::IgnoreAspectRatio/*,Qt::SmoothTransformation*/);
 }
 
 //*********************************************************************************************************************************************
@@ -78,7 +78,7 @@ cIconList::~cIconList() {
 
 //====================================================================================================================
 
-QImage *cIconList::GetIcon(int TransitionFamilly,int TransitionSubType) {
+QImage *cIconList::GetIcon(TRFAMILLY TransitionFamilly,int TransitionSubType) {
     int i=0;
     while ((i<List.count())&&((List[i].TransitionFamilly!=TransitionFamilly)||(List[i].TransitionSubType!=TransitionSubType))) i++;
     if (i<List.count()) return new QImage(List[i].Icon);
@@ -88,10 +88,297 @@ QImage *cIconList::GetIcon(int TransitionFamilly,int TransitionSubType) {
 //*********************************************************************************************************************************************
 // Global class for luma object
 //*********************************************************************************************************************************************
-cLumaListObject::cLumaListObject(QString FileName) {
-    OriginalLuma=QImage(FileName);
-    DlgLumaImage=QImage(OriginalLuma.scaled(LUMADLG_WIDTH,LUMADLG_HEIGHT,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)).convertToFormat(QImage::Format_ARGB32_Premultiplied);
-    Name        =QFileInfo(FileName).baseName();
+cLumaObject::cLumaObject(TRFAMILLY TrFamilly,int TrSubType,QString FileName) {
+    TransitionSubType=TrSubType;
+    TransitionFamilly=TrFamilly;
+    if (FileName.isEmpty()) {
+        DlgLumaImage=GetLuma(LUMADLG_WIDTH,LUMADLG_HEIGHT);
+    } else {
+        OriginalLuma=QImage(FileName);
+        DlgLumaImage=QImage(OriginalLuma.scaled(LUMADLG_WIDTH,LUMADLG_HEIGHT,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)).convertToFormat(QImage::Format_ARGB32_Premultiplied);
+        Name        =QFileInfo(FileName).baseName();
+    }
+}
+
+QImage cLumaObject::GetLuma(int DestImageWith,int DestImageHeight) {
+    QImage Luma;
+    if ((DestImageWith==LUMADLG_WIDTH)&&(DestImageHeight==LUMADLG_HEIGHT)) Luma=DlgLumaImage;
+    if (Luma.isNull()) switch (TransitionFamilly) {
+        case TRANSITIONFAMILLY_LUMA_BAR:    Luma=GetLumaBar(DestImageWith,DestImageHeight);     break;
+        case TRANSITIONFAMILLY_LUMA_CLOCK:  Luma=GetLumaClock(DestImageWith,DestImageHeight);   break;
+        default:                                                                                break;
+    }
+    if (Luma.isNull()) Luma=OriginalLuma.scaled(QSize(DestImageWith,DestImageHeight),Qt::IgnoreAspectRatio,Qt::SmoothTransformation).convertToFormat(QImage::Format_ARGB32_Premultiplied);
+    return Luma;
+}
+
+// Compute image for some luma to improve quality
+QImage cLumaObject::GetLumaBar(int DestImageWith,int DestImageHeight) {
+    QPainter        P;
+    QLinearGradient Gradient;
+    int             i,With,Height,Cur;
+    int             Max=DestImageWith;      if (Max<DestImageHeight) Max=DestImageHeight;
+
+    QImage RetImage(DestImageWith,DestImageHeight,QImage::Format_ARGB32_Premultiplied);
+    P.begin(&RetImage);
+    switch (TransitionSubType) {
+        case Bar128:        Gradient=QLinearGradient(QPointF(DestImageWith/2,0),QPointF(DestImageWith/2,DestImageHeight));
+                            Gradient.setColorAt(0,Qt::white);
+                            Gradient.setColorAt(1,Qt::black);
+                            P.fillRect(0,0,DestImageWith,DestImageHeight,QBrush(Gradient));
+                            break;
+        case Bar182:        Gradient=QLinearGradient(QPointF(DestImageWith/2,0),QPointF(DestImageWith/2,DestImageHeight));
+                            Gradient.setColorAt(0,Qt::black);
+                            Gradient.setColorAt(1,Qt::white);
+                            P.fillRect(0,0,DestImageWith,DestImageHeight,QBrush(Gradient));
+                            break;
+        case Bar146:        Gradient=QLinearGradient(QPointF(0,DestImageHeight/2),QPointF(DestImageWith,DestImageHeight/2));
+                            Gradient.setColorAt(0,Qt::black);
+                            Gradient.setColorAt(1,Qt::white);
+                            P.fillRect(0,0,DestImageWith,DestImageHeight,QBrush(Gradient));
+                            break;
+        case Bar164:        Gradient=QLinearGradient(QPointF(0,DestImageHeight/2),QPointF(DestImageWith,DestImageHeight/2));
+                            Gradient.setColorAt(0,Qt::white);
+                            Gradient.setColorAt(1,Qt::black);
+                            P.fillRect(0,0,DestImageWith,DestImageHeight,QBrush(Gradient));
+                            break;
+        case Bar219:        Gradient=QLinearGradient(QPointF(0,Max),QPointF(Max,0));
+                            Gradient.setColorAt(0,Qt::black);
+                            Gradient.setColorAt(1,Qt::white);
+                            P.scale(qreal(DestImageWith)/qreal(Max),qreal(DestImageHeight)/qreal(Max));
+                            P.fillRect(0,0,Max,Max,QBrush(Gradient));
+                            break;
+        case Bar291:        Gradient=QLinearGradient(QPointF(0,Max),QPointF(Max,0));
+                            Gradient.setColorAt(0,Qt::white);
+                            Gradient.setColorAt(1,Qt::black);
+                            P.scale(qreal(DestImageWith)/qreal(Max),qreal(DestImageHeight)/qreal(Max));
+                            P.fillRect(0,0,Max,Max,QBrush(Gradient));
+                            break;
+        case Bar237:        Gradient=QLinearGradient(QPointF(0,0),QPointF(Max,Max));
+                            Gradient.setColorAt(0,Qt::white);
+                            Gradient.setColorAt(1,Qt::black);
+                            P.scale(qreal(DestImageWith)/qreal(Max),qreal(DestImageHeight)/qreal(Max));
+                            P.fillRect(0,0,Max,Max,QBrush(Gradient));
+                            break;
+        case Bar273:        Gradient=QLinearGradient(QPointF(0,0),QPointF(Max,Max));
+                            Gradient.setColorAt(0,Qt::black);
+                            Gradient.setColorAt(1,Qt::white);
+                            P.scale(qreal(DestImageWith)/qreal(Max),qreal(DestImageHeight)/qreal(Max));
+                            P.fillRect(0,0,Max,Max,QBrush(Gradient));
+                            break;
+        case BilinearA1:    Gradient=QLinearGradient(QPointF(0,0),QPointF(Max,Max));
+                            Gradient.setColorAt(0,Qt::black);
+                            Gradient.setColorAt(0.5,Qt::white);
+                            Gradient.setColorAt(1,Qt::black);
+                            P.scale(qreal(DestImageWith)/qreal(Max),qreal(DestImageHeight)/qreal(Max));
+                            P.fillRect(0,0,Max,Max,QBrush(Gradient));
+                            break;
+        case BilinearA9:    Gradient=QLinearGradient(QPointF(0,Max),QPointF(Max,0));
+                            Gradient.setColorAt(0,Qt::black);
+                            Gradient.setColorAt(0.5,Qt::white);
+                            Gradient.setColorAt(1,Qt::black);
+                            P.scale(qreal(DestImageWith)/qreal(Max),qreal(DestImageHeight)/qreal(Max));
+                            P.fillRect(0,0,Max,Max,QBrush(Gradient));
+                            break;
+        case BilinearA4:    Gradient=QLinearGradient(QPointF(0,DestImageHeight/2),QPointF(DestImageWith,DestImageHeight/2));
+                            Gradient.setColorAt(0,Qt::black);
+                            Gradient.setColorAt(0.5,Qt::white);
+                            Gradient.setColorAt(1,Qt::black);
+                            P.fillRect(0,0,DestImageWith,DestImageHeight,QBrush(Gradient));
+                            break;
+        case BilinearA8:    Gradient=QLinearGradient(QPointF(DestImageWith/2,0),QPointF(DestImageWith/2,DestImageHeight));
+                            Gradient.setColorAt(0,Qt::black);
+                            Gradient.setColorAt(0.5,Qt::white);
+                            Gradient.setColorAt(1,Qt::black);
+                            P.fillRect(0,0,DestImageWith,DestImageHeight,QBrush(Gradient));
+                            break;
+        case BilinearB1:    Gradient=QLinearGradient(QPointF(0,0),QPointF(Max,Max));
+                            Gradient.setColorAt(0,Qt::white);
+                            Gradient.setColorAt(0.5,Qt::black);
+                            Gradient.setColorAt(1,Qt::white);
+                            P.scale(qreal(DestImageWith)/qreal(Max),qreal(DestImageHeight)/qreal(Max));
+                            P.fillRect(0,0,Max,Max,QBrush(Gradient));
+                            break;
+        case BilinearB9:    Gradient=QLinearGradient(QPointF(0,Max),QPointF(Max,0));
+                            Gradient.setColorAt(0,Qt::white);
+                            Gradient.setColorAt(0.5,Qt::black);
+                            Gradient.setColorAt(1,Qt::white);
+                            P.scale(qreal(DestImageWith)/qreal(Max),qreal(DestImageHeight)/qreal(Max));
+                            P.fillRect(0,0,Max,Max,QBrush(Gradient));
+                            break;
+        case BilinearB4:    Gradient=QLinearGradient(QPointF(0,DestImageHeight/2),QPointF(DestImageWith,DestImageHeight/2));
+                            Gradient.setColorAt(0,Qt::white);
+                            Gradient.setColorAt(0.5,Qt::black);
+                            Gradient.setColorAt(1,Qt::white);
+                            P.fillRect(0,0,DestImageWith,DestImageHeight,QBrush(Gradient));
+                            break;
+        case BilinearB8:    Gradient=QLinearGradient(QPointF(DestImageWith/2,0),QPointF(DestImageWith/2,DestImageHeight));
+                            Gradient.setColorAt(0,Qt::white);
+                            Gradient.setColorAt(0.5,Qt::black);
+                            Gradient.setColorAt(1,Qt::white);
+                            P.fillRect(0,0,DestImageWith,DestImageHeight,QBrush(Gradient));
+                            break;
+        case StoreA446:     With=DestImageWith/4;
+                            Cur=0;
+                            for (i=0;i<4;i++) {
+                                if (i==3) With=DestImageWith-Cur;
+                                Gradient=QLinearGradient(QPointF(Cur,DestImageHeight/2),QPointF(Cur+With,DestImageHeight/2));
+                                Gradient.setColorAt(0,Qt::black);
+                                Gradient.setColorAt(1,Qt::white);
+                                P.fillRect(Cur,0,With,DestImageHeight,QBrush(Gradient));
+                                Cur=Cur+With;
+                            }
+                            break;
+        case StoreA846:     With=DestImageWith/8;
+                            Cur=0;
+                            for (i=0;i<8;i++) {
+                                if (i==7) With=DestImageWith-Cur;
+                                Gradient=QLinearGradient(QPointF(Cur,DestImageHeight/2),QPointF(Cur+With,DestImageHeight/2));
+                                Gradient.setColorAt(0,Qt::black);
+                                Gradient.setColorAt(1,Qt::white);
+                                P.fillRect(Cur,0,With,DestImageHeight,QBrush(Gradient));
+                                Cur=Cur+With;
+                            }
+                            break;
+        case StoreB482:     Height=DestImageHeight/4;
+                            Cur=0;
+                            for (i=0;i<4;i++) {
+                                if (i==3) Height=DestImageHeight-Cur;
+                                Gradient=QLinearGradient(QPointF(DestImageWith/2,Cur),QPointF(DestImageWith/2,Cur+Height));
+                                Gradient.setColorAt(0,Qt::black);
+                                Gradient.setColorAt(1,Qt::white);
+                                P.fillRect(0,Cur,DestImageWith,Height,QBrush(Gradient));
+                                Cur=Cur+Height;
+                            }
+                            break;
+        case StoreB882:     Height=DestImageHeight/8;
+                            Cur=0;
+                            for (i=0;i<8;i++) {
+                                if (i==7) Height=DestImageHeight-Cur;
+                                Gradient=QLinearGradient(QPointF(DestImageWith/2,Cur),QPointF(DestImageWith/2,Cur+Height));
+                                Gradient.setColorAt(0,Qt::black);
+                                Gradient.setColorAt(1,Qt::white);
+                                P.fillRect(0,Cur,DestImageWith,Height,QBrush(Gradient));
+                                Cur=Cur+Height;
+                            }
+                            break;
+        case ZBar01:        Height=DestImageHeight/2;
+                            Cur=0;
+                            Gradient=QLinearGradient(QPointF(0,DestImageHeight/2),QPointF(DestImageWith,DestImageHeight/2));
+                            for (i=0;i<2;i++) {
+                                if (i==0) {
+                                    Gradient.setColorAt(0,Qt::black);
+                                    Gradient.setColorAt(1,Qt::white);
+                                } else {
+                                    Gradient.setColorAt(0,Qt::white);
+                                    Gradient.setColorAt(1,Qt::black);
+                                    Height=DestImageHeight-Height;
+                                }
+                                P.fillRect(0,Cur,DestImageWith,Height,QBrush(Gradient));
+                                Cur=Cur+Height;
+                            }
+                            break;
+        case ZBar02:        Height=DestImageHeight/2;
+                            Cur=0;
+                            Gradient=QLinearGradient(QPointF(0,DestImageHeight/2),QPointF(DestImageWith,DestImageHeight/2));
+                            for (i=0;i<2;i++) {
+                                if (i==0) {
+                                    Gradient.setColorAt(0,Qt::white);
+                                    Gradient.setColorAt(1,Qt::black);
+                                } else {
+                                    Gradient.setColorAt(0,Qt::black);
+                                    Gradient.setColorAt(1,Qt::white);
+                                    Height=DestImageHeight-Height;
+                                }
+                                P.fillRect(0,Cur,DestImageWith,Height,QBrush(Gradient));
+                                Cur=Cur+Height;
+                            }
+                            break;
+        case ZBar03:        With=DestImageWith/2;
+                            Cur=0;
+                            Gradient=QLinearGradient(QPointF(DestImageWith/2,0),QPointF(DestImageWith/2,DestImageHeight));
+                            for (i=0;i<2;i++) {
+                                if (i==0) {
+                                    Gradient.setColorAt(0,Qt::black);
+                                    Gradient.setColorAt(1,Qt::white);
+                                } else {
+                                    Gradient.setColorAt(0,Qt::white);
+                                    Gradient.setColorAt(1,Qt::black);
+                                    With=DestImageWith-With;
+                                }
+                                P.fillRect(Cur,0,With,DestImageHeight,QBrush(Gradient));
+                                Cur=Cur+With;
+                            }
+                            break;
+        case ZBar04:        With=DestImageWith/2;
+                            Cur=0;
+                            Gradient=QLinearGradient(QPointF(DestImageWith/2,0),QPointF(DestImageWith/2,DestImageHeight));
+                            for (i=0;i<2;i++) {
+                                if (i==0) {
+                                    Gradient.setColorAt(0,Qt::white);
+                                    Gradient.setColorAt(1,Qt::black);
+                                } else {
+                                    Gradient.setColorAt(0,Qt::black);
+                                    Gradient.setColorAt(1,Qt::white);
+                                    With=DestImageWith-With;
+                                }
+                                P.fillRect(Cur,0,With,DestImageHeight,QBrush(Gradient));
+                                Cur=Cur+With;
+                            }
+                            break;
+        default:            P.end();
+                            return QImage();
+                            break;
+    }
+    P.end();
+    return RetImage;
+}
+
+QImage cLumaObject::GetLumaClock(int DestImageWith,int DestImageHeight) {
+    QPainter P;
+    qreal    Angle=0;
+    QColor   c1,c2,c3;
+    int      NbrC=0;
+    int      Max=DestImageWith;     if (Max<DestImageHeight) Max=DestImageHeight;
+
+    switch (TransitionSubType) {
+        case ClockA1:   Angle=45;   c1=Qt::white;    c2=Qt::black;   c3=Qt::white;  NbrC=3;     break;
+        case ClockA2:   Angle=90;   c1=Qt::white;    c2=Qt::black;   c3=Qt::white;  NbrC=3;     break;
+        case ClockA3:   Angle=135;  c1=Qt::white;    c2=Qt::black;   c3=Qt::white;  NbrC=3;     break;
+        case ClockA4:   Angle=0;    c1=Qt::white;    c2=Qt::black;   c3=Qt::white;  NbrC=3;     break;
+        case ClockA6:   Angle=180;  c1=Qt::white;    c2=Qt::black;   c3=Qt::white;  NbrC=3;     break;
+        case ClockA7:   Angle=-45;  c1=Qt::white;    c2=Qt::black;   c3=Qt::white;  NbrC=3;     break;
+        case ClockA8:   Angle=-90;  c1=Qt::white;    c2=Qt::black;   c3=Qt::white;  NbrC=3;     break;
+        case ClockA9:   Angle=-135; c1=Qt::white;    c2=Qt::black;   c3=Qt::white;  NbrC=3;     break;
+        case ClockB1:   Angle=-135; c1=Qt::black;    c2=Qt::white;                  NbrC=2;     break;
+        case ClockB2:   Angle=-90;  c1=Qt::black;    c2=Qt::white;                  NbrC=2;     break;
+        case ClockB3:   Angle=-45;  c1=Qt::black;    c2=Qt::white;                  NbrC=2;     break;
+        case ClockB4:   Angle=180;  c1=Qt::black;    c2=Qt::white;                  NbrC=2;     break;
+        case ClockB6:   Angle=0;    c1=Qt::black;    c2=Qt::white;                  NbrC=2;     break;
+        case ClockB7:   Angle=135;  c1=Qt::black;    c2=Qt::white;                  NbrC=2;     break;
+        case ClockB8:   Angle=90;   c1=Qt::black;    c2=Qt::white;                  NbrC=2;     break;
+        case ClockB9:   Angle=45;   c1=Qt::black;    c2=Qt::white;                  NbrC=2;     break;
+        case ClockC1:   Angle=-135; c1=Qt::white;    c2=Qt::black;                  NbrC=2;     break;
+        case ClockC2:   Angle=-90;  c1=Qt::white;    c2=Qt::black;                  NbrC=2;     break;
+        case ClockC3:   Angle=-45;  c1=Qt::white;    c2=Qt::black;                  NbrC=2;     break;
+        case ClockC4:   Angle=180;  c1=Qt::white;    c2=Qt::black;                  NbrC=2;     break;
+        case ClockC6:   Angle=0;    c1=Qt::white;    c2=Qt::black;                  NbrC=2;     break;
+        case ClockC7:   Angle=135;  c1=Qt::white;    c2=Qt::black;                  NbrC=2;     break;
+        case ClockC8:   Angle=90;   c1=Qt::white;    c2=Qt::black;                  NbrC=2;     break;
+        case ClockC9:   Angle=45;   c1=Qt::white;    c2=Qt::black;                  NbrC=2;     break;
+        default:        return QImage();                                                        break;
+    }
+
+    QImage RetImage(DestImageWith,DestImageHeight,QImage::Format_ARGB32_Premultiplied);
+    P.begin(&RetImage);
+    P.scale(qreal(DestImageWith)/qreal(Max),qreal(DestImageHeight)/qreal(Max));
+    QConicalGradient Gradient(Max/2,Max/2,Angle);
+    Gradient.setColorAt(0,c1);
+    if (NbrC==2) Gradient.setColorAt(1,c2); else { Gradient.setColorAt(0.5,c2); Gradient.setColorAt(1,c3); }
+    P.fillRect(0,0,Max,Max,QBrush(Gradient));
+    P.end();
+    //    RetImage.save(QString("/home/dominique/2/%1.png").arg(Name),"PNG");
+    return RetImage;
 }
 
 //*********************************************************************************************************************************************
@@ -111,16 +398,30 @@ cLumaList::~cLumaList() {
 
 //====================================================================================================================
 
-void cLumaList::ScanDisk(QString Path,int TransitionFamilly) {
-    QDir                Folder(Path);
-    QFileInfoList       Files=Folder.entryInfoList();;
+void cLumaList::ScanDisk(QString Path,TRFAMILLY TransitionFamilly) {
+    bool ScanDisk=true;
+    int  i;
 
     List.clear();
-    for (int i=0;i<Files.count();i++) if (Files[i].isFile() && QString(Files[i].suffix()).toLower()=="png") List.append(cLumaListObject(Files[i].absoluteFilePath()));
-    // Sort list by name
-    for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) if (List[j].Name>List[j+1].Name) List.swap(j,j+1);
+    switch (TransitionFamilly) {
+        case TRANSITIONFAMILLY_LUMA_BAR:
+            for (i=0;i<TRANSITIONMAXSUBTYPE_LUMABAR;i++) List.append(cLumaObject(TransitionFamilly,List.count(),""));
+            ScanDisk=false;
+            break;
+        case TRANSITIONFAMILLY_LUMA_CLOCK:
+            for (i=0;i<TRANSITIONMAXSUBTYPE_LUMACLOCK;i++) List.append(cLumaObject(TransitionFamilly,List.count(),""));
+        default:
+            break;
+    }
+    if (ScanDisk) {
+        QDir                Folder(Path);
+        QFileInfoList       Files=Folder.entryInfoList();;
+        for (int i=0;i<Files.count();i++) if (Files[i].isFile() && QString(Files[i].suffix()).toLower()=="png") List.append(cLumaObject(TransitionFamilly,List.count(),Files[i].absoluteFilePath()));
+        // Sort list by name
+        for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) if (List[j].Name>List[j+1].Name) List.swap(j,j+1);
+    }
     // Register icons for this list
-    for (int i=0;i<List.count();i++) IconList.List.append(cIconObject(TransitionFamilly,i,List[i].OriginalLuma));
+    for (int i=0;i<List.count();i++) IconList.List.append(cIconObject(TransitionFamilly,i,&List[i]));
 }
 
 //====================================================================================================================
@@ -134,8 +435,10 @@ void cLumaList::SetGeometry(ffd_GEOMETRY TheGeometry) {
     case GEOMETRY_40_17 :
     default             : LUMADLG_WIDTH=int((double(LUMADLG_HEIGHT)/double(17))*double(40));  break;
     }
-    for (int i=0;i<List.count();i++)
-        List[i].DlgLumaImage=QImage(List[i].OriginalLuma.scaled(LUMADLG_WIDTH,LUMADLG_HEIGHT,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)).convertToFormat(QImage::Format_ARGB32_Premultiplied);
+    for (int i=0;i<List.count();i++) {
+        List[i].DlgLumaImage=QImage();
+        List[i].DlgLumaImage=List[i].GetLuma(LUMADLG_WIDTH,LUMADLG_HEIGHT);
+    }
 }
 
 //============================================================================================
@@ -690,25 +993,21 @@ void Transition_Deform(int TransitionSubType,double PCT,QImage *ImageA,QImage *I
 //  Luma transition
 //============================================================================================
 
-void Transition_Luma(cLumaList *LumaList,int TransitionSubType,double PCT,QImage *ImageA,QImage *ImageB,QPainter *WorkingPainter,int DestImageWith,int DestImageHeight) {
-    QImage  Img=ImageB->copy();
-    if (TransitionSubType<LumaList->List.count()) {
-        // Get a copy of luma image scaled to correct size
-        QImage  Luma=((DestImageWith==LUMADLG_WIDTH)&&(DestImageHeight==LUMADLG_HEIGHT))?LumaList->List[TransitionSubType].DlgLumaImage:
-                        LumaList->List[TransitionSubType].OriginalLuma.scaled(ImageB->size(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation).convertToFormat(QImage::Format_ARGB32_Premultiplied);
+void Transition_Luma(QImage Luma,double PCT,QImage *ImageA,QImage *ImageB,QPainter *WorkingPainter,int DestImageWith,int DestImageHeight) {
+    QImage    Img      =ImageB->copy();
 
-        // Apply PCTDone to luma mask
-        u_int8_t  limit    =u_int8_t(PCT*double(0xff))+1;
-        u_int32_t *LumaData=(u_int32_t *)Luma.bits();
-        u_int32_t *ImgData =(u_int32_t *)Img.bits();
-        u_int32_t *ImgData2=(u_int32_t *)ImageA->bits();
+    // Apply PCTDone to luma mask
+    u_int8_t  limit    =u_int8_t(PCT*double(0xff))+1;
+    u_int32_t *LumaData=(u_int32_t *)Luma.bits();
+    u_int32_t *ImgData =(u_int32_t *)Img.bits();
+    u_int32_t *ImgData2=(u_int32_t *)ImageA->bits();
 
-        for (int i=0;i<DestImageWith*DestImageHeight;i++) {
-            if (((*LumaData++)& 0xff)>limit) *ImgData=*ImgData2;
-            ImgData++;
-            ImgData2++;
-        }
+    for (int i=0;i<DestImageWith*DestImageHeight;i++) {
+        if (((*LumaData++)& 0xff)>limit) *ImgData=*ImgData2;
+        ImgData++;
+        ImgData2++;
     }
+
     // Draw transformed image
     WorkingPainter->drawImage(0,0,Img);
 }
@@ -717,18 +1016,18 @@ void Transition_Luma(cLumaList *LumaList,int TransitionSubType,double PCT,QImage
 // Generic public function to do a transition
 //============================================================================================
 
-void DoTransition(int TransitionFamilly,int TransitionSubType,double PCT,QImage *ImageA,QImage *ImageB,QPainter *WorkingPainter,int DestImageWith,int DestImageHeight) {
+void DoTransition(TRFAMILLY TransitionFamilly,int TransitionSubType,double PCT,QImage *ImageA,QImage *ImageB,QPainter *WorkingPainter,int DestImageWith,int DestImageHeight) {
     switch (TransitionFamilly) {
-        case TRANSITIONFAMILLY_BASE        : Transition_Basic(                  TransitionSubType,PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);  break;
-        case TRANSITIONFAMILLY_ZOOMINOUT   : Transition_Zoom(                   TransitionSubType,PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);  break;
-        case TRANSITIONFAMILLY_PUSH        : Transition_Push(                   TransitionSubType,PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);  break;
-        case TRANSITIONFAMILLY_SLIDE       : Transition_Slide(                  TransitionSubType,PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);  break;
-        case TRANSITIONFAMILLY_DEFORM      : Transition_Deform(                 TransitionSubType,PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);  break;
-        case TRANSITIONFAMILLY_LUMA_BAR    : Transition_Luma(&LumaList_Bar,     TransitionSubType,PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);  break;
-        case TRANSITIONFAMILLY_LUMA_BOX    : Transition_Luma(&LumaList_Box,     TransitionSubType,PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);  break;
-        case TRANSITIONFAMILLY_LUMA_CENTER : Transition_Luma(&LumaList_Center,  TransitionSubType,PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);  break;
-        case TRANSITIONFAMILLY_LUMA_CHECKER: Transition_Luma(&LumaList_Checker, TransitionSubType,PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);  break;
-        case TRANSITIONFAMILLY_LUMA_CLOCK  : Transition_Luma(&LumaList_Clock,   TransitionSubType,PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);  break;
-        case TRANSITIONFAMILLY_LUMA_SNAKE  : Transition_Luma(&LumaList_Snake,   TransitionSubType,PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);  break;
+        case TRANSITIONFAMILLY_BASE        : Transition_Basic( TransitionSubType,PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);    break;
+        case TRANSITIONFAMILLY_ZOOMINOUT   : Transition_Zoom(  TransitionSubType,PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);    break;
+        case TRANSITIONFAMILLY_PUSH        : Transition_Push(  TransitionSubType,PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);    break;
+        case TRANSITIONFAMILLY_SLIDE       : Transition_Slide( TransitionSubType,PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);    break;
+        case TRANSITIONFAMILLY_DEFORM      : Transition_Deform(TransitionSubType,PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);    break;
+        case TRANSITIONFAMILLY_LUMA_BAR    : Transition_Luma(LumaList_Bar.List[TransitionSubType].GetLuma(ImageB->width(),ImageB->height()),    PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);    break;
+        case TRANSITIONFAMILLY_LUMA_BOX    : Transition_Luma(LumaList_Box.List[TransitionSubType].GetLuma(ImageB->width(),ImageB->height()),    PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);    break;
+        case TRANSITIONFAMILLY_LUMA_CENTER : Transition_Luma(LumaList_Center.List[TransitionSubType].GetLuma(ImageB->width(),ImageB->height()), PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);    break;
+        case TRANSITIONFAMILLY_LUMA_CHECKER: Transition_Luma(LumaList_Checker.List[TransitionSubType].GetLuma(ImageB->width(),ImageB->height()),PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);    break;
+        case TRANSITIONFAMILLY_LUMA_CLOCK  : Transition_Luma(LumaList_Clock.List[TransitionSubType].GetLuma(ImageB->width(),ImageB->height()),  PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);    break;
+        case TRANSITIONFAMILLY_LUMA_SNAKE  : Transition_Luma(LumaList_Snake.List[TransitionSubType].GetLuma(ImageB->width(),ImageB->height()),  PCT,ImageA,ImageB,WorkingPainter,DestImageWith,DestImageHeight);    break;
     }
 }
