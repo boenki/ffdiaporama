@@ -28,7 +28,6 @@
 
 DlgAutoTitleSlide::DlgAutoTitleSlide(bool IsCreation,cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgAutoTitleSlide) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::DlgAutoTitleSlide");
 
     ui->setupUi(this);
     OkBt        =ui->OKBT;
@@ -38,9 +37,15 @@ DlgAutoTitleSlide::DlgAutoTitleSlide(bool IsCreation,cDiaporamaObject *Diaporama
 
     CurrentSlide                     =DiaporamaObject;
     ui->ModelTable->ApplicationConfig=ApplicationConfig;
-    ui->ModelTable->CurrentSlide     =DiaporamaObject;
     this->IsCreation                 =IsCreation;
     IsLocationChanged                =false;
+
+    // Copy current slide for display
+    QDomDocument DomDoc;
+    QDomElement  DomElem=DomDoc.createElement("COPY");
+    DiaporamaObject->SaveToXML(DomElem,"COPY","",true,NULL,NULL,false);
+    ui->ModelTable->CurrentSlide=new cDiaporamaObject(DiaporamaObject->Parent);
+    ui->ModelTable->CurrentSlide->LoadFromXML(DomElem,"COPY","",NULL,NULL,false);
 
     if (IsCreation) {
         CurrentSlide->StartNewChapter=false;
@@ -55,6 +60,8 @@ DlgAutoTitleSlide::DlgAutoTitleSlide(bool IsCreation,cDiaporamaObject *Diaporama
 
 DlgAutoTitleSlide::~DlgAutoTitleSlide() {
     Timer.stop();
+    delete ui->ModelTable->CurrentSlide;
+    ui->ModelTable->CurrentSlide=NULL;
     delete ui;
 }
 
@@ -113,8 +120,6 @@ void DlgAutoTitleSlide::DoInitDialog() {
 // RefreshControl
 
 void DlgAutoTitleSlide::RefreshControl() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::RefreshControl");
-
     ui->OverrideProjectDateCB->setChecked(CurrentSlide->OverrideProjectEventDate);
     ui->OverrideDateCB->setChecked(CurrentSlide->OverrideChapterLongDate);
     ui->ChapterEventDateLabel->setEnabled(CurrentSlide->OverrideProjectEventDate);
@@ -143,8 +148,6 @@ void DlgAutoTitleSlide::RefreshControl() {
 // Initiale Undo
 
 void DlgAutoTitleSlide::PrepareGlobalUndo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::PrepareGlobalUndo");
-
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");                                               // Create xml document and root
@@ -156,8 +159,6 @@ void DlgAutoTitleSlide::PrepareGlobalUndo() {
 // Apply Undo : call when user click on Cancel button
 
 void DlgAutoTitleSlide::DoGlobalUndo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::DoGlobalUndo");
-
     QDomElement root=Undo->documentElement();
     if (root.tagName()=="UNDO-DLG") CurrentSlide->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false);
 }
@@ -165,21 +166,20 @@ void DlgAutoTitleSlide::DoGlobalUndo() {
 //====================================================================================================================
 
 bool DlgAutoTitleSlide::DoAccept() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::DoAccept");
     QString CurrentModel=ui->ModelTable->GetCurrentModel();
     if (!CurrentModel.isEmpty()) {
+        Timer.stop();
         CurrentSlide->SlideName=QString("<%AUTOTS_%1%>").arg(ui->ModelTable->GetCurrentModel());
         int ModelNum=ui->ModelTable->ModelTable->SearchModel(ui->ModelTable->GetCurrentModel());
-        CurrentSlide->LoadModelFromXMLData(ui->ModelTable->ModelTable->ModelType,
-                                           ui->ModelTable->ModelTable->List[ModelNum]->Model,
-                                           &ui->ModelTable->ModelTable->List[ModelNum]->ResKeyList,true);   // Always duplicate ressource
+        if (OldName!=CurrentSlide->SlideName)
+            CurrentSlide->LoadModelFromXMLData(ui->ModelTable->ModelTable->ModelType,ui->ModelTable->ModelTable->List[ModelNum]->Model,&ui->ModelTable->ModelTable->List[ModelNum]->ResKeyList,true);   // Always duplicate ressource
         CurrentSlide->OverrideProjectEventDate=ui->OverrideProjectDateCB->isChecked();
         CurrentSlide->OverrideChapterLongDate =ui->OverrideDateCB->isChecked();
         CurrentSlide->ChapterName             =ui->ChapterNameED->text();
         if (CurrentSlide->OverrideProjectEventDate) CurrentSlide->ChapterEventDate=ui->ChapterEventDateED->date();
         if (CurrentSlide->OverrideChapterLongDate)  CurrentSlide->ChapterLongDate=ui->ChapterDateED->toPlainText();
         CurrentSlide->Parent->UpdateChapterInformation();
-        if (IsLocationChanged) CurrentSlide->Parent->UpdateGMapsObject();
+        CurrentSlide->Parent->UpdateGMapsObject();
         emit SetModifyFlag();
         return true;
     } else {
@@ -190,8 +190,6 @@ bool DlgAutoTitleSlide::DoAccept() {
 }
 
 void DlgAutoTitleSlide::OKPrevious() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::OKPrevious");
-
     if (DoAccept()) {
         SaveWindowState();  // Save Window size and position
         done(2);            // Close the box
@@ -199,8 +197,6 @@ void DlgAutoTitleSlide::OKPrevious() {
 }
 
 void DlgAutoTitleSlide::OKNext() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::OKNext");
-
     if (DoAccept()) {
         SaveWindowState();  // Save Window size and position
         done(3);            // Close the box
@@ -208,8 +204,6 @@ void DlgAutoTitleSlide::OKNext() {
 }
 
 void DlgAutoTitleSlide::OKConvert() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::OKConvert");
-
     if (DoAccept()) {
         CurrentSlide->SlideName=CurrentSlide->ChapterName;
         CurrentSlide->ChapterName="";
@@ -221,7 +215,6 @@ void DlgAutoTitleSlide::OKConvert() {
 //====================================================================================================================
 
 void DlgAutoTitleSlide::OverrideProjectDateChanged(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::OverrideProjectDateChanged");
     CurrentSlide->OverrideProjectEventDate=ui->OverrideProjectDateCB->isChecked();
     if (!CurrentSlide->OverrideProjectEventDate) {
         ui->ChapterEventDateED->setDate(CurrentSlide->Parent->ProjectInfo->EventDate);
@@ -236,7 +229,6 @@ void DlgAutoTitleSlide::OverrideProjectDateChanged(int) {
 //====================================================================================================================
 
 void DlgAutoTitleSlide::OverrideDateCBChanged(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::OverrideDateCBChanged");
     CurrentSlide->OverrideChapterLongDate=ui->OverrideDateCB->isChecked();
     if (!CurrentSlide->OverrideChapterLongDate) {
         CurrentSlide->ChapterLongDate=FormatLongDate(CurrentSlide->ChapterEventDate);
@@ -250,7 +242,6 @@ void DlgAutoTitleSlide::OverrideDateCBChanged(int) {
 //====================================================================================================================
 
 void DlgAutoTitleSlide::ChapterEventDateChanged(const QDate &NewDate) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::ChapterEventDateChanged");
     CurrentSlide->ChapterEventDate=NewDate;
     if (!CurrentSlide->OverrideChapterLongDate) {
         CurrentSlide->ChapterLongDate=CurrentSlide->OverrideProjectEventDate?FormatLongDate(CurrentSlide->ChapterEventDate):CurrentSlide->Parent->ProjectInfo->LongDate;
@@ -263,7 +254,6 @@ void DlgAutoTitleSlide::ChapterEventDateChanged(const QDate &NewDate) {
 //====================================================================================================================
 
 void DlgAutoTitleSlide::s_ChSlideTypeCB(int CurrentType) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::s_ChSlideTypeCB");
     Timer.stop();
     //int CurrentType=ui->SlideTypeCB->currentIndex();
     int SubType;
@@ -317,7 +307,6 @@ void DlgAutoTitleSlide::s_ChSlideTypeCB(int CurrentType) {
 //====================================================================================================================
 
 void DlgAutoTitleSlide::s_ChSlideCatCB(int CurrentSubType) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::s_ChSlideCatCB");
     int CurrentType     =ui->SlideTypeCB->currentIndex();
     //int CurrentSubType  =ui->SlideCatCB->currentIndex();
     Timer.stop();
@@ -335,7 +324,6 @@ void DlgAutoTitleSlide::s_ChSlideCatCB(int CurrentSubType) {
 //====================================================================================================================
 
 void DlgAutoTitleSlide::s_ChapterNameChanged(QString) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::s_ChapterNameChanged");
     CurrentSlide->ChapterName=ui->ChapterNameED->text();
     CurrentSlide->Parent->UpdateChapterInformation();
     emit SetModifyFlag();
@@ -344,7 +332,6 @@ void DlgAutoTitleSlide::s_ChapterNameChanged(QString) {
 //====================================================================================================================
 
 void DlgAutoTitleSlide::s_ChapterDateChanged() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::s_ChapterDateChanged");
     CurrentSlide->ChapterLongDate=ui->ChapterDateED->toPlainText();
     CurrentSlide->Parent->UpdateChapterInformation();
     emit SetModifyFlag();
@@ -353,7 +340,6 @@ void DlgAutoTitleSlide::s_ChapterDateChanged() {
 //====================================================================================================================
 
 void DlgAutoTitleSlide::s_TimerEvent() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::s_TimerEvent");
     if (!CustomTitleModelTableLockPaint.tryLock(0)) return;
     ui->ModelTable->TimerPosition+=TIMERFREQ;
     ui->ModelTable->setUpdatesEnabled(false);
@@ -364,10 +350,9 @@ void DlgAutoTitleSlide::s_TimerEvent() {
 //====================================================================================================================
 
 void DlgAutoTitleSlide::ProjectProperties() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::ProjectProperties");
-
     Timer.stop();
     DlgffDPjrProperties Dlg(false,CurrentSlide->Parent,ApplicationConfig,this);
+    Dlg.AllowGMapRefresh=false;
     Dlg.InitDialog();
     if (Dlg.exec()==0) emit SetModifyFlag();
     ui->ModelTable->TimerPosition=0;

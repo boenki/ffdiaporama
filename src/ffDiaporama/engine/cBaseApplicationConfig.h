@@ -291,6 +291,8 @@ struct sDefaultBlockCoord {
 // Utility class to download locale files
 //====================================================================================================================
 
+#define DOWNLOADTIMEOUT 30000
+
 class cBaseApplicationConfig;
 class DownloadObject : public QObject {
 Q_OBJECT
@@ -302,6 +304,7 @@ public:
     QString                 NetworkDataFileName;
     QNetworkAccessManager   *NetworkManager;
     QEventLoop              *loop;
+    QTimer                  TimeOutTimer;
 
     explicit                DownloadObject(QString FileName,QObject *parent);
                             ~DownloadObject();

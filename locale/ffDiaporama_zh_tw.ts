@@ -3330,6 +3330,20 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
 Do you want to open the video now?</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>If this box is checked, the bitrate is variable (between -50% to +125%)
+
+Notes:
+- If the project contains mostly pictures, this option can significantly reduce the size of the video file (up to 80%)
+- By cons, if the project contains mostly videos this option will increase the size of the video file
+
+By default, this box is checked if duration of videos are less than half of the total duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Variable bitrate</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgRulerDef</name>

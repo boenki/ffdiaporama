@@ -198,7 +198,7 @@ int cEncodeVideo::getThreadFlags(AVCodecID ID) {
 //*************************************************************************************************************************************************
 
 bool cEncodeVideo::OpenEncoder(cDiaporama *Diaporama,QString OutputFileName,int FromSlide,int ToSlide,
-                    bool EncodeVideo,int VideoCodecSubId,sIMAGEDEF *ImageDef,int ImageWidth,int ImageHeight,int ExtendV,int InternalWidth,int InternalHeight,AVRational PixelAspectRatio,int VideoBitrate,
+                    bool EncodeVideo,int VideoCodecSubId,bool VBR,sIMAGEDEF *ImageDef,int ImageWidth,int ImageHeight,int ExtendV,int InternalWidth,int InternalHeight,AVRational PixelAspectRatio,int VideoBitrate,
                     bool EncodeAudio,int AudioCodecSubId,int AudioChannels,int AudioBitrate,int AudioSampleRate,QString Language) {
 
     sFormatDef *FormatDef   =NULL;
@@ -262,7 +262,7 @@ bool cEncodeVideo::OpenEncoder(cDiaporama *Diaporama,QString OutputFileName,int 
         this->ExtendV        =ExtendV;
 
         // Add stream
-        if (!OpenVideoStream(&VIDEOCODECDEF[VideoCodecSubId],VideoCodecSubId,VideoFrameRate,ImageWidth,ImageHeight+ExtendV,PixelAspectRatio,VideoBitrate))
+        if (!OpenVideoStream(&VIDEOCODECDEF[VideoCodecSubId],VideoCodecSubId,VBR,VideoFrameRate,ImageWidth,ImageHeight+ExtendV,PixelAspectRatio,VideoBitrate))
             return false;
 
     } else {
@@ -396,7 +396,7 @@ bool cEncodeVideo::AddStream(AVStream **Stream,AVCodec **codec,const char *Codec
 // Create video streams
 //*************************************************************************************************************************************************
 
-bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecSubId,AVRational VideoFrameRate,
+bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecSubId,bool VBR,AVRational VideoFrameRate,
                                    int ImageWidth,int ImageHeight,AVRational PixelAspectRatio,int VideoBitrate) {
     AVCodec *codec;
     if (!AddStream(&VideoStream,&codec,VideoCodecDef->ShortName,AVMEDIA_TYPE_VIDEO)) return false;
@@ -414,8 +414,10 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
     VideoStream->codec->time_base           =VideoFrameRate;
     VideoStream->codec->sample_aspect_ratio =PixelAspectRatio;
     VideoStream->sample_aspect_ratio        =PixelAspectRatio;
-    VideoStream->codec->bit_rate            =VideoBitrate;
-    av_dict_set(&opts,"b",QString("%1").arg(VideoBitrate).toUtf8(),0);
+    if ((codec->id!=AV_CODEC_ID_H264)||(!VBR)) {
+        VideoStream->codec->bit_rate            =VideoBitrate;
+        av_dict_set(&opts,"b",QString("%1").arg(VideoBitrate).toUtf8(),0);
+    }
 
     if (codec->id==AV_CODEC_ID_MPEG2VIDEO) {
         BFrames=2;
@@ -486,9 +488,15 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
                 av_dict_set(&opts,"profile", "main",       0);
                 av_dict_set(&opts,"tune",    "zerolatency",0);
                 BFrames=3;
-                MinRate=int(double(VideoBitrate)*0.9);
-                MaxRate=int(double(VideoBitrate)*1.1);
-                BufSize=int(double(VideoBitrate)*2);
+                if (VBR) {
+                    MinRate=int(double(VideoBitrate)*VBRMINCOEF);
+                    MaxRate=int(double(VideoBitrate)*VBRMAXCOEF);
+                    BufSize=int(double(VideoBitrate)*4);
+                } else {
+                    MinRate=int(double(VideoBitrate)*0.9);
+                    MaxRate=int(double(VideoBitrate)*1.1);
+                    BufSize=int(double(VideoBitrate)*2);
+                }
                 break;
 
             case VCODEC_H264PQ:     // Phone Quality H.264 AVC/MPEG-4 AVC
@@ -496,9 +504,15 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
                 av_dict_set(&opts,"vprofile","baseline",0);
                 av_dict_set(&opts,"profile", "baseline",0);     // 2 versions to support differents libav/ffmpeg
                 av_dict_set(&opts,"tune","fastdecode",  0);
-                MinRate=int(double(VideoBitrate)*0.9);
-                MaxRate=int(double(VideoBitrate)*1.1);
-                BufSize=int(double(VideoBitrate)*2);
+                if (VBR) {
+                    MinRate=int(double(VideoBitrate)*VBRMINCOEF);
+                    MaxRate=int(double(VideoBitrate)*VBRMAXCOEF);
+                    BufSize=int(double(VideoBitrate)*4);
+                } else {
+                    MinRate=int(double(VideoBitrate)*0.9);
+                    MaxRate=int(double(VideoBitrate)*1.1);
+                    BufSize=int(double(VideoBitrate)*2);
+                }
                 break;
 
             case VCODEC_X264LL:     // x264 lossless

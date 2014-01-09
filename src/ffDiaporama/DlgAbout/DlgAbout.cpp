@@ -57,39 +57,49 @@ void DlgAbout::DoInitDialog() {
     }
 
     Text.clear();
-    if (ApplicationConfig->CurrentLanguage!="en") FName=ApplicationConfig->UserConfigPath+QString("%1_VERSION.TXT").arg(ApplicationConfig->CurrentLanguage);
-        else FName=ApplicationConfig->UserConfigPath+QString("LOCALEVERSION.TXT").arg(ApplicationConfig->CurrentLanguage);
-    File.setFileName(FName);
-    if (File.open(QIODevice::ReadOnly|QIODevice::Text)) {
-        while (!File.atEnd()) {
-            QString Line=File.readLine();
-            if (Line.indexOf("=")<0) Line=QApplication::translate("DlgAbout","Interface translation version: ")+Line+"\n\ten\t100%\n"; else {
-                if (Line.indexOf("to translate")) Line.replace("to translate",QApplication::translate("DlgAbout","to translate"));
-                Line="\t"+Line;
-                Line.replace(" = ","\t");
-            }
-            Text.append(Line);
+    if (ApplicationConfig->CurrentLanguage!="en") {
+        FName=ApplicationConfig->UserConfigPath+QString("%1_LOCALEVERSION.TXT").arg(ApplicationConfig->CurrentLanguage);
+        File.setFileName(FName);
+        if (!File.exists()) {
+            FName=ApplicationConfig->UserConfigPath+QString("LOCALEVERSION.TXT");
+            File.setFileName(FName);
         }
-        File.close();
+        if (File.open(QIODevice::ReadOnly|QIODevice::Text)) {
+            while (!File.atEnd()) {
+                QString Line=File.readLine();
+                if (Line.indexOf("=")<0) Line=QApplication::translate("DlgAbout","Interface translation version: ")+Line+"\n\ten\t100%\n"; else {
+                    if (Line.indexOf("to translate")) Line.replace("to translate",QApplication::translate("DlgAbout","to translate"));
+                    Line="\t"+Line;
+                    Line.replace(" = ","\t");
+                }
+                Text.append(Line);
+            }
+            File.close();
+        }
     }
 
-    if (ApplicationConfig->CurrentLanguage!="en") FName=ApplicationConfig->UserConfigPath+QString("%1_WIKIVERSION.TXT").arg(ApplicationConfig->CurrentLanguage);
-        else FName=ApplicationConfig->UserConfigPath+QString("WIKIVERSION.TXT").arg(ApplicationConfig->CurrentLanguage);
-    File.setFileName(FName);
-    if (File.open(QIODevice::ReadOnly|QIODevice::Text)) {
-        while (!File.atEnd()) {
-            QString Line=File.readLine();
-            if (Line.indexOf("=")<0) {
-                if (!Text.isEmpty()) Text.append("\n");
-                Line=QApplication::translate("DlgAbout","WIKI translation version: ")+Line+"\n\ten\t100%\n";
-            } else {
-                if (Line.indexOf("to translate")) Line.replace("to translate",QApplication::translate("DlgAbout","to translate"));
-                Line="\t"+Line;
-                Line.replace(" = ","\t");
-            }
-            Text.append(Line);
+    if (ApplicationConfig->CurrentLanguage!="en") {
+        FName=ApplicationConfig->UserConfigPath+QString("%1_WIKIVERSION.TXT").arg(ApplicationConfig->CurrentLanguage);
+        File.setFileName(FName);
+        if (!File.exists()) {
+            FName=ApplicationConfig->UserConfigPath+QString("WIKIVERSION.TXT");
+            File.setFileName(FName);
         }
-        File.close();
+        if (File.open(QIODevice::ReadOnly|QIODevice::Text)) {
+            while (!File.atEnd()) {
+                QString Line=File.readLine();
+                if (Line.indexOf("=")<0) {
+                    if (!Text.isEmpty()) Text.append("\n");
+                    Line=QApplication::translate("DlgAbout","WIKI translation version: ")+Line+"\n\ten\t100%\n";
+                } else {
+                    if (Line.indexOf("to translate")) Line.replace("to translate",QApplication::translate("DlgAbout","to translate"));
+                    Line="\t"+Line;
+                    Line.replace(" = ","\t");
+                }
+                Text.append(Line);
+            }
+            File.close();
+        }
     }
     if (!Text.isEmpty()) ui->TranslationED->setText(Text); else ui->tabWidget->removeTab(4);
 

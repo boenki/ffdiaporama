@@ -127,6 +127,10 @@
                 <td>Select the video compression ratio from the displayed list</td>
             </tr>
             <tr>
+                <td>Variable bitrate</td>
+                <td>If this box is checked, the bitrate is variable. (Note: This option is available only for h264 codec.)</td>
+            </tr>
+            <tr>
                 <td>Sound (include sound in the video)</td>
                 <td>If this box is checked then the sound track will be included in the video</td>
             </tr>
@@ -199,25 +203,41 @@
     <div style="margin-left: 40px;">
         Once you have selected the device or set the advanced parameters, one click on the OK button starts the process of rendering the video.
         <br>At any time during this process, one click on the &quot;Cancel&quot; button stops the process.
-        <h4>Remark :</h4>
+        <h4>Remarks:</h4>
         <div style="margin-left: 40px;">
-            Depending on the device model or the advanced parameters which you selected, the generation can take quite a long time.
-            <br>Generally, for a Full-HD 1080p video:
-            <ul>
-                <li>On a PC with 4 fast cores (Core i7 for example) : The process will take approximately 2 minutes for each minute of video to be rendered</li>
-                <li>On a PC with 2 cores (Core 2 duo for example) : The process will take approximately 5 minutes for each minute of video to be rendered</li>
-            </ul>
+            <u>Rendering duration:</u><br>
+            <div style="margin-left: 40px;">
+                Depending on the device model or the advanced parameters which you selected, the generation can take quite a long time.
+                <br>Generally, for a Full-HD 1080p video:
+                <ul>
+                    <li>On a PC with 4 fast cores (Core i7 for example) : The process will take approximately 2 minutes for each minute of video to be rendered</li>
+                    <li>On a PC with 2 cores (Core 2 duo for example) : The process will take approximately 5 minutes for each minute of video to be rendered</li>
+                </ul>
+            </div>
+            <div style="margin-left: 40px;">
+                This amounts to 2 to 5 hours for a one-hour video.
+                <br>This duration will be much shorter for a video in VGA resolution. That is why we recommend you to carry out all tests and focusing trials at low resolution, and to render your videos in Full-HD only for the last step.
+            </div>
         </div>
+        <br>
         <div style="margin-left: 40px;">
-            This amounts to 2 to 5 hours for a one-hour video.
-            <br>This duration will be much shorter for a video in VGA resolution. That is why we recommend you to carry out all tests and focusing trials at low resolution, and to render your videos in Full-HD only for the last step.
+            <u>Variable bitrate:</u><br>
+            <div style="margin-left: 40px;">
+                If variable bitrate is activated, the video compression bitrate could vary from -50% to +125%
+                <ul>
+                    <li>If the project contains mostly pictures, this option can significantly reduce the size of the video file (up to 80%)</li>
+                    <li>By cons, if the project contains mostly videos this option will increase the size of the video file</li>
+                </ul>
+                By default, variable bitrate is activated when duration of videos are less than half of the total duration of the projet.
+            </div>
         </div>
     </div>
-
+    <div>&nbsp;</div>
     <h2>At the dialog bottom</h2>
     <div style="margin-left: 40px;">
         The properties button allows you to open the <a href="0108.html">Project properties dialog</a>. It allows you to adjust the properties before generating the video.
         <br>Note: the project properties are saved into the video as TAG (METADATA) which are used by a lot of indexing programs or by <a href="http://en.wikipedia.org/wiki/Media_center">Media Center Systems</a>.
     </div>
+    <div>&nbsp;</div>
 </body>
 </html>

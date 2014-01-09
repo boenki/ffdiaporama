@@ -2110,7 +2110,7 @@ bool cVideoFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *
         //*********************************************************************************************************
         // Get information about duration
         //*********************************************************************************************************
-        int64_t ms=LibavFile->duration/1000;//-LibavStartTime;
+        int64_t ms=LibavFile->duration/1000-LibavStartTime;
         int     ss=ms/1000;
         int     mm=ss/60;
         int     hh=mm/60;
@@ -2906,7 +2906,7 @@ bool cVideoFile::SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Po
         StreamNumber=VideoStreamNumber;
     }
 
-    if (LibavStartTime>0) Position-=LibavStartTime;
+    if ((LibavStartTime>0)&&(VideoStream)) Position-=LibavStartTime;
     if (Position<0) Position=0;
 
     // Flush LibAV buffers
@@ -3125,6 +3125,10 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
     //*************************************************************************************************************************************
 
     // AUDIO PART
+
+    // Retry counter (when len>0 and avcodec_decode_audio4 fail to retreave frame, we retry counter time before to discard the packet)
+    int Counter=20;
+
     while (ContinueAudio) {
 
         StreamPacket=new AVPacket();
@@ -3151,7 +3155,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                     PacketTemp.size=StreamPacket->size;
 
                     // NOTE: the audio packet can contain several NbrFrames
-                    while ((ContinueAudio)&&(PacketTemp.size>0)) {
+                    while ((Counter>0)&&(ContinueAudio)&&(PacketTemp.size>0)) {
                         AVFrame *Frame=ALLOCFRAME();
                         int     got_frame;
                         int     Len=avcodec_decode_audio4(AudioStream->codec,Frame,&got_frame,&PacketTemp);
@@ -3196,8 +3200,8 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                                     }
                                 }
                                 // Sync audio/video (if it was not done before)
-    //                                if ((!CacheImage.isEmpty())&&(!SoundTrackBloc->Adjusted))
-    //                                    SoundTrackBloc->AdjustSoundPosition(pts>0?pts:Position,CacheImage.first()->Position);
+//                                if ((!CacheImage.isEmpty())&&(!SoundTrackBloc->Adjusted))
+//                                        SoundTrackBloc->AdjustSoundPosition(pts>0?pts:Position,CacheImage.first()->Position);
 
                                 // Append decoded data to SoundTrackBloc
                                 SoundTrackBloc->AppendData(/*Position*/pts,(int16_t*)Data,SizeDecoded);
@@ -3209,6 +3213,12 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
 
                             LastAudioReadedPosition =int64_t(AudioFramePosition*AV_TIME_BASE);    // Keep NextPacketPosition for determine next time if we need to seek
                             if (Data!=Frame->data[0]) av_free(Data);
+                        } else {
+                            Counter--;
+                            if (Counter==0) {
+                                Len=0;
+                                ToLog(LOGMSG_CRITICAL,QString("Impossible to decode audio frame: Discard it"));
+                            }
                         }
                         FREEFRAME(&Frame);
                     }
@@ -3217,7 +3227,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
 
             // Check if we need to continue loop
             // Note: FPSDuration*(!VideoStream?2:1) is to enhance preview speed
-            ContinueAudio=ContinueAudio && ((AudioStream)&&(SoundTrackBloc)&&(!(
+            ContinueAudio=(Counter>0) && ContinueAudio && ((AudioStream)&&(SoundTrackBloc)&&(!(
                             ((LastAudioReadedPosition>=Position+FPSDuration*((PreviewMode&&(!VideoStream))?2:1))&&(SoundTrackBloc->List.count()>=SoundTrackBloc->NbrPacketForFPS))||
                             (LastAudioReadedPosition>=int64_t(dEndFile*AV_TIME_BASE)))
                         ));
@@ -3359,7 +3369,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                                             }
                                         }
                                         FrameBufferYUVReady   =true;                                            // Keep actual value for FrameBufferYUV
-                                        FrameBufferYUVPosition=int64_t((double(pts)/TimeBase)*AV_TIME_BASE);    // Keep actual value for FrameBufferYUV
+                                        FrameBufferYUVPosition=int64_t((double(pts)/TimeBase)*AV_TIME_BASE)-LibavStartTime;    // Keep actual value for FrameBufferYUV
 
                                         // Append this frame
                                         cImageInCache *ObjImage=

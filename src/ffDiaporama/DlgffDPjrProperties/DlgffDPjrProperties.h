@@ -35,6 +35,7 @@ public:
     cDiaporama          *ffdProject;
     bool                IsPrjCreate;
     bool                IsLocationChanged;
+    bool                AllowGMapRefresh;
 
     explicit DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent = 0);
     ~DlgffDPjrProperties();

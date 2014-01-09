@@ -2,6 +2,24 @@
 * FFDIAPORAMA 2.1 - trunk (Version Française)
 **************************************************
 
+[Commit: ]
+    Correction de bug :
+        -Corrige la non relecture des options de volumes et de désentrelacement des vidéos dans les fichiers projet [regression 20131221]
+        -Ne génère plus les cartes 2 fois à la fermeture de la boite d'edition des diapositives automatiques
+        -Regénère la carte si le modèle de diapo automatique change le modèle de carte
+        -Ne regénère plus la carte lors de la transformation en diapo standard
+        -Ajoute un timeout de 30 secondes pour ne pas rester bloquer pendant 10 minutes quand l'accès aux réseaux n'est pas possible au lancement de l'application
+        -Fixe une boucle infinie qui arrive parfois durant la lecture des vidéos
+
+    Nouveautés :
+        -Supprime le contour des textes et passe le zoomlevel par défaut à 14 dans les 2 nouveaux modèles de titre (avec carte GMaps)
+        -Ajoute une option pour passer l'encodage h264 en mode variable afin de réduire la taille des vidéos et d'éviter les saccadements dans les effets ken burns
+            -Cette option est activée par défaut dès que la durée des vidéos représente moins de 50% du projet (au dela cela peut augmenter la taille de la vidéo générée)
+            -Dans les projets contenant beaucoup de photo, la réduction du fichier peut atteindre 80%
+        -Ajoute une centaine de nouveaux modèles d'équipement (Téléphones et tablettes)
+
+--------------------------------------------------------------------------------
+
 [Commit: 06/01/2014]
     Nouveautés :
         -Programme certaines LUMA plutôt que d'utiliser des fichiers pour améliorer leur qualité

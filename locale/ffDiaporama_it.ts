@@ -40,6 +40,10 @@ If you want to help us or by completing an incomplete translation, or by transla
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Changelog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Interface translation version: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -49,10 +53,6 @@ If you want to help us or by completing an incomplete translation, or by transla
     </message>
     <message>
         <source>WIKI translation version: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Changelog</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3493,6 +3493,20 @@ Nota: le proprietà del progetto vengono salvate nel video come TAG (metadati) c
 Do you want to open the video now?</source>
         <translation>Lavoro completato con successo! 
 Vuoi aprire il video ora?</translation>
+    </message>
+    <message>
+        <source>If this box is checked, the bitrate is variable (between -50% to +125%)
+
+Notes:
+- If the project contains mostly pictures, this option can significantly reduce the size of the video file (up to 80%)
+- By cons, if the project contains mostly videos this option will increase the size of the video file
+
+By default, this box is checked if duration of videos are less than half of the total duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Variable bitrate</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8298,7 +8312,7 @@ Esempio: se Y=25 % del primo trimestre nella parte superiore dell&apos;immagine 
     </message>
     <message>
         <source>Defined what information will be displayed in the marker</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce quali informazioni verranno visualizzate nel marcatore</translation>
     </message>
     <message>
         <source>Defined where to display the marker (the distance between the marker and the GPS position)</source>

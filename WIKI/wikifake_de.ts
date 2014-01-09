@@ -3125,12 +3125,16 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <translation>- &lt;B&gt;Phone Quality&lt;/B&gt; für mobile Geräte basierend auf x264 &lt;U&gt;baseline&lt;/U&gt; Profil, mit 3 refs und 0 bframes. </translation>
     </message>
     <message>
-        <source>Both settings are using &lt;U&gt;veryfast&lt;/U&gt; preset</source>
-        <translation>Beide Einstellungen verwenden &lt;U&gt;veryfast&lt;/u&gt; Presets</translation>
-    </message>
-    <message>
         <source>ffDiaporama uses the standard x264 &lt;U&gt;fast&lt;/U&gt; preset with 3 refs and qp set to 0.</source>
         <translation>ffDiaporama verwendet den Standard x264 &lt;U&gt;fast&lt;/U&gt; Preset mit 3 refs und qp ist gesetzt auf 0.</translation>
+    </message>
+    <message>
+        <source>Both settings are using &lt;U&gt;veryfast&lt;/U&gt; preset. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: Variable bitrate is used with these two codecs. For more information on variable bitrate, see: &lt;a href=&quot;0115.html&quot;&gt;Render video&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4359,10 +4363,6 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Note: FFD uses the filename extension to determine the type of image. It is therefore necessary that this extension was valid.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Definition of Bitmap image file on Wikipedia</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4388,6 +4388,10 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Definition of video file on Wikipedia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: ffDiaporama uses the filename extension to determine the type of image. It is therefore necessary that this extension was valid.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7561,10 +7565,6 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <translation>Sie können während der Erstellung zu jeder Zeit den Vorgang durch Klicken auf &quot;Abbrechen&quot; unterbrechen.</translation>
     </message>
     <message>
-        <source>Remark :</source>
-        <translation>Anmerkung:</translation>
-    </message>
-    <message>
         <source> Depending on the device model or the advanced parameters which you selected, the generation can take quite a long time. </source>
         <translation> Abhängig vom Gerätemodel oder den erweiterten Parametern, die gewählt wurden, kann die Erstellung des Videos viel Zeit in Anspruch nehmen.</translation>
     </message>
@@ -7647,6 +7647,42 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     <message>
         <source> The properties button allows you to open the &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;. It allows you to adjust the properties before generating the video. </source>
         <translation> Der Knopf Eigenschaften ermöglicht das Öffnen des Dialoges &lt;a href=&quot;0108.html&quot;&gt;Projekteigenschaften&lt;/a&gt;. Sie können die Projekteinstellungen verändern, bevor Sie das Video erstellen.</translation>
+    </message>
+    <message>
+        <source>Variable bitrate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the bitrate is variable. (Note: This option is available only for h264 codec.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remarks:</source>
+        <translation type="unfinished">Anmerkung:</translation>
+    </message>
+    <message>
+        <source> &lt;U&gt;Rendering duration:&lt;/U&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;U&gt;Variable bitrate:&lt;/U&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> If variable bitrate is activated, the video compression bitrate could vary from -50% to +125% </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If the project contains mostly pictures, this option can significantly reduce the size of the video file (up to 80%)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>By cons, if the project contains mostly videos this option will increase the size of the video file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> By default, variable bitrate is activated when duration of videos are less than half of the total duration of the projet. </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

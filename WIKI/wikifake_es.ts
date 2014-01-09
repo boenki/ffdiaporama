@@ -3123,12 +3123,16 @@
         <translation>- &lt;B&gt;Calidad Móvil&lt;/B&gt; para dispositivos móviles basados en  x264 &lt;U&gt;referencia&lt;/U&gt; perfil, con 3 refs y 0 bframes. </translation>
     </message>
     <message>
-        <source>Both settings are using &lt;U&gt;veryfast&lt;/U&gt; preset</source>
-        <translation>Ambas opciones están utilizando &lt;U&gt; muy rápido &lt;/U&gt; preajuste</translation>
-    </message>
-    <message>
         <source>ffDiaporama uses the standard x264 &lt;U&gt;fast&lt;/U&gt; preset with 3 refs and qp set to 0.</source>
         <translation>ffDiaporama utiliza la norma x264 &lt;U&gt; rápido &lt;/U&gt; preajustado con 3 refs qp establecido en 0.</translation>
+    </message>
+    <message>
+        <source>Both settings are using &lt;U&gt;veryfast&lt;/U&gt; preset. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: Variable bitrate is used with these two codecs. For more information on variable bitrate, see: &lt;a href=&quot;0115.html&quot;&gt;Render video&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4357,10 +4361,6 @@
         <translation>ffDiaporama puede utilizar las imágenes de mapa de bits en los siguientes formatos: bmp, gif (pero no gif animado), jpg o jpeg, png, PBM, PGM, ppm, tiff o tif, xbm, xpm</translation>
     </message>
     <message>
-        <source>Note: FFD uses the filename extension to determine the type of image. It is therefore necessary that this extension was valid.</source>
-        <translation>Nota: FFD utiliza la extensión de nombre de archivo para determinar el tipo de imagen. Por lo tanto, es necesario que esta extensión sea válida.</translation>
-    </message>
-    <message>
         <source>Definition of Bitmap image file on Wikipedia</source>
         <translation>Definición de archivo de imagen de mapa de bits en la Wikipedia</translation>
     </message>
@@ -4387,6 +4387,10 @@
     <message>
         <source>Definition of video file on Wikipedia</source>
         <translation>Definición de archivo de vídeo en Wikipedia</translation>
+    </message>
+    <message>
+        <source>Note: ffDiaporama uses the filename extension to determine the type of image. It is therefore necessary that this extension was valid.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7542,10 +7546,6 @@
         <translation>En cualquier momento durante este proceso, un clic en el botón &quot;Cancelar&quot;, detiene el proceso.</translation>
     </message>
     <message>
-        <source>Remark :</source>
-        <translation>Nota :</translation>
-    </message>
-    <message>
         <source> Depending on the device model or the advanced parameters which you selected, the generation can take quite a long time. </source>
         <translation>Dependiendo del modelo de dispositivo o los parámetros avanzados que se hayan seleccionado, la generación puede tardar bastante tiempo.</translation>
     </message>
@@ -7644,6 +7644,42 @@
     <message>
         <source> The properties button allows you to open the &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;. It allows you to adjust the properties before generating the video. </source>
         <translation> El botón de propiedades permite abrir el diálogo &lt;a href=&quot;0108.html&quot;&gt;Propiedades del proyecto/a&gt;. Esto permite ajustar las propiedades antes de generar el video.</translation>
+    </message>
+    <message>
+        <source>Variable bitrate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the bitrate is variable. (Note: This option is available only for h264 codec.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remarks:</source>
+        <translation type="unfinished">Notas:</translation>
+    </message>
+    <message>
+        <source> &lt;U&gt;Rendering duration:&lt;/U&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;U&gt;Variable bitrate:&lt;/U&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> If variable bitrate is activated, the video compression bitrate could vary from -50% to +125% </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If the project contains mostly pictures, this option can significantly reduce the size of the video file (up to 80%)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>By cons, if the project contains mostly videos this option will increase the size of the video file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> By default, variable bitrate is activated when duration of videos are less than half of the total duration of the projet. </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

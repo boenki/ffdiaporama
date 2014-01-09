@@ -93,18 +93,31 @@
        <item row="12" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_8">
          <property name="spacing">
-          <number>2</number>
+          <number>4</number>
          </property>
          <item>
           <widget class="QComboBox" name="VideoBitRateCB">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
            <property name="toolTip">
             <string>Select the video compression ratio from the displayed list.</string>
+           </property>
+           <property name="sizeAdjustPolicy">
+            <enum>QComboBox::AdjustToContents</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="VBRCB">
+           <property name="toolTip">
+            <string>If this box is checked, the bitrate is variable (between -50% to +125%)
+
+Notes:
+- If the project contains mostly pictures, this option can significantly reduce the size of the video file (up to 80%)
+- By cons, if the project contains mostly videos this option will increase the size of the video file
+
+By default, this box is checked if duration of videos are less than half of the total duration</string>
+           </property>
+           <property name="text">
+            <string>Variable bitrate</string>
            </property>
           </widget>
          </item>
@@ -189,6 +202,9 @@
            <property name="toolTip">
             <string>Select the audio compression ratio from the displayed list.</string>
            </property>
+           <property name="sizeAdjustPolicy">
+            <enum>QComboBox::AdjustToContents</enum>
+           </property>
           </widget>
          </item>
          <item>
@@ -268,7 +284,7 @@
             <string notr="true"/>
            </property>
            <property name="icon">
-            <iconset>
+            <iconset resource="../RSCffDiaporama.qrc">
              <normaloff>:/img/FolderOpen.png</normaloff>:/img/FolderOpen.png</iconset>
            </property>
           </widget>
@@ -749,7 +765,7 @@ This value is on 3 characters and follows the ISO 639 recommendation.</string>
            </sizepolicy>
           </property>
           <property name="text">
-           <string notr="true">TextLabel</string>
+           <string notr="true"/>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -768,7 +784,7 @@ This value is on 3 characters and follows the ISO 639 recommendation.</string>
            </sizepolicy>
           </property>
           <property name="text">
-           <string notr="true">TextLabel</string>
+           <string notr="true"/>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -787,7 +803,7 @@ This value is on 3 characters and follows the ISO 639 recommendation.</string>
            </sizepolicy>
           </property>
           <property name="text">
-           <string notr="true">TextLabel</string>
+           <string notr="true"/>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -806,7 +822,7 @@ This value is on 3 characters and follows the ISO 639 recommendation.</string>
            </sizepolicy>
           </property>
           <property name="text">
-           <string notr="true">TextLabel</string>
+           <string notr="true"/>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -1097,7 +1113,7 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
         <string>&amp;Properties</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/PrjProperties.png</normaloff>:/img/PrjProperties.png</iconset>
        </property>
       </widget>
@@ -1124,7 +1140,7 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -1138,7 +1154,7 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -1152,7 +1168,7 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
       </widget>
@@ -1167,10 +1183,31 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
   <tabstop>DestinationFilePathBT</tabstop>
   <tabstop>DeviceTypeCB</tabstop>
   <tabstop>DeviceModelCB</tabstop>
+  <tabstop>RenderZoneAllBt</tabstop>
+  <tabstop>RenderZoneFromBt</tabstop>
+  <tabstop>RenderZoneFromED</tabstop>
+  <tabstop>RenderZoneToED</tabstop>
+  <tabstop>StandardCombo</tabstop>
+  <tabstop>GeometryCombo</tabstop>
+  <tabstop>ImageSizeCombo</tabstop>
+  <tabstop>VideoFormatCB</tabstop>
+  <tabstop>VideoBitRateCB</tabstop>
+  <tabstop>VBRCB</tabstop>
+  <tabstop>IncludeSoundCB</tabstop>
+  <tabstop>AudioFormatCB</tabstop>
+  <tabstop>AudioBitRateCB</tabstop>
+  <tabstop>AudioFreqCB</tabstop>
+  <tabstop>LanguageED</tabstop>
+  <tabstop>ExportThumbCB</tabstop>
+  <tabstop>ExportXBMCNfoCB</tabstop>
+  <tabstop>ProjectPropertiesBt</tabstop>
   <tabstop>OkBt</tabstop>
   <tabstop>CancelBt</tabstop>
+  <tabstop>HelpBt</tabstop>
   <tabstop>SelectDestScroll</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../RSCffDiaporama.qrc"/>
+ </resources>
  <connections/>
 </ui>

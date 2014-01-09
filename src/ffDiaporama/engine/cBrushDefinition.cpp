@@ -838,7 +838,7 @@ bool cBrushDefinition::LoadFromXML(QDomElement *ParentElement,QString ElementNam
                         MediaObject=NULL;
                     }
                 }
-                if ((MediaObject)&&(TypeComposition!=COMPOSITIONTYPE_SHOT)) {
+                if ((MediaObject)&&(TypeComposition==COMPOSITIONTYPE_SHOT)) {
                     switch (MediaObject->ObjectType) {
                         case OBJECTTYPE_VIDEOFILE:
                             SoundVolume=GetDoubleValue(Element,"SoundVolume");                                          // Volume of soundtrack (for video only)
