@@ -1862,31 +1862,6 @@ void MainWindow::s_Action_AddAutoTitleSlide() {
             connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
             Ret=Dlg.exec();
         }
-
-        // Force an update of gmaps objects
-        for (int i=0;i<Diaporama->List[CurIndex]->ObjectComposition.List.count();i++) {
-            if ((Diaporama->List[CurIndex]->ObjectComposition.List[i]->BackgroundBrush->MediaObject)&&
-                (Diaporama->List[CurIndex]->ObjectComposition.List[i]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP)) {
-                cGMapsMap *CurrentMap=(cGMapsMap *)Diaporama->List[CurIndex]->ObjectComposition.List[i]->BackgroundBrush->MediaObject;
-                bool      HaveVarLocation=false;
-                bool      AllLocationValide=true;
-                for (int j=0;j<CurrentMap->List.count();j++) if (((cLocation *)CurrentMap->List[j])->LocationType!=cLocation::FREE) {
-                    HaveVarLocation=true;
-                    cLocation *Location=(cLocation *)CurrentMap->List[j];
-                    cLocation *RealLoc=NULL;
-                    Diaporama->List[CurIndex]->ObjectComposition.List[i]->BackgroundBrush->GetRealLocation((void **)&Location,(void **)&RealLoc);
-                    if ((Location==NULL)||(RealLoc==NULL)) AllLocationValide=false;
-                }
-                if (HaveVarLocation) {
-                    if (AllLocationValide) {
-                        DlgGMapsGeneration Dlg(Diaporama->List[CurIndex]->ObjectComposition.List[i]->BackgroundBrush,CurrentMap,false,ApplicationConfig,this);
-                        Dlg.InitDialog();
-                        Dlg.exec();
-                    } else CurrentMap->CreateDefaultImage(Diaporama);
-                }
-            }
-        }
-
         // Reset thumbnails of this slide
         ApplicationConfig->SlideThumbsTable->ClearThumbs(Diaporama->List[CurIndex]->ThumbnailKey);
 

@@ -395,7 +395,7 @@ struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF]={
 
 struct sFormatDef FORMATDEF[VFORMAT_NBR]={
     {false,false, "3gp",      "3gp",  "3GP file format",              "MPEG4#H264PQ",                "libvo_amrwbenc#libopencore_amrnb",                                                "8000#16000",                                           "8000"},
-    {false,false, "avi",      "avi",  "AVI file format",              "MPEG4#H264HQ#H264PQ",         "pcm_s16le#libmp3lame#ac3",                                                    "8000#11025#12000#16000#22050#24000#32000#44100#48000", "48000"},
+    {false,false, "avi",      "avi",  "AVI file format",              "MPEG4#H264HQ#H264PQ",         "pcm_s16le#libmp3lame#ac3",                                                        "8000#11025#12000#16000#22050#24000#32000#44100#48000", "48000"},
     {false,false, "matroska", "mkv",  "MKV Matroska file format",     "H264HQ#H264PQ",               "pcm_s16le#libmp3lame#libfaac#aac#libvo_aacenc#ac3#libvorbis#vorbis",              "8000#11025#12000#16000#22050#24000#32000#44100#48000", "48000"},
     {false,false, "mjpeg",    "avi",  "MJPEG video",                  "MJPEG",                       "pcm_s16le",                                                                       "8000#11025#12000#16000#22050#24000#32000#44100#48000", "48000"},
     {false,false, "mp4",      "mp4",  "MP4 file format",              "MPEG4#H264HQ#H264PQ",         "libmp3lame#libfaac#aac#libvo_aacenc",                                             "8000#11025#12000#16000#22050#24000#32000#44100#48000", "48000"},

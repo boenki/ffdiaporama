@@ -115,20 +115,32 @@ DownloadObject::DownloadObject(QString FileName,QObject *parent):QObject(parent)
 
     if (!httpstatuscode) {
         if (GetNewtorkDataReply->error()==QNetworkReply::NoError) {
+            TimeOutTimer.setSingleShot(true);
             loop=new QEventLoop(this);
+            connect(&TimeOutTimer,      SIGNAL(timeout()),  loop,SLOT(quit()));
             connect(GetNewtorkDataReply,SIGNAL(finished()), this,SLOT(httpGetDataFinished()));
             connect(GetNewtorkDataReply,SIGNAL(readyRead()),this,SLOT(httpGetDataReadyRead()));
+            TimeOutTimer.start(DOWNLOADTIMEOUT);
             loop->exec();
+            if(TimeOutTimer.isActive()) {
+                TimeOutTimer.stop();
+                if (Status) ToLog(LOGMSG_INFORMATION,QString("Downloading %1 from ffDiaporama Web Site ... done").arg(NetworkDataFileName));
+                    else    ToLog(LOGMSG_INFORMATION,QString("Downloading %1 from ffDiaporama Web Site ... error").arg(NetworkDataFileName));
+            } else {
+               // timeout
+               disconnect(GetNewtorkDataReply,SIGNAL(finished()),loop,SLOT(quit()));
+               GetNewtorkDataReply->abort();
+               ToLog(LOGMSG_INFORMATION,QString("Downloading %1 from ffDiaporama Web Site ... timeout").arg(NetworkDataFileName));
+            }
             NetworkData.clear();
-            if (Status) ToLog(LOGMSG_INFORMATION,QString("Downloading %1 from ffDiaporama Web Site ... done").arg(NetworkDataFileName));
-                else    ToLog(LOGMSG_INFORMATION,QString("Downloading %1 from ffDiaporama Web Site ... error").arg(NetworkDataFileName));
         }
     }
 }
 
 DownloadObject::~DownloadObject() {
-    if (loop)           loop->deleteLater();
-    if (NetworkManager) NetworkManager->deleteLater();
+    if (loop)                   loop->deleteLater();
+    if (GetNewtorkDataReply)    GetNewtorkDataReply->deleteLater();
+    if (NetworkManager)         NetworkManager->deleteLater();
 }
 
 void DownloadObject::httpGetDataFinished() {
@@ -443,16 +455,16 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage) {
             WebTRVersion=InStream.readLine();
             File.close();
         }
-    }
 
-    // try to download version from the web site
-    if ((DownloadFile("WIKIVERSION.TXT"))&&(QFileInfo(UserConfigPath+QString("WIKIVERSION.TXT")).exists())) {
-        QFile File(UserConfigPath+QString("WIKIVERSION.TXT"));
-        if (File.open(QFile::ReadOnly | QFile::Text)) {
-            QTextStream InStream(&File);
-            InStream.setCodec("UTF-8");
-            WebWIKIVersion=InStream.readLine();
-            File.close();
+        // try to download version from the web site
+        if ((DownloadFile("WIKIVERSION.TXT"))&&(QFileInfo(UserConfigPath+QString("WIKIVERSION.TXT")).exists())) {
+            QFile File(UserConfigPath+QString("WIKIVERSION.TXT"));
+            if (File.open(QFile::ReadOnly | QFile::Text)) {
+                QTextStream InStream(&File);
+                InStream.setCodec("UTF-8");
+                WebWIKIVersion=InStream.readLine();
+                File.close();
+            }
         }
     }
 

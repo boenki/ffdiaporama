@@ -813,7 +813,8 @@ void Append() {
 	Str=QApplication::translate("0036","ffDiaporama uses specific settings for encoding with x264. This settings are including: ");
 	Str=QApplication::translate("0036","- <B>High Quality</B> for \"Home Cinema\" devices based on x264 <U>main</U> profile, with 3 refs and 3 bframes. ");
 	Str=QApplication::translate("0036","- <B>Phone Quality</B> for mobile devices based on x264 <U>baseline</U> profile, with 3 refs and 0 bframes. ");
-	Str=QApplication::translate("0036","Both settings are using <U>veryfast</U> preset");
+	Str=QApplication::translate("0036","Both settings are using <U>veryfast</U> preset. ");
+	Str=QApplication::translate("0036","Note: Variable bitrate is used with these two codecs. For more information on variable bitrate, see: <a href=\"0115.html\">Render video</a>");
 	Str=QApplication::translate("0036","H264PQ");
 	Str=QApplication::translate("0036","Phone Quality H.264 AVC/MPEG-4 AVC");
 	Str=QApplication::translate("0036","X264LL");
@@ -1072,7 +1073,7 @@ void Append() {
 	Str=QApplication::translate("0045","Definition of music file on Wikipedia");
 	Str=QApplication::translate("0045","Bitmap image file and Bitmap image from clipboard");
 	Str=QApplication::translate("0045","ffDiaporama can use bitmap images in the following formats: bmp, gif (but not animated gif), jpg or jpeg, png, pbm, pgm, ppm, tiff or tif, xbm, xpm");
-	Str=QApplication::translate("0045","Note: FFD uses the filename extension to determine the type of image. It is therefore necessary that this extension was valid.");
+	Str=QApplication::translate("0045","Note: ffDiaporama uses the filename extension to determine the type of image. It is therefore necessary that this extension was valid.");
 	Str=QApplication::translate("0045","See also: ");
 	Str=QApplication::translate("0045","Definition of Bitmap image file on Wikipedia");
 	Str=QApplication::translate("0045","Vector image file");
@@ -2069,6 +2070,8 @@ void Append() {
 	Str=QApplication::translate("0115","Select the video codec to be used to render the video from the displayed list.");
 	Str=QApplication::translate("0115","Bitrate");
 	Str=QApplication::translate("0115","Select the video compression ratio from the displayed list");
+	Str=QApplication::translate("0115","Variable bitrate");
+	Str=QApplication::translate("0115","If this box is checked, the bitrate is variable. (Note: This option is available only for h264 codec.)");
 	Str=QApplication::translate("0115","Sound (include sound in the video)");
 	Str=QApplication::translate("0115","If this box is checked then the sound track will be included in the video");
 	Str=QApplication::translate("0115","Audio codec");
@@ -2111,13 +2114,19 @@ void Append() {
 	Str=QApplication::translate("0115","Render the movie");
 	Str=QApplication::translate("0115"," Once you have selected the device or set the advanced parameters, one click on the OK button starts the process of rendering the video. ");
 	Str=QApplication::translate("0115","At any time during this process, one click on the \"Cancel\" button stops the process. ");
-	Str=QApplication::translate("0115","Remark :");
+	Str=QApplication::translate("0115","Remarks:");
+	Str=QApplication::translate("0115"," <U>Rendering duration:</U>");
 	Str=QApplication::translate("0115"," Depending on the device model or the advanced parameters which you selected, the generation can take quite a long time. ");
 	Str=QApplication::translate("0115","Generally, for a Full-HD 1080p video: ");
 	Str=QApplication::translate("0115","On a PC with 4 fast cores (Core i7 for example) : The process will take approximately 2 minutes for each minute of video to be rendered");
 	Str=QApplication::translate("0115","On a PC with 2 cores (Core 2 duo for example) : The process will take approximately 5 minutes for each minute of video to be rendered");
 	Str=QApplication::translate("0115"," This amounts to 2 to 5 hours for a one-hour video. ");
 	Str=QApplication::translate("0115","This duration will be much shorter for a video in VGA resolution. That is why we recommend you to carry out all tests and focusing trials at low resolution, and to render your videos in Full-HD only for the last step. ");
+	Str=QApplication::translate("0115"," <U>Variable bitrate:</U>");
+	Str=QApplication::translate("0115"," If variable bitrate is activated, the video compression bitrate could vary from -50% to +125% ");
+	Str=QApplication::translate("0115","If the project contains mostly pictures, this option can significantly reduce the size of the video file (up to 80%)");
+	Str=QApplication::translate("0115","By cons, if the project contains mostly videos this option will increase the size of the video file");
+	Str=QApplication::translate("0115"," By default, variable bitrate is activated when duration of videos are less than half of the total duration of the projet. ");
 	Str=QApplication::translate("0115","At the dialog bottom");
 	Str=QApplication::translate("0115"," The properties button allows you to open the <a href=\"0108.html\">Project properties dialog</a>. It allows you to adjust the properties before generating the video. ");
 	Str=QApplication::translate("0115","Note: the project properties are saved into the video as TAG (METADATA) which are used by a lot of indexing programs or by ");

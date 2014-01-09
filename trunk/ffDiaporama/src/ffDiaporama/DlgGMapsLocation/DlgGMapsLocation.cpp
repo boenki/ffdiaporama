@@ -146,6 +146,10 @@ bool DlgGMapsLocation::DoAccept() {
     return true;
 }
 
+void DlgGMapsLocation::DoRejet() {
+    QApplication::restoreOverrideCursor();
+}
+
 //============================================================================================================================
 
 void DlgGMapsLocation::NameChanged(QString NewText) {

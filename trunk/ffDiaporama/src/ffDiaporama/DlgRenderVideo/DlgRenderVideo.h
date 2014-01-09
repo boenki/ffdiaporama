@@ -60,6 +60,7 @@ public:
     QString                 Language;
 
     int                     W,H;
+    bool                    VBR;
 
     QFutureWatcher<void>    ThreadEncode;
     bool                    Continue;
@@ -92,6 +93,7 @@ private slots:
     void            SelectDestinationFile();
     void            AdjustDestinationFile();
     void            FileFormatCombo(int);
+    void            VBRChanged();
     void            InitVideoBitRateCB(int);
     void            InitAudioBitRateCB(int);
     void            s_DeviceTypeCB(int);

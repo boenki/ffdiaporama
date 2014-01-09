@@ -33,11 +33,10 @@
 DlgffDPjrProperties::DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent)
     :QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgffDPjrProperties) {
 
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::DlgffDPjrProperties");
-
     this->IsPrjCreate=IsPrjCreate;
     this->ffdProject =ffdProject;
     IsLocationChanged=false;
+    AllowGMapRefresh =true;
 
     ui->setupUi(this);
     CancelBt=ui->CancelBt;
@@ -52,8 +51,6 @@ DlgffDPjrProperties::DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject
 // Initialise dialog
 
 void DlgffDPjrProperties::DoInitDialog() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::DoInitDialog");
-
     if (IsPrjCreate) {
         setWindowTitle(QApplication::translate("DlgffDPjrProperties","New project"));
         OkBt->setText(QApplication::translate("DlgffDPjrProperties","Create project"));
@@ -129,8 +126,6 @@ void DlgffDPjrProperties::DoInitDialog() {
 //====================================================================================================================
 
 DlgffDPjrProperties::~DlgffDPjrProperties() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::DoInitDialog");
-
     ffdProject->CloseUnusedLibAv(ffdProject->CurrentCol);
     delete ui;
 }
@@ -139,8 +134,6 @@ DlgffDPjrProperties::~DlgffDPjrProperties() {
 // Initiale Undo
 
 void DlgffDPjrProperties::PrepareGlobalUndo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::PrepareGlobalUndo");
-
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG"); // Create xml document and root
@@ -153,8 +146,6 @@ void DlgffDPjrProperties::PrepareGlobalUndo() {
 // Apply Undo : call when user click on Cancel button
 
 void DlgffDPjrProperties::DoGlobalUndo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::DoGlobalUndo");
-
     QDomElement root=Undo->documentElement();
     if (root.tagName()=="UNDO-DLG") {
         ffdProject->ProjectInfo->LoadFromXML(&root,"",ffdProject->ProjectFileName,NULL,NULL,NULL,false);
@@ -166,8 +157,6 @@ void DlgffDPjrProperties::DoGlobalUndo() {
 // Call when user click on Ok button
 
 bool DlgffDPjrProperties::DoAccept() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::DoAccept");
-
     if (IsPrjCreate) ffdProject->ImageGeometry=(ffd_GEOMETRY)ui->GeometryCombo->currentIndex();
     ffdProject->ProjectInfo->Album          =ui->AlbumED->text();
     ffdProject->ProjectInfo->Author         =ui->AuthorED->text();
@@ -181,7 +170,7 @@ bool DlgffDPjrProperties::DoAccept() {
     ffdProject->ImageAnimSpeedWave          =ui->ImageSpeedWaveCB->GetCurrentValue();
     ffdProject->ThumbnailName               =ui->ThumbCB->GetCurrentModel();
 
-    if (IsLocationChanged) ffdProject->UpdateGMapsObject();
+    if (IsLocationChanged && AllowGMapRefresh) ffdProject->UpdateGMapsObject();
 
     return true;
 }
@@ -206,7 +195,6 @@ void DlgffDPjrProperties::AuthorChanged(QString) {
 //====================================================================================================================
 
 void DlgffDPjrProperties::EventDateChanged(const QDate &NewDate) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::EventDateChanged");
     ffdProject->ProjectInfo->EventDate=NewDate;
     if (!ffdProject->ProjectInfo->OverrideDate) {
         ffdProject->ProjectInfo->LongDate=FormatLongDate(ffdProject->ProjectInfo->EventDate);
@@ -218,7 +206,6 @@ void DlgffDPjrProperties::EventDateChanged(const QDate &NewDate) {
 //====================================================================================================================
 
 void DlgffDPjrProperties::OverrideDateChanged(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::OverrideDateChanged");
     ffdProject->ProjectInfo->OverrideDate=ui->OverrideDateCB->isChecked();
     if (!ffdProject->ProjectInfo->OverrideDate) {
         ffdProject->ProjectInfo->LongDate=FormatLongDate(ffdProject->ProjectInfo->EventDate);
@@ -232,7 +219,6 @@ void DlgffDPjrProperties::OverrideDateChanged(int) {
 // Export Thumb
 
 void DlgffDPjrProperties::ExportThumb() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::ExportThumb");
     QString OutputFileName=QFileInfo(ffdProject->ProjectFileName).absolutePath();
     if (!OutputFileName.endsWith(QDir::separator())) OutputFileName=OutputFileName+QDir::separator();
     OutputFileName=OutputFileName+"folder.jpg";
@@ -254,7 +240,6 @@ void DlgffDPjrProperties::ExportThumb() {
 // Edit a custom thumb model
 
 void DlgffDPjrProperties::AdminEditThumb() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::AdminEditThumb");
     int ThumbnailIndex=ApplicationConfig->ThumbnailModels->SearchModel(ffdProject->ThumbnailName);
     if ((ThumbnailIndex<0)||(ThumbnailIndex>=ApplicationConfig->ThumbnailModels->List.count())) return;
     if (!ApplicationConfig->ThumbnailModels->List[ThumbnailIndex]->IsCustom) {
@@ -294,7 +279,6 @@ void DlgffDPjrProperties::AdminEditThumb() {
 // Edit customized thumb (thumb integrated in the project)
 
 void DlgffDPjrProperties::EditThumb() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::EditThumb");
     if (ffdProject->ThumbnailName!="*") {
         ffdProject->ThumbnailName="*";
         ApplicationConfig->ThumbnailModels->AppendCustomModel();
@@ -314,7 +298,6 @@ void DlgffDPjrProperties::EditThumb() {
 //====================================================================================================================
 
 void DlgffDPjrProperties::ThumbChanged() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::ThumbChanged");
     ffdProject->ThumbnailName=ui->ThumbCB->GetCurrentModel();
     int ThumbnailIndex=ApplicationConfig->ThumbnailModels->SearchModel(ffdProject->ThumbnailName);
     if ((ThumbnailIndex<0)||(ThumbnailIndex>=ApplicationConfig->ThumbnailModels->List.count())) return;

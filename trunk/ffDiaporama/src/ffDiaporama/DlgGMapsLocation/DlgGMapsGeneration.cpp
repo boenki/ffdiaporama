@@ -52,7 +52,8 @@ DlgGMapsGeneration::~DlgGMapsGeneration() {
 void DlgGMapsGeneration::DoRejet() {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     RetryCount=MAXRETRY;
-    if (DuplicateRessource) MediaObject->RessourceKey=-1;
+    if (DuplicateRessource)
+        MediaObject->RessourceKey=-1;
     ApplicationConfig->SlideThumbsTable->SetThumbs(&MediaObject->RessourceKey,DestMap);
     QApplication::restoreOverrideCursor();
 }
@@ -66,17 +67,7 @@ void DlgGMapsGeneration::DoInitDialog() {
         cLocation *Location=((cLocation *)MediaObject->List[i]);
         cLocation *RealLoc=NULL;
 
-        if ((Location)&&(Location->LocationType==cLocation::PROJECT)) {
-            cDiaporama *Diaporama=(cDiaporama *)CurrentBrush->GetDiaporama();
-            if (Diaporama) RealLoc=(cLocation *)Diaporama->ProjectInfo->Location;
-        } else if ((Location)&&(Location->LocationType==cLocation::CHAPTER)) {
-            cDiaporamaObject *DiaporamaObject=(cDiaporamaObject *)CurrentBrush->GetDiaporamaObject();
-            if (DiaporamaObject) {
-                cDiaporamaObject *ChapterObject=DiaporamaObject->Parent->GetChapterDefObject(DiaporamaObject);
-                if ((ChapterObject)&&(ChapterObject->ChapterLocation)) RealLoc=(cLocation *)ChapterObject->ChapterLocation;
-                    else RealLoc=(cLocation *)DiaporamaObject->Parent->ProjectInfo->Location;
-            }
-        }
+        CurrentBrush->GetRealLocation((void **)&Location,(void **)&RealLoc);
         if (RealLoc) {
             Location->GPS_cx         =RealLoc->GPS_cx;
             Location->GPS_cy         =RealLoc->GPS_cy;
@@ -167,7 +158,8 @@ void DlgGMapsGeneration::RequestGoogle() {
         if (MediaObject->RequestList.isEmpty()) ui->StatusBar->setText("");
             else                                ui->StatusBar->setText(QApplication::translate("DlgGMapsGeneration","%1 pending section(s) should be retrieve later").arg(MediaObject->RequestList.count()));
         // update ressource in database (keep actual map even if sections pending)
-        if (DuplicateRessource) MediaObject->RessourceKey=-1;
+        if (DuplicateRessource)
+            MediaObject->RessourceKey=-1;
         ApplicationConfig->SlideThumbsTable->SetThumbs(&MediaObject->RessourceKey,DestMap);
         QApplication::restoreOverrideCursor();
         accept();

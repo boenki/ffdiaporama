@@ -115,5 +115,12 @@ done < ~/ffdtr.log
 rm ~/ffdtr.log
 
 cp ../locale/wiki_* ~/.ffDiaporama
+cp ../locale/WIKIVERSION.TXT ~/.ffDiaporama/fr_WIKIVERSION.TXT
+cp ../locale/WIKIVERSION.TXT ~/.ffDiaporama/es_WIKIVERSION.TXT
+cp ../locale/WIKIVERSION.TXT ~/.ffDiaporama/pt_WIKIVERSION.TXT
+cp ../locale/WIKIVERSION.TXT ~/.ffDiaporama/ru_WIKIVERSION.TXT
+cp ../locale/WIKIVERSION.TXT ~/.ffDiaporama/it_WIKIVERSION.TXT
+cp ../locale/WIKIVERSION.TXT ~/.ffDiaporama/el_WIKIVERSION.TXT
+cp ../locale/WIKIVERSION.TXT ~/.ffDiaporama/de_WIKIVERSION.TXT
 
 cat ../locale/WIKIVERSION.TXT

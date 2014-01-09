@@ -2,12 +2,30 @@
 * FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
 
+[Commit: ]
+    Bug fixes:
+        -Fixes not read of volumes and deinterleaving option of videos in project files [regression 20131221]
+        -No longer generates map 2 times when closing automatic edit slide dialog
+        -Generate map again if the model is changed when using amap from an automatic slide
+        -No longer regenerates the map when converting an automatic slide to a standard slide
+        -Adds a timeout of 30 seconds to not get stuck for 10 minutes when network access is not possible at application start
+        -Fixes an infinite loop which sometimes happens during video reading
+
+    New features:
+        -Removes the text outline and changes the default zoom level to 14 in the 2 new titles models (those with map GMaps)
+        -Adds an option to activate variable bitrate mode when encoding using h264 codec in order to reduce video size and avoid saccadements in ken burns effects
+             -This option is enabled by default when the video length is less than 50% of the project length (beyond this can increase the size of the generated video)
+             -In projects containing many photo, it can reduce the file up to 80%
+        -Adds a hundred new models of equipment (smartphones and tablets)
+
+--------------------------------------------------------------------------------
+
 [Commit: 06/01/2014]
     New features:
         -Compute some LUMA rather than using files to improve their quality
          -Treat the 24 LUMA-BAR transitions
          -Treat the first 24 LUMA-CLOCK transitions
-        -Removes unused LUMA files (reduces packet size)
+        -Removes unused LUMA files (reduces installation packets size)
 
 --------------------------------------------------------------------------------
 

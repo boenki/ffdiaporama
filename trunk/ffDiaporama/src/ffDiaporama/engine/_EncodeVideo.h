@@ -30,6 +30,8 @@
 #define SUPPORTED_COMBINATION       0
 #define UNSUPPORTED_COMBINATION     1
 #define INVALID_COMBINATION         2
+#define VBRMINCOEF                  0.5
+#define VBRMAXCOEF                  1.25
 
 int CheckEncoderCapabilities(VFORMAT_ID FormatId,AVCodecID VideoCodec,AVCodecID AudioCodec);
 
@@ -106,7 +108,7 @@ public:
     ~cEncodeVideo();
 
     bool            OpenEncoder(cDiaporama *Diaporama,QString OutputFileName,int FromSlide,int ToSlide,
-                        bool EncodeVideo,int VideoCodecSubId,sIMAGEDEF *ImageDef,int ImageWidth,int ImageHeight,int ExtendV,int InternalWidth,int InternalHeight,AVRational PixelAspectRatio,int VideoBitrate,
+                        bool EncodeVideo,int VideoCodecSubId,bool VBR,sIMAGEDEF *ImageDef,int ImageWidth,int ImageHeight,int ExtendV,int InternalWidth,int InternalHeight,AVRational PixelAspectRatio,int VideoBitrate,
                         bool EncodeAudio,int AudioCodecSubId,int AudioChannels,int AudioBitrate,int AudioSampleRate,QString Language);
     bool            DoEncode();
     void            CloseEncoder();
@@ -115,7 +117,7 @@ private:
 
     int             getThreadFlags(AVCodecID ID);
     bool            AddStream(AVStream **Stream,AVCodec **codec,const char *CodecName,AVMediaType Type);
-    bool            OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecSubId,AVRational VideoFrameRate,int ImageWidth,int ImageHeight,AVRational PixelAspectRatio,int VideoBitrate);
+    bool            OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecSubId,bool VBR,AVRational VideoFrameRate,int ImageWidth,int ImageHeight,AVRational PixelAspectRatio,int VideoBitrate);
     bool            OpenAudioStream(sAudioCodecDef *AudioCodecDef,int &AudioChannels,int &AudioBitrate,int &AudioSampleRate,QString Language);
 
     bool            PrepareTAG(QString Language);
