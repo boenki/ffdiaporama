@@ -3128,11 +3128,11 @@
     </message>
     <message>
         <source>Both settings are using &lt;U&gt;veryfast&lt;/U&gt; preset. </source>
-        <translation type="unfinished"></translation>
+        <translation>Ambas configuraciones utilizan perfil &lt;U&gt;muy rápido&lt;/U&gt;.</translation>
     </message>
     <message>
         <source>Note: Variable bitrate is used with these two codecs. For more information on variable bitrate, see: &lt;a href=&quot;0115.html&quot;&gt;Render video&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: tasa de bits variable es utilizado con estos dos codecs. Para obtener más información sobre la tasa de bits variable, consultar: &lt;a href=&quot;0115.html&quot;&gt;Render video&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -4390,7 +4390,7 @@
     </message>
     <message>
         <source>Note: ffDiaporama uses the filename extension to determine the type of image. It is therefore necessary that this extension was valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: ffDiaporama utiliza la extensión de nombre de archivo para determinar el tipo de imagen. Por lo tanto, es necesario que esta extensión sea válida.</translation>
     </message>
 </context>
 <context>
@@ -7647,39 +7647,39 @@
     </message>
     <message>
         <source>Variable bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitrate variable</translation>
     </message>
     <message>
         <source>If this box is checked, the bitrate is variable. (Note: This option is available only for h264 codec.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Si esta casilla está marcada, el bitrate es variable. (Nota: esta opción sólo está disponible para el codec h264.)</translation>
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished">Notas:</translation>
+        <translation>Notas:</translation>
     </message>
     <message>
         <source> &lt;U&gt;Rendering duration:&lt;/U&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;U&gt;Duración del render:&lt;/U&gt;</translation>
     </message>
     <message>
         <source> &lt;U&gt;Variable bitrate:&lt;/U&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;U&gt;Bitrate variable:&lt;/U&gt;</translation>
     </message>
     <message>
         <source> If variable bitrate is activated, the video compression bitrate could vary from -50% to +125% </source>
-        <translation type="unfinished"></translation>
+        <translation>Si se activa el bitrate variable, el bitrate de compresión de video puede variar de -50% a +125%</translation>
     </message>
     <message>
         <source>If the project contains mostly pictures, this option can significantly reduce the size of the video file (up to 80%)</source>
-        <translation type="unfinished"></translation>
+        <translation>Si el proyecto contiene en su mayoría imágenes, esta opción puede reducir significativamente el tamaño del archivo de vídeo (más de un 80%)</translation>
     </message>
     <message>
         <source>By cons, if the project contains mostly videos this option will increase the size of the video file</source>
-        <translation type="unfinished"></translation>
+        <translation>Por contra, si el proyecto contiene en su mayoría vídeos esta opción aumentará el tamaño del archivo de vídeo</translation>
     </message>
     <message>
         <source> By default, variable bitrate is activated when duration of videos are less than half of the total duration of the projet. </source>
-        <translation type="unfinished"></translation>
+        <translation>Por defecto, el bitrate variable se activa cuando la duración de los vídeos son menos de la mitad de la duración total de la projet.</translation>
     </message>
 </context>
 <context>
