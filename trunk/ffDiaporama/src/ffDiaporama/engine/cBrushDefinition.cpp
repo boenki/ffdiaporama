@@ -777,6 +777,11 @@ bool cBrushDefinition::LoadFromXML(QDomElement *ParentElement,QString ElementNam
                         }
                         #endif
                         Extension=QFileInfo(BrushFileName).suffix().toLower();
+                        if (ObjectType==OBJECTTYPE_UNMANAGED) {
+                            if      (ApplicationConfig->AllowVideoExtension.contains(Extension.toLower()))       ObjectType=OBJECTTYPE_VIDEOFILE;
+                            else if (ApplicationConfig->AllowImageExtension.contains(Extension.toLower()))       ObjectType=OBJECTTYPE_IMAGEFILE;
+                            else if (ApplicationConfig->AllowImageVectorExtension.contains(Extension.toLower())) ObjectType=OBJECTTYPE_IMAGEVECTOR;
+                        }
                     }
                     if (MediaObject) {
                         delete MediaObject;

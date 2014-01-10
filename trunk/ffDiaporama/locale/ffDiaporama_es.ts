@@ -2357,17 +2357,17 @@ Are you sure to have written the address correctly?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="356"/>
         <source>XML parsing error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error de análisis XML</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="365"/>
         <source>XML parsing error / incorrect root</source>
-        <translation type="unfinished"></translation>
+        <translation>Error de análisis XML / root incorrecta</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="379"/>
         <source>XML parsing error / status KO</source>
-        <translation type="unfinished"></translation>
+        <translation>Error de análisis XML / estado KO</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp" line="211"/>
@@ -4122,12 +4122,18 @@ Notes:
 - By cons, if the project contains mostly videos this option will increase the size of the video file
 
 By default, this box is checked if duration of videos are less than half of the total duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Si esta casilla está marcada, el bitrate es variable (entre -50% y +125%)
+
+Notas:
+- Si el proyecto contiene en su mayoría imágenes, esta opción puede reducir significativamente el tamaño del archivo de vídeo (más de un 80%)
+- Por contra, si el proyecto contiene en su mayoría vídeos esta opción aumentará el tamaño del archivo de vídeoe
+
+POr defecto, esta casilla está activada, si la duración de los vídeos son menos de la mitad de la duración total</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="120"/>
         <source>Variable bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitrate variable</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="203"/>

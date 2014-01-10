@@ -2,6 +2,14 @@
 * FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
 
+[Commit: 10/01/2014] - ffDiaporama 2.1 devel 20140111
+    Bug fixes:
+        -Fixes a critical bug reading projects [regression 20140103]
+
+    New features:
+
+--------------------------------------------------------------------------------
+
 [Commit: 10/01/2014] - ffDiaporama 2.1 devel 20140110
     Bug fixes:
         -Fixes not read of volumes and deinterleaving option of videos in project files [regression 20131221]
