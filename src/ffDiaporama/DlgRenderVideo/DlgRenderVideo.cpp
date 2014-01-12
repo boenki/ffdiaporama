@@ -586,11 +586,11 @@ void DlgRenderVideo::InitVideoBitRateCB(int ChangeIndex) {
 
             bool        IsFindBitRate=false;
             QStringList List   =StringToSortedStringList(VIDEOCODECDEF[CurrentCodec].PossibleBitrate);
-            QString     ToFind =ConvBRToString(VideoBitRate,(ui->VBRCB->isEnabled())&&(VBR));
+            QString     ToFind =ConvBRToString(VideoBitRate,(ui->VBRCB->isEnabled())&&(VBR)&&((CurrentCodec==VCODEC_H264HQ)||(CurrentCodec==VCODEC_H264PQ)));
             QString     Default=ConvBRToString(VIDEOCODECDEF[CurrentCodec].DefaultBitrate[Standard][CurrentSize],(ui->VBRCB->isEnabled())&&(VBR));
 
             for (int i=0;i<List.count();i++) {
-                List[i]=ConvBRToString(List[i],(ui->VBRCB->isEnabled())&&(VBR));
+                List[i]=ConvBRToString(List[i],(ui->VBRCB->isEnabled())&&(VBR)&&((CurrentCodec==VCODEC_H264HQ)||(CurrentCodec==VCODEC_H264PQ)));
                 ui->VideoBitRateCB->addItem(List[i]);
                 if ((ChangeIndex==-1)&&(List[i]==ToFind)) {
                     ui->VideoBitRateCB->setCurrentIndex(ui->VideoBitRateCB->count()-1);
@@ -736,7 +736,8 @@ void DlgRenderVideo::s_DeviceModelCB(int) {
                     DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].dFPS==30000L/1001L?"29.97 FPS":
                     "";
 
-        QString VideoBitRateStr=ConvBRToString(Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->VideoBitrate,VBR);
+        int CurrentCodec=ui->AudioFormatCB->currentIndex(); if (CurrentCodec>=0) CurrentCodec=ui->AudioFormatCB->itemData(CurrentCodec).toInt();
+        QString VideoBitRateStr=ConvBRToString(Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->VideoBitrate,VBR && ((CurrentCodec==VCODEC_H264HQ)||(CurrentCodec==VCODEC_H264PQ)));
         QString AudioBitRateStr=ConvBRToString(Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->AudioBitrate,false);
 
         Text=Text+"-"+FPS+"-"+VideoBitRateStr;
@@ -778,7 +779,7 @@ void DlgRenderVideo::InitDisplay() {
     // Video part
     if (Encoder.VideoStream) {
         ui->InfoLabelB2->setText(QString(Encoder.ImageDef->Name).trimmed());
-        QString VideoBitRateStr=ConvBRToString(VideoBitRate,VBR);
+        QString VideoBitRateStr=ConvBRToString(VideoBitRate,VBR && ((Encoder.VideoCodecSubId==VCODEC_H264HQ)||(Encoder.VideoCodecSubId==VCODEC_H264PQ)));
         ui->InfoLabelB3->setText(QString(VIDEOCODECDEF[Encoder.VideoCodecSubId].LongName)+" - "+(VideoBitRateStr!="0"?VideoBitRateStr:"lossless"));
     } else {
         ui->InfoLabelA2->setVisible(false);
@@ -1074,8 +1075,9 @@ void DlgRenderVideo::StartEncode() {
                 PixelAspectRatio=MakeAVRational(1,1);
             }
 
+            int CurrentCodec=ui->AudioFormatCB->currentIndex(); if (CurrentCodec>=0) CurrentCodec=ui->AudioFormatCB->itemData(CurrentCodec).toInt();
             Continue=Encoder.OpenEncoder(Diaporama,OutputFileName,FromSlide,ToSlide,
-                                    true,VideoCodecIndex,VBR,&DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize],Final_W,Final_H,Ext_H,Internal_W,Internal_H,PixelAspectRatio,VideoBitRate,
+                                    true,VideoCodecIndex,VBR && ((CurrentCodec==VCODEC_H264HQ)||(CurrentCodec==VCODEC_H264PQ)),&DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize],Final_W,Final_H,Ext_H,Internal_W,Internal_H,PixelAspectRatio,VideoBitRate,
                                     ui->IncludeSoundCB->isChecked(),AudioCodecIndex,2,AudioBitRate,AudioFrequency,Language);
             InitDisplay();
             ThreadEncode.setFuture(QtConcurrent::run(this,&DlgRenderVideo::DoThreadEncode));

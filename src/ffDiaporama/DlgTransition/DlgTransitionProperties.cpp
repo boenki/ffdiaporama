@@ -48,7 +48,6 @@ public:
 
 DlgTransitionProperties::DlgTransitionProperties(bool IsMultiple,cDiaporamaObject *TheDiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgTransitionProperties) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::DlgTransitionProperties");
     ui->setupUi(this);
     OkBt            =ui->OKBT;
     CancelBt        =ui->CancelBt;
@@ -56,12 +55,12 @@ DlgTransitionProperties::DlgTransitionProperties(bool IsMultiple,cDiaporamaObjec
     HelpFile        ="0122";
     DiaporamaObject =TheDiaporamaObject;
     this->IsMultiple=IsMultiple;
+    W=DiaporamaObject->Parent->GetWidthForHeight(ROWHEIGHT);
 }
 
 //====================================================================================================================
 
 DlgTransitionProperties::~DlgTransitionProperties() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::~DlgTransitionProperties");
     delete ui;
     if (PreviousFrame) {
         delete PreviousFrame;
@@ -72,8 +71,6 @@ DlgTransitionProperties::~DlgTransitionProperties() {
 //====================================================================================================================
 
 void DlgTransitionProperties::DoInitDialog() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::DoInitDialog");
-
     if (IsMultiple) setWindowTitle(QApplication::translate("DlgTransitionProperties","Select a transition for a set of slides"));
 
     ui->SpeedWaveCB->AddProjectDefault(DiaporamaObject->Parent->TransitionSpeedWave);
@@ -95,9 +92,6 @@ void DlgTransitionProperties::DoInitDialog() {
     AnimationTime=0;
     ui->TransitionTable->setItemDelegate(new BackgroundDelegate(this));
     MaxItem=0;
-    H=ROWHEIGHT;
-    W=DiaporamaObject->Parent->GetWidthForHeight(ROWHEIGHT);
-    for (int i=0;i<ui->TransitionTable->columnCount();i++) ui->TransitionTable->setColumnWidth(i,W+DECAL*2);
 
     // Save Object settings before force a transition
     TransitionFamilly  =DiaporamaObject->TransitionFamilly;
@@ -118,9 +112,9 @@ void DlgTransitionProperties::DoInitDialog() {
     PreviousFrame=new cDiaporamaObjectInfo(NULL,TimePosition,DiaporamaObject->Parent,double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS,false);
     QList<cCompositionObjectContext *> PreparedTransitBrushList;
     QList<cCompositionObjectContext *> PreparedBrushList;
-    if ((PreviousFrame->IsTransition)&&(PreviousFrame->TransitObject)) DiaporamaObject->Parent->CreateObjectContextList(PreviousFrame,W,H,false,true,true,PreparedTransitBrushList,DiaporamaObject->Parent);
-    DiaporamaObject->Parent->CreateObjectContextList(PreviousFrame,W,H,true,true,true,PreparedBrushList,DiaporamaObject->Parent);
-    DiaporamaObject->Parent->LoadSources(PreviousFrame,W,H,true,true,PreparedTransitBrushList,PreparedBrushList);                       // Load background and image
+    if ((PreviousFrame->IsTransition)&&(PreviousFrame->TransitObject)) DiaporamaObject->Parent->CreateObjectContextList(PreviousFrame,W,ROWHEIGHT,false,true,true,PreparedTransitBrushList,DiaporamaObject->Parent);
+    DiaporamaObject->Parent->CreateObjectContextList(PreviousFrame,W,ROWHEIGHT,true,true,true,PreparedBrushList,DiaporamaObject->Parent);
+    DiaporamaObject->Parent->LoadSources(PreviousFrame,W,ROWHEIGHT,true,true,PreparedTransitBrushList,PreparedBrushList);                       // Load background and image
 
     // Set old values
     DiaporamaObject->TransitionFamilly  =TransitionFamilly;
@@ -154,7 +148,6 @@ void DlgTransitionProperties::DoInitDialog() {
 // Initiale Undo
 
 void DlgTransitionProperties::PrepareGlobalUndo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::PrepareGlobalUndo");
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
@@ -166,7 +159,6 @@ void DlgTransitionProperties::PrepareGlobalUndo() {
 // Apply Undo : call when user click on Cancel button
 
 void DlgTransitionProperties::DoGlobalUndo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::DoGlobalUndo");
     QDomElement root=Undo->documentElement();
     if (root.tagName()=="UNDO-DLG") DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false);
 }
@@ -174,8 +166,6 @@ void DlgTransitionProperties::DoGlobalUndo() {
 //====================================================================================================================
 
 bool DlgTransitionProperties::DoAccept() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::DoAccept");
-
     DiaporamaObject->TransitionFamilly  =(TRFAMILLY)ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
     DiaporamaObject->TransitionSubType  =ui->TransitionTable->currentRow()*ui->TransitionTable->columnCount()+ui->TransitionTable->currentColumn();
     DiaporamaObject->TransitionDuration =int64_t(GetDoubleValue(ui->TransitionDurationCB->currentText())*double(1000));
@@ -185,18 +175,31 @@ bool DlgTransitionProperties::DoAccept() {
 
 //====================================================================================================================
 
-void DlgTransitionProperties::s_ChTransitionTypeCB(int NewValue) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::s_ChTransitionTypeCB");
+void DlgTransitionProperties::resizeEvent(QResizeEvent *) {
+    s_ChTransitionTypeCB(0);
+}
+
+//====================================================================================================================
+
+void DlgTransitionProperties::s_ChTransitionTypeCB(int /*NewValue*/) {
     Timer.stop();
     if (PreviousFrame==NULL) return;    // Nothing to do if previsous frame is not initialize
+    int NbrCol=ui->TransitionTable->viewport()->width()/(W+DECAL*2);
+    if (NbrCol<=0) NbrCol=1;
 
     // Convert item number to transition familly
-    NewValue=ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
+    int NewValue=ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
 
     ui->TransitionTable->setUpdatesEnabled(false);
 
     // clear table
-    while (ui->TransitionTable->rowCount()>0) ui->TransitionTable->removeRow(0);
+    while (ui->TransitionTable->rowCount()>0)    ui->TransitionTable->removeRow(0);
+    while (ui->TransitionTable->columnCount()>0) ui->TransitionTable->removeColumn(0);
+
+    for (int i=0;i<NbrCol;i++) {
+        ui->TransitionTable->insertColumn(0);
+        ui->TransitionTable->setColumnWidth(0,W+DECAL*2);
+    }
 
     MaxItem=0;
     switch (NewValue) {
@@ -233,7 +236,7 @@ void DlgTransitionProperties::s_ChTransitionTypeCB(int NewValue) {
         // Adjust transition subtype
         Frame->TransitionSubType=i;
         // Render images
-        DiaporamaObject->Parent->DoAssembly(ComputePCT(Frame->CurrentObject->GetSpeedWave(),Frame->TransitionPCTDone),Frame,W,H);
+        DiaporamaObject->Parent->DoAssembly(ComputePCT(Frame->CurrentObject->GetSpeedWave(),Frame->TransitionPCTDone),Frame,W,ROWHEIGHT);
 
         // Create a label object to handle the bitmap
         QLabel *Widget=new QLabel();
@@ -268,7 +271,6 @@ void DlgTransitionProperties::s_ChTransitionTypeCB(int NewValue) {
 //====================================================================================================================
 
 void DlgTransitionProperties::s_ChTransitionCB(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::s_ChTransitionCB");
     // Stop timer
     Timer.stop();
 
@@ -290,9 +292,9 @@ void DlgTransitionProperties::s_ChTransitionCB(int) {
     PreviousFrame=new cDiaporamaObjectInfo(NULL,TimePosition,DiaporamaObject->Parent,double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS,false);
     QList<cCompositionObjectContext *> PreparedTransitBrushList;
     QList<cCompositionObjectContext *> PreparedBrushList;
-    if ((PreviousFrame->IsTransition)&&(PreviousFrame->TransitObject)) DiaporamaObject->Parent->CreateObjectContextList(PreviousFrame,W,H,false,true,true,PreparedTransitBrushList,DiaporamaObject->Parent);
-    DiaporamaObject->Parent->CreateObjectContextList(PreviousFrame,W,H,true,true,true,PreparedBrushList,DiaporamaObject->Parent);
-    DiaporamaObject->Parent->LoadSources(PreviousFrame,W,H,true,true,PreparedTransitBrushList,PreparedBrushList);                       // Load background and image
+    if ((PreviousFrame->IsTransition)&&(PreviousFrame->TransitObject)) DiaporamaObject->Parent->CreateObjectContextList(PreviousFrame,W,ROWHEIGHT,false,true,true,PreparedTransitBrushList,DiaporamaObject->Parent);
+    DiaporamaObject->Parent->CreateObjectContextList(PreviousFrame,W,ROWHEIGHT,true,true,true,PreparedBrushList,DiaporamaObject->Parent);
+    DiaporamaObject->Parent->LoadSources(PreviousFrame,W,ROWHEIGHT,true,true,PreparedTransitBrushList,PreparedBrushList);                       // Load background and image
 
     // Set old values
     DiaporamaObject->TransitionFamilly  =TransitionFamilly;
@@ -315,7 +317,6 @@ void DlgTransitionProperties::s_ChTransitionCB(int) {
 // Timer event : update pixmap in the table
 //====================================================================================================================
 void DlgTransitionProperties::s_TimerEvent() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::s_TimerEvent");
     // Update all pixmap in the table
     int CurCol=0;
     int CurRow=0;
@@ -336,7 +337,7 @@ void DlgTransitionProperties::s_TimerEvent() {
         // Render images
         int SpeedWave=ui->SpeedWaveCB->GetCurrentValue();
         if (SpeedWave==SPEEDWAVE_PROJECTDEFAULT) SpeedWave=DiaporamaObject->Parent->TransitionSpeedWave;
-        DiaporamaObject->Parent->DoAssembly(ComputePCT(SpeedWave,Frame->TransitionPCTDone),Frame,W,H);
+        DiaporamaObject->Parent->DoAssembly(ComputePCT(SpeedWave,Frame->TransitionPCTDone),Frame,W,ROWHEIGHT);
 
         // Add icon in the bottom left corner
         QPainter P;
@@ -365,7 +366,6 @@ void DlgTransitionProperties::s_TimerEvent() {
 // Change of selected cell in the table
 //====================================================================================================================
 void DlgTransitionProperties::s_TableCellChanged(int currentRow,int currentColumn,int previousRow,int previousColumn) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::s_TableCellChanged");
     int NewCell=currentRow*ui->TransitionTable->columnCount()+currentColumn;
     if (NewCell>=MaxItem) {
         CurrentSelectRow=previousRow;

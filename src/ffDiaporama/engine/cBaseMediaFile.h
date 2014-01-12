@@ -462,6 +462,7 @@ protected:
 class cMusicObject : public cVideoFile {
 public:
     double              Volume;                 // Volume as % from 10% to 150%
+    bool                AllowCredit;            // if true, this music will appear in credit title
 
     cMusicObject(cBaseApplicationConfig *ApplicationConfig);
 

@@ -36,7 +36,7 @@ public:
     QTimer                  Timer;
     int                     MaxItem;
     cDiaporamaObjectInfo    *PreviousFrame;
-    int                     W,H;
+    int                     W;
     int                     TimePosition;
     int                     AnimationTime;
     bool                    IsMultiple;
@@ -54,6 +54,8 @@ public:
     virtual void    DoRejet()           {/*Nothing to do*/}     // Call when user click on Cancel button
     virtual void    PrepareGlobalUndo();                        // Initiale Undo
     virtual void    DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
+
+    virtual void    resizeEvent(QResizeEvent *);
 
 private slots:
     void            s_ChTransitionTypeCB(int);

@@ -385,10 +385,6 @@
         <translation>Flexibilität ist der Grund, warum Variablen in vielen Teilen des Programmes verwendet werden (Dias, Vorschaubilder, vordefinierte Titel, Video Tags, xbmc nfo, usw...)</translation>
     </message>
     <message>
-        <source>The following table lists all the available variables: </source>
-        <translation>Die folgende Tabelle zeigt alle verfügbaren Variablen: </translation>
-    </message>
-    <message>
         <source>Category</source>
         <translation>Kategorie</translation>
     </message>
@@ -786,6 +782,10 @@
     </message>
     <message>
         <source>Current chapter location address (if one is defined or project&apos;s location address).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following table lists all the available variables:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1826,6 +1826,18 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     <message>
         <source>Note: When previewing the selected slide is automatically defined on the current slide preview.</source>
         <translation>Anmerkung :Wenn die Vorschau eingeschaltet ist, wird automatisch das aktuelle Dia in der Vorschau dargestellt. </translation>
+    </message>
+    <message>
+        <source>On slide associated with the music, the cover, artist and song title are displayed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To move the music or the background associated to a slide to another slide:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Simply drag the music or background to a new position with the mouse (drag &amp; drop)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7302,18 +7314,6 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <translation>spielt Dia 5 das Musikstück aus Dia 4 weiter ab</translation>
     </message>
     <message>
-        <source>Available settings for the music track</source>
-        <translation>Für die Musikspur verfügbare Einstellungen</translation>
-    </message>
-    <message>
-        <source>Continue current playlist</source>
-        <translation>Aktuelle Abspielliste weiterspielen</translation>
-    </message>
-    <message>
-        <source>Continues to play the play list defined by a previous slide:</source>
-        <translation>Setzt das Abspielen für die Abspielliste aus vorherigen Dias fort:</translation>
-    </message>
-    <message>
         <source>Normal</source>
         <translation>Normal</translation>
     </message>
@@ -7326,16 +7326,8 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <translation>Ändern der Lautstärke</translation>
     </message>
     <message>
-        <source>Specifies that from now on, the sound volume is reduced. This option is particularly useful, for example, to reduce the sound of the music during the play of a video. Remark : This volume reduction is applied only for the selected slide.</source>
-        <translation>Legt fest, dass von nun an die Lautstärke reduziert wird. Diese Option ist besonders nützlich, um zum Beispiel die Lautstärke während des Abspielens eines Videos zu reduzieren. Anmerkung: Die Lautstärkenreduktion wird nur für das aktuelle Dia angewandt.</translation>
-    </message>
-    <message>
         <source>Set to pause</source>
         <translation>Pausieren</translation>
-    </message>
-    <message>
-        <source>Pauses the current play list. Remark : This pause is applied only for the selected slide.</source>
-        <translation>Pausiert die aktuelle Abspielliste. Anmerkung: Die Pause wird nur für das aktuelle Dia angewandt.</translation>
     </message>
     <message>
         <source>Start a new playlist</source>
@@ -7386,14 +7378,6 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <translation>Die Abspielliste</translation>
     </message>
     <message>
-        <source>The music files are listed in the order in which they will be played, from top to bottom. The Volume column defines the &quot; Master volume &quot; for the file. This volume is independent of any reductions in the volume that you define in the upper part of the dialog.</source>
-        <translation>Die aktiven Musikstücke werden in der Reihenfolge des Abspielens aufgelistet. Die Spalte Volume definiert die Einstellung der Lautstärke für dieses spezifische Musikstück, unabhängig einer eventuellen nachträglichen Korrektur in der Musikspur (über die Einstellungen im oberen Teil dieses Dialoges).</translation>
-    </message>
-    <message>
-        <source>Remarks:</source>
-        <translation>Anmerkung:</translation>
-    </message>
-    <message>
         <source>The fade in/out effects and the increase/decrease of volume take place during the entering slide transitions. Consequently: </source>
         <translation>Das Ein- und Ausblenden (Fade in / Fade Out) sowie das Anheben und Senken der Lautstärke passiert in der selben Zeitspanne, in welcher der Übergang des Dias festgelegt wurde. Dies bedeutet:</translation>
     </message>
@@ -7404,6 +7388,34 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     <message>
         <source>If a slide has an entering transition set to &quot;No transition&quot;, the sound effect is not progressive but instantaneous.</source>
         <translation>Ist zwischen zwei Dias kein Überblendeffekt festgelegt, wird das Musikstück entsprechend abrupt beendet.</translation>
+    </message>
+    <message>
+        <source>The following options are apply to the current music during the slide:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Specifies that the sound volume is reduced during this slide. (This option is particularly useful, for example, to reduce the sound of the music during the play of a video.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pauses the current play list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The music files are listed in the order in which they will be played, from top to bottom.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Volume column defines the &quot; Master volume &quot; for the file. This volume is independent of any reductions in the volume that you define in the upper part of the dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Credit column defines if the file should appear or not when using %STM% variable in a credit title. For more information on variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remarks</source>
+        <translation type="unfinished">Anmerkungen</translation>
     </message>
 </context>
 <context>

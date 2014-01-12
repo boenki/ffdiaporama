@@ -1885,6 +1885,7 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                         ResKey=ResKeyList->at(ResNum).NewKey;
                         break;
                     }
+                    ThumbnailKey=ResKey;
                 } else ThumbnailKey=Element.attribute("ThumbRessource").toLongLong();
             }
 
@@ -2117,7 +2118,7 @@ void cDiaporama::UpdateStatInformation() {
             // Parse all object to construct values
             QStringList MusicList;
             Text=QApplication::translate("Variables","Musical content:","Project statistics");
-            for (int i=0;i<List.count();i++) if (List[i]->MusicType) for (int music=0;music<List[i]->MusicList.count();music++) {
+            for (int i=0;i<List.count();i++) if (List[i]->MusicType) for (int music=0;music<List[i]->MusicList.count();music++) if (List[i]->MusicList[music].AllowCredit) {
                 QStringList TempExtProperties;
                 ApplicationConfig->FilesTable->GetExtendedProperties(List[i]->MusicList[music].FileKey,&TempExtProperties);
                 QString TMusc =GetInformationValue("title",&TempExtProperties);
@@ -2132,9 +2133,10 @@ void cDiaporama::UpdateStatInformation() {
                 if (!Album.isEmpty()) SubText=SubText+QApplication::translate("Variables"," from «%1»",       "Project statistics-Music").arg(Album);
                 MusicList.append(SubText);
             }
-            for (int i=0;i<MusicList.count();i++) Text=Text+(MusicList.count()>1?"\n·":" ")+MusicList[i];
-            Variable.Variables[var].Value=HTMLConverter.ToPlainText(Text);
-
+            if (MusicList.count()>0) {
+                for (int i=0;i<MusicList.count();i++) Text=Text+(MusicList.count()>1?"\n·":" ")+MusicList[i];
+                Variable.Variables[var].Value=HTMLConverter.ToPlainText(Text);
+            } else Variable.Variables[var].Value=" .";
         }
     }
 }
@@ -2466,17 +2468,14 @@ void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,int64_t Position,c
         return;
     }
 
-    bool IsCurrentTransitionIN =(Position<List[Column]->TransitionDuration);
-    bool FadeEffect            =(IsCurrentTransitionIN && ((Column>0)&&(
+    bool IsCurrentTransitionIN =(Column>0)&&(Position<List[Column]->TransitionDuration);
+    bool FadeEffect            =(IsCurrentTransitionIN && (
                                     (List[Column-1]->MusicReduceVolume!=List[Column]->MusicReduceVolume)||
                                     (List[Column-1]->MusicPause!=List[Column]->MusicPause)||
                                     ((List[Column-1]->MusicReduceVolume==List[Column]->MusicReduceVolume)&&(List[Column-1]->MusicReduceFactor!=List[Column]->MusicReduceFactor))
-                                )));
+                                ));
 
-    if ((!IsCurrentTransitionIN && !List[Column]->MusicPause)||
-        (IsCurrentTransitionIN && !List[Column]->MusicPause)||
-        (IsCurrentTransitionIN && List[Column]->MusicPause && !List[Column-1]->MusicPause)
-       ) {
+    if (!List[Column]->MusicPause || (IsCurrentTransitionIN && !List[Column-1]->MusicPause)) {
         double Factor=CurMusic->Volume; // Master volume
         if (List[Column]->MusicReduceVolume || FadeEffect) {
             if (FadeEffect) {

@@ -389,10 +389,6 @@
         <translation>Es por eso que las variables se utilizan en muchas partes de la aplicación (diapositivas, miniaturas, títulos, etiquetas predefinidas diapositivas de vídeo, nfo para XBMC, etc ..)</translation>
     </message>
     <message>
-        <source>The following table lists all the available variables: </source>
-        <translation>La siguiente tabla muestra todas las variables disponibles:</translation>
-    </message>
-    <message>
         <source>Category</source>
         <translation>Categoría</translation>
     </message>
@@ -787,6 +783,10 @@
     <message>
         <source>Current chapter location address (if one is defined or project&apos;s location address).</source>
         <translation>Dirección actual de la ubicación del capítulo (si se define uno o dirección de la ubicación del proyecto).</translation>
+    </message>
+    <message>
+        <source>The following table lists all the available variables:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1825,6 +1825,18 @@
     <message>
         <source>Note: When previewing the selected slide is automatically defined on the current slide preview.</source>
         <translation>Nota: Cuando previsualizamos la diapositiva seleccionada, ésta es definida automáticamente como diapositiva actual mostrada.</translation>
+    </message>
+    <message>
+        <source>On slide associated with the music, the cover, artist and song title are displayed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To move the music or the background associated to a slide to another slide:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Simply drag the music or background to a new position with the mouse (drag &amp; drop)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7291,18 +7303,6 @@
         <translation>La diapositivas 5 continúan reproduciendo la lista definida en la diapositiva 4</translation>
     </message>
     <message>
-        <source>Available settings for the music track</source>
-        <translation>Los siguientes ajustes están disponibles para la pista de música</translation>
-    </message>
-    <message>
-        <source>Continue current playlist</source>
-        <translation>Continuar la lista de reproducción actual</translation>
-    </message>
-    <message>
-        <source>Continues to play the play list defined by a previous slide:</source>
-        <translation>Permite continuar la reproducción de la lista definida en una diapositiva precedente:</translation>
-    </message>
-    <message>
         <source>Normal</source>
         <translation>Normal</translation>
     </message>
@@ -7315,16 +7315,8 @@
         <translation>Cambiar el nivel de sonido</translation>
     </message>
     <message>
-        <source>Specifies that from now on, the sound volume is reduced. This option is particularly useful, for example, to reduce the sound of the music during the play of a video. Remark : This volume reduction is applied only for the selected slide.</source>
-        <translation>Especifica que a partir de ahora, el volumen de sonido se reduce. Esta opción es particularmente útil, por ejemplo, para reducir el sonido de la música durante la reproducción del video. Nota: Esta reducción de volumen se aplica sólo para la diapositiva seleccionada.</translation>
-    </message>
-    <message>
         <source>Set to pause</source>
         <translation>Puesto en pausa</translation>
-    </message>
-    <message>
-        <source>Pauses the current play list. Remark : This pause is applied only for the selected slide.</source>
-        <translation>Permite poner en pausa la lista de reproducción. Nota : Esta pausa dura lo que la diapositiva seleccionada.</translation>
     </message>
     <message>
         <source>Start a new playlist</source>
@@ -7375,14 +7367,6 @@
         <translation>La lista de reproducción</translation>
     </message>
     <message>
-        <source>The music files are listed in the order in which they will be played, from top to bottom. The Volume column defines the &quot; Master volume &quot; for the file. This volume is independent of any reductions in the volume that you define in the upper part of the dialog.</source>
-        <translation>Los archivos de música se muestran en el orden en que se reproducirán, de arriba a abajo. La columna Volumen define el &quot;Volumen Maestro&quot; para el archivo. Este volumen es independiente de cualquier reducción en el volumen que haya definido en la parte superior del cuadro de diálogo.</translation>
-    </message>
-    <message>
-        <source>Remarks:</source>
-        <translation>Notas:</translation>
-    </message>
-    <message>
         <source>The fade in/out effects and the increase/decrease of volume take place during the entering slide transitions. Consequently: </source>
         <translation>Los efectos fade in/out y el aumento/disminución de volumen se realizan durante las transiciones de las diapositivas que entran. En consecuencia:</translation>
     </message>
@@ -7401,6 +7385,34 @@
     <message>
         <source>Then:</source>
         <translation>Entonces:</translation>
+    </message>
+    <message>
+        <source>The following options are apply to the current music during the slide:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Specifies that the sound volume is reduced during this slide. (This option is particularly useful, for example, to reduce the sound of the music during the play of a video.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pauses the current play list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The music files are listed in the order in which they will be played, from top to bottom.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Volume column defines the &quot; Master volume &quot; for the file. This volume is independent of any reductions in the volume that you define in the upper part of the dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Credit column defines if the file should appear or not when using %STM% variable in a credit title. For more information on variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remarks</source>
+        <translation type="unfinished">Notas</translation>
     </message>
 </context>
 <context>
