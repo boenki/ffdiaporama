@@ -2,9 +2,29 @@
 * FFDIAPORAMA 2.1 - trunk (Version Française)
 **************************************************
 
+[Commit: 12/01/2014]
+    Correction de bug :
+        -Corrige la boite de sélection des transitions : quand la boite est réduite ou élargie, augmente ou réduit le nombre de colonne
+        -Corrige un bug dans le rechargement des fichiers projets qui générait un recalcul des vignettes des diapositives
+
+    Nouveautés :
+        -Modifie la boite de dialogue de paramétrage de la piste musical :
+            -Affiche la jaquette de la musique si elle existe
+            -Ajoute une case à cocher dans la table des morceaux pour autoriser au non le référencement de ce titre dans les génériques (variables %STM%)
+            -Autorise le paramétrage des options de volume et de pause même si la diapositive définie une nouvelle liste de lecture
+        -Modifie l'affichage de la piste musical sur la barre de temps
+            -Ajoute l'affichage de la jaquette du morceau
+            -Réduit la police de caractère pour l'affichage de l'artiste et du titre du morceau
+        -Modifie le Drag & Drop de la barre de temps
+            -Permet le déplacement d'une définition de playlist musical d'une diapo vers une autre
+            -Permet le déplacement d'une définition de fond d'écran d'une diapo vers une autre
+
+--------------------------------------------------------------------------------
+
 [Commit: 10/01/2014] - ffDiaporama 2.1 devel 20140111
     Correction de bug :
         -Corrige un gros bug lors de la relecture des projets [regression 20140103]
+        -Corrige l'erreur d'affichage du VBR pour les autres codec que le h264 dans la boite de génération des videos
 
     Nouveautés :
 

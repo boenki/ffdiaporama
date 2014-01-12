@@ -389,10 +389,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The following table lists all the available variables: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Category</source>
         <translation type="unfinished">Κατηγορία</translation>
     </message>
@@ -786,6 +782,10 @@
     </message>
     <message>
         <source>Current chapter location address (if one is defined or project&apos;s location address).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following table lists all the available variables:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1825,6 +1825,18 @@
     </message>
     <message>
         <source>Note: When previewing the selected slide is automatically defined on the current slide preview.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>On slide associated with the music, the cover, artist and song title are displayed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To move the music or the background associated to a slide to another slide:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Simply drag the music or background to a new position with the mouse (drag &amp; drop)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7305,18 +7317,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Available settings for the music track</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Continue current playlist</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Continues to play the play list defined by a previous slide:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Normal</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7329,15 +7329,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Specifies that from now on, the sound volume is reduced. This option is particularly useful, for example, to reduce the sound of the music during the play of a video. Remark : This volume reduction is applied only for the selected slide.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Set to pause</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Pauses the current play list. Remark : This pause is applied only for the selected slide.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7389,14 +7381,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The music files are listed in the order in which they will be played, from top to bottom. The Volume column defines the &quot; Master volume &quot; for the file. This volume is independent of any reductions in the volume that you define in the upper part of the dialog.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remarks:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>The fade in/out effects and the increase/decrease of volume take place during the entering slide transitions. Consequently: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -7407,6 +7391,34 @@
     <message>
         <source>If a slide has an entering transition set to &quot;No transition&quot;, the sound effect is not progressive but instantaneous.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following options are apply to the current music during the slide:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Specifies that the sound volume is reduced during this slide. (This option is particularly useful, for example, to reduce the sound of the music during the play of a video.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pauses the current play list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The music files are listed in the order in which they will be played, from top to bottom.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Volume column defines the &quot; Master volume &quot; for the file. This volume is independent of any reductions in the volume that you define in the upper part of the dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Credit column defines if the file should appear or not when using %STM% variable in a credit title. For more information on variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remarks</source>
+        <translation type="unfinished">Σημειώσεις</translation>
     </message>
 </context>
 <context>

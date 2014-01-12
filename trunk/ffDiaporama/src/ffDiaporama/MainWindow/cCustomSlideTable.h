@@ -35,22 +35,24 @@
 #define DRAGMODE_NOACTION                   0
 #define DRAGMODE_INTERNALMOVE_SLIDE         1
 #define DRAGMODE_INTERNALMOVE_MUSIC         2
-#define DRAGMODE_EXTERNALADD_SLIDE          3
-#define DRAGMODE_EXTERNALADD_MUSIC          4
+#define DRAGMODE_INTERNALMOVE_BACKGROUND    3
+#define DRAGMODE_EXTERNALADD_SLIDE          4
+#define DRAGMODE_EXTERNALADD_MUSIC          5
 
 //*****************************************************************************************************************************************
 
 class cCustomSlideTable : public QTableWidget {
 Q_OBJECT
 public:
-    bool                PartitionMode;
-    cDiaporama          *Diaporama;                 // Link to current diaporama
+    bool                    PartitionMode;
+    cDiaporama              *Diaporama;                 // Link to current diaporama
     cBaseApplicationConfig  *ApplicationConfig;         // Link to current application config
 
     // Drag & drop operation
-    int                 DragItemSource;
-    int                 DragItemDest;
-    int                 IsDragOn;                   // DragOff=0, DragInternal=1 or DragExternal=0
+    int                     DragItemSource;
+    int                     DragItemDest;
+    int                     IsDragOn;                   // DragOff=0, DragInternal=1 or DragExternal=0
+    bool                    CursorPosValide;
 
     explicit    cCustomSlideTable(QWidget *parent = 0);
 

@@ -48,7 +48,6 @@ public:
     virtual void    RefreshControl(bool RefreshList=false);
 
 private slots:
-    void    s_SameMusic();
     void    s_SameMusicNormal();
     void    s_SameMusicReduceVolume();
     void    s_SameMusicPause();
@@ -64,7 +63,10 @@ signals:
     void    SetModifyFlag();
 
 private:
-    void SetupUi();
+    void    SetupUi();
+    void    SetItem(int row,int MusicIndex);
+    bool    GetCBChecked(int row);
+
     Ui::DlgMusicProperties *ui;
 };
 

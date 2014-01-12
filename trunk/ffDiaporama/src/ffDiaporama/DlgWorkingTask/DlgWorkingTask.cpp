@@ -61,6 +61,13 @@ void DlgWorkingTask::DisplayProgress(int Value) {
 
 //====================================================================================================================
 
+void DlgWorkingTask::HideProgress() {
+    ui->ProgressBar->setVisible(false);
+    CancelBt->setVisible(false);
+}
+
+//====================================================================================================================
+
 void DlgWorkingTask::SetMaxValue(int Value,int AddValue) {
     MaxValue=Value;
     this->AddValue=AddValue;

@@ -1083,6 +1083,7 @@ void MainWindow::s_Event_DoubleClickedOnMusic() {
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     if (Dlg.exec()==0) {
+        Diaporama->UpdateStatInformation();
         SetModifyFlag(true);
         (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
         AdjustRuller();
@@ -1092,11 +1093,26 @@ void MainWindow::s_Event_DoubleClickedOnMusic() {
 //====================================================================================================================
 
 void MainWindow::s_Event_TimelineDragMoveItem() {
-    if (ui->timeline->DragItemSource<ui->timeline->DragItemDest) ui->timeline->DragItemDest--;
+    if (!ui->timeline->CursorPosValide) return;
+    if ((ui->timeline->IsDragOn==DRAGMODE_INTERNALMOVE_SLIDE)&&(ui->timeline->DragItemSource<ui->timeline->DragItemDest)) ui->timeline->DragItemDest--;
+
     if ((ui->timeline->DragItemSource!=ui->timeline->DragItemDest)&&(ui->timeline->DragItemSource>=0)&&(ui->timeline->DragItemSource<Diaporama->List.count())
         &&(ui->timeline->DragItemDest>=0)&&(ui->timeline->DragItemDest<Diaporama->List.count())) {
 
-        Diaporama->List.move(ui->timeline->DragItemSource,ui->timeline->DragItemDest);
+        if (ui->timeline->IsDragOn==DRAGMODE_INTERNALMOVE_SLIDE) {
+            Diaporama->List.move(ui->timeline->DragItemSource,ui->timeline->DragItemDest);
+        } else if (ui->timeline->IsDragOn==DRAGMODE_INTERNALMOVE_MUSIC) {
+             for (int i=0;i<Diaporama->List[ui->timeline->DragItemSource]->MusicList.count();i++)
+                 Diaporama->List[ui->timeline->DragItemDest]->MusicList.append(Diaporama->List[ui->timeline->DragItemSource]->MusicList.takeFirst());
+             Diaporama->List[ui->timeline->DragItemDest]->MusicType  =true;
+             Diaporama->List[ui->timeline->DragItemSource]->MusicType=false;
+        } else if (ui->timeline->IsDragOn==DRAGMODE_INTERNALMOVE_BACKGROUND) {
+            cBrushDefinition *BR=Diaporama->List[ui->timeline->DragItemDest]->BackgroundBrush;
+            Diaporama->List[ui->timeline->DragItemDest]->BackgroundType   =true;
+            Diaporama->List[ui->timeline->DragItemDest]->BackgroundBrush  =Diaporama->List[ui->timeline->DragItemSource]->BackgroundBrush;
+            Diaporama->List[ui->timeline->DragItemSource]->BackgroundType =false;
+            Diaporama->List[ui->timeline->DragItemSource]->BackgroundBrush=BR;
+        }
         SetModifyFlag(true);
         ui->timeline->SetCurrentCell(ui->timeline->DragItemDest);
     }
@@ -1550,10 +1566,26 @@ void MainWindow::DoOpenFile() {
 
             ResKeyList.clear();
 
+            // Open progress window
+            if (DlgWorkingTaskDialog) {
+                DlgWorkingTaskDialog->close();
+                delete DlgWorkingTaskDialog;
+                DlgWorkingTaskDialog=NULL;
+            }
+            DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Open project file"),&CancelAction,ApplicationConfig,this);
+            DlgWorkingTaskDialog->InitDialog();
+            DlgWorkingTaskDialog->SetMaxValue(CurrentLoadingProjectNbrObject,0);
+            DlgWorkingTaskDialog->show();
+            QApplication::processEvents();
+            DlgWorkingTaskDialog->HideProgress();
+            DlgWorkingTaskDialog->update();
+            QApplication::processEvents();
+
             QTextStream InStream(&file);
             QString     ffDPart;
             QString     OtherPart="<!DOCTYPE ffDiaporama>\n";
             bool        EndffDPart=false;
+            int         Num=0;
 
             InStream.setCodec("UTF-8");
             while (!InStream.atEnd()) {
@@ -1564,6 +1596,9 @@ void MainWindow::DoOpenFile() {
                 } else {
                     OtherPart.append(Line);
                     if (Line.endsWith("/>")) {
+                        DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","Loading project ressources: %1").arg(Num++));
+                        DlgWorkingTaskDialog->update();
+                        QApplication::processEvents();
                         QDomDocument ResDoc;
                         if (ResDoc.setContent(OtherPart,true,&errorStr,&errorLine,&errorColumn)) {
                             QDomElement  ResElem=ResDoc.documentElement();
@@ -2051,6 +2086,8 @@ bool ByNumber(const QString &Item1,const QString &Item2) {
 }
 //=====
 void MainWindow::s_Event_TimelineAddDragAndDropFile() {
+    if (!ui->timeline->CursorPosValide) return;
+
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display

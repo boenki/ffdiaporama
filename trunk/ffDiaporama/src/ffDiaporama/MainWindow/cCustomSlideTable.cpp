@@ -138,6 +138,19 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         Painter->setPen(Pen);
         Painter->drawLine(0,ThumbHeight-1,ThumbWidth-1,ThumbHeight-1);
 
+        int FontFactor  =((ParentTable->ApplicationConfig->TimelineHeight-TIMELINEMINHEIGH)/20)*10;
+        QFont normalFont=QApplication::font();
+        QFont smallFont = QApplication::font();
+
+        Painter->setFont(normalFont);
+        #ifdef Q_OS_WIN
+        normalFont.setPointSizeF(double(110+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                         // Scale font
+        smallFont.setPointSizeF ((double(110+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()))*0.8;                    // Scale font
+        #else
+        normalFont.setPointSizeF((double(140+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()))*ScreenFontAdjust);      // Scale font
+        smallFont.setPointSizeF ((double(140+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()))*ScreenFontAdjust*0.8);  // Scale font
+        #endif
+
         //==========================================================================================================================
         // Track BACKGROUND (first 1/4 height of the slide)
         //==========================================================================================================================
@@ -301,16 +314,6 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         }
 
         // Draw transition duration, slide duration and slide name
-        int FontFactor=((ParentTable->ApplicationConfig->TimelineHeight-TIMELINEMINHEIGH)/20)*10;
-        QFont font= QApplication::font();
-        Painter->setFont(font);
-        #ifdef Q_OS_WIN
-        font.setPointSizeF(double(110+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
-        #else
-        font.setPointSizeF((double(140+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()))*ScreenFontAdjust);// Scale font
-        #endif
-        Painter->setFont(font);
-
         Pen.setWidth(1);
         Pen.setStyle(Qt::SolidLine);
 
@@ -324,6 +327,8 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
 
         Pen.setColor(Qt::black);
         Painter->setPen(Pen);
+        Painter->setFont(normalFont);
+
         Painter->drawText(QRectF(TransitionSize+3+1,        ThumbHeight/4+2-1+1,                    NewThumbWidth,              16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
         if (AutoTSNumber==-1) Painter->drawText(QRectF(TransitionSize+3+1,ThumbHeight/4+2-1+1+NewThumbHeight-16,NewThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
         Painter->drawText(QRectF(2+1,                       ThumbHeight/4+2-1+34+1,                 32,                         16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
@@ -388,8 +393,8 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
                     if (((PrevMusique!=NULL))&&(IsTransition)) DrawInTransition=true;
                     DrawVolumeTransition=false;
                 }
-            // continue Playlist from a previous object
-            } else if (Object->MusicPause) DrawPause=true;
+            }
+            if (Object->MusicPause) DrawPause=true;
             if (DrawInTransition && IsTransition) {
                 // Draw out transition from a previous object
                 if (DrawOutTransition) {
@@ -457,14 +462,17 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         if ((CurMusic)&&(OwnerObjectMusic==ItemIndex)) {
             QStringList TempExtProperties;
             ParentTable->ApplicationConfig->FilesTable->GetExtendedProperties(CurMusic->FileKey,&TempExtProperties);
+            QImage  Icon     =CurMusic->GetIcon(cCustomIcon::ICON100,false).scaledToHeight(24);
             QString Artist   =GetInformationValue("artist",&TempExtProperties);
             QString Title    =GetInformationValue("title",&TempExtProperties);
             QString MusicName=((Artist!="")&&(Title!="")?Artist+"\n"+Title:QFileInfo(CurMusic->FileName()).baseName());
 
+            Painter->drawImage(TransitionSize-1-24,ThumbHeight-4-24+1,Icon);
             Pen.setWidth(1);
             Pen.setStyle(Qt::SolidLine);
             Pen.setColor(Qt::black);
             Painter->setPen(Pen);
+            Painter->setFont(smallFont);
             Painter->drawText(QRectF(TransitionSize+4+1,ThumbHeight-4-24+1,ThumbWidth-8-TransitionSize,24),MusicName,Qt::AlignLeft|Qt::AlignVCenter);
             Pen.setColor(Qt::white);
             Painter->setPen(Pen);
@@ -495,48 +503,57 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         //==========================================================================================================================
         // Draw Drag & Drop inserting point (if needed)
         //==========================================================================================================================
-        bool    DrawDragBefore=false;
-        bool    DrawDragAfter =false;
-        bool    DrawMusicPart =false;
+        if ((ParentTable->CursorPosValide)||(ParentTable->DragItemDest==ParentTable->DragItemSource)) {
+            bool    DrawDragBefore    =false;
+            bool    DrawDragAfter     =false;
+            bool    DrawMusicPart     =false;
+            bool    DrawBackgroundPart=false;
 
-        if (ParentTable->IsDragOn==DRAGMODE_INTERNALMOVE_SLIDE) {             //  Drag source is timeline
-            if ((ItemIndex!=ParentTable->DragItemSource)&&(ItemIndex!=ParentTable->DragItemSource+1)) {
-                if (ItemIndex==ParentTable->DragItemDest)                                                           DrawDragBefore=true;
-                if ((ItemIndex==ParentTable->DragItemDest-1)&&(ItemIndex==ParentTable->Diaporama->List.count()-1))  DrawDragAfter =true;
+            if (ParentTable->IsDragOn==DRAGMODE_INTERNALMOVE_SLIDE) {             //  Drag source is timeline
+                if ((ItemIndex!=ParentTable->DragItemSource)&&(ItemIndex!=ParentTable->DragItemSource+1)) {
+                    if (ItemIndex==ParentTable->DragItemDest)                                                           DrawDragBefore=true;
+                    if ((ItemIndex==ParentTable->DragItemDest-1)&&(ItemIndex==ParentTable->Diaporama->List.count()-1))  DrawDragAfter =true;
+                }
+
+            } else if (ParentTable->IsDragOn==DRAGMODE_EXTERNALADD_SLIDE) {      //  Drag source is external to timeline
+                if (ItemIndex==ParentTable->DragItemDest)                                                               DrawDragBefore=true;
+                if ((ItemIndex==ParentTable->DragItemDest-1)&&(ItemIndex==ParentTable->Diaporama->List.count()-1))      DrawDragAfter =true;
+
+            } else if ((ParentTable->IsDragOn==DRAGMODE_EXTERNALADD_MUSIC)||(ParentTable->IsDragOn==DRAGMODE_INTERNALMOVE_MUSIC)) {
+                if (ItemIndex==ParentTable->DragItemDest)                                                               DrawMusicPart=true;
+            } else if (ParentTable->IsDragOn==DRAGMODE_INTERNALMOVE_BACKGROUND) {
+                if (ItemIndex==ParentTable->DragItemDest)                                                               DrawBackgroundPart=true;
             }
 
-        } else if (ParentTable->IsDragOn==DRAGMODE_EXTERNALADD_SLIDE) {      //  Drag source is external to timeline
-            if (ItemIndex==ParentTable->DragItemDest)                                                               DrawDragBefore=true;
-            if ((ItemIndex==ParentTable->DragItemDest-1)&&(ItemIndex==ParentTable->Diaporama->List.count()-1))      DrawDragAfter =true;
+            if (DrawDragBefore || DrawDragAfter || DrawMusicPart || DrawBackgroundPart) {
+                Pen.setColor(WidgetDrag_Color);
+                Pen.setStyle(Qt::SolidLine);
+                Pen.setWidth(6);
+                Painter->setPen(Pen);
+                Painter->setBrush(Qt::NoBrush); //QBrush(QColor(WidgetSelection_Color)));
+                Painter->setOpacity(0.5);
 
-        } else if (ParentTable->IsDragOn==DRAGMODE_EXTERNALADD_MUSIC) {      //  Drag source is music only and external to timeline
-            if (ItemIndex==ParentTable->DragItemDest)                                                               DrawMusicPart=true;
-        }
-
-        if (DrawDragBefore || DrawDragAfter || DrawMusicPart) {
-            Pen.setColor(WidgetDrag_Color);
-            Pen.setStyle(Qt::SolidLine);
-            Pen.setWidth(6);
-            Painter->setPen(Pen);
-            Painter->setBrush(Qt::NoBrush); //QBrush(QColor(WidgetSelection_Color)));
-            Painter->setOpacity(0.5);
-            if (DrawDragBefore) {
-                // Before slide
-                Painter->drawLine(3,3*(ThumbHeight/8),3,ThumbHeight-3*(ThumbHeight/8));
-                Painter->drawLine(3,ThumbHeight/2,32,3*(ThumbHeight/8));
-                Painter->drawLine(3,ThumbHeight/2,32,ThumbHeight-3*(ThumbHeight/8));
-                Painter->drawLine(3,ThumbHeight/2,64,ThumbHeight/2);
-            } else if (DrawDragAfter) {
-                // After slide
-                Painter->drawLine(ThumbWidth-3,3*(ThumbHeight/8),ThumbWidth-3,ThumbHeight-3*(ThumbHeight/8));
-                Painter->drawLine(ThumbWidth-3,ThumbHeight/2,ThumbWidth-3-32,3*(ThumbHeight/8));
-                Painter->drawLine(ThumbWidth-3,ThumbHeight/2,ThumbWidth-3-32,ThumbHeight-3*(ThumbHeight/8));
-                Painter->drawLine(ThumbWidth-3,ThumbHeight/2,ThumbWidth-3-64,ThumbHeight/2);
-            } else if (DrawMusicPart) {
-                // Music part
-                Painter->drawRect(3,ThumbHeight-ThumbHeight/4+3,ThumbWidth-3,ThumbHeight/4-6);
+                if (DrawDragBefore) {
+                    // Before slide
+                    Painter->drawRect(3,3,ThumbWidth-8,ThumbHeight-8);
+                    //Painter->drawLine(3,3*(ThumbHeight/8),3,ThumbHeight-3*(ThumbHeight/8));
+                    Painter->drawLine(3,ThumbHeight/2,32,3*(ThumbHeight/8));
+                    Painter->drawLine(3,ThumbHeight/2,32,ThumbHeight-3*(ThumbHeight/8));
+                    Painter->drawLine(3,ThumbHeight/2,64,ThumbHeight/2);
+                } else if (DrawDragAfter) {
+                    // After slide
+                    Painter->drawRect(3,3,ThumbWidth-8,ThumbHeight-8);
+                    //Painter->drawLine(ThumbWidth-3,3*(ThumbHeight/8),ThumbWidth-3,ThumbHeight-3*(ThumbHeight/8));
+                    Painter->drawLine(ThumbWidth-3,ThumbHeight/2,ThumbWidth-3-32,3*(ThumbHeight/8));
+                    Painter->drawLine(ThumbWidth-3,ThumbHeight/2,ThumbWidth-3-32,ThumbHeight-3*(ThumbHeight/8));
+                    Painter->drawLine(ThumbWidth-3,ThumbHeight/2,ThumbWidth-3-64,ThumbHeight/2);
+                } else if (DrawMusicPart) {
+                    Painter->drawRect(3,ThumbHeight-ThumbHeight/4+3,ThumbWidth-8,ThumbHeight/4-8);
+                } else if (DrawBackgroundPart) {
+                    Painter->drawRect(3,3,ThumbWidth-8,ThumbHeight/4-8);
+                }
+                Painter->setOpacity(1);
             }
-            Painter->setOpacity(1);
         }
 
         //==========================================================================================================================
@@ -690,9 +707,12 @@ void cCustomSlideTable::dragMoveEvent(QDragMoveEvent *event) {
         int NbrX        =columnCount();
 
         // Get item number under mouse
-        int newrow=ThumbHeight>0?(event->pos().y()+verticalOffset())/ThumbHeight:0;
-        int newcol=ThumbWidth>0?(event->pos().x()+horizontalOffset())/ThumbWidth:0;
-        int Selected=newrow*NbrX+newcol;
+        int newrow              =ThumbHeight>0?(event->pos().y()+verticalOffset())/ThumbHeight:0;
+        int newcol              =ThumbWidth>0?(event->pos().x()+horizontalOffset())/ThumbWidth:0;
+        int Selected            =newrow*NbrX+newcol;
+        bool MusicPart          =((event->pos().y()+verticalOffset())-newrow*ThumbHeight)>=3*(ThumbHeight/4);
+        //bool BackgroundPart =((event->pos().y()+verticalOffset())-newrow*ThumbHeight)<(ThumbHeight/4);
+        bool AncCursorPosValide =CursorPosValide;
 
         // Adjust selected
         if (IsDragOn==DRAGMODE_EXTERNALADD_SLIDE) {
@@ -701,12 +721,25 @@ void cCustomSlideTable::dragMoveEvent(QDragMoveEvent *event) {
                 int NewX=event->pos().x()-(event->pos().x()/ThumbWidth)*ThumbWidth;
                 if (NewX>=3*ThumbWidth/4) Selected=Diaporama->List.count();
             }
-        } else if (IsDragOn==DRAGMODE_EXTERNALADD_MUSIC) {
-            if (Selected>=Diaporama->List.count()) Selected=Diaporama->List.count()-1;
         }
         if (Selected<0) Selected=0;
 
-        if (Selected!=DragItemDest) {
+        if ((event->pos().x()>=0)&&(event->pos().x()<=viewport()->width())&&(event->pos().y()>=0)&&(event->pos().y()<=viewport()->height())) {
+            CursorPosValide=false;
+            if (IsDragOn==DRAGMODE_EXTERNALADD_MUSIC) {
+                if ((Selected>=0)&&(Selected<Diaporama->List.count())&&(event->pos().x()>=-columnWidth(0))&&(event->pos().x()<=width()+columnWidth(0))&&
+                    (event->pos().y()>=0-(PartitionMode?rowHeight(0):0))&&(event->pos().y()<=height()+(PartitionMode?rowHeight(0):0))) {
+                        if ((MusicPart)&&(!Diaporama->List[Selected]->MusicType)) CursorPosValide=true;
+                }
+            } else if (IsDragOn==DRAGMODE_EXTERNALADD_SLIDE) {
+                if ((Selected!=-1)&&(event->pos().x()>=-columnWidth(0))&&(event->pos().x()<=width()+columnWidth(0))&&
+                    (event->pos().y()>=0-(PartitionMode?rowHeight(0):0))&&(event->pos().y()<=height()+(PartitionMode?rowHeight(0):0))) {
+                    CursorPosValide=true;
+                }
+            }
+        } else CursorPosValide=false;
+
+        if ((Selected!=DragItemDest)||(AncCursorPosValide!=CursorPosValide)) {
 
             // Clear previous selected slide
             if ((NbrX>0)&&(DragItemDest>=0)) {
@@ -716,23 +749,22 @@ void cCustomSlideTable::dragMoveEvent(QDragMoveEvent *event) {
                     else                            update(model()->index((ToUse-1)/NbrX,(ToUse-1)-((ToUse-1)/NbrX)*NbrX));
             }
 
-            // Display new selected slide
             DragItemDest=Selected;
+
+            // Display new selected slide
             if ((NbrX>0)&&(Selected>=0)) {
                 if (Selected<Diaporama->List.count())   update(model()->index(Selected/NbrX,Selected-(Selected/NbrX)*NbrX));
                     else                                update(model()->index((Selected-1)/NbrX,(Selected-1)-((Selected-1)/NbrX)*NbrX));
             }
         }
-        event->acceptProposedAction();
-        setCursor(Qt::ClosedHandCursor);
+        if (CursorPosValide) event->acceptProposedAction(); else event->setDropAction(Qt::IgnoreAction);
     }
 }
 
 //====================================================================================================================
 
 void cCustomSlideTable::mouseMoveEvent(QMouseEvent *event) {
-    if (IsDragOn!=DRAGMODE_INTERNALMOVE_SLIDE) {
-        setCursor(Qt::ArrowCursor);
+    if ((IsDragOn!=DRAGMODE_INTERNALMOVE_SLIDE)&&(IsDragOn!=DRAGMODE_INTERNALMOVE_MUSIC)&&(IsDragOn!=DRAGMODE_INTERNALMOVE_BACKGROUND)) {
         QTableWidget::mouseMoveEvent(event);
     } else {
         if      ((!PartitionMode)&&(event->pos().x()<0)&&(horizontalScrollBar()->value()>0))                                        horizontalScrollBar()->setValue(horizontalScrollBar()->value()-1);  // Try to scroll left if not partition mode
@@ -750,7 +782,33 @@ void cCustomSlideTable::mouseMoveEvent(QMouseEvent *event) {
         if (Selected>Diaporama->List.count()) Selected=Diaporama->List.count();
         if (Selected<0) Selected=0;
 
-        if (Selected!=DragItemDest) {
+        bool MusicPart     =((event->pos().y()+verticalOffset())-newrow*ThumbHeight)>=3*(ThumbHeight/4);
+        bool BackgroundPart=((event->pos().y()+verticalOffset())-newrow*ThumbHeight)<(ThumbHeight/4);
+        bool AncCursorPosValide=CursorPosValide;
+
+        if ((event->pos().x()>=0)&&(event->pos().x()<=viewport()->width())&&(event->pos().y()>=0)&&(event->pos().y()<=viewport()->height())) {
+            CursorPosValide=false;
+            if (IsDragOn==DRAGMODE_INTERNALMOVE_MUSIC) {
+                if ((Selected!=-1)&&(event->pos().x()>=-columnWidth(0))&&(event->pos().x()<=width()+columnWidth(0))&&
+                    (event->pos().y()>=0-(PartitionMode?rowHeight(0):0))&&(event->pos().y()<=height()+(PartitionMode?rowHeight(0):0))) {
+                        if ((Selected!=Diaporama->CurrentCol)&&(Selected<Diaporama->List.count())&&(MusicPart)&&(!Diaporama->List[Selected]->MusicType)) CursorPosValide=true;
+                }
+            } else if (IsDragOn==DRAGMODE_INTERNALMOVE_BACKGROUND) {
+                if ((Selected!=-1)&&(event->pos().x()>=-columnWidth(0))&&(event->pos().x()<=width()+columnWidth(0))&&
+                    (event->pos().y()>=0-(PartitionMode?rowHeight(0):0))&&(event->pos().y()<=height()+(PartitionMode?rowHeight(0):0))) {
+                        if ((Selected!=Diaporama->CurrentCol)&&(Selected<Diaporama->List.count())&&(BackgroundPart)&&(!Diaporama->List[Selected]->BackgroundType)) CursorPosValide=true;
+                }
+            } else if (IsDragOn==DRAGMODE_INTERNALMOVE_SLIDE) {
+                if ((Selected!=-1)&&(event->pos().x()>=-columnWidth(0))&&(event->pos().x()<=width()+columnWidth(0))&&
+                    (event->pos().y()>=0-(PartitionMode?rowHeight(0):0))&&(event->pos().y()<=height()+(PartitionMode?rowHeight(0):0))) {
+                    if ((Selected!=Diaporama->CurrentCol)&&(Selected!=Diaporama->CurrentCol+1)) CursorPosValide=true;
+                }
+            }
+        } else CursorPosValide=false;
+
+        if (CursorPosValide) setCursor(Qt::ClosedHandCursor); else setCursor(Qt::ForbiddenCursor);
+
+        if ((Selected!=DragItemDest)||(AncCursorPosValide!=CursorPosValide)) {
 
             // Clear previous selected slide
             if ((NbrX>0)&&(DragItemDest>=0)) {
@@ -760,18 +818,14 @@ void cCustomSlideTable::mouseMoveEvent(QMouseEvent *event) {
                     else                            update(model()->index((ToUse-1)/NbrX,(ToUse-1)-((ToUse-1)/NbrX)*NbrX));
             }
 
-            // Display new selected slide
             DragItemDest=Selected;
+
+            // Display new selected slide
             if ((NbrX>0)&&(Selected>=0)) {
                 if (Selected<Diaporama->List.count())   update(model()->index(Selected/NbrX,Selected-(Selected/NbrX)*NbrX));
                     else                                update(model()->index((Selected-1)/NbrX,(Selected-1)-((Selected-1)/NbrX)*NbrX));
             }
         }
-        if ((DragItemDest!=-1)&&(event->pos().x()>=-columnWidth(0))&&(event->pos().x()<=width()+columnWidth(0))&&
-            (event->pos().y()>=0-(PartitionMode?rowHeight(0):0))&&(event->pos().y()<=height()+(PartitionMode?rowHeight(0):0))) {
-            if ((DragItemDest!=Diaporama->CurrentCol)&&(DragItemDest!=Diaporama->CurrentCol+1)) setCursor(Qt::ClosedHandCursor);
-                else setCursor(Qt::ForbiddenCursor);
-        } else setCursor(Qt::ForbiddenCursor);
     }
 }
 
@@ -782,20 +836,21 @@ void cCustomSlideTable::mousePressEvent(QMouseEvent *event) {
         QTableWidget::mousePressEvent(event);
         IsDragOn=DRAGMODE_NOACTION;
     } else {
-        if ((Diaporama->List.count()==0)||(IsDragOn==DRAGMODE_INTERNALMOVE_SLIDE)) {
+        if ((Diaporama->List.count()==0)||(IsDragOn==DRAGMODE_INTERNALMOVE_SLIDE)||(IsDragOn==DRAGMODE_INTERNALMOVE_MUSIC)||(IsDragOn==DRAGMODE_INTERNALMOVE_BACKGROUND)) {
             QTableWidget::mousePressEvent(event);
             return;
         }
         setCursor(Qt::ArrowCursor);
 
         // Get item number under mouse
-        int ThumbWidth  =columnWidth(0);
-        int ThumbHeight =rowHeight(0);
-
-        int row         =(event->pos().y()+verticalOffset())/ThumbHeight;
-        int col         =(event->pos().x()+horizontalOffset())/ThumbWidth;
-        int Current     =currentRow()*columnCount()+currentColumn();
-        int Selected    =row*columnCount()+col;
+        int ThumbWidth      =columnWidth(0);
+        int ThumbHeight     =rowHeight(0);
+        int row             =(event->pos().y()+verticalOffset())/ThumbHeight;
+        int col             =(event->pos().x()+horizontalOffset())/ThumbWidth;
+        int Current         =currentRow()*columnCount()+currentColumn();
+        int Selected        =row*columnCount()+col;
+        bool MusicPart      =((event->pos().y()+verticalOffset())-row*ThumbHeight)>=3*(ThumbHeight/4);
+        bool BackgroundPart =((event->pos().y()+verticalOffset())-row*ThumbHeight)<(ThumbHeight/4);
 
         if (event->modifiers()==Qt::ShiftModifier) {
             // Shift : Add all items from current to item
@@ -812,9 +867,11 @@ void cCustomSlideTable::mousePressEvent(QMouseEvent *event) {
         IsDragOn=DRAGMODE_NOACTION;
         DragItemSource=row*columnCount()+col;
 
+        // if it was previously selected then start a drag & drop operation
         if ((Selected>=0)&&(Selected<Diaporama->List.count())) {
-            // if it was previously selected then start a drag & drop operation
-            IsDragOn=DRAGMODE_INTERNALMOVE_SLIDE;
+            if ((MusicPart)&&(Diaporama->List[Selected]->MusicType)&&(Diaporama->List[Selected]->MusicList.count()>0)) IsDragOn=DRAGMODE_INTERNALMOVE_MUSIC;
+                else if ((BackgroundPart)&&(Diaporama->List[Selected]->BackgroundType)) IsDragOn=DRAGMODE_INTERNALMOVE_BACKGROUND;
+                else IsDragOn=DRAGMODE_INTERNALMOVE_SLIDE;
             DragItemSource=Selected;
             DragItemDest  =Selected;
             setCursor(Qt::ClosedHandCursor);
@@ -829,17 +886,16 @@ void cCustomSlideTable::mouseReleaseEvent(QMouseEvent *event) {
     if (event->button()==Qt::RightButton) {
         emit RightClickEvent(event);
         IsDragOn=DRAGMODE_NOACTION;
-    } else if (IsDragOn!=DRAGMODE_INTERNALMOVE_SLIDE) {
+    } else if ((IsDragOn!=DRAGMODE_INTERNALMOVE_SLIDE)&&(IsDragOn!=DRAGMODE_INTERNALMOVE_MUSIC)&&(IsDragOn!=DRAGMODE_INTERNALMOVE_BACKGROUND)) {
         QTableWidget::mouseReleaseEvent(event);
         IsDragOn=DRAGMODE_NOACTION;
     } else {
-        setCursor(Qt::ArrowCursor);
-        IsDragOn=DRAGMODE_NOACTION;
-        if ((DragItemDest!=-1)&&(event->pos().x()>=-columnWidth(0))&&(event->pos().x()<=width()+columnWidth(0))&&
+        if ((DragItemDest!=-1)&&(DragItemDest!=DragItemSource)&&(event->pos().x()>=-columnWidth(0))&&(event->pos().x()<=width()+columnWidth(0))&&
             (event->pos().y()>=0-(PartitionMode?rowHeight(0):0))&&(event->pos().y()<=height()+(PartitionMode?rowHeight(0):0)))
             emit DragMoveItem(); else {setUpdatesEnabled(false); setUpdatesEnabled(true);}
+        IsDragOn=DRAGMODE_NOACTION;
     }
-
+    setCursor(Qt::ArrowCursor);
 }
 
 //====================================================================================================================

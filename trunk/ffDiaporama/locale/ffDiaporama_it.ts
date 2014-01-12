@@ -2982,10 +2982,6 @@ Essa riguarda anche il nome dello stile come impostazioni associate.</translatio
         <translation>Propietà musica</translation>
     </message>
     <message>
-        <source>Continue current playlist (defined in a previous slide)</source>
-        <translation>Continua la playlist corrente (definita in una diapositiva precedente)</translation>
-    </message>
-    <message>
         <source>Change volume level to :</source>
         <translation>Cambia il livello del volume a :</translation>
     </message>
@@ -3050,10 +3046,6 @@ Essa riguarda anche il nome dello stile come impostazioni associate.</translatio
         <translation>Aggiungi files musicali</translation>
     </message>
     <message>
-        <source>You can continue the playlist defined in a previous slide</source>
-        <translation>Puoi continuare la lista di riproduzione definita nella precedente diapositiva</translation>
-    </message>
-    <message>
         <source>You can start a new playlist from this slide</source>
         <translation>Puoi avviare una nuova lista di riproduzione da questa diapositiva</translation>
     </message>
@@ -3094,20 +3086,20 @@ Moves the currently selected file one step down</source>
 Sposta il file selezionato di un passo verso il basso</translation>
     </message>
     <message>
-        <source>The music files are listed in the order in which they will be played, from top to bottom.
-The Volume column defines the &quot; Master volume &quot; for the file.
-This volume is independent of any reductions in the volume that you define in the upper part of the dialog</source>
-        <translation>I file musicali vengono elencati nell&apos;ordine in cui questi vengono riprodotti, dall&apos;alto verso il basso.
-La colonna Volume definisce il &quot;Volume principale&quot; per il file.
-Questo volume è indipendente da eventuali riduzioni nel volume che si definisce nella parte superiore della finestra di dialogo</translation>
-    </message>
-    <message>
         <source>Show help about this dialogue box</source>
         <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
         <translation>A&amp;iuto</translation>
+    </message>
+    <message>
+        <source>Credit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings for the music track</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6490,6 +6482,10 @@ Vuoi scaricarla ora?</translation>
     <message>
         <source>Add a Google Maps map</source>
         <translation>Aggiungi una mappa Google Maps</translation>
+    </message>
+    <message>
+        <source>Loading project ressources: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

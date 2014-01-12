@@ -2,15 +2,35 @@
 * FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
 
+[Commit: 12/01/2014]
+    Bug fixes:
+        -Fixed the Transition dialog: when the box is reduced or enlarged, increases or decreases the number of column
+        -Fixed a bug in reloading project files which cause recomputation of slides's thumbnails
+
+    New features:
+        -Changes the music track dialog
+             -Displays the cover of the music if it exists
+             -Put a check box in the music table to allow non referencing this title in generic (%STM% variable)
+             -Allows setting options for volume and pause even if the slide defined a new playlist
+        -Changes the display of the music track on the timeline
+             -Adds the display of song cover (if exist)
+             -Reduces the font to display the artist and song title
+        -Change Drag & Drop in timeline
+             -Allows move of music playlist definition from a slide to another
+             -Allows move of background definition from a slide to another
+
+--------------------------------------------------------------------------------
+
 [Commit: 10/01/2014] - ffDiaporama 2.1 devel 20140111
     Bug fixes:
         -Fixes a critical bug reading projects [regression 20140103]
+        -Fixes incorrect display of VBR for other codec than h264 in render dialog
 
     New features:
 
 --------------------------------------------------------------------------------
 
-[Commit: 10/01/2014] - ffDiaporama 2.1 devel 20140110
+[Commit: 10/01/2014]
     Bug fixes:
         -Fixes not read of volumes and deinterleaving option of videos in project files [regression 20131221]
         -No longer generates map 2 times when closing automatic edit slide dialog

@@ -47,6 +47,7 @@ public:
     void    DisplayText(QString Text);
     void    DisplayProgress(int Value);
     void    SetMaxValue(int Value,int AddValue);
+    void    HideProgress();
 
 private:
     Ui::DlgWorkingTask *ui;

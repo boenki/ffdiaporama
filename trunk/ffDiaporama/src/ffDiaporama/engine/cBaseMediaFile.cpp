@@ -3684,7 +3684,8 @@ bool cVideoFile::OpenCodecAndFile() {
 //*********************************************************************************************************************************************
 
 cMusicObject::cMusicObject(cBaseApplicationConfig *ApplicationConfig):cVideoFile(ApplicationConfig) {
-    Volume=1.0;                           // Volume as % from 1% to 150%
+    Volume      =1.0;                           // Volume as % from 1% to 150%
+    AllowCredit =true;                          // // if true, this music will appear in credit title
     Reset(OBJECTTYPE_MUSICFILE);
 }
 
@@ -3743,10 +3744,11 @@ void cMusicObject::SaveToXML(QDomElement *ParentElement,QString ElementName,QStr
             else TheFileName=QDir(QFileInfo(PathForRelativPath).absolutePath()).relativeFilePath(FileName());
     } else TheFileName=FileName();
 
-    Element.setAttribute("FilePath",TheFileName);
-    Element.setAttribute("StartPos",StartPos.toString());
-    Element.setAttribute("EndPos",  EndPos.toString());
-    Element.setAttribute("Volume",  QString("%1").arg(Volume,0,'f'));
+    Element.setAttribute("FilePath",    TheFileName);
+    Element.setAttribute("StartPos",    StartPos.toString());
+    Element.setAttribute("EndPos",      EndPos.toString());
+    Element.setAttribute("Volume",      QString("%1").arg(Volume,0,'f'));
+    Element.setAttribute("AllowCredit", AllowCredit?"1":"0");
 
     ParentElement->appendChild(Element);
 }
@@ -3772,6 +3774,7 @@ bool cMusicObject::LoadFromXML(QDomElement *ParentElement,QString ElementName,QS
             StartPos=QTime().fromString(Element.attribute("StartPos"));
             EndPos  =QTime().fromString(Element.attribute("EndPos"));
             Volume  =GetDoubleValue(Element,"Volume");
+            if (Element.hasAttribute("AllowCredit")) AllowCredit=Element.attribute("AllowCredit")=="1";
             return true;
         } else return false;
     } else return false;

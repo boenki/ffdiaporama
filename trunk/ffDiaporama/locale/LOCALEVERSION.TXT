@@ -1,11 +1,11 @@
-20140109
-fr = 100% (1858/1858)
-it = 99% (1842/1858) 16 to translate
-de = 99% (1841/1858) 17 to translate
-nl = 55% (1035/1858) 823 to translate
-es = 99% (1853/1858) 5 to translate
-pt = 99% (1841/1858) 17 to translate
-ru = 99% (1853/1858) 5 to translate
-el = 99% (1841/1858) 17 to translate
+20140112
+fr = 99% (1855/1858) 3 to translate
+it = 98% (1839/1858) 19 to translate
+de = 98% (1838/1858) 20 to translate
+nl = 55% (1033/1858) 825 to translate
+es = 99% (1855/1858) 3 to translate
+pt = 98% (1838/1858) 20 to translate
+ru = 99% (1850/1858) 8 to translate
+el = 98% (1838/1858) 20 to translate
 cz = 14% (277/1858) 1581 to translate
-zh_tw = 32% (608/1858) 1250 to translate
+zh_tw = 32% (607/1858) 1251 to translate

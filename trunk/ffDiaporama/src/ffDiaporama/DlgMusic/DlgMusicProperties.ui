@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>516</width>
+    <width>525</width>
     <height>331</height>
    </rect>
   </property>
@@ -42,16 +42,10 @@
     <number>8</number>
    </property>
    <item>
-    <widget class="QRadioButton" name="SameMusicRD">
-     <property name="toolTip">
-      <string>You can continue the playlist defined in a previous slide</string>
-     </property>
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string>Continue current playlist (defined in a previous slide)</string>
+      <string>Settings for the music track</string>
      </property>
-     <attribute name="buttonGroup">
-      <string notr="true">buttonGroup</string>
-     </attribute>
     </widget>
    </item>
    <item>
@@ -190,16 +184,20 @@ Remark: This pause is applied only for the selected slide</string>
     </layout>
    </item>
    <item>
-    <widget class="QRadioButton" name="NewMusicRD">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string notr="true"/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="NewMusicCB">
      <property name="toolTip">
       <string>You can start a new playlist from this slide</string>
      </property>
      <property name="text">
       <string>Start a new playlist from this slide</string>
      </property>
-     <attribute name="buttonGroup">
-      <string notr="true">buttonGroup</string>
-     </attribute>
     </widget>
    </item>
    <item>
@@ -229,7 +227,7 @@ A file selection dialog appears, allowing you to select a file</string>
         <string notr="true"/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/object_sound.png</normaloff>:/img/object_sound.png</iconset>
        </property>
       </widget>
@@ -243,7 +241,7 @@ A file selection dialog appears, allowing you to select a file</string>
         <string notr="true"/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
        </property>
       </widget>
@@ -258,7 +256,7 @@ Moves the currently selected file one step up.</string>
         <string notr="true"/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/arrow_up.png</normaloff>:/img/arrow_up.png</iconset>
        </property>
       </widget>
@@ -273,7 +271,7 @@ Moves the currently selected file one step down</string>
         <string notr="true"/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/arrow_down.png</normaloff>:/img/arrow_down.png</iconset>
        </property>
       </widget>
@@ -306,9 +304,7 @@ Moves the currently selected file one step down</string>
    <item>
     <widget class="QTableWidget" name="PlayListTable">
      <property name="toolTip">
-      <string>The music files are listed in the order in which they will be played, from top to bottom.
-The Volume column defines the &quot; Master volume &quot; for the file.
-This volume is independent of any reductions in the volume that you define in the upper part of the dialog</string>
+      <string/>
      </property>
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
@@ -325,12 +321,24 @@ This volume is independent of any reductions in the volume that you define in th
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
+     <property name="iconSize">
+      <size>
+       <width>32</width>
+       <height>32</height>
+      </size>
+     </property>
      <property name="wordWrap">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="cornerButtonEnabled">
       <bool>false</bool>
      </property>
+     <property name="rowCount">
+      <number>0</number>
+     </property>
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
      <attribute name="verticalHeaderVisible">
       <bool>false</bool>
      </attribute>
@@ -362,6 +370,14 @@ This volume is independent of any reductions in the volume that you define in th
        <font>
         <pointsize>9</pointsize>
        </font>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Credit</string>
+      </property>
+      <property name="textAlignment">
+       <set>AlignHCenter|AlignVCenter|AlignCenter</set>
       </property>
      </column>
      <column>
@@ -410,7 +426,7 @@ This volume is independent of any reductions in the volume that you define in th
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -424,7 +440,7 @@ This volume is independent of any reductions in the volume that you define in th
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -438,7 +454,7 @@ This volume is independent of any reductions in the volume that you define in th
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
       </widget>
@@ -448,12 +464,11 @@ This volume is independent of any reductions in the volume that you define in th
   </layout>
  </widget>
  <tabstops>
-  <tabstop>SameMusicRD</tabstop>
   <tabstop>SameMusicNormalRD</tabstop>
   <tabstop>SameMusicReduceVolumeRD</tabstop>
   <tabstop>VolumeReductionFactorCB</tabstop>
   <tabstop>SameMusicPauseRD</tabstop>
-  <tabstop>NewMusicRD</tabstop>
+  <tabstop>NewMusicCB</tabstop>
   <tabstop>AddMusicBt</tabstop>
   <tabstop>RemoveMusicBt</tabstop>
   <tabstop>UpMusicBt</tabstop>
@@ -462,10 +477,11 @@ This volume is independent of any reductions in the volume that you define in th
   <tabstop>OKBT</tabstop>
   <tabstop>CancelBt</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../RSCffDiaporama.qrc"/>
+ </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroup_2"/>
  </buttongroups>
 </ui>

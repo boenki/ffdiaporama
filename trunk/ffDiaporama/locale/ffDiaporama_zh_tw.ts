@@ -2842,10 +2842,6 @@ It concerns as well the name of the style as the associated settings.</source>
         <translation>一般</translation>
     </message>
     <message>
-        <source>Continue current playlist (defined in a previous slide)</source>
-        <translation>繼續目前的播放清單 (定義於上一張投影片)</translation>
-    </message>
-    <message>
         <source>Define the sound volume for this slide</source>
         <translation>定義這張投影片的音量</translation>
     </message>
@@ -2902,10 +2898,6 @@ It concerns as well the name of the style as the associated settings.</source>
         <translation>加入音樂檔案</translation>
     </message>
     <message>
-        <source>You can continue the playlist defined in a previous slide</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>You can start a new playlist from this slide</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2940,18 +2932,20 @@ Moves the currently selected file one step down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The music files are listed in the order in which they will be played, from top to bottom.
-The Volume column defines the &quot; Master volume &quot; for the file.
-This volume is independent of any reductions in the volume that you define in the upper part of the dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Show help about this dialogue box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>&amp;Help</source>
         <translation>求助(&amp;H)</translation>
+    </message>
+    <message>
+        <source>Credit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings for the music track</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6194,6 +6188,10 @@ Do you want to download it now?</source>
     </message>
     <message>
         <source>Add a Google Maps map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading project ressources: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
