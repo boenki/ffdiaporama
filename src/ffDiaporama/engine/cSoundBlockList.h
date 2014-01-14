@@ -37,8 +37,6 @@ public:
     bool                Adjusted;
     int                 SoundPacketSize;            // Size of a packet (depending on FPS)
     int                 NbrPacketForFPS;            // Number of packet for FPS
-    QList<int16_t *>    List;                       // List of sound packet
-    u_int8_t            *TempData;                  // Buffer for stocking temporary data (when decoding data are less than a packet)
     int64_t             CurrentTempSize;            // Amount of data in the TempData buffer
     int64_t             CurrentPosition;
 
@@ -64,6 +62,14 @@ public:
     virtual void    ApplyVolume(int PacketNumber,double VolumeFactor);                                                  // Adjust volume
     virtual void    AppendPacket(int64_t Position,int16_t *PacketToAdd);                                                // Append a packet to the end of the list
     virtual void    AdjustSoundPosition(int64_t SoundPosition,int64_t VideoPosition);                                   // Synchronise sound and video by adding null sound to catch VideoPosition
+    virtual int     ListCount();
+    virtual int16_t *GetAt(int index);
+    virtual void    SetAt(int index,int16_t *Packet);
+
+private:
+    QList<int16_t *>    List;                       // List of sound packet
+    QList<bool>         ListVolume;
+    u_int8_t            *TempData;                  // Buffer for stocking temporary data (when decoding data are less than a packet)
 };
 
 #endif // CSOUNDBLOCKLIST_H

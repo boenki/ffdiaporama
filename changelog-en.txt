@@ -2,9 +2,12 @@
 * FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
 
-[Commit: ]
+[Commit: 14/01/2014] - ffDiaporama 2.1 devel 20140114
     Bug fixes:
         -Fixed a memory leak that occurred when using image from library
+        -Fixed a problem of application of volume on the music track during transitions
+        -Force the use of UTF-8 to read changelog in about dialog
+        -Fixed positioning of the preview player at application start
 
 --------------------------------------------------------------------------------
 

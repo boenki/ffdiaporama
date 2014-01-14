@@ -2,9 +2,12 @@
 * FFDIAPORAMA 2.1 - trunk (Version Française)
 **************************************************
 
-[Commit: ]
+[Commit: 14/01/2014] - ffDiaporama 2.1 devel 20140111
     Correction de bug :
         -Corrige une fuite de mémoire qui intervenait lors de l'utilisation d'image de la librairie
+        -Corrige un problème d'application du volume sur les musiques lors des transitions
+        -Force l'utilisation de l'UTF-8 pour lire le journal des changements dans la boite de dialog a propos de
+        -Corrige le positionnement du lecteur de prévisualisation au démarrage de l'application
 
 --------------------------------------------------------------------------------
 

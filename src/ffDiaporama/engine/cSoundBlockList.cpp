@@ -48,6 +48,13 @@ cSoundBlockList::~cSoundBlockList() {
 }
 
 //====================================================================================================================
+// Return number of paquet in private list
+//====================================================================================================================
+int cSoundBlockList::ListCount() {
+    return List.count();
+}
+
+//====================================================================================================================
 // Prepare and calculate values for a frame rate
 //====================================================================================================================
 void cSoundBlockList::SetFPS(double TheWantedDuration,int TheChannels,int64_t TheSamplingRate,enum AVSampleFormat TheSampleFormat) {
@@ -107,6 +114,16 @@ void cSoundBlockList::ClearList() {
 }
 
 //====================================================================================================================
+// Special functions use with cDiaporama::LoadSources
+int16_t *cSoundBlockList::GetAt(int index) {
+    return List[index];
+}
+
+void cSoundBlockList::SetAt(int index,int16_t *Packet) {
+    List[index]=Packet;
+}
+
+//====================================================================================================================
 // Detach the first packet of the list (do not make av_free)
 //====================================================================================================================
 int16_t *cSoundBlockList::DetachFirstPacket() {
@@ -114,6 +131,7 @@ int16_t *cSoundBlockList::DetachFirstPacket() {
     int16_t *Ret=NULL;
     if (List.count()>0) {
         Ret=(int16_t *)List.takeFirst();
+        ListVolume.removeFirst();
         CurrentPosition+=(double(SoundPacketSize)/(SampleBytes*Channels*SamplingRate))*AV_TIME_BASE;
     }
     Mutex.unlock();
@@ -128,6 +146,7 @@ void cSoundBlockList::AppendPacket(int64_t Position,int16_t *PacketToAdd) {
     if (CurrentPosition==-1)
         CurrentPosition=Position;
     List.append(PacketToAdd);
+    ListVolume.append(false);
     Mutex.unlock();
 }
 
@@ -157,6 +176,7 @@ void cSoundBlockList::AdjustSoundPosition(int64_t SoundPosition,int64_t VideoPos
         int64_t  OldPosition=CurrentPosition;
         while (!List.isEmpty()) {
             u_int8_t *Packet=(u_int8_t *)List.takeFirst();
+            ListVolume.removeFirst();
             memcpy(CurOldPacket,Packet,SoundPacketSize);
             av_free(Packet);
             CurOldPacket+=SoundPacketSize;
@@ -226,11 +246,10 @@ void cSoundBlockList::MixAppendPacket(int64_t Position,int16_t *PacketA,int16_t 
             // Mix the 2 sources buffer using the first buffer as destination
             int16_t *Buf1=PacketA;
             int16_t *Buf2=PacketB;
-            for (int j=0;j<SoundPacketSize/(SampleBytes*Channels);j++) {
-                // Left channel : Adjust if necessary (16 bits)
-                mix=*(Buf1)+*(Buf2++);  if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;     *(Buf1++)=int16_t(mix);
-                // Right channel : Adjust if necessary (16 bits)
-                mix=*(Buf1)+*(Buf2++);  if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;     *(Buf1++)=int16_t(mix);
+            for (int j=0;j<SoundPacketSize/2;j++) {
+                mix=*(Buf1)+*(Buf2++);
+                if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;     // Adjust if necessary (16 bits)
+                *(Buf1++)=int16_t(mix);
             }
             av_free(PacketB); // Free the second buffer
             AppendPacket(Position,PacketA);
@@ -242,13 +261,14 @@ void cSoundBlockList::MixAppendPacket(int64_t Position,int16_t *PacketA,int16_t 
 //====================================================================================================================
 void cSoundBlockList::ApplyVolume(int PacketNumber,double VolumeFactor) {
     if (PacketNumber>=List.count()) return;
+    if (ListVolume[PacketNumber]) return;
+    ListVolume[PacketNumber]=true;
     int16_t *Buf1=List[PacketNumber];
     if (Buf1==NULL) return;
-    int32_t mix;
-    for (int j=0;j<SoundPacketSize/(SampleBytes*Channels);j++) {
-        // Left channel : Adjust if necessary (16 bits)
-        mix=int32_t(double(*(Buf1))*VolumeFactor); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
-        // Right channel : Adjust if necessary (16 bits)
-        mix=int32_t(double(*(Buf1))*VolumeFactor); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
+    double mix;
+    for (int j=0;j<SoundPacketSize/2;j++) {
+        mix=double(*(Buf1))*VolumeFactor;
+        if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768; //Adjust if necessary (16 bits)
+        *(Buf1++)=int16_t(mix);
     }
 }

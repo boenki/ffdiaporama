@@ -442,6 +442,10 @@ void MainWindow::InitWindow() {
     }
     show();
 
+    QApplication::processEvents();
+
+    s_Action_ChWindowDisplayMode();
+
     if (ApplicationConfig->CheckConfigAtStartup) QTimer::singleShot(LATENCY,this,SLOT(s_Action_DlgCheckConfig()));
     if (FileForIO!="") QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
 }

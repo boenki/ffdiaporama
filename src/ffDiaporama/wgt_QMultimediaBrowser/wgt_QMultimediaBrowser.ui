@@ -14,6 +14,21 @@
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>4</number>
+   </property>
+   <property name="leftMargin">
+    <number>4</number>
+   </property>
+   <property name="topMargin">
+    <number>4</number>
+   </property>
+   <property name="rightMargin">
+    <number>4</number>
+   </property>
+   <property name="bottomMargin">
+    <number>4</number>
+   </property>
    <item>
     <widget class="QWidget" name="FolderInfomationWdgt" native="true">
      <property name="sizePolicy">
@@ -110,7 +125,7 @@
          <string notr="true">...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/Refresh.png</normaloff>:/img/Refresh.png</iconset>
         </property>
        </widget>
@@ -182,7 +197,7 @@
          <string notr="true">...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/DISPLAY_WEB.png</normaloff>:/img/DISPLAY_WEB.png</iconset>
         </property>
        </widget>
@@ -222,7 +237,7 @@
          <string notr="true">...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/DISPLAY_JUKEBOX.png</normaloff>:/img/DISPLAY_JUKEBOX.png</iconset>
         </property>
        </widget>
@@ -262,7 +277,7 @@
          <string notr="true">...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/favorite_menu.png</normaloff>:/img/favorite_menu.png</iconset>
         </property>
        </widget>
@@ -302,7 +317,7 @@
          <string notr="true">...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/arrow_left.png</normaloff>:/img/arrow_left.png</iconset>
         </property>
        </widget>
@@ -342,7 +357,7 @@
          <string notr="true">...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/arrow_up.png</normaloff>:/img/arrow_up.png</iconset>
         </property>
        </widget>
@@ -382,7 +397,7 @@
          <string notr="true">...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../RSCffDiaporama.qrc">
           <normaloff>:/img/config_menu.png</normaloff>:/img/config_menu.png</iconset>
         </property>
        </widget>
@@ -756,7 +771,7 @@ font-size: 11px;
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>:/img/MediaIcons/16x16/file.png</pixmap>
+            <pixmap resource="../RSCffDiaporama.qrc">:/img/MediaIcons/16x16/file.png</pixmap>
            </property>
           </widget>
          </item>
@@ -858,7 +873,7 @@ font-size: 11px;
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>:/img/MediaIcons/16x16/directory.png</pixmap>
+            <pixmap resource="../RSCffDiaporama.qrc">:/img/MediaIcons/16x16/directory.png</pixmap>
            </property>
           </widget>
          </item>
@@ -960,7 +975,7 @@ font-size: 11px;
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>:/img/MediaIcons/16x16/hdd.png</pixmap>
+            <pixmap resource="../RSCffDiaporama.qrc">:/img/MediaIcons/16x16/hdd.png</pixmap>
            </property>
           </widget>
          </item>
@@ -988,7 +1003,7 @@ font-size: 11px;
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>:/img/MediaIcons/16x16/delayed.png</pixmap>
+            <pixmap resource="../RSCffDiaporama.qrc">:/img/MediaIcons/16x16/delayed.png</pixmap>
            </property>
           </widget>
          </item>
@@ -1018,6 +1033,8 @@ font-size: 11px;
    <header>wgt_QMultimediaBrowser/QCustomFolderTable.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../RSCffDiaporama.qrc"/>
+ </resources>
  <connections/>
 </ui>

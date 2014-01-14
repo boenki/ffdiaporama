@@ -2461,7 +2461,7 @@ void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,int64_t Position,c
         return;
     }
 
-    int64_t     StartPosition=0;
+    int64_t       StartPosition=0;
     cMusicObject  *CurMusic=GetMusicObject(Column,StartPosition); // Get current music file from column and position
     if (CurMusic==NULL) {
         for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket(Position);
@@ -2483,7 +2483,7 @@ void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,int64_t Position,c
                 double  AncReduce=List[Column-1]->MusicPause?0:List[Column-1]->MusicReduceVolume?List[Column-1]->MusicReduceFactor:1;
                 double  NewReduce=List[Column]->MusicPause?0:List[Column]->MusicReduceVolume?List[Column]->MusicReduceFactor:1;
                 double  ReduceFactor=AncReduce+(NewReduce-AncReduce)*PctDone;
-                Factor*=ReduceFactor;
+                Factor=Factor*ReduceFactor;
             } else Factor=Factor*List[Column]->MusicReduceFactor;
         }
 
@@ -2716,7 +2716,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
     if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack)&&(ThreadPrepareTransitMusicBloc.isRunning())) ThreadPrepareTransitMusicBloc.waitForFinished();
 
     // Special case to clear music buffer if not transition and music of CurrentObject is in pause mode
-    if ((!Info->IsTransition)&&(Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)&&(Info->CurrentObject->MusicPause)&&(Info->CurrentObject_MusicTrack->List.count()>0)) {
+    if ((!Info->IsTransition)&&(Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)&&(Info->CurrentObject->MusicPause)&&(Info->CurrentObject_MusicTrack->ListCount()>0)) {
         Info->CurrentObject_MusicTrack->ClearList();
         for (int i=0;i<Info->CurrentObject_MusicTrack->NbrPacketForFPS;i++) Info->CurrentObject_MusicTrack->AppendNullSoundPacket(Info->CurrentObject_StartTime+Info->CurrentObject_InObjectTime);
     }
@@ -2730,7 +2730,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
             Info->CurrentObject_SoundTrackMontage->SetFPS(Info->FrameDuration,2,Info->TransitObject_SoundTrackMontage->SamplingRate,AV_SAMPLE_FMT_S16);
         }
         // Ensure this track have enough data
-        while (Info->CurrentObject_SoundTrackMontage->List.count()<Info->CurrentObject_SoundTrackMontage->NbrPacketForFPS)
+        while (Info->CurrentObject_SoundTrackMontage->ListCount()<Info->CurrentObject_SoundTrackMontage->NbrPacketForFPS)
             Info->CurrentObject_SoundTrackMontage->AppendNullSoundPacket(Info->CurrentObject_StartTime+Info->CurrentObject_InObjectTime);
 
         // Mix current and transit SoundTrackMontage (if needed)
@@ -2739,8 +2739,9 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
         for (int i=0;i<Info->CurrentObject_SoundTrackMontage->NbrPacketForFPS;i++) {
             // Mix the 2 sources buffer using the first buffer as destination and remove one paquet from the TransitObject_SoundTrackMontage
             int16_t *Paquet=Info->TransitObject_SoundTrackMontage?Info->TransitObject_SoundTrackMontage->DetachFirstPacket():NULL;
+
             int32_t mix;
-            int16_t *Buf1=i<Info->CurrentObject_SoundTrackMontage->List.count()?Info->CurrentObject_SoundTrackMontage->List[i]:NULL;
+            int16_t *Buf1=i<Info->CurrentObject_SoundTrackMontage->ListCount()?Info->CurrentObject_SoundTrackMontage->GetAt(i):NULL;
             int     Max=Info->CurrentObject_SoundTrackMontage->SoundPacketSize/(Info->CurrentObject_SoundTrackMontage->SampleBytes*Info->CurrentObject_SoundTrackMontage->Channels);
 
             double  FadeAdjust   =sin(1.5708*double(Info->CurrentObject_InObjectTime+(double(i)/double(Info->CurrentObject_SoundTrackMontage->NbrPacketForFPS))*double(Info->FrameDuration))/double(Info->TransitionDuration));
@@ -2774,7 +2775,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 av_free(Paquet);
             } else if ((Buf1==NULL)&&(Buf2!=NULL)) {
                 // swap buf1 and buf2
-                Info->CurrentObject_SoundTrackMontage->List[i]=Buf2;
+                Info->CurrentObject_SoundTrackMontage->SetAt(i,Buf2);
                 // Apply Fade out to Buf2
                 for (int j=0;j<Max;j++) {
                     // Left channel : Adjust if necessary (16 bits)
@@ -2795,7 +2796,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
     // @ the end: only current music exist !
     // add fade out of previous music track (if needed)
     // Mix the 2 sources buffer using the first buffer as destination and remove one paquet from the PreviousMusicTrack
-    if ((Info->IsTransition)&&(Info->TransitObject_MusicTrack)&&(Info->TransitObject_MusicTrack->List.count()>0)) {
+    if ((Info->IsTransition)&&(Info->TransitObject_MusicTrack)&&(Info->TransitObject_MusicTrack->ListCount()>0)) {
         Info->CurrentObject_SoundTrackMontage->Mutex.lock();
         for (int i=0;i<Info->CurrentObject_MusicTrack->NbrPacketForFPS;i++) {
             int16_t *Paquet=Info->TransitObject_MusicTrack->DetachFirstPacket();
@@ -2805,7 +2806,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 memset((u_int8_t *)Paquet,0,Info->TransitObject_MusicTrack->SoundPacketSize+8);
             }
             int32_t mix;
-            int16_t *Buf1=(i<Info->CurrentObject_MusicTrack->List.count())?Info->CurrentObject_MusicTrack->List[i]:NULL;
+            int16_t *Buf1=(i<Info->CurrentObject_MusicTrack->ListCount())?Info->CurrentObject_MusicTrack->GetAt(i):NULL;
             int     Max=Info->CurrentObject_MusicTrack->SoundPacketSize/(Info->CurrentObject_MusicTrack->SampleBytes*Info->CurrentObject_MusicTrack->Channels);
             double  FadeAdjust   =sin(1.5708*double(Info->CurrentObject_InObjectTime+(double(i)/double(Info->CurrentObject_MusicTrack->NbrPacketForFPS))*double(Info->FrameDuration))/double(Info->TransitionDuration));
             double  FadeAdjust2  =1-FadeAdjust;
@@ -2827,8 +2828,8 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 if (Paquet) av_free(Paquet);
             } else if ((Buf1==NULL)&&(Buf2!=NULL)) {
                 // swap buf1 and buf2
-                if (i<Info->CurrentObject_MusicTrack->List.count()) Info->CurrentObject_MusicTrack->List[i]=Buf2;
-                    else Info->CurrentObject_MusicTrack->List.append(Buf2);
+                if (i<Info->CurrentObject_MusicTrack->ListCount()) Info->CurrentObject_MusicTrack->SetAt(i,Buf2);
+                    else Info->CurrentObject_MusicTrack->AppendPacket(-1,Buf2);
                 // Apply Fade to Buf2
                 for (int j=0;j<Max;j++) {
                     // Left channel : Adjust if necessary (16 bits)

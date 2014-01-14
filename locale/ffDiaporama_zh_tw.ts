@@ -3338,6 +3338,11 @@ By default, this box is checked if duration of videos are less than half of the 
         <source>Variable bitrate</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Job completed successfully!
+Do you want to open the audio track now?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgRulerDef</name>
