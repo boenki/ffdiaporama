@@ -2,6 +2,12 @@
 * FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
 
+[Commit: ]
+    Bug fixes:
+        -Fixed a memory leak that occurred when using image from library
+
+--------------------------------------------------------------------------------
+
 [Commit: 12/01/2014]
     Bug fixes:
         -Fixed the Transition dialog: when the box is reduced or enlarged, increases or decreases the number of column
