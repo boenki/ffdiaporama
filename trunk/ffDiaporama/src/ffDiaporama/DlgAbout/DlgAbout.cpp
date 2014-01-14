@@ -49,7 +49,9 @@ void DlgAbout::DoInitDialog() {
         else FName=ApplicationConfig->StartingPath+QDir::separator()+QString("changelog-fr.txt");
     File.setFileName(FName);
     if (File.open(QIODevice::ReadOnly|QIODevice::Text)) {
-        Text=File.readAll();
+        QTextStream InStream(&File);
+        InStream.setCodec("UTF-8");
+        Text=InStream.readAll();
         ui->ChangelogED->setText(Text);
         File.close();
     } else {

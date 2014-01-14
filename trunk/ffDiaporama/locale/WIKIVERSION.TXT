@@ -1,5 +1,5 @@
-20140112
-fr = 99% (2420/2429) 9 to translate
+20140114
+fr = 100% (2431/2431)
 it = 99% (2408/2431) 23 to translate
 de = 89% (2166/2431) 265 to translate
 es = 99% (2420/2431) 11 to translate

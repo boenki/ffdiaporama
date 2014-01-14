@@ -1137,7 +1137,10 @@ void DlgRenderVideo::EndThreadEncode() {
 
     // Inform user of success
     if (Continue) {
-        if (CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job completed successfully!\nDo you want to open the video now?"),QMessageBox::Yes|QMessageBox::Close,QMessageBox::Yes)==QMessageBox::Yes)
+        if (CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),
+                             ExportMode!=MODE_SOUNDTRACK?QApplication::translate("DlgRenderVideo","Job completed successfully!\nDo you want to open the video now?"):
+                             QApplication::translate("DlgRenderVideo","Job completed successfully!\nDo you want to open the audio track now?"),
+                             QMessageBox::Yes|QMessageBox::Close,QMessageBox::Yes)==QMessageBox::Yes)
             QDesktopServices::openUrl(QUrl().fromLocalFile(OutputFileName));
     } else if (Encoder.StopProcessWanted) CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job canceled!"));
         else                                CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job error!\nPlease contact ffDiaporama team"));

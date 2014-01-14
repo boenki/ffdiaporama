@@ -494,7 +494,7 @@
         <location filename="fake/fake.cpp" line="101"/>
         <source>The following table lists all the available variables:</source>
         <oldsource>The following table lists all the available variables: </oldsource>
-        <translation type="unfinished">Le tableau ci-dessous répertorie toutes les variables disponibles :</translation>
+        <translation>Le tableau ci-dessous répertorie toutes les variables disponibles :</translation>
     </message>
     <message>
         <location filename="fake/fake.cpp" line="102"/>
@@ -2192,6 +2192,11 @@ de</translation>
         <translation>Les transitions musical (fade in/out) sont affichées sous forme de croisement.</translation>
     </message>
     <message>
+        <location filename="fake/fake.cpp" line="444"/>
+        <source>On slide associated with the music, the cover, artist and song title are displayed</source>
+        <translation>Sur la diapositive associée à la musique sont affichées la jaquette, le nom de l&apos;artiste et le titre du morceau</translation>
+    </message>
+    <message>
         <location filename="fake/fake.cpp" line="445"/>
         <source>Remark: Possible pauses are symbolized by a change in the volume to zero and the display of this icon: </source>
         <oldsource>Remark:Possible pauses are symbolized by a change in the volume to zero and the icon </oldsource>
@@ -2318,12 +2323,12 @@ de</translation>
     <message>
         <location filename="fake/fake.cpp" line="469"/>
         <source>To move the music or the background associated to a slide to another slide:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pour déplacer la musique ou le fond d&apos;écran associé à une diapositive vers une autre diapositive :</translation>
     </message>
     <message>
         <location filename="fake/fake.cpp" line="470"/>
         <source>Simply drag the music or background to a new position with the mouse (drag &amp; drop)</source>
-        <translation type="unfinished"></translation>
+        <translation>Déplacer la musique ou le fond d&apos;écran dans la barre de temps en utilisant la souris (Drag &amp; Drop)</translation>
     </message>
     <message>
         <location filename="fake/fake.cpp" line="471"/>
@@ -9496,17 +9501,17 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
     <message>
         <location filename="fake/fake.cpp" line="1979"/>
         <source>The following options are apply to the current music during the slide:</source>
-        <translation type="unfinished"></translation>
+        <translation>Les options suivantes sont appliquées à la musique durant la diapositive :</translation>
     </message>
     <message>
         <location filename="fake/fake.cpp" line="1983"/>
         <source>Specifies that the sound volume is reduced during this slide. (This option is particularly useful, for example, to reduce the sound of the music during the play of a video.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Spécifie que le volume sonore est diminué au cours de cette diapositive. (Cette option est particulièrement utile, par exemple, pour réduire le niveau de la musique durant la lecture d&apos;une vidéo.)</translation>
     </message>
     <message>
         <location filename="fake/fake.cpp" line="1985"/>
         <source>Pauses the current play list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Met en pause la liste de lecture actuelle.</translation>
     </message>
     <message>
         <location filename="fake/fake.cpp" line="1989"/>
@@ -9556,17 +9561,22 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
     <message>
         <location filename="fake/fake.cpp" line="1998"/>
         <source>The music files are listed in the order in which they will be played, from top to bottom.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les fichiers musicaux sont listés dans l&apos;ordre dans lequel ils seront lus, de haut en bas.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1999"/>
+        <source>The Volume column defines the &quot; Master volume &quot; for the file. This volume is independent of any reductions in the volume that you define in the upper part of the dialog.</source>
+        <translation>La colonne Volume définit le &quot;niveau de volume maitre&quot; pour le fichier. Ce volume est indépendant de toute réduction de volume que vous définissez dans la partie supérieure de la boîte de dialogue.</translation>
     </message>
     <message>
         <location filename="fake/fake.cpp" line="2000"/>
         <source>The Credit column defines if the file should appear or not when using %STM% variable in a credit title. For more information on variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>La colonne générique définit si le fichier doit apparaître ou non lorsque vous utilisez la variable %STM% dans un titre de générique. Pour plus d&apos;informations sur les variables, voir : &lt;a href=&quot;0013.html&quot;&gt;Variables dynamiques&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="fake/fake.cpp" line="2001"/>
         <source>Remarks</source>
-        <translation type="unfinished">Notes</translation>
+        <translation>Notes</translation>
     </message>
     <message>
         <location filename="fake/fake.cpp" line="2002"/>

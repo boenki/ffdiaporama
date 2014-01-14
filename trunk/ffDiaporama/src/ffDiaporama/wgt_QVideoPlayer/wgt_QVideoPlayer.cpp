@@ -181,6 +181,7 @@ void wgt_QVideoPlayer::closeEvent(QCloseEvent *) {
 //====================================================================================================================
 
 void wgt_QVideoPlayer::showEvent(QShowEvent *) {
+    Resize();
     if ((!IsInit)&&(Diaporama==NULL)) {
         SetPlayerToPlay();
         IsInit=true;
@@ -695,9 +696,9 @@ void wgt_QVideoPlayer::StartThreadAssembly(double PCT,cDiaporamaObjectInfo *Fram
     Mutex.lock();
     // Append mixed musique to the queue
     if ((SoundWanted)&&(Frame->CurrentObject)) for (int j=0;j<Frame->CurrentObject_MusicTrack->NbrPacketForFPS;j++) {
-        MixedMusic.MixAppendPacket(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,
-                                   Frame->CurrentObject_MusicTrack->DetachFirstPacket(),
-                                   (Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
+        int16_t *Music=Frame->CurrentObject_MusicTrack->DetachFirstPacket();
+        int16_t *Sound=(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL;
+        MixedMusic.MixAppendPacket(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,Music,Sound);
     }
 
     // Append this image to the queue

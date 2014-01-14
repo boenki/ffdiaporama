@@ -988,13 +988,18 @@ void cEncodeVideo::Assembly(cDiaporamaObjectInfo *Frame,cDiaporamaObjectInfo *Pr
 
 void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *RenderMusic,cSoundBlockList *ToEncodeMusic,bool &Continue) {
     // mix audio data
-    for (int j=0;j<Frame->CurrentObject_MusicTrack->NbrPacketForFPS;j++)
+    int MaxJ=Frame->CurrentObject_MusicTrack->NbrPacketForFPS;
+    if (MaxJ>Frame->CurrentObject_MusicTrack->ListCount()) MaxJ=Frame->CurrentObject_MusicTrack->ListCount();
+    for (int j=0;j<MaxJ;j++)
         RenderMusic->MixAppendPacket(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,
                                     Frame->CurrentObject_MusicTrack->DetachFirstPacket(),
                                     Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket());
 
     // Transfert RenderMusic data to EncodeMusic data
-    while ((Continue)&&(RenderMusic->List.count()>0)) {
+    //while ((Continue)&&(RenderMusic->List.count()>0)) {
+    int MaxPQ=RenderMusic->NbrPacketForFPS;
+    if (MaxPQ>RenderMusic->ListCount()) MaxPQ=RenderMusic->ListCount();
+    for (int PQ=0;(Continue)&&(PQ<MaxPQ);PQ++) {
         u_int8_t *PacketSound=(u_int8_t *)RenderMusic->DetachFirstPacket();
         if (PacketSound==NULL) {
             PacketSound=(u_int8_t *)av_malloc(RenderMusic->SoundPacketSize+4);
@@ -1025,7 +1030,7 @@ void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *Rend
     int64_t     DestPacketSize=DestNbrSamples*DestSampleSize;
 
     // Flush audio frame of ToEncodeMusic
-    while ((Continue)&&(ToEncodeMusic->List.count()>0)&&(!StopProcessWanted)) {
+    while ((Continue)&&(ToEncodeMusic->ListCount()>0)&&(!StopProcessWanted)) {
         PacketSound=ToEncodeMusic->DetachFirstPacket();
         if (PacketSound==NULL) {
             ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: PacketSound==NULL"));

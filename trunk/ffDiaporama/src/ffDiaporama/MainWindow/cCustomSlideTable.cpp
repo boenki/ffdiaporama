@@ -145,7 +145,7 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         Painter->setFont(normalFont);
         #ifdef Q_OS_WIN
         normalFont.setPointSizeF(double(110+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                         // Scale font
-        smallFont.setPointSizeF ((double(110+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()))*0.8;                    // Scale font
+        smallFont.setPointSizeF ((double(110+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()))*0.8);                   // Scale font
         #else
         normalFont.setPointSizeF((double(140+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()))*ScreenFontAdjust);      // Scale font
         smallFont.setPointSizeF ((double(140+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()))*ScreenFontAdjust*0.8);  // Scale font
