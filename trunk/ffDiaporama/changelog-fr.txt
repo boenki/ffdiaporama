@@ -2,6 +2,12 @@
 * FFDIAPORAMA 2.1 - trunk (Version Française)
 **************************************************
 
+[Commit: ]
+    Correction de bug :
+        -Corrige une fuite de mémoire qui intervenait lors de l'utilisation d'image de la librairie
+
+--------------------------------------------------------------------------------
+
 [Commit: 12/01/2014]
     Correction de bug :
         -Corrige la boite de sélection des transitions : quand la boite est réduite ou élargie, augmente ou réduit le nombre de colonne

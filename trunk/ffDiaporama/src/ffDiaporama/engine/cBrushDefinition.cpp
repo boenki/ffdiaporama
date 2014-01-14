@@ -534,9 +534,11 @@ QBrush *cBrushDefinition::GetLibraryBrush(QRectF Rect) {
             double RatioRect =double(Rect.height()+1)/double(Rect.width()+1);
             if (RatioRect>=RatioBck) {
                 QImage Background=Bckg->scaledToHeight(Rect.height()+1,Qt::SmoothTransformation);
+                delete Bckg;
                 return new QBrush(Background.copy((Background.width()-(Rect.width()+1))/2,0,Rect.width()+1,Background.height()));
             } else {
                 QImage Background=Bckg->scaledToWidth(Rect.width()+1,Qt::SmoothTransformation);
+                delete Bckg;
                 return new QBrush(Background.copy(0,(Background.height()-(Rect.height()+1))/2,Background.width(),Rect.height()+1));
             }
             delete Bckg;
