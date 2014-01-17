@@ -21,7 +21,7 @@
 #include "DlgWorkingTask.h"
 #include "ui_DlgWorkingTask.h"
 
-DlgWorkingTask::DlgWorkingTask(QString Title,bool *CancelAction,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+DlgWorkingTask::DlgWorkingTask(QString Title,bool *CancelAction,cApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgWorkingTask) {
 
     ui->setupUi(this);

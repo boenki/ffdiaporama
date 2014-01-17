@@ -25,11 +25,10 @@
 #include "DlgSlideProperties.h"
 #include "ui_DlgSlideProperties.h"
 
-#include "engine/cTextFrame.h"
+#include "cTextFrame.h"
+#include "cTexteFrameComboBox.h"
+
 #include "engine/cLocation.h"
-
-#include "CustomCtrl/cCTexteFrameComboBox.h"
-
 #include "DlgImage/DlgImageCorrection.h"
 #include "DlgFileExplorer/DlgFileExplorer.h"
 #include "DlgRuler/DlgRulerDef.h"
@@ -67,7 +66,7 @@
 // DlgSlideProperties : Slide Dialog
 //********************************************************************************************************************************
 
-DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):cShotComposer(DiaporamaObject,ApplicationConfig,parent),ui(new Ui::DlgSlideProperties) {
+DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,cApplicationConfig *ApplicationConfig,QWidget *parent):cShotComposer(DiaporamaObject,ApplicationConfig,parent),ui(new Ui::DlgSlideProperties) {
     ui->setupUi(this);
     Splitter                        =ui->SplitterTop;
     OkBt                            =ui->OKBT;
@@ -422,7 +421,7 @@ void DlgSlideProperties::ApplyPartialUndo(int,QDomElement root) {
 
     // Reset blocktable
     BlockTable->setRowCount(CompositionList->List.count());
-    for (int i=0;i<BlockTable->rowCount();i++) BlockTable->setRowHeight(i,48+2+((((cBaseApplicationConfig *)ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20+1)*3);
+    for (int i=0;i<BlockTable->rowCount();i++) BlockTable->setRowHeight(i,48+2+((((cApplicationConfig *)ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20+1)*3);
 
     // Restore blocktable selection
     QStringList SelList=root.attribute("Selection").split("###");

@@ -23,7 +23,7 @@
 
 // Basic inclusions (common to all files)
 #include "engine/_GlobalDefines.h"
-#include "engine/cBaseApplicationConfig.h"
+#include "engine/cApplicationConfig.h"
 #include "engine/cDriveList.h"
 #include "QCustomFolderTable.h"
 #include "QCustomFolderTree.h"
@@ -36,7 +36,7 @@ namespace Ui {
 class wgt_QMultimediaBrowser : public QWidget {
 Q_OBJECT
 public:
-    cBaseApplicationConfig  *ApplicationConfig;
+    cApplicationConfig  *ApplicationConfig;
     DlgWorkingTask          *DlgWorkingTaskDialog;
     bool                    CancelAction;
     int                     CurrentDriveCheck;
@@ -44,7 +44,7 @@ public:
     explicit                wgt_QMultimediaBrowser(QWidget *parent = 0);
                             ~wgt_QMultimediaBrowser();
 
-    void                    DoInitWidget(BROWSER_TYPE_ID BrowserType,bool AllowMultipleSelection,bool AllowDragDrop,bool AllowAddToProject,cBaseApplicationConfig *ApplicationConfig);
+    void                    DoInitWidget(BROWSER_TYPE_ID BrowserType,bool AllowMultipleSelection,bool AllowDragDrop,bool AllowAddToProject,cApplicationConfig *ApplicationConfig);
     void                    DoInitDialog();
     void                    RefreshControls(bool EmitToParent=true);
 

@@ -19,7 +19,7 @@
    ====================================================================== */
 
 // Include some common various class
-#include "cBaseApplicationConfig.h"
+#include "cApplicationConfig.h"
 
 // Include some additional standard class
 #include "CustomCtrl/_QCustomDialog.h"
@@ -28,7 +28,6 @@
 
 // Include some additional standard class
 #include "cBaseMediaFile.h"
-#include "cLuLoImageCache.h"
 #include "_Diaporama.h"
 #include "cLocation.h"
 
@@ -301,7 +300,7 @@ QString cReplaceObjectList::GetDestinationFileName(QString SourceFileName) {
 // Base class object
 //*********************************************************************************************************************************************
 
-cBaseMediaFile::cBaseMediaFile(cBaseApplicationConfig *TheApplicationConfig) {
+cBaseMediaFile::cBaseMediaFile(cApplicationConfig *TheApplicationConfig) {
     ApplicationConfig   = TheApplicationConfig;
     ObjectType          = OBJECTTYPE_UNMANAGED;
     ObjectName          = "NoName";
@@ -565,7 +564,7 @@ QStringList cBaseMediaFile::GetSummaryText(QStringList *ExtendedProperties) {
 // Unmanaged File
 //*********************************************************************************************************************************************
 
-cUnmanagedFile::cUnmanagedFile(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
+cUnmanagedFile::cUnmanagedFile(cApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
     ObjectType  =OBJECTTYPE_UNMANAGED;
     IsInformationValide=true;
 }
@@ -580,7 +579,7 @@ QString cUnmanagedFile::GetFileTypeStr() {
 // Folder
 //*********************************************************************************************************************************************
 
-cFolder::cFolder(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
+cFolder::cFolder(cApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
     ObjectType  =OBJECTTYPE_FOLDER;
 }
 
@@ -674,7 +673,7 @@ QString cFolder::GetFileTypeStr() {
 // ffDiaporama project file
 //*********************************************************************************************************************************************
 
-cffDProjectFile::cffDProjectFile(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
+cffDProjectFile::cffDProjectFile(cApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
     ObjectType      =OBJECTTYPE_FFDFILE;
     NbrSlide        =0;
     NbrChapters     =0;
@@ -891,7 +890,7 @@ QString cffDProjectFile::GetFileTypeStr() {
 // Image file
 //*********************************************************************************************************************************************
 
-cImageFile::cImageFile(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
+cImageFile::cImageFile(cApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
     ObjectType  =OBJECTTYPE_IMAGEFILE;  // coul be turn later to OBJECTTYPE_THUMBNAIL
     NoExifData  =false;
 }
@@ -1283,7 +1282,7 @@ QImage *cImageFile::ImageAt(bool PreviewMode) {
 // Image from clipboard
 //*********************************************************************************************************************************************
 
-cImageClipboard::cImageClipboard(cBaseApplicationConfig *ApplicationConfig):cImageFile(ApplicationConfig) {
+cImageClipboard::cImageClipboard(cApplicationConfig *ApplicationConfig):cImageFile(ApplicationConfig) {
     ObjectType      =OBJECTTYPE_IMAGECLIPBOARD;
     ObjectName      ="ImageClipboard";
     NoExifData      =true;
@@ -1414,7 +1413,7 @@ void cImageClipboard::SaveToXML(QDomElement *ParentElement,QString ElementName,Q
 // Google maps map
 //*********************************************************************************************************************************************
 
-cGMapsMap::cGMapsMap(cBaseApplicationConfig *ApplicationConfig):cImageClipboard(ApplicationConfig) {
+cGMapsMap::cGMapsMap(cApplicationConfig *ApplicationConfig):cImageClipboard(ApplicationConfig) {
     ObjectType  =OBJECTTYPE_GMAPSMAP;
     ObjectName  ="GoogleMapsMap";
     NoExifData  =true;
@@ -1744,7 +1743,7 @@ QStringList cGMapsMap::GetMapSizesPerZoomLevel() {
         double  Width =DISTANCE(GPS0x,GPS0y,GPS1x,GPS0y);
         double  Height=DISTANCE(GPS0x,GPS0y,GPS0x,GPS1y);
         if (((List.count()==1)||((Width>=WWidth)&&(Height>=WHeight)))&&(Width>=0.4)&&(Height>=0.4)) {
-            if (ApplicationConfig->DistanceUnit==cBaseApplicationConfig::MILES) DistanceList.append(QString("Zoom %1: %2 miles x %3 miles").arg(i).arg(KMTOMILES(Width),0,'f',3).arg(KMTOMILES(Height),0,'f',3));
+            if (ApplicationConfig->DistanceUnit==cApplicationConfig::MILES) DistanceList.append(QString("Zoom %1: %2 miles x %3 miles").arg(i).arg(KMTOMILES(Width),0,'f',3).arg(KMTOMILES(Height),0,'f',3));
                 else                                                            DistanceList.append(QString("Zoom %1: %2 km x %3 km").arg(i).arg(Width,0,'f',3).arg(Height,0,'f',3));
         } else DistanceList.append(QString());
     }
@@ -1878,7 +1877,7 @@ cImageInCache::~cImageInCache() {
     FREEFRAME(&FrameBufferYUV);
 }
 
-cVideoFile::cVideoFile(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
+cVideoFile::cVideoFile(cApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
     Reset(OBJECTTYPE_VIDEOFILE);
 }
 
@@ -3025,7 +3024,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
     int64_t  FPSDuration  =FPSSize?(double(FPSSize)/(SoundTrackBloc->Channels*SoundTrackBloc->SampleBytes*SoundTrackBloc->SamplingRate))*AV_TIME_BASE:0;
 
     if (!FPSDuration) {
-        if (PreviewMode) FPSDuration=double(AV_TIME_BASE)/((cBaseApplicationConfig *)ApplicationConfig)->PreviewFPS;
+        if (PreviewMode) FPSDuration=double(AV_TIME_BASE)/((cApplicationConfig *)ApplicationConfig)->PreviewFPS;
             else if (VideoStream) FPSDuration=double(VideoStream->r_frame_rate.den*AV_TIME_BASE)/double(VideoStream->r_frame_rate.num);
             else FPSDuration=double(AV_TIME_BASE)/double(SoundTrackBloc->SamplingRate);
     }
@@ -3687,7 +3686,7 @@ bool cVideoFile::OpenCodecAndFile() {
 // Base object for music definition
 //*********************************************************************************************************************************************
 
-cMusicObject::cMusicObject(cBaseApplicationConfig *ApplicationConfig):cVideoFile(ApplicationConfig) {
+cMusicObject::cMusicObject(cApplicationConfig *ApplicationConfig):cVideoFile(ApplicationConfig) {
     Volume      =1.0;                           // Volume as % from 1% to 150%
     AllowCredit =true;                          // // if true, this music will appear in credit title
     Reset(OBJECTTYPE_MUSICFILE);

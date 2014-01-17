@@ -45,7 +45,7 @@ public:
     QNetworkAccessManager   *NetworkAccessManager;
     QNetworkReply           *GetMapNetReply;
 
-    explicit                DlgGMapsGeneration(cBrushDefinition *CurrentBrush,cGMapsMap *MediaObject,bool DuplicateRessource,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
+    explicit                DlgGMapsGeneration(cBrushDefinition *CurrentBrush,cGMapsMap *MediaObject,bool DuplicateRessource,cApplicationConfig *ApplicationConfig,QWidget *parent=0);
                             ~DlgGMapsGeneration();
 
     // function to be overloaded

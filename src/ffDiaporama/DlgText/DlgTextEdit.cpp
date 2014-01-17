@@ -21,7 +21,7 @@
 #include "DlgTextEdit.h"
 #include "ui_DlgTextEdit.h"
 #include "cCustomTextEdit.h"
-#include "engine/cTextFrame.h"
+#include "cTextFrame.h"
 #include "engine/_Variables.h"
 
 #include <QTextCharFormat>
@@ -60,7 +60,7 @@ enum {
 
 //====================================================================================================================
 
-DlgTextEdit::DlgTextEdit(cDiaporama *Diaporama,cCompositionObject *TheCurrentTextItem,cBaseApplicationConfig *ApplicationConfig,
+DlgTextEdit::DlgTextEdit(cDiaporama *Diaporama,cCompositionObject *TheCurrentTextItem,cApplicationConfig *ApplicationConfig,
                          cStyleCollection *TheStyleTextCollection,cStyleCollection *TheStyleTextBackgroundCollection,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgTextEdit) {
 

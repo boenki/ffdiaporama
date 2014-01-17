@@ -34,7 +34,7 @@ public:
     bool    *CancelActionFlag;
     int     MaxValue,AddValue;
 
-    explicit DlgWorkingTask(QString Title,bool *CancelAction,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
+    explicit DlgWorkingTask(QString Title,bool *CancelAction,cApplicationConfig *ApplicationConfig,QWidget *parent=0);
     ~DlgWorkingTask();
 
     // function to be overloaded

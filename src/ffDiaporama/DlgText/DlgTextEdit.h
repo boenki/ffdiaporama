@@ -43,7 +43,7 @@ public:
     cStyleCollection    *StyleTextBackgroundCollection;         // Link to background text style collection
     QString             CurrentPlainText;
 
-    explicit        DlgTextEdit(cDiaporama *Diaporama,cCompositionObject *CurrentTextItem,cBaseApplicationConfig *ApplicationConfig,
+    explicit        DlgTextEdit(cDiaporama *Diaporama,cCompositionObject *CurrentTextItem,cApplicationConfig *ApplicationConfig,
                                 cStyleCollection *StyleTextCollection,cStyleCollection *StyleTextBackgroundCollection,QWidget *parent=0);
                     ~DlgTextEdit();
 

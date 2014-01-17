@@ -1797,17 +1797,17 @@ This value is expressed in % of the width of the block.</string>
   <customwidget>
    <class>cCColorComboBox</class>
    <extends>QComboBox</extends>
-   <header>CustomCtrl/cCColorComboBox.h</header>
+   <header>../ffDiaporama_lib/cColorComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cCGrdOrientationComboBox</class>
    <extends>QComboBox</extends>
-   <header>CustomCtrl/cCGrdOrientationComboBox.h</header>
+   <header>../ffDiaporama_lib/cGrdOrientationComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cBackgroundComboBox</class>
    <extends>QComboBox</extends>
-   <header>CustomCtrl/cBackgroundComboBox.h</header>
+   <header>../ffDiaporama_lib/cBackgroundComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cCustomTextEdit</class>
@@ -1817,12 +1817,12 @@ This value is expressed in % of the width of the block.</string>
   <customwidget>
    <class>cCBrushComboBox</class>
    <extends>QComboBox</extends>
-   <header>CustomCtrl/cCBrushComboBox.h</header>
+   <header>../ffDiaporama_lib/cBrushComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>QCustomComboBox</class>
    <extends>QComboBox</extends>
-   <header>CustomCtrl/_QCustomComboBox.h</header>
+   <header>../ffDiaporama_lib/QCustomComboBox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

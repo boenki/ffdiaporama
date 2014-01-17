@@ -25,8 +25,7 @@
 #include "CustomCtrl/_QCustomDialog.h"
 
 // Include some common various class
-#include "engine/cBaseApplicationConfig.h"
-#include "engine/cSaveWindowPosition.h"
+#include "engine/cApplicationConfig.h"
 #include "engine/cBaseMediaFile.h"
 
 namespace Ui {
@@ -38,7 +37,7 @@ Q_OBJECT
 public:
     cBaseMediaFile *MediaFile;
 
-    explicit DlgInfoFile(cBaseMediaFile *MediaFile,cBaseApplicationConfig *ApplicationConfig,QWidget *parent = 0);
+    explicit DlgInfoFile(cBaseMediaFile *MediaFile,cApplicationConfig *ApplicationConfig,QWidget *parent = 0);
     ~DlgInfoFile();
 
     // function to be overloaded

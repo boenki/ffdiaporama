@@ -21,7 +21,7 @@
 #include "DlgExportProject.h"
 #include "ui_DlgExportProject.h"
 
-DlgExportProject::DlgExportProject(cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent)
+DlgExportProject::DlgExportProject(cDiaporama *ffdProject,cApplicationConfig *ApplicationConfig,QWidget *parent)
     :QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgExportProject) {
 
     ui->setupUi(this);

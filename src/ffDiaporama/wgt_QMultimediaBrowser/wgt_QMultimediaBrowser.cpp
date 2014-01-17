@@ -40,7 +40,7 @@ wgt_QMultimediaBrowser::~wgt_QMultimediaBrowser() {
 //====================================================================================================================
 // Initialisation part done during constructor
 
-void wgt_QMultimediaBrowser::DoInitWidget(BROWSER_TYPE_ID BrowserType,bool AllowMultipleSelection,bool AllowDragDrop,bool AllowAddToProject,cBaseApplicationConfig *ApplicationConfig) {
+void wgt_QMultimediaBrowser::DoInitWidget(BROWSER_TYPE_ID BrowserType,bool AllowMultipleSelection,bool AllowDragDrop,bool AllowAddToProject,cApplicationConfig *ApplicationConfig) {
     this->ApplicationConfig=ApplicationConfig;
     DlgWorkingTaskDialog   =NULL;
     CancelAction           =false;

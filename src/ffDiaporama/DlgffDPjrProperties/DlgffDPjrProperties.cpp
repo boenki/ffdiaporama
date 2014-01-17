@@ -21,16 +21,16 @@
 #include "DlgffDPjrProperties.h"
 #include "ui_DlgffDPjrProperties.h"
 
-#include "engine/cTextFrame.h"
+#include "cTextFrame.h"
+#include "cTexteFrameComboBox.h"
 #include "engine/cLocation.h"
-#include "CustomCtrl/cCTexteFrameComboBox.h"
 
 #include "DlgSlide/DlgImageComposer.h"
 #include "DlgGMapsLocation/DlgGMapsLocation.h"
 
 //====================================================================================================================
 
-DlgffDPjrProperties::DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent)
+DlgffDPjrProperties::DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject,cApplicationConfig *ApplicationConfig,QWidget *parent)
     :QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgffDPjrProperties) {
 
     this->IsPrjCreate=IsPrjCreate;

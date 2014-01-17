@@ -23,7 +23,7 @@
 
 // Basic inclusions (common to all files)
 #include "_QCustomDialog.h"
-#include "engine/_Shape.h"
+#include "Shape.h"
 
 //******************************************************************************************************************
 // Custom Frame shape ComboBox

@@ -31,7 +31,7 @@ namespace Ui {
 class DlgAbout : public QCustomDialog {
 Q_OBJECT
 public:
-    explicit DlgAbout(cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
+    explicit DlgAbout(cApplicationConfig *ApplicationConfig,QWidget *parent=0);
     ~DlgAbout();
 
     // function to be overloaded

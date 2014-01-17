@@ -28,7 +28,7 @@
 #define DEFAULT_Position            cLocation::TOP
 #define DEFAULT_Distance            cLocation::MARKERDISTNORMAL
 
-cLocation::cLocation(cBaseApplicationConfig *ApplicationConfig) {
+cLocation::cLocation(cApplicationConfig *ApplicationConfig) {
     LocationType    =FREE;
     FavKey          =-1;
     ThumbnailResKey =-1;

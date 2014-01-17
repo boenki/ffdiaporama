@@ -32,7 +32,7 @@
 
 //====================================================================================================================
 
-DlgManageDevices::DlgManageDevices(cDeviceModelList *DeviceModelList,cBaseApplicationConfig *ApplicationConfig,QWidget *parent)
+DlgManageDevices::DlgManageDevices(cDeviceModelList *DeviceModelList,cApplicationConfig *ApplicationConfig,QWidget *parent)
     :QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgManageDevices) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DlgManageDevices");

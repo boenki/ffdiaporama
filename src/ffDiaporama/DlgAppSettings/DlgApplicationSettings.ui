@@ -3521,7 +3521,7 @@ Use title project as video name: Use the title defined in the project properties
   <customwidget>
    <class>cCSpeedWaveComboBox</class>
    <extends>QComboBox</extends>
-   <header>CustomCtrl/cCSpeedWaveComboBox.h</header>
+   <header>../ffDiaporama_lib/cSpeedWaveComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cThumbnailComboBox</class>

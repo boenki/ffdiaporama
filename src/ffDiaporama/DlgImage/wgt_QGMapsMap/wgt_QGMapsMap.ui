@@ -801,7 +801,7 @@
   <customwidget>
    <class>cCColorComboBox</class>
    <extends>QComboBox</extends>
-   <header>CustomCtrl/cCColorComboBox.h</header>
+   <header>../ffDiaporama_lib/cColorComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cCustomLocationTable</class>

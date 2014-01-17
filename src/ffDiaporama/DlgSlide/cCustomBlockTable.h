@@ -28,7 +28,7 @@
 class cCustomBlockTable : public QTableWidget {
 Q_OBJECT
 public:
-    cBaseApplicationConfig  *ApplicationConfig;
+    cApplicationConfig  *ApplicationConfig;
     cCompositionList        *CompositionList;           // Link to Composition List
     cDiaporamaObject        *CurrentSlide;
     qreal                   ProjectGeometry;

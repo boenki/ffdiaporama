@@ -39,7 +39,7 @@ public:
     bool            *WikiFollowInterface;
     bool            DisableContentChange;
 
-    explicit        HelpPopup(cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
+    explicit        HelpPopup(cApplicationConfig *ApplicationConfig,QWidget *parent=0);
                     ~HelpPopup();
 
     virtual void    DoInitDialog();

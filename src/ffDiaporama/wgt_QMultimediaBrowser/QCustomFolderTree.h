@@ -31,7 +31,7 @@
 class QCustomFolderTree : public QTreeWidget {
 Q_OBJECT
 public:
-    cBaseApplicationConfig  *ApplicationConfig;
+    cApplicationConfig  *ApplicationConfig;
     QCustomFolderTable      *FolderTable;
 
     explicit                QCustomFolderTree(QWidget *parent=0);

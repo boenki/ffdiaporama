@@ -23,7 +23,7 @@
 
 //====================================================================================================================
 
-DlgInfoFile::DlgInfoFile(cBaseMediaFile *MediaFile,cBaseApplicationConfig *ApplicationConfig,QWidget *parent)
+DlgInfoFile::DlgInfoFile(cBaseMediaFile *MediaFile,cApplicationConfig *ApplicationConfig,QWidget *parent)
     :QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgInfoFile) {
 
     this->MediaFile=MediaFile;

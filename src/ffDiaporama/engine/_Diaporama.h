@@ -26,7 +26,7 @@
 #include "_Transition.h"
 
 // Include some additional standard class
-#include "cBaseApplicationConfig.h"
+#include "cApplicationConfig.h"
 #include "cBaseMediaFile.h"
 #include "cBrushDefinition.h"
 #include "cTextFrame.h"
@@ -186,9 +186,9 @@ public:
     bool                IsTextEmpty;
     bool                IsFullScreen;
 
-    cBaseApplicationConfig *ApplicationConfig;
+    cApplicationConfig *ApplicationConfig;
 
-    explicit            cCompositionObject(int TypeComposition,int IndexKey,cBaseApplicationConfig *TheApplicationConfig,QObject *Parent);
+    explicit            cCompositionObject(int TypeComposition,int IndexKey,cApplicationConfig *TheApplicationConfig,QObject *Parent);
                         ~cCompositionObject();
 
     void                InitDefaultValues();
@@ -242,7 +242,7 @@ public:
                                 ~cCompositionList();
 
     void                        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
-    bool                        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,cBaseApplicationConfig *ApplicationConfig,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
+    bool                        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,cApplicationConfig *ApplicationConfig,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
 };
 
 //*********************************************************************************************************************************************
@@ -410,7 +410,7 @@ public:
 class cDiaporama :public QObject {
 Q_OBJECT
 public:
-    cBaseApplicationConfig  *ApplicationConfig;
+    cApplicationConfig  *ApplicationConfig;
 
     cffDProjectFile         *ProjectInfo;
 
@@ -439,7 +439,7 @@ public:
     // slides objects
     QList<cDiaporamaObject *> List;                   // list of all media object
 
-    explicit                cDiaporama(cBaseApplicationConfig *ApplicationConfig,bool LoadDefaultModel,QObject *Parent);
+    explicit                cDiaporama(cApplicationConfig *ApplicationConfig,bool LoadDefaultModel,QObject *Parent);
                             ~cDiaporama();
 
     int                     GetHeightForWidth(int WantedWith);

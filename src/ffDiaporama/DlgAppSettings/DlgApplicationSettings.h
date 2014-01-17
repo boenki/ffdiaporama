@@ -31,14 +31,14 @@ namespace Ui {
 class DlgApplicationSettings : public QCustomDialog {
 Q_OBJECT
 public:
-    cBaseApplicationConfig  *ApplicationConfig;
+    cApplicationConfig  *ApplicationConfig;
     bool                    IsDeviceChanged;
     int                     CurrentDevice;
     int                     CurrentDeviceIndex;
     QComboBox               *CB_SL[NBR_IMAGETYPE][2];
     QComboBox               *CB_BA[NBR_IMAGETYPE][2];
 
-    explicit DlgApplicationSettings(cBaseApplicationConfig *ApplicationConfig,QWidget *parent = 0);
+    explicit DlgApplicationSettings(cApplicationConfig *ApplicationConfig,QWidget *parent = 0);
     ~DlgApplicationSettings();
 
     // function to be overloaded

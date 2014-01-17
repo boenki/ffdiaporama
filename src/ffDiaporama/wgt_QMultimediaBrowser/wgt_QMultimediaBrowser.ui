@@ -1024,7 +1024,7 @@ font-size: 11px;
   <customwidget>
    <class>QCustomHorizSplitter</class>
    <extends>QSplitter</extends>
-   <header>CustomCtrl/QCustomHorizSplitter.h</header>
+   <header>../ffDiaporama_lib/QCustomHorizSplitter.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

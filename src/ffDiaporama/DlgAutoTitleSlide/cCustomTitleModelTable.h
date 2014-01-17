@@ -28,7 +28,7 @@
 class cCustomTitleModelTable : public QTableWidget {
 Q_OBJECT
 public:
-    cBaseApplicationConfig  *ApplicationConfig;
+    cApplicationConfig  *ApplicationConfig;
     QAbstractItemModel      *DefaultModel;
     QAbstractItemDelegate   *DefaultDelegate;
     cModelList              *ModelTable;

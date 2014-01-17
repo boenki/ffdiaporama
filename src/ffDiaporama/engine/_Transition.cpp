@@ -20,7 +20,7 @@
 
 #include "_Transition.h"
 #include "cBrushDefinition.h"
-#include "_ImageFilters.h"
+#include "ImageFilters.h"
 
 // static global values
 cLumaList       LumaList_Bar;

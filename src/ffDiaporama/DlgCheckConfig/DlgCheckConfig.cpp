@@ -31,7 +31,7 @@
 
 //====================================================================================================================
 
-DlgCheckConfig::DlgCheckConfig(cBaseApplicationConfig *ApplicationConfig,QWidget *parent)
+DlgCheckConfig::DlgCheckConfig(cApplicationConfig *ApplicationConfig,QWidget *parent)
     :QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgCheckConfig) {
 
     ui->setupUi(this);

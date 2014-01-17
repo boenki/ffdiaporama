@@ -77,7 +77,7 @@
     //============================================
 
     #include "_GlobalDefines.h"
-    #include "cBaseApplicationConfig.h"
+    #include "cApplicationConfig.h"
 
     #include <QImage>
     #include <QPainter>

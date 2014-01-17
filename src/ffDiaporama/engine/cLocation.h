@@ -43,7 +43,7 @@ public:
     cBrushDefinition::sMarker::MARKERSIZE                                   Size;                   // Size of the marker and the GPS Position
     enum MARKERDISTANCE {MARKERDISTNEAR,MARKERDISTNORMAL,MARKERDISTFAR}     Distance;               // Distance between the localization on the map and the marker
 
-    explicit                cLocation(cBaseApplicationConfig *ApplicationConfig);
+    explicit                cLocation(cApplicationConfig *ApplicationConfig);
     virtual                 ~cLocation();
 
     virtual void            CopyFromLocation(cLocation *Src);

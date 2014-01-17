@@ -2745,7 +2745,7 @@ color: #000000;
   <customwidget>
    <class>cCSpeedWaveComboBox</class>
    <extends>QComboBox</extends>
-   <header>CustomCtrl/cCSpeedWaveComboBox.h</header>
+   <header>../ffDiaporama_lib/cSpeedWaveComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cCFramingComboBox</class>

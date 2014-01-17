@@ -23,7 +23,7 @@
 
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
-#include "cDeviceModelDef.h"
+//#include "cDeviceModelDef.h"
 
 // Include some additional standard class
 #include <QComboBox>
@@ -38,8 +38,7 @@
 #define STYLENAME_BLOCKSHAPESTYLE           "StyleBlockShapeCollection"
 
 // this class is define later
-class cBaseApplicationConfig;
-//#include "cBaseMediaFile.h"
+class cApplicationConfig;
 
 //============================================
 // Style collection item definition
@@ -90,10 +89,10 @@ public:
     QString             GetStyleName(QString StyleDef);
     QString             GetStyleDef(QString StyleName);
     void                FillCollectionCB(QComboBox *CB,QString ActualStyleName);
-    QString             PopupCollectionMenu(QWidget *ParentWindow,cBaseApplicationConfig *BaseApplicationConfig,QString ActualStyleDef);
+    QString             PopupCollectionMenu(QWidget *ParentWindow,cApplicationConfig *BaseApplicationConfig,QString ActualStyleDef);
     void                UpdateExistingStyle(QString StyleName,QString ActualStyleDef);
     void                CreateNewStyle(QWidget *ParentWindow,QString ActualStyleDef);
-    void                ManageExistingStyle(QWidget *ParentWindow,cBaseApplicationConfig *BaseApplicationConfig);
+    void                ManageExistingStyle(QWidget *ParentWindow,cApplicationConfig *BaseApplicationConfig);
     void                StringToStringList(QString String,QStringList &List);
     void                StringDefToStringList(QString String,QStringList &List);
     void                DoTranslateCollection();

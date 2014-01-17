@@ -65,7 +65,7 @@ QString ConvBRToString(QString sBR,bool VBR) {
 
 //====================================================================================================================
 
-DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,cApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgRenderVideo) {
 
     ui->setupUi(this);

@@ -23,7 +23,7 @@
 #include "engine/cLocation.h"
 #include "DlgGMapsLocation/DlgGMapsLocation.h"
 
-DlgChapter::DlgChapter(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+DlgChapter::DlgChapter(cDiaporamaObject *DiaporamaObject,cApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgChapter) {
 
     ui->setupUi(this);

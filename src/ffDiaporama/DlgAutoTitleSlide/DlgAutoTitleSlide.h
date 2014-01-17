@@ -38,7 +38,7 @@ public:
     QTimer              Timer;
     bool                IsLocationChanged;
 
-    explicit DlgAutoTitleSlide(bool IsCreation,cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent = 0);
+    explicit DlgAutoTitleSlide(bool IsCreation,cDiaporamaObject *DiaporamaObject,cApplicationConfig *ApplicationConfig,QWidget *parent = 0);
     ~DlgAutoTitleSlide();
 
     // function to be overloaded

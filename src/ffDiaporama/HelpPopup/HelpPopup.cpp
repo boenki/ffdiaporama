@@ -26,7 +26,7 @@
 #include <QtHelp/QHelpContentModel>
 #include <QtHelp/QHelpContentWidget>
 
-HelpPopup::HelpPopup(cBaseApplicationConfig *ApplicationConfig,QWidget *):QCustomDialog(ApplicationConfig,NULL),ui(new Ui::HelpPopup) {
+HelpPopup::HelpPopup(cApplicationConfig *ApplicationConfig,QWidget *):QCustomDialog(ApplicationConfig,NULL),ui(new Ui::HelpPopup) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:HelpPopup::HelpPopup");
 
     HelpEngine              =NULL;

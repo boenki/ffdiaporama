@@ -1,15 +1,33 @@
-#-------------------------------------------------------------
-# SYNTAXE IS :
-#   QMAKE PREFIX=xxx ffDiaporama.pro
-#       xxx could be /usr, /usr/local or /opt
-#--------------------------------------------------------------
+# ======================================================================
+#  This file is part of ffDiaporama
+#  ffDiaporama is a tools to make diaporama as video
+#  Copyright (C) 2011-2014 Dominique Levray <domledom@laposte.net>
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License along
+#  with this program; if not, write to the Free Software Foundation, Inc.,
+#  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# ======================================================================
+
+isEmpty(PREFIX) {
+    PREFIX = /usr
+}
 
 CONFIG += qt thread
 
-greaterThan(QT_MAJOR_VERSION, 4): {
+greaterThan(QT_MAJOR_VERSION,4) {
     # QT5 version
     QT += widgets concurrent help
-} else: {
+} else {
     # QT4 version
     CONFIG += help
 }
@@ -19,12 +37,13 @@ QMAKE_STRIP  = echo
 APPFOLDER    = ffDiaporama
 TARGET       = ffDiaporama
 TEMPLATE     = app
-DEFINES     += HAVE_CONFIG_H               # specific for TAGLib
-DEFINES     += TAGLIB_STATIC               # specific for TAGLib
 
-isEmpty(PREFIX) {
-    PREFIX = /usr
-}
+#--------------------------------------------------------------
+# Add link to ffDiaporama_lib
+#--------------------------------------------------------------
+
+INCLUDEPATH += ../ffDiaporama_lib
+LIBS        += -lffDiaporama_lib
 
 #--------------------------------------------------------------
 # DEFINES $$DESTDIR DIRECTORIES, COMMON INCLUDES AND COMMON LIBS
@@ -33,6 +52,8 @@ isEmpty(PREFIX) {
 DEFINES +=SHARE_DIR=\\\"$$PREFIX\\\"
 
 unix {
+    LIBS   += -L../ffDiaporama_lib
+
     CFLAGS += -W"Missing debug information for"
 
     contains(DEFINES,Q_OS_SOLARIS) {
@@ -84,14 +105,20 @@ unix {
             INCLUDEPATH += /usr/include/
         } else {
             message("Use libav 0.8+taglib in /usr/include")
-            LIBS    += -ltag                                                    #------ TAGlib is used only with LIBAV 8
-            DEFINES += USETAGLIB
+            LIBS        += -ltag                                                #------ TAGlib is used only with LIBAV 8
+            DEFINES     += USETAGLIB
+            DEFINES     += HAVE_CONFIG_H                                        #------ specific for TAGLib
+            DEFINES     += TAGLIB_STATIC                                        #------ specific for TAGLib
             INCLUDEPATH += /usr/include/
         }
 
     }
 
     LIBS        += -lexiv2                                                  #------ Exiv2
+
+    OTHER_FILES += ffDiaporama.rc \
+                   ffdiaporama.ico \    # icon file to be install on windows system
+                   ffDiaporama.url      # URL file to be install on windows system
 
 } else:win32 {
 
@@ -101,12 +128,22 @@ unix {
         INCLUDEPATH += "../../../win_src/ffmpeg-2.1-win64-dev/include"
         LIBS        += -L"../../../win_src/ffmpeg-2.1-win64-dev/lib"
         LIBS        += -L"../../../win_src/SDL-1.2.15/lib/x64"
+        CONFIG(debug, debug|release) {
+            LIBS += -L"F:\Dev\ffdiaporama\trunk\Win64Debug\src\ffDiaporama_lib\debug"
+        } else {
+            LIBS += -L"F:\Dev\ffdiaporama\trunk\Win64Release\src\ffDiaporama_lib\release"
+        }
     } else {
         DEFINES+=Q_OS_WIN32
         message("x86 build")
         INCLUDEPATH += "../../../win_src/ffmpeg-2.1-win32-dev/include"
         LIBS        += -L"../../../win_src/ffmpeg-2.1-win32-dev/lib"
         LIBS        += -L"../../../win_src/SDL-1.2.15/lib/x86"
+        CONFIG(debug, debug|release) {
+            LIBS += -L"F:\Dev\ffdiaporama\trunk\Win32Debug\src\ffDiaporama_lib\debug"
+        } else {
+            LIBS += -L"F:\Dev\ffdiaporama\trunk\Win32Release\src\ffDiaporama_lib\release"
+        }
     }
 
     CONFIG      += sql                                                      #------ I don't know why, but windows version need sql module in config directive
@@ -241,6 +278,11 @@ unix {
         ../../../win_src/exiv2-0.23/src/bmpimage.hpp \
         ../../../win_src/exiv2-0.23/src/basicio.hpp \
         ../exiv2/exv_msvc.h
+
+    RC_FILE     += ffDiaporama.rc
+    OTHER_FILES += ffdiaporama.ico \    # icon file to be install on windows system
+                   ffDiaporama.url      # URL file to be install on windows system
+
 }
 
 #---- Libs for windows and linux
@@ -252,100 +294,7 @@ LIBS        += -lavformat -lavcodec -lavutil -lswscale -lavfilter           #---
 #--------------------------------------------------------------
 
 # Ressource files
-win32:RC_FILE    += ../../ffDiaporama.rc
-unix:OTHER_FILES += ../../ffDiaporama.rc
-RESOURCES        += RSCffDiaporama.qrc
-
-# Translation files
-TRANSLATIONS += ../../locale/ffDiaporama_fr.ts \
-    ../../locale/ffDiaporama_it.ts \
-    ../../locale/ffDiaporama_de.ts \
-    ../../locale/ffDiaporama_nl.ts \
-    ../../locale/ffDiaporama_es.ts \
-    ../../locale/ffDiaporama_pt.ts \
-    ../../locale/ffDiaporama_ru.ts \
-    ../../locale/ffDiaporama_el.ts \
-    ../../locale/ffDiaporama_cz.ts \
-    ../../locale/ffDiaporama_zh_tw.ts
-
-OTHER_FILES += \
-    $$TRANSLATIONS \
-    ../../TODO-LIST.txt \          # Developpement file
-    ../../BUILDVERSION.txt \                  # Developpement file
-    ../../ffDiaporama-mime.xml \              # MIME definition of .ffd type
-    ../../ffDiaporama.xml \                   # Default configuration options for ffDiaporama
-    ../../Devices.xml \                       # Shared default configuration options for devices management
-    ../../licences.txt \                      # Licence file
-    ../../licences.rtf \                      # Licence file
-    ../../authors.txt \                       # Authoring file for ffDiaporama
-    ../../ffDiaporama.url \                   # URL file to be install on windows system
-    ../../ffDiaporama.desktop \                 # Desktop (menu icon) entry for ffDiaporama installed in /usr
-    ../../WIKI/src_en/wiki_en.qhp \
-    ../../WIKI/src_en/wiki_en.qhcp \
-    ../../WIKI/src_en/main.html \
-    ../../WIKI/src_en/0010.html \
-    ../../WIKI/src_en/0011.html \
-    ../../WIKI/src_en/0012.html \
-    ../../WIKI/src_en/0013.html \
-    ../../WIKI/src_en/0014.html \
-    ../../WIKI/src_en/0015.html \
-    ../../WIKI/src_en/0016.html \
-    ../../WIKI/src_en/0020.html \
-    ../../WIKI/src_en/0021.html \
-    ../../WIKI/src_en/0022.html \
-    ../../WIKI/src_en/0023.html \
-    ../../WIKI/src_en/0024.html \
-    ../../WIKI/src_en/0030.html \
-    ../../WIKI/src_en/0031.html \
-    ../../WIKI/src_en/0032.html \
-    ../../WIKI/src_en/0033.html \
-    ../../WIKI/src_en/0034.html \
-    ../../WIKI/src_en/0035.html \
-    ../../WIKI/src_en/0036.html \
-    ../../WIKI/src_en/0037.html \
-    ../../WIKI/src_en/0038.html \
-    ../../WIKI/src_en/0039.html \
-    ../../WIKI/src_en/003A.html \
-    ../../WIKI/src_en/0040.html \
-    ../../WIKI/src_en/0041.html \
-    ../../WIKI/src_en/0042.html \
-    ../../WIKI/src_en/0043.html \
-    ../../WIKI/src_en/0044.html \
-    ../../WIKI/src_en/0045.html \
-    ../../WIKI/src_en/0101.html \
-    ../../WIKI/src_en/0102.html \
-    ../../WIKI/src_en/0103.html \
-    ../../WIKI/src_en/0104.html \
-    ../../WIKI/src_en/0105.html \
-    ../../WIKI/src_en/0106.html \
-    ../../WIKI/src_en/0107.html \
-    ../../WIKI/src_en/0108.html \
-    ../../WIKI/src_en/0109.html \
-    ../../WIKI/src_en/0110.html \
-    ../../WIKI/src_en/0111.html \
-    ../../WIKI/src_en/0112.html \
-    ../../WIKI/src_en/0113.html \
-    ../../WIKI/src_en/0114.html \
-    ../../WIKI/src_en/0115.html \
-    ../../WIKI/src_en/0116.html \
-    ../../WIKI/src_en/0117.html \
-    ../../WIKI/src_en/0118.html \
-    ../../WIKI/src_en/0119.html \
-    ../../WIKI/src_en/0120.html \
-    ../../WIKI/src_en/0121.html \
-    ../../WIKI/src_en/0122.html \
-    ../../WIKI/src_en/0123.html \
-    ../../WIKI/UpdateTSFiles.bash \
-    ../../WIKI/UpdateQMFiles.bash \
-    ../../WIKI/readme.txt \
-    ../../WIKI/UpdateTSFiles.cmd \
-    ../../WIKI/UpdateQMFiles.cmd \
-    ../../WIKI/PREPLANGUAGE.cmd \
-    ../../WIKI/wiki.css \
-    ../../readme.txt \
-    ../../changelog-fr.txt \
-    ../../changelog-en.txt \
-    ../../WIKI/WIKI.txt
+RESOURCES   += RSCffDiaporama.qrc
 
 # Source files
 SOURCES +=  MainWindow/cCustomSlideTable.cpp \
@@ -390,40 +339,24 @@ SOURCES +=  MainWindow/cCustomSlideTable.cpp \
             HelpPopup/HelpPopup.cpp \
             HelpPopup/HelpBrowser.cpp \
             engine/_GlobalDefines.cpp \
-            engine/cSaveWindowPosition.cpp \
-            engine/cBaseApplicationConfig.cpp \
-            engine/cLuLoImageCache.cpp \
+            engine/cApplicationConfig.cpp \
             engine/cDeviceModelDef.cpp \
             engine/cSoundBlockList.cpp \
             engine/cBaseMediaFile.cpp \
             engine/_SDL_Support.cpp \
-            engine/_ImageFilters.cpp \
             engine/cBrushDefinition.cpp \
-            engine/cCustomIcon.cpp \
             engine/cDriveList.cpp \
             engine/_Transition.cpp \
-            engine/_SpeedWave.cpp \
-            engine/_Shape.cpp \
-            engine/cTextFrame.cpp \
             engine/_EncodeVideo.cpp \
             engine/_StyleDefinitions.cpp \
             engine/_Diaporama.cpp \
             engine/_Variables.cpp \
             engine/_Model.cpp \
-            engine/cDatabase.cpp \
             engine/cLocation.cpp \
             CustomCtrl/_QCustomDialog.cpp \
-            CustomCtrl/cCColorComboBox.cpp \
-            CustomCtrl/cCBrushComboBox.cpp \
-            CustomCtrl/cCSpeedWaveComboBox.cpp \
-            CustomCtrl/cCGrdOrientationComboBox.cpp \
             CustomCtrl/cCFramingComboBox.cpp \
             CustomCtrl/cCShapeComboBox.cpp \
-            CustomCtrl/cBackgroundComboBox.cpp \
-            CustomCtrl/QCustomHorizSplitter.cpp \
-            CustomCtrl/cCTexteFrameComboBox.cpp \
             CustomCtrl/cThumbnailComboBox.cpp \
-            CustomCtrl/_QCustomComboBox.cpp \
             wgt_QMultimediaBrowser/QCustomFolderTable.cpp \
             wgt_QMultimediaBrowser/QCustomFolderTree.cpp \
             wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp \
@@ -474,41 +407,25 @@ HEADERS  += MainWindow/cCustomSlideTable.h \
             DlgExportProject/DlgExportProject.h \
             HelpPopup/HelpPopup.h \
             HelpPopup/HelpBrowser.h \
-            engine/cSaveWindowPosition.h \
-            engine/cBaseApplicationConfig.h \
-            engine/cLuLoImageCache.h \
+            engine/cApplicationConfig.h \
             engine/cDeviceModelDef.h \
             engine/_GlobalDefines.h \
             engine/cSoundBlockList.h \
             engine/cBaseMediaFile.h \
             engine/_SDL_Support.h \
-            engine/_ImageFilters.h \
             engine/cBrushDefinition.h \
-            engine/cCustomIcon.h \
             engine/cDriveList.h \
             engine/_Transition.h \
-            engine/_SpeedWave.h \
-            engine/_Shape.h \
-            engine/cTextFrame.h \
             engine/_EncodeVideo.h \
             engine/_StyleDefinitions.h \
             engine/_Diaporama.h \
             engine/_Variables.h \
             engine/_Model.h \
-            engine/cDatabase.h \
             engine/cLocation.h \
             CustomCtrl/_QCustomDialog.h \
-            CustomCtrl/cCColorComboBox.h \
-            CustomCtrl/cCBrushComboBox.h \
-            CustomCtrl/cCSpeedWaveComboBox.h \
-            CustomCtrl/cCGrdOrientationComboBox.h \
             CustomCtrl/cCFramingComboBox.h \
             CustomCtrl/cCShapeComboBox.h \
-            CustomCtrl/cBackgroundComboBox.h \
-            CustomCtrl/QCustomHorizSplitter.h \
-            CustomCtrl/cCTexteFrameComboBox.h \
             CustomCtrl/cThumbnailComboBox.h \
-            CustomCtrl/_QCustomComboBox.h \
             wgt_QMultimediaBrowser/QCustomFolderTable.h \
             wgt_QMultimediaBrowser/QCustomFolderTree.h \
             wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.h \
@@ -554,11 +471,28 @@ FORMS    += MainWindow/mainwindow.ui \
 #--------------------------------------------------------------
 # INSTALLATION
 #--------------------------------------------------------------
-message("Install to : $$PREFIX")
 
 TARGET.path         = $$PREFIX/bin
 TARGET.files        = $$TARGET
 INSTALLS 	    += TARGET
+
+Licences.path       = $$PREFIX/share/$$APPFOLDER
+Licences.files      = ../../authors.txt \
+                      ../../licences.txt \
+                      ../../licence.rtf
+INSTALLS            += Licences
+
+XMLConfig.path      = $$PREFIX/share/$$APPFOLDER
+XMLConfig.files     = ../../Devices.xml \
+                      ../../ffDiaporama.xml
+INSTALLS            += XMLConfig
+
+General.path        = $$PREFIX/share/$$APPFOLDER
+General.files       = ../../changelog-en.txt \
+                      ../../changelog-fr.txt \
+                      ../../BUILDVERSION.txt \
+                      ../../readme.txt
+INSTALLS            += General
 
 ico.path            = $$PREFIX/share/icons/hicolor/32x32/apps
 ico.files           = ../../ffdiaporama.png
@@ -576,48 +510,3 @@ translation.path    = $$PREFIX/share/$$APPFOLDER/locale
 translation.files   = ../../locale/wiki_en.*
 INSTALLS 	    += translation
 
-background.path     = $$PREFIX/share/$$APPFOLDER/background
-background.files    = ../../background/*.*
-INSTALLS 	    += background
-
-clipart.path        = $$PREFIX/share/$$APPFOLDER/clipart
-clipart.files       = ../../clipart/*.*
-ffdclipart.path     = $$PREFIX/share/$$APPFOLDER/clipart/ffDiaporama
-ffdclipart.files    = ../../clipart/ffDiaporama/*.*
-INSTALLS 	    += ffdclipart clipart
-
-model.path          = $$PREFIX/share/$$APPFOLDER/model
-model.files         = ../../model/*.*
-model_thumb.path    = $$PREFIX/share/$$APPFOLDER/model/Thumbnails
-model_thumb.files   = ../../model/Thumbnails/*.*
-model_tts.path      = $$PREFIX/share/$$APPFOLDER/model/Titles
-model_tts.files     = ../../model/Titles/*.*
-model_tts43.path    = $$PREFIX/share/$$APPFOLDER/model/Titles/4_3
-model_tts43.files   = ../../model/Titles/4_3/*.*
-model_tts169.path   = $$PREFIX/share/$$APPFOLDER/model/Titles/16_9
-model_tts169.files  = ../../model/Titles/16_9/*.*
-model_tts4017.path  = $$PREFIX/share/$$APPFOLDER/model/Titles/40_17
-model_tts4017.files = ../../model/Titles/40_17/*.*
-model_fat.path      = $$PREFIX/share/$$APPFOLDER/model/FanArts
-model_fat.files     = ../../model/FanArts/*.*
-INSTALLS 	    += model_thumb model_tts model_tts43 model_tts169 model_tts4017 model_fat model
-
-luma.path           = $$PREFIX/share/$$APPFOLDER/luma
-luma.files          = ../../luma/*.*
-luma_Bar.path       = $$PREFIX/share/$$APPFOLDER/luma/Bar
-luma_Bar.files      = ../../luma/Bar/*.*
-luma_Box.path       = $$PREFIX/share/$$APPFOLDER/luma/Box
-luma_Box.files      = ../../luma/Box/*.*
-luma_Center.path    = $$PREFIX/share/$$APPFOLDER/luma/Center
-luma_Center.files   = ../../luma/Center/*.*
-luma_Checker.path   = $$PREFIX/share/$$APPFOLDER/luma/Checker
-luma_Checker.files  = ../../luma/Checker/*.*
-luma_Clock.path     = $$PREFIX/share/$$APPFOLDER/luma/Clock
-luma_Clock.files    = ../../luma/Clock/*.*
-luma_Snake.path     = $$PREFIX/share/$$APPFOLDER/luma/Snake
-luma_Snake.files    = ../../luma/Snake/*.*
-INSTALLS 	    += luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake luma
-
-General.path        = $$PREFIX/share/$$APPFOLDER
-General.files       = ../../*.xml ../../*.txt ../../*.rtf
-INSTALLS            += General

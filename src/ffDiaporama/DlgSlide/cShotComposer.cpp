@@ -19,16 +19,16 @@
    ====================================================================== */
 
 #include "cShotComposer.h"
-#include "CustomCtrl/cCTexteFrameComboBox.h"
+#include "cTexteFrameComboBox.h"
 #include "CustomCtrl/cCShapeComboBox.h"
-#include "CustomCtrl/cCColorComboBox.h"
+#include "cColorComboBox.h"
 
 #include "DlgInfoFile/DlgInfoFile.h"
 #include "DlgText/DlgTextEdit.h"
 
 //====================================================================================================================
 
-cShotComposer::cShotComposer(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):QCustomDialog(ApplicationConfig,parent) {
+cShotComposer::cShotComposer(cDiaporamaObject *DiaporamaObject,cApplicationConfig *ApplicationConfig,QWidget *parent):QCustomDialog(ApplicationConfig,parent) {
     switch (DiaporamaObject->Parent->ImageGeometry) {
         case GEOMETRY_4_3:      DisplayW=1440;    DisplayH=1080;     break;
         case GEOMETRY_40_17:    DisplayW=1920;    DisplayH=816;      break;
@@ -626,7 +626,7 @@ void cShotComposer::s_BlockSettings_ShapeShadowColor(int) {
 void cShotComposer::RefreshBlockTable(int SetCurrentIndex) {
     BlockTable->setUpdatesEnabled(false);
     BlockTable->setRowCount(CompositionList->List.count());
-    for (int i=0;i<BlockTable->rowCount();i++) BlockTable->setRowHeight(i,48+2+((((cBaseApplicationConfig *)ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20+1)*3);
+    for (int i=0;i<BlockTable->rowCount();i++) BlockTable->setRowHeight(i,48+2+((((cApplicationConfig *)ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20+1)*3);
     BlockTable->setUpdatesEnabled(true);
     if (BlockTable->currentRow()!=SetCurrentIndex) {
         BlockTable->clearSelection();

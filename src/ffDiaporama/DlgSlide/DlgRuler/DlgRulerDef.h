@@ -15,7 +15,7 @@ public:
     int     SavRuler;
     bool    AllowTVMargins;
 
-    explicit DlgRulerDef(int *RulerDef,bool AllowTVMargins,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
+    explicit DlgRulerDef(int *RulerDef,bool AllowTVMargins,cApplicationConfig *ApplicationConfig,QWidget *parent=0);
     ~DlgRulerDef();
 
     // function to be overloaded

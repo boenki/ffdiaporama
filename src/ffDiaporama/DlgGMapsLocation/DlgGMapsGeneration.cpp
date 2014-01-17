@@ -28,7 +28,7 @@
 
 //====================================================================================================================
 
-DlgGMapsGeneration::DlgGMapsGeneration(cBrushDefinition *CurrentBrush,cGMapsMap *MediaObject,bool DuplicateRessource,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgGMapsGeneration) {
+DlgGMapsGeneration::DlgGMapsGeneration(cBrushDefinition *CurrentBrush,cGMapsMap *MediaObject,bool DuplicateRessource,cApplicationConfig *ApplicationConfig,QWidget *parent):QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgGMapsGeneration) {
     this->CurrentBrush      =CurrentBrush;
     this->MediaObject       =MediaObject;
     this->DuplicateRessource=DuplicateRessource;

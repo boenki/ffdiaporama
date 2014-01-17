@@ -19,7 +19,7 @@
    ====================================================================== */
 
 #include "cDriveList.h"
-#include "cBaseApplicationConfig.h"
+#include "cApplicationConfig.h"
 
 #include <QtDebug>
 #include <QFileInfoList>
@@ -71,7 +71,7 @@ QString MFD                     ="";
     }
 #endif
 
-cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *ApplicationConfig) {
+cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cApplicationConfig *ApplicationConfig) {
     Flag        =2;         // New DriveDesc
     Label       ="";
     Size        =0;
@@ -357,7 +357,7 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
 
 //*******************************************************************************************************************************************************
 
-cDriveList::cDriveList(cBaseApplicationConfig *TheApplicationConfig) {
+cDriveList::cDriveList(cApplicationConfig *TheApplicationConfig) {
     ApplicationConfig=TheApplicationConfig;
 
     #ifdef Q_OS_WIN

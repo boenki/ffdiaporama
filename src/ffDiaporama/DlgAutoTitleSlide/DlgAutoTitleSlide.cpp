@@ -26,7 +26,7 @@
 
 #define TIMERFREQ   200
 
-DlgAutoTitleSlide::DlgAutoTitleSlide(bool IsCreation,cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+DlgAutoTitleSlide::DlgAutoTitleSlide(bool IsCreation,cDiaporamaObject *DiaporamaObject,cApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgAutoTitleSlide) {
 
     ui->setupUi(this);

@@ -31,7 +31,7 @@
 #include <QtXml/QDomElement>
 
 // Include some common various class
-//#include "cBaseApplicationConfig.h"
+//#include "cApplicationConfig.h"
 
 //****************************************************************************************************************************************************************
 // LIBAV inclusion

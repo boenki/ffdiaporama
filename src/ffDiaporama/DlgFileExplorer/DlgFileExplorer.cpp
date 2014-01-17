@@ -21,7 +21,7 @@
 #include "DlgFileExplorer.h"
 #include "ui_DlgFileExplorer.h"
 
-DlgFileExplorer::DlgFileExplorer(BROWSER_TYPE_ID BrowserType,bool AllowMultipleSelection,bool AllowDragDrop,bool AllowAddToProject,QString BoxTitle,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+DlgFileExplorer::DlgFileExplorer(BROWSER_TYPE_ID BrowserType,bool AllowMultipleSelection,bool AllowDragDrop,bool AllowAddToProject,QString BoxTitle,cApplicationConfig *ApplicationConfig,QWidget *parent):
                 QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgFileExplorer) {
 
     // Initialise UI

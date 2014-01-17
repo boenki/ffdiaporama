@@ -67,7 +67,7 @@ public:
     QTimer                  DisplayTimer;
     int                     PrevAdjustedDuration;
 
-    explicit DlgRenderVideo(cDiaporama &Diaporama,int ExportMode,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
+    explicit DlgRenderVideo(cDiaporama &Diaporama,int ExportMode,cApplicationConfig *ApplicationConfig,QWidget *parent=0);
     ~DlgRenderVideo();
 
     // function to be overloaded
