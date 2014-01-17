@@ -28,7 +28,7 @@
 #include <QFutureWatcher>
 
 // Include some common various class
-#include "engine/cBaseApplicationConfig.h"
+#include "engine/cApplicationConfig.h"
 #include "engine/cBaseMediaFile.h"
 
 //*************************************************************
@@ -49,7 +49,7 @@
 
 class MediaFileItem {
 public:
-    cBaseApplicationConfig  *ApplicationConfig;
+    cApplicationConfig  *ApplicationConfig;
     qlonglong               FileKey;
     qlonglong               FolderKey;
     QStringList             TextToDisplay;
@@ -77,7 +77,7 @@ Q_OBJECT
 public:
     QStringList             BrowsePathList;
     QList<MediaFileItem>    MediaList;
-    cBaseApplicationConfig  *ApplicationConfig;
+    cApplicationConfig  *ApplicationConfig;
 
     // Settings
     BROWSER_TYPE_ID         BrowserType;
@@ -121,7 +121,7 @@ public:
     explicit                QCustomFolderTable(QWidget *parent = 0);
                             ~QCustomFolderTable();
 
-    virtual void            InitSettings(cBaseApplicationConfig *ApplicationConfig,BROWSER_TYPE_ID BrowserType);
+    virtual void            InitSettings(cApplicationConfig *ApplicationConfig,BROWSER_TYPE_ID BrowserType);
     virtual void            SaveSettings();
     virtual void            EnsureThreadIsStopped();
 

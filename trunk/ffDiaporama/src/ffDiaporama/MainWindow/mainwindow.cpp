@@ -35,8 +35,8 @@
 #include <QScrollBar>
 #include <QEventLoop>
 
-#include "CustomCtrl/QCustomHorizSplitter.h"
-#include "engine/cTextFrame.h"
+#include "QCustomHorizSplitter.h"
+#include "cTextFrame.h"
 #include "engine/_Variables.h"
 #include "engine/cLocation.h"
 
@@ -68,7 +68,7 @@
 //====================================================================================================================
 
 MainWindow::MainWindow(QString ForceLanguage,QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow) {
-    ApplicationConfig       =new cBaseApplicationConfig(this,ALLOWEDWEBLANGUAGE);
+    ApplicationConfig       =new cApplicationConfig(this,ALLOWEDWEBLANGUAGE);
     CurrentThreadId         =this->thread()->currentThreadId();
     IsFirstInitDone         =false;        // true when first show window was done
     FLAGSTOPITEMSELECTION   =false;        // Flag to stop Item Selection process for delete and move of object

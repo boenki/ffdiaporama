@@ -49,7 +49,7 @@ void cCustomMapWidget::mouseReleaseEvent(QMouseEvent *ev) {
 
 //********************************************************************************************************************
 
-DlgGMapsLocation::DlgGMapsLocation(cLocation *Location,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgGMapsLocation) {
+DlgGMapsLocation::DlgGMapsLocation(cLocation *Location,cApplicationConfig *ApplicationConfig,QWidget *parent):QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgGMapsLocation) {
     ui->setupUi(this);
     OkBt                =ui->OKBT;
     CancelBt            =ui->CancelBt;

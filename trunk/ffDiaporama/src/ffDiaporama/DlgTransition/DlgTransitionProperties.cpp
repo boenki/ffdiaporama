@@ -46,7 +46,7 @@ public:
 
 //====================================================================================================================
 
-DlgTransitionProperties::DlgTransitionProperties(bool IsMultiple,cDiaporamaObject *TheDiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+DlgTransitionProperties::DlgTransitionProperties(bool IsMultiple,cDiaporamaObject *TheDiaporamaObject,cApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgTransitionProperties) {
     ui->setupUi(this);
     OkBt            =ui->OKBT;

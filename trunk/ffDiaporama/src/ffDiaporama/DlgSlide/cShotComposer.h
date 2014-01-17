@@ -57,7 +57,7 @@ public:
     QList<bool>                 IsSelected;                 // Table of selection state in the current block list
     int                         NbrSelected;                // Number of selected blocks
 
-    explicit                    cShotComposer(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent = 0);
+    explicit                    cShotComposer(cDiaporamaObject *DiaporamaObject,cApplicationConfig *ApplicationConfig,QWidget *parent = 0);
     virtual void                DoInitDialog();
 
     // Utility function used to apply modification from one shot to next shot and/or global composition

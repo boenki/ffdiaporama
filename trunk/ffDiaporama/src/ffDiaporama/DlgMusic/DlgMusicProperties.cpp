@@ -24,7 +24,7 @@
 #include "DlgFileExplorer/DlgFileExplorer.h"
 #include <QMessageBox>
 
-DlgMusicProperties::DlgMusicProperties(cDiaporamaObject *TheDiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+DlgMusicProperties::DlgMusicProperties(cDiaporamaObject *TheDiaporamaObject,cApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent), ui(new Ui::DlgMusicProperties) {
     ui->setupUi(this);
     OkBt    =ui->OKBT;

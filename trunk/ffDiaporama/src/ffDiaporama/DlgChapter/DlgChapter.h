@@ -35,7 +35,7 @@ public:
     cDiaporamaObject    *CurrentSlide;              // Current slide
     bool                IsLocationChanged;
 
-    explicit DlgChapter(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent = 0);
+    explicit DlgChapter(cDiaporamaObject *DiaporamaObject,cApplicationConfig *ApplicationConfig,QWidget *parent = 0);
     ~DlgChapter();
     
     // function to be overloaded

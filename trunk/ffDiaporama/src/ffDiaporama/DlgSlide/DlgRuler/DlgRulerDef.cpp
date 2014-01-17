@@ -10,7 +10,7 @@
 #define RULER_VERT_SCREENCENTER     0x0040
 #define RULER_VERT_UNSELECTED       0x0080
 
-DlgRulerDef::DlgRulerDef(int *RulerDef,bool AllowTVMargins,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+DlgRulerDef::DlgRulerDef(int *RulerDef,bool AllowTVMargins,cApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgRulerDef) {
 
     this->RulerDef=RulerDef;

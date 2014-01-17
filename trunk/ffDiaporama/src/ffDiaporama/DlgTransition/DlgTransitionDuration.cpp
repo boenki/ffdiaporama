@@ -23,7 +23,7 @@
 
 //====================================================================================================================
 
-DlgTransitionDuration::DlgTransitionDuration(int64_t Duration,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+DlgTransitionDuration::DlgTransitionDuration(int64_t Duration,cApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgTransitionDuration) {
 
     ui->setupUi(this);

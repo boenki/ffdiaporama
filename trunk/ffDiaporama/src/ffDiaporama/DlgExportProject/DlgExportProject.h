@@ -25,7 +25,7 @@
 #include "CustomCtrl/_QCustomDialog.h"
 
 // Include some common various class
-#include "engine/cBaseApplicationConfig.h"
+#include "engine/cApplicationConfig.h"
 #include "engine/_Diaporama.h"
 
 namespace Ui {
@@ -46,7 +46,7 @@ public:
     int                     CurrentObject;
     int                     HeighRow;
 
-    explicit DlgExportProject(cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent = 0);
+    explicit DlgExportProject(cDiaporama *ffdProject,cApplicationConfig *ApplicationConfig,QWidget *parent = 0);
     ~DlgExportProject();
     
     // function to be overloaded

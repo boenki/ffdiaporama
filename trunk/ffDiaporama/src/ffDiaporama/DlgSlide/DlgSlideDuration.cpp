@@ -23,7 +23,7 @@
 
 //====================================================================================================================
 
-DlgSlideDuration::DlgSlideDuration(int64_t Duration,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+DlgSlideDuration::DlgSlideDuration(int64_t Duration,cApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgSlideDuration) {
 
     ui->setupUi(this);

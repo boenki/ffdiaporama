@@ -39,7 +39,7 @@ public:
     bool                StopMajFramingStyle;
     bool                NoPrepUndo;
 
-    explicit DlgImageComposer(cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent = 0);
+    explicit DlgImageComposer(cDiaporama *ffdProject,cApplicationConfig *ApplicationConfig,QWidget *parent = 0);
     ~DlgImageComposer();
 
     // function to be overloaded

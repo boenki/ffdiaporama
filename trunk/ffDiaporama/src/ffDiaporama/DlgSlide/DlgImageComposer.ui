@@ -2254,7 +2254,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
   <customwidget>
    <class>cCColorComboBox</class>
    <extends>QComboBox</extends>
-   <header>CustomCtrl/cCColorComboBox.h</header>
+   <header>../ffDiaporama_lib/cColorComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cCShapeComboBox</class>
@@ -2275,7 +2275,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
   <customwidget>
    <class>cCTexteFrameComboBox</class>
    <extends>QComboBox</extends>
-   <header>CustomCtrl/cCTexteFrameComboBox.h</header>
+   <header>../ffDiaporama_lib/cTexteFrameComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

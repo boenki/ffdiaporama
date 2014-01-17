@@ -37,7 +37,7 @@
 // Manage style dialog
 //============================================================================================================================
 
-DlgManageFavorite::DlgManageFavorite(QStringList *TheCollection,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+DlgManageFavorite::DlgManageFavorite(QStringList *TheCollection,cApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgManageFavorite) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageFavorite::DlgManageFavorite");
     ui->setupUi(this);

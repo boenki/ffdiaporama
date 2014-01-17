@@ -77,7 +77,7 @@ public:
     bool                    Deinterlace;            // Add a YADIF filter to deinterlace video (on/off)
     cVideoFile              *FileInfo;              // Link to the file wrapper object when DlgVideoDialogBox
     cDiaporama              *Diaporama;             // Link to the Diaporama hierarchy when preview
-    cBaseApplicationConfig  *ApplicationConfig;
+    cApplicationConfig  *ApplicationConfig;
 
     int                     ActualPosition;         // Current position (in msec)
     QTime                   tDuration;              // Duration of the video

@@ -19,26 +19,14 @@
    ====================================================================== */
 
 // Basic inclusions (common to all files)
-#include <iostream>
 #include <QDir>
 #include "_GlobalDefines.h"
-#ifdef Q_OS_WIN
-#include <windows.h>
-#endif
 
 QString CurrentAppName;                         // Application name (including devel, beta, ...)
 QString CurrentAppVersion;                      // Application version read from BUILDVERSION.txt
 double  ScreenFontAdjust=1;                     // System Font adjustement
 double  ScaleFontAdjust=0;
 int     SCALINGTEXTFACTOR=700;                  // 700 instead of 400 (ffD 1.0/1.1/1.2) to keep similar display from plaintext to richtext
-
-//======================================================================
-// Internal log defines and functions
-//======================================================================
-
-int         LogMsgLevel=LOGMSG_INFORMATION;     // Level from wich debug message was print to stdout
-QStringList EventList;                          // Internal event queue
-QObject     *EventReceiver=NULL;                // Windows wich receive event
 
 #ifdef Q_OS_WIN
 
@@ -127,13 +115,6 @@ QObject     *EventReceiver=NULL;                // Windows wich receive event
 
 //====================================================================================================================
 
-void PostEvent(int EventType,QString EventParam) {
-    EventList.append(QString("%1###;###%2").arg(EventType).arg(EventParam));
-    if (EventReceiver!=NULL) QApplication::postEvent(EventReceiver,new QEvent(BaseAppEvent));
-}
-
-//====================================================================================================================
-
 double GetDoubleValue(QDomElement CorrectElement,QString Name) {
     QString sValue=CorrectElement.attribute(Name);
     bool    IsOk=true;
@@ -200,67 +181,6 @@ QString GetCumulInfoStr(QStringList *InformationList,QString Key1,QString Key2) 
         Num++;
     } while (Value!="");
     return Info;
-}
-
-//====================================================================================================================
-
-bool    PreviousBreak=true;
-QMutex  LogMutex;
-
-#ifdef Q_OS_WIN
-std::string toAscii(QString tab) {
-    char buffer[2048];
-    CharToOemA(tab.toLocal8Bit().constData(), buffer);
-    std::string str(buffer);
-    return str;
-}
-#endif
-
-void ToLog(int MessageType,QString Message,QString Source,bool AddBreak) {
-    LogMutex.lock();
-    if ((MessageType>=LogMsgLevel)&&(PreviousBreak)) {
-        QString DateTime=QTime::currentTime().toString("hh:mm:ss.zzz");
-        #ifdef Q_OS_WIN
-        if (Message.endsWith("\n")) Message=Message.left(Message.length()-QString("\n").length());
-        if (Message.endsWith(char(10))) Message=Message.left(Message.length()-QString(char(10)).length());
-        if (Message.endsWith(char(13))) Message=Message.left(Message.length()-QString(char(13)).length());
-        if (Message.endsWith(char(10))) Message=Message.left(Message.length()-QString(char(10)).length());
-        #endif
-        QString MSG="";
-        if ((Message!="LIBAV: No accelerated colorspace conversion found from yuv422p to rgb24.")&&
-            (Message!="LIBAV: Increasing reorder buffer to 1")&&
-            (!Message.startsWith("LIBAV: Reference"))&&
-            (!Message.startsWith("LIBAV: error while decoding MB"))&&
-            (!Message.startsWith("LIBAV: left block unavailable for requested"))&&
-            (!Message.startsWith("LIBAV: max_analyze_duration reached"))&&
-            (!(Message.startsWith("LIBAV: mode:") && Message.contains("parity:") && (Message.contains("auto_enable:")||Message.contains("deint:"))))&&
-            (!(Message.startsWith("LIBAV: w:") && Message.contains("h:") && Message.contains("pixfmt:")))
-           ) {
-            switch (MessageType) {
-                case LOGMSG_DEBUGTRACE:    MSG=QString("["+DateTime+":DEBUG]\t"     +Message+(AddBreak?"\n":""));  break;
-                case LOGMSG_INFORMATION:   MSG=QString("["+DateTime+":INFO]\t"      +Message+(AddBreak?"\n":""));  break;
-                case LOGMSG_WARNING:       MSG=QString("["+DateTime+":WARNING]\t"   +Message+(AddBreak?"\n":""));  break;
-                case LOGMSG_CRITICAL:      MSG=QString("["+DateTime+":ERROR]\t"     +Message+(AddBreak?"\n":""));  break;
-            }
-        }
-        if (!MSG.isEmpty()) {
-            if ((MessageType!=LOGMSG_DEBUGTRACE)&&(EventReceiver!=NULL)) PostEvent(EVENT_GeneralLogChanged,QString("%1###:###%2###:###%3").arg((int)MessageType).arg(Message).arg(Source));
-            #ifdef Q_OS_WIN
-            std::cout << toAscii(MSG) << std::flush;
-            if (MSG.endsWith("\n")) MSG=MSG.left(MSG.indexOf("\n"));
-            #else
-            std::cout << MSG.toLocal8Bit().constData() << std::flush;
-            #endif
-        }
-        PreviousBreak=((AddBreak)||(Message.endsWith("\n")));
-    } else if (MessageType>=LogMsgLevel) {
-        #ifdef Q_OS_WIN
-        std::cout << toAscii(Message) << std::flush;
-        #else
-        std::cout << Message.toLocal8Bit().constData() << std::flush;
-        #endif
-    }
-    LogMutex.unlock();
 }
 
 //====================================================================================================================

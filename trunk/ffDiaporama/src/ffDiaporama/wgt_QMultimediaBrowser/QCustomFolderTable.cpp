@@ -32,7 +32,7 @@
 
 #include "QCustomFolderTable.h"
 
-#include "engine/_ImageFilters.h"
+#include "ImageFilters.h"
 #include <DlgInfoFile/DlgInfoFile.h>
 
 #define FILETABLESTATE_FILETOCHEK   1
@@ -282,7 +282,7 @@ QCustomFolderTable::~QCustomFolderTable() {
 
 //====================================================================================================================
 
-void QCustomFolderTable::InitSettings(cBaseApplicationConfig *ApplicationConfig,BROWSER_TYPE_ID BrowserType) {
+void QCustomFolderTable::InitSettings(cApplicationConfig *ApplicationConfig,BROWSER_TYPE_ID BrowserType) {
     this->ApplicationConfig =ApplicationConfig;
     this->BrowserType       =BrowserType;
 

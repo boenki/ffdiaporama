@@ -46,7 +46,7 @@ Q_OBJECT
 public:
     bool                    PartitionMode;
     cDiaporama              *Diaporama;                 // Link to current diaporama
-    cBaseApplicationConfig  *ApplicationConfig;         // Link to current application config
+    cApplicationConfig  *ApplicationConfig;         // Link to current application config
 
     // Drag & drop operation
     int                     DragItemSource;

@@ -21,7 +21,7 @@
 // Specific inclusions
 #include "CustomCtrl/_QCustomDialog.h"
 #include "_Model.h"
-#include "cBaseApplicationConfig.h"
+#include "cApplicationConfig.h"
 #include "_Diaporama.h"
 
 #define ICON_CUSTOMIZEDSLIDE ":/img/action_edit.png"
@@ -261,7 +261,7 @@ QDomDocument cModelListItem::LoadModelFile(ffd_MODELTYPE TypeModel,QString Model
 
 //=============================================================================================================================
 
-cModelList::cModelList(cBaseApplicationConfig *ApplicationConfig,ffd_MODELTYPE ModelType,int64_t *NextNumber,ffd_GEOMETRY ProjectGeometry,int DigitCategorie,QString NameCategorie):QObject(ApplicationConfig) {
+cModelList::cModelList(cApplicationConfig *ApplicationConfig,ffd_MODELTYPE ModelType,int64_t *NextNumber,ffd_GEOMETRY ProjectGeometry,int DigitCategorie,QString NameCategorie):QObject(ApplicationConfig) {
     this->ApplicationConfig =ApplicationConfig;
     this->NextNumber        =NextNumber;
     this->ProjectGeometry   =ProjectGeometry;

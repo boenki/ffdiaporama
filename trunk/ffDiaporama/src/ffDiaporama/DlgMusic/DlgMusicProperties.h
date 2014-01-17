@@ -35,7 +35,7 @@ Q_OBJECT
 public:
     cDiaporamaObject    *DiaporamaObject;
 
-    explicit DlgMusicProperties(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
+    explicit DlgMusicProperties(cDiaporamaObject *DiaporamaObject,cApplicationConfig *ApplicationConfig,QWidget *parent=0);
     ~DlgMusicProperties();
 
     // function to be overloaded

@@ -23,7 +23,7 @@
 
 //====================================================================================================================
 
-DlgAbout::DlgAbout(cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+DlgAbout::DlgAbout(cApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgAbout) {
 
     ui->setupUi(this);

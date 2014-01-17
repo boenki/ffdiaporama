@@ -25,9 +25,8 @@
 #include "CustomCtrl/_QCustomDialog.h"
 
 // Include some common various class
-#include "engine/cBaseApplicationConfig.h"
+#include "engine/cApplicationConfig.h"
 #include "engine/cDeviceModelDef.h"
-#include "engine/cSaveWindowPosition.h"
 
 namespace Ui {
     class DlgCheckConfig;
@@ -36,7 +35,7 @@ namespace Ui {
 class DlgCheckConfig : public QCustomDialog {
 Q_OBJECT
 public:
-    explicit        DlgCheckConfig(cBaseApplicationConfig *ApplicationConfig,QWidget *parent = 0);
+    explicit        DlgCheckConfig(cApplicationConfig *ApplicationConfig,QWidget *parent = 0);
                     ~DlgCheckConfig();
 
     // function to be overloaded

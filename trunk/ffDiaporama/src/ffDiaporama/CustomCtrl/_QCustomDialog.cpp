@@ -74,7 +74,7 @@ int CustomMessageBox(QWidget *parent,QMessageBox::Icon icon,const QString& title
 
 //====================================================================================================================
 
-QCustomDialog::QCustomDialog(cBaseApplicationConfig *ApplicationConfig,QWidget *parent):QDialog(parent) {
+QCustomDialog::QCustomDialog(cApplicationConfig *ApplicationConfig,QWidget *parent):QDialog(parent) {
     this->ApplicationConfig =ApplicationConfig;
     TypeWindowState         =TypeWindowState_simple;
     Splitter                =NULL;

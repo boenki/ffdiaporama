@@ -3507,17 +3507,17 @@ Note: Hidden video blocks are automatically paused</string>
   <customwidget>
    <class>cCColorComboBox</class>
    <extends>QComboBox</extends>
-   <header>CustomCtrl/cCColorComboBox.h</header>
+   <header>../ffDiaporama_lib/cColorComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cCSpeedWaveComboBox</class>
    <extends>QComboBox</extends>
-   <header>CustomCtrl/cCSpeedWaveComboBox.h</header>
+   <header>../ffDiaporama_lib/cSpeedWaveComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>QCustomComboBox</class>
    <extends>QComboBox</extends>
-   <header>CustomCtrl/_QCustomComboBox.h</header>
+   <header>../ffDiaporama_lib/QCustomComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cCFramingComboBox</class>
@@ -3543,7 +3543,7 @@ Note: Hidden video blocks are automatically paused</string>
   <customwidget>
    <class>cCTexteFrameComboBox</class>
    <extends>QComboBox</extends>
-   <header>CustomCtrl/cCTexteFrameComboBox.h</header>
+   <header>../ffDiaporama_lib/cTexteFrameComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cCustomShotTable</class>

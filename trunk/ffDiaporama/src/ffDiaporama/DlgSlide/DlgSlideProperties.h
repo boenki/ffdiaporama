@@ -49,7 +49,7 @@ public:
     // specific flag for GMapsObject
     bool                    RedoneStyleCoordinate;
 
-    explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent = 0);
+    explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,cApplicationConfig *ApplicationConfig,QWidget *parent = 0);
     virtual                 ~DlgSlideProperties();
 
     // function to be overloaded

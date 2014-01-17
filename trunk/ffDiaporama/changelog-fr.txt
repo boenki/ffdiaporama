@@ -2,6 +2,18 @@
 * FFDIAPORAMA 2.1 - trunk (Version Française)
 **************************************************
 
+[Commit: 17/01/2014]
+    Correction de bug :
+        -Corrige un problème d'activation non demandé du proxy
+
+    Nouveautés :
+        -Grosse réorganisation du code afin de pouvoir découper l'application en plusieurs paquets
+            -Paquets ffDiaporama_RSC contenant les ressources
+            -Paquets ffDiaporama contenant l'application
+        -Création d'une librairie pour le moment statique et intégrée au paquet ffDiaporama
+
+--------------------------------------------------------------------------------
+
 [Commit: 14/01/2014] - ffDiaporama 2.1 devel 20140111
     Correction de bug :
         -Corrige une fuite de mémoire qui intervenait lors de l'utilisation d'image de la librairie

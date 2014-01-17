@@ -56,7 +56,7 @@ public:
     int                     SavedBackgroundForm;
 
     explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int *BackgroundForm,cBrushDefinition *CurrentBrush,int TheVideoPosition,ffd_GEOMETRY TheffDPrjGeometry,int DefaultSpeedWave,
-                                cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
+                                cApplicationConfig *ApplicationConfig,QWidget *parent=0);
     ~DlgImageCorrection();
 
     // function to be overloaded

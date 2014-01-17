@@ -1,9 +1,9 @@
-20140114
+20140117
 fr = 100% (1859/1859)
 it = 98% (1839/1859) 20 to translate
 de = 98% (1838/1859) 21 to translate
 nl = 55% (1033/1859) 826 to translate
-es = 99% (1855/1859) 4 to translate
+es = 100% (1859/1859)
 pt = 98% (1838/1859) 21 to translate
 ru = 99% (1850/1859) 9 to translate
 el = 98% (1838/1859) 21 to translate

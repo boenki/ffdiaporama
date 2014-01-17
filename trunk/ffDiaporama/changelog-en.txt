@@ -2,6 +2,18 @@
 * FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
 
+[Commit: 17/01/2014]
+    Bug fixes:
+        -Fixed and error of unwanted activation of proxy
+
+    New features:
+        -Big code reorganization in order to cut the application into multiple packages
+             -Packages ffDiaporama_RSC containing resources
+             -Packages ffDiaporama containing the application
+        -Creation of a library (static at this time) integrated into the ffDiaporama package
+
+--------------------------------------------------------------------------------
+
 [Commit: 14/01/2014] - ffDiaporama 2.1 devel 20140114
     Bug fixes:
         -Fixed a memory leak that occurred when using image from library

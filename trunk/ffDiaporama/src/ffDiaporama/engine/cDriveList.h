@@ -30,7 +30,7 @@
 #include <QList>
 
 // this class will be define later
-class cBaseApplicationConfig;
+class cApplicationConfig;
 
 // class to handle one drive
 class cDriveDesc {
@@ -45,16 +45,16 @@ public:
     bool        IsReadOnly;
     int         Flag;           // Use by cDriveList::UpdateDriveList = 0=No longer exist, 1=Already, 2=New drive
 
-    cDriveDesc(QString Path,QString Alias,cBaseApplicationConfig *ApplicationConfig);
+    cDriveDesc(QString Path,QString Alias,cApplicationConfig *ApplicationConfig);
 };
 
 // class to handle drive list
 class cDriveList {
 public:
     QList<cDriveDesc>       List;                      // Table of alias for drives
-    cBaseApplicationConfig  *ApplicationConfig;
+    cApplicationConfig  *ApplicationConfig;
 
-    cDriveList(cBaseApplicationConfig *ApplicationConfig);
+    cDriveList(cApplicationConfig *ApplicationConfig);
     virtual             ~cDriveList() {}
 
     virtual void        UpdateDriveList();

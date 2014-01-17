@@ -23,7 +23,7 @@
 
 // Basic inclusions (common to all files)
 #include "engine/_GlobalDefines.h"
-#include "engine/cDatabase.h"
+#include "cBaseAppConfig.h"
 #include <QImage>
 
 enum ffd_MODELTYPE {
@@ -38,7 +38,7 @@ enum ffd_MODELTYPE {
 #define MODELTYPE_CHAPTERTITLE_CATNUMBER    3
 #define MODELTYPE_CREDITTITLE_CATNUMBER     2
 
-class cBaseApplicationConfig;
+class cApplicationConfig;
 class cDiaporama;
 class cDiaporamaObject;
 
@@ -66,7 +66,7 @@ public:
 class cModelList : public QObject {
 Q_OBJECT
 public:
-    cBaseApplicationConfig  *ApplicationConfig;
+    cApplicationConfig  *ApplicationConfig;
     ffd_MODELTYPE           ModelType;
     ffd_GEOMETRY            ProjectGeometry;
     QString                 StandardModelPath;
@@ -78,7 +78,7 @@ public:
     int                     DigitCategorie;
     QString                 NameCategorie;
 
-    explicit                cModelList(cBaseApplicationConfig *ApplicationConfig,ffd_MODELTYPE ModelType,int64_t *NextNumber,ffd_GEOMETRY ProjectGeometry,int DigitCategorie,QString NameCategorie);
+    explicit                cModelList(cApplicationConfig *ApplicationConfig,ffd_MODELTYPE ModelType,int64_t *NextNumber,ffd_GEOMETRY ProjectGeometry,int DigitCategorie,QString NameCategorie);
                             ~cModelList();
 
     int                     SearchModel(QString ModelName);

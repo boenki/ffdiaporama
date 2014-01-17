@@ -30,7 +30,7 @@ int DefaultBackgroundForm=1;
 
 DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int *TheBackgroundForm,cBrushDefinition *TheCurrentBrush,
                                        int TheVideoPosition,ffd_GEOMETRY TheffDPrjGeometry,int TheDefaultSpeedWave,
-                                       cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+                                       cApplicationConfig *ApplicationConfig,QWidget *parent):
                                        QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgImageCorrection) {
     ImageWidget     =NULL;
     VideoWidget     =NULL;

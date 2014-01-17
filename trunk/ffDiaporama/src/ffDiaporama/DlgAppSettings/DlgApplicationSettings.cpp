@@ -33,7 +33,7 @@
 #define ICON_GLOBALCONF                     ":/img/db.png"
 #define ICON_USERCONF                       ":/img/db_update.png"
 
-DlgApplicationSettings::DlgApplicationSettings(cBaseApplicationConfig *ApplicationConfig,QWidget *parent)
+DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig *ApplicationConfig,QWidget *parent)
     :QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgApplicationSettings) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::DlgApplicationSettings");
@@ -438,7 +438,7 @@ bool DlgApplicationSettings::DoAccept() {
     ApplicationConfig->DefaultAlbum                 =ui->DefaultAlbumED->text();
     ApplicationConfig->ID3V2Comptatibility          =ui->ID3V2ComptatibilityCB->isChecked();
     ApplicationConfig->ShortDateFormat              =ui->ShortDateFmtCB->itemText(ui->ShortDateFmtCB->currentIndex());
-    ApplicationConfig->DistanceUnit                 =(cBaseApplicationConfig::DISTANCEUNIT)ui->DistanceUnitCB->currentIndex();
+    ApplicationConfig->DistanceUnit                 =(cApplicationConfig::DISTANCEUNIT)ui->DistanceUnitCB->currentIndex();
     ApplicationConfig->DefaultThumbnailName         =ui->DefaultThumbCB->GetCurrentModel();
 
     ApplicationConfig->DefaultBlock_Text_TextST     =ApplicationConfig->StyleTextCollection.EncodeString(ui->ST_Text_TextCB,GEOMETRY_NONE,-1);

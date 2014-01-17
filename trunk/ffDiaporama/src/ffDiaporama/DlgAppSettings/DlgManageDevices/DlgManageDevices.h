@@ -25,9 +25,8 @@
 #include "CustomCtrl/_QCustomDialog.h"
 
 // Include some common various class
-#include "engine/cBaseApplicationConfig.h"
+#include "engine/cApplicationConfig.h"
 #include "engine/cDeviceModelDef.h"
-#include "engine/cSaveWindowPosition.h"
 
 namespace Ui {
     class DlgManageDevices;
@@ -45,7 +44,7 @@ public:
     QComboBox           *CB_SL_CLIPARTST[3];
     QComboBox           *CB_BA_CLIPARTST[3];
 
-    explicit DlgManageDevices(cDeviceModelList *DeviceModelList,cBaseApplicationConfig *ApplicationConfig,QWidget *parent = 0);
+    explicit DlgManageDevices(cDeviceModelList *DeviceModelList,cApplicationConfig *ApplicationConfig,QWidget *parent = 0);
     ~DlgManageDevices();
 
     // function to be overloaded

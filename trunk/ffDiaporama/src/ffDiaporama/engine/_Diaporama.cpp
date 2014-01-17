@@ -241,7 +241,7 @@ void cCompositionObjectContext::Compute() {
 // Base object for composition definition
 //*********************************************************************************************************************************************
 
-cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cBaseApplicationConfig *TheApplicationConfig,QObject *Parent):QObject(Parent) {
+cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cApplicationConfig *TheApplicationConfig,QObject *Parent):QObject(Parent) {
     setObjectName("cCompositionObject");
 
     // Attribut of the text object
@@ -1363,7 +1363,7 @@ void cCompositionList::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 
 //====================================================================================================================
 
-bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,cBaseApplicationConfig *ApplicationConfig,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
+bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,cApplicationConfig *ApplicationConfig,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
         bool    IsOk=true;
@@ -1987,7 +1987,7 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 //
 //*********************************************************************************************************************************************
 
-cDiaporama::cDiaporama(cBaseApplicationConfig *TheApplicationConfig,bool LoadDefaultModel,QObject *Parent):QObject(Parent) {
+cDiaporama::cDiaporama(cApplicationConfig *TheApplicationConfig,bool LoadDefaultModel,QObject *Parent):QObject(Parent) {
     setObjectName("cDiaporama");
     ApplicationConfig           = TheApplicationConfig;
     ProjectInfo                 = new cffDProjectFile(ApplicationConfig);

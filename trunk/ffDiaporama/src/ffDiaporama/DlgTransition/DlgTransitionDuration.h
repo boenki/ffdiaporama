@@ -33,7 +33,7 @@ Q_OBJECT
 public:
     int64_t Duration;
 
-    explicit DlgTransitionDuration(int64_t Duration,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
+    explicit DlgTransitionDuration(int64_t Duration,cApplicationConfig *ApplicationConfig,QWidget *parent=0);
     ~DlgTransitionDuration();
 
     // function to be overloaded

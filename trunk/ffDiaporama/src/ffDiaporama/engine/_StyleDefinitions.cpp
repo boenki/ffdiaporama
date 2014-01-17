@@ -305,7 +305,7 @@ void cStyleCollection::FillCollectionCB(QComboBox *CB,QString ActualStyleName) {
 
 //************************************************
 
-QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,cBaseApplicationConfig *BaseApplicationConfig,QString ActualStyleDef) {
+QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,cApplicationConfig *BaseApplicationConfig,QString ActualStyleDef) {
     QString Item="";
     bool    IsStyleFound =false;
     QMenu   *ContextMenu =new QMenu(ParentWindow);
@@ -407,8 +407,8 @@ void cStyleCollection::CreateNewStyle(QWidget *ParentWindow,QString ActualStyleD
 
 //************************************************
 
-void cStyleCollection::ManageExistingStyle(QWidget *ParentWindow,cBaseApplicationConfig *BaseApplicationConfig) {
-    DlgManageStyle Dlg(this,(cBaseApplicationConfig *)BaseApplicationConfig,ParentWindow);
+void cStyleCollection::ManageExistingStyle(QWidget *ParentWindow,cApplicationConfig *BaseApplicationConfig) {
+    DlgManageStyle Dlg(this,(cApplicationConfig *)BaseApplicationConfig,ParentWindow);
     Dlg.InitDialog();
     Dlg.exec();
 }

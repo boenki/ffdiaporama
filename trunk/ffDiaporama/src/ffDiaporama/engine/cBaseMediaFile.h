@@ -25,7 +25,7 @@
 #include "_GlobalDefines.h"
 
 // Include some common various class
-#include "cBaseApplicationConfig.h"
+#include "cApplicationConfig.h"
 
 // Include some additional standard class
 #include <QString>
@@ -92,7 +92,7 @@ class cBaseMediaFile {
 public:
     enum    ImageSizeFmt {FULLWEB,SIZEONLY,FMTONLY,GEOONLY};
 
-    cBaseApplicationConfig *ApplicationConfig;
+    cApplicationConfig *ApplicationConfig;
     OBJECTTYPE              ObjectType;
     QString                 ObjectName;                     // ObjectName in XML .ffd file
 
@@ -115,7 +115,7 @@ public:
     bool                    IsValide;                       // if true if object if initialise
     bool                    IsInformationValide;            // if true if ExtendedProperties if fuly initialise in the database
 
-    cBaseMediaFile(cBaseApplicationConfig *ApplicationConfig);
+    cBaseMediaFile(cApplicationConfig *ApplicationConfig);
     virtual                 ~cBaseMediaFile();
 
     virtual QString         FileName();
@@ -155,7 +155,7 @@ public:
 //*********************************************************************************************************************************************
 class cUnmanagedFile : public cBaseMediaFile {
 public:
-    explicit cUnmanagedFile(cBaseApplicationConfig *ApplicationConfig);
+    explicit cUnmanagedFile(cApplicationConfig *ApplicationConfig);
 
     virtual QString         GetFileTypeStr();
     virtual bool            LoadBasicInformationFromDatabase(QDomElement *,QString,QString,QStringList *,bool *,QList<cSlideThumbsTable::TRResKeyItem> *,bool)  { return true;}
@@ -170,7 +170,7 @@ public:
 //*********************************************************************************************************************************************
 class cFolder : public cBaseMediaFile {
 public:
-    explicit cFolder(cBaseApplicationConfig *ApplicationConfig);
+    explicit cFolder(cApplicationConfig *ApplicationConfig);
 
     virtual QString         GetFileTypeStr();
     virtual bool            LoadBasicInformationFromDatabase(QDomElement *,QString,QString,QStringList *,bool *,QList<cSlideThumbsTable::TRResKeyItem> *,bool)  { return true;}
@@ -202,8 +202,8 @@ public:
     QStringList ChaptersProperties; // Properties of chapters
     void        *Location;          // a link to a cLocation object
 
-    explicit                cffDProjectFile(cBaseApplicationConfig *ApplicationConfig);
-    virtual                 ~cffDProjectFile();
+    explicit                cffDProjectFile(cApplicationConfig *ApplicationConfig);
+                            ~cffDProjectFile();
 
     void                    InitDefaultValues();
 
@@ -227,7 +227,7 @@ class cImageFile : public cBaseMediaFile {
 public:
     bool                    NoExifData;
 
-    explicit                cImageFile(cBaseApplicationConfig *ApplicationConfig);
+    explicit                cImageFile(cApplicationConfig *ApplicationConfig);
                             ~cImageFile();
 
     virtual bool            CheckFormatValide(QWidget *Window);
@@ -247,7 +247,7 @@ public:
 //*********************************************************************************************************************************************
 class cImageClipboard : public cImageFile {
 public:
-    explicit                cImageClipboard(cBaseApplicationConfig *ApplicationConfig);
+    explicit                cImageClipboard(cApplicationConfig *ApplicationConfig);
                             ~cImageClipboard();
 
     virtual QString         FileName()                                      { return QString(":/img/%1").arg(RessourceKey); }
@@ -306,7 +306,7 @@ public:
         GMapsImageSize_NBR
     } ImageSize;                            // Image size of the map
 
-    explicit                cGMapsMap(cBaseApplicationConfig *ApplicationConfig);
+    explicit                cGMapsMap(cApplicationConfig *ApplicationConfig);
                             ~cGMapsMap();
 
     virtual void            SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
@@ -387,7 +387,7 @@ public:
     int                     AudioStreamNumber;          // Number of the audio stream
     int                     AudioTrackNbr;              // Number of audio stream in file
 
-    explicit                cVideoFile(cBaseApplicationConfig *ApplicationConfig);
+    explicit                cVideoFile(cApplicationConfig *ApplicationConfig);
                             ~cVideoFile();
     virtual void            Reset(OBJECTTYPE TheWantedObjectType);
 
@@ -464,7 +464,7 @@ public:
     double              Volume;                 // Volume as % from 10% to 150%
     bool                AllowCredit;            // if true, this music will appear in credit title
 
-    cMusicObject(cBaseApplicationConfig *ApplicationConfig);
+    cMusicObject(cApplicationConfig *ApplicationConfig);
 
     virtual bool            CheckFormatValide(QWidget *);
     void                    SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);

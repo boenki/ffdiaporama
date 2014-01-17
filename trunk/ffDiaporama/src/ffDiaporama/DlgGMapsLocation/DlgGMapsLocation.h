@@ -63,7 +63,7 @@ public:
     QImage                  CurrentMap;
     bool                    StopMaj;
 
-    explicit DlgGMapsLocation(cLocation *Location,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
+    explicit DlgGMapsLocation(cLocation *Location,cApplicationConfig *ApplicationConfig,QWidget *parent=0);
     ~DlgGMapsLocation();
 
     // function to be overloaded

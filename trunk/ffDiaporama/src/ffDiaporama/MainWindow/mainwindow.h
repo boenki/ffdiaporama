@@ -24,7 +24,7 @@
 // Basic inclusions (common to all files)
 #include "engine/_GlobalDefines.h"
 #include "engine/_SDL_Support.h"
-#include "engine/cBaseApplicationConfig.h"
+#include "engine/cApplicationConfig.h"
 #include "engine/_Diaporama.h"
 
 // Include some common various class
@@ -45,7 +45,7 @@ public:
     QString                 ForceLanguage;
     bool                    IsFirstInitDone;                // true when first show window was done
     bool                    FLAGSTOPITEMSELECTION;          // Flag to stop Item Selection process in the timeline
-    cBaseApplicationConfig  *ApplicationConfig;
+    cApplicationConfig  *ApplicationConfig;
     cDiaporama              *Diaporama;
     int                     LastCount;
     QString                 TitleBar;

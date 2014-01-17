@@ -45,7 +45,7 @@
 #include <QWidget>
 
 // Include some common various class
-#include "engine/cBaseApplicationConfig.h"
+#include "engine/cApplicationConfig.h"
 
 //**********************************************************************************
 // Dialogbox help file number
@@ -84,7 +84,7 @@ public:
 
     QList<sUndoData>            UndoDataList;
 
-    cBaseApplicationConfig      *ApplicationConfig;
+    cApplicationConfig      *ApplicationConfig;
     qlonglong                   TypeWindowState;
     QSplitter                   *Splitter;
     QDomDocument                *Undo;                          // Save object before modification for cancel button
@@ -95,7 +95,7 @@ public:
     QAbstractButton             *HelpBt;
     QString                     HelpFile;
 
-    explicit                    QCustomDialog(cBaseApplicationConfig *BaseApplicationConfig,QWidget *parent = 0);
+    explicit                    QCustomDialog(cApplicationConfig *BaseApplicationConfig,QWidget *parent = 0);
                                 ~QCustomDialog();
 
     virtual void                InitDialog();

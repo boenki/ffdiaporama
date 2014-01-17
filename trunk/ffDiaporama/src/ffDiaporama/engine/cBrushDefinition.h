@@ -33,9 +33,9 @@
 #include <QtXml/QDomElement>
 
 // Include some common various class
-#include "_SpeedWave.h"
-#include "_Shape.h"
-#include "cLuLoImageCache.h"
+#include "cBaseBrushDefinition.h"
+#include "cSpeedWave.h"
+#include "Shape.h"
 #include "cBaseMediaFile.h"
 #include "cSoundBlockList.h"
 
@@ -55,70 +55,18 @@ public:
 extern cAutoFramingDef AUTOFRAMINGDEF[NBR_AUTOFRAMING];
 void   AutoFramingDefInit();
 
-//============================================
-// Brush
-//============================================
-
-extern  QBrush  Transparent;    // Transparent brush
-QBrush  *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QString ColorD,QString ColorF,QString ColorIntermed,double Intermediate);
-
-//*********************************************************************************************************************************************
-// Base object for background library object
-//*********************************************************************************************************************************************
-
-class   cBackgroundObject {
-public:
-    bool                    IsValide;
-    qlonglong               FileKey;
-    QDateTime               ModifDateTime;
-    cBaseApplicationConfig *ApplicationConfig;
-    QString                 Name;
-
-    cBackgroundObject(QString FileName,cBaseApplicationConfig *ApplicationConfig);
-
-    QImage* GetBackgroundImage();
-    QImage  GetBackgroundThumb(int Geometry);
-
-private:
-    int         CurrentGeometry;
-    QImage      Thumbnail[3];
-};
-
-//*********************************************************************************************************************************************
-// Global class containing background library
-//*********************************************************************************************************************************************
-
-class   cBackgroundList {
-public:
-    QList<cBackgroundObject> List;                       // list of brush
-
-    cBackgroundList();
-
-    void    ScanDisk(QString Path,cBaseApplicationConfig *ApplicationConfig);
-    int     SearchImage(QString NameToFind);
-};
-extern  cBackgroundList BackgroundList;
-
 //*********************************************************************************************************************************************
 // Base object for brush object
 //*********************************************************************************************************************************************
 
-class cBrushDefinition {
+class cBrushDefinition:public cBaseBrushDefinition {
 public:
     // Link to global objects
-    cBaseApplicationConfig  *ApplicationConfig;
+    cApplicationConfig  *ApplicationConfig;
     QObject                 *CompositionObject;         // Link to parent (cCompositionObject)
 
     // Basic settings
     int                     TypeComposition;            // Type of composition object (COMPOSITIONTYPE_BACKGROUND, COMPOSITIONTYPE_OBJECT, COMPOSITIONTYPE_SHOT)
-    int                     BrushType;                  // 0=no brush, 1=Solid, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
-    int                     PatternType;                // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
-    int                     GradientOrientation;        // 0=Radial, 1->4=Linear from a corner, 5->9=Linear from a border
-    QString                 ColorD;                     // First Color
-    QString                 ColorF;                     // Last Color
-    QString                 ColorIntermed;              // Intermediate Color
-    double                  Intermediate;               // Intermediate position of 2nd color (in %) for gradient 3 colors
-    QString                 BrushImage;                 // Image name if image from library
     int                     ImageSpeedWave;             // Speed wave for this object during annimations
 
     // Embedded media object
@@ -159,10 +107,10 @@ public:
 
     QList<sMarker>          Markers;
 
-                            cBrushDefinition(QObject *CompositionObject,cBaseApplicationConfig *TheApplicationConfig);
-                            ~cBrushDefinition();
+    explicit                cBrushDefinition(QObject *CompositionObject,cApplicationConfig *TheApplicationConfig);
+                           ~cBrushDefinition();
 
-    void                    InitDefaultValues();
+    virtual void            InitDefaultValues();
 
     void                    *GetDiaporamaObject();
     void                    *GetDiaporama();
@@ -170,7 +118,7 @@ public:
     void                    CopyFromBrushDefinition(cBrushDefinition *BrushToCopy);
     void                    SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
     bool                    LoadFromXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
-    QBrush                  *GetBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush);
+    virtual QBrush          *GetBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush);
 
     int                     GetImageType();
 
@@ -203,7 +151,6 @@ public:
     void                    s_AdjustMinHRight(qreal ProjectGeometry);
     void                    s_AdjustMinWH();
 
-    QBrush                  *GetLibraryBrush(QRectF Rect);
     QImage                  GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush);
     int                     GetHeightForWidth(int WantedWith,QRectF Rect);
     int                     GetWidthForHeight(int WantedHeight,QRectF Rect);

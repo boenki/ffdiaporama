@@ -21,8 +21,8 @@
 #include "DlgImageComposer.h"
 #include "ui_DlgImageComposer.h"
 
-#include "engine/cTextFrame.h"
-#include "CustomCtrl/cCTexteFrameComboBox.h"
+#include "cTextFrame.h"
+#include "cTexteFrameComboBox.h"
 
 #include "DlgImage/DlgImageCorrection.h"
 #include "DlgFileExplorer/DlgFileExplorer.h"
@@ -39,7 +39,7 @@
 
 //====================================================================================================================
 
-DlgImageComposer::DlgImageComposer(cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):cShotComposer(ffdProject->ProjectThumbnail,ApplicationConfig,parent),ui(new Ui::DlgImageComposer) {
+DlgImageComposer::DlgImageComposer(cDiaporama *ffdProject,cApplicationConfig *ApplicationConfig,QWidget *parent):cShotComposer(ffdProject->ProjectThumbnail,ApplicationConfig,parent),ui(new Ui::DlgImageComposer) {
     ui->setupUi(this);
     Splitter                        =ui->SplitterTop;
     CancelBt                        =ui->CancelBt;

@@ -318,7 +318,7 @@ The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</
   <customwidget>
    <class>cCSpeedWaveComboBox</class>
    <extends>QComboBox</extends>
-   <header>CustomCtrl/cCSpeedWaveComboBox.h</header>
+   <header>../ffDiaporama_lib/cSpeedWaveComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

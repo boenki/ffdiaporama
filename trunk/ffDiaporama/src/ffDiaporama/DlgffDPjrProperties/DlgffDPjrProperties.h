@@ -37,7 +37,7 @@ public:
     bool                IsLocationChanged;
     bool                AllowGMapRefresh;
 
-    explicit DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent = 0);
+    explicit DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject,cApplicationConfig *ApplicationConfig,QWidget *parent = 0);
     ~DlgffDPjrProperties();
 
     // function to be overloaded

@@ -11,7 +11,7 @@ class DlgFileExplorer;
 class DlgFileExplorer : public QCustomDialog {
 Q_OBJECT
 public:
-    explicit                DlgFileExplorer(BROWSER_TYPE_ID BrowserType,bool AllowMultipleSelection,bool AllowDragDrop,bool AllowAddToProject,QString BoxTitle,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
+    explicit                DlgFileExplorer(BROWSER_TYPE_ID BrowserType,bool AllowMultipleSelection,bool AllowDragDrop,bool AllowAddToProject,QString BoxTitle,cApplicationConfig *ApplicationConfig,QWidget *parent=0);
     virtual                 ~DlgFileExplorer();
     
     // function to be overloaded
