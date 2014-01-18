@@ -786,7 +786,7 @@
     </message>
     <message>
         <source>The following table lists all the available variables:</source>
-        <translation type="unfinished"></translation>
+        <translation>La siguiente lista con todas las variables disponibles:</translation>
     </message>
 </context>
 <context>
@@ -1828,15 +1828,15 @@
     </message>
     <message>
         <source>On slide associated with the music, the cover, artist and song title are displayed</source>
-        <translation type="unfinished"></translation>
+        <translation>En la diapositiva asociada con la música, se muestran la portada, el artista y el título de la canción</translation>
     </message>
     <message>
         <source>To move the music or the background associated to a slide to another slide:</source>
-        <translation type="unfinished"></translation>
+        <translation>Para mover la música o el fondo asociado de una diapositiva a otra:</translation>
     </message>
     <message>
         <source>Simply drag the music or background to a new position with the mouse (drag &amp; drop)</source>
-        <translation type="unfinished"></translation>
+        <translation>Basta con arrastrar la música o el fondo a una nueva posición con el ratón (arrastrar y soltar)</translation>
     </message>
 </context>
 <context>
@@ -7388,31 +7388,31 @@
     </message>
     <message>
         <source>The following options are apply to the current music during the slide:</source>
-        <translation type="unfinished"></translation>
+        <translation>Las siguientes opciones se aplican a la música actual en la diapositiva:</translation>
     </message>
     <message>
         <source>Specifies that the sound volume is reduced during this slide. (This option is particularly useful, for example, to reduce the sound of the music during the play of a video.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Especifica que el volumen de sonido se reduce durante esta diapositiva. (Esta opción es particularmente útil, por ejemplo, para reducir el sonido de la música durante la reproducción de un video.)</translation>
     </message>
     <message>
         <source>Pauses the current play list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pausa la lista actual.</translation>
     </message>
     <message>
         <source>The music files are listed in the order in which they will be played, from top to bottom.</source>
-        <translation type="unfinished"></translation>
+        <translation>Los archivos de música se muestran en el orden en el que se reproducirán, de arriba a abajo.</translation>
     </message>
     <message>
         <source>The Volume column defines the &quot; Master volume &quot; for the file. This volume is independent of any reductions in the volume that you define in the upper part of the dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>La columna de Volumen define el &quot;volumen Maestro&quot; para el archivo. Este volumen es independiente de cualquier reducción en el volumen que se defina en la parte superior del cuadro de diálogo.</translation>
     </message>
     <message>
         <source>The Credit column defines if the file should appear or not when using %STM% variable in a credit title. For more information on variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>La columna de Créditos define si el archivo debería aparecer o no cuando se utiliza la %STM% variable en un título de crédito. Para obtener más información sobre las variables, consultar: &lt;a href=&quot;0013.html&quot;&gt;Variables dinámicas&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Remarks</source>
-        <translation type="unfinished">Notas</translation>
+        <translation>Notas</translation>
     </message>
 </context>
 <context>
