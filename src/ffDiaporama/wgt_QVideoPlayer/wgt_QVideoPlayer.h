@@ -49,22 +49,23 @@ public:
 class QMovieLabel : public QLabel {
 Q_OBJECT
 public:
-    QImage  CurrentImage;
+    QImage          CurrentImage;
 
-    explicit QMovieLabel(QWidget *parent=0);
-    ~QMovieLabel();
+    explicit        QMovieLabel(QWidget *parent=0);
+                    ~QMovieLabel();
 
-    void    SetImage(QImage Image);
-    void    SetImage(QImage *Image);
+    void            SetImage(QImage Image);
+    void            SetImage(QImage *Image);
 
 protected:
-    virtual void        paintEvent(QPaintEvent *event);
-    virtual void        mouseDoubleClickEvent(QMouseEvent *e);
-    virtual void        mouseReleaseEvent(QMouseEvent *e);
+    virtual void    resizeEvent(QResizeEvent *);
+    virtual void    paintEvent(QPaintEvent *event);
+    virtual void    mouseDoubleClickEvent(QMouseEvent *e);
+    virtual void    mouseReleaseEvent(QMouseEvent *e);
 
 signals:
-    void                DoubleClick();
-    void                RightClickEvent(QMouseEvent *);
+    void            DoubleClick();
+    void            RightClickEvent(QMouseEvent *);
 };
 
 class wgt_QVideoPlayer : public QWidget {
@@ -131,11 +132,9 @@ public:
     void    SetPlayerToPlay();
 
     void    SetBackgroundColor(QColor Background);
-    void    Resize();
     int     GetButtonBarHeight();
 
 protected:
-    virtual void resizeEvent(QResizeEvent *);
     virtual void closeEvent(QCloseEvent *);
     virtual void showEvent(QShowEvent *);
 

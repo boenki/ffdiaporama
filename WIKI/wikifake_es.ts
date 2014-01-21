@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="es_ES">
+<TS version="2.1" language="es_ES">
 <context>
     <name>0010</name>
     <message>
@@ -381,10 +381,6 @@
         <translation>Variables dinámicas</translation>
     </message>
     <message>
-        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ââonly when they are used.</source>
-        <translation>El gran interés de las variables es que se insertan en el texto (ver: &lt;a href=&quot;0120.html&quot;&gt;Editar texto&lt;/a&gt;) y se transforman en valores sólo cuando se utilizan.</translation>
-    </message>
-    <message>
         <source>It&apos;s why variables are used in many parts of the application (slide, thumbnails, predefined titles slides, video tags, xbmc nfo, etc...)</source>
         <translation>Es por eso que las variables se utilizan en muchas partes de la aplicación (diapositivas, miniaturas, títulos, etiquetas predefinidas diapositivas de vídeo, nfo para XBMC, etc ..)</translation>
     </message>
@@ -569,10 +565,6 @@
         <translation>%CCI%</translation>
     </message>
     <message>
-        <source>Current chapter number displayed as &lt;U&gt;Chapter NÂ°&lt;/U&gt; (depending on the current language)</source>
-        <translation>Número del capítulo actual se muestra como &lt;U&gt; Capítulo N ° &lt;/U&gt; (dependiendo del idioma usado)</translation>
-    </message>
-    <message>
         <source>%CCD%</source>
         <translation>%CCD%</translation>
     </message>
@@ -661,10 +653,6 @@
         <translation>%CPY%</translation>
     </message>
     <message>
-        <source>Copyright of the project construct as &lt;U&gt;Â© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation>Copyright del proyecto se construye así &lt;U&gt;© Año - Autor&lt;/U&gt; de esta forma: &lt;B&gt;&lt;I&gt;Año&lt;/I&gt;&lt;/B&gt; como año actual y &lt;B&gt;&lt;I&gt;Autor&lt;/I&gt;&lt;/B&gt; como valor para el &lt;B&gt;&lt;I&gt;autor del proyecto&lt;/I&gt;&lt;/B&gt; y estos son campos de &lt;a href=&quot;0108.html&quot;&gt;Propiedades del proyecto&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>%END%</source>
         <translation>%END%</translation>
     </message>
@@ -675,10 +663,6 @@
     <message>
         <source>%STA%</source>
         <translation>%STA%</translation>
-    </message>
-    <message>
-        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with Â«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;Â» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
-        <translation>El texto completo está compuesto así: Proyecto realizado el &lt;U&gt;&lt;B&gt;&lt;I&gt;Fecha corta&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; con la &quot;&lt;U&gt;&lt;B&gt;&lt;I&gt;versión de ffDiaporama&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;&quot; en un PC &lt;U&gt;&lt;B&gt;&lt;I&gt;Sistema Operativo del PC&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Número de Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU).</translation>
     </message>
     <message>
         <source>%STP%</source>
@@ -787,6 +771,22 @@
     <message>
         <source>The following table lists all the available variables:</source>
         <translation>La siguiente lista con todas las variables disponibles:</translation>
+    </message>
+    <message>
+        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ​​only when they are used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter number displayed as &lt;U&gt;Chapter N°&lt;/U&gt; (depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright of the project construct as &lt;U&gt;© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with «&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6431,14 +6431,6 @@
         <translation>Este cuadro de diálogo permite:</translation>
     </message>
     <message>
-        <source>Turn the image to the left (to the nearest multiple of 90Â°).</source>
-        <translation>Girar la imagen a la izquierda (al múltiplo más cercano de 90°).</translation>
-    </message>
-    <message>
-        <source>Turn the image to the right (to the nearest multiple of 90Â°).</source>
-        <translation>Girar la imagen a la derecha (al múltiplo más cercano de 90°).</translation>
-    </message>
-    <message>
         <source>Change image framing (select a part of the image).</source>
         <translation>Cambiar encuadre de la imagen (seleccionar una parte de la imagen).</translation>
     </message>
@@ -6509,10 +6501,6 @@
     <message>
         <source>The settings area - Image rotation</source>
         <translation>La zona de ajustes - Rotación de la imagen</translation>
-    </message>
-    <message>
-        <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90Â°, the image is turned by a quarter to the right.</source>
-        <translation>El ángulo de rotación para el eje z. Esta posición se expresa en grados. Ejemplo: Si la rotación=90°, la imagen se gira un cuarto a la derecha.</translation>
     </message>
     <message>
         <source>The settings area - Luminosity, contrast and gamma and Color enhancement</source>
@@ -6821,6 +6809,18 @@
     <message>
         <source>Defined if the marker is visible, half-visible (masked) or hidden</source>
         <translation>Definir si el marcador es visible, medio-visible (enmascarado) u oculto</translation>
+    </message>
+    <message>
+        <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90°, the image is turned by a quarter to the right.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn the image to the left (to the nearest multiple of 90°).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn the image to the right (to the nearest multiple of 90°).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

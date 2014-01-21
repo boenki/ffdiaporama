@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="zh_TW">
+<TS version="2.1" language="zh_TW">
 <context>
     <name>CommonInfoMsg</name>
     <message>
@@ -553,7 +553,7 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
         <source>If this box is checked, the directories for images, videos, projects, music and the generation of your movie will be saved and reused the next time you use ffDiaporama.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>If the Automatically crop 1920×1088 video to 1920×1080 is checked then video images are automatically cropped.
 Remark: Some manufacturers produce FullHD videos 1920×1088 rather than 1920×1080. They make it to accelerate the encoding which is faster with a multiple of 16 lines. But this size is not 16:9. To keep the whole image, not only the image is deformed to fit into the screen but besides black bands appear on the sides. To avoid all these problems, by checking this box, these videos are truncated to be returned to the 1920×1080 sizes. Then 4 lines are cut at the top and bottom.</source>
         <translation type="unfinished"></translation>
@@ -649,7 +649,7 @@ This style defines the font, its size, its color and the shadow effects applied 
 Remark: This setting apply to all image formats.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>Allows to select the style of the shape applied to the new text blocks.
 This style defines the shape (rectangle, circle, …), the border, the opaqueness and the shadow effect applied to the block.
 Remark: This setting apply to all image formats.</source>
@@ -672,7 +672,7 @@ This style defines the font, its size, its color and the shadow effects applied 
         <source>Defines the default duration of the first shot for slides during their creation.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>Allows to select the style of the shape to applied to the new text blocks.
 This style defines the shape (rectangle, circle, …), the border, the opaqueness and the shadow effect applied to the block.</source>
         <translation type="unfinished"></translation>
@@ -1939,7 +1939,7 @@ Remark: the position of the shadow is independent of rotation of the block: the 
         <source>Border :</source>
         <translation>邊框：</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>Defines the thickness of the border.
 
 Remark: This value is defined as 1/1080 of the height of the screen.
@@ -2584,7 +2584,7 @@ At least the information about the duration of the video will be shown, but a lo
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Allows you to create a new device which will be added to the database.&lt;/p&gt;&lt;p&gt;The creation of a new device is made in 3 steps:&lt;/p&gt;&lt;p&gt;1- You must first create a device&lt;/p&gt;&lt;p&gt;2- You define the various parameters&lt;/p&gt;&lt;p&gt;3- You click the &amp;quot;Apply modifications&amp;quot; button to register the parameters&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Allows you to delete a device.&lt;/p&gt;&lt;p&gt;Note that you can delete only devices which you created – those shown with the &lt;img src=&quot;:/img/db_update.png&quot;/&gt; icon&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4119,7 +4119,7 @@ This value is defined as a percentage (%) of the total width of the image or in 
 This value is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>Defines the thickness of the border.
 
 Remark: This value is defined as 1/1080 of the height of the screen.
@@ -4881,7 +4881,7 @@ The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</
         <source>Create project</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>The language of the audio track (ISO 639 standard – 3 characters).</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5160,7 +5160,7 @@ Chapters</source>
         <source>ffDiaporama is a &lt;a href=&quot;http://en.wikipedia.org/wiki/Free_software&quot;&gt;Free Software (Open Source)&lt;/a&gt; and is distributed under the &lt;a href=&quot;http://www.gnu.org/licenses/gpl-2.0.html&quot;&gt;GNU General Public License (GPL) version 2&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>©2011-2013 The ffDiaporama Team - This wiki and all the resources it contains are under license</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6954,10 +6954,6 @@ Do you want to download it now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Current chapter number as &quot;Chapter NÂ°&quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Content:</source>
         <comment>Project statistics</comment>
         <translation type="unfinished"></translation>
@@ -6996,17 +6992,6 @@ Do you want to download it now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> - Â© %1</source>
-        <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Project done the %1:
-	Â·with Â«%2 (%3)Â»
-	Â·on a %4 (%5 Core/CPU) computer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>The end</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7024,16 +7009,6 @@ Do you want to download it now?</source>
     </message>
     <message>
         <source>Musical content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> - Â© %1 (%2)</source>
-        <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> from Â«%1Â»</source>
-        <comment>Project statistics-Music</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7058,6 +7033,31 @@ Do you want to download it now?</source>
     </message>
     <message>
         <source>Project&apos;s location not set (Address)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> - © %1 (%2)</source>
+        <comment>Project statistics-Music</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> - © %1</source>
+        <comment>Project statistics-Music</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> from «%1»</source>
+        <comment>Project statistics-Music</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project done the %1:
+	·with «%2 (%3)»
+	·on a %4 (%5 Core/CPU) computer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter number as &quot;Chapter N°&quot;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7702,7 +7702,7 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
         <source>Automatic contrast (normalize)</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>Turn the image to the left (on the next multiple of 90°)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7710,7 +7710,7 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
         <source>Define the rotation angle for the z axis</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>Turn the image to the right (on the next multiple of 90°)</source>
         <translation type="unfinished"></translation>
     </message>

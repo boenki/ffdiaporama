@@ -2,6 +2,16 @@
 * FFDIAPORAMA 2.1 - trunk (Version Française)
 **************************************************
 
+[Commit: 21/01/2014] - ffDiaporama 2.1 devel 20140121
+    Correction de bug :
+        -Corrige le positionnement du lecteur de prévisualisation lors des modifications de taille de la fenêtre principale
+        -Corrige un crash lors des copies de bloc de type GMap dans la boite d'édition des diapositives
+        -Corrige un bug de calcul de la fin des musiques lors de l'encodage
+
+    Nouveautés :
+
+--------------------------------------------------------------------------------
+
 [Commit: 17/01/2014]
     Correction de bug :
         -Corrige un problème d'activation non demandé du proxy

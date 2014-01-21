@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="el_GR">
+<TS version="2.1" language="el_GR">
 <context>
     <name>0010</name>
     <message>
@@ -299,7 +299,7 @@
     </message>
     <message>
         <source>Project title</source>
-        <translation type="unfinished">Τίτλος έργου</translation>
+        <translation>Τίτλος έργου</translation>
     </message>
     <message>
         <source>This type of slide is usually used early in the project as the opening credits. </source>
@@ -311,7 +311,7 @@
     </message>
     <message>
         <source>Chapter title</source>
-        <translation type="unfinished">Τίτλος κεφαλαίου</translation>
+        <translation>Τίτλος κεφαλαίου</translation>
     </message>
     <message>
         <source>This type of slide is usually used several times in the project to mark the beginning of the chapter. </source>
@@ -323,7 +323,7 @@
     </message>
     <message>
         <source>Credit title</source>
-        <translation type="unfinished">Τίτλοι ευχαριστιών</translation>
+        <translation>Τίτλοι ευχαριστιών</translation>
     </message>
     <message>
         <source>This type of slide is usually used at the end of the project as the end credits. </source>
@@ -371,7 +371,7 @@
     </message>
     <message>
         <source> Convert to standard slide</source>
-        <translation type="unfinished"> Μετατροπή σε τυπική διαφάνεια</translation>
+        <translation> Μετατροπή σε τυπική διαφάνεια</translation>
     </message>
 </context>
 <context>
@@ -381,16 +381,12 @@
         <translation>Δυναμικές μεταβλητές</translation>
     </message>
     <message>
-        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ââonly when they are used.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>It&apos;s why variables are used in many parts of the application (slide, thumbnails, predefined titles slides, video tags, xbmc nfo, etc...)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Category</source>
-        <translation type="unfinished">Κατηγορία</translation>
+        <translation>Κατηγορία</translation>
     </message>
     <message>
         <source>Variable</source>
@@ -569,10 +565,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Current chapter number displayed as &lt;U&gt;Chapter NÂ°&lt;/U&gt; (depending on the current language)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>%CCD%</source>
         <translation type="unfinished"></translation>
     </message>
@@ -661,10 +653,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Copyright of the project construct as &lt;U&gt;Â© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>%END%</source>
         <translation type="unfinished"></translation>
     </message>
@@ -674,10 +662,6 @@
     </message>
     <message>
         <source>%STA%</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with Â«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;Â» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -786,6 +770,22 @@
     </message>
     <message>
         <source>The following table lists all the available variables:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ​​only when they are used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter number displayed as &lt;U&gt;Chapter N°&lt;/U&gt; (depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright of the project construct as &lt;U&gt;© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with «&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1014,7 +1014,7 @@
     </message>
     <message>
         <source>Background properties</source>
-        <translation type="unfinished">Ιδιότητες φόντου</translation>
+        <translation>Ιδιότητες φόντου</translation>
     </message>
     <message>
         <source>Chapter properties</source>
@@ -1030,11 +1030,11 @@
     </message>
     <message>
         <source>Project properties</source>
-        <translation type="unfinished">Ιδιότητες έργου</translation>
+        <translation>Ιδιότητες έργου</translation>
     </message>
     <message>
         <source>Select files</source>
-        <translation type="unfinished">Επιλογή αρχείων</translation>
+        <translation>Επιλογή αρχείων</translation>
     </message>
     <message>
         <source>Correct, reframe or cut image or video</source>
@@ -1042,35 +1042,35 @@
     </message>
     <message>
         <source>File information</source>
-        <translation type="unfinished">Πληροφορίες αρχείου</translation>
+        <translation>Πληροφορίες αρχείου</translation>
     </message>
     <message>
         <source>Manage favorite</source>
-        <translation type="unfinished">Διαχείριση προτιμώμενου</translation>
+        <translation>Διαχείριση προτιμώμενου</translation>
     </message>
     <message>
         <source>Manage style</source>
-        <translation type="unfinished">Διαχείριση του στυλ</translation>
+        <translation>Διαχείριση του στυλ</translation>
     </message>
     <message>
         <source>Music properties</source>
-        <translation type="unfinished">Ιδιότητες μουσικής</translation>
+        <translation>Ιδιότητες μουσικής</translation>
     </message>
     <message>
         <source>Render video</source>
-        <translation type="unfinished">Δημιουργία του βίντεο</translation>
+        <translation>Δημιουργία του βίντεο</translation>
     </message>
     <message>
         <source>Ruler properties</source>
-        <translation type="unfinished">Ιδιότητες χαράκων</translation>
+        <translation>Ιδιότητες χαράκων</translation>
     </message>
     <message>
         <source>Edit thumbnail model</source>
-        <translation type="unfinished">Επεξεργασία του μοντέλου της εικόνα επισκόπησης</translation>
+        <translation>Επεξεργασία του μοντέλου της εικόνα επισκόπησης</translation>
     </message>
     <message>
         <source>Set first shot duration for a set of slides</source>
-        <translation type="unfinished">Ρυθμίζει τη διάρκεια του πρώτου στιγμιότυπου για ένα σύνολο διαφανειών</translation>
+        <translation>Ρυθμίζει τη διάρκεια του πρώτου στιγμιότυπου για ένα σύνολο διαφανειών</translation>
     </message>
     <message>
         <source>Slide properties</source>
@@ -1078,11 +1078,11 @@
     </message>
     <message>
         <source>Edit text</source>
-        <translation type="unfinished">Επεξεργασία κειμένου</translation>
+        <translation>Επεξεργασία κειμένου</translation>
     </message>
     <message>
         <source>Select transition duration for a set of slides</source>
-        <translation type="unfinished">Επιλέγει τη διάρκεια της μετάβασης για ένα σύνολο διαφανειών</translation>
+        <translation>Επιλέγει τη διάρκεια της μετάβασης για ένα σύνολο διαφανειών</translation>
     </message>
     <message>
         <source>Transition properties</source>
@@ -1098,7 +1098,7 @@
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished">Ευρετήριο</translation>
+        <translation>Ευρετήριο</translation>
     </message>
     <message>
         <source>Configuration dialog boxes</source>
@@ -1229,7 +1229,7 @@
     </message>
     <message>
         <source>The &lt;a href=&quot;0022.html&quot;&gt;toolbar&lt;/a&gt; and menu at the top</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>by using the buttons of the &lt;a href=&quot;0022.html&quot;&gt;toolbar&lt;/a&gt;</source>
@@ -1844,7 +1844,7 @@
     <name>0024</name>
     <message>
         <source>The multimedia file browser</source>
-        <translation type="unfinished">Ο περιηγητής αρχείων πολυμέσων</translation>
+        <translation>Ο περιηγητής αρχείων πολυμέσων</translation>
     </message>
     <message>
         <source>ffDiaporama offers a multimedia file browser which is shown in the main window when you select the file browser mode in the main window. It is designed for quick access to the multimedia files on your computer.</source>
@@ -1864,7 +1864,7 @@
     </message>
     <message>
         <source>Remark:</source>
-        <translation type="unfinished">Σημείωση:</translation>
+        <translation>Σημείωση:</translation>
     </message>
     <message>
         <source>Files can be presented differently than by the system file browser (presence of filters showing only some files - management of the file/icon pairs - etc.)</source>
@@ -2445,7 +2445,7 @@
     <name>0032</name>
     <message>
         <source>Smartphones and tablets</source>
-        <translation type="unfinished">Smartphones και ταμπλέτες</translation>
+        <translation>Smartphones και ταμπλέτες</translation>
     </message>
     <message>
         <source>Generally speaking the main differences between these devices are:</source>
@@ -2680,7 +2680,7 @@
     <name>0033</name>
     <message>
         <source>Portable devices</source>
-        <translation type="unfinished">Φορητές συσκευές</translation>
+        <translation>Φορητές συσκευές</translation>
     </message>
     <message>
         <source>These portable devices are usually very specific. We will not discuss therefore either operating system or resolution.</source>
@@ -2692,7 +2692,7 @@
     </message>
     <message>
         <source>Manufacturer/Model</source>
-        <translation type="unfinished">Κατασκευαστής/Μοντέλο</translation>
+        <translation>Κατασκευαστής/Μοντέλο</translation>
     </message>
     <message>
         <source>Remark</source>
@@ -3673,7 +3673,7 @@
     <name>003A</name>
     <message>
         <source>File attachments (Thumbnails, nfo, etc...)</source>
-        <translation type="unfinished">Συνημμένα αρχεία (Εικόνες επισκόπησης, nfo, κλπ...)</translation>
+        <translation>Συνημμένα αρχεία (Εικόνες επισκόπησης, nfo, κλπ...)</translation>
     </message>
     <message>
         <source>ffDiaporama allows you to produce joint files during the rendering process.</source>
@@ -3697,7 +3697,7 @@
     </message>
     <message>
         <source>Media Center Systems</source>
-        <translation type="unfinished">Συστήματα κέντρων πολυμέσων</translation>
+        <translation>Συστήματα κέντρων πολυμέσων</translation>
     </message>
     <message>
         <source>XBMC .nfo files</source>
@@ -4062,11 +4062,11 @@
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished">Ευρετήριο</translation>
+        <translation>Ευρετήριο</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation type="unfinished">Κείμενο</translation>
+        <translation>Κείμενο</translation>
     </message>
     <message>
         <source>Music file</source>
@@ -4130,7 +4130,7 @@
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished">Ανάλυση</translation>
+        <translation>Ανάλυση</translation>
     </message>
     <message>
         <source>Comment</source>
@@ -5564,7 +5564,7 @@
     </message>
     <message>
         <source>File</source>
-        <translation type="unfinished">Αρχείο</translation>
+        <translation>Αρχείο</translation>
     </message>
     <message>
         <source>Indicates the name of the current file</source>
@@ -5627,31 +5627,31 @@
     </message>
     <message>
         <source>Chapter name</source>
-        <translation type="unfinished">Όνομα κεφαλαίου</translation>
+        <translation>Όνομα κεφαλαίου</translation>
     </message>
     <message>
         <source>Enter here the name of the chapter.</source>
-        <translation type="unfinished">Εισάγετε εδώ το όνομα του κεφαλαίου.</translation>
+        <translation>Εισάγετε εδώ το όνομα του κεφαλαίου.</translation>
     </message>
     <message>
         <source>Chapter date different from project date</source>
-        <translation type="unfinished">Ημερομηνία κεφαλαίου διαφορετική από την ημερομηνία του έργου</translation>
+        <translation>Ημερομηνία κεφαλαίου διαφορετική από την ημερομηνία του έργου</translation>
     </message>
     <message>
         <source>If this box is checked, the date of the chapter is different from the date of the project. </source>
-        <translation type="unfinished">Αν είναι ενεργοποιημένο, η ημερομηνία του κεφαλαίου είναι διαφορετική από την ημερομηνία του έργου. </translation>
+        <translation>Αν είναι ενεργοποιημένο, η ημερομηνία του κεφαλαίου είναι διαφορετική από την ημερομηνία του έργου. </translation>
     </message>
     <message>
         <source>Remark: It is often useful to differentiate the date of the chapter of the date of the project. </source>
-        <translation type="unfinished">Σημείωση: Συχνά είναι χρήσιμο να διαφοροποιείται η ημερομηνία του κεφαλαίου από αυτή του έργου. </translation>
+        <translation>Σημείωση: Συχνά είναι χρήσιμο να διαφοροποιείται η ημερομηνία του κεφαλαίου από αυτή του έργου. </translation>
     </message>
     <message>
         <source>Event date</source>
-        <translation type="unfinished">Ημερομηνία γεγονότος</translation>
+        <translation>Ημερομηνία γεγονότος</translation>
     </message>
     <message>
         <source>Select a date for the chapter. </source>
-        <translation type="unfinished">Επιλέξτε την ημερομηνία για το κεφάλαιο. </translation>
+        <translation>Επιλέξτε την ημερομηνία για το κεφάλαιο. </translation>
     </message>
     <message>
         <source>Remark: This field is enabled only if the &lt;I&gt;&lt;B&gt;Chapter date different from project date&lt;/B&gt;&lt;/I&gt; check box is checked.</source>
@@ -5659,7 +5659,7 @@
     </message>
     <message>
         <source>Check this box to override the date and offer you to enter the date as a free multi-line text. </source>
-        <translation type="unfinished">Επιλέξτε το για να αντικαταστήσετε την ημερομηνία και για να σας δοθεί η δυνατότητα να εισάγετε την ημερομηνία ως ελεύθερο πολλαπλών γραμμών κείμενο. </translation>
+        <translation>Επιλέξτε το για να αντικαταστήσετε την ημερομηνία και για να σας δοθεί η δυνατότητα να εισάγετε την ημερομηνία ως ελεύθερο πολλαπλών γραμμών κείμενο. </translation>
     </message>
     <message>
         <source>Remark: This box cannot be deactivated for the first slide of the project.</source>
@@ -5667,7 +5667,7 @@
     </message>
     <message>
         <source>Override date</source>
-        <translation type="unfinished">Αντικατάσταση της ημερομηνίας</translation>
+        <translation>Αντικατάσταση της ημερομηνίας</translation>
     </message>
     <message>
         <source>This dialog allows you to define settings for the chapter information of the slide:</source>
@@ -5824,7 +5824,7 @@
     <name>0108</name>
     <message>
         <source>Project properties</source>
-        <translation type="unfinished">Ιδιότητες έργου</translation>
+        <translation>Ιδιότητες έργου</translation>
     </message>
     <message>
         <source>This information will then be registered in the form of TAGs in the rendered video files. </source>
@@ -5844,7 +5844,7 @@
     </message>
     <message>
         <source>Remark</source>
-        <translation type="unfinished">Σημείωση</translation>
+        <translation>Σημείωση</translation>
     </message>
     <message>
         <source>Project geometry</source>
@@ -5856,11 +5856,11 @@
     </message>
     <message>
         <source>Title</source>
-        <translation type="unfinished">Τίτλος</translation>
+        <translation>Τίτλος</translation>
     </message>
     <message>
         <source>Author</source>
-        <translation type="unfinished">Συγγραφέας</translation>
+        <translation>Συγγραφέας</translation>
     </message>
     <message>
         <source>Album</source>
@@ -5928,7 +5928,7 @@
     </message>
     <message>
         <source>Chapter title</source>
-        <translation type="unfinished">Τίτλος κεφαλαίου</translation>
+        <translation>Τίτλος κεφαλαίου</translation>
     </message>
     <message>
         <source>Start</source>
@@ -5956,7 +5956,7 @@
     </message>
     <message>
         <source>Format</source>
-        <translation type="unfinished">Μορφή</translation>
+        <translation>Μορφή</translation>
     </message>
     <message>
         <source>3GP/MP4/MKV</source>
@@ -5980,7 +5980,7 @@
     </message>
     <message>
         <source>Transition</source>
-        <translation type="unfinished">Μετάβαση</translation>
+        <translation>Μετάβαση</translation>
     </message>
     <message>
         <source>Defined default speed curve for transitions</source>
@@ -6004,7 +6004,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished">Δείτε επίσης</translation>
+        <translation>Δείτε επίσης</translation>
     </message>
     <message>
         <source>TAG in ffmpeg</source>
@@ -6036,11 +6036,11 @@
     </message>
     <message>
         <source>Media Center Systems</source>
-        <translation type="unfinished">Συστήματα κέντρων πολυμέσων</translation>
+        <translation>Συστήματα κέντρων πολυμέσων</translation>
     </message>
     <message>
         <source>Remark:</source>
-        <translation type="unfinished">Σημείωση:</translation>
+        <translation>Σημείωση:</translation>
     </message>
     <message>
         <source>This field is only editable when the dialog box is used for creating a new project. Subsequently, it is not possible to change this value.</source>
@@ -6056,7 +6056,7 @@
     </message>
     <message>
         <source>Event date</source>
-        <translation type="unfinished">Ημερομηνία γεγονότος</translation>
+        <translation>Ημερομηνία γεγονότος</translation>
     </message>
     <message>
         <source>The date of the event of the project</source>
@@ -6064,7 +6064,7 @@
     </message>
     <message>
         <source>Override date</source>
-        <translation type="unfinished">Αντικατάσταση της ημερομηνίας</translation>
+        <translation>Αντικατάσταση της ημερομηνίας</translation>
     </message>
     <message>
         <source>Check this box to override the date and offer you to enter the date as a free multi-line text</source>
@@ -6179,7 +6179,7 @@
     <name>0109</name>
     <message>
         <source>Select files</source>
-        <translation type="unfinished">Επιλογή αρχείων</translation>
+        <translation>Επιλογή αρχείων</translation>
     </message>
     <message>
         <source>This dialog box is used in very many cases in the application.</source>
@@ -6325,14 +6325,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Turn the image to the left (to the nearest multiple of 90Â°).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Turn the image to the right (to the nearest multiple of 90Â°).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Allows you to increase or decrease the luminosity of the image</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6430,7 +6422,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished">Δείτε επίσης</translation>
+        <translation>Δείτε επίσης</translation>
     </message>
     <message>
         <source>Ken Burns effects</source>
@@ -6494,7 +6486,7 @@
     </message>
     <message>
         <source>Shape</source>
-        <translation type="unfinished">Σχήμα</translation>
+        <translation>Σχήμα</translation>
     </message>
     <message>
         <source>Select a shape for the current block.</source>
@@ -6514,10 +6506,6 @@
     </message>
     <message>
         <source>The settings area - Image rotation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90Â°, the image is turned by a quarter to the right.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6828,12 +6816,24 @@
         <source>Defined if the marker is visible, half-visible (masked) or hidden</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90°, the image is turned by a quarter to the right.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn the image to the left (to the nearest multiple of 90°).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn the image to the right (to the nearest multiple of 90°).</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0111</name>
     <message>
         <source>File information</source>
-        <translation type="unfinished">Πληροφορίες αρχείου</translation>
+        <translation>Πληροφορίες αρχείου</translation>
     </message>
     <message>
         <source>This dialog allows to obtain detailed information on a multimedia file.</source>
@@ -6933,7 +6933,7 @@
     </message>
     <message>
         <source>Codec</source>
-        <translation type="unfinished">Κωδικοποιητής</translation>
+        <translation>Κωδικοποιητής</translation>
     </message>
     <message>
         <source>The audio codec used for compressed the sound</source>
@@ -6949,7 +6949,7 @@
     </message>
     <message>
         <source>Bitrate</source>
-        <translation type="unfinished">Ρυθμός bit</translation>
+        <translation>Ρυθμός bit</translation>
     </message>
     <message>
         <source>The audio compression ratio (when available)</source>
@@ -6957,7 +6957,7 @@
     </message>
     <message>
         <source>Frequency</source>
-        <translation type="unfinished">Συχνότητα</translation>
+        <translation>Συχνότητα</translation>
     </message>
     <message>
         <source>The frequency of sampling used by the audio track</source>
@@ -6965,7 +6965,7 @@
     </message>
     <message>
         <source>Title</source>
-        <translation type="unfinished">Τίτλος</translation>
+        <translation>Τίτλος</translation>
     </message>
     <message>
         <source>A title (when available)</source>
@@ -7009,7 +7009,7 @@
     </message>
     <message>
         <source>Frame rate</source>
-        <translation type="unfinished">Ρυθμός καρέ</translation>
+        <translation>Ρυθμός καρέ</translation>
     </message>
     <message>
         <source>The number of images per second of the video</source>
@@ -7133,7 +7133,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished">Δείτε επίσης</translation>
+        <translation>Δείτε επίσης</translation>
     </message>
     <message>
         <source>Information on EXIF data</source>
@@ -7179,7 +7179,7 @@
     <name>0113</name>
     <message>
         <source>Manage style</source>
-        <translation type="unfinished">Διαχείριση του στυλ</translation>
+        <translation>Διαχείριση του στυλ</translation>
     </message>
     <message>
         <source>The Manage style dialog allows several things:</source>
@@ -7247,7 +7247,7 @@
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Αφαίρεση</translation>
+        <translation>Αφαίρεση</translation>
     </message>
     <message>
         <source>Allows to remove the personalized style.</source>
@@ -7266,7 +7266,7 @@
     <name>0114</name>
     <message>
         <source>Music properties</source>
-        <translation type="unfinished">Ιδιότητες μουσικής</translation>
+        <translation>Ιδιότητες μουσικής</translation>
     </message>
     <message>
         <source>The Music properties dialog allows you to specify the music track.</source>
@@ -7358,7 +7358,7 @@
     </message>
     <message>
         <source>The toolbar</source>
-        <translation type="unfinished">Η γραμμή εργαλείων</translation>
+        <translation>Η γραμμή εργαλείων</translation>
     </message>
     <message>
         <source>Adds a file to the playlist A file selection dialog appears, allowing you to select a file.</source>
@@ -7418,14 +7418,14 @@
     </message>
     <message>
         <source>Remarks</source>
-        <translation type="unfinished">Σημειώσεις</translation>
+        <translation>Σημειώσεις</translation>
     </message>
 </context>
 <context>
     <name>0115</name>
     <message>
         <source>Render video</source>
-        <translation type="unfinished">Δημιουργία του βίντεο</translation>
+        <translation>Δημιουργία του βίντεο</translation>
     </message>
     <message>
         <source>This dialog allows you to render the project as a video file.</source>
@@ -7497,7 +7497,7 @@
     </message>
     <message>
         <source>Device type</source>
-        <translation type="unfinished">Τύπος συσκευής</translation>
+        <translation>Τύπος συσκευής</translation>
     </message>
     <message>
         <source>Allows you to select a device type.</source>
@@ -7529,7 +7529,7 @@
     </message>
     <message>
         <source>File format</source>
-        <translation type="unfinished">Μορφή αρχείου</translation>
+        <translation>Μορφή αρχείου</translation>
     </message>
     <message>
         <source>Select the type of file to be used to render the video from the displayed list.</source>
@@ -7553,7 +7553,7 @@
     </message>
     <message>
         <source>Bitrate</source>
-        <translation type="unfinished">Ρυθμός bit</translation>
+        <translation>Ρυθμός bit</translation>
     </message>
     <message>
         <source>Select the video compression ratio from the displayed list</source>
@@ -7609,7 +7609,7 @@
     </message>
     <message>
         <source>Media Center Systems</source>
-        <translation type="unfinished">Συστήματα κέντρων πολυμέσων</translation>
+        <translation>Συστήματα κέντρων πολυμέσων</translation>
     </message>
     <message>
         <source>This dialog has different appearances depending on whether you clicked the Device type, Lossless, Advanced or Soundtrack button. </source>
@@ -7617,7 +7617,7 @@
     </message>
     <message>
         <source>Join thumbnail to rendered file</source>
-        <translation type="unfinished">Επισύναψη μιας εικόνας επισκόπησης στα βίντεο</translation>
+        <translation>Επισύναψη μιας εικόνας επισκόπησης στα βίντεο</translation>
     </message>
     <message>
         <source>If this box is checked then a thumbnail file will be created with video. </source>
@@ -7625,7 +7625,7 @@
     </message>
     <message>
         <source>Join XBMC .nfo file to rendered file</source>
-        <translation type="unfinished">Επισύναψη του αρχείο .nfo για XBMC στο αρχείο του βίντεο</translation>
+        <translation>Επισύναψη του αρχείο .nfo για XBMC στο αρχείο του βίντεο</translation>
     </message>
     <message>
         <source>If this box is checked then a &lt;a href=&quot;0044.html&quot;&gt;XBMC .nfo&lt;/a&gt; file will be created with video. </source>
@@ -7637,7 +7637,7 @@
     </message>
     <message>
         <source>Frequency</source>
-        <translation type="unfinished">Συχνότητα</translation>
+        <translation>Συχνότητα</translation>
     </message>
     <message>
         <source>In export soundtrack mode</source>
@@ -7704,7 +7704,7 @@
     <name>0116</name>
     <message>
         <source>Ruler properties</source>
-        <translation type="unfinished">Ιδιότητες χαράκων</translation>
+        <translation>Ιδιότητες χαράκων</translation>
     </message>
     <message>
         <source>This dialog allows you to enable or disable rulers.</source>
@@ -7760,7 +7760,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished">Δείτε επίσης</translation>
+        <translation>Δείτε επίσης</translation>
     </message>
     <message>
         <source>Description of TV margins and overscan</source>
@@ -7771,7 +7771,7 @@
     <name>0117</name>
     <message>
         <source>Edit thumbnail model</source>
-        <translation type="unfinished">Επεξεργασία του μοντέλου της εικόνα επισκόπησης</translation>
+        <translation>Επεξεργασία του μοντέλου της εικόνα επισκόπησης</translation>
     </message>
     <message>
         <source>This dialog allows you to edit custom thumbnails and custom thumbnails models.</source>
@@ -8111,7 +8111,7 @@
     </message>
     <message>
         <source>Coordinates</source>
-        <translation type="unfinished">Συντεταγμένες</translation>
+        <translation>Συντεταγμένες</translation>
     </message>
     <message>
         <source>&lt;B&gt;For image or video blocks: &lt;/B&gt;Allows you to select a reframing style for the image. It has the same effect as selecting a style in the dialog: &lt;a href=&quot;0110.html&quot;&gt;Correct, reframe or cut image or video&lt;/a&gt;.</source>
@@ -8175,7 +8175,7 @@
     </message>
     <message>
         <source>Shape</source>
-        <translation type="unfinished">Σχήμα</translation>
+        <translation>Σχήμα</translation>
     </message>
     <message>
         <source>Allows you to select a shape for the block. The selected shape will be used as:</source>
@@ -8255,7 +8255,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished">Δείτε επίσης</translation>
+        <translation>Δείτε επίσης</translation>
     </message>
     <message>
         <source>Description of EXIF - Exchangeable image file format</source>
@@ -8270,7 +8270,7 @@
     <name>0118</name>
     <message>
         <source>Set first shot duration for a set of slides</source>
-        <translation type="unfinished">Ρυθμίζει τη διάρκεια του πρώτου στιγμιότυπου για ένα σύνολο διαφανειών</translation>
+        <translation>Ρυθμίζει τη διάρκεια του πρώτου στιγμιότυπου για ένα σύνολο διαφανειών</translation>
     </message>
     <message>
         <source>First shot duration</source>
@@ -8301,7 +8301,7 @@
     <name>0119</name>
     <message>
         <source>Slide properties</source>
-        <translation type="unfinished">Ιδιότητες διαφάνειας</translation>
+        <translation>Ιδιότητες διαφάνειας</translation>
     </message>
     <message>
         <source>On the top: The &lt;a href=&quot;#Toolbar&quot;&gt;Toolbar&lt;/a&gt; allows to launch the main slide editing commands, and the &lt;a href=&quot;#ShotSettings&quot;&gt;Shot settings&lt;/a&gt; zone.</source>
@@ -8457,7 +8457,7 @@
     </message>
     <message>
         <source>Remark:</source>
-        <translation type="unfinished">Σημείωση:</translation>
+        <translation>Σημείωση:</translation>
     </message>
     <message>
         <source>The order of the shots can be changed by using Drag &amp; Drop.</source>
@@ -8705,7 +8705,7 @@
     </message>
     <message>
         <source>Coordinates</source>
-        <translation type="unfinished">Συντεταγμένες</translation>
+        <translation>Συντεταγμένες</translation>
     </message>
     <message>
         <source>This settings group defines the coordinates of the block for the current shot, so, the modifications made to the following properties will apply only to current shot. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
@@ -8773,7 +8773,7 @@
     </message>
     <message>
         <source>Shape</source>
-        <translation type="unfinished">Σχήμα</translation>
+        <translation>Σχήμα</translation>
     </message>
     <message>
         <source>Allows you to select a shape for the block. The selected shape will be used as:</source>
@@ -8957,7 +8957,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished">Δείτε επίσης</translation>
+        <translation>Δείτε επίσης</translation>
     </message>
     <message>
         <source>Description of EXIF - Exchangeable image file format</source>
@@ -9108,7 +9108,7 @@
     <name>0120</name>
     <message>
         <source>Edit text</source>
-        <translation type="unfinished">Επεξεργασία κειμένου</translation>
+        <translation>Επεξεργασία κειμένου</translation>
     </message>
     <message>
         <source>This dialog allows you to modify the text within a block.</source>
@@ -9268,7 +9268,7 @@
     </message>
     <message>
         <source>Solid brush</source>
-        <translation type="unfinished">Συμπαγές πινέλο</translation>
+        <translation>Συμπαγές πινέλο</translation>
     </message>
     <message>
         <source>Allows you to select a plain color.</source>
@@ -9284,7 +9284,7 @@
     </message>
     <message>
         <source>Gradient 2 colors</source>
-        <translation type="unfinished">Διαβάθμιση 2 χρωμάτων</translation>
+        <translation>Διαβάθμιση 2 χρωμάτων</translation>
     </message>
     <message>
         <source>Allows you to select a gradient of 2 colors.</source>
@@ -9292,7 +9292,7 @@
     </message>
     <message>
         <source>Gradient 3 colors</source>
-        <translation type="unfinished">Διαβάθμιση 3 χρωμάτων</translation>
+        <translation>Διαβάθμιση 3 χρωμάτων</translation>
     </message>
     <message>
         <source>Allows you to select a gradient of 3 colors.</source>
@@ -9300,7 +9300,7 @@
     </message>
     <message>
         <source>Image from library</source>
-        <translation type="unfinished">Εικόνα από τη βιβλιοθήκη</translation>
+        <translation>Εικόνα από τη βιβλιοθήκη</translation>
     </message>
     <message>
         <source>Allows you to select an image from the library.</source>
@@ -9379,7 +9379,7 @@
     <name>0121</name>
     <message>
         <source>Select transition duration for a set of slides</source>
-        <translation type="unfinished">Επιλέγει τη διάρκεια της μετάβασης για ένα σύνολο διαφανειών</translation>
+        <translation>Επιλέγει τη διάρκεια της μετάβασης για ένα σύνολο διαφανειών</translation>
     </message>
     <message>
         <source>Duration</source>
@@ -9506,7 +9506,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished">Δείτε επίσης</translation>
+        <translation>Δείτε επίσης</translation>
     </message>
     <message>
         <source>Description of LUMA</source>
@@ -9628,11 +9628,11 @@
     </message>
     <message>
         <source>How ffDiaporama works</source>
-        <translation type="unfinished">Πώς λειτουργεί το ffDiaporama</translation>
+        <translation>Πώς λειτουργεί το ffDiaporama</translation>
     </message>
     <message>
         <source>Functional principles</source>
-        <translation type="unfinished">Αρχή λειτουργίας</translation>
+        <translation>Αρχή λειτουργίας</translation>
     </message>
     <message>
         <source>The Visible property of blocks and the management of the breaks</source>
@@ -9640,31 +9640,31 @@
     </message>
     <message>
         <source>All shots regulations versus current shot regulations</source>
-        <translation type="unfinished">Οι ρυθμίσεις για όλα τα στιγμιότυπα και οι ρυθμίσεις για το στιγμιότυπο σε εξέλιξη</translation>
+        <translation>Οι ρυθμίσεις για όλα τα στιγμιότυπα και οι ρυθμίσεις για το στιγμιότυπο σε εξέλιξη</translation>
     </message>
     <message>
         <source>Style sheets</source>
-        <translation type="unfinished">Φύλλα στυλ</translation>
+        <translation>Φύλλα στυλ</translation>
     </message>
     <message>
         <source>Interface description</source>
-        <translation type="unfinished">Επεξήγηση του περιβάλλοντος χρήστη</translation>
+        <translation>Επεξήγηση του περιβάλλοντος χρήστη</translation>
     </message>
     <message>
         <source>The main window</source>
-        <translation type="unfinished">Το κύριο παράθυρο</translation>
+        <translation>Το κύριο παράθυρο</translation>
     </message>
     <message>
         <source>The toolbar</source>
-        <translation type="unfinished">Η γραμμή εργαλείων</translation>
+        <translation>Η γραμμή εργαλείων</translation>
     </message>
     <message>
         <source>The timeline</source>
-        <translation type="unfinished">Η γραμμή χρονοδιαγράμματος</translation>
+        <translation>Η γραμμή χρονοδιαγράμματος</translation>
     </message>
     <message>
         <source>The multimedia file browser</source>
-        <translation type="unfinished">Ο περιηγητής αρχείων πολυμέσων</translation>
+        <translation>Ο περιηγητής αρχείων πολυμέσων</translation>
     </message>
     <message>
         <source>Dialog boxes</source>
@@ -9672,11 +9672,11 @@
     </message>
     <message>
         <source>Application options</source>
-        <translation type="unfinished">Επιλογές εφαρμογής</translation>
+        <translation>Επιλογές εφαρμογής</translation>
     </message>
     <message>
         <source>Manage devices</source>
-        <translation type="unfinished">Διαχείριση συσκευών</translation>
+        <translation>Διαχείριση συσκευών</translation>
     </message>
     <message>
         <source>Add or modify a predefined title slide</source>
@@ -9684,7 +9684,7 @@
     </message>
     <message>
         <source>Background properties</source>
-        <translation type="unfinished">Ιδιότητες φόντου</translation>
+        <translation>Ιδιότητες φόντου</translation>
     </message>
     <message>
         <source>Chapter properties</source>
@@ -9760,19 +9760,19 @@
     </message>
     <message>
         <source>Rendering videos</source>
-        <translation type="unfinished">Δημιουργία των βίντεο</translation>
+        <translation>Δημιουργία των βίντεο</translation>
     </message>
     <message>
         <source>Smartphones and tablets</source>
-        <translation type="unfinished">Smartphones και ταμπλέτες</translation>
+        <translation>Smartphones και ταμπλέτες</translation>
     </message>
     <message>
         <source>Portable devices</source>
-        <translation type="unfinished">Φορητές συσκευές</translation>
+        <translation>Φορητές συσκευές</translation>
     </message>
     <message>
         <source>Multimedia system (Home cinema)</source>
-        <translation type="unfinished">Σύστημα πολυμέσων (Οικιακός κινηματογράφος)</translation>
+        <translation>Σύστημα πολυμέσων (Οικιακός κινηματογράφος)</translation>
     </message>
     <message>
         <source>For the WEB</source>
@@ -9780,23 +9780,23 @@
     </message>
     <message>
         <source>Video codec</source>
-        <translation>Κωδικοποιητής βίντεο:</translation>
+        <translation>Κωδικοποιητής βίντεο</translation>
     </message>
     <message>
         <source>Audio codec</source>
-        <translation>Κωδικοποιητής ήχου:</translation>
+        <translation>Κωδικοποιητής ήχου</translation>
     </message>
     <message>
         <source>Containers</source>
-        <translation type="unfinished">Υποδοχείς</translation>
+        <translation>Υποδοχείς</translation>
     </message>
     <message>
         <source>Video standards and resolutions</source>
-        <translation type="unfinished">Πρότυπα και αναλύσεις βίντεο</translation>
+        <translation>Πρότυπα και αναλύσεις βίντεο</translation>
     </message>
     <message>
         <source>File attachments (Thumbnails, nfo, etc...)</source>
-        <translation type="unfinished">Συνημμένα αρχεία (Εικόνες επισκόπησης, nfo, κλπ...)</translation>
+        <translation>Συνημμένα αρχεία (Εικόνες επισκόπησης, nfo, κλπ...)</translation>
     </message>
     <message>
         <source>Technical information on ffDiaporama</source>
@@ -9820,7 +9820,7 @@
     </message>
     <message>
         <source>Dynamic variables</source>
-        <translation type="unfinished">Δυναμικές μεταβλητές</translation>
+        <translation>Δυναμικές μεταβλητές</translation>
     </message>
     <message>
         <source>Predefined title slide</source>
@@ -9855,19 +9855,19 @@
     <name>main</name>
     <message>
         <source>Welcome to the ffDiaporama WIKI</source>
-        <translation type="unfinished">Καλώς ήλθατε στο WIKI του ffDiaporama</translation>
+        <translation>Καλώς ήλθατε στο WIKI του ffDiaporama</translation>
     </message>
     <message>
         <source>How ffDiaporama works</source>
-        <translation type="unfinished">Πώς λειτουργεί το ffDiaporama</translation>
+        <translation>Πώς λειτουργεί το ffDiaporama</translation>
     </message>
     <message>
         <source>Interface description</source>
-        <translation type="unfinished">Επεξήγηση του περιβάλλοντος χρήστη</translation>
+        <translation>Επεξήγηση του περιβάλλοντος χρήστη</translation>
     </message>
     <message>
         <source>Rendering videos</source>
-        <translation type="unfinished">Δημιουργία των βίντεο</translation>
+        <translation>Δημιουργία των βίντεο</translation>
     </message>
     <message>
         <source>Technical information on ffDiaporama</source>

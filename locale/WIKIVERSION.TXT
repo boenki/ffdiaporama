@@ -1,8 +1,8 @@
-20140114
+20140120
 fr = 100% (2431/2431)
-it = 99% (2408/2431) 23 to translate
-de = 89% (2166/2431) 265 to translate
-es = 99% (2420/2431) 11 to translate
-pt = 89% (2166/2431) 265 to translate
-ru = 89% (2166/2431) 265 to translate
-el = 26% (646/2431) 1785 to translate
+it = 98% (2403/2431) 28 to translate
+de = 89% (2170/2431) 261 to translate
+es = 99% (2424/2431) 7 to translate
+pt = 89% (2170/2431) 261 to translate
+ru = 89% (2170/2431) 261 to translate
+el = 31% (764/2431) 1667 to translate

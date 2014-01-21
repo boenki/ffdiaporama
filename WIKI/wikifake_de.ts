@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="de_DE">
+<TS version="2.1" language="de_DE">
 <context>
     <name>0010</name>
     <message>
@@ -737,22 +737,6 @@
         <translation>Aktueller Tag der Woche als Name (abhängig von den Ländereinstellungen: Montag, Dienstag, usw....)</translation>
     </message>
     <message>
-        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ââonly when they are used.</source>
-        <translation>Große Verwendung finden Variablen, da sie nicht nur als Text eingefügt werden können (siehe Dialog : &lt;a href=&quot;0120.html&quot;&gt;Text ändern&lt;/a&gt;), sie können auch in Ihren Wert übersetzt werden Ã¢ÂÂÃ¢ÂÂ wenn dies gebraucht wird.</translation>
-    </message>
-    <message>
-        <source>Current chapter number displayed as &lt;U&gt;Chapter NÂ°&lt;/U&gt; (depending on the current language)</source>
-        <translation>Das aktuelle Kapitel wird angezeigt als &lt;U&gt;Kapitel NÂ°&lt;/U&gt; (abhängig von der aktuellen Spracheinstellung)</translation>
-    </message>
-    <message>
-        <source>Copyright of the project construct as &lt;U&gt;Â© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation>Das Copyright des Projektes wird zusammengesetzt aus dem &lt;U&gt;Â© Jahr - Autor&lt;/U&gt; mit &lt;B&gt;&lt;I&gt;Jahr&lt;/I&gt;&lt;/B&gt; das dem aktuellem Jahr entspricht und &lt;B&gt;&lt;I&gt;Autor&lt;/I&gt;&lt;/B&gt; aus dem Feld &lt;B&gt;&lt;I&gt;Projektautor&lt;/I&gt;&lt;/B&gt; im Dialog &lt;a href=&quot;0108.html&quot;&gt;Projekteigenschaften&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with Â«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;Â» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
-        <translation>Ein Volltext zusammengesetzt aus: Dem &lt;U&gt;&lt;B&gt;&lt;I&gt;Kurzdatum&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;mit &lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama Version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; auf einem Computer mit dem &lt;U&gt;&lt;B&gt;&lt;I&gt;Betriebssystem&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Anzahl von Kernen/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Kernen/CPU). </translation>
-    </message>
-    <message>
         <source>%PLN%</source>
         <translation type="unfinished"></translation>
     </message>
@@ -786,6 +770,22 @@
     </message>
     <message>
         <source>The following table lists all the available variables:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ​​only when they are used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter number displayed as &lt;U&gt;Chapter N°&lt;/U&gt; (depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright of the project construct as &lt;U&gt;© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with «&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4060,11 +4060,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished">Inhalt</translation>
+        <translation>Inhalt</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation type="unfinished">Text</translation>
+        <translation>Text</translation>
     </message>
     <message>
         <source>Music file</source>
@@ -4124,15 +4124,15 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Image size</source>
-        <translation type="unfinished">Bildgröße</translation>
+        <translation>Bildgröße</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished">Auflösung</translation>
+        <translation>Auflösung</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation type="unfinished">Kommentar</translation>
+        <translation>Kommentar</translation>
     </message>
     <message>
         <source>Small-16:9</source>
@@ -4200,7 +4200,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Zoom</source>
-        <translation type="unfinished">Zoom</translation>
+        <translation>Zoom</translation>
     </message>
     <message>
         <source>Maps sizes (kilometers)</source>
@@ -5160,7 +5160,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Album</source>
-        <translation type="unfinished">Album</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Defines the default value for the field Album</source>
@@ -6606,18 +6606,6 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <translation>Dieser TAG ist nur für Videos verfügbar.</translation>
     </message>
     <message>
-        <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90Â°, the image is turned by a quarter to the right.</source>
-        <translation>Der Rotationsgrad der Z-Achse. Die Position wird in Grad ausgedrückt. zum Beispiel: Bei einer Rotation von 90°, wird das Bild um ein Viertel nach Rechts gedreht.</translation>
-    </message>
-    <message>
-        <source>Turn the image to the left (to the nearest multiple of 90Â°).</source>
-        <translation>Drehe das Bild nach Links (zum nächsten Vielfachen von 90°).</translation>
-    </message>
-    <message>
-        <source>Turn the image to the right (to the nearest multiple of 90Â°).</source>
-        <translation>Drehe das Bild nach Rechts (zum nächsten Vielfachen von 90°).</translation>
-    </message>
-    <message>
         <source>Define a Google Maps map.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6711,7 +6699,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Image size</source>
-        <translation type="unfinished">Bildgröße</translation>
+        <translation>Bildgröße</translation>
     </message>
     <message>
         <source>Define the size of the image generated for the map. ffDiaporama proposes to generate maps of several image sizes, so, to create a fluid zoom animation, you can use a large image.</source>
@@ -6739,7 +6727,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Properties for all shots</source>
-        <translation type="unfinished">Eigenschaften für alle Aufnhamen</translation>
+        <translation>Eigenschaften für alle Aufnhamen</translation>
     </message>
     <message>
         <source>This settings group defines properties for all shots, so, the modifications made to the following properties will apply to all shots. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
@@ -6823,6 +6811,18 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Defined if the marker is visible, half-visible (masked) or hidden</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90°, the image is turned by a quarter to the right.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn the image to the left (to the nearest multiple of 90°).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn the image to the right (to the nearest multiple of 90°).</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7415,7 +7415,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Remarks</source>
-        <translation type="unfinished">Anmerkungen</translation>
+        <translation>Anmerkungen</translation>
     </message>
 </context>
 <context>
@@ -7670,7 +7670,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished">Anmerkung:</translation>
+        <translation>Anmerkung:</translation>
     </message>
     <message>
         <source> &lt;U&gt;Rendering duration:&lt;/U&gt;</source>

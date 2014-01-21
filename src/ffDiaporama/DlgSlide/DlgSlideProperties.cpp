@@ -1478,6 +1478,16 @@ void DlgSlideProperties::s_BlockTable_Copy() {
         cCompositionObject  *GlobalBlock=GetGlobalCompositionObject(CompositionList->List[i]->IndexKey);
         GlobalBlock->SaveToXML(Element,"CLIPBOARD-BLOCK-GLOBAL",CurrentSlide->Parent->ProjectFileName,true,true,NULL,NULL,true,false);                // Save global object
         CompositionList->List[i]->SaveToXML(Element,"CLIPBOARD-BLOCK-SHOT",CurrentSlide->Parent->ProjectFileName,true,true,NULL,NULL,true,false);     // Save shot object
+
+        // Add shot part to XML
+        if ((CompositionList->List[i]->BackgroundBrush)&&(Element.elementsByTagName("CLIPBOARD-BLOCK-SHOT").length()>0)&&(Element.elementsByTagName("CLIPBOARD-BLOCK-SHOT").item(0).isElement()==true)) {
+            QDomElement CBS=Element.elementsByTagName("CLIPBOARD-BLOCK-SHOT").item(0).toElement();
+            if ((CBS.elementsByTagName("BackgroundBrush").length()>0)&&(CBS.elementsByTagName("BackgroundBrush").item(0).isElement()==true)) {
+                QDomElement CBB=CBS.elementsByTagName("BackgroundBrush").item(0).toElement();
+                CompositionList->List[i]->BackgroundBrush->AddShotPartToXML(&CBB);
+            }
+        }
+
         root.appendChild(Element);
         BlockNum++;
     }

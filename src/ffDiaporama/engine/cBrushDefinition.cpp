@@ -455,6 +455,27 @@ void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
 
 //====================================================================================================================
 
+void cBrushDefinition::AddShotPartToXML(QDomElement *Element) {
+    if (!MediaObject) return;
+    if (MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
+        Element->setAttribute("SoundVolume",QString("%1").arg(SoundVolume,0,'f'));               // Volume of soundtrack (for video only)
+        Element->setAttribute("Deinterlace",Deinterlace?"1":0);                                  // Add a YADIF filter to deinterlace video (on/off) (for video only)
+    } else if (MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP) {
+        // Save marker settings
+        QDomDocument    DomDocument;
+        for (int MarkerNum=0;MarkerNum<Markers.count();MarkerNum++) {
+            QDomElement SubElement=DomDocument.createElement(QString("Marker_%1").arg(MarkerNum));
+            SubElement.setAttribute("MarkerColor",Markers[MarkerNum].MarkerColor);
+            SubElement.setAttribute("TextColor",Markers[MarkerNum].TextColor);
+            SubElement.setAttribute("LineColor",Markers[MarkerNum].LineColor);
+            SubElement.setAttribute("Visibility", int(Markers[MarkerNum].Visibility));
+            Element->appendChild(SubElement);
+        }
+    }
+}
+
+//====================================================================================================================
+
 void cBrushDefinition::SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel) {
     QDomDocument    DomDocument;
     QDomElement     Element      =DomDocument.createElement(ElementName);
@@ -515,10 +536,7 @@ void cBrushDefinition::SaveToXML(QDomElement *ParentElement,QString ElementName,
                         Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
                         Element.setAttribute("StartPos",((cVideoFile*)MediaObject)->StartPos.toString("HH:mm:ss.zzz"));              // Start position (video only)
                         Element.setAttribute("EndPos",((cVideoFile*)MediaObject)->EndPos.toString("HH:mm:ss.zzz"));                  // End position (video only)
-                    } else {
-                        Element.setAttribute("SoundVolume",QString("%1").arg(SoundVolume,0,'f'));               // Volume of soundtrack (for video only)
-                        Element.setAttribute("Deinterlace",Deinterlace?"1":0);                                  // Add a YADIF filter to deinterlace video (on/off) (for video only)
-                    }
+                    } else AddShotPartToXML(&Element);
                     break;
                 case OBJECTTYPE_IMAGEFILE:
                 case OBJECTTYPE_IMAGEVECTOR:
@@ -531,17 +549,8 @@ void cBrushDefinition::SaveToXML(QDomElement *ParentElement,QString ElementName,
                     if (TypeComposition!=COMPOSITIONTYPE_SHOT) MediaObject->SaveToXML(&Element,"",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,IsModel);
                     break;
                 case OBJECTTYPE_GMAPSMAP:
-                    if (TypeComposition!=COMPOSITIONTYPE_SHOT) MediaObject->SaveToXML(&Element,"",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,IsModel); else {
-                        // Save marker settings
-                        for (int MarkerNum=0;MarkerNum<Markers.count();MarkerNum++) {
-                            QDomElement SubElement=DomDocument.createElement(QString("Marker_%1").arg(MarkerNum));
-                            SubElement.setAttribute("MarkerColor",Markers[MarkerNum].MarkerColor);
-                            SubElement.setAttribute("TextColor",Markers[MarkerNum].TextColor);
-                            SubElement.setAttribute("LineColor",Markers[MarkerNum].LineColor);
-                            SubElement.setAttribute("Visibility", int(Markers[MarkerNum].Visibility));
-                            Element.appendChild(SubElement);
-                        }
-                    }
+                    if (TypeComposition!=COMPOSITIONTYPE_SHOT) MediaObject->SaveToXML(&Element,"",PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,IsModel);
+                        else AddShotPartToXML(&Element);
                     break;
                 default: break;
             }
@@ -712,7 +721,8 @@ bool cBrushDefinition::LoadFromXML(QDomElement *ParentElement,QString ElementNam
                             break;
                         default: break;
                     }
-                } else if ((MediaObject)&&(MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP)) {
+                }
+                if ((MediaObject)&&(MediaObject->ObjectType==OBJECTTYPE_GMAPSMAP)) {
                     // Load marker settings
                     int MarkerNum=0;
                     Markers.clear();
