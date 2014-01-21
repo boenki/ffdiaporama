@@ -23,7 +23,7 @@
 retval=$?
 if [ "${retval}" -eq 0 ]; then
 	cd fake
-	/usr/lib/x86_64-linux-gnu/qt5/bin/lupdate -no-obsolete fake.pro
+	lupdate -no-obsolete fake.pro
 	cd ..
 fi
 

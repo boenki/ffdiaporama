@@ -54,12 +54,51 @@ void QMovieLabel::SetImage(QImage *Image) {
     repaint();
 }
 
-void QMovieLabel::paintEvent(QPaintEvent * /*event*/) {
+void QMovieLabel::resizeEvent(QResizeEvent *Ev) {
+    QLabel::resizeEvent(Ev);
+    repaint();
+}
+
+void QMovieLabel::paintEvent(QPaintEvent *) {
     if (CurrentImage.isNull()) return;
     QPainter Painter(this);
-    //Painter.save();
-    Painter.drawImage(0,0,CurrentImage);
-    //Painter.restore();
+    qreal Ratio=qreal(CurrentImage.width())/qreal(CurrentImage.height());
+    int MaxW=this->width();
+    int MaxH=qreal(MaxW)/Ratio;
+    if (MaxH>this->height()) {
+        MaxH=this->height();
+        MaxW=qreal(MaxH*Ratio);
+    }
+    if (CurrentImage.width()!=MaxW) {
+        QImage CI=CurrentImage.scaledToWidth(MaxW);
+        int LeftBar  =(this->width()-CI.width())/2;
+        int RightBar =this->width()-CI.width()-LeftBar;
+        int TopBar   =(this->height()-CI.height())/2;
+        int BottomBar=this->height()-CI.height()-TopBar;
+        Painter.drawImage(LeftBar,TopBar,CI);
+        if (LeftBar) {
+            Painter.fillRect(QRectF(0,0,LeftBar,this->height()),Qt::black);
+            Painter.fillRect(QRectF(this->width()-RightBar,0,RightBar,this->height()),Qt::black);
+        }
+        if (TopBar) {
+            Painter.fillRect(QRectF(LeftBar,0,CI.width(),TopBar),Qt::black);
+            Painter.fillRect(QRectF(LeftBar,this->height()-BottomBar,CI.width(),BottomBar),Qt::black);
+        }
+    } else {
+        int LeftBar  =(this->width()-CurrentImage.width())/2;
+        int RightBar =this->width()-CurrentImage.width()-LeftBar;
+        int TopBar   =(this->height()-CurrentImage.height())/2;
+        int BottomBar=this->height()-CurrentImage.height()-TopBar;
+        Painter.drawImage(LeftBar,TopBar,CurrentImage);
+        if (LeftBar) {
+            Painter.fillRect(QRectF(0,0,LeftBar,this->height()),Qt::black);
+            Painter.fillRect(QRectF(this->width()-RightBar,0,RightBar,this->height()),Qt::black);
+        }
+        if (TopBar) {
+            Painter.fillRect(QRectF(LeftBar,0,CurrentImage.width(),TopBar),Qt::black);
+            Painter.fillRect(QRectF(LeftBar,this->height()-BottomBar,CurrentImage.width(),BottomBar),Qt::black);
+        }
+    }
 }
 
 //*********************************************************************************************************************************************
@@ -141,14 +180,6 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     ui->CustomRuler->ActiveSlider(0);
     ui->CustomRuler->setSingleStep(25);
 
-    ui->SpacerV1->setText("");
-    ui->SpacerH1->setText("");
-    ui->SpacerH2->setText("");
-
-    ui->SpacerV1->setAttribute(Qt::WA_TranslucentBackground);   ui->SpacerV1->setWindowFlags(Qt::FramelessWindowHint);
-    ui->SpacerH1->setAttribute(Qt::WA_TranslucentBackground);   ui->SpacerH1->setWindowFlags(Qt::FramelessWindowHint);
-    ui->SpacerH2->setAttribute(Qt::WA_TranslucentBackground);   ui->SpacerH2->setWindowFlags(Qt::FramelessWindowHint);
-
     ui->MovieFrame->setText("");
     ui->MovieFrame->setAttribute(Qt::WA_OpaquePaintEvent);
 
@@ -181,7 +212,6 @@ void wgt_QVideoPlayer::closeEvent(QCloseEvent *) {
 //====================================================================================================================
 
 void wgt_QVideoPlayer::showEvent(QShowEvent *) {
-    Resize();
     if ((!IsInit)&&(Diaporama==NULL)) {
         SetPlayerToPlay();
         IsInit=true;
@@ -210,54 +240,6 @@ void wgt_QVideoPlayer::s_RightClickEvent(QMouseEvent *event) {
 
 int wgt_QVideoPlayer::GetButtonBarHeight() {
     return ui->VideoPlayerPlayPauseBT->height();
-}
-
-//============================================================================================
-
-void wgt_QVideoPlayer::resizeEvent(QResizeEvent *) {
-    Resize();
-}
-
-void wgt_QVideoPlayer::Resize() {
-    if ((FileInfo==NULL)&&(Diaporama==NULL)) return;
-    SetPlayerToPause();
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    int HeightBT=ui->VideoPlayerPlayPauseBT->height();
-    int TheHeight=height()-HeightBT;
-    int TheWidth =0;
-    int ToSet    =0;
-
-    if ((FileInfo!=NULL)&&(FileInfo->IsValide)) {
-        TheWidth=(int(double(TheHeight)*(double(FileInfo->ImageWidth)/double(FileInfo->ImageHeight)))/2)*2; // Rounded value to a multiple of 2
-        if (TheWidth>width()) {
-            TheWidth=(width()/2)*2; // Rounded value to a multiple of 2
-            TheHeight=int(double(TheWidth)*(double(FileInfo->ImageHeight)/double(FileInfo->ImageWidth)));
-        }
-    } else if (Diaporama!=NULL) {
-        TheWidth=(Diaporama->GetWidthForHeight(TheHeight)/2)*2; // Rounded value to a multiple of 2
-        if (TheWidth>width()) TheWidth =(width()/2)*2;    // Rounded value to a multiple of 2
-        TheHeight=Diaporama->GetHeightForWidth(TheWidth);
-    }
-    ToSet=height()-TheHeight-HeightBT;
-    ui->SpacerV1->setFixedHeight(ToSet);
-    ToSet=width()-TheWidth;
-    ui->SpacerH1->setFixedWidth(ToSet/2);
-    ui->SpacerH2->setFixedWidth(ToSet-(ToSet/2));
-    ui->MovieFrame->setFixedWidth(TheWidth);
-    ui->MovieFrame->setFixedHeight(TheHeight);
-
-    if ((ui->CustomRuler)&&(TheWidth-ui->VideoPlayerPlayPauseBT->width()-ui->Position->width()-ui->VideoPlayerSaveImageBT->width()>0))
-        ui->CustomRuler->setFixedWidth(TheWidth-ui->VideoPlayerPlayPauseBT->width()-ui->Position->width()-ui->VideoPlayerSaveImageBT->width());
-
-    if (ActualPosition!=-1) {
-        int aActualPosition=ActualPosition;
-        ActualPosition=-1;
-        s_SliderMoved(aActualPosition);
-    } else {
-        ActualPosition=-1;
-        s_SliderMoved(0);
-    }
-    QApplication::restoreOverrideCursor();
 }
 
 //============================================================================================

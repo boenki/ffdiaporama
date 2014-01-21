@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="fr_FR">
+<TS version="2.1" language="fr_FR">
 <context>
     <name>0010</name>
     <message>
@@ -482,7 +482,8 @@
     </message>
     <message>
         <location filename="fake/fake.cpp" line="99"/>
-        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ââonly when they are used.</source>
+        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ​​only when they are used.</source>
+        <oldsource>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ââonly when they are used.</oldsource>
         <translation>Le gros intérêts des variables est qu&apos;elles sont insérées dans des textes (voir: &lt;a href=&quot;0120.html&quot;&gt;Boite de dialogue Editer un text&lt;/a&gt;) et ne sont transformées en valeurs qu&apos;au moment où elles sont utilisées.</translation>
     </message>
     <message>
@@ -743,7 +744,8 @@
     </message>
     <message>
         <location filename="fake/fake.cpp" line="151"/>
-        <source>Current chapter number displayed as &lt;U&gt;Chapter NÂ°&lt;/U&gt; (depending on the current language)</source>
+        <source>Current chapter number displayed as &lt;U&gt;Chapter N°&lt;/U&gt; (depending on the current language)</source>
+        <oldsource>Current chapter number displayed as &lt;U&gt;Chapter NÂ°&lt;/U&gt; (depending on the current language)</oldsource>
         <translation>Numéro de chapitre en cour affiché sous la forme &lt;U&gt;Chapitre N°&lt;/U&gt; (en fonction de la langue en cour)</translation>
     </message>
     <message>
@@ -878,7 +880,8 @@
     </message>
     <message>
         <location filename="fake/fake.cpp" line="178"/>
-        <source>Copyright of the project construct as &lt;U&gt;Â© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <source>Copyright of the project construct as &lt;U&gt;© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <oldsource>Copyright of the project construct as &lt;U&gt;Â© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</oldsource>
         <translation>Copyright du project sous la forme &lt;U&gt;© Année - Auteur&lt;/U&gt; avec &lt;B&gt;&lt;I&gt;Année&lt;/I&gt;&lt;/B&gt; correspondant à l&apos;année d&apos;aujourd&apos;hui et &lt;B&gt;&lt;I&gt;Auteur&lt;/I&gt;&lt;/B&gt; correspondant à la valeur du champ &lt;B&gt;&lt;I&gt;Auteur du projet&lt;/I&gt;&lt;/B&gt; des &lt;a href=&quot;0108.html&quot;&gt;Propriétés du projet&lt;/a&gt;</translation>
     </message>
     <message>
@@ -898,7 +901,8 @@
     </message>
     <message>
         <location filename="fake/fake.cpp" line="182"/>
-        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with Â«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;Â» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
+        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with «&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
+        <oldsource>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with Â«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;Â» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</oldsource>
         <translation>Un texte complet composé de : Projet réalisé le &lt;U&gt;&lt;B&gt;&lt;I&gt;date courte&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; avec «&lt;U&gt;&lt;B&gt;&lt;I&gt;version de ffDiaporama&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;» sur un PC &lt;U&gt;&lt;B&gt;&lt;I&gt;Système d&apos;exploitation du PC&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Nomber de Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU).</translation>
     </message>
     <message>
@@ -8209,12 +8213,14 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
     </message>
     <message>
         <location filename="fake/fake.cpp" line="1741"/>
-        <source>Turn the image to the left (to the nearest multiple of 90Â°).</source>
+        <source>Turn the image to the left (to the nearest multiple of 90°).</source>
+        <oldsource>Turn the image to the left (to the nearest multiple of 90Â°).</oldsource>
         <translation>Tourne l&apos;image vers la gauche (vers le prochain multiple de 90°).</translation>
     </message>
     <message>
         <location filename="fake/fake.cpp" line="1742"/>
-        <source>Turn the image to the right (to the nearest multiple of 90Â°).</source>
+        <source>Turn the image to the right (to the nearest multiple of 90°).</source>
+        <oldsource>Turn the image to the right (to the nearest multiple of 90Â°).</oldsource>
         <translation>Tourne l&apos;image vers la droite (vers le prochain multiple de 90°).</translation>
     </message>
     <message>
@@ -8372,7 +8378,8 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
     </message>
     <message>
         <location filename="fake/fake.cpp" line="1740"/>
-        <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90Â°, the image is turned by a quarter to the right.</source>
+        <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90°, the image is turned by a quarter to the right.</source>
+        <oldsource>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90Â°, the image is turned by a quarter to the right.</oldsource>
         <translation>L&apos;angle de rotation pour l&apos;axe des z. Cet angle est exprimé en degré. Exemple: Si Rotation=90°, l&apos;image est tournée d&apos;un quart de tour vers la droite.</translation>
     </message>
     <message>

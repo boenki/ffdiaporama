@@ -114,7 +114,7 @@ QToolButton:pressed {
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>3</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="TabFile">
          <property name="font">
@@ -379,6 +379,9 @@ project as</string>
           </item>
           <item>
            <widget class="Line" name="line">
+            <property name="frameShadow">
+             <enum>QFrame::Sunken</enum>
+            </property>
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -1791,6 +1794,9 @@ project as</string>
            </item>
            <item>
             <widget class="Line" name="line_4">
+             <property name="frameShadow">
+              <enum>QFrame::Sunken</enum>
+             </property>
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
@@ -2072,6 +2078,9 @@ project</string>
            </item>
            <item>
             <widget class="Line" name="line_6">
+             <property name="frameShadow">
+              <enum>QFrame::Sunken</enum>
+             </property>
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
@@ -2199,6 +2208,9 @@ project</string>
            </item>
            <item>
             <widget class="Line" name="line_5">
+             <property name="frameShadow">
+              <enum>QFrame::Sunken</enum>
+             </property>
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
@@ -2581,6 +2593,9 @@ Soundtrack</string>
            </item>
            <item>
             <widget class="Line" name="line_9">
+             <property name="frameShadow">
+              <enum>QFrame::Sunken</enum>
+             </property>
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
@@ -2864,24 +2879,24 @@ and help</string>
            <x>0</x>
            <y>0</y>
            <width>410</width>
-           <height>293</height>
+           <height>272</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <property name="spacing">
-           <number>4</number>
+           <number>0</number>
           </property>
           <property name="leftMargin">
-           <number>4</number>
+           <number>0</number>
           </property>
           <property name="topMargin">
-           <number>4</number>
+           <number>0</number>
           </property>
           <property name="rightMargin">
-           <number>4</number>
+           <number>0</number>
           </property>
           <property name="bottomMargin">
-           <number>4</number>
+           <number>0</number>
           </property>
           <item>
            <spacer name="verticalSpacer">

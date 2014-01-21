@@ -577,6 +577,7 @@ void MainWindow::UpdateChapterInfo() {
 //====================================================================================================================
 
 void MainWindow::SetTimelineHeight() {
+    int H,W,RW;
     switch (ApplicationConfig->WindowDisplayMode) {
         case DISPLAYWINDOWMODE_PLAYER:
             ApplicationConfig->PartitionMode=false;
@@ -592,9 +593,14 @@ void MainWindow::SetTimelineHeight() {
             ui->Partition2BT->setEnabled(true);
             ui->Partition3BT->setEnabled(true);
             ui->preview->setVisible(true);
-            ui->preview->setFixedHeight(this->geometry().height()-ui->ToolBoxNormal->height()-ui->timeline->height()-ui->StatusBar_General->height());
+            H=this->geometry().height()-ui->ToolBoxNormal->height()-ui->timeline->height()-ui->StatusBar_General->height();
+            W=Diaporama->GetWidthForHeight(H);
+            ui->preview->setFixedHeight(H);
             ui->preview->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
-            ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview->height()));
+            ui->preview->setFixedWidth(W);
+            QApplication::processEvents();
+            RW=this->width()-ui->scrollArea->width();
+            if (W>RW) ui->preview->setFixedWidth(RW);
             break;
         case DISPLAYWINDOWMODE_PARTITION:
             ApplicationConfig->PartitionMode=true;

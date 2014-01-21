@@ -256,7 +256,7 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cA
 
 void cCompositionObject::InitDefaultValues() {
     IsVisible               = true;
-    BlockInheritance          = false;
+    BlockInheritance        = false;
 
     IsFullScreen            = false;
     x                       = 0.25;         // Position (x,y) and size (width,height)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="pt_PT">
+<TS version="2.1" language="pt_PT">
 <context>
     <name>0010</name>
     <message>
@@ -381,10 +381,6 @@
         <translation>Variáveis dinâmicas</translation>
     </message>
     <message>
-        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ââonly when they are used.</source>
-        <translation>O grande interesse de variáveis ​​é que eles são inseridos no texto (ver: &lt;a href=&quot;0120.html&quot;&gt; caixa de diálogo Editar texto &lt;/a&gt;) e são transformados em valores apenas quando eles são usados.</translation>
-    </message>
-    <message>
         <source>It&apos;s why variables are used in many parts of the application (slide, thumbnails, predefined titles slides, video tags, xbmc nfo, etc...)</source>
         <translation>É por isso que as variáveis ​​são usados ​​em muitas partes da aplicação (slides, miniaturas, slides de títulos predefinidos, tags de vídeo, o XBMC nfo, etc ..)</translation>
     </message>
@@ -569,10 +565,6 @@
         <translation>%CCI%</translation>
     </message>
     <message>
-        <source>Current chapter number displayed as &lt;U&gt;Chapter NÂ°&lt;/U&gt; (depending on the current language)</source>
-        <translation>Current chapter number displayed as &lt;U&gt;Chapter Nº&lt;/U&gt; (depending on the current language)</translation>
-    </message>
-    <message>
         <source>%CCD%</source>
         <translation>%CCD%</translation>
     </message>
@@ -661,10 +653,6 @@
         <translation>%CPY%</translation>
     </message>
     <message>
-        <source>Copyright of the project construct as &lt;U&gt;Â© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation>Direitos de autor do projecto construido com &lt;U&gt;Â © Ano - Autor&lt;/U&gt; com &lt;B&gt;&lt;I&gt;Ano&lt;/I&gt;&lt;/B&gt; é o ano da data de hoje e &lt;B&gt; &lt;I&gt;Autor&lt;/I&gt;&lt;/B&gt; é o valor do &lt;B&gt; &lt;I&gt;Autor do projecto&lt;/I&gt;&lt;/B&gt; campo de &lt;a href=&quot;0108.html&quot;&gt;Propriedades do projecto&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>%END%</source>
         <translation>%END%</translation>
     </message>
@@ -675,10 +663,6 @@
     <message>
         <source>%STA%</source>
         <translation>%STA%</translation>
-    </message>
-    <message>
-        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with Â«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;Â» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
-        <translation>O texto completo composto por: Projecto feito em &lt;U&gt;&lt;B&gt;&lt;I&gt;Data abreviada&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; com Â«&lt;U&gt;&lt;B&gt;&lt;I&gt;Versão ffDiaporama&lt;/I&gt;&lt;/B&gt; &lt;/U&gt; Â »num  computador&lt;U&gt;&lt;B&gt;&lt;I&gt;sistema operacional&lt;/I&gt; &lt;/B&gt; &lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Número de Núcleo/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;Núcleo/CPU).</translation>
     </message>
     <message>
         <source>%STP%</source>
@@ -786,6 +770,22 @@
     </message>
     <message>
         <source>The following table lists all the available variables:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ​​only when they are used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter number displayed as &lt;U&gt;Chapter N°&lt;/U&gt; (depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright of the project construct as &lt;U&gt;© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with «&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4058,11 +4058,11 @@
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished">Índice</translation>
+        <translation>Índice</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation type="unfinished">Texto</translation>
+        <translation>Texto</translation>
     </message>
     <message>
         <source>Music file</source>
@@ -4122,15 +4122,15 @@
     </message>
     <message>
         <source>Image size</source>
-        <translation type="unfinished">Tamanho da imagem</translation>
+        <translation>Tamanho da imagem</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished">Resolução</translation>
+        <translation>Resolução</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation type="unfinished">Comentário</translation>
+        <translation>Comentário</translation>
     </message>
     <message>
         <source>Small-16:9</source>
@@ -4198,7 +4198,7 @@
     </message>
     <message>
         <source>Zoom</source>
-        <translation type="unfinished">Zoom</translation>
+        <translation>Zoom</translation>
     </message>
     <message>
         <source>Maps sizes (kilometers)</source>
@@ -5157,7 +5157,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation type="unfinished">Álbum</translation>
+        <translation>Álbum</translation>
     </message>
     <message>
         <source>Defines the default value for the field Album</source>
@@ -6402,18 +6402,6 @@
         <translation>A área de configurações - Rotação de imagem</translation>
     </message>
     <message>
-        <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90Â°, the image is turned by a quarter to the right.</source>
-        <translation>O ângulo de rotação para o eixo z. Esta posição é expressa em graus Exemplo: se a rotação = 90 °, a imagem é virada num quarto à direita.</translation>
-    </message>
-    <message>
-        <source>Turn the image to the left (to the nearest multiple of 90Â°).</source>
-        <translation>Vire a imagem para a esquerda (para o múltiplo mais próximo de 90 °).</translation>
-    </message>
-    <message>
-        <source>Turn the image to the right (to the nearest multiple of 90Â°).</source>
-        <translation>Vire a da imagem para a direita (para o múltiplo mais próximo de 90 °).</translation>
-    </message>
-    <message>
         <source>The settings area - Luminosity, contrast and gamma and Color enhancement</source>
         <translation>A área de configurações - Luminosidade, contraste e gama e aprimoramento de cor</translation>
     </message>
@@ -6711,7 +6699,7 @@
     </message>
     <message>
         <source>Image size</source>
-        <translation type="unfinished">Tamanho da imagem</translation>
+        <translation>Tamanho da imagem</translation>
     </message>
     <message>
         <source>Define the size of the image generated for the map. ffDiaporama proposes to generate maps of several image sizes, so, to create a fluid zoom animation, you can use a large image.</source>
@@ -6739,7 +6727,7 @@
     </message>
     <message>
         <source>Properties for all shots</source>
-        <translation type="unfinished">Propriedades para todos os disparos</translation>
+        <translation>Propriedades para todos os disparos</translation>
     </message>
     <message>
         <source>This settings group defines properties for all shots, so, the modifications made to the following properties will apply to all shots. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
@@ -6823,6 +6811,18 @@
     </message>
     <message>
         <source>Defined if the marker is visible, half-visible (masked) or hidden</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90°, the image is turned by a quarter to the right.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn the image to the left (to the nearest multiple of 90°).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn the image to the right (to the nearest multiple of 90°).</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7415,7 +7415,7 @@
     </message>
     <message>
         <source>Remarks</source>
-        <translation type="unfinished">Observações</translation>
+        <translation>Observações</translation>
     </message>
 </context>
 <context>
@@ -7670,7 +7670,7 @@
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished">Observações:</translation>
+        <translation>Observações:</translation>
     </message>
     <message>
         <source> &lt;U&gt;Rendering duration:&lt;/U&gt;</source>

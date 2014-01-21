@@ -72,7 +72,8 @@ bool SetWorkingPath(char * const argv[],QString ApplicationName) {
         &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+QString("..")+QDir().separator()+QString("..")+QDir().separator()+QString("..")+QDir().separator()+ApplicationName))
         &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+QString("..")+QDir().separator()+QString("..")+QDir().separator()+ApplicationName))
         #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
-        &&(!CheckFolder(FileToTest,ShareDir+QDir().separator()+ApplicationName))
+            &&(!CheckFolder(FileToTest,"/opt/share/"+ApplicationName))
+            &&(!CheckFolder(FileToTest,"/usr/share/"+ApplicationName))
         #endif
        ) {
         ToLog(LOGMSG_INFORMATION,QString("Critical error : Impossible to find application directory"));

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="it_IT" sourcelanguage="en">
+<TS version="2.1" language="it_IT" sourcelanguage="en">
 <context>
     <name>CommonInfoMsg</name>
     <message>
@@ -566,7 +566,7 @@ Inquadratura:</translation>
         <source>If this box is checked, the directories for images, videos, projects, music and the generation of your movie will be saved and reused the next time you use ffDiaporama.</source>
         <translation>Se questa casella è selezionata, le directory per immagini, video, progetti, musica e la generazione del filmato verranno salvati e riutilizzati la prossima volta che si utilizza ffDiaporama.</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>If the Automatically crop 1920×1088 video to 1920×1080 is checked then video images are automatically cropped.
 Remark: Some manufacturers produce FullHD videos 1920×1088 rather than 1920×1080. They make it to accelerate the encoding which is faster with a multiple of 16 lines. But this size is not 16:9. To keep the whole image, not only the image is deformed to fit into the screen but besides black bands appear on the sides. To avoid all these problems, by checking this box, these videos are truncated to be returned to the 1920×1080 sizes. Then 4 lines are cut at the top and bottom.</source>
         <translation>Se il raccolto automatico dei video di 1920 × 1088-1920 × 1080 è selezionata, le immagini video vengono tagliate automaticamente.
@@ -682,7 +682,7 @@ Remark: This setting apply to all image formats.</source>
 Questo stile definisce il tipo di carattere, la dimensione, il colore e gli effetti d&apos;ombra applicati al testo.
 Nota: Questa impostazione si applica a tutti i formati di immagine.</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>Allows to select the style of the shape applied to the new text blocks.
 This style defines the shape (rectangle, circle, …), the border, the opaqueness and the shadow effect applied to the block.
 Remark: This setting apply to all image formats.</source>
@@ -708,7 +708,7 @@ Questo stile definisce il tipo di carattere, la dimensione, il colore e gli effe
         <source>Defines the default duration of the first shot for slides during their creation.</source>
         <translation>Definisce la durata predefinita della prima ripresa delle diapositive durante la loro creazione.</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>Allows to select the style of the shape to applied to the new text blocks.
 This style defines the shape (rectangle, circle, …), the border, the opaqueness and the shadow effect applied to the block.</source>
         <translation>Permette di selezionare lo stile della forma applicata ai nuovi blocchi di testo.
@@ -2041,7 +2041,7 @@ Osservazione: la posizione dell&apos;ombra è indipendente alla rotazione del bl
         <source>Border :</source>
         <translation>Bordo :</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>Defines the thickness of the border.
 
 Remark: This value is defined as 1/1080 of the height of the screen.
@@ -2730,7 +2730,7 @@ Dispositivi preceduti da questa icona sono definiti nel database predefinito.&lt
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Allows you to create a new device which will be added to the database.&lt;/p&gt;&lt;p&gt;The creation of a new device is made in 3 steps:&lt;/p&gt;&lt;p&gt;1- You must first create a device&lt;/p&gt;&lt;p&gt;2- You define the various parameters&lt;/p&gt;&lt;p&gt;3- You click the &amp;quot;Apply modifications&amp;quot; button to register the parameters&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Consente di creare un nuovo dispositivo che verrà aggiunto al database.&lt;/p&gt;&lt;p&gt;La creazione di un nuovo dispositivo è realizzato in 3 passi:&lt;/p&gt;&lt;p&gt;1- E&apos; necessario prima creare un dispositivo&lt;/p&gt;&lt;p&gt;2- Bisogna definire i vari parametri&lt;/p&gt;&lt;p&gt;3- Cliccare il pulsante &amp;quot;Applica modifiche&amp;quot; per registrare le modifiche ai parametri&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Allows you to delete a device.&lt;/p&gt;&lt;p&gt;Note that you can delete only devices which you created – those shown with the &lt;img src=&quot;:/img/db_update.png&quot;/&gt; icon&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Consente di eliminare un dispositivo.&lt;/p&gt;&lt;p&gt;Si noti che è possibile eliminare solo i dispositivi che hai creato - quelli indicati con &lt;img src=&quot;:/img/db_update.png&quot;/&gt; l&apos;icona&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -4323,7 +4323,7 @@ This value is defined as a percentage (%) of the total height of the image or in
         <translation>Rappresenta l&apos;altezza del blocco.
 Questo valore è definito come percentuale (%) dell&apos;altezza totale dell&apos;immagine o in pixel (per uno schermo 1080p) secondo l&apos;unità definita nella finestra di configurazione.</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>Defines the thickness of the border.
 
 Remark: This value is defined as 1/1080 of the height of the screen.
@@ -5147,7 +5147,7 @@ Le scelte possibili sono di 0,5 secondi (molto veloce) a 10 secondi (molto lento
         <source>Create project</source>
         <translation>Crea progetto</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>The language of the audio track (ISO 639 standard – 3 characters).</source>
         <translation>La lingua della traccia audio (standard ISO 639 - 3 caratteri).</translation>
     </message>
@@ -5446,7 +5446,7 @@ Capitoli</translation>
         <source>ffDiaporama is a &lt;a href=&quot;http://en.wikipedia.org/wiki/Free_software&quot;&gt;Free Software (Open Source)&lt;/a&gt; and is distributed under the &lt;a href=&quot;http://www.gnu.org/licenses/gpl-2.0.html&quot;&gt;GNU General Public License (GPL) version 2&lt;/a&gt;</source>
         <translation>ffDiaporama è un &lt;a href=&quot;http://en.wikipedia.org/wiki/Free_software&quot;&gt;Software Libero (Open Source)&lt;/a&gt; ed è distribuito sotto la &lt;a href=&quot;http://www.gnu.org/licenses/gpl-2.0.html&quot;&gt;GNU General Public License (GPL) versione 2&lt;/a&gt;</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>©2011-2013 The ffDiaporama Team - This wiki and all the resources it contains are under license</source>
         <translation>©2011-2013 Il Team ffDiaporama - Questo wiki e tutte le risorse che contiene sono sotto lincenza</translation>
     </message>
@@ -7247,10 +7247,6 @@ Vuoi scaricarla ora?</translation>
         <translation>Autore progetto come &lt;A Autore produzione&gt;</translation>
     </message>
     <message>
-        <source>Current chapter number as &quot;Chapter NÂ°&quot;</source>
-        <translation>Numero corrente capitoli come &quot;Capitolo N°&quot;</translation>
-    </message>
-    <message>
         <source>Content:</source>
         <comment>Project statistics</comment>
         <translation>contenuto:</translation>
@@ -7289,19 +7285,6 @@ Vuoi scaricarla ora?</translation>
         <translation>Contenuto musicale:</translation>
     </message>
     <message>
-        <source> - Â© %1</source>
-        <comment>Project statistics-Music</comment>
-        <translation> - © %1</translation>
-    </message>
-    <message>
-        <source>Project done the %1:
-	Â·with Â«%2 (%3)Â»
-	Â·on a %4 (%5 Core/CPU) computer</source>
-        <translation>Progetto terminato il %1:
-	con «%2 (%3)»
-	su un computer %4 (%5 Core/CPU)</translation>
-    </message>
-    <message>
         <source>The end</source>
         <translation>Fine</translation>
     </message>
@@ -7320,16 +7303,6 @@ Vuoi scaricarla ora?</translation>
     <message>
         <source>Musical content</source>
         <translation>Contenuto musicale</translation>
-    </message>
-    <message>
-        <source> - Â© %1 (%2)</source>
-        <comment>Project statistics-Music</comment>
-        <translation> - © %1 (%2)</translation>
-    </message>
-    <message>
-        <source> from Â«%1Â»</source>
-        <comment>Project statistics-Music</comment>
-        <translation> da «%1»</translation>
     </message>
     <message>
         <source>Project location name</source>
@@ -7354,6 +7327,31 @@ Vuoi scaricarla ora?</translation>
     <message>
         <source>Project&apos;s location not set (Address)</source>
         <translation>Posizione del progetto non impostata (Indirizzo)</translation>
+    </message>
+    <message>
+        <source> - © %1 (%2)</source>
+        <comment>Project statistics-Music</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> - © %1</source>
+        <comment>Project statistics-Music</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> from «%1»</source>
+        <comment>Project statistics-Music</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project done the %1:
+	·with «%2 (%3)»
+	·on a %4 (%5 Core/CPU) computer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter number as &quot;Chapter N°&quot;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8023,7 +8021,7 @@ Esempio: se Y=25 % del primo trimestre nella parte superiore dell&apos;immagine 
         <source>Automatic contrast (normalize)</source>
         <translation>Contrasto automatico (normalizzato)</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>Turn the image to the left (on the next multiple of 90°)</source>
         <translation>Gira l&apos;immagine verso sinistra (sul prossimo multiplo di 90°)</translation>
     </message>
@@ -8031,7 +8029,7 @@ Esempio: se Y=25 % del primo trimestre nella parte superiore dell&apos;immagine 
         <source>Define the rotation angle for the z axis</source>
         <translation>Difinire l&apos;angolo di rotazione per l&apos;asse z</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>Turn the image to the right (on the next multiple of 90°)</source>
         <translation>Gira l&apos;immagine verso destra (sul prossimo multiplo di 90°)</translation>
     </message>

@@ -2,6 +2,16 @@
 * FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
 
+[Commit: 21/01/2014] - ffDiaporama 2.1 devel 20140121
+    Bug fixes:
+        -Fixed positioning of the preview player when resizing main window
+        -Fixed a crash when pasting GMap block in Edit slide dialog
+        -Fixed a bug in computing end of music when rendering
+
+    New features:
+
+--------------------------------------------------------------------------------
+
 [Commit: 17/01/2014]
     Bug fixes:
         -Fixed and error of unwanted activation of proxy

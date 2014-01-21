@@ -20,23 +20,23 @@
 #   ====================================================================== */
 
 PREPLANGUAGE() {
-	echo "Prepare for language: "$1
-	./WikiMakeBin make=$1
-	cd $1
+    echo "Prepare for language: "$1
+    ./WikiMakeBin make=$1
+    cd $1
     rm wiki_img
     ln -s ../wiki_img wiki_img
     rm img
     ln -s ../../src/ffDiaporama/img img
     cp ../wiki.css wiki.css
     qhelpgenerator -c "wiki_"$1".qhp" -o "wiki_"$1".qch"
-	qcollectiongenerator "wiki_"$1".qhcp" -o "wiki_"$1".qhc"
+    qcollectiongenerator "wiki_"$1".qhcp" -o "wiki_"$1".qhc"
     mv "wiki_"$1".qhc" ../../locale
     mv "wiki_"$1".qch" ../../locale
-	cd ..
+    cd ..
 }
 
 cd fake
-/usr/lib/x86_64-linux-gnu/qt5/bin/lrelease fake.pro >~/ffdtr.log
+lrelease fake.pro >~/ffdtr.log
 
 cd ..
 PREPLANGUAGE "en"

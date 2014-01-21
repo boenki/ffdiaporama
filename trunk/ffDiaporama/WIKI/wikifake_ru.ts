@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ru_RU">
+<TS version="2.1" language="ru_RU">
 <context>
     <name>0010</name>
     <message>
@@ -381,10 +381,6 @@
         <translation>Динамические переменные</translation>
     </message>
     <message>
-        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ââonly when they are used.</source>
-        <translation>Большим преимуществом переменных является то, что они вставляются в текст (см.: &lt;a href=&quot;0120.html&quot;&gt; Редактирование текста&lt;/a&gt;) и преобразуются в значения только тогда, когда они используются.</translation>
-    </message>
-    <message>
         <source>It&apos;s why variables are used in many parts of the application (slide, thumbnails, predefined titles slides, video tags, xbmc nfo, etc...)</source>
         <translation>Поэтому переменные используются во многих частях приложения (слайд, обложки, шаблоны заголовков слайдов, теги видео, xbmc nfo и др.)</translation>
     </message>
@@ -569,10 +565,6 @@
         <translation>%CCI%</translation>
     </message>
     <message>
-        <source>Current chapter number displayed as &lt;U&gt;Chapter NÂ°&lt;/U&gt; (depending on the current language)</source>
-        <translation>Номер текущей главы, отображаемый как &lt;U&gt;Глава №&lt;/U&gt; (зависит от текущего языка)</translation>
-    </message>
-    <message>
         <source>%CCD%</source>
         <translation>%CCD%</translation>
     </message>
@@ -661,10 +653,6 @@
         <translation>%CPY%</translation>
     </message>
     <message>
-        <source>Copyright of the project construct as &lt;U&gt;Â© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation>Копирайт проекта составленный в виде &lt;U&gt;© Год - Автор&lt;/U&gt;, где &lt;B&gt;&lt;I&gt;Год&lt;/I&gt;&lt;/B&gt; - это текущий год, а &lt;B&gt;&lt;I&gt;Автор&lt;/I&gt;&lt;/B&gt; - это значение поля &lt;B&gt;&lt;I&gt;Автор проекта&lt;/I&gt;&lt;/B&gt; из &lt;a href=&quot;0108.html&quot;&gt;Свойств проекта&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>%END%</source>
         <translation>%END%</translation>
     </message>
@@ -675,10 +663,6 @@
     <message>
         <source>%STA%</source>
         <translation>%STA%</translation>
-    </message>
-    <message>
-        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with Â«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;Â» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
-        <translation>Полный текст состоит из: Проект создан &lt;U&gt;&lt;B&gt;&lt;I&gt;дата (кратко)&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; в «&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama версия&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;»  на компьютере &lt;U&gt;&lt;B&gt;&lt;I&gt;Операционная система&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;количество ядер&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU).</translation>
     </message>
     <message>
         <source>%STP%</source>
@@ -786,6 +770,22 @@
     </message>
     <message>
         <source>The following table lists all the available variables:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ​​only when they are used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter number displayed as &lt;U&gt;Chapter N°&lt;/U&gt; (depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright of the project construct as &lt;U&gt;© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with «&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4063,11 +4063,11 @@
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished">Содержание</translation>
+        <translation>Содержание</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation type="unfinished">Текст</translation>
+        <translation>Текст</translation>
     </message>
     <message>
         <source>Music file</source>
@@ -4127,15 +4127,15 @@
     </message>
     <message>
         <source>Image size</source>
-        <translation type="unfinished">Размер изображения</translation>
+        <translation>Размер изображения</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished">Разрешение</translation>
+        <translation>Разрешение</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation type="unfinished">Комментарий</translation>
+        <translation>Комментарий</translation>
     </message>
     <message>
         <source>Small-16:9</source>
@@ -4203,7 +4203,7 @@
     </message>
     <message>
         <source>Zoom</source>
-        <translation type="unfinished">Масштаб</translation>
+        <translation>Масштаб</translation>
     </message>
     <message>
         <source>Maps sizes (kilometers)</source>
@@ -5166,7 +5166,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation type="unfinished">Альбом</translation>
+        <translation>Альбом</translation>
     </message>
     <message>
         <source>Defines the default value for the field Album</source>
@@ -6521,18 +6521,6 @@
         <translation>Зона настроек - Поворот изображения</translation>
     </message>
     <message>
-        <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90Â°, the image is turned by a quarter to the right.</source>
-        <translation>Угол вращения по оси z. Выражается в градусах. Например: если поворот = 90 °, то  изображение повернется на четверть оборота  вправо.</translation>
-    </message>
-    <message>
-        <source>Turn the image to the left (to the nearest multiple of 90Â°).</source>
-        <translation>Повернуть изображение влево (на 90°).</translation>
-    </message>
-    <message>
-        <source>Turn the image to the right (to the nearest multiple of 90Â°).</source>
-        <translation>Повернуть изображение вправо (на 90°).</translation>
-    </message>
-    <message>
         <source>The settings area - Luminosity, contrast and gamma and Color enhancement</source>
         <translation>Зона настроек - Яркость, контрастность и гамма</translation>
     </message>
@@ -6718,7 +6706,7 @@
     </message>
     <message>
         <source>Image size</source>
-        <translation type="unfinished">Размер изображения</translation>
+        <translation>Размер изображения</translation>
     </message>
     <message>
         <source>Define the size of the image generated for the map. ffDiaporama proposes to generate maps of several image sizes, so, to create a fluid zoom animation, you can use a large image.</source>
@@ -6746,7 +6734,7 @@
     </message>
     <message>
         <source>Properties for all shots</source>
-        <translation type="unfinished">Параметры для всех кадров</translation>
+        <translation>Параметры для всех кадров</translation>
     </message>
     <message>
         <source>This settings group defines properties for all shots, so, the modifications made to the following properties will apply to all shots. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
@@ -6830,6 +6818,18 @@
     </message>
     <message>
         <source>Defined if the marker is visible, half-visible (masked) or hidden</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90°, the image is turned by a quarter to the right.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn the image to the left (to the nearest multiple of 90°).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn the image to the right (to the nearest multiple of 90°).</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7423,7 +7423,7 @@
     </message>
     <message>
         <source>Remarks</source>
-        <translation type="unfinished">Примечания</translation>
+        <translation>Примечания</translation>
     </message>
 </context>
 <context>
@@ -7678,7 +7678,7 @@
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished">Примечания:</translation>
+        <translation>Примечания:</translation>
     </message>
     <message>
         <source> &lt;U&gt;Rendering duration:&lt;/U&gt;</source>
