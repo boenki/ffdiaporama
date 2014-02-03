@@ -51,6 +51,7 @@ DlgCheckConfig::~DlgCheckConfig() {
 
 void DlgCheckConfig::DoInitDialog() {
     QString StatusStr;
+    bool    Status=false;
     int     LumaListNbr=LumaList_Bar.List.count()+LumaList_Box.List.count()+LumaList_Center.List.count()+LumaList_Checker.List.count()+LumaList_Clock.List.count()+LumaList_Snake.List.count();
 
     // ffDiaporama

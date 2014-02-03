@@ -2,7 +2,7 @@
 * FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
 
-[Commit: ]
+[Commit: 03/02/2014] - ffDiaporama 2.1 devel 20140203
     Bug fixes:
         -Fixed a problem with the translation of the title variable %STA%
         -Fixed a random bug in the option dialog that could cause crash
