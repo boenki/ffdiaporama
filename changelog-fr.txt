@@ -2,7 +2,7 @@
 * FFDIAPORAMA 2.1 - trunk (Version Française)
 **************************************************
 
-[Commit: ]
+[Commit: 03/02/2014] - ffDiaporama 2.1 devel 20140203
     Correction de bug :
         -Corrige un problème de traduction pour l'intitulé de la variable %STA%
         -Corrige un bug aléatoire dans la boite d'option qui pouvait provoquer des crash
