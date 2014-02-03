@@ -87,7 +87,7 @@ void cThumbnailComboBox::PrepareTable(bool AllowCustomized,cModelList *Table) {
     int CurIndex  =((QTableWidget *)view())->currentRow()*NBRCOLUMN+((QTableWidget *)view())->currentColumn();
     while (count()>0) removeItem(count()-1);
     int NbrItem=ModelTable->List.count();
-    if ((!AllowCustomized)&&(ModelTable->List[ModelTable->List.count()-1]->Name=="*")) NbrItem--;
+    if ((!AllowCustomized)&&(ModelTable->List.count()>0)&&(ModelTable->List[ModelTable->List.count()-1]->Name=="*")) NbrItem--;
     int NbrRow=NbrItem/NBRCOLUMN;
     if (NbrRow*NBRCOLUMN<NbrItem) NbrRow++;
 

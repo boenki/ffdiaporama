@@ -35,16 +35,17 @@
 // EXIV2 PART
 //****************************************************************************************************************************************************************
 #include <exiv2/exif.hpp>
-#if (EXIV2_MAJOR_VERSION==0) && (EXIV2_MINOR_VERSION>20)
+#if (EXIV2_MAJOR_VERSION>=0)||((EXIV2_MAJOR_VERSION==0)&&(EXIV2_MINOR_VERSION>20))
     #include <exiv2/exiv2.hpp>
-    #define EXIV2WITHPREVIEW
+    bool Exiv2WithPreview=true;
 #else
+    bool Exiv2WithPreview=false;
     #include <exiv2/image.hpp>
 #endif
 
-int Exiv2MajorVersion=EXIV2_MAJOR_VERSION;
-int Eviv2MinorVersion=EXIV2_MINOR_VERSION;
-int Exiv2PatchVersion=EXIV2_PATCH_VERSION;
+int  Exiv2MajorVersion=EXIV2_MAJOR_VERSION;
+int  Eviv2MinorVersion=EXIV2_MINOR_VERSION;
+int  Exiv2PatchVersion=EXIV2_PATCH_VERSION;
 
 #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
     //****************************************************************************************************************************************************************
@@ -1079,8 +1080,7 @@ bool cImageFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *
             }
 
             // Read preview image
-            #ifdef EXIV2WITHPREVIEW
-            if (Icon->Icon16.isNull() || Icon->Icon100.isNull()) {
+            if ((Exiv2WithPreview)&&(Icon->Icon16.isNull() || Icon->Icon100.isNull())) {
                 Exiv2::PreviewManager *Manager=new Exiv2::PreviewManager(*ImageFile);
                 if (Manager) {
                     Exiv2::PreviewPropertiesList Properties=Manager->getPreviewProperties();
@@ -1135,7 +1135,6 @@ bool cImageFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *
                     delete Manager;
                 }
             }
-            #endif
         }
 
         //************************************************************************************
@@ -3088,9 +3087,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
         // Check if we need to continue loop
         // Note: FPSDuration*(!VideoStream?2:1) is to enhance preview speed
         ContinueAudio=((AudioStream)&&(SoundTrackBloc)&&
-                       (!(((LastAudioReadedPosition>=Position+FPSDuration*((PreviewMode&&(!VideoStream))?2:1))&&
-                           (SoundTrackBloc->ListCount()>=SoundTrackBloc->NbrPacketForFPS))||(LastAudioReadedPosition>=int64_t(dEndFile*AV_TIME_BASE)))
-                      ));
+                       (!((LastAudioReadedPosition>=Position+FPSDuration*2)||(LastAudioReadedPosition>=int64_t(dEndFile*AV_TIME_BASE)))));
     }
 
     // Count number of image > position
@@ -3224,9 +3221,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
             // Check if we need to continue loop
             // Note: FPSDuration*(!VideoStream?2:1) is to enhance preview speed
             ContinueAudio=((Counter>0)&&(AudioStream)&&(SoundTrackBloc)&&
-                           (!(((LastAudioReadedPosition>=Position+FPSDuration*((PreviewMode&&(!VideoStream))?2:1))&&
-                               (SoundTrackBloc->ListCount()>=SoundTrackBloc->NbrPacketForFPS))||(LastAudioReadedPosition>=int64_t(dEndFile*AV_TIME_BASE)))
-                          ));
+                           (!((LastAudioReadedPosition>=Position+FPSDuration*2)||(LastAudioReadedPosition>=int64_t(dEndFile*AV_TIME_BASE)))));
         }
         // Continue with a new one
         if (StreamPacket!=NULL) {

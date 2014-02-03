@@ -3152,7 +3152,7 @@
     <name>0037</name>
     <message>
         <source>Audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κωδικοποιητής ήχου</translation>
     </message>
     <message>
         <source>The following table lists the audio codecs which ffDiaporama can use to generate videos:</source>
@@ -7545,7 +7545,7 @@
     </message>
     <message>
         <source>Video codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κωδικοποιητής βίντεο</translation>
     </message>
     <message>
         <source>Select the video codec to be used to render the video from the displayed list.</source>
@@ -7561,7 +7561,7 @@
     </message>
     <message>
         <source>Audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κωδικοποιητής ήχου</translation>
     </message>
     <message>
         <source>Select the audio codec to be used to render the video from the displayed list.</source>

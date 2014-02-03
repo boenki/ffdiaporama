@@ -51,7 +51,6 @@ DlgCheckConfig::~DlgCheckConfig() {
 
 void DlgCheckConfig::DoInitDialog() {
     QString StatusStr;
-    bool    Status;
     int     LumaListNbr=LumaList_Bar.List.count()+LumaList_Box.List.count()+LumaList_Center.List.count()+LumaList_Checker.List.count()+LumaList_Clock.List.count()+LumaList_Snake.List.count();
 
     // ffDiaporama
@@ -88,13 +87,8 @@ void DlgCheckConfig::DoInitDialog() {
     // exiv2
     StatusStr=QApplication::translate("DlgCheckConfig","LibExiv2 version:")+QString(" %1.%2.%3").arg(Exiv2MajorVersion).arg(Eviv2MinorVersion).arg(Exiv2PatchVersion);
     ui->ListWidget->addItem(new QListWidgetItem(StatusStr));
-    #ifdef EXIV2WITHPREVIEW
-    Status=true;
-    #else
-    Status=false;
-    #endif
-    StatusStr=QApplication::translate("DlgCheckConfig","LibExiv2 support for preview image")+" "+(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"));
-    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_YELLOW),StatusStr));
+    StatusStr=QApplication::translate("DlgCheckConfig","LibExiv2 support for preview image")+" "+(Exiv2WithPreview?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"));
+    ui->ListWidget->addItem(new QListWidgetItem(Exiv2WithPreview?QIcon(ICON_GREEN):QIcon(ICON_YELLOW),StatusStr));
     ui->ListWidget->addItem(new QListWidgetItem(""));
 
     #if defined(LIBAV) && (LIBAVVERSIONINT<=8)

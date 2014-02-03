@@ -2,6 +2,17 @@
 * FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
 
+[Commit: ]
+    Bug fixes:
+        -Fixed a problem with the translation of the title variable %STA%
+        -Fixed a random bug in the option dialog that could cause crash
+        -Fixed a display bug in the "Check configuration" dialog on the availability of the preview image function for exiv2
+        -Fixed a bug of audio/video synchronization when encoding using NTSC standard
+
+    New features:
+
+--------------------------------------------------------------------------------
+
 [Commit: 21/01/2014] - ffDiaporama 2.1 devel 20140121
     Bug fixes:
         -Fixed positioning of the preview player when resizing main window
@@ -229,180 +240,6 @@
         -Fixed the proposed filter for file format to select another image when an image file is missing during the loading of a project [regression 20131130]
         -Improves the detection of another instance of ffdiaporama and re-authorizes the launch if the last instance has crashed
         -Replace QT5 specific codes in devel.20131130 with QT4/QT5 compatible codes [regression 20131130]
-
---------------------------------------------------------------------------------
-
-[Commit: 30/11/2013] - ffDiaporama 2.0.1_devel.20131130
-    Bug fixes:
-        -Added a new patch from Olivier Laurantin for support of yadif filter with libav 9
-        -Fixed a crash when closing ffDiaporama
-        -Corrected updates the thumbnail of the first slide when an object of this plan is modified
-        -Fixed the filter file selection when an image is desired : differentiate image and vector image
-        -Prohibited the use of vector image for bottom of blocks and slides
-        -Corrected vertical image centering during generation of video in QVGA and RIM
-        -Corrected identification of thumbnails images video
-        -Fixed Enable/Disable ok button of the file selection box
-        -Fixed the repositioning on the last directory used to start the multimedia browser [on Windows]
-        -Fixed errors when sorting inserts slide
-        -Prevented ffDiaporama to be run multiple times at the same time on the same PC (to avoid multiple instance that is currently incompatible with the cache tables of the database)
-        -Fixed errors with undo in image dialog
-
-    New features:
-        -Cleaning and reorganization of source code directories of source code
-        -Allows cropping and applying filter also on vector images (svg)
-            => Note: Some filter causes the disappearance of the alpha channel (transparency)
-        -Supports ffmpeg 1.1.5 for Mageia 3
-        -Offer to open the video that has been generated if the process of generating video has successfully completed
-        -Modifed the file browser toolbar + Rearrange buttons with the setup menu
-        -Moved the backup favorites in the browser database
-
-********************************************************************************
-
-[Commit: 23/11/2013] + ffDiaporama 2.0 stable
-    Bug fixes:
-        -Fix bug of reading latest ffDiaporama version from internet web site
-        -Fix bug in background transition
-        -Fix bug when reading video with libav 0.9
-
-    New features:
-        -Translations updates
-        -Improve the update process of the browser cache  to speed it up
-        -Move the saving of settings of file explorer from the xml file to the database and decomposed it by type of navigation
-            => a configuration type instead of an overall configuration
-
---------------------------------------------------------------------------------
-
-[Commit: 19/11/2013 - again]
-    Merged libav 0.9.x patch from Olivier Laurantin
-
---------------------------------------------------------------------------------
-
-[Commit: 19/11/2013]
-    Bug fixes:
-        -Remove garbage sound played at the end of some videos
-        -Fix bug of reversal chapters order when inserting video including chapter and choose to create a slide by chapter [regression 12/11/2013]
-        -Fix display bug that sometimes prevents the title/author of the music to appear on the slide that defined it on the timeline [regression 16/11/2013]
-        -Fix the bug of not selecting a slide if its duration is equal to the duration of the incoming and outgoing transition [regression 18/11/2013]
-        -Fix the read and display of .ffd file properties in multimedia files explorer and in the file information dialog box [regression 12/11/2013]
-        -Fix the bug of not reading the image data (EXIF) when opening project whose images are not already in the cache [regression 12/11/2013]
-
-    New features:
-
---------------------------------------------------------------------------------
-
-[Commit: 18/11/2013] + ffDiaporama 2.0 BETA 3
-    Bug fixes:
-        -Fix bug in creating new project thumbnail model if project is empty [regression 15/11/2013]
-        -Fix some memory leaks
-        -Fix positionning of timeline in the mainwindow at program start-up [regression 15/11/2013]
-        -Fix saving of latest folders for Windows version [regression 16/11/2013]
-        -Fix a bug of infinite loop when reading some video files which happens sometimes when duration is incorrect in the file
-        -Fix a bug of display start-end position that was incorrectly displayed in the timeline when adding a slide at the end of the project [regression 15/11/2013]
-
-    New features:
-        -Upgrade ffmpeg version for OpenSuse and Windows packages to version 2.1
-
---------------------------------------------------------------------------------
-
-[Commit: 16/11/2013]
-    Bug fixes:
-        -Fix bug in transition dialog which displayed always the same transition [regression 15/11/2013]
-        -Fix a segmentation fault after adding for the first time ONLY ONE title [regression 15/11/2013]
-        -Fix a bug when aborting rendering: After the infowindow came and after clicked then nothing happens more [regression 15/11/2013]
-
-    New features:
-        -Move saving of latest folders used from configuration .xml file to user database
-
---------------------------------------------------------------------------------
-
-[Commit: 15/11/2013]
-    Bug fixes:
-        -Fixed selecting multiple files in the browser (no longer select by column)
-        -Fixed a bug for determining static images when encoding that did not take into account the transitions [1.7 regression]
-        -Adds missing dependency to sqlite to Ubuntu packages
-
-    New features:
-        -Improve interface speed and stability
-        -Adds the selection of the sort order in the configuration menu of the browser with three choices:
-            -By number (if the file name contains a No. before the extension and adds supports for hexadecimal number (because some camera uses this mode)
-            -By file name
-            -By date of last modification
-        -Removes the option of selecting the sort order when you insert multiple files in the option dialog. (Now the order of sorts is that specified in the browser.)
-        -Adds an option to enable or disable the display of the first directories in the configuration menu of the browser
-        -Move the backup options for sorting and display the directories first from the configuration .xml file to the database
-        -Force reloading of title models during the loading of a project if this project was created with a ffDiaporama between 20131016 and 20131112
-            =>Partially recover projects affected by the bug on saving texts fixed in commit 20131112
-        -Recognizes signatures of ffmpeg 2.1
-        -Update WIKI
-
---------------------------------------------------------------------------------
-
-[Commit: 12/11/2013]
-    Bug fixes:
-        -No longer leaves the application if error initializing SDL (for SOLARIS see: http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=641)
-        -Fixed an error converting music file names from relative to absolute
-        -Fixed an error recording some texts blocs during saving
-        -No longer disable wheelEvent when using partition mode
-        -No longer offer to save the current project when loading project if it is canceled
-        -Update preview after adding a slide and after loading a project
-        -Fixed mouse cursor and status bar message when saving project
-
-    New features:
-        -Add a Slide thumbnails cache table in the database and remove thumbnails objects from the memory
-        -Improve speed of project loading
-        -Improve speed of partition mode browsing
-
---------------------------------------------------------------------------------
-
-[Commit: 09/11/2013] + ffDiaporama 2.0 BETA 2
-    Bug fixes:
-        -Fixes a crash occurring during simultaneous logging from multiple threads
-
-    New features:
-        -Code cleaning (remove of ffDText and debugtrace ToLog of functions)
-
-[Commit: 08/11/2013]
-    Bug fixes:
-        -Do not ask the question once more, at the opening of a project if it no longer exists and that the user answers no to the proposal to select another file
-        -Fixed a memory leak that occurred in preview and render with static images
-
-    New features:
-        -Accelerates reopening projects with videos (no longer tested videos when reopening project)
-        -Removes thumbnails and extended properties of MediaFiles objects from memory
-        -Removes the reduction of quality of thumbnails for 32-bit systems when the number of objects in a directory is important (no longer needed)
-
-[Commit: 04/11/2013]
-    Bug fixes:
-        -Fixed the error when rendering to webm, ogv and ogg with libav 0.8: replaces AV_SAMPLE_FMT_FLT by AV_SAMPLE_FMT_S16 for OGG codec
-
-    New features:
-        -Arranges the data inside objects in order soon to remove them from memory and only have them in the database
-
---------------------------------------------------------------------------------
-
-[Commit: 03/11/2013] + ffDiaporama 2.0 BETA 1
-    Bug fixes:
-        -Correct crash when canceling the insertion of an object in the edition box of slides [Bug chrisbra 01/11/2013]
-        -Change all the source code to better take into account the differences between libav and ffmpeg
-
-    New features:
-        -Add a files table and remove filepath information from all objects derivated from cBaseMediaFile
-        -Changes the multimedia browser to it use the files table as a cache for faster browsing
-
---------------------------------------------------------------------------------
-
-[Commit: 30/10/2013]
-    Bug fixes:
-        -Fix SVG reading error [regression 1.7 beta 2]
-
-    New features:
-        -Create a SQLite3 database "home user" in home user directory to stock different informations
-        -Move Window State and position from memory to the home user database (remove memory used by that)
-        -Add a folders table and remove folder path information from all objects derivated from cBaseMediaFile
-
---------------------------------------------------------------------------------
-
-[Commit: 27/10/2013] + ffDiaporama 1.7 BETA 5
 
 --------------------------------------------------------------------------------
 

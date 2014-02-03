@@ -7051,13 +7051,13 @@ Do you want to download it now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Project done the %1:
-	·with «%2 (%3)»
-	·on a %4 (%5 Core/CPU) computer</source>
+        <source>Current chapter number as &quot;Chapter N°&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Current chapter number as &quot;Chapter N°&quot;</source>
+        <source>Project done the %1:
+	·with %2 (%3)
+	·on a %4 (%5 Core/CPU) computer</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

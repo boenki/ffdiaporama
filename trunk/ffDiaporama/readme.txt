@@ -45,9 +45,9 @@ General purposes about libav and ffmpeg
       LIBAV	LIBAVUTIL	LIBAVCODEC	LIBAVFORMAT	LIBAVDEVICE	LIBAVFILTER	LIBSWSCALE	LIBAVRESAMPLE
       0.8.x	51.22.1		53.35.0		53.21.1		53.2.0		2.15.0		2.1.0		-
       9.x	52.3.0		54.35.0		54.20.3		53.2.0		3.3.0		2.1.1		1.0.1
-      
+
       Note: support of version 9.x is actually partial
-      
+
     The following table list versions of ffmpeg supported with ffDiaporama
       FFMPEG	LIBAVUTIL	LIBAVCODEC	LIBAVFORMAT	LIBAVDEVICE	LIBAVFILTER	LIBSWSCALE	LIBSWRESAMPLE
       1.2.3	52,18,100	54,92,100	54,63,104	54,3,103	3,42,103	2,2,100		0,17,102
@@ -67,7 +67,7 @@ Build ffDiaporama for Ubuntu/LinuxMint (Ubuntu based version)
             sudo apt-get install libavutil-dev libavformat-dev libavcodec-dev libavdevice-dev libavfilter-dev libswscale-dev
             sudo apt-get install libsdl-image1.2-dev libsdl-mixer1.2-dev libexiv2-dev libtag1-dev
         Compilation:
-            qmake-qt4 ffDiaporama.pro /PREFIX=/opt
+            qmake-qt4 ffDiaporama.pro /PREFIX=/usr
             make
         Installation:
             sudo make install
@@ -76,11 +76,23 @@ Build ffDiaporama for Ubuntu/LinuxMint (Ubuntu based version)
 
         Installation prerequisites:
             sudo apt-get install build-essential
-            sudo apt-get install qt5-qmake qt5-default qttools5-dev qttools5-dev-tools libqt5svg5-dev libqt5help5 libqt5sql5-sqlite
+            sudo apt-get install qt5-qmake qt5-default qttools5-dev qttools5-dev-tools libqt5svg5-dev libqt5help5 libqt5sql5-sqlite qt5-image-formats-plugins
             sudo apt-get install libavutil-dev libavformat-dev libavcodec-dev libavdevice-dev libavfilter-dev libswscale-dev
             sudo apt-get install libsdl-image1.2-dev libsdl-mixer1.2-dev libexiv2-dev libtag1-dev
         Compilation:
-            qmake ffDiaporama.pro /PREFIX=/opt
+            qmake ffDiaporama.pro /PREFIX=/usr
+            make
+        Installation:
+            sudo make install
+
+    Version 14.04 (Qt 5.02/Libav 9.10)
+        Installation prerequisites:
+            sudo apt-get install build-essential
+            sudo apt-get install qt5-qmake qt5-default qttools5-dev qttools5-dev-tools libqt5svg5-dev libqt5help5 libqt5sql5-sqlite qt5-image-formats-plugins
+            sudo apt-get install libavutil-dev libavformat-dev libavcodec-dev libavdevice-dev libavfilter-dev libswscale-dev libavresample-dev
+            sudo apt-get install libsdl-image1.2-dev libsdl-mixer1.2-dev libexiv2-dev
+        Compilation:
+            qmake ffDiaporama.pro /PREFIX=/usr
             make
         Installation:
             sudo make install
@@ -110,7 +122,7 @@ Build ffDiaporama for openSUSE
             sudo zypper in exiv2 libexiv2-devel
             sudo zypper in libqt4 libqt4-devel
         Compilation:
-            qmake ffDiaporama.pro /PREFIX=/opt
+            qmake ffDiaporama.pro /PREFIX=/usr
             make
         Installation:
             sudo make install
@@ -124,7 +136,7 @@ Build ffDiaporama for openSUSE
             sudo zypper in libqt5-qtbase libQt5Gui5 libQt5Widgets5 libQt5Svg5 libQt5Sql5 libqt5-sql-sqlite libqt5-qtimageformats
             sudo zypper in libqt5-qtbase-devel libqt5-qttools libqt5-qttools-devel
         Compilation:
-            qmake-qt5 ffDiaporama.pro /PREFIX=/opt
+            qmake-qt5 ffDiaporama.pro /PREFIX=/usr
             make
         Installation:
             sudo make install
@@ -142,7 +154,7 @@ Build ffDiaporama for Fedora
             sudo yum install SDL SDL-devel SDL_mixer-devel SDL_mixer
             sudo yum install exiv2 exiv2-devel
         Compilation:
-            qmake-qt5 ffDiaporama.pro /PREFIX=/opt
+            qmake-qt5 ffDiaporama.pro /PREFIX=/usr
             make
         Installation:
             sudo make install

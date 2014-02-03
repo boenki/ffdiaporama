@@ -32,28 +32,29 @@
     </message>
     <message>
         <source>Translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Traduzione</translation>
     </message>
     <message>
         <source>Note:
 If you want to help us or by completing an incomplete translation, or by translating the application into another language, do not hesitate to contact us on the forum.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota:
+Se volete aiutarci o completando una traduzione incompleta, o traducendo l&apos;applicazione in un&apos;altra lingua, non esitate a contattarci sul forum.</translation>
     </message>
     <message>
         <source>Changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>Changelog</translation>
     </message>
     <message>
         <source>Interface translation version: </source>
-        <translation type="unfinished"></translation>
+        <translation>Versione traduzione interfaccia: </translation>
     </message>
     <message>
         <source>to translate</source>
-        <translation type="unfinished"></translation>
+        <translation>Da tradurre</translation>
     </message>
     <message>
         <source>WIKI translation version: </source>
-        <translation type="unfinished"></translation>
+        <translation>Versione traduzione WIKI: </translation>
     </message>
 </context>
 <context>
@@ -1882,15 +1883,15 @@ Vuoi farlo ora?</translation>
     </message>
     <message>
         <source>XML parsing error</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore analisi XML</translation>
     </message>
     <message>
         <source>XML parsing error / incorrect root</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore analisi XML / radice errata</translation>
     </message>
     <message>
         <source>XML parsing error / status KO</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore analisi XML / stato KO</translation>
     </message>
 </context>
 <context>
@@ -3095,11 +3096,11 @@ Sposta il file selezionato di un passo verso il basso</translation>
     </message>
     <message>
         <source>Credit</source>
-        <translation type="unfinished"></translation>
+        <translation>Attribuzione</translation>
     </message>
     <message>
         <source>Settings for the music track</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazioni per la traccia musicale</translation>
     </message>
 </context>
 <context>
@@ -3494,16 +3495,23 @@ Notes:
 - By cons, if the project contains mostly videos this option will increase the size of the video file
 
 By default, this box is checked if duration of videos are less than half of the total duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Se questa casella è segnata, il bitrate è variabile (tra -50% e +125%)
+
+Note:
+- Se il progetto contiene per lo più immagini, questa opzione può ridurre notevolmente le dimensioni del file video (fino al 80%)
+- Per contro, se il progetto contiene per lo più video questa opzione aumenta la dimensione del file video
+
+Di predefinito, questa casella è selezionata se la durata dei video sono meno della metà della durata complessiva</translation>
     </message>
     <message>
         <source>Variable bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>Variabile bitrate</translation>
     </message>
     <message>
         <source>Job completed successfully!
 Do you want to open the audio track now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Lavoro completato con successo!
+Vuoi aprire la traccia audio ora?</translation>
     </message>
 </context>
 <context>
@@ -6490,7 +6498,7 @@ Vuoi scaricarla ora?</translation>
     </message>
     <message>
         <source>Loading project ressources: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Caricamento risorse progetto: %1</translation>
     </message>
 </context>
 <context>
@@ -7331,27 +7339,29 @@ Vuoi scaricarla ora?</translation>
     <message>
         <source> - © %1 (%2)</source>
         <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
+        <translation> - © %1 (%2)</translation>
     </message>
     <message>
         <source> - © %1</source>
         <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
+        <translation> - © %1</translation>
     </message>
     <message>
         <source> from «%1»</source>
         <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Project done the %1:
-	·with «%2 (%3)»
-	·on a %4 (%5 Core/CPU) computer</source>
-        <translation type="unfinished"></translation>
+        <translation> da «%1»</translation>
     </message>
     <message>
         <source>Current chapter number as &quot;Chapter N°&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Numero del capitolo corrente come &quot;N° capitolo&quot;</translation>
+    </message>
+    <message>
+        <source>Project done the %1:
+	·with %2 (%3)
+	·on a %4 (%5 Core/CPU) computer</source>
+        <translation>Progetto fatto il %1:
+	 con %2 (%3)
+	 su un computer %4 (%5 Core/CPU)</translation>
     </message>
 </context>
 <context>
@@ -8315,23 +8325,23 @@ Esempio: se Y=25 % del primo trimestre nella parte superiore dell&apos;immagine 
     </message>
     <message>
         <source>Defined where to display the marker (the distance between the marker and the GPS position)</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce dove visualizzare il marcatore (la distanza tra il marcatore e la posizione GPS)</translation>
     </message>
     <message>
         <source>Defines the color of the text</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce il colore del testo</translation>
     </message>
     <message>
         <source>Defines the color of the background of the marker, of the GPS position and of the part between the two</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce il colore dello sfondo del marcatore, della posizione GPS e della parte tra i due</translation>
     </message>
     <message>
         <source>Defined if the marker is visible, half-visible (masked) or hidden</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce se il marcatore è visibile, trasparente o nascosto</translation>
     </message>
     <message>
         <source>Defines the color of the border</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce il colore del bordo</translation>
     </message>
 </context>
 <context>
