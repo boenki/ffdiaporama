@@ -738,55 +738,55 @@
     </message>
     <message>
         <source>%PLN%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PLN%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project location name&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Значение поля &lt;B&gt;&lt;I&gt;Имя местоположения проекта&lt;/I&gt;&lt;/B&gt; из &lt;a href=&quot;0108.html&quot;&gt;Свойств проекта&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%PLA%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PLA%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project location address&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Значение поля &lt;B&gt;&lt;I&gt;Адрес местоположения проекта&lt;/I&gt;&lt;/B&gt; из &lt;a href=&quot;0108.html&quot;&gt;Свойств проекта&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%CLN%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CLN%</translation>
     </message>
     <message>
         <source>Current chapter location name (if one is defined or project&apos;s location name).</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя местоположения текущей главы (если оно определено или соответствует имени местоположения проекта).</translation>
     </message>
     <message>
         <source>%CLA%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CLA%</translation>
     </message>
     <message>
         <source>Current chapter location address (if one is defined or project&apos;s location address).</source>
-        <translation type="unfinished"></translation>
+        <translation>Адрес местоположения текущей главы (если он определен или соответствует адресу местоположения проекта).</translation>
     </message>
     <message>
         <source>The following table lists all the available variables:</source>
-        <translation type="unfinished"></translation>
+        <translation>В следующей таблице перечислены доступные переменные:</translation>
     </message>
     <message>
         <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ​​only when they are used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Переменные имеют особое значение поскольку вставляются в текст (смотрите: &lt;a href=&quot;0120.html&quot;&gt;Редактирование текста&lt;/a&gt;) и преобразуются в значения тольо при их использовании.</translation>
     </message>
     <message>
         <source>Current chapter number displayed as &lt;U&gt;Chapter N°&lt;/U&gt; (depending on the current language)</source>
-        <translation type="unfinished"></translation>
+        <translation>Номер текущей главы, отображаемый как &lt;U&gt;Глава №&lt;/U&gt; (зависит от текущего языка)</translation>
     </message>
     <message>
         <source>Copyright of the project construct as &lt;U&gt;© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Конструкция авторского знака проекта: &lt;U&gt;© Год - Автор&lt;/U&gt;, где &lt;B&gt;&lt;I&gt;Год&lt;/I&gt;&lt;/B&gt; - это год текущей даты, а &lt;B&gt;&lt;I&gt;Автор&lt;/I&gt;&lt;/B&gt; - это значение поля &lt;B&gt;&lt;I&gt;Автор проекта&lt;/I&gt;&lt;/B&gt; из &lt;a href=&quot;0108.html&quot;&gt;Свойств проекта&lt;/a&gt;</translation>
     </message>
     <message>
         <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with «&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Полный текст состоит из: Проект создан &lt;U&gt;&lt;B&gt;&lt;I&gt;дата (краткий формат)&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; в «&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama версии&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;» на компьютере с &lt;U&gt;&lt;B&gt;&lt;I&gt;Операционная система&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;количество ядер/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU).</translation>
     </message>
 </context>
 <context>
@@ -1118,7 +1118,7 @@
     </message>
     <message>
         <source>Add or modify a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить или изменить местоположение</translation>
     </message>
 </context>
 <context>
@@ -1618,11 +1618,11 @@
     </message>
     <message>
         <source>Allows you to paste the slide or the image currently in the clipboard into the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет вставить слайд или изображение из буфера обмена на &lt;a href=&quot;0023.html&quot;&gt;линию времени&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Add a map: Allows you to add a Google Maps map. The &lt;a href=&quot;0110.html&quot;&gt;correct, reframe or cut image or video dialog&lt;/a&gt; appears.</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить карту: позволяет добавить карту Google Maps. Появится диалоговое окно &lt;a href=&quot;0110.html&quot;&gt;коррекции, кадрирования или обрезки изображения или видео&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -1833,15 +1833,15 @@
     </message>
     <message>
         <source>On slide associated with the music, the cover, artist and song title are displayed</source>
-        <translation type="unfinished"></translation>
+        <translation>На слайдах, содержащих музыку, отображаются обложка, исполнитель и название песни</translation>
     </message>
     <message>
         <source>To move the music or the background associated to a slide to another slide:</source>
-        <translation type="unfinished"></translation>
+        <translation>Перемещение музыки или фонового изображения с одного слайда на другой:</translation>
     </message>
     <message>
         <source>Simply drag the music or background to a new position with the mouse (drag &amp; drop)</source>
-        <translation type="unfinished"></translation>
+        <translation>Просто перетащите мышкой музыку или фоновое изображение на новое место</translation>
     </message>
 </context>
 <context>
@@ -2304,15 +2304,15 @@
     </message>
     <message>
         <source>This option sorts the files in order of their creation date</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортирует файлы по дате их создания</translation>
     </message>
     <message>
         <source>Image vector files</source>
-        <translation type="unfinished"></translation>
+        <translation>Векторные изображения</translation>
     </message>
     <message>
         <source>Limit the display of the current folder to the image vector files of which the format is recognized by ffDiaporama in the present subfolders</source>
-        <translation type="unfinished"></translation>
+        <translation>Ограничивает отображение текущей папки только векторными изображениями, поддерживаемых ffDiaporama форматов</translation>
     </message>
 </context>
 <context>
@@ -3145,11 +3145,11 @@
     </message>
     <message>
         <source>Both settings are using &lt;U&gt;veryfast&lt;/U&gt; preset. </source>
-        <translation type="unfinished"></translation>
+        <translation>Обе настройки используют предустановку &lt;U&gt;veryfast&lt;/U&gt;. </translation>
     </message>
     <message>
         <source>Note: Variable bitrate is used with these two codecs. For more information on variable bitrate, see: &lt;a href=&quot;0115.html&quot;&gt;Render video&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: переменный битрейт используется с этими двумя кодеками. Для получения дополнительной информации о переменном битрейте смотрите &lt;a href=&quot;0115.html&quot;&gt;Создание видео&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -3748,7 +3748,7 @@
     </message>
     <message>
         <source>Types of objects in ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Типы объектов в ffDiaporama</translation>
     </message>
 </context>
 <context>
@@ -4055,11 +4055,11 @@
     <name>0045</name>
     <message>
         <source>Types of objects in ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Типы объектов в ffDiaporama</translation>
     </message>
     <message>
         <source> This section contains information about types of objects that can be used with ffDiaporama. </source>
-        <translation type="unfinished"></translation>
+        <translation>Этот раздел содержит информацию о типах объектов, которые поддерживаются ffDiaporama. </translation>
     </message>
     <message>
         <source>Index</source>
@@ -4071,59 +4071,59 @@
     </message>
     <message>
         <source>Music file</source>
-        <translation type="unfinished"></translation>
+        <translation>Мызыкальные файлы</translation>
     </message>
     <message>
         <source>Bitmap image file</source>
-        <translation type="unfinished"></translation>
+        <translation>Растровые изображения</translation>
     </message>
     <message>
         <source>Bitmap image from clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Растровые изображения в буфере обмена</translation>
     </message>
     <message>
         <source>Vector image file</source>
-        <translation type="unfinished"></translation>
+        <translation>Векторные изображения</translation>
     </message>
     <message>
         <source>Video file</source>
-        <translation type="unfinished"></translation>
+        <translation>Видео файлы</translation>
     </message>
     <message>
         <source>Google maps map</source>
-        <translation type="unfinished"></translation>
+        <translation>Карты Google maps</translation>
     </message>
     <message>
         <source>There are several things to know about Google Maps</source>
-        <translation type="unfinished"></translation>
+        <translation>Есть несколько вещей, которые необходимо знать о Google Maps</translation>
     </message>
     <message>
         <source>Google Maps generates images with up to 640x640. Within these images, Google Maps inserts logos that must be removed so that useful images are really only 640x600. Therefore, to generate an image for example 1080p, we have to assemble 6 Google Maps images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Google Maps генерируют изображения размером 640x640. В этот размер Google Maps вставляет логотипы, которые должны быть удалены, так что полезный размер изображения составляет лишь 640x600. Таким образом, для создания изображения, например 1080p, мы должны собрать 6 изображений Google Maps.</translation>
     </message>
     <message>
         <source>Google Maps limit the number of queries a user can send. This limitation is made to prevent robots to saturate the servers. Unfortunately, this limitation may cause problems when generating big picture. It is possible that you may receive an error warning message saying that you have reached the limit of Google Maps request grants to you.</source>
-        <translation type="unfinished"></translation>
+        <translation>Google Maps ограничивает количество запросов, которые может отправить пользователь. Это ограничение введено для предотвращения работы роботов, пополняющих сервера. К сожалению, это ограничение может вызвать проблемы при создании большой карты. Вы можете получить сообщение об ошибке, предупреждающее о том, что вы достигли предела запросов к Google Maps.</translation>
     </message>
     <message>
         <source>To resolve this problem, ffDiaporama integrates a mechanical of recovery. Thus, if a card can not be generated immediately, you can resume it generation later.</source>
-        <translation type="unfinished"></translation>
+        <translation>Для решения этой проблемы в ffDiaporama интегрировано механическое восстановление. Это означает, что в случае невозможности немедленного создания карты, вы сможете продолжить ее создание позднее.</translation>
     </message>
     <message>
         <source>The roads are perpetually modified and Google Maps is constantly updated. Of course, it is not possible to generate a map for road conditions at a specific date. Therefore, think before you update a map of an old project.</source>
-        <translation type="unfinished"></translation>
+        <translation>Дороги постоянно меняются и Google Maps постоянно обновляется. Естественно, невозможно создать карту дорожных условий на конкретную дату. Поэтому подумайте, прежде чем обновить карту старого проекта.</translation>
     </message>
     <message>
         <source>Image size and Map size</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер изображения и размер карты</translation>
     </message>
     <message>
         <source>Depending on the zoom level, Google Maps decides himself of the information displayed on the map. Thus, it is not possible to generate several maps at different zoom levels and then to create a zoom animation because there is no chance that this animation be fluid. It&apos;s why ffDiaporama proposes to generate maps of several image sizes. So, to create a fluid zoom animation, you can use a large image.</source>
-        <translation type="unfinished"></translation>
+        <translation>В зависимости от уровня масштабирования, Google Maps сам решает какую информацию отображать на карте. Вследствие этого невозможно создать несколько карт с разным уровнем масштабирования, а затем создать анимацию масштабирования, потому что такая анимация не будет плавной.Поэтому ffDiaporama позволяет создавать карты нескольких размеров. Для создания плавной анимации масштабирования вы можете использовать большое изображение.</translation>
     </message>
     <message>
         <source>The following table shows the different &lt;U&gt;Image sizes&lt;/U&gt; that you can generate.</source>
-        <translation type="unfinished"></translation>
+        <translation>В следующей таблице перечислены &lt;U&gt;Размеры изображений&lt;/U&gt;, которые вы можете создать.</translation>
     </message>
     <message>
         <source>Image size</source>
@@ -4139,67 +4139,67 @@
     </message>
     <message>
         <source>Small-16:9</source>
-        <translation type="unfinished"></translation>
+        <translation>Маленькая-16:9</translation>
     </message>
     <message>
         <source>640x360 (0.2 MPix)</source>
-        <translation type="unfinished"></translation>
+        <translation>640x360 (0.2 Мп)</translation>
     </message>
     <message>
         <source>Quarter of 720p. Useful to add a small map in a photo collage</source>
-        <translation type="unfinished"></translation>
+        <translation>Четверть 720p. Пригодится для добавления маленькой карты в фотоколлаж</translation>
     </message>
     <message>
         <source>1280x720 (0.9 MPix)</source>
-        <translation type="unfinished"></translation>
+        <translation>1280x720 (0.9 Мп)</translation>
     </message>
     <message>
         <source>Useful for creating a full-screen map in a 720p project or to add a map to a title slide in a 1080p project</source>
-        <translation type="unfinished"></translation>
+        <translation>Пригодится для создания полноэкранной карты в проекте 720p или для добавления карты к титульному слайду в проекте 1080p</translation>
     </message>
     <message>
         <source>720px4-16:9</source>
-        <translation type="unfinished"></translation>
+        <translation>720px4-16:9</translation>
     </message>
     <message>
         <source>2560x1440 (3.6 MPix)</source>
-        <translation type="unfinished"></translation>
+        <translation>2560x1440 (3.6 Мп)</translation>
     </message>
     <message>
         <source>Useful for creating a full-screen &lt;B&gt;animated&lt;/B&gt; map in a 720p project or to add an &lt;B&gt;animated&lt;/B&gt; map to a title slide in a 1080p project</source>
-        <translation type="unfinished"></translation>
+        <translation>Пригодится для создания полноэкранной &lt;B&gt; анимированной &lt;/B&gt; карты в проекте 720p или для добавления &lt;B&gt;анимированной&lt;/B&gt; карты к титульному слайду в проекте 1080p</translation>
     </message>
     <message>
         <source>1920x1080 (2 MPix)</source>
-        <translation type="unfinished"></translation>
+        <translation>1920x1080 (2 Мп)</translation>
     </message>
     <message>
         <source>Useful for creating a full-screen map in a 1080p project</source>
-        <translation type="unfinished"></translation>
+        <translation>Пригодится для создания полноэкранной карты в проекте 1080p</translation>
     </message>
     <message>
         <source>1080px4-16:9</source>
-        <translation type="unfinished"></translation>
+        <translation>1080px4-16:9</translation>
     </message>
     <message>
         <source>3840x2160 (8.2 MPix)</source>
-        <translation type="unfinished"></translation>
+        <translation>3840x2160 (8.2 Мп)</translation>
     </message>
     <message>
         <source>Useful for creating a full-screen &lt;B&gt;animated&lt;/B&gt; map in a 1080p project</source>
-        <translation type="unfinished"></translation>
+        <translation>Пригодится для создания полноэкранной &lt;B&gt;анимированной&lt;/B&gt; карты в проекте 1080p</translation>
     </message>
     <message>
         <source>Note that all image sizes are 16:9 geometry to simplify computation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Обратите внимание, что все размеры изображений показаны для геометрии 16:9 для упрощения вычислений.</translation>
     </message>
     <message>
         <source>Because a map is formed by joining multiple pieces of map, based on the image size, the card will be a map greater or lesser.</source>
-        <translation type="unfinished"></translation>
+        <translation>Поскольку карта формируется путем объединения нескольких частей, то в зависимости от размера изображения карта будет больше или меньше.</translation>
     </message>
     <message>
         <source>The following table shows the &lt;U&gt;Map sizes&lt;/U&gt; in kilometers for each &lt;U&gt;Image sizes&lt;/U&gt; and &lt;U&gt;Google Maps zoom levels&lt;/U&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>В следующей таблице перечислены &lt;U&gt;Размеры карт&lt;/U&gt; в километрах и соответствующие им &lt;U&gt;Размеры изображения&lt;/U&gt; и &lt;U&gt;Уровни масштабирования Google Maps&lt;/U&gt;.</translation>
     </message>
     <message>
         <source>Zoom</source>
@@ -4207,207 +4207,207 @@
     </message>
     <message>
         <source>Maps sizes (kilometers)</source>
-        <translation type="unfinished"></translation>
+        <translation>Размеры карт (километры)</translation>
     </message>
     <message>
         <source>720p x4</source>
-        <translation type="unfinished"></translation>
+        <translation>720p x4</translation>
     </message>
     <message>
         <source>15011.315 km x 8613.829 km</source>
-        <translation type="unfinished"></translation>
+        <translation>15011.315 км x 8613.829 км</translation>
     </message>
     <message>
         <source>12509.429 km x 5930.123 km</source>
-        <translation type="unfinished"></translation>
+        <translation>12509.429 км x 5930.123 км</translation>
     </message>
     <message>
         <source>6254.715 km x 3351.985 km</source>
-        <translation type="unfinished"></translation>
+        <translation>6254.715 км x 3351.985 км</translation>
     </message>
     <message>
         <source>18764.144 km x 7605.642 km</source>
-        <translation type="unfinished"></translation>
+        <translation>18764.144 км x 7605.642 км</translation>
     </message>
     <message>
         <source>3127.357 km x 1737.202 km</source>
-        <translation type="unfinished"></translation>
+        <translation>3127.357 км x 1737.202 км</translation>
     </message>
     <message>
         <source>9382.072 km x 4760.424 km</source>
-        <translation type="unfinished"></translation>
+        <translation>9382.072 км x 4760.424 км</translation>
     </message>
     <message>
         <source>1563.679 km x 876.788 km</source>
-        <translation type="unfinished"></translation>
+        <translation>1563.679 км x 876.788 км</translation>
     </message>
     <message>
         <source>4691.036 km x 2566.349 km</source>
-        <translation type="unfinished"></translation>
+        <translation>4691.036 км x 2566.349 км</translation>
     </message>
     <message>
         <source>781.839 km x 439.436 km</source>
-        <translation type="unfinished"></translation>
+        <translation>781.839 км x 439.436 км</translation>
     </message>
     <message>
         <source>2345.518 km x 1310.024 km</source>
-        <translation type="unfinished"></translation>
+        <translation>2345.518 км x 1310.024 км</translation>
     </message>
     <message>
         <source>390.920 km x 219.849 km</source>
-        <translation type="unfinished"></translation>
+        <translation>390.920 км x 219.849 км</translation>
     </message>
     <message>
         <source>1172.759 km x 658.501 km</source>
-        <translation type="unfinished"></translation>
+        <translation>1172.759 км x 658.501 км</translation>
     </message>
     <message>
         <source>195.460 km x 109.941 km</source>
-        <translation type="unfinished"></translation>
+        <translation>195.460 км x 109.941 км</translation>
     </message>
     <message>
         <source>586.379 km x 329.691 km</source>
-        <translation type="unfinished"></translation>
+        <translation>586.379 км x 329.691 км</translation>
     </message>
     <message>
         <source>97.730 km x 54.972 km</source>
-        <translation type="unfinished"></translation>
+        <translation>97.730 км x 54.972 км</translation>
     </message>
     <message>
         <source>293.190 km x 164.901 km</source>
-        <translation type="unfinished"></translation>
+        <translation>293.190 км x 164.901 км</translation>
     </message>
     <message>
         <source>48.865 km x 27.486 km</source>
-        <translation type="unfinished"></translation>
+        <translation>48.865 км x 27.486 км</translation>
     </message>
     <message>
         <source>146.595 km x 82.457 km</source>
-        <translation type="unfinished"></translation>
+        <translation>146.595 км x 82.457 км</translation>
     </message>
     <message>
         <source>24.432 km x 13.743 km</source>
-        <translation type="unfinished"></translation>
+        <translation>24.432 км x 13.743 км</translation>
     </message>
     <message>
         <source>73.297 km x 41.230 km</source>
-        <translation type="unfinished"></translation>
+        <translation>73.297 км x 41.230 км</translation>
     </message>
     <message>
         <source>12.216 km x 6.872 km</source>
-        <translation type="unfinished"></translation>
+        <translation>12.216 км x 6.872 км</translation>
     </message>
     <message>
         <source>36.649 km x 20.615 km</source>
-        <translation type="unfinished"></translation>
+        <translation>36.649 км x 20.615 км</translation>
     </message>
     <message>
         <source>6.108 km x 3.436 km</source>
-        <translation type="unfinished"></translation>
+        <translation>6.108 км x 3.436 км</translation>
     </message>
     <message>
         <source>18.324 km x 10.307 km</source>
-        <translation type="unfinished"></translation>
+        <translation>18.324 км x 10.307 км</translation>
     </message>
     <message>
         <source>3.054 km x 1.718 km</source>
-        <translation type="unfinished"></translation>
+        <translation>3.054 км x 1.718 км</translation>
     </message>
     <message>
         <source>9.162 km x 5.154 km</source>
-        <translation type="unfinished"></translation>
+        <translation>9.162 км x 5.154 км</translation>
     </message>
     <message>
         <source>1.527 km x 0.859 km</source>
-        <translation type="unfinished"></translation>
+        <translation>1.527 км x 0.859 км</translation>
     </message>
     <message>
         <source>4.581 km x 2.577 km</source>
-        <translation type="unfinished"></translation>
+        <translation>4.581 км x 2.577 км</translation>
     </message>
     <message>
         <source>0.764 km x 0.429 km</source>
-        <translation type="unfinished"></translation>
+        <translation>0.764 км x 0.429 км</translation>
     </message>
     <message>
         <source>2.291 km x 1.288 km</source>
-        <translation type="unfinished"></translation>
+        <translation>2.291 км x 1.288 км</translation>
     </message>
     <message>
         <source>1.145 km x 0.644 km</source>
-        <translation type="unfinished"></translation>
+        <translation>1.145 км x 0.644 км</translation>
     </message>
     <message>
         <source>Notes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечания:</translation>
     </message>
     <message>
         <source>Because Google Maps don&apos;t respect perfect alignment when using high zoom level, all map sizes lesser than 400 meters are useless with ffDiaporama.</source>
-        <translation type="unfinished"></translation>
+        <translation>Поскольку Google Maps не обеспечивают хорошего выравнивания при использовании большого приближения, то все карты размером менее 400 метров бесполезны для ffDiaporama.</translation>
     </message>
     <message>
         <source>Google Maps zoom levels 0 and 1 are useless with ffDiaporama because they produce images that are too small.</source>
-        <translation type="unfinished"></translation>
+        <translation>Уровни масштабирования 0 и 1 в Google Maps бесполезны для ffDiaporama, потому что они создают изображения, которые слишком малы.</translation>
     </message>
     <message>
         <source>Google Maps zoom levels 20 and 11 are useless with ffDiaporama Google Maps don&apos;t respect perfect alignment when using high zoom level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Уровни масштабирования 20 и 11 в Google Maps бесполезны для ffDiaporama, потому что Google Maps не обеспечивают хорошего выравнивания при использовании большого приближения.</translation>
     </message>
     <message>
         <source>Bitmap image file and Bitmap image from clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Растровые изображения</translation>
     </message>
     <message>
         <source>Google Maps</source>
-        <translation type="unfinished"></translation>
+        <translation>Google Maps</translation>
     </message>
     <message>
         <source>ffDiaporama can use music file in the following formats: wav, aac, adts, ac3, mp2, mp3, m4a or m4b or m4p, 3g2 or 3ga or 3gp, ogg or oga, spx, wma, flac</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama поддерживает работу с музыкальными файлами следующих форматов: wav, aac, adts, ac3, mp2, mp3, m4a или m4b или m4p, 3g2 или 3ga или 3gp, ogg или oga, spx, wma, flac</translation>
     </message>
     <message>
         <source>See also: </source>
-        <translation type="unfinished"></translation>
+        <translation>Смотрите также: </translation>
     </message>
     <message>
         <source>Definition of music file on Wikipedia</source>
-        <translation type="unfinished"></translation>
+        <translation>Понятие музыкального файла в Википедии</translation>
     </message>
     <message>
         <source>ffDiaporama can use bitmap images in the following formats: bmp, gif (but not animated gif), jpg or jpeg, png, pbm, pgm, ppm, tiff or tif, xbm, xpm</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama поддерживает работу с растровыми изображениями следующих форматов: bmp, gif (но не анимированный gif), jpg или jpeg, png, pbm, pgm, ppm, tiff или tif, xbm, xpm</translation>
     </message>
     <message>
         <source>Definition of Bitmap image file on Wikipedia</source>
-        <translation type="unfinished"></translation>
+        <translation>Понятие растрового изображения в Википедии</translation>
     </message>
     <message>
         <source>ffDiaporama can use vector images in the following formats: svg</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama поддерживает работу с векторными изображениями следующих форматов: svg</translation>
     </message>
     <message>
         <source>Definition of vector image file on Wikipedia</source>
-        <translation type="unfinished"></translation>
+        <translation>Понятие векторного изображения в Википедии</translation>
     </message>
     <message>
         <source>ffDiaporama can use video files in the following formats: avi, mov, mpg or mpeg, mkv, mp4 or m4v, flv, 3gp, ogv, webm, dv, wmv, mts or m2ts or mod</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama поддерживает работу с видео файлами следующих форматов: avi, mov, mpg или mpeg, mkv, mp4 или m4v, flv, 3gp, ogv, webm, dv, wmv, mts или m2ts или mod</translation>
     </message>
     <message>
         <source>Note: mts, m2ts and mod files are stream formats (AVCHD) which involve some limitations. For more information on AVCHD, see: </source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание:  mts, m2ts и mod файлы имеют формат потока (AVCHD), который включает некоторые ограничения. Более подробно о AVCHD смотрите: </translation>
     </message>
     <message>
         <source>Advanced Video Coding High Definition on Wikipedia</source>
-        <translation type="unfinished"></translation>
+        <translation>Advanced Video Coding High Definition в Википедии</translation>
     </message>
     <message>
         <source>Definition of video file on Wikipedia</source>
-        <translation type="unfinished"></translation>
+        <translation>Понятие видео файла в Википедии</translation>
     </message>
     <message>
         <source>Note: ffDiaporama uses the filename extension to determine the type of image. It is therefore necessary that this extension was valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: ffDiaporama использует расширение файла, чтобы определить тип изображения. Поэтому необходимо, чтобы это расширение было правильным.</translation>
     </message>
 </context>
 <context>
@@ -5114,55 +5114,55 @@
     </message>
     <message>
         <source>Network settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Параметры сети</translation>
     </message>
     <message>
         <source>Use a proxy to access the Internet</source>
-        <translation type="unfinished"></translation>
+        <translation>Использовать прокси для доступа в Интернет</translation>
     </message>
     <message>
         <source>Check this box if your network requires that you use a proxy.</source>
-        <translation type="unfinished"></translation>
+        <translation>Установите этот флажок, если в вашей сети требуется использование прокси-сервера.</translation>
     </message>
     <message>
         <source>Proxy address</source>
-        <translation type="unfinished"></translation>
+        <translation>Прокси адрес</translation>
     </message>
     <message>
         <source>Enter address of the proxy host.</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите адрес прокси-сервера.</translation>
     </message>
     <message>
         <source>Proxy port</source>
-        <translation type="unfinished"></translation>
+        <translation>Порт</translation>
     </message>
     <message>
         <source>Enter the port number to access the proxy or nothing to use default port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите номер порта для доступа к прокси или оставьте пустым, чтобы использовать порт по умолчанию.</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Логин</translation>
     </message>
     <message>
         <source>Enter the login name to access the proxy or nothing if no login is required.</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите имя пользователя для доступа к прокси или оставьте пустым, если логин не требуется.</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Пароль</translation>
     </message>
     <message>
         <source>Enter the login password to access the proxy or nothing if no login is required.</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите пароль пользователя для доступа к прокси или оставьте пустым, если пароль не требуется.</translation>
     </message>
     <message>
         <source>Distance unit</source>
-        <translation type="unfinished"></translation>
+        <translation>Единица измерения расстояния</translation>
     </message>
     <message>
         <source>This option lets you specify the unit to be used for distances.</source>
-        <translation type="unfinished"></translation>
+        <translation>Этот параметр позволяет выбрать единицу измерения расстояния.</translation>
     </message>
     <message>
         <source>Album</source>
@@ -5170,7 +5170,7 @@
     </message>
     <message>
         <source>Defines the default value for the field Album</source>
-        <translation type="unfinished"></translation>
+        <translation>Определяет значение поля Альбом по умолчанию</translation>
     </message>
 </context>
 <context>
@@ -5436,47 +5436,47 @@
     </message>
     <message>
         <source>For example, if the project is &lt;U&gt;My vacation from 1 to 15&lt;/U&gt;, the chapter may be limited to the &lt;U&gt;3&lt;/U&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Например, если проект называется &lt;U&gt;Мой отпуск с 1 по 15&lt;/U&gt;, то глава может быть ограничена &lt;U&gt;3 числом&lt;/U&gt;.</translation>
     </message>
     <message>
         <source>Chapter location different from project location</source>
-        <translation type="unfinished"></translation>
+        <translation>Местоположение главы отличается от местоположения проекта</translation>
     </message>
     <message>
         <source>If this box is checked, the location of the chapter is different from the location of the project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Если этот флажок установлен, местоположение главы отличается от местоположения проекта. </translation>
     </message>
     <message>
         <source>Remark: It is often useful to differentiate the location of the chapter of the location of the project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: зачастую полезно различать местоположение главы и местоположение проекта. </translation>
     </message>
     <message>
         <source>For example, if the project location is &lt;U&gt;where I rented for the holidays&lt;/U&gt;, the chapter location may be &lt;U&gt;where I went on tour&lt;/U&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Например, если местоположение проекта &lt;U&gt;где я провел праздники&lt;/U&gt;, то местоположение главы может быть &lt;U&gt;где я был на экскурсии&lt;/U&gt;.</translation>
     </message>
     <message>
         <source>Event location</source>
-        <translation type="unfinished"></translation>
+        <translation>Местоположение события</translation>
     </message>
     <message>
         <source>The location where the chapter&apos;s event took place</source>
-        <translation type="unfinished"></translation>
+        <translation>Место, где произошло событие проекта</translation>
     </message>
     <message>
         <source>Click on this </source>
-        <translation type="unfinished"></translation>
+        <translation>Нажмите на </translation>
     </message>
     <message>
         <source> button to select a location from the &lt;a href=&quot;0123.html&quot;&gt;Add or modify a location&lt;/a&gt; dialog or using a favorite</source>
-        <translation type="unfinished"></translation>
+        <translation> кнопку для выбора местоположения из диалогового окна &lt;a href=&quot;0123.html&quot;&gt;Добавить или изменить местоположение&lt;/a&gt; или Избранного</translation>
     </message>
     <message>
         <source> button to remove actual location (set to empty)</source>
-        <translation type="unfinished"></translation>
+        <translation> кнопку для удаления текущего местоположения (очистить)</translation>
     </message>
     <message>
         <source>Remark: These fields and buttons are enabled only if the &lt;I&gt;&lt;B&gt;Chapter location different from project location&lt;/B&gt;&lt;/I&gt; check box is checked.</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: эти поля активны только если установлен флажок &lt;I&gt;&lt;B&gt;Местоположение главы отличается от местоположения проекта&lt;/B&gt;&lt;/I&gt;.</translation>
     </message>
 </context>
 <context>
@@ -5678,47 +5678,47 @@
     </message>
     <message>
         <source>For example, if the project is &lt;U&gt;My vacation from 1 to 15&lt;/U&gt;, the chapter may be limited to the &lt;U&gt;3&lt;/U&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Например, если проект называется &lt;U&gt;Мой отпуск с 1 по 15&lt;/U&gt;, то глава может быть ограничена &lt;U&gt;3 числом&lt;/U&gt;.</translation>
     </message>
     <message>
         <source>Chapter location different from project location</source>
-        <translation type="unfinished"></translation>
+        <translation>Местоположение главы отличается от местоположения проекта</translation>
     </message>
     <message>
         <source>If this box is checked, the location of the chapter is different from the location of the project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Если этот флажок установлен, местоположение главы отличается от местоположения проекта. </translation>
     </message>
     <message>
         <source>Remark: It is often useful to differentiate the location of the chapter of the location of the project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: зачастую полезно различать местоположение главы и местоположение проекта. </translation>
     </message>
     <message>
         <source>For example, if the project location is &lt;U&gt;where I rented for the holidays&lt;/U&gt;, the chapter location may be &lt;U&gt;where I went on tour&lt;/U&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Например, если местоположение проекта &lt;U&gt;где я провел праздники&lt;/U&gt;, то местоположение главы может быть &lt;U&gt;где я был на экскурсии&lt;/U&gt;.</translation>
     </message>
     <message>
         <source>Event location</source>
-        <translation type="unfinished"></translation>
+        <translation>Местоположение события</translation>
     </message>
     <message>
         <source>The location where the chapter&apos;s event took place</source>
-        <translation type="unfinished"></translation>
+        <translation>Место, где произошло событие проекта</translation>
     </message>
     <message>
         <source>Click on this </source>
-        <translation type="unfinished"></translation>
+        <translation>Нажмите на </translation>
     </message>
     <message>
         <source> button to select a location from the &lt;a href=&quot;0123.html&quot;&gt;Add or modify a location&lt;/a&gt; dialog or using a favorite</source>
-        <translation type="unfinished"></translation>
+        <translation> кнопку для выбора местоположения из диалогового окна &lt;a href=&quot;0123.html&quot;&gt;Добавить или изменить местоположение&lt;/a&gt; или Избранного</translation>
     </message>
     <message>
         <source> button to remove actual location (set to empty)</source>
-        <translation type="unfinished"></translation>
+        <translation> кнопку для удаления текущего местоположения (очистить)</translation>
     </message>
     <message>
         <source>Remark: These fields and buttons are enabled only if the &lt;I&gt;&lt;B&gt;Chapter location different from project location&lt;/B&gt;&lt;/I&gt; check box is checked.</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: эти поля активны только если установлен флажок &lt;I&gt;&lt;B&gt;Местоположение главы отличается от местоположения проекта&lt;/B&gt;&lt;/I&gt;.</translation>
     </message>
 </context>
 <context>
@@ -6151,31 +6151,31 @@
     </message>
     <message>
         <source>These options allow you to define the thumbnail that will be attached to the video file when rendering </source>
-        <translation type="unfinished"></translation>
+        <translation>Эти параметры позволяют определить обложку, которая будет прикреплена к создаваемому видео файлу </translation>
     </message>
     <message>
         <source>Event location</source>
-        <translation type="unfinished"></translation>
+        <translation>Местоположение события</translation>
     </message>
     <message>
         <source>The location where the project&apos;s event took place</source>
-        <translation type="unfinished"></translation>
+        <translation>Место, где произошло событие проекта</translation>
     </message>
     <message>
         <source>Click on this </source>
-        <translation type="unfinished"></translation>
+        <translation>Нажмите на </translation>
     </message>
     <message>
         <source> button to select a location from the &lt;a href=&quot;0123.html&quot;&gt;Add or modify a location&lt;/a&gt; dialog or using a favorite</source>
-        <translation type="unfinished"></translation>
+        <translation> кнопку для выбора местоположения из диалогового окна &lt;a href=&quot;0123.html&quot;&gt;Добавить или изменить местоположение&lt;/a&gt; или Избранного</translation>
     </message>
     <message>
         <source> button to remove actual location (set to empty)</source>
-        <translation type="unfinished"></translation>
+        <translation> кнопку для удаления текущего местоположения (очистить)</translation>
     </message>
     <message>
         <source>These options sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot; </source>
-        <translation type="unfinished"></translation>
+        <translation>Эта параметры устанавливают значение скорости при выборе значения &quot;По умолчанию&quot; </translation>
     </message>
 </context>
 <context>
@@ -6614,95 +6614,95 @@
     </message>
     <message>
         <source>Define a Google Maps map.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать карту Google Maps.</translation>
     </message>
     <message>
         <source> The Google Maps Map tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Вкладка карт Google Maps</translation>
     </message>
     <message>
         <source>This tag is available only for Google Maps map.</source>
-        <translation type="unfinished"></translation>
+        <translation>Эта вкладка доступна только для карт Google Maps.</translation>
     </message>
     <message>
         <source>this dialog box is organized in tab that are available depending on the type of the object to edit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это диалоговое окно содержит вкладки, которые доступны в зависимости от типа редактируемого объекта.</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;#IMAGETAG&quot;&gt;The image correct and reframe tag&lt;/a&gt; is available with all object types</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&quot;#IMAGETAG&quot;&gt;Вкладка коррекция и кадрирование изображения &lt;/a&gt; доступна для всех типов объектов</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;#VIDEOTAG&quot;&gt;The video tag&lt;/a&gt; is available only with video object</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&quot;#VIDEOTAG&quot;&gt;Вкладка Видео &lt;/a&gt; доступна только для видео</translation>
     </message>
     <message>
         <source>For more information on available types of objects see: &lt;a href=&quot;0045.html&quot;&gt;Types of objects in ffDiaporama&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Для получения информации о поддерживаемых типах объектов смотрите: &lt;a href=&quot;0045.html&quot;&gt;Типы объектов в ffDiaporama&lt;/a&gt;</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;#GMAPSMAPTAG&quot;&gt;The Google Maps map tag&lt;/a&gt; is available only with Google Maps map object</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&quot;#GMAPSMAPTAG&quot;&gt;Вкладка карт Google Maps&lt;/a&gt; доступна только для карт Google Maps</translation>
     </message>
     <message>
         <source>On the upper left part, you define the map properties</source>
-        <translation type="unfinished"></translation>
+        <translation>В верхней левой части вы можете определить свойства карты</translation>
     </message>
     <message>
         <source>On the bottom left part, the map is displayed with markers</source>
-        <translation type="unfinished"></translation>
+        <translation>В нижней левой части отображается карта с маркерами</translation>
     </message>
     <message>
         <source>On the upper right part, the table of location is displayed</source>
-        <translation type="unfinished"></translation>
+        <translation>В верхней правой части отображается таблица местоположений</translation>
     </message>
     <message>
         <source>On the bottom right part, you define the properties of the selected location</source>
-        <translation type="unfinished"></translation>
+        <translation>В нижней правой части вы можете определите свойства выбранного местоположения</translation>
     </message>
     <message>
         <source>The map properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Параметры карт</translation>
     </message>
     <message>
         <source>Map type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип карты</translation>
     </message>
     <message>
         <source>Define the type of the map. You can select between the four Google Maps possibilities:</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите тип карты. Вы можете выбратьодну из четырех возможных в Google Maps:</translation>
     </message>
     <message>
         <source>Roadmap</source>
-        <translation type="unfinished"></translation>
+        <translation>Дорожная карта</translation>
     </message>
     <message>
         <source>Satellite</source>
-        <translation type="unfinished"></translation>
+        <translation>Вид со спутника</translation>
     </message>
     <message>
         <source>Terrain</source>
-        <translation type="unfinished"></translation>
+        <translation>Географическая карта</translation>
     </message>
     <message>
         <source>Hybrid</source>
-        <translation type="unfinished"></translation>
+        <translation>Смешанная (спутник + дорожная)</translation>
     </message>
     <message>
         <source>Map size</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер карты</translation>
     </message>
     <message>
         <source>Define the size of the map. This size represents the distance in width and height of the map.</source>
-        <translation type="unfinished"></translation>
+        <translation>Определите размер карты. Этот размер представляет расстояние :ширину и высоту карты.</translation>
     </message>
     <message>
         <source>Smaller the zoom is and huger the area represented by the map is.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чем меньше масштаб, тем больше область, представленная на карте.</translation>
     </message>
     <message>
         <source>Higher the zoom is and smaller the area represented by the map is.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чем больше масштаб, тем меньше область, представленная на карте.</translation>
     </message>
     <message>
         <source>Image size</source>
@@ -6710,127 +6710,127 @@
     </message>
     <message>
         <source>Define the size of the image generated for the map. ffDiaporama proposes to generate maps of several image sizes, so, to create a fluid zoom animation, you can use a large image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Определите размер изображения, генерируемого для карты. ffDiaporama позволяет создавать карты нескольких размеров, поэтому для создания плавной анимации масштабирования вы можете использовать большое изображение.</translation>
     </message>
     <message>
         <source>The table of locations</source>
-        <translation type="unfinished"></translation>
+        <translation>Таблица местоположений</translation>
     </message>
     <message>
         <source>Select a location from the &lt;a href=&quot;0123.html&quot;&gt;Add or modify a location&lt;/a&gt; dialog or using a favorite.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбор местоположения из диалогового окна &lt;a href=&quot;0123.html&quot;&gt;Добавить или изменить местоположение&lt;/a&gt; или используя Избранное.</translation>
     </message>
     <message>
         <source>Edit current location. Open the &lt;a href=&quot;0123.html&quot;&gt;Add or modify a location&lt;/a&gt; dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить текущее местоположение. Откроется диалоговое окно &lt;a href=&quot;0123.html&quot;&gt;Добавить или изменить местоположение&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Remove current location.</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить текущее местоположение.</translation>
     </message>
     <message>
         <source>The marker properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Параметры маркера</translation>
     </message>
     <message>
         <source>Properties for all shots</source>
-        <translation>Параметры для всех кадров</translation>
+        <translation>Свойства для всех кадров</translation>
     </message>
     <message>
         <source>This settings group defines properties for all shots, so, the modifications made to the following properties will apply to all shots. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Эта группа настроек определяет свойства для всех кадров, поэтому изменения, сделанные в следующих свойствах, будут применяться ко всем кадрам. Чтобы понять различия между свойствами, которые применяются ко всем кадрам, и свойствами, которые применяются только к текущему кадру,смотрите: &lt;a href=&quot;0010.html&quot;&gt;Принципы работы ffDiaporama&lt;/&gt;.</translation>
     </message>
     <message>
         <source>GPS Position form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма GPS позиции</translation>
     </message>
     <message>
         <source>Define a form for the GPS position</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите форму для отображения GPS позиции</translation>
     </message>
     <message>
         <source>Marker form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма маркера</translation>
     </message>
     <message>
         <source>Define a form for the marker</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите форму маркера</translation>
     </message>
     <message>
         <source>Composition</source>
-        <translation type="unfinished"></translation>
+        <translation>Содержимое</translation>
     </message>
     <message>
         <source>Defined what information will be displayed in the marker</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите информацию, отображаемую в маркере</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер</translation>
     </message>
     <message>
         <source>Define the size of the marker and the GPS position</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите размер маркера и GPS положения</translation>
     </message>
     <message>
         <source>Distance</source>
-        <translation type="unfinished"></translation>
+        <translation>Расстояние</translation>
     </message>
     <message>
         <source>Defined where to display the marker (the distance between the marker and the GPS position)</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите где показывать маркер (расстояние между маркером и GPS позицией)</translation>
     </message>
     <message>
         <source>Properties for this shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Свойства этого кадра</translation>
     </message>
     <message>
         <source>This settings group defines properties for the current shot, so you can create animation of makers by defining different properties for each shots.</source>
-        <translation type="unfinished"></translation>
+        <translation>Эта группа настроек определяет свойства текущего кадра,поэтому вы можете создать анимацию маркера, определив разные свойства для каждого кадра.</translation>
     </message>
     <message>
         <source>Text color</source>
-        <translation type="unfinished"></translation>
+        <translation>Цвет текста</translation>
     </message>
     <message>
         <source>Defines the color of the text</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите цвет текста</translation>
     </message>
     <message>
         <source>Background color</source>
-        <translation type="unfinished"></translation>
+        <translation>Цвет фона</translation>
     </message>
     <message>
         <source>Defines the color of the background of the marker, of the GPS position and of the part between the two</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите цвет фона маркера, GPS позиции и части между ними</translation>
     </message>
     <message>
         <source>Line color</source>
-        <translation type="unfinished"></translation>
+        <translation>Цвет линий</translation>
     </message>
     <message>
         <source>Defines the color of the border</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите цвет границы</translation>
     </message>
     <message>
         <source>Visibility</source>
-        <translation type="unfinished"></translation>
+        <translation>Видимость</translation>
     </message>
     <message>
         <source>Defined if the marker is visible, half-visible (masked) or hidden</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите видимость маркера: видим, полувидим или скрыт</translation>
     </message>
     <message>
         <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90°, the image is turned by a quarter to the right.</source>
-        <translation type="unfinished"></translation>
+        <translation>Угол поворота на оси z. Эта позиция выражается в градусах. Пример: если Вращение=90°, то изображение повернется на четверть вправо.</translation>
     </message>
     <message>
         <source>Turn the image to the left (to the nearest multiple of 90°).</source>
-        <translation type="unfinished"></translation>
+        <translation>Перевернуть изображение влево (до числа ближайшего к 90°).</translation>
     </message>
     <message>
         <source>Turn the image to the right (to the nearest multiple of 90°).</source>
-        <translation type="unfinished"></translation>
+        <translation>Перевернуть изображение вправо (до числа ближайшего к 90°).</translation>
     </message>
 </context>
 <context>
@@ -7399,27 +7399,27 @@
     </message>
     <message>
         <source>The following options are apply to the current music during the slide:</source>
-        <translation type="unfinished"></translation>
+        <translation>Следующие параметры применяются к музыке текущего слайда:</translation>
     </message>
     <message>
         <source>Specifies that the sound volume is reduced during this slide. (This option is particularly useful, for example, to reduce the sound of the music during the play of a video.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Указывает, что с этого слайда громкость звука уменьшается. (Эта настройка особенно полезна, например, для уменьшения звука музыки во время воспроизведения видео.)</translation>
     </message>
     <message>
         <source>Pauses the current play list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Пауза текущего списка воспроизведения.</translation>
     </message>
     <message>
         <source>The music files are listed in the order in which they will be played, from top to bottom.</source>
-        <translation type="unfinished"></translation>
+        <translation>Музыкальные файлы располагаются в том порядке, в котором они будут воспроизведены, сверху вниз.</translation>
     </message>
     <message>
         <source>The Volume column defines the &quot; Master volume &quot; for the file. This volume is independent of any reductions in the volume that you define in the upper part of the dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>В столбце &quot;Громкость&quot; показывается общая громкость файла. Она не засвисит от изменения громкости, которое задается в верхней части диалогового окна.</translation>
     </message>
     <message>
         <source>The Credit column defines if the file should appear or not when using %STM% variable in a credit title. For more information on variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>В столбце &quot;Показ в титрах&quot; определяется будет отображаться данный файл в тирах при использовании переменной %STM% или нет. Более подробно о переменных смотрите: &lt;a href=&quot;0013.html&quot;&gt;Динамические переменные&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Remarks</source>
@@ -7670,11 +7670,11 @@
     </message>
     <message>
         <source>Variable bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>Переменный битрейт</translation>
     </message>
     <message>
         <source>If this box is checked, the bitrate is variable. (Note: This option is available only for h264 codec.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Если этот флажок установлен, то битрейт является переменным. (Примечание: эта опция доступна только для h264 кодека)</translation>
     </message>
     <message>
         <source>Remarks:</source>
@@ -7682,27 +7682,27 @@
     </message>
     <message>
         <source> &lt;U&gt;Rendering duration:&lt;/U&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;U&gt;Продолжительность создания видео:&lt;/U&gt;</translation>
     </message>
     <message>
         <source> &lt;U&gt;Variable bitrate:&lt;/U&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;U&gt;Переменный битрейт:&lt;/U&gt;</translation>
     </message>
     <message>
         <source> If variable bitrate is activated, the video compression bitrate could vary from -50% to +125% </source>
-        <translation type="unfinished"></translation>
+        <translation>Если переменный битрейт активирован, то битрейт сжатого видео может варьировать от -50% до +125% </translation>
     </message>
     <message>
         <source>If the project contains mostly pictures, this option can significantly reduce the size of the video file (up to 80%)</source>
-        <translation type="unfinished"></translation>
+        <translation>Если проект содержит в основном фотографии, этот параметр может существенно уменьшить размер видео-файла (до 80%)</translation>
     </message>
     <message>
         <source>By cons, if the project contains mostly videos this option will increase the size of the video file</source>
-        <translation type="unfinished"></translation>
+        <translation>Если проект содержит в основном видео, этот параметр увеличит размер видео файла</translation>
     </message>
     <message>
         <source> By default, variable bitrate is activated when duration of videos are less than half of the total duration of the projet. </source>
-        <translation type="unfinished"></translation>
+        <translation> По умолчанию переменный битрейт активирован, если длительность видео составляет менее половины общей продолжительности проекта. </translation>
     </message>
 </context>
 <context>
@@ -9050,63 +9050,63 @@
     </message>
     <message>
         <source>Add special - Open a sub menu with the following options: </source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить спец. элемент - откроется подменю со следующими параметрами: </translation>
     </message>
     <message>
         <source>Add image from clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить изображение из буфера обмена</translation>
     </message>
     <message>
         <source>Add a GMaps map</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить карту GMaps</translation>
     </message>
     <message>
         <source>Once you have selected one of the options, the new object is inserted into the block table and depending on object, the &lt;a href=&quot;0110.html&quot;&gt;Image framing and correction dialog&lt;/a&gt; opens.</source>
-        <translation type="unfinished"></translation>
+        <translation>После того как вы выбрали один из вариантов, новый объект вставляется в таблицу блоков и в зависимости от объекта, откроется диалоговое окно &lt;a href=&quot;0110.html&quot;&gt; Кадрирования и коррекции изображения&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Paste block or image from the clipboard and insert it to the end of the block table</source>
-        <translation type="unfinished"></translation>
+        <translation>Вставить блок или изображение из буфера обмена и поместить его в конец таблицы блоков</translation>
     </message>
     <message>
         <source>Selects a speed curve for block animations (movement, resizing and rotating of blocks, animation of text and blocks)</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбор скорости анимации блока (перемещение, изменение размера и вращение блоков, анимация текста и блоков)</translation>
     </message>
     <message>
         <source>To change the velocity curve for image animation (graphic effect and framing), edit the image or video and select a velocity in the Image framing and correction dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Используются для изменения скорости анимации изображения (графические эффекты и кадрирование), редактирования изображения или видео</translation>
     </message>
     <message>
         <source>This setting is define for the current shot, so, the modifications made will apply only to current shot. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Этот параметр применяется только к текущему кадру. Чтобы понять различия между свойствами, которые применяются ко всем кадрам и свойствами, которые применяются только к текущему кадру, смотрите: &lt;a href=&quot;0010.html&quot;&gt;Принципы работы ffDiaporama&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>These settings are defines for the current shot, so, the modifications made will apply only to current shot. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Эти настройки применяются только к текущему кадру. Чтобы понять различия между свойствами, которые применяются ко всем кадрам и свойствами, которые применяются только к текущему кадру, смотрите: &lt;a href=&quot;0010.html&quot;&gt;Принципы работы ffDiaporama&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>The block animations define which animations will run during the current shot. You can define different animations for every shot!</source>
-        <translation type="unfinished"></translation>
+        <translation>Анимация блока определяет какая анимация будет воспроизводиться на этом кадре. Вы можете определить различные анимации для каждого кадра!</translation>
     </message>
     <message>
         <source> If changes made on previous shot are applied for this block also to this shot. (This information does not appear for the 1st shot.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Если изменения, сделанные на предыдущем кадре, применяются также к этому блоку данного кадра. (Эта информация не появляется на 1-ом кадре.)</translation>
     </message>
     <message>
         <source> If changes made on previous shot are not applied for this block to this shot. (This information does not appear for the 1st shot.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Если изменения, сделанные на предыдущем кадре, не применяются к этому блоку данного кадра. (Эта информация не появляется на 1-ом кадре.)</translation>
     </message>
     <message>
         <source>Inheritance changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Наследование изменений</translation>
     </message>
     <message>
         <source>Inherit changes: If this box is checked, the changes made in a previous shot will be applied to this object in this shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Наследовать изменения: если этот флажок установлен, изменения, сделанные на предыдущем кадре, будет применены к данному объекту на этом кадре</translation>
     </message>
     <message>
         <source>This settings group defines how changes to the block parameters are reflected to the different shots.</source>
-        <translation type="unfinished"></translation>
+        <translation>Эта группа настроек определяет как изменения в параметрах блока отражаются на разных кадрах.</translation>
     </message>
 </context>
 <context>
@@ -9522,107 +9522,107 @@
     <name>0123</name>
     <message>
         <source>Add or modify a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить или изменить местоположение</translation>
     </message>
     <message>
         <source> This dialog allows you to define a location using Google Maps. </source>
-        <translation type="unfinished"></translation>
+        <translation> Это диалоговое окно позволяет выбрать местоположение, используя  Google Maps. </translation>
     </message>
     <message>
         <source>Google address</source>
-        <translation type="unfinished"></translation>
+        <translation>Адрес Google</translation>
     </message>
     <message>
         <source>Enter the postal adress to find in this zone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите в эту область искомый почтовый адрес.</translation>
     </message>
     <message>
         <source>When you press the Enter key, a search is made using Google Maps and the addresses found are used to fill the list.</source>
-        <translation type="unfinished"></translation>
+        <translation>После нажатия кнопки Enter будет произведен поиск в Google Maps и появится список найденных адресов.</translation>
     </message>
     <message>
         <source>Then select the correct address in the list</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите правильный адрес из списка</translation>
     </message>
     <message>
         <source>Open the favorite menu: </source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть меню Избранного: </translation>
     </message>
     <message>
         <source>Add to favorite: Adds the current location to the list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить в избранное: добавить текущее местоположение в список.</translation>
     </message>
     <message>
         <source>Update this favorite: Update the favorite using current settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновить это Избранное: обновить Избранное, используя текущие настройки.</translation>
     </message>
     <message>
         <source>Remove this favorites: Remove the favorite from the list</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить это Избранное: удалить Избранное из списка</translation>
     </message>
     <message>
         <source>The list of the favourite: Use a favorite to fill the dialog box fields.</source>
-        <translation type="unfinished"></translation>
+        <translation>Список Избранного: используйте Избранное для заполнения полей диалогового окна.</translation>
     </message>
     <message>
         <source>Friendly address</source>
-        <translation type="unfinished"></translation>
+        <translation>Понятный адрес</translation>
     </message>
     <message>
         <source>Enter the address in a more readable form. This form will be used to display the marker.</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите адрес в удобном для чтения виде. Этот адрес будет использоваться при отображении маркера.</translation>
     </message>
     <message>
         <source>Friendly name</source>
-        <translation type="unfinished"></translation>
+        <translation>Понятное имя</translation>
     </message>
     <message>
         <source>Enter a name for this location. This name will be used to display the marker.</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите имя для этого местоположения. Это имя будет использоваться при отображении маркера.</translation>
     </message>
     <message>
         <source>Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Значок</translation>
     </message>
     <message>
         <source>Select an image to be used as icon to display the marker.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите изображение, которое будет использовано в качестве значка при отображении маркера.</translation>
     </message>
     <message>
         <source> Click on the icon zone or on the </source>
-        <translation type="unfinished"></translation>
+        <translation>Нажмите на область значка или </translation>
     </message>
     <message>
         <source> button to select an image and edit it.</source>
-        <translation type="unfinished"></translation>
+        <translation> кнопку для выбора изображения и его редактирования.</translation>
     </message>
     <message>
         <source> Click on this </source>
-        <translation type="unfinished"></translation>
+        <translation> Нажмите эту </translation>
     </message>
     <message>
         <source> button to clear the icon.</source>
-        <translation type="unfinished"></translation>
+        <translation> кнопку для удаления значка.</translation>
     </message>
     <message>
         <source>Map zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Область карты</translation>
     </message>
     <message>
         <source>Click on a point on the map zone to select it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Нажмите на точку в области карты, чтобы выбрать ее.</translation>
     </message>
     <message>
         <source>You can also use the slider and the </source>
-        <translation type="unfinished"></translation>
+        <translation>Также вы можете использовать ползунок </translation>
     </message>
     <message>
         <source> and </source>
-        <translation type="unfinished"></translation>
+        <translation> и </translation>
     </message>
     <message>
         <source> buttons to modify the zoom level.</source>
-        <translation type="unfinished"></translation>
+        <translation> кнопки для изменения масштаба.</translation>
     </message>
 </context>
 <context>
@@ -9849,11 +9849,11 @@
     </message>
     <message>
         <source>Types of objects in ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Типы объектов в ffDiaporama</translation>
     </message>
     <message>
         <source>Add or modify a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить или изменить местоположение</translation>
     </message>
 </context>
 <context>

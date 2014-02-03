@@ -774,19 +774,19 @@
     </message>
     <message>
         <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ​​only when they are used.</source>
-        <translation type="unfinished"></translation>
+        <translation>El gran interés de las variables es que se insertan en el texto (consultar: &lt;a href=&quot;0120.html&quot;&gt;Editar diálogo de texto&lt;/a&gt;) y se transforman en valores sólo cuando se usan.</translation>
     </message>
     <message>
         <source>Current chapter number displayed as &lt;U&gt;Chapter N°&lt;/U&gt; (depending on the current language)</source>
-        <translation type="unfinished"></translation>
+        <translation>Número del capítulo actual se muestra como &lt;U&gt; Capítulo N° &lt;/U&gt; (dependiendo del idioma actual)</translation>
     </message>
     <message>
         <source>Copyright of the project construct as &lt;U&gt;© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Copyright de la construcción del proyecto como &lt;U&gt;© Año - Autor&lt;/U&gt; con &lt;B&gt;&lt;I&gt;Año&lt;/I&gt;&lt;/B&gt; de la fecha actual &lt;B&gt;&lt;I&gt;Autor&lt;/I&gt;&lt;/B&gt; es el valor &lt;B&gt;&lt;I&gt;Autor del proyecto&lt;/I&gt;&lt;/B&gt; campo de &lt;a href=&quot;0108.html&quot;&gt;Propiedades del proyecto&lt;/a&gt;</translation>
     </message>
     <message>
         <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with «&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Un texto completo compuesto por: Proyecto realizado el &lt;U&gt;&lt;B&gt;&lt;I&gt;fecha corta&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; con «&lt;U&gt;&lt;B&gt;&lt;I&gt;versión de ffDiaporama&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;» en un &lt;U&gt;&lt;B&gt;&lt;I&gt;sistema operativo&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Número de núcleos/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Núcleo/CPU) del PC.</translation>
     </message>
 </context>
 <context>
@@ -6628,7 +6628,7 @@
     </message>
     <message>
         <source>For more information on available types of objects see: &lt;a href=&quot;0045.html&quot;&gt;Types of objects in ffDiaporama&lt;/a&gt;</source>
-        <translation>Para obtener más información sobre los tipos de objetos disponibles ver: &lt;a href=&quot;0050.html&quot;&gt;Tipos de objetos en ffDiaporama&lt;/a&gt; {0045.?}</translation>
+        <translation>Para obtener más información sobre los tipos de objetos disponibles ver: &lt;a href=&quot;0045.html&quot;&gt;Tipos de objetos en ffDiaporama&lt;/a&gt; {0045.?}</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;#GMAPSMAPTAG&quot;&gt;The Google Maps map tag&lt;/a&gt; is available only with Google Maps map object</source>
@@ -6812,15 +6812,15 @@
     </message>
     <message>
         <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90°, the image is turned by a quarter to the right.</source>
-        <translation type="unfinished"></translation>
+        <translation>El ángulo de rotación para el eje z. Esta posición se expresa en grados. Ejemplo: Si la rotación=90°, la imagen gira un cuarto a la derecha.</translation>
     </message>
     <message>
         <source>Turn the image to the left (to the nearest multiple of 90°).</source>
-        <translation type="unfinished"></translation>
+        <translation>Girar la imagen a la izquierda (múltiplo más cercano de 90°).</translation>
     </message>
     <message>
         <source>Turn the image to the right (to the nearest multiple of 90°).</source>
-        <translation type="unfinished"></translation>
+        <translation>Girar la imagen a la derecha (múltiplo más cercano de 90°).</translation>
     </message>
 </context>
 <context>

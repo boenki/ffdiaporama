@@ -770,23 +770,23 @@
     </message>
     <message>
         <source>The following table lists all the available variables:</source>
-        <translation type="unfinished"></translation>
+        <translation>La seguente tabella elenca tutte le variabili disponibili:</translation>
     </message>
     <message>
         <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ​​only when they are used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il grande  interesse delle variabili è che possono essere inserite nel testo (vedere: &lt;a href=&quot;0120.html&quot;&gt;Finestra modifica testo&lt;/a&gt;) e sono trasformate in valori solo quando sono utilizzate.</translation>
     </message>
     <message>
         <source>Current chapter number displayed as &lt;U&gt;Chapter N°&lt;/U&gt; (depending on the current language)</source>
-        <translation type="unfinished"></translation>
+        <translation>Il numero capitolo corrente è visualizzato come &lt;U&gt;N° capitolo&lt;/U&gt;(dipende dalla lingua corrente)</translation>
     </message>
     <message>
         <source>Copyright of the project construct as &lt;U&gt;© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Copyright del costrutto progetto come &lt;U&gt;© Anno - Autore&lt;/U&gt; con &lt;B&gt;&lt;I&gt;Anno&lt;/I&gt;&lt;/B&gt; che è l&apos;anno della data di oggi e &lt;B&gt;&lt;I&gt;Autore&lt;/I&gt;&lt;/B&gt; che è il valore del campo &lt;B&gt;&lt;I&gt;Autore progetto&lt;/I&gt;&lt;/B&gt; della &lt;a href=&quot;0108.html&quot;&gt;Proprietà progetto&lt;/a&gt;</translation>
     </message>
     <message>
         <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with «&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Un testo completo è composto da: Progetto fatto il &lt;U&gt;&lt;B&gt;&lt;I&gt;Data corta&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; con «&lt;U&gt;&lt;B&gt;&lt;I&gt;Versione ffDiaporama&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;» su un &lt;U&gt;&lt;B&gt;&lt;I&gt;Sistema operativo&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Numero di Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</translation>
     </message>
 </context>
 <context>
@@ -1827,15 +1827,15 @@
     </message>
     <message>
         <source>On slide associated with the music, the cover, artist and song title are displayed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sulla diapositiva associata con la musica, la cover, artista e titolo canzone sono visualizzate</translation>
     </message>
     <message>
         <source>To move the music or the background associated to a slide to another slide:</source>
-        <translation type="unfinished"></translation>
+        <translation>Per muovere la musica o lo sfondo associato da una diapositiva ad un&apos;altra diapositiva:</translation>
     </message>
     <message>
         <source>Simply drag the music or background to a new position with the mouse (drag &amp; drop)</source>
-        <translation type="unfinished"></translation>
+        <translation>Semplicemente trascinare la musica o lo sfondo in una nuova posizione con il mouse (drag &amp; drop)</translation>
     </message>
 </context>
 <context>
@@ -3135,15 +3135,15 @@
     </message>
     <message>
         <source>ffDiaporama uses the standard x264 &lt;U&gt;fast&lt;/U&gt; preset with 3 refs and qp set to 0.</source>
-        <translation>ffDiaporama utilizza lo standard x264 &lt;U&gt;veloce&lt;/U&gt; pre impostato con 3 refs e qp settato a 0.</translation>
+        <translation>ffDiaporama utilizza lo standard x264 &lt;U&gt;veloce&lt;/U&gt; preimpostato con 3 refs e qp settato a 0.</translation>
     </message>
     <message>
         <source>Both settings are using &lt;U&gt;veryfast&lt;/U&gt; preset. </source>
-        <translation type="unfinished"></translation>
+        <translation>Entrambe le impostazioni utilizzano &lt;U&gt;molto veloce&lt;/U&gt; preimpostato. </translation>
     </message>
     <message>
         <source>Note: Variable bitrate is used with these two codecs. For more information on variable bitrate, see: &lt;a href=&quot;0115.html&quot;&gt;Render video&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: La variabile bitrate è utilizzata con questi due codec. Per maggiori informazioni sulla variabile bitrate, vedere &lt;a href=&quot;0115.html&quot;&gt;Generazione video&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -4401,7 +4401,7 @@
     </message>
     <message>
         <source>Note: ffDiaporama uses the filename extension to determine the type of image. It is therefore necessary that this extension was valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: ffDiaporama utilizza l&apos;estenzione del nome file per determinare il tipo di immagine. E pertanto necessario che questa estenzione sia valida.</translation>
     </message>
 </context>
 <context>
@@ -6811,15 +6811,15 @@
     </message>
     <message>
         <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90°, the image is turned by a quarter to the right.</source>
-        <translation type="unfinished"></translation>
+        <translation>La rotazione dell&apos;angolo per l&apos;asse z. Questa posizione è spressa in gradi. Esempio: Se rotazione=90°, l&apos;immagine viene ruotata di un quarto verso destra.</translation>
     </message>
     <message>
         <source>Turn the image to the left (to the nearest multiple of 90°).</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruotare l&apos;immagine a sinistra (al più vicino multiplo di 90°).</translation>
     </message>
     <message>
         <source>Turn the image to the right (to the nearest multiple of 90°).</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruotare l&apos;immagine a destra (al più vicino multiplo di 90°).</translation>
     </message>
 </context>
 <context>
@@ -7387,27 +7387,27 @@
     </message>
     <message>
         <source>The following options are apply to the current music during the slide:</source>
-        <translation type="unfinished"></translation>
+        <translation>Le seguenti opzioni sono applicate alla musica corrente durante la presentazione:</translation>
     </message>
     <message>
         <source>Specifies that the sound volume is reduced during this slide. (This option is particularly useful, for example, to reduce the sound of the music during the play of a video.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Specifica che il volume è ridotto durante questa diapositiva. (Questa opzione è particolarmente utile, per esempio, per ridurre il suono della musica durante la riproduzione di un video.)</translation>
     </message>
     <message>
         <source>Pauses the current play list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mette in pausa la playlist corrente.</translation>
     </message>
     <message>
         <source>The music files are listed in the order in which they will be played, from top to bottom.</source>
-        <translation type="unfinished"></translation>
+        <translation>I file musicali sono elencati nell&apos;ordine in cui questi vengono riprodotti, dall&apos;alto verso il basso.</translation>
     </message>
     <message>
         <source>The Volume column defines the &quot; Master volume &quot; for the file. This volume is independent of any reductions in the volume that you define in the upper part of the dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>La colonna Volume definisce il &quot;volume principale&quot; per il file. Questo volume è indipendente da eventuali riduzioni nel volume che si definiscono nella parte superiore della finestra di dialogo.</translation>
     </message>
     <message>
         <source>The Credit column defines if the file should appear or not when using %STM% variable in a credit title. For more information on variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>La colonna Attribuzione definisce se il file apparirà o no quando si utilizza la variabile %STM% nel titolo attribuzione. Per maggiori informazioni sulle variabili, vedere: &lt;a href=&quot;0013.html&quot;&gt;Variabili dinamiche&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Remarks</source>
@@ -7659,11 +7659,11 @@
     </message>
     <message>
         <source>Variable bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitrate variabile</translation>
     </message>
     <message>
         <source>If this box is checked, the bitrate is variable. (Note: This option is available only for h264 codec.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Se questa casella e selezionata, il bitrate è variabile. (Nota: Questa opzione è disponibile solo per il codec h264.)</translation>
     </message>
     <message>
         <source>Remarks:</source>
@@ -7671,27 +7671,27 @@
     </message>
     <message>
         <source> &lt;U&gt;Rendering duration:&lt;/U&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;U&gt;Durata generazione:&lt;/U&gt;</translation>
     </message>
     <message>
         <source> &lt;U&gt;Variable bitrate:&lt;/U&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;U&gt;Bitrate variabile:&lt;/U&gt;</translation>
     </message>
     <message>
         <source> If variable bitrate is activated, the video compression bitrate could vary from -50% to +125% </source>
-        <translation type="unfinished"></translation>
+        <translation> Se bitrate variabile è attivato, la compressione video bitrate potrebbe variare da -50% a +125% </translation>
     </message>
     <message>
         <source>If the project contains mostly pictures, this option can significantly reduce the size of the video file (up to 80%)</source>
-        <translation type="unfinished"></translation>
+        <translation>Se il progetto contiene principalmente immagini, questa opzione può ridurre notevolmente le dimensioni del file video (fino al 80%)</translation>
     </message>
     <message>
         <source>By cons, if the project contains mostly videos this option will increase the size of the video file</source>
-        <translation type="unfinished"></translation>
+        <translation>Per contro, se il progetto contiene soprattutto video questa opzione aumenta la dimensione del file video</translation>
     </message>
     <message>
         <source> By default, variable bitrate is activated when duration of videos are less than half of the total duration of the projet. </source>
-        <translation type="unfinished"></translation>
+        <translation>Per default, bitrate variabile viene attivato quando la durata dei video sono meno della metà della durata complessiva del progetto. </translation>
     </message>
 </context>
 <context>

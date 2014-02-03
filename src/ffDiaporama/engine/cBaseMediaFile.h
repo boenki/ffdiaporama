@@ -44,7 +44,8 @@
 #include "cSoundBlockList.h"
 #include "cCustomIcon.h"
 
-extern int Exiv2MajorVersion,Eviv2MinorVersion,Exiv2PatchVersion;
+extern bool Exiv2WithPreview;
+extern int  Exiv2MajorVersion,Eviv2MinorVersion,Exiv2PatchVersion;
 
 #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
 extern int TaglibMajorVersion,TaglibMinorVersion,TaglibPatchVersion;

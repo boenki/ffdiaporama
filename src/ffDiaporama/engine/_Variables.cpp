@@ -217,7 +217,7 @@ QString cVariable::ResolveTextVariable(cDiaporamaObject *Object,QString SourceTe
         else if (Variables[i].VarName=="FFD")  VarName=QString("%1 (%2)").arg(Object->Parent->ProjectInfo->Composer).arg(Object->Parent->ProjectInfo->ffDRevision);
         else if (Variables[i].VarName=="STP")  VarName=Variables[i].Value;
         else if (Variables[i].VarName=="STM")  VarName=Variables[i].Value;
-        else if (Variables[i].VarName=="STA")  VarName=QApplication::translate("Variables","Project done the %1:\n\t·with «%2 (%3)»\n\t·on a %4 (%5 Core/CPU) computer")
+        else if (Variables[i].VarName=="STA")  VarName=QApplication::translate("Variables","Project done the %1:\n\t·with %2 (%3)\n\t·on a %4 (%5 Core/CPU) computer")
                                                         .arg(QDate::currentDate().toString(Object->Parent->ApplicationConfig->ShortDateFormat))
                                                         .arg(Object->Parent->ProjectInfo->Composer).arg(Object->Parent->ProjectInfo->ffDRevision)
                                                         .arg(Object->Parent->ApplicationConfig->Plateforme).arg(getCpuCount());
