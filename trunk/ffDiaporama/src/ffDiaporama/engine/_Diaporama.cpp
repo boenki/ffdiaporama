@@ -2717,8 +2717,8 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
 
     // Special case to clear music buffer if not transition and music of CurrentObject is in pause mode
     if ((!Info->IsTransition)&&(Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)&&(Info->CurrentObject->MusicPause)&&(Info->CurrentObject_MusicTrack->ListCount()>0)) {
-        Info->CurrentObject_MusicTrack->ClearList();
-        for (int i=0;i<Info->CurrentObject_MusicTrack->NbrPacketForFPS;i++) Info->CurrentObject_MusicTrack->AppendNullSoundPacket(Info->CurrentObject_StartTime+Info->CurrentObject_InObjectTime);
+        for (int i=0;i<Info->CurrentObject_MusicTrack->NbrPacketForFPS;i++)
+            Info->CurrentObject_MusicTrack->PrependNullSoundPacket(Info->CurrentObject_StartTime+Info->CurrentObject_InObjectTime);
     }
 
     // Soundtrack mix with fade in/fade out

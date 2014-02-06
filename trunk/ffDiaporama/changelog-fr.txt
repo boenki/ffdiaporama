@@ -2,6 +2,13 @@
 * FFDIAPORAMA 2.1 - trunk (Version Française)
 **************************************************
 
+[Commit: 06/02/2014] - ffDiaporama 2.1 devel 20140206
+    Correction de bug :
+        -Elargie le panneau de droite de la boite d'edition des diapositives pour que tout s'affiche dans certaines langues dont les mots sont longs
+        -Corrige un problème de prise en compte des pauses dans les musiques lors de l'encodage
+
+--------------------------------------------------------------------------------
+
 [Commit: 03/02/2014] - ffDiaporama 2.1 devel 20140203
     Correction de bug :
         -Corrige un problème de traduction pour l'intitulé de la variable %STA%

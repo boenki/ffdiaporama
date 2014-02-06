@@ -151,10 +151,25 @@ void cSoundBlockList::AppendPacket(int64_t Position,int16_t *PacketToAdd) {
 }
 
 //====================================================================================================================
+// Append a packet to the begining of the list
+//====================================================================================================================
+void cSoundBlockList::PrependPacket(int64_t Position,int16_t *PacketToAdd) {
+    Mutex.lock();
+    if (CurrentPosition==-1) CurrentPosition=Position;
+    List.prepend(PacketToAdd);
+    ListVolume.prepend(false);
+    Mutex.unlock();
+}
+
+//====================================================================================================================
 // Append a packet of null sound to the end of the list
 //====================================================================================================================
 void cSoundBlockList::AppendNullSoundPacket(int64_t Position) {
     AppendPacket(Position,NULL);
+}
+
+void cSoundBlockList::PrependNullSoundPacket(int64_t Position) {
+    PrependPacket(Position,NULL);
 }
 
 //====================================================================================================================

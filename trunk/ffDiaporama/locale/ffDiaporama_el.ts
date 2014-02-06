@@ -34,18 +34,19 @@
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="371"/>
         <source>Translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετάφραση</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="407"/>
         <source>Note:
 If you want to help us or by completing an incomplete translation, or by translating the application into another language, do not hesitate to contact us on the forum.</source>
-        <translation type="unfinished"></translation>
+        <translation>Σημείωση:
+Αν επιθυμείτε να μας βοηθήσετε είτε ολοκληρώνοντας μια υπάρχουσα μετάφραση, είτε μεταφράζοντας την εφαρμογή σε μια άλλη γλώσσα, μη διστάσετε να έρθετε σε επαφή μαζί μας στο φόρουμ.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="419"/>
         <source>Changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιστορικό αλλαγών</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="534"/>
@@ -55,18 +56,18 @@ If you want to help us or by completing an incomplete translation, or by transla
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.cpp" line="72"/>
         <source>Interface translation version: </source>
-        <translation type="unfinished"></translation>
+        <translation>Έκδοση μετάφρασης περιβάλλοντος: </translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.cpp" line="73"/>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.cpp" line="97"/>
         <source>to translate</source>
-        <translation type="unfinished"></translation>
+        <translation>προς μετάφραση</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.cpp" line="95"/>
         <source>WIKI translation version: </source>
-        <translation type="unfinished"></translation>
+        <translation>Έκδοση μετάφρασης του WIKI:  </translation>
     </message>
 </context>
 <context>
@@ -1767,202 +1768,202 @@ Yellow: The component works partially
         <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="90"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="102"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="109"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="116"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="141"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="148"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="152"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="156"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="91"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="103"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="110"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="117"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="142"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="149"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="153"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="157"/>
         <source>available</source>
         <translation>διαθέσιμο</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="58"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="59"/>
         <source>Operating system version: %1 - %2 Core/CPU</source>
         <translation>Έκδοση του λειτουργικού συστήματος: %1 - %2 Core/CPU</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="61"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="62"/>
         <source>Application architecture: 32 bits</source>
         <translation>Αρχιτεκτονική της εφαρμογής: 32 bit</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="63"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="64"/>
         <source>Application architecture: 64 bits</source>
         <translation>Αρχιτεκτονική της εφαρμογής: 64 bit</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="65"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="66"/>
         <source>User config file: %1</source>
         <translation>Αρχείο ρυθμίσεων χρήστη: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="66"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="67"/>
         <source>Global config file: %1</source>
         <translation>Αρχείο καθολικών ρυθμίσεων: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="67"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="68"/>
         <source>Starting path: %1</source>
         <translation>Διαδρομή εκκίνησης: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="68"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="69"/>
         <source>Working path set to: %1</source>
         <translation>Διαδρομή εργασίας ορισμένη στο : %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="69"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="70"/>
         <source>Search path set to: %1</source>
         <translation>Ορισμός της διαδρομής αναζήτησης σε: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="71"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="72"/>
         <source>The background library contains %1 pictures</source>
         <translation>Η βιβλιοθήκη φόντου περιέχει %1 εικόνες</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="72"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="73"/>
         <source>The non-luma library contains %1 transitions</source>
         <translation>Η non luma βιβλιοθήκη περιέχει %1 μεταβάσεις</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="73"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="74"/>
         <source>The luma library contains %1 transitions</source>
         <translation>Η luma βιβλιοθήκη περιέχει %1 μεταβάσεις</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="75"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="76"/>
         <source>SDL version: %1.%2.%3-Licence=GPL version 2.1 or later</source>
         <translation>Έκδοση SDL: %1.%2.%3-Άδεια=GPL έκδοση 2.1 ή νεώτερη</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="130"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="131"/>
         <source>LIBAVUTIL version: %1.%2.%3.%4</source>
         <translation>Έκδοση LIBAVUTIL:  %1.%2.%3.%4</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="131"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="132"/>
         <source>LIBAVCODEC version: %1.%2.%3.%4</source>
         <translation>Έκδοση LIBAVCODEC : %1.%2.%3.%4</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="132"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="133"/>
         <source>LIBAVFORMAT version: %1.%2.%3.%4</source>
         <translation>Έκδοση LIBAVFORMAT: %1.%2.%3.%4</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="133"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="134"/>
         <source>LIBAVFILTER version: %1.%2.%3.%4</source>
         <translation>Έκδοση LIBAVFILTER: %1.%2.%3.%4</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="134"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="135"/>
         <source>LIBSWSCALE version: %1.%2.%3.%4</source>
         <translation>Έκδοση LIBSWSCALE: %1.%2.%3.%4</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="136"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="137"/>
         <source>LIBAVRESAMPLE version: %1.%2.%3.%4</source>
         <translation>Έκδοση LIBAVRESAMPLE:  %1.%2.%3.%4</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="138"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="139"/>
         <source>LIBSWRESAMPLE version: %1.%2.%3.%4</source>
         <translation>Έκδοση LIBSWRESAMPLE:  %1.%2.%3.%4</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="77"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="78"/>
         <source>fmt_filters version:0.6.4-Licence=LGPL</source>
         <translation>Έκδοση fmt_filters:0.6.4-Άδεια=LGPL</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="79"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="80"/>
         <source>qimageblitz version:0.6.6-Licence=LGPL</source>
         <translation>qimageblitz έκδοση:0.6.6-Άδεια χρήσης=LGPL</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="82"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="83"/>
         <source>QT version: %1</source>
         <translation>Έκδοση QT: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="83"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="84"/>
         <source>Detected system locale: %1</source>
         <translation>Εντοπισμένη τοπικότητα συστήματος: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="84"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="85"/>
         <source>Translation file loaded: %1</source>
         <translation>Φορτωμένο αρχείο μετάφρασης: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="88"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="89"/>
         <source>LibExiv2 version:</source>
         <translation>Έκδοση LibExiv2:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="90"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="102"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="109"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="116"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="142"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="148"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="152"/>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="156"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="91"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="103"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="110"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="117"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="143"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="149"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="153"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="157"/>
         <source>not available</source>
         <translation>δεν είναι διαθέσιμο</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="90"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="91"/>
         <source>LibExiv2 support for preview image</source>
         <translation>Υποστήριξη LibExiv2 για εικόνες προεπισκόπησης</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="96"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="97"/>
         <source>TAGLib version:</source>
         <translation>Έκδοση TAGLib:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="102"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="103"/>
         <source>TAGLib support for FLAC</source>
         <translation>Υποστήριξη TAGLib για FLAC</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="109"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="110"/>
         <source>TAGLib support for ASF/WMA</source>
         <translation>Υποστήριξη TAGLib για ASF/WMA</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="116"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="117"/>
         <source>TAGLib support for M4A/MP4</source>
         <translation>Υποστήριξη TAGLib για M4A/MP4</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="123"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="124"/>
         <source>LIBAV general version:</source>
         <translation>Γενική έκδοση LIBAV: </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="147"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="148"/>
         <source>Audio Codecs</source>
         <translation>Κωδικοποιητές ήχου</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="151"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="152"/>
         <source>Video Codecs</source>
         <translation>Κωδικοποιητές βίντεο</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="155"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="156"/>
         <source>Container Formats</source>
         <translation>Μορφές υποδοχέων</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="141"/>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="142"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="143"/>
         <source>Lossless rendering</source>
         <translation>Μη απωλεστική αποτύπωση</translation>
     </message>
@@ -2356,17 +2357,17 @@ Are you sure to have written the address correctly?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="356"/>
         <source>XML parsing error</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα ανάλυσης XML</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="365"/>
         <source>XML parsing error / incorrect root</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα ανάλυσης XML / εσφαλμένη ρίζα</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="379"/>
         <source>XML parsing error / status KO</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα ανάλυσης XML / κατάσταση KO</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp" line="211"/>
@@ -3782,7 +3783,7 @@ Please select another name!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="47"/>
         <source>Settings for the music track</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμίσεις για το κομμάτι μουσικής</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="71"/>
@@ -3849,7 +3850,7 @@ Moves the currently selected file one step down</source>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="377"/>
         <source>Credit</source>
-        <translation type="unfinished"></translation>
+        <translation>Ευχαριστία</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="385"/>
@@ -3943,12 +3944,18 @@ Notes:
 - By cons, if the project contains mostly videos this option will increase the size of the video file
 
 By default, this box is checked if duration of videos are less than half of the total duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν είναι επιλεγμένο, ο ρυθμός bit είναι μεταβαλλόμενος (μεταξύ -50% έως +125%)
+
+Σημειώσεις:
+- Αν το έργο αποτελείται κυρίως από εικόνες, αυτή η επιλογή μπορεί να μειώσει χαρακτηριστικά το μέγεθος του αρχείου βίντεο (μέχρι και 80%)
+- Αντιθέτως, αν το έργο αποτελείται κυρίως από βίντεο, αυτή η επιλογή θα αυξήσει το μέγεθος του αρχείου βίντεο.
+
+Εξ ορισμού, αυτό το πλαίσιο είναι επιλεγμένο αν η διάρκεια των βίντεο είναι μικρότερη από το μισό της ολόκληρης διάρκειας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="120"/>
         <source>Variable bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>Μεταβλητός ρυθμός bit</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="203"/>
@@ -4339,7 +4346,8 @@ Do you want to open the video now?</source>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1142"/>
         <source>Job completed successfully!
 Do you want to open the audio track now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Η εργασία ολοκληρώθηκε με επιτυχία!
+Επιθυμείτε το άνοιγμα του κομματιού ήχου τώρα;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1145"/>
@@ -7785,7 +7793,7 @@ Do you want to save-it ?</source>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1609"/>
         <source>Loading project ressources: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Φόρτωση των πηγών του έργου: %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1706"/>
@@ -9223,19 +9231,19 @@ Do you want to open it nevertheless?</source>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2130"/>
         <source> - © %1 (%2)</source>
         <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
+        <translation> - © %1 (%2)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2131"/>
         <source> - © %1</source>
         <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
+        <translation> - © %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2133"/>
         <source> from «%1»</source>
         <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
+        <translation> από «%1»</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="177"/>
@@ -9257,7 +9265,9 @@ Do you want to open it nevertheless?</source>
         <source>Project done the %1:
 	·with %2 (%3)
 	·on a %4 (%5 Core/CPU) computer</source>
-        <translation type="unfinished"></translation>
+        <translation>Το έργο πραγματοποιήθηκε στις %1:
+	-με %2 (%3)
+	-σε έναν υπολογιστή %4 (%5 Core/CPU)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="225"/>
@@ -9353,7 +9363,7 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="305"/>
         <source>Current chapter number as &quot;Chapter N°&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Τρέχον αριθμός κεφαλαίου ως «Κεφάλαιο N°»</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgInfoFile/DlgInfoFile.cpp" line="177"/>
@@ -10521,7 +10531,7 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="461"/>
         <source>Defined what information will be displayed in the marker</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορίζει τον τύπο της πληροφορίας που θα εμφανίζεται στον σημαδευτή</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="465"/>
@@ -10591,7 +10601,7 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="539"/>
         <source>Defined where to display the marker (the distance between the marker and the GPS position)</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορίζει τη θέση εμφάνισης του σημαδευτή (η απόσταση μεταξύ του σημαδευτή και της θέσης του GPS)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="567"/>
@@ -10601,7 +10611,7 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="610"/>
         <source>Defines the color of the text</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορίζει το χρώμα του κειμένου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="638"/>
@@ -10611,7 +10621,7 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="674"/>
         <source>Defines the color of the background of the marker, of the GPS position and of the part between the two</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορίζει το χρώμα του παρασκηνίου του σημαδευτή, της τοποθεσίας GPS και του τμήματος μεταξύ των δυο.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="702"/>
@@ -10621,7 +10631,7 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="767"/>
         <source>Defines the color of the border</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορίζει το χρώμα του περιγράμματος</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="543"/>
@@ -10641,7 +10651,7 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="709"/>
         <source>Defined if the marker is visible, half-visible (masked) or hidden</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορίζει αν ο σημαδευτής θα είναι ορατός, ημι-ορατός (συγκεκαλυμμένος) ή κρυφός</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="713"/>

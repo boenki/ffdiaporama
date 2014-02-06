@@ -582,7 +582,7 @@ model</string>
    <item>
     <widget class="QFrame" name="SlideLayout">
      <property name="frameShape">
-      <enum>QFrame::Panel</enum>
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Sunken</enum>
@@ -794,7 +794,7 @@ Remark :
           </sizepolicy>
          </property>
          <property name="frameShape">
-          <enum>QFrame::Panel</enum>
+          <enum>QFrame::StyledPanel</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Sunken</enum>
@@ -913,7 +913,7 @@ If you specify a duration lower than the minimum calculated duration for the sho
        </property>
        <property name="minimumSize">
         <size>
-         <width>305</width>
+         <width>345</width>
          <height>0</height>
         </size>
        </property>
@@ -1081,8 +1081,8 @@ If you specify a duration lower than the minimum calculated duration for the sho
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>289</width>
-              <height>820</height>
+              <width>323</width>
+              <height>810</height>
              </rect>
             </property>
             <property name="sizePolicy">
