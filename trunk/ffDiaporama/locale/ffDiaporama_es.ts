@@ -1768,7 +1768,7 @@ Amarillo: el componente funciona parcialmente
         <translation>&amp;Ayuda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="91"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="90"/>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="103"/>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="110"/>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="117"/>
@@ -1780,97 +1780,97 @@ Amarillo: el componente funciona parcialmente
         <translation>disponible</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="59"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="58"/>
         <source>Operating system version: %1 - %2 Core/CPU</source>
         <translation>Sistema operativo versión: %1 - %2 Core/CPU</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="62"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="61"/>
         <source>Application architecture: 32 bits</source>
         <translation>Aplicación para arquitectura: 32 bits</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="64"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="63"/>
         <source>Application architecture: 64 bits</source>
         <translation>Aplicación para arquitectura: 64 bits</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="66"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="65"/>
         <source>User config file: %1</source>
         <translation>Archivo de configuración: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="67"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="66"/>
         <source>Global config file: %1</source>
         <translation>Configuración global: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="68"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="67"/>
         <source>Starting path: %1</source>
         <translation>Iniciando ruta: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="69"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="68"/>
         <source>Working path set to: %1</source>
         <translation>Ruta de trabajo: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="70"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="69"/>
         <source>Search path set to: %1</source>
         <translation>Ruta de búsqueda: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="72"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="71"/>
         <source>The background library contains %1 pictures</source>
         <translation>La librería de fondo contiene %1 imágenes</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="73"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="72"/>
         <source>The non-luma library contains %1 transitions</source>
         <translation>Librería no luma contiene %1 transiciones</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="74"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="73"/>
         <source>The luma library contains %1 transitions</source>
         <translation>Librería luma contiene %1 transiciones</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="76"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="75"/>
         <source>SDL version: %1.%2.%3-Licence=GPL version 2.1 or later</source>
         <translation>Versión de SDL: %1.%2.%3-Licencia=GPL version 2.1 o mayor</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="78"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="77"/>
         <source>fmt_filters version:0.6.4-Licence=LGPL</source>
         <translation>Versión de fmt_filters:0.6.4-Licencia=LGPL</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="80"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="79"/>
         <source>qimageblitz version:0.6.6-Licence=LGPL</source>
         <translation>qimageblitz version:0.6.6-Licence=LGPL</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="83"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="82"/>
         <source>QT version: %1</source>
         <translation>Versión QT:%1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="84"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="83"/>
         <source>Detected system locale: %1</source>
         <translation>Detectado locales del sistema: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="85"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="84"/>
         <source>Translation file loaded: %1</source>
         <translation>Archivo de traducción cargado: %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="89"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="88"/>
         <source>LibExiv2 version:</source>
         <translation>versión de LibExiv2:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="91"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="90"/>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="103"/>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="110"/>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="117"/>
@@ -1882,7 +1882,7 @@ Amarillo: el componente funciona parcialmente
         <translation>no disponible</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="91"/>
+        <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="90"/>
         <source>LibExiv2 support for preview image</source>
         <translation>Soporte de LibExiv2 para previsualizar imagen</translation>
     </message>

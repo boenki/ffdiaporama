@@ -1339,7 +1339,8 @@ void cBrushDefinition::ComputeMarkerSize(void *Loc,QSize MapImageSize) {
         case cBrushDefinition::sMarker::SMALL:      IconSize=24;    FontSize=90;    Spacer=3;   CornerSize=6;   break;
         case cBrushDefinition::sMarker::MEDIUM:     IconSize=32;    FontSize=120;   Spacer=3;   CornerSize=8;   break;
         case cBrushDefinition::sMarker::LARGE:      IconSize=48;    FontSize=180;   Spacer=4;   CornerSize=12;  break;
-        case cBrushDefinition::sMarker::VERYLARGE:  IconSize=64;    FontSize=240;   Spacer=4;   CornerSize=16;  break;
+        case cBrushDefinition::sMarker::VERYLARGE:
+        default:                                    IconSize=64;    FontSize=240;   Spacer=4;   CornerSize=16;  break;
     }
     if (!HaveIcon) IconSize=0;
     if (Location->MarkerForm!=cLocation::MARKERFORMBUBLE) CornerSize=0;
@@ -1421,7 +1422,8 @@ void cBrushDefinition::AddMarkerToImage(QImage *DestImage) {
                 case cBrushDefinition::sMarker::SMALL:      GPSPointSize=7;     PenSize=1;    CornerSize=6;   break;
                 case cBrushDefinition::sMarker::MEDIUM:     GPSPointSize=10;    PenSize=1;    CornerSize=8;   break;
                 case cBrushDefinition::sMarker::LARGE:      GPSPointSize=13;    PenSize=2;    CornerSize=12;  break;
-                case cBrushDefinition::sMarker::VERYLARGE:  GPSPointSize=16;    PenSize=2;    CornerSize=16;  break;
+                case cBrushDefinition::sMarker::VERYLARGE:
+                default:                                    GPSPointSize=16;    PenSize=2;    CornerSize=16;  break;
             }
 
             // Compute orientation of marker

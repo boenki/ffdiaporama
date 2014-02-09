@@ -98,8 +98,8 @@ void cLocation::SaveToXML(QDomElement *ParentElement,QString,QString PathForRela
 //========================================================================================================================
 
 bool cLocation::LoadFromXML(QDomElement *ParentElement,QString,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
-    bool IsOk;
-    if (ParentElement->hasAttribute("LocationType")) LocationType=(LOCATIONTYPE)ParentElement->attribute("LocationType").toInt();
+    bool IsOk=true;
+    if (ParentElement->hasAttribute("LocationType"))    LocationType=(LOCATIONTYPE)ParentElement->attribute("LocationType").toInt();
     if (ParentElement->hasAttribute("Name"))            Name            =ParentElement->attribute("Name");
     if (ParentElement->hasAttribute("FAddress"))        FriendlyAddress =ParentElement->attribute("FAddress");
     if (ParentElement->hasAttribute("GPS_cx"))          GPS_cx          =GetDoubleValue(*ParentElement,"GPS_cx");

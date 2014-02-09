@@ -2,6 +2,14 @@
 * FFDIAPORAMA 2.1 - trunk - (English version)
 **************************************************
 
+[Commit: 09/02/2014] - ffDiaporama 2.1 stable 20140209
+    Bug fixes:
+        -Remove a compilation warning in cLocation.cpp
+        -Remove some compilation warnings in cBrushDefinition.cpp
+        -Fixed an infinite loop that sometimes blocks the rendering
+
+--------------------------------------------------------------------------------
+
 [Commit: 06/02/2014] - ffDiaporama 2.1 devel 20140206
     Bug fixes:
         -Enlarged right panel of the Edit slide dialog to ensure all statements are displayed even if some words are very long (case on some languages)
@@ -16,8 +24,6 @@
         -Fixed a display bug in the "Check configuration" dialog on the availability of the preview image function for exiv2
         -Fixed a bug of audio/video synchronization when encoding using NTSC standard
 
-    New features:
-
 --------------------------------------------------------------------------------
 
 [Commit: 21/01/2014] - ffDiaporama 2.1 devel 20140121
@@ -25,8 +31,6 @@
         -Fixed positioning of the preview player when resizing main window
         -Fixed a crash when pasting GMap block in Edit slide dialog
         -Fixed a bug in computing end of music when rendering
-
-    New features:
 
 --------------------------------------------------------------------------------
 
@@ -74,8 +78,6 @@
     Bug fixes:
         -Fixes a critical bug reading projects [regression 20140103]
         -Fixes incorrect display of VBR for other codec than h264 in render dialog
-
-    New features:
 
 --------------------------------------------------------------------------------
 

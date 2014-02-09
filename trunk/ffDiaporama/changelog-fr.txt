@@ -2,6 +2,14 @@
 * FFDIAPORAMA 2.1 - trunk (Version Française)
 **************************************************
 
+[Commit: 09/02/2014] - ffDiaporama 2.1 stable 20140209
+    Correction de bug :
+        -Retire un avertissement de compilation dans cLocation.cpp
+        -Retire plusieurs avertissements de compilation dans cBrushDefinition.cpp
+        -Corrige une boucle infini qui bloquait parfois la génération
+
+--------------------------------------------------------------------------------
+
 [Commit: 06/02/2014] - ffDiaporama 2.1 devel 20140206
     Correction de bug :
         -Elargie le panneau de droite de la boite d'edition des diapositives pour que tout s'affiche dans certaines langues dont les mots sont longs
@@ -15,8 +23,6 @@
         -Corrige un bug aléatoire dans la boite d'option qui pouvait provoquer des crash
         -Corrige un bug d'affichage dans la boite "Vérifier la configuration" sur la disponibilité de la fonction preview image dans exiv2
         -Corrige un bug de synchronisation audio/vidéo lors des encodages en NTSC
-
-    Nouveautés :
 
 --------------------------------------------------------------------------------
 
@@ -72,8 +78,6 @@
     Correction de bug :
         -Corrige un gros bug lors de la relecture des projets [regression 20140103]
         -Corrige l'erreur d'affichage du VBR pour les autres codec que le h264 dans la boite de génération des videos
-
-    Nouveautés :
 
 --------------------------------------------------------------------------------
 
