@@ -3220,7 +3220,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
 
             // Check if we need to continue loop
             // Note: FPSDuration*(!VideoStream?2:1) is to enhance preview speed
-            ContinueAudio=((Counter>0)&&(AudioStream)&&(SoundTrackBloc)&&
+            ContinueAudio=((ContinueAudio)&&(Counter>0)&&(AudioStream)&&(SoundTrackBloc)&&
                            (!((LastAudioReadedPosition>=Position+FPSDuration*2)||(LastAudioReadedPosition>=int64_t(dEndFile*AV_TIME_BASE)))));
         }
         // Continue with a new one
