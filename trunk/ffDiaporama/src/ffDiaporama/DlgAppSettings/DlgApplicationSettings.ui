@@ -56,7 +56,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="TabApp">
       <attribute name="title">
@@ -94,8 +94,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>666</width>
-            <height>769</height>
+            <width>662</width>
+            <height>716</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -891,9 +891,9 @@ Remark: Some manufacturers produce FullHD videos 1920×1088 rather than 1920×10
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-505</y>
-            <width>666</width>
-            <height>1212</height>
+            <y>0</y>
+            <width>662</width>
+            <height>1185</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
@@ -2099,7 +2099,7 @@ No transition</string>
               </widget>
              </item>
              <item>
-              <widget class="QRadioButton" name="BasicTransitionRD">
+              <widget class="QRadioButton" name="BasicTransitionB1RD">
                <property name="minimumSize">
                 <size>
                  <width>60</width>
@@ -2116,6 +2116,30 @@ Crossfade transition</string>
                <property name="icon">
                 <iconset resource="../RSCffDiaporama.qrc">
                  <normaloff>:/img/Transitions/tr-00-01.png</normaloff>:/img/Transitions/tr-00-01.png</iconset>
+               </property>
+               <attribute name="buttonGroup">
+                <string notr="true">TransitionButtons</string>
+               </attribute>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="BasicTransitionB2RD">
+               <property name="minimumSize">
+                <size>
+                 <width>60</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Set the default type of transition to be inserted between slides to:
+Crossfade transition</string>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset resource="../RSCffDiaporama.qrc">
+                 <normaloff>:/img/Transitions/tr-00-02.png</normaloff>:/img/Transitions/tr-00-02.png</iconset>
                </property>
                <attribute name="buttonGroup">
                 <string notr="true">TransitionButtons</string>
@@ -2803,8 +2827,8 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>666</width>
-            <height>604</height>
+            <width>662</width>
+            <height>597</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
@@ -3530,7 +3554,6 @@ Use title project as video name: Use the title defined in the project properties
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>tabWidget</tabstop>
   <tabstop>scrollArea_2</tabstop>
   <tabstop>RestoreWindowCH</tabstop>
   <tabstop>RememberLastDirectoriesCH</tabstop>
@@ -3567,7 +3590,8 @@ Use title project as video name: Use the title defined in the project properties
   <tabstop>StaticShotED</tabstop>
   <tabstop>RandomTransitionRD</tabstop>
   <tabstop>NoTransitionRD</tabstop>
-  <tabstop>BasicTransitionRD</tabstop>
+  <tabstop>BasicTransitionB1RD</tabstop>
+  <tabstop>BasicTransitionB2RD</tabstop>
   <tabstop>TransitionDurationCB</tabstop>
   <tabstop>TransitionSpeedWaveCB</tabstop>
   <tabstop>BlockSpeedWaveCB</tabstop>
@@ -3633,6 +3657,7 @@ Use title project as video name: Use the title defined in the project properties
   <tabstop>OkBt</tabstop>
   <tabstop>CancelBt</tabstop>
   <tabstop>HelpBt</tabstop>
+  <tabstop>tabWidget</tabstop>
  </tabstops>
  <resources>
   <include location="../RSCffDiaporama.qrc"/>

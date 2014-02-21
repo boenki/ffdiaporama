@@ -13,6 +13,11 @@
 
 #ifdef _MSC_VER
 
+// http://msdn.microsoft.com/en-us/library/ms235458.aspx
+#if _MSC_VER >= 1700
+#define chmod _chmod
+#endif
+
 #if _MSC_VER >= 1600
 // stdint.h was introduced with DevStudio 2010
 #define EXV_HAVE_STDINT_H 1
@@ -28,13 +33,13 @@
 #define EXV_PACKAGE_NAME "exiv2"
 
 /* Define to the full name and version of this package. */
-#define EXV_PACKAGE_STRING "exiv2 0.23"
+#define EXV_PACKAGE_STRING "exiv2 0.24"
 
 /* Define to the one symbol short name of this package. */
 #define EXV_PACKAGE_TARNAME "exiv2"
 
 /* Define to the version of this package. */
-#define EXV_PACKAGE_VERSION "0.23"
+#define EXV_PACKAGE_VERSION "0.24"
 
 /* Define to `int' if <sys/types.h> does not define pid_t. */
 typedef int pid_t;
@@ -52,6 +57,10 @@ typedef int pid_t;
 
 /* Define to 1 if you have the `iconv' function. */
 # undef EXV_HAVE_ICONV
+
+#ifdef  EXV_HAVE_ICONV
+#define EXV_ICONV_CONST const
+#endif
 
 /* Define as 1 if you have the `zlib' library. (0 to omit zlib) [png support] */
 //ICI #define HAVE_LIBZ 1

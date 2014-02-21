@@ -1,254 +1,42 @@
 **************************************************
-* FFDIAPORAMA 2.1 - trunk - (English version)
+* FFDIAPORAMA 2.2 - trunk - (English version)
 **************************************************
 
-[Commit: 09/02/2014] - ffDiaporama 2.1 stable 20140209
+[Commit: 21/02/2014] - ffDiaporama 2.2 devel 20140221
     Bug fixes:
-        -Remove a compilation warning in cLocation.cpp
-        -Remove some compilation warnings in cBrushDefinition.cpp
-        -Fixed an infinite loop that sometimes blocks the rendering
-
---------------------------------------------------------------------------------
-
-[Commit: 06/02/2014] - ffDiaporama 2.1 devel 20140206
-    Bug fixes:
-        -Enlarged right panel of the Edit slide dialog to ensure all statements are displayed even if some words are very long (case on some languages)
-        -Fixed a problem with breaks in the music when encoding
-
---------------------------------------------------------------------------------
-
-[Commit: 03/02/2014] - ffDiaporama 2.1 devel 20140203
-    Bug fixes:
-        -Fixed a problem with the translation of the title variable %STA%
-        -Fixed a random bug in the option dialog that could cause crash
-        -Fixed a display bug in the "Check configuration" dialog on the availability of the preview image function for exiv2
-        -Fixed a bug of audio/video synchronization when encoding using NTSC standard
-
---------------------------------------------------------------------------------
-
-[Commit: 21/01/2014] - ffDiaporama 2.1 devel 20140121
-    Bug fixes:
-        -Fixed positioning of the preview player when resizing main window
-        -Fixed a crash when pasting GMap block in Edit slide dialog
-        -Fixed a bug in computing end of music when rendering
-
---------------------------------------------------------------------------------
-
-[Commit: 17/01/2014]
-    Bug fixes:
-        -Fixed and error of unwanted activation of proxy
+        -Removes unnecessary warnings when compiling in cBaseMediaFile and cBrushDefinition
+        -Fixed the display ratio in the preview area when this one is constrained by the width
+        -Fixed a problem of encoding sound when the soundtrack switch to pause
+        -Fixed a crash that happened when reloading a project with one of the songs has been modified outside ffDiaporama (now an error message appears and the song is removed from the assembly)
 
     New features:
-        -Big code reorganization in order to cut the application into multiple packages
-             -Packages ffDiaporama_RSC containing resources
-             -Packages ffDiaporama containing the application
-        -Creation of a library (static at this time) integrated into the ffDiaporama package
+        -In the edit slides dialog for editing the length of the slide area:
+            -by default positions the cursor to the area of seconds. (Thus the arrows (+ and -) change default seconds instead of hours)
+            -sets the values ​​of the early images (increment / decrement per image) according to the standard defined in the application options (PAL or NTSC)
+            -allows increments / decrements of the upper unit
+        -In the option dialog of the application in the Project tab
+            -adds the ability to choose the transition B2
+        -Integration of LUMA proposed by Alexander Goponenko
+            -replaces the last 2 LUMA clock (star) and adds their inverses
+            -replaces 4 LUMA Center (2 clercles and 2 squares)
+            -replaces the LUMA mixer checkerboard, spiral and stained glass and adds a second stained glass and a new spot
+        -In the edit video dialog
+            -by default positions the player on the start position of the video
+            -turns the triangle corresponding to the handle of the current position in the progress bar
+            -added 2 handles on the progress bar to define "using mouse" the start and end positions of the video
+            -light handles (start, end and current position) when they was clicked or maintained with the mouse
+            -Changes start and end positions editing so that the + and - buttons:
+                -by default changes the milliseconds
+                -position values ​​on early images (increment/decrement per image)
+                -allows increments/decrements of the upper unit
+        -Updgrade versions of libraries for Windows package
+            -QT upgraded to version 5.2.1 instead of 5.1.1
+            -ffmpeg upgraded to version 2.1.3 instead of 2.1.0
+            -exiv2 upgraded to version 0.24 instead of 0.23
 
 --------------------------------------------------------------------------------
 
-[Commit: 14/01/2014] - ffDiaporama 2.1 devel 20140114
-    Bug fixes:
-        -Fixed a memory leak that occurred when using image from library
-        -Fixed a problem of application of volume on the music track during transitions
-        -Force the use of UTF-8 to read changelog in about dialog
-        -Fixed positioning of the preview player at application start
-
---------------------------------------------------------------------------------
-
-[Commit: 12/01/2014]
-    Bug fixes:
-        -Fixed the Transition dialog: when the box is reduced or enlarged, increases or decreases the number of column
-        -Fixed a bug in reloading project files which cause recomputation of slides's thumbnails
-
-    New features:
-        -Changes the music track dialog
-             -Displays the cover of the music if it exists
-             -Put a check box in the music table to allow non referencing this title in generic (%STM% variable)
-             -Allows setting options for volume and pause even if the slide defined a new playlist
-        -Changes the display of the music track on the timeline
-             -Adds the display of song cover (if exist)
-             -Reduces the font to display the artist and song title
-        -Change Drag & Drop in timeline
-             -Allows move of music playlist definition from a slide to another
-             -Allows move of background definition from a slide to another
-
---------------------------------------------------------------------------------
-
-[Commit: 10/01/2014] - ffDiaporama 2.1 devel 20140111
-    Bug fixes:
-        -Fixes a critical bug reading projects [regression 20140103]
-        -Fixes incorrect display of VBR for other codec than h264 in render dialog
-
---------------------------------------------------------------------------------
-
-[Commit: 10/01/2014]
-    Bug fixes:
-        -Fixes not read of volumes and deinterleaving option of videos in project files [regression 20131221]
-        -No longer generates map 2 times when closing automatic edit slide dialog
-        -Generate map again if the model is changed when using amap from an automatic slide
-        -No longer regenerates the map when converting an automatic slide to a standard slide
-        -Adds a timeout of 30 seconds to not get stuck for 10 minutes when network access is not possible at application start
-        -Fixes an infinite loop which sometimes happens during video reading
-
-    New features:
-        -Removes the text outline and changes the default zoom level to 14 in the 2 new titles models (those with map GMaps)
-        -Adds an option to activate variable bitrate mode when encoding using h264 codec in order to reduce video size and avoid saccadements in ken burns effects
-             -This option is enabled by default when the video length is less than 50% of the project length (beyond this can increase the size of the generated video)
-             -In projects containing many photo, it can reduce the file up to 80%
-        -Adds a hundred new models of equipment (smartphones and tablets)
-
---------------------------------------------------------------------------------
-
-[Commit: 06/01/2014]
-    New features:
-        -Compute some LUMA rather than using files to improve their quality
-         -Treat the 24 LUMA-BAR transitions
-         -Treat the first 24 LUMA-CLOCK transitions
-        -Removes unused LUMA files (reduces installation packets size)
-
---------------------------------------------------------------------------------
-
-[Commit: 03/01/2014] - ffDiaporama 2.1 devel 20140103
-    Bug fixes:
-        -Fixed a crash when closing the edit image/video/gmap when locations were added
-        -Fixed the display of dates of creation and modification of files in the media browser (Under Windows, the modification date may be invalid)
-
-    New features:
-        -Increases slightly opacity of masked markers (they were really too few visible)
-        -Move the Name field at first position in the edit locations dialog (more logical)
-        -Accelerates selections/unselection of files in multimedia browser
-        -No longer displays duration equals to 0 in the multimedia browser
-        -Changes the behavior of the multimedia browser refresh: Force complete update of files
-        -Adds a Changelog tab (with the content of Changelog file) and a Translation tab (with the translation status) in the About dialog
-        -No longer duplicate GMap map during paste as location have not been changed (to reduce size of .ffd file)
-
---------------------------------------------------------------------------------
-
-[Commit: 27/12/2013] - ffDiaporama 2.1 devel 20131227
-    Bug fixes:
-        -Fixed a big bug in reloading projects with resources
-        -Fixed a crash when copy/cut/ paste GMpas map in the edit slides dialogs
-        -Improves audio/video sync when encoding NTSC
-
-    New features:
-        -Redesign Project properties dialog to remove the tabs and to add the location of the event
-        -Adds the ability to override the location of the event in the edit chapters dialog and the in the chapter zone of the edit automatic slides dialog
-        -Turns the field "Override the date" of the edit automatic slides in multi-lines
-        -Adds text variables PLN%% and%% PLA corresponding to the name and address of the location of the project's event
-        -Adds text variables CLN%% and%% CLA corresponding to the name and address of the location of the current chapter's event
-        -Adds fields "Default project album" and "select distance unit to be used" in the application configuration dialog box
-        -Changes the button "Add Location" of the tab GMap of the edit image/video/gmap dialog to allow use of the project's or chapter's location or to directly select a favorite
-        -Adds an option "Add a map" in the sub menu that appears when you click Add a title in the main window
-        -Adds Title models fixed and animated containing a GMap map based on the project's location
-        -Adds options in the configuration dialog to declare a proxy for internet access
-        -Remove empty CD-ROM drives from the list of drives managed by the multimedia browser [Windows]
-
---------------------------------------------------------------------------------
-
-[Commit: 21/12/2013] - ffDiaporama 2.1 devel 20131221
-    Bug fixes:
-        -Fixed the problem of slow display of the markers on the GMaps map during animations
-        -Fixed the map display in the GMaps tab: Ensure that the map is never truncated and the display is centered
-        -Fixed the problem of quality of the GMaps map when they are in high resolution
-        -Fixed the activation/deactivation of paster actions in the edit slides dialog [regression 12.17.2013]
-        -Fixed applying changes of altered properties in the edit image/video/GMap dialog to the following shots in the edit slides dialog (only applies the changed properties and not all properties)
-
-    New features:
-        -No longer duplicate resources when opening Edit image/video/gmap dialog when it comes gmap object (accelerates the opening of the box)
-        -Replaces the dual display buffer for GMap markers objects with a simple buffer display for preview (faster)
-        -Adds "Export Map" button in the Edit image/video/gmap dialog
-        -Replaces the default export as jpg format with png format for all captures (image from video editor, image from preview and map from GMaps tab)
-        -Adds very high resolution map image formats: 720px9-16:9 (3840x2160) and 1080px9-16:9 (5760x3240)
-        -Remove empty removable drives from the list of drives managed by the multimedia browser [Windows]
-
---------------------------------------------------------------------------------
-
-[Commit: 20/12/2013]
-    Bug fixes:
-        -Fixed the bug of not replacing the icon when selecting a favorite in the selection box of GPS positions
-        -Active F1 key to open help in any dialog boxes
-        -Corrects UNDO in the edit slides dialog (repositions the active shot and selections)
-        -Fixed change of properties to the following shots in the edit slides dialog (only applies the current change and not all properties)
-
-    New features:
-        -Change the default framming for the icon of the GPS positions when selecting an image in the selection GPS position dialog
-        -Replaces locking of properties of a block in the edit slides dialog with a new property: inherit changes made in previous shot
-             -Adds a checkbox in the edit slides dialog to enable or disable this property
-             -When you disable this property offers to apply (and apply to the following shot) the properties of this block from the previous shot
-
---------------------------------------------------------------------------------
-
-[Commit: 17/12/2013]
-    Bug fixes:
-        -Corrects forcing the English language with the -lang=en startup parameter (regression 20131215)
-        -Fixed a bug in the application of UNDO in the edit slide dialog: Some properties are applied to the following shots while the entire slide is restored
-        -Fixed a bug in the application of some bloc properties to the following shots (20131215 regression)
-        -Fixed a bug reading accented characters when loading project under Windows (regression 20131215)
-
-    New features:
-        -Change the application of animation block properties "Appear" and "Disappear" : These properties are no longer applied to the following shots
-
---------------------------------------------------------------------------------
-
-[Commit: 16/12/2013]
-    Bug fixes:
-        -Fixed a bug in the management of cached resources (Lulo)
-        -Fixed a bug in the updates of the location table in the user database (database Version 5 to 6)
-        -Fixed marker's positions in the maps >720p (scaling) for previewing and for GMap tab of the edit image/video/gmap dialog
-
-    New features:
-        -Cache icons markers to accelerate the generation and the update of GMaps map
-        -Adds display of GMaps markers in the Image tab of the edit image/video/gmap dialog
-
---------------------------------------------------------------------------------
-
-[Commit: 15/12/2013]
-    Bug fixes:
-        -Fixed a bug on the favorites in the selection GPS localization dialog
-        -Fixed a bug on the LOCK properties of a block in the edit slide dialog: Some properties were not reflected in following shots (see: http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=644)
-        -Fixed the bug of Cancel button not actif int the GMap generation map dialog
-        -Fixed a crash during the continue GMap generation map
-        -Fixed a bug when generating GMap maps  (if the previous card was not fully generated, it tried to contunue previous generation instead of starting new)
-
-    New features:
-        -Adds a Friendly address name field in the select GPS location dialog and in the favorite locations table
-        -Redesign GMap tab in the image/video/gmap edit dialog
-        -Deleting a location no longer regenerates map in the GMap tab of the image/video/gmap edit dialog
-        -Start GMap markers managment (for the moment all options are not yet supported and there are position errors on map>720p)
-
---------------------------------------------------------------------------------
-
-[Commit: 13/12/2013] - ffDiaporama 2.1 devel 20131212
-    Bug fixes:
-        -Fixed the bug on the images in the generation of WIKI
-        -Fixed bug regarding titles of untranslated pages in the generation of WIKI (highlight them instead of hide them)
-
-    New features:
-        -Change the format of .ffd file order to integrate resources
-        -Changes the registration of slides's thumbnails in the .ffd file so they are stored as a resource and not in the slide
-        -Adding new types of objects: Image from clipboard and Google Maps map
-        -Added "Add Special" button in the edit slide dialog box to insert new object types
-        -Added a new tab "Google Maps Map" in the "edit and crop images/video/map" dialog box
-        -Changed the operation for copy/paste in the edit slides dialog box to allow paste of image as a new object "Image from clipboard"
-        -Changed the operation for copy/paste in the main window to allow paste of image as a new slide containing an object "Image from clipboard"
-        -Created a new dialog box for select/change a GPS location using Google Maps and adds a new entry in the Wiki for this dialog box
-        -Added new entries in the WIKI to describe the types of objects used with ffDiaporama (the pages have to be completed!)
-
---------------------------------------------------------------------------------
-
-[Commit: 05/12/2013] - ffDiaporama 2.0.1 stable
-    Bug fixes:
-        -Fixed a crash in edit slide dialog
-        -Fixed UNDO in the slide edit dialog (keep selection)
-        -Fixed the application of shape styles in slide edit dialog
-
---------------------------------------------------------------------------------
-
-[Commit: 01/12/2013]
-    Bug fixes:
-        -Fixed the proposed filter for file format to select another image when an image file is missing during the loading of a project [regression 20131130]
-        -Improves the detection of another instance of ffdiaporama and re-authorizes the launch if the last instance has crashed
-        -Replace QT5 specific codes in devel.20131130 with QT4/QT5 compatible codes [regression 20131130]
+[Commit: 09/02/2014] - ffDiaporama 2.1 Stable
 
 --------------------------------------------------------------------------------
 

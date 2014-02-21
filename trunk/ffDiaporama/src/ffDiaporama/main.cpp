@@ -59,14 +59,9 @@ bool CheckFolder(QString FileToTest,QString PathToTest) {
 bool SetWorkingPath(char * const argv[],QString ApplicationName) {
     QString StartupDir=QFileInfo(argv[0]).absolutePath();
     ToLog(LOGMSG_INFORMATION,"StartupDir "+QDir::toNativeSeparators(StartupDir));
-    QDir::setCurrent(StartupDir);
+    //QDir::setCurrent(StartupDir);
 
     QString FileToTest="BUILDVERSION.txt";
-    #ifdef Q_OS_WIN
-    QString ShareDir="..";
-    #else
-    QString ShareDir=QString(SHARE_DIR)+QDir().separator()+QString("share");
-    #endif
 
     if (!CheckFolder(FileToTest,QDir::currentPath())
         &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+QString("..")+QDir().separator()+QString("..")+QDir().separator()+QString("..")+QDir().separator()+ApplicationName))

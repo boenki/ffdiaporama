@@ -18,25 +18,22 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef CCUSTOMTEXTEDIT_H
-#define CCUSTOMTEXTEDIT_H
+#include "cQDateTimeEdit.h"
+#include <qdebug.h>
 
-// Basic inclusions (common to all files)
-#include "../engine/_GlobalDefines.h"
-#include <QTextEdit>
+cQDateTimeEdit::cQDateTimeEdit(QWidget *parent):QDateTimeEdit(parent) {
+    MsecStep=1;
+    setWrapping(true);
+}
 
-class cCustomTextEdit : public QTextEdit {
-Q_OBJECT
-public:
-    explicit cCustomTextEdit(QWidget *parent = 0);
-
-    virtual void keyPressEvent(QKeyEvent * e);
-
-signals:
-    void    UndoSignal();
-
-public slots:
-
-};
-
-#endif // CCUSTOMTEXTEDIT_H
+void cQDateTimeEdit::stepBy(int steps) {
+    qint64 Current=QTime(0,0,0,0).msecsTo(time());
+    qint64 NewTime=Current;
+    if          (currentSection()==QDateTimeEdit::MSecSection)   NewTime=(qint64(qreal(Current)/MsecStep)+steps)*MsecStep;
+        else if (currentSection()==QDateTimeEdit::SecondSection) NewTime=qint64(qreal(Current+   1000*steps)/MsecStep)*MsecStep;
+        else if (currentSection()==QDateTimeEdit::MinuteSection) NewTime=qint64(qreal(Current+  60000*steps)/MsecStep)*MsecStep;
+        else if (currentSection()==QDateTimeEdit::HourSection)   NewTime=qint64(qreal(Current+3600000*steps)/MsecStep)*MsecStep;
+    if (NewTime<0) NewTime=0;
+    if (NewTime>QTime(0,0,0,0).msecsTo(maximumTime())) NewTime=QTime(0,0,0,0).msecsTo(maximumTime());
+    setTime(QTime(0,0,0,0).addMSecs(NewTime));
+}

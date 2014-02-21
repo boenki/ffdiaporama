@@ -35,18 +35,19 @@
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="371"/>
         <source>Translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Übersetzung</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="407"/>
         <source>Note:
 If you want to help us or by completing an incomplete translation, or by translating the application into another language, do not hesitate to contact us on the forum.</source>
-        <translation type="unfinished"></translation>
+        <translation>Anmerkung:
+Wenn Sie uns helfen möchten, um zum Beispiel unfertige Übersetzungen zu ergänzen oder das Programm in eine andere Sprache zu übersetzen, scheuen Sie sich nicht, uns über das Forum zu kontaktieren.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="419"/>
         <source>Changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>Änderungshistorie</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="534"/>
@@ -56,18 +57,18 @@ If you want to help us or by completing an incomplete translation, or by transla
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.cpp" line="72"/>
         <source>Interface translation version: </source>
-        <translation type="unfinished"></translation>
+        <translation>Oberflächenübersetzung Version:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.cpp" line="73"/>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.cpp" line="97"/>
         <source>to translate</source>
-        <translation type="unfinished"></translation>
+        <translation>zu übersetzen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.cpp" line="95"/>
         <source>WIKI translation version: </source>
-        <translation type="unfinished"></translation>
+        <translation>WIKI Übersetzung Version:</translation>
     </message>
 </context>
 <context>
@@ -2360,17 +2361,17 @@ Ist die Adresse korrekt eingegeben ?</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="356"/>
         <source>XML parsing error</source>
-        <translation type="unfinished"></translation>
+        <translation>XML Fehler bei Syntaxanalyse</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="365"/>
         <source>XML parsing error / incorrect root</source>
-        <translation type="unfinished"></translation>
+        <translation>XML Fehler bei Syntaxanalyse / Root falsch</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="379"/>
         <source>XML parsing error / status KO</source>
-        <translation type="unfinished"></translation>
+        <translation>XML Fehler bei Syntaxanalyse / Status KO</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp" line="211"/>
@@ -3785,7 +3786,7 @@ Bitte wählen Sie einen anderen Namen!</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="47"/>
         <source>Settings for the music track</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen für die Musikspur</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="71"/>
@@ -3852,7 +3853,7 @@ Verschiebt das ausgewählte Musikstück um eine Position nach unten</translation
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="377"/>
         <source>Credit</source>
-        <translation type="unfinished"></translation>
+        <translation>Danksagung</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="385"/>
@@ -4113,12 +4114,18 @@ Notes:
 - By cons, if the project contains mostly videos this option will increase the size of the video file
 
 By default, this box is checked if duration of videos are less than half of the total duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn diese Option aktiviert ist, dann ist die Bitrate variabel (zwischen -50% und +125%)
+
+Anmerkung:
+- Wenn das Projekt hauptsächlich Bilder enthält, kann diese Option eine erhebliche Reduktion der Dateigröße des Videos ermöglichen (bis zu 80%)
+- Andererseits kann die Dateigröße des erstellten Videos sich erhöhen, wenn das Projekt haupsächlich Videos enthält
+
+Standardmässig ist die Option aktiviert, wenn die Laufzeit der Videos weniger als die Hälfte der Gesamtlaufzeit beträgt</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="120"/>
         <source>Variable bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>Variable Bitrate</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="203"/>
@@ -4341,7 +4348,7 @@ Möchten Sie das Video nun öffnen?</translation>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1142"/>
         <source>Job completed successfully!
 Do you want to open the audio track now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Auftrag erfolgreich abgeschlossen! Möchten Sie die Tonspur nun öffnen?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1145"/>
@@ -7781,7 +7788,7 @@ Möchten Sie es speichern ?</translation>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1609"/>
         <source>Loading project ressources: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Laden der Projektressourcen: %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1706"/>
@@ -9170,7 +9177,9 @@ Möchten Sie das Projekt dennoch öffnen?</translation>
         <source>Project done the %1:
 	·with %2 (%3)
 	·on a %4 (%5 Core/CPU) computer</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekt zu %1 erledigt:
+	·mit %2 (%3)
+	·auf einem %4 (%5 Core/CPU) Computer</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="225"/>
@@ -9266,7 +9275,7 @@ Möchten Sie das Projekt dennoch öffnen?</translation>
     <message>
         <location filename="../src/ffDiaporama/engine/_Variables.cpp" line="305"/>
         <source>Current chapter number as &quot;Chapter N°&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktuelles Kapitel als &quot;Kapitel N°&quot;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgInfoFile/DlgInfoFile.cpp" line="177"/>
@@ -9452,19 +9461,19 @@ Möchten Sie das Projekt dennoch öffnen?</translation>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2130"/>
         <source> - © %1 (%2)</source>
         <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
+        <translation> - © %1 (%2)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2131"/>
         <source> - © %1</source>
         <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
+        <translation> - © %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2133"/>
         <source> from «%1»</source>
         <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
+        <translation> von «%1»</translation>
     </message>
 </context>
 <context>
@@ -10536,7 +10545,7 @@ Zum Beispiel: Wenn Y=25% eingestellt ist, dann wird das erste Viertel von oben a
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="461"/>
         <source>Defined what information will be displayed in the marker</source>
-        <translation type="unfinished"></translation>
+        <translation>Festlegung welche Informationen im Marker angezeigt werden</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="465"/>
@@ -10606,7 +10615,7 @@ Zum Beispiel: Wenn Y=25% eingestellt ist, dann wird das erste Viertel von oben a
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="539"/>
         <source>Defined where to display the marker (the distance between the marker and the GPS position)</source>
-        <translation type="unfinished"></translation>
+        <translation>Festlegung wo der Marker angezeigt werden soll (die Entfernung zwischen dem Marker und der GPS Position)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="543"/>
@@ -10636,12 +10645,12 @@ Zum Beispiel: Wenn Y=25% eingestellt ist, dann wird das erste Viertel von oben a
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="610"/>
         <source>Defines the color of the text</source>
-        <translation type="unfinished"></translation>
+        <translation>Festlegen der Textfarbe</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="767"/>
         <source>Defines the color of the border</source>
-        <translation type="unfinished"></translation>
+        <translation>Festlegen der Hintergrundfarbe</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="638"/>
@@ -10651,7 +10660,7 @@ Zum Beispiel: Wenn Y=25% eingestellt ist, dann wird das erste Viertel von oben a
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="674"/>
         <source>Defines the color of the background of the marker, of the GPS position and of the part between the two</source>
-        <translation type="unfinished"></translation>
+        <translation>Festlegen der Hintergrundfarbe des Markers und der GPS Position und dem Teil zwischen den beiden</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="702"/>
@@ -10661,7 +10670,7 @@ Zum Beispiel: Wenn Y=25% eingestellt ist, dann wird das erste Viertel von oben a
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="709"/>
         <source>Defined if the marker is visible, half-visible (masked) or hidden</source>
-        <translation type="unfinished"></translation>
+        <translation>Festlegen ob der Marker sichtbar, durchscheinend oder versteckt sein soll</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.ui" line="713"/>

@@ -173,20 +173,27 @@ Build ffDiaporama for Windows
             Microsoft Software Development kit (SDK Windows for Windows 8) from Microsoft (http://msdn.microsoft.com/fr-fr/library/windows/desktop/hh852363.aspx)
 
         QT:
-            32 bits version: Qt 5.1.1 for Windows 32-bit (VS 2012 without OpenGL) from Digia (http://download.qt-project.org/official_releases/qt/5.1/5.1.1/qt-windows-opensource-5.1.1-msvc2012-x86-offline.exe)
-            64 bits version: Qt 5.1.1 for Windows 64-bit (VS 2012 without OpenGL) from Digia (http://download.qt-project.org/official_releases/qt/5.1/5.1.1/qt-windows-opensource-5.1.1-msvc2012-x86_64-offline.exe)
+            --32 bits version: Qt 5.1.1 for Windows 32-bit (VS 2012 without OpenGL) from Digia (http://download.qt-project.org/official_releases/qt/5.1/5.1.1/qt-windows-opensource-5.1.1-msvc2012-x86-offline.exe)
+            --64 bits version: Qt 5.1.1 for Windows 64-bit (VS 2012 without OpenGL) from Digia (http://download.qt-project.org/official_releases/qt/5.1/5.1.1/qt-windows-opensource-5.1.1-msvc2012-x86_64-offline.exe)
+            32 bits version: Qt 5.2.1 for Windows 32-bit (VS 2012 without OpenGL) from Digia (http://download.qt-project.org/official_releases/qt/5.2/5.2.1/qt-opensource-windows-x86-msvc2012-5.2.1.exe)
+            64 bits version: Qt 5.2.1 for Windows 64-bit (VS 2012 without OpenGL) from Digia (http://download.qt-project.org/official_releases/qt/5.2/5.2.1/qt-opensource-windows-x86-msvc2012_64-5.2.1.exe)
 
         ffmpeg:
-          32 bits version (2.1):
-            ffmpeg win32 shared from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win32/shared/ffmpeg-2.1-win32-shared.7z)
-            ffmpeg win32 dev from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win32/dev/ffmpeg-2.1-win32-dev.7z)
+          32 bits version (2.1.3):
+            --ffmpeg win32 shared from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win32/shared/ffmpeg-2.1-win32-shared.7z)
+            --ffmpeg win32 dev from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win32/dev/ffmpeg-2.1-win32-dev.7z)
+            ffmpeg win32 shared from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win32/shared/ffmpeg-2.1.3-win32-shared.7z)
+            ffmpeg win32 dev from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win32/dev/ffmpeg-2.1.3-win32-dev.7z)
 
           64 bits version (2.1):
-             ffmpeg win64 shared from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win64/shared/ffmpeg-2.1-win64-shared.7z)
-             ffmpeg win64 dev from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win64/dev/ffmpeg-2.1-win64-dev.7z)
+             --ffmpeg win64 shared from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win64/shared/ffmpeg-2.1-win64-shared.7z)
+             --ffmpeg win64 dev from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win64/dev/ffmpeg-2.1-win64-dev.7z)
+             ffmpeg win64 shared from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win64/shared/ffmpeg-2.1.3-win64-shared.7z)
+             ffmpeg win64 dev from zeranoe web site (http://ffmpeg.zeranoe.com/builds/win64/dev/ffmpeg-2.1.3-win64-dev.7z)
 
         Exiv2:
-            Exiv2 v0.23 Source from exiv2.org web site (http://www.exiv2.org/exiv2-0.23.tar.gz)
+            --Exiv2 v0.23 Source from exiv2.org web site (http://www.exiv2.org/exiv2-0.23.tar.gz)
+            Exiv2 v0.24 Source from exiv2.org web site (http://www.exiv2.org/exiv2-0.24.tar.gz)
 
         SDL:
             32 bits version: SDL-1.2.15-win32.zip from libsdl.org (http://www.libsdl.org/release/SDL-1.2.15-win32.zip)

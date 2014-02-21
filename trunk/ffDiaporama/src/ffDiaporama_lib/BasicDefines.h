@@ -31,6 +31,7 @@
     #if (_MSC_VER >= 1400)                  /* Check version */
         #pragma warning(disable: 4996)      /* Disable deprecation */
         #pragma warning(disable: 4005)      /* Disable warning on macro redefinition */
+        #pragma warning(disable: 4100)      /* Disable warning on macro redefinition */
     #endif                                  /* #if defined(NMEA_WIN) && (_MSC_VER >= 1400) */
 #endif                                      /* #ifndef _DEPRECATION_DISABLE */
 

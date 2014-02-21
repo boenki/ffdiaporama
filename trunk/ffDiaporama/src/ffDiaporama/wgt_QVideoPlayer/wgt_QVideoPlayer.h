@@ -78,7 +78,7 @@ public:
     bool                    Deinterlace;            // Add a YADIF filter to deinterlace video (on/off)
     cVideoFile              *FileInfo;              // Link to the file wrapper object when DlgVideoDialogBox
     cDiaporama              *Diaporama;             // Link to the Diaporama hierarchy when preview
-    cApplicationConfig  *ApplicationConfig;
+    cApplicationConfig      *ApplicationConfig;
 
     int                     ActualPosition;         // Current position (in msec)
     QTime                   tDuration;              // Duration of the video
@@ -125,6 +125,7 @@ public:
     void    SetStartEndPos(int StartPos,int Duration,int PreviousStartPos,int PrevisousEndPos,int NextStartPos,int NextEndPos);
     void    SeekPlayer(int Value);
     QTime   GetCurrentPos();
+    void    SetCurrentPos(QTime Pos);
     QTime   GetActualDuration();
     void    SetActualDuration(int Duration);
 
@@ -133,6 +134,8 @@ public:
 
     void    SetBackgroundColor(QColor Background);
     int     GetButtonBarHeight();
+
+    void    SetEditStartEnd(bool State);
 
 protected:
     virtual void closeEvent(QCloseEvent *);
@@ -148,6 +151,7 @@ private slots:
     void    s_SliderMoved(int Value);
     void    s_SaveImage();
     void    s_PositionChangeByUser();
+    void    s_StartEndChangeByUser();
 
 private:
     void    EnableWidget(bool State);
@@ -160,6 +164,7 @@ signals:
     void    DoubleClick();
     void    RightClickEvent(QMouseEvent *);
     void    SaveImageEvent();
+    void    StartEndChangeByUser();
 };
 
 #endif // WGT_QVIDEOPLAYER_H

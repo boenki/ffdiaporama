@@ -826,7 +826,7 @@ Remark :
            </widget>
           </item>
           <item>
-           <widget class="QTimeEdit" name="ShotDurationED">
+           <widget class="cQDateTimeEdit" name="ShotDurationED">
             <property name="toolTip">
              <string>Indicate here the duration of the currently selected shot
 
@@ -857,10 +857,13 @@ If you specify a duration lower than the minimum calculated duration for the sho
              </time>
             </property>
             <property name="currentSection">
-             <enum>QDateTimeEdit::HourSection</enum>
+             <enum>QDateTimeEdit::SecondSection</enum>
             </property>
             <property name="displayFormat">
              <string>HH:mm:ss.zzz</string>
+            </property>
+            <property name="currentSectionIndex">
+             <number>2</number>
             </property>
            </widget>
           </item>
@@ -3504,6 +3507,11 @@ Note: Hidden video blocks are automatically paused</string>
   </action>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>cQDateTimeEdit</class>
+   <extends>QDateTimeEdit</extends>
+   <header>CustomCtrl/cQDateTimeEdit.h</header>
+  </customwidget>
   <customwidget>
    <class>cCColorComboBox</class>
    <extends>QComboBox</extends>

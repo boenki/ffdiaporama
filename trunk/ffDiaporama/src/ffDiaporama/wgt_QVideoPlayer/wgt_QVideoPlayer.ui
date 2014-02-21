@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>575</width>
-    <height>360</height>
+    <width>573</width>
+    <height>358</height>
    </rect>
   </property>
   <property name="font">
@@ -138,6 +138,9 @@
 Remark : The length of the ruler is increased in proportion to the duration of the video.
 The blue part represents the part of the video which is selected (which will be used in the assembly).</string>
        </property>
+       <property name="maximum">
+        <number>99</number>
+       </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -228,6 +231,8 @@ font-size: 10px;
           <font>
            <family>Sans Serif</family>
            <pointsize>1</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
          </property>
          <property name="styleSheet">
