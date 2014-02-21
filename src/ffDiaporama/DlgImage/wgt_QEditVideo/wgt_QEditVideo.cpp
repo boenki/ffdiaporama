@@ -41,6 +41,9 @@ void wgt_QEditVideo::DoInitWidget(QCustomDialog *ParentDialog,cBrushDefinition *
     this->ParentDialog                  =ParentDialog;
     this->CurrentBrush                  =CurrentBrush;
     ui->VideoPlayer->ApplicationConfig  =ParentDialog->ApplicationConfig;
+
+    ui->VideoPlayer->SetEditStartEnd(true);
+    connect(ui->VideoPlayer,SIGNAL(StartEndChangeByUser()),this,SLOT(s_StartEndChangeByUser()));
     ui->SeekLeftBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaSkipBackward));
     ui->SeekRightBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaSkipForward));
 }
@@ -50,6 +53,9 @@ void wgt_QEditVideo::DoInitWidget(QCustomDialog *ParentDialog,cBrushDefinition *
 void wgt_QEditVideo::DoInitDialog() {
     // Init embeded widgets
     for (int Factor=150;Factor>=0;Factor-=10) ui->VolumeReductionFactorCB->addItem(QString("%1%").arg(Factor));
+
+    ui->StartPosEd->setCurrentSection(QDateTimeEdit::MSecSection);  ui->StartPosEd->setCurrentSectionIndex(3);  ui->StartPosEd->MsecStep=((cVideoFile *)CurrentBrush->MediaObject)->GetFPSDuration();
+    ui->EndPosEd->setCurrentSection(QDateTimeEdit::MSecSection);    ui->EndPosEd->setCurrentSectionIndex(3);    ui->EndPosEd->MsecStep  =((cVideoFile *)CurrentBrush->MediaObject)->GetFPSDuration();
 
     // Define specifique handler for video
     connect(ui->VolumeReductionFactorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_MusicReduceFactorChange(int)));
@@ -63,7 +69,10 @@ void wgt_QEditVideo::DoInitDialog() {
     connect(ui->VideoPlayer,SIGNAL(SaveImageEvent()),this,SLOT(s_Event_SaveImageEvent()));
 
     ui->VideoPlayer->StartPlay(((cVideoFile *)CurrentBrush->MediaObject),ParentDialog->ApplicationConfig->PreviewFPS);
-    ui->EndPosEd->setMaximumTime(((cVideoFile *)CurrentBrush->MediaObject)->Duration);
+    ui->EndPosEd->setMaximumTime(((cVideoFile *)CurrentBrush->MediaObject)->Duration.addMSecs(-1));
+    if (((cVideoFile *)CurrentBrush->MediaObject)->EndPos>=((cVideoFile *)CurrentBrush->MediaObject)->Duration)
+        ((cVideoFile *)CurrentBrush->MediaObject)->EndPos=((cVideoFile *)CurrentBrush->MediaObject)->Duration.addMSecs(-1);
+    ui->VideoPlayer->SetCurrentPos(((cVideoFile *)CurrentBrush->MediaObject)->StartPos);
     RefreshControls();
 }
 
@@ -138,6 +147,17 @@ void wgt_QEditVideo::s_MusicReduceFactorChange(int) {
 
 //====================================================================================================================
 
+void wgt_QEditVideo::s_StartEndChangeByUser() {
+    if (StopMaj) return;
+    ((DlgImageCorrection *)ParentDialog)->AppendPartialUndo(DlgImageCorrection::UNDOACTION_VIDEOPART,ui->StartPosEd,false);
+    ((cVideoFile *)CurrentBrush->MediaObject)->StartPos=ui->VideoPlayer->StartPos;
+    ((cVideoFile *)CurrentBrush->MediaObject)->EndPos  =ui->VideoPlayer->EndPos;
+    ui->StartPosEd->setTime(((cVideoFile *)CurrentBrush->MediaObject)->StartPos);
+    ui->EndPosEd->setTime(((cVideoFile *)CurrentBrush->MediaObject)->EndPos);
+}
+
+//====================================================================================================================
+
 void wgt_QEditVideo::s_DefStartPos() {
     if (StopMaj) return;
     ((DlgImageCorrection *)ParentDialog)->AppendPartialUndo(DlgImageCorrection::UNDOACTION_VIDEOPART,ui->StartPosEd,true);
@@ -152,6 +172,7 @@ void wgt_QEditVideo::s_EditStartPos(QTime NewValue) {
     if (StopMaj) return;
     ((DlgImageCorrection *)ParentDialog)->AppendPartialUndo(DlgImageCorrection::UNDOACTION_VIDEOPART,ui->StartPosEd,false);
     ((cVideoFile *)CurrentBrush->MediaObject)->StartPos=NewValue;
+    ui->VideoPlayer->SetCurrentPos(((cVideoFile *)CurrentBrush->MediaObject)->StartPos);
     RefreshControls();
     emit DoRefreshImageObject();
 }
@@ -172,6 +193,7 @@ void wgt_QEditVideo::s_EditEndPos(QTime NewValue) {
     ((DlgImageCorrection *)ParentDialog)->AppendPartialUndo(DlgImageCorrection::UNDOACTION_VIDEOPART,ui->EndPosEd,false);
     ((cVideoFile *)CurrentBrush->MediaObject)->EndPos=NewValue;
     ui->EndPosEd->setTime(((cVideoFile *)CurrentBrush->MediaObject)->EndPos);
+    ui->VideoPlayer->SetCurrentPos(((cVideoFile *)CurrentBrush->MediaObject)->EndPos);
     RefreshControls();
 }
 

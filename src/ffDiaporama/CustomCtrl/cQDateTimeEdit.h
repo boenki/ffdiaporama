@@ -18,25 +18,18 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef CCUSTOMTEXTEDIT_H
-#define CCUSTOMTEXTEDIT_H
+#ifndef CQDATETIMEEDIT_H
+#define CQDATETIMEEDIT_H
 
-// Basic inclusions (common to all files)
-#include "../engine/_GlobalDefines.h"
-#include <QTextEdit>
+#include <QDateTimeEdit>
 
-class cCustomTextEdit : public QTextEdit {
+class cQDateTimeEdit : public QDateTimeEdit {
 Q_OBJECT
 public:
-    explicit cCustomTextEdit(QWidget *parent = 0);
+    qreal MsecStep;
+    explicit cQDateTimeEdit(QWidget *parent = 0);
 
-    virtual void keyPressEvent(QKeyEvent * e);
-
-signals:
-    void    UndoSignal();
-
-public slots:
-
+    virtual void stepBy(int steps);
 };
 
-#endif // CCUSTOMTEXTEDIT_H
+#endif // CQDATETIMEEDIT_H

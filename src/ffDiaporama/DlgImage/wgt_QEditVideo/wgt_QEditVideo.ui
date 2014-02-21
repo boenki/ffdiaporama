@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>581</width>
-    <height>300</height>
+    <width>579</width>
+    <height>352</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -92,7 +92,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDateTimeEdit" name="StartPosEd">
+      <widget class="cQDateTimeEdit" name="StartPosEd">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -114,6 +114,32 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="label_21">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Duration :</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="ActualDuration">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="text">
+        <string notr="true">00:00:00.000</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLabel" name="label_19">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -130,7 +156,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDateTimeEdit" name="EndPosEd">
+      <widget class="cQDateTimeEdit" name="EndPosEd">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -179,32 +205,6 @@
        <property name="icon">
         <iconset resource="../../RSCffDiaporama.qrc">
          <normaloff>:/img/player_fwd.png</normaloff>:/img/player_fwd.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_21">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Duration :</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="ActualDuration">
-       <property name="frameShape">
-        <enum>QFrame::Box</enum>
-       </property>
-       <property name="text">
-        <string notr="true">00:00:00.000</string>
        </property>
       </widget>
      </item>
@@ -292,6 +292,11 @@
    <extends>QWidget</extends>
    <header>wgt_QVideoPlayer/wgt_QVideoPlayer.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>cQDateTimeEdit</class>
+   <extends>QDateTimeEdit</extends>
+   <header>CustomCtrl/cQDateTimeEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -38,8 +38,10 @@
 //====================================================================================================================
 
 QCustomRuler::QCustomRuler(QWidget *parent):QSlider(parent) {
-    StartPos=0;
-    EndPos  =0;
+    StartPos     =0;
+    EndPos       =0;
+    EditStartEnd =false;
+    TrackingMode =TrackingMode_Thumb;
     //setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
     //setFixedHeight(32);
 }
@@ -58,14 +60,70 @@ void QCustomRuler::resizeEvent(QResizeEvent *) {
 
 //====================================================================================================================
 
+void QCustomRuler::mouseMoveEvent(QMouseEvent *ev) {
+    if (isSliderDown()) {
+        ev->accept();
+        int Delta=int((double(ev->pos().x()-TrackingOffset)/double(width()-TAQUET_SIZE*2))*maximum());
+        int NewPosition=TrackingValue+Delta;
+        if (NewPosition<0)  NewPosition=0;
+        if (NewPosition>maximum()) NewPosition=maximum();
+        if (TrackingMode==TrackingMode_Start) {
+            if (NewPosition>EndPos) NewPosition=EndPos-100;
+            StartPos=NewPosition;
+            setValue(NewPosition);
+            emit StartEndChangeByUser();
+        } else if (TrackingMode==TrackingMode_End) {
+            if (NewPosition<StartPos) NewPosition=StartPos+100;
+            EndPos=NewPosition;
+            setValue(NewPosition);
+            emit StartEndChangeByUser();
+        } else setValue(NewPosition);
+    } else QSlider::mouseMoveEvent(ev);
+}
+
+//====================================================================================================================
+
 void QCustomRuler::mousePressEvent(QMouseEvent *ev) {
     if (ev->button()==Qt::LeftButton) {
-        emit PositionChangeByUser();
-        int x1 =int(double(this->width()-TAQUET_SIZE*2)*(double(value())/double(maximum())))+TAQUET_SIZE;
-        if ((ev->x()>=x1-ThumbWidth/2)&&(ev->x()<=x1+ThumbWidth/2)) QSlider::mousePressEvent(ev);   // It's on the thumb
-        else if ((ev->x()>=TAQUET_SIZE-ThumbWidth/2)&&(ev->x()<=this->width()-TAQUET_SIZE+ThumbWidth/2))          // Set new value
+        ev->accept();
+        int ThumbX=int(double(this->width()-TAQUET_SIZE*2)*(double(value())/double(maximum())))+TAQUET_SIZE;
+        int EndX  =int(double(this->width()-TAQUET_SIZE*2)*(double(EndPos)/double(TotalDuration)))+TAQUET_SIZE;
+        int StartX=int(double(this->width()-TAQUET_SIZE*2)*(double(StartPos)/double(TotalDuration)))+TAQUET_SIZE;
+        if ((EditStartEnd)&&(ev->y()>16)&&(ev->x()>=StartX-ThumbWidth)&&(ev->x()<=StartX+ThumbWidth)) {                 // It's on the start thumb
+            TrackingMode=TrackingMode_Start;
+            setValue(StartPos);
+        } else if ((EditStartEnd)&&(ev->y()>16)&&(ev->x()>=EndX-ThumbWidth)&&(ev->x()<=EndX+ThumbWidth)) {              // It's on the end thumb
+            TrackingMode=TrackingMode_End;
+            setValue(EndPos);
+        } else if ((ev->x()>=ThumbX-ThumbWidth/2)&&(ev->x()<=ThumbX+ThumbWidth/2)) {                                    // It's on the thumb
+            TrackingMode=TrackingMode_Thumb;
+        } else if ((ev->x()>=TAQUET_SIZE-ThumbWidth/2)&&(ev->x()<=this->width()-TAQUET_SIZE+ThumbWidth/2)) {            // It's on the ruller so set new value
+            TrackingMode=TrackingMode_None;
             setValue(int(double((ev->x()-TAQUET_SIZE)/double(this->width()-TAQUET_SIZE*2))*double(maximum())));
-    }
+        }
+        if (TrackingMode!=TrackingMode_None) {
+            TrackingOffset=ev->pos().x();
+            TrackingValue =value();
+            triggerAction(SliderMove);
+            setRepeatAction(SliderNoAction);
+            update();
+            setSliderDown(true);
+        }
+        emit PositionChangeByUser();
+    } else QSlider::mousePressEvent(ev);
+}
+
+//====================================================================================================================
+
+void QCustomRuler::mouseReleaseEvent(QMouseEvent *ev) {
+    if (isSliderDown()) {
+        ev->accept();
+        setRepeatAction(SliderNoAction);
+        setSliderDown(false);
+        TrackingMode=TrackingMode_None;
+        update();
+        emit PositionChangeByUser();
+    } else QSlider::mouseReleaseEvent(ev);
 }
 
 //====================================================================================================================
@@ -213,23 +271,69 @@ void QCustomRuler::paintEvent(QPaintEvent *) {
     Painter.drawRect(TAQUET_SIZE-1,15,Width-TAQUET_SIZE*2+2,5);
 
     //********************************************************
-    // Draw thumb
+    // Draw thumbs
     //********************************************************
-    int     x1 =int(double(Width-TAQUET_SIZE*2)*(double(value())/double(maximum())))+TAQUET_SIZE;
-    QPointF Table[10];
-    double  vcos,vsin,Angle;
-    int     i;
 
-    Angle=90;
-    for (i=0;i<3;i++) {
-        vcos=cos(Angle*3.14159265/180)*(ThumbWidth/2);
-        vsin=sin(Angle*3.14159265/180)*(ThumbHeight/2);
-        Table[i]=QPointF(x1+vcos,ThumbYPos-vsin);
-        Angle=Angle+(double(360)/3);
-        if (Angle>=360) Angle=-Angle+360;
+    if (EditStartEnd) {
+        // Draw start pos
+        Painter.setBrush(isSliderDown()&&(TrackingMode==TrackingMode_Start)?Qt::white:QBrush(QColor(0xCC,0xCC,0xCC)));
+        int     StartX=int(double(Width-TAQUET_SIZE*2)*(double(StartPos)/double(TotalDuration)))+TAQUET_SIZE;
+        QPointF StartPosTable[5];
+        StartPosTable[0]=QPointF(StartX,16);
+        StartPosTable[1]=QPointF(StartX,32-1);
+        StartPosTable[2]=QPointF(StartX-TAQUET_SIZE,32-1);
+        StartPosTable[3]=QPointF(StartX-TAQUET_SIZE,25);
+        StartPosTable[4]=QPointF(StartX,16);
+        Painter.drawPolygon(StartPosTable,5);
+
+        // Draw end pos
+        Painter.setBrush(isSliderDown()&&(TrackingMode==TrackingMode_End)?Qt::white:QBrush(QColor(0xCC,0xCC,0xCC)));
+        int     EndX=int(double(Width-TAQUET_SIZE*2)*(double(EndPos)/double(TotalDuration)))+TAQUET_SIZE;
+        QPointF EndPosTable[5];
+        EndPosTable[0]=QPointF(EndX,16);
+        EndPosTable[1]=QPointF(EndX,32-1);
+        EndPosTable[2]=QPointF(EndX+TAQUET_SIZE,32-1);
+        EndPosTable[3]=QPointF(EndX+TAQUET_SIZE,25);
+        EndPosTable[4]=QPointF(EndX,16);
+        Painter.drawPolygon(EndPosTable,5);
+
+        // Draw thumb
+        if ((TrackingMode!=TrackingMode_Start)&&(TrackingMode!=TrackingMode_End)) {
+            Painter.setBrush(isSliderDown()?Qt::white:QBrush(QColor(0xCC,0xCC,0xCC)));
+            int     x1=int(double(Width-TAQUET_SIZE*2)*(double(value())/double(maximum())))+TAQUET_SIZE;
+            QPointF Table[3];
+            double  vcos,vsin,Angle;
+            int     i,DecalY=0,HH=ThumbHeight/2;
+            DecalY=-8;
+            Angle=-90;
+            for (i=0;i<3;i++) {
+                vcos=cos(Angle*3.14159265/180)*(ThumbWidth/2);
+                vsin=sin(Angle*3.14159265/180)*HH;
+                Table[i]=QPointF(x1+vcos,ThumbYPos-vsin+DecalY);
+                Angle=Angle+(double(360)/3);
+                if (Angle>=360) Angle=-Angle+360;
+            }
+            Painter.drawPolygon(Table,3);
+        }
+
+    } else {
+        Painter.setBrush(isSliderDown()?Qt::white:QBrush(QColor(0xCC,0xCC,0xCC)));
+        int     x1=int(double(Width-TAQUET_SIZE*2)*(double(value())/double(maximum())))+TAQUET_SIZE;
+        QPointF Table[3];
+        double  vcos,vsin,Angle;
+        int     i,HH=ThumbHeight/2;
+        Angle=90;
+        for (i=0;i<3;i++) {
+            vcos=cos(Angle*3.14159265/180)*(ThumbWidth/2);
+            vsin=sin(Angle*3.14159265/180)*HH;
+            Table[i]=QPointF(x1+vcos,ThumbYPos-vsin);
+            Angle=Angle+(double(360)/3);
+            if (Angle>=360) Angle=-Angle+360;
+        }
+        // Draw thumb
+        Painter.drawPolygon(Table,3);
+        Painter.setPen(QColor(0x70,0x70,0x70));
+        Painter.drawLine(x1-1,7,x1-1,16);
+        Painter.drawLine(x1,7,x1,16);
     }
-    Painter.setBrush(QBrush(QColor(0xCC,0xCC,0xCC)));
-    Painter.drawPolygon(Table,3);
-    Painter.setPen(QColor(0x70,0x70,0x70));
-    Painter.drawLine(x1,7,x1,16);
 }

@@ -172,7 +172,6 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     tDuration               = QTime(0,0,0,0);
     ResetPositionWanted     = false;
     Deinterlace             = false;
-
     this->FileInfo          = FileInfo;
 
     Music.SetFPS(MixedMusic.WantedDuration,MixedMusic.Channels,MixedMusic.SamplingRate,MixedMusic.SampleFormat);
@@ -193,6 +192,7 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     connect(ui->CustomRuler,SIGNAL(sliderReleased()),this,SLOT(s_SliderReleased()));
     connect(ui->CustomRuler,SIGNAL(valueChanged(int)),this,SLOT(s_SliderMoved(int)));
     connect(ui->CustomRuler,SIGNAL(PositionChangeByUser()),this,SLOT(s_PositionChangeByUser()));
+    connect(ui->CustomRuler,SIGNAL(StartEndChangeByUser()),this,SLOT(s_StartEndChangeByUser()));
     connect(ui->VideoPlayerSaveImageBT,SIGNAL(pressed()),this,SLOT(s_SaveImage()));
 }
 
@@ -216,6 +216,12 @@ void wgt_QVideoPlayer::showEvent(QShowEvent *) {
         SetPlayerToPlay();
         IsInit=true;
     }
+}
+
+//============================================================================================
+
+void wgt_QVideoPlayer::SetEditStartEnd(bool State) {
+    ui->CustomRuler->EditStartEnd=State;
 }
 
 //============================================================================================
@@ -451,9 +457,12 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             // Create a frame from actual position
             cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,ActualPosition,Diaporama,double(1000)/WantedFPS,false);
 
-            qreal Ratio=qreal(ui->MovieFrame->width())/qreal(ui->MovieFrame->height());
             int H=ui->MovieFrame->height();
-            int W=int(H*Ratio);
+            int W=Diaporama->GetWidthForHeight(H);
+            if (W>ui->MovieFrame->width()) {
+                W=ui->MovieFrame->width();
+                H=Diaporama->GetHeightForWidth(W);
+            }
             if ((Frame->IsTransition)&&(Frame->TransitObject)) Diaporama->CreateObjectContextList(Frame,W,H,false,true,true,PreparedTransitBrushList,Diaporama);
             Diaporama->CreateObjectContextList(Frame,W,H,true,true,true,PreparedBrushList,Diaporama);
             PrepareImage(false,true,Frame,W,H);         // This will add frame to the ImageList
@@ -590,9 +599,12 @@ void wgt_QVideoPlayer::s_TimerEvent() {
             }
 
             // Ensure background, image and soundtrack is ready
-            qreal Ratio=qreal(ui->MovieFrame->width())/qreal(ui->MovieFrame->height());
             int H=ui->MovieFrame->height();
-            int W=int(H*Ratio);
+            int W=Diaporama->GetWidthForHeight(H);
+            if (W>ui->MovieFrame->width()) {
+                W=ui->MovieFrame->width();
+                H=Diaporama->GetHeightForWidth(W);
+            }
             if ((Frame->IsTransition)&&(Frame->TransitObject)) Diaporama->CreateObjectContextList(Frame,W,H,false,true,true,PreparedTransitBrushList,Diaporama);
             Diaporama->CreateObjectContextList(Frame,W,H,true,true,true,PreparedBrushList,Diaporama);
             PrepareImage(true,true,Frame,W,H);
@@ -639,9 +651,12 @@ void wgt_QVideoPlayer::s_TimerEvent() {
         }
 
         // Ensure background, image and soundtrack is ready
-        qreal Ratio=qreal(ui->MovieFrame->width())/qreal(ui->MovieFrame->height());
         int H=ui->MovieFrame->height();
-        int W=int(H*Ratio);
+        int W=Diaporama->GetWidthForHeight(H);
+        if (W>ui->MovieFrame->width()) {
+            W=ui->MovieFrame->width();
+            H=Diaporama->GetHeightForWidth(W);
+        }
         if ((Frame->IsTransition)&&(Frame->TransitObject)) Diaporama->CreateObjectContextList(Frame,W,H,false,true,true,PreparedTransitBrushList,Diaporama);
         Diaporama->CreateObjectContextList(Frame,W,H,true,true,true,PreparedBrushList,Diaporama);
         ThreadPrepareImage.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,true,true,Frame,W,H));
@@ -678,7 +693,8 @@ void wgt_QVideoPlayer::StartThreadAssembly(double PCT,cDiaporamaObjectInfo *Fram
     Mutex.lock();
     // Append mixed musique to the queue
     if ((SoundWanted)&&(Frame->CurrentObject)) for (int j=0;j<Frame->CurrentObject_MusicTrack->NbrPacketForFPS;j++) {
-        int16_t *Music=Frame->CurrentObject_MusicTrack->DetachFirstPacket();
+        int16_t *Music=(((Frame->IsTransition)&&(Frame->TransitObject)&&(!Frame->TransitObject->MusicPause))||
+                        (!Frame->CurrentObject->MusicPause))?Frame->CurrentObject_MusicTrack->DetachFirstPacket():NULL;
         int16_t *Sound=(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL;
         MixedMusic.MixAppendPacket(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,Music,Sound);
     }
@@ -740,6 +756,14 @@ QTime wgt_QVideoPlayer::GetCurrentPos() {
 }
 
 //============================================================================================
+// Set current position in QTime format
+//============================================================================================
+
+void wgt_QVideoPlayer::SetCurrentPos(QTime Pos) {
+    SeekPlayer(QTime(0,0,0,0).msecsTo(Pos));
+}
+
+//============================================================================================
 // return current duration in QTime format
 //============================================================================================
 
@@ -771,4 +795,10 @@ void wgt_QVideoPlayer::SetActualDuration(int Duration) {
 
 void wgt_QVideoPlayer::s_PositionChangeByUser() {
     ResetPositionWanted=true;
+}
+
+void wgt_QVideoPlayer::s_StartEndChangeByUser() {
+    StartPos=QTime(0,0,0,0).addMSecs(ui->CustomRuler->StartPos);
+    EndPos=QTime(0,0,0,0).addMSecs(ui->CustomRuler->EndPos);
+    emit StartEndChangeByUser();
 }

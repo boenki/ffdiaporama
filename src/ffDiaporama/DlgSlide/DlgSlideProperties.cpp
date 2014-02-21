@@ -124,6 +124,10 @@ void DlgSlideProperties::DoInitDialog() {
 
     if (ui->TextFramingStyleCB->view()->width()<500)    ui->TextFramingStyleCB->view()->setFixedWidth(500);
 
+    ui->ShotDurationED->setCurrentSection(QDateTimeEdit::SecondSection);
+    ui->ShotDurationED->setCurrentSectionIndex(2);
+    ui->ShotDurationED->MsecStep=(ApplicationConfig->DefaultStandard==STANDARD_PAL?qreal(1000)/qreal(25):qreal(1001)/qreal(30));
+
     // Speed wave
     ui->SpeedWaveCB->AddProjectDefault(CurrentSlide->Parent->BlockAnimSpeedWave);
 
@@ -966,8 +970,11 @@ void DlgSlideProperties::s_ShotTable_DisplayDuration() {
     // duration and shot duration
     InDisplayDuration=true;
     ui->SlideDurationLabel->setText(QTime(0,0,0,0).addMSecs(CurrentSlide->GetDuration()).toString("hh:mm:ss.zzz"));
+    QDateTimeEdit::Section CurrentSection=ui->ShotDurationED->currentSection();
+    int CurrentSectionIndex=ui->ShotDurationED->currentSectionIndex();
     ui->ShotDurationED->setTime(QTime(0,0,0,0).addMSecs(CurrentShot->StaticDuration));
-
+    ui->ShotDurationED->setCurrentSection(CurrentSection);
+    ui->ShotDurationED->setCurrentSectionIndex(CurrentSectionIndex);
 
     // Minimum shot duration display
     int  AddingDuration=0;

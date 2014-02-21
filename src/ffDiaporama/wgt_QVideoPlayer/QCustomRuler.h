@@ -40,6 +40,16 @@ public:
     int     PrevisousEndPos;    // End position of the previous slide
     int     NextStartPos;       // Start position of the next slide
     int     NextEndPos;         // End position of the next slide
+    bool    EditStartEnd;       // if true, the ruller display 2 buttons to edit start and end position
+
+    // current mouse tracking mode
+    enum DefTrackingMode {
+        TrackingMode_None,
+        TrackingMode_Thumb,
+        TrackingMode_Start,
+        TrackingMode_End
+    } TrackingMode;
+    int TrackingOffset,TrackingValue;
 
     explicit QCustomRuler(QWidget *parent = 0);
 
@@ -49,9 +59,12 @@ protected:
     virtual void resizeEvent(QResizeEvent *);
     virtual void paintEvent (QPaintEvent *);
     virtual void mousePressEvent(QMouseEvent *);
+    virtual void mouseMoveEvent(QMouseEvent *);
+    virtual void mouseReleaseEvent(QMouseEvent *ev);
 
 signals:
     void    PositionChangeByUser();
+    void    StartEndChangeByUser();
 
 public slots:
 

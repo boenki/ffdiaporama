@@ -2455,7 +2455,7 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow,cReplaceObjectList *ReplaceList,
 // Function use directly or with thread to prepare an image number Column at given position
 // Note : Position is relative to the start of the Column object !
 //============================================================================================
-void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,int64_t Position,cSoundBlockList *MusicTrack) {
+void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,int64_t Position,cSoundBlockList *MusicTrack,int NbrDuration) {
     if (Column>=List.count()) {
         for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket(Position);
         return;
@@ -2488,10 +2488,12 @@ void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,int64_t Position,c
         }
 
         // Get more music bloc at correct position (volume is always 100% @ this point !)
-        CurMusic->ImageAt(PreviewMode,Position+StartPosition,MusicTrack,false,1,true,false);
+        CurMusic->ImageAt(PreviewMode,Position+StartPosition,MusicTrack,false,1,true,false,NbrDuration);
 
         // Apply correct volume to block in queue
-        if (Factor!=1.0) for (int i=0;i<MusicTrack->NbrPacketForFPS;i++) MusicTrack->ApplyVolume(i,Factor);
+        if (Factor!=1.0)
+            for (int i=0;i<MusicTrack->NbrPacketForFPS;i++)
+                MusicTrack->ApplyVolume(i,Factor);
     }
     // Ensure we have enought data
     //while (MusicTrack->List.count()<MusicTrack->NbrPacketForFPS) MusicTrack->AppendNullSoundPacket();
@@ -2643,7 +2645,7 @@ void cDiaporama::DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H,QI
 // Produce sound only if W and H=0
 //============================================================================================
 
-void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode,bool AddStartPos,QList<cCompositionObjectContext *> &PreparedTransitBrushList,QList<cCompositionObjectContext *> &PreparedBrushList) {
+void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode,bool AddStartPos,QList<cCompositionObjectContext *> &PreparedTransitBrushList,QList<cCompositionObjectContext *> &PreparedBrushList,int NbrDuration) {
     if (!Info->CurrentObject) return;
 
     QFutureWatcher<void> ThreadPrepareCurrentMusicBloc;
@@ -2655,10 +2657,10 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
     //==============> Music track part
 
     if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack))
-        ThreadPrepareCurrentMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack));
+        ThreadPrepareCurrentMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack,NbrDuration));
 
-    if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack))
-        ThreadPrepareTransitMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack));
+    if ((Info->IsTransition)&&(Info->TransitObject)&&(Info->TransitObject_MusicTrack))
+        ThreadPrepareTransitMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack,NbrDuration));
 
     //==============> Image part
 
@@ -2715,12 +2717,6 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
     if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)&&(ThreadPrepareCurrentMusicBloc.isRunning())) ThreadPrepareCurrentMusicBloc.waitForFinished();
     if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack)&&(ThreadPrepareTransitMusicBloc.isRunning())) ThreadPrepareTransitMusicBloc.waitForFinished();
 
-    // Special case to clear music buffer if not transition and music of CurrentObject is in pause mode
-    if ((!Info->IsTransition)&&(Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)&&(Info->CurrentObject->MusicPause)&&(Info->CurrentObject_MusicTrack->ListCount()>0)) {
-        for (int i=0;i<Info->CurrentObject_MusicTrack->NbrPacketForFPS;i++)
-            Info->CurrentObject_MusicTrack->PrependNullSoundPacket(Info->CurrentObject_StartTime+Info->CurrentObject_InObjectTime);
-    }
-
     // Soundtrack mix with fade in/fade out
     if ((Info->IsTransition)&&((Info->CurrentObject_SoundTrackMontage)||(Info->TransitObject_SoundTrackMontage))) {
 
@@ -2738,7 +2734,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
         Info->CurrentObject_SoundTrackMontage->Mutex.lock();
         for (int i=0;i<Info->CurrentObject_SoundTrackMontage->NbrPacketForFPS;i++) {
             // Mix the 2 sources buffer using the first buffer as destination and remove one paquet from the TransitObject_SoundTrackMontage
-            int16_t *Paquet=Info->TransitObject_SoundTrackMontage?Info->TransitObject_SoundTrackMontage->DetachFirstPacket():NULL;
+            int16_t *Paquet=Info->TransitObject_SoundTrackMontage?Info->TransitObject_SoundTrackMontage->DetachFirstPacket(true):NULL;
 
             int32_t mix;
             int16_t *Buf1=i<Info->CurrentObject_SoundTrackMontage->ListCount()?Info->CurrentObject_SoundTrackMontage->GetAt(i):NULL;
@@ -2794,56 +2790,49 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
 
     // Mix current and transit music
     // @ the end: only current music exist !
-    // add fade out of previous music track (if needed)
     // Mix the 2 sources buffer using the first buffer as destination and remove one paquet from the PreviousMusicTrack
-    if ((Info->IsTransition)&&(Info->TransitObject_MusicTrack)&&(Info->TransitObject_MusicTrack->ListCount()>0)) {
+    if ((Info->IsTransition)&&(Info->CurrentObject_MusicTrack)&&(Info->CurrentObject_SoundTrackMontage)) {
+        Info->CurrentObject_MusicTrack->Mutex.lock();
         Info->CurrentObject_SoundTrackMontage->Mutex.lock();
-        for (int i=0;i<Info->CurrentObject_MusicTrack->NbrPacketForFPS;i++) {
-            int16_t *Paquet=Info->TransitObject_MusicTrack->DetachFirstPacket();
-            // Ensure paquet exist, elsewhere create one and init it to 0 (silence)
-            if (!Paquet) {
-                Paquet=(int16_t *)av_malloc(Info->TransitObject_MusicTrack->SoundPacketSize+8);
-                memset((u_int8_t *)Paquet,0,Info->TransitObject_MusicTrack->SoundPacketSize+8);
-            }
+        int Max=Info->CurrentObject_MusicTrack->NbrPacketForFPS;
+        if (Max>Info->CurrentObject_MusicTrack->ListCount()) Max=Info->CurrentObject_MusicTrack->ListCount();
+        for (int i=0;i<Max;i++) {
+            if (i>=Info->CurrentObject_MusicTrack->ListCount())
+                Info->CurrentObject_MusicTrack->AppendNullSoundPacket(0,true);
+            int16_t *Buf1=Info->CurrentObject_MusicTrack->GetAt(i);
+            int16_t *Buf2=Info->TransitObject_MusicTrack?Info->TransitObject_MusicTrack->DetachFirstPacket(true):NULL;
             int32_t mix;
-            int16_t *Buf1=(i<Info->CurrentObject_MusicTrack->ListCount())?Info->CurrentObject_MusicTrack->GetAt(i):NULL;
             int     Max=Info->CurrentObject_MusicTrack->SoundPacketSize/(Info->CurrentObject_MusicTrack->SampleBytes*Info->CurrentObject_MusicTrack->Channels);
-            double  FadeAdjust   =sin(1.5708*double(Info->CurrentObject_InObjectTime+(double(i)/double(Info->CurrentObject_MusicTrack->NbrPacketForFPS))*double(Info->FrameDuration))/double(Info->TransitionDuration));
-            double  FadeAdjust2  =1-FadeAdjust;
 
-            int16_t *Buf2=(Paquet!=NULL)?Paquet:NULL;
-            if ((Buf1!=NULL)&&(Buf2==NULL)) {
-                // Nothing to do !
-            } else if ((Buf1!=NULL)&&(Buf2!=NULL)) {
-                for (int j=0;j<Max;j++) {
-                    // Left channel : Adjust if necessary (16 bits)
-                    mix=int32_t(*(Buf1)+double(*(Buf2++))*FadeAdjust2);
-                    if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
-                    *(Buf1++)=int16_t(mix);
-                    // Right channel : Adjust if necessary (16 bits)
-                    mix=int32_t(*(Buf1)+double(*(Buf2++))*FadeAdjust2);
-                    if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
-                    *(Buf1++)=int16_t(mix);
-                }
-                if (Paquet) av_free(Paquet);
-            } else if ((Buf1==NULL)&&(Buf2!=NULL)) {
-                // swap buf1 and buf2
-                if (i<Info->CurrentObject_MusicTrack->ListCount()) Info->CurrentObject_MusicTrack->SetAt(i,Buf2);
-                    else Info->CurrentObject_MusicTrack->AppendPacket(-1,Buf2);
-                // Apply Fade to Buf2
-                for (int j=0;j<Max;j++) {
-                    // Left channel : Adjust if necessary (16 bits)
-                    mix=int32_t(double(*(Buf2))*FadeAdjust2);
-                    if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
-                    *(Buf2++)=int16_t(mix);
-                    // Right channel : Adjust if necessary (16 bits)
-                    mix=int32_t(double(*(Buf2))*FadeAdjust2);
-                    if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
-                    *(Buf2++)=int16_t(mix);
-                }
+            // Ensure Buf1 exist, elsewhere create one and init it to 0 (silence)
+            if (!Buf1) {
+                Buf1=(int16_t *)av_malloc(Info->CurrentObject_MusicTrack->SoundPacketSize+8);
+                memset((u_int8_t *)Buf1,0,Info->CurrentObject_MusicTrack->SoundPacketSize+8);
             }
+
+            // Ensure paquet exist, elsewhere create one and init it to 0 (silence)
+            if (!Buf2) {
+                Buf2=(int16_t *)av_malloc(Info->CurrentObject_MusicTrack->SoundPacketSize+8);
+                memset((u_int8_t *)Buf2,0,Info->CurrentObject_MusicTrack->SoundPacketSize+8);
+            }
+
+            int16_t *B1=Buf1,*B2=Buf2;
+
+            for (int j=0;j<Max;j++) {
+                // Left channel : Adjust if necessary (16 bits)
+                mix=int32_t(*(B1)+*(B2++));
+                if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
+                *(B1++)=int16_t(mix);
+                // Right channel : Adjust if necessary (16 bits)
+                mix=int32_t(*(B1)+*(B2++));
+                if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
+                *(B1++)=int16_t(mix);
+            }
+            av_free(Buf2);
+            Info->CurrentObject_MusicTrack->SetAt(i,Buf1);
         }
         Info->CurrentObject_SoundTrackMontage->Mutex.unlock();
+        Info->CurrentObject_MusicTrack->Mutex.unlock();
     }
 }
 

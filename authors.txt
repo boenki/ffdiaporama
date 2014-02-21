@@ -18,6 +18,11 @@ Logo & icons:
     Nuvola <http://fr.wikipedia.org/wiki/Nuvola>
     OpenClipArts <http://openclipart.org/>
 
+Luma files:
+    Some files are in the public domain
+    Some files from Dominique LEVRAY <domledom@laposte.net>
+    Some files from Alexander Goponenko <agoponenko@gmail.com>
+
 Translation:
     Czech: Bagicz
     Dutch: J.G. Visser <jgvnet@gmail.com>

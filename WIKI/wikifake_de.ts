@@ -738,55 +738,55 @@
     </message>
     <message>
         <source>%PLN%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PLN%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project location name&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Inhalt des Feldes &lt;B&gt;&lt;I&gt;Name Projektort&lt;/I&gt;&lt;/B&gt; aus den &lt;a href=&quot;0108.html&quot;&gt;Projekteigenschaften&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%PLA%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PLA%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project location address&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Inhalt des Feldes &lt;B&gt;&lt;I&gt;Adresse Projektort&lt;/I&gt;&lt;/B&gt; aus den &lt;a href=&quot;0108.html&quot;&gt;Projekteigenschaften&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%CLN%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CLN%</translation>
     </message>
     <message>
         <source>Current chapter location name (if one is defined or project&apos;s location name).</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktueller Ort des Kapitels (falls einer gesetzt ist oder der Name des Projektortes).</translation>
     </message>
     <message>
         <source>%CLA%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CLA%</translation>
     </message>
     <message>
         <source>Current chapter location address (if one is defined or project&apos;s location address).</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktuelle Adresse des Kapitels (falls einer definiert ist oder die Adresse des Projektortes).</translation>
     </message>
     <message>
         <source>The following table lists all the available variables:</source>
-        <translation type="unfinished"></translation>
+        <translation>Folgende Tabelle enthält alle verfübaren Variablen:</translation>
     </message>
     <message>
         <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ​​only when they are used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Große Verwendung finden Variablen, da sie nicht nur als Text eingefügt werden können (siehe Dialog : &lt;a href=&quot;0120.html&quot;&gt;Text ändern&lt;/a&gt;), sie können auch in Ihren Wert übersetzt werden wenn dies gebraucht wird.</translation>
     </message>
     <message>
         <source>Current chapter number displayed as &lt;U&gt;Chapter N°&lt;/U&gt; (depending on the current language)</source>
-        <translation type="unfinished"></translation>
+        <translation>Das aktuelle Kapitel wird angezeigt als &lt;U&gt;Kapitel N°&lt;/U&gt; (abhängig von der aktuellen Spracheinstellung)</translation>
     </message>
     <message>
         <source>Copyright of the project construct as &lt;U&gt;© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Copyright des Projektes wird zusammengesetzt aus dem &lt;U&gt;© Jahr - Autor&lt;/U&gt; mit &lt;B&gt;&lt;I&gt;Jahr&lt;/I&gt;&lt;/B&gt; das dem aktuellem Jahr entspricht und &lt;B&gt;&lt;I&gt;Autor&lt;/I&gt;&lt;/B&gt; aus dem Feld &lt;B&gt;&lt;I&gt;Projektautor&lt;/I&gt;&lt;/B&gt; im Dialog &lt;a href=&quot;0108.html&quot;&gt;Projekteigenschaften&lt;/a&gt;</translation>
     </message>
     <message>
         <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with «&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein Volltext zusammengesetzt aus: Projekt erstellt am &lt;U&gt;&lt;B&gt;&lt;I&gt;Kurzdatum&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;mit &lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama Version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; auf einem Computer mit dem &lt;U&gt;&lt;B&gt;&lt;I&gt;Betriebssystem&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Anzahl von Kernen/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Kernen/CPU).</translation>
     </message>
 </context>
 <context>
@@ -1118,7 +1118,7 @@
     </message>
     <message>
         <source>Add or modify a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen oder Ändern des Ortes</translation>
     </message>
 </context>
 <context>
@@ -1614,11 +1614,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Allows you to paste the slide or the image currently in the clipboard into the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ermöglicht das Einfügen des Dias oder Bildes, welches sich aktuell in der Zwischenablage befindet, in die &lt;a href=&quot;0023.html&quot;&gt;Zeitleiste&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Add a map: Allows you to add a Google Maps map. The &lt;a href=&quot;0110.html&quot;&gt;correct, reframe or cut image or video dialog&lt;/a&gt; appears.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen einer Karte: Ermöglicht das Hinzufügen einer Google Karte. Der &lt;a href=&quot;0110.html&quot;&gt;Korrigieren, Beschneiden oder Kürzen von Bildern oder Videos&lt;/a&gt; Dialog erscheint.</translation>
     </message>
 </context>
 <context>
@@ -1829,15 +1829,15 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>On slide associated with the music, the cover, artist and song title are displayed</source>
-        <translation type="unfinished"></translation>
+        <translation>Bei Dias die mit der Musik verknüpft sind, wird die Hülle, der Artist und der Songtitel angezeigt</translation>
     </message>
     <message>
         <source>To move the music or the background associated to a slide to another slide:</source>
-        <translation type="unfinished"></translation>
+        <translation>Verschieben der Musik oder des zugewiesenen Hintergrundes von einem Dia zu einem anderem:</translation>
     </message>
     <message>
         <source>Simply drag the music or background to a new position with the mouse (drag &amp; drop)</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfach die Musik oder den Hintergrund auf eine neue Position verschieben (Drag &amp; Drop)</translation>
     </message>
 </context>
 <context>
@@ -2301,15 +2301,15 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>This option sorts the files in order of their creation date</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Option sortiert die Dateien nach ihrem Erstellungsdatum</translation>
     </message>
     <message>
         <source>Image vector files</source>
-        <translation type="unfinished"></translation>
+        <translation>Vektorbilddateien</translation>
     </message>
     <message>
         <source>Limit the display of the current folder to the image vector files of which the format is recognized by ffDiaporama in the present subfolders</source>
-        <translation type="unfinished"></translation>
+        <translation>Reduzieren der Anzahl angezeigter Dateien im aktuellen Ordner auf Vektorbilddateien die von ffDiaporama verarbeitet werden können</translation>
     </message>
 </context>
 <context>
@@ -3142,11 +3142,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Both settings are using &lt;U&gt;veryfast&lt;/U&gt; preset. </source>
-        <translation type="unfinished"></translation>
+        <translation>Beide Einstellungen verwenden das &lt;U&gt;veryfast&lt;/U&gt; Preset.</translation>
     </message>
     <message>
         <source>Note: Variable bitrate is used with these two codecs. For more information on variable bitrate, see: &lt;a href=&quot;0115.html&quot;&gt;Render video&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Anmerkung: Variable Bitrate wird für diese beiden Codecs verwendet. Für mehr Informationen über Variable Bitrate, lesen Sie &lt;a href=&quot;0115.html&quot;&gt;Video erstellen&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -3745,7 +3745,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Types of objects in ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Arten von Objekten in ffDiaporama</translation>
     </message>
 </context>
 <context>
@@ -4052,11 +4052,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     <name>0045</name>
     <message>
         <source>Types of objects in ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Arten von Objekten in ffDiaporama</translation>
     </message>
     <message>
         <source> This section contains information about types of objects that can be used with ffDiaporama. </source>
-        <translation type="unfinished"></translation>
+        <translation> Dieser Abschnitt enthält Informationen über die Typen von Objekten; welche in ffDiaporama verwendet werden können.</translation>
     </message>
     <message>
         <source>Index</source>
@@ -4068,59 +4068,59 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Music file</source>
-        <translation type="unfinished"></translation>
+        <translation>Musiktitel</translation>
     </message>
     <message>
         <source>Bitmap image file</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitmap Bilddatei</translation>
     </message>
     <message>
         <source>Bitmap image from clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitmap Bild aus der Zwischenablage</translation>
     </message>
     <message>
         <source>Vector image file</source>
-        <translation type="unfinished"></translation>
+        <translation>Vektorbilddatei</translation>
     </message>
     <message>
         <source>Video file</source>
-        <translation type="unfinished"></translation>
+        <translation>Videodatei</translation>
     </message>
     <message>
         <source>Google maps map</source>
-        <translation type="unfinished"></translation>
+        <translation>Google Maps Karte</translation>
     </message>
     <message>
         <source>There are several things to know about Google Maps</source>
-        <translation type="unfinished"></translation>
+        <translation>Es gibt mehrere Dinge, die man über Google Maps wissen sollte</translation>
     </message>
     <message>
         <source>Google Maps generates images with up to 640x640. Within these images, Google Maps inserts logos that must be removed so that useful images are really only 640x600. Therefore, to generate an image for example 1080p, we have to assemble 6 Google Maps images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Google Maps erzeugt Bilder mit einer Größe von 640x640 Bildpunkten. Innerhalb dieser Bilder, werden von Google Maps Logos eingefügt, welche entfernt werden müssen um ein sinnvolles Bild zu erhalten. Somit bleiben nur 640x600 Bildpunkte übrig. Um ein Bild für 1080p zu erstellen, müssen somit 6 Google Maps Bilder verarbeitet werden.</translation>
     </message>
     <message>
         <source>Google Maps limit the number of queries a user can send. This limitation is made to prevent robots to saturate the servers. Unfortunately, this limitation may cause problems when generating big picture. It is possible that you may receive an error warning message saying that you have reached the limit of Google Maps request grants to you.</source>
-        <translation type="unfinished"></translation>
+        <translation>Google Maps limitiert die Anzahl der Anfragen eines Benutzers. Diese Limitierung wurde eingeführt; um vor Robots zu schützen, welche die Server überlasten würden. Bedauerlicherweise führt dies eventuell zu Erstellungsproblemen bei großen Bildern. Möglicherweise erhalten Sie eine Fehlermeldung die besagt, dass Sie das Limit überschritten haben.</translation>
     </message>
     <message>
         <source>To resolve this problem, ffDiaporama integrates a mechanical of recovery. Thus, if a card can not be generated immediately, you can resume it generation later.</source>
-        <translation type="unfinished"></translation>
+        <translation>Um dieses Problem zu lösen, hat ffDiaporama einen Mechanismus zur Behebung eingebaut. Somit können Karten, die nicht sofort erstellt werden können, zu einem späteren Zeitpunkt erstellt werden.</translation>
     </message>
     <message>
         <source>The roads are perpetually modified and Google Maps is constantly updated. Of course, it is not possible to generate a map for road conditions at a specific date. Therefore, think before you update a map of an old project.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Straßen werden ständig verändert und Google Maps aktualisiert laufend. Es ist leider nicht möglich die Straßenkarten für einen bestimmten Zeitpunkt zu erstellen. Bitte bedenken Sie diesen Umstand, bevor Sie Karten eines alten Projektes aktualisieren.</translation>
     </message>
     <message>
         <source>Image size and Map size</source>
-        <translation type="unfinished"></translation>
+        <translation>Bildgröße und Kartengröße</translation>
     </message>
     <message>
         <source>Depending on the zoom level, Google Maps decides himself of the information displayed on the map. Thus, it is not possible to generate several maps at different zoom levels and then to create a zoom animation because there is no chance that this animation be fluid. It&apos;s why ffDiaporama proposes to generate maps of several image sizes. So, to create a fluid zoom animation, you can use a large image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Abhängig vom Zoom bestimmt Google Maps selbst, welche Informationen auf einer Karte angezeigt werden. Somit ist es leider nicht möglich, Karten mit unterschiedlichen Zoomstufen zu erstellen, um eine Zoomanimation zu erhalten. Es ist nahezu aussichtslos, eine flüssige Animation zu erhalten. Deshalb bietet ffDiaporama die Möglichkeit an, Karten mit unterschiedlichen Bildgrößen zu erstellen. Damit können annähernd flüssige Zoomanimationen erstellt werden, wenn Sie große Karten verwenden.</translation>
     </message>
     <message>
         <source>The following table shows the different &lt;U&gt;Image sizes&lt;/U&gt; that you can generate.</source>
-        <translation type="unfinished"></translation>
+        <translation>Folgende Tabelle zeigt die unterschiedlichen &lt;U&gt;Bildgrößen&lt;/U&gt;, die erstellt werden können.</translation>
     </message>
     <message>
         <source>Image size</source>
@@ -4136,67 +4136,67 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Small-16:9</source>
-        <translation type="unfinished"></translation>
+        <translation>Klein-16:9</translation>
     </message>
     <message>
         <source>640x360 (0.2 MPix)</source>
-        <translation type="unfinished"></translation>
+        <translation>640x360 (0.2 MPix)</translation>
     </message>
     <message>
         <source>Quarter of 720p. Useful to add a small map in a photo collage</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein Viertel von 720p. Nützlich um schmale Karten in einer Fotogalerie zu erstellen</translation>
     </message>
     <message>
         <source>1280x720 (0.9 MPix)</source>
-        <translation type="unfinished"></translation>
+        <translation>1280x720 (0.9 MPix)</translation>
     </message>
     <message>
         <source>Useful for creating a full-screen map in a 720p project or to add a map to a title slide in a 1080p project</source>
-        <translation type="unfinished"></translation>
+        <translation>Nützlich um Vollbildkarten in einem 720p Projekt zu erstellen oder um eine Karte in einem Titel-Dia eines 1080p Projektes zu erstellen</translation>
     </message>
     <message>
         <source>720px4-16:9</source>
-        <translation type="unfinished"></translation>
+        <translation>720px4-16:9</translation>
     </message>
     <message>
         <source>2560x1440 (3.6 MPix)</source>
-        <translation type="unfinished"></translation>
+        <translation>2560x1440 (3.6 MPix)</translation>
     </message>
     <message>
         <source>Useful for creating a full-screen &lt;B&gt;animated&lt;/B&gt; map in a 720p project or to add an &lt;B&gt;animated&lt;/B&gt; map to a title slide in a 1080p project</source>
-        <translation type="unfinished"></translation>
+        <translation>Nützlich um &lt;B&gt;animierte&lt;/B&gt; Vollbildkarten in einem 720p Projekt zu erstellen oder um eine &lt;B&gt;animierte&lt;/B&gt; Karte in einem Titel-Dia eines 1080p Projektes zu erstellen</translation>
     </message>
     <message>
         <source>1920x1080 (2 MPix)</source>
-        <translation type="unfinished"></translation>
+        <translation>1920x1080 (2 MPix)</translation>
     </message>
     <message>
         <source>Useful for creating a full-screen map in a 1080p project</source>
-        <translation type="unfinished"></translation>
+        <translation>Nützlich um Vollbildkarten in einem 1080p Projekt zu erstellen</translation>
     </message>
     <message>
         <source>1080px4-16:9</source>
-        <translation type="unfinished"></translation>
+        <translation>1080px4-16:9</translation>
     </message>
     <message>
         <source>3840x2160 (8.2 MPix)</source>
-        <translation type="unfinished"></translation>
+        <translation>3840x2160 (8.2 MPix)</translation>
     </message>
     <message>
         <source>Useful for creating a full-screen &lt;B&gt;animated&lt;/B&gt; map in a 1080p project</source>
-        <translation type="unfinished"></translation>
+        <translation>Nützlich um &lt;B&gt;animierte&lt;/B&gt; Vollbildkarten in einem 1080p Projekt zu erstellen</translation>
     </message>
     <message>
         <source>Note that all image sizes are 16:9 geometry to simplify computation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte beachten Sie, dass alle Bilder zur einfacheren Berechnung in 16:9 erstellt werden.</translation>
     </message>
     <message>
         <source>Because a map is formed by joining multiple pieces of map, based on the image size, the card will be a map greater or lesser.</source>
-        <translation type="unfinished"></translation>
+        <translation>Da die Karte - abhängig von der Bildgröße - aus mehreren Stücken zusammengesetzt wird, die Karte größer oder kleiner wird.</translation>
     </message>
     <message>
         <source>The following table shows the &lt;U&gt;Map sizes&lt;/U&gt; in kilometers for each &lt;U&gt;Image sizes&lt;/U&gt; and &lt;U&gt;Google Maps zoom levels&lt;/U&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die folgende Tabelle zeigt die &lt;U&gt;Kartengrößen&lt;/U&gt; in Kilometer für jede &lt;U&gt;Bildgröße&lt;/U&gt; und die &lt;U&gt;Google Maps Zoomstufen&lt;/U&gt;.</translation>
     </message>
     <message>
         <source>Zoom</source>
@@ -4204,207 +4204,207 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Maps sizes (kilometers)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kartengröße (in Kilometer)</translation>
     </message>
     <message>
         <source>720p x4</source>
-        <translation type="unfinished"></translation>
+        <translation>720p x4</translation>
     </message>
     <message>
         <source>15011.315 km x 8613.829 km</source>
-        <translation type="unfinished"></translation>
+        <translation>15011.315 km x 8613.829 km</translation>
     </message>
     <message>
         <source>12509.429 km x 5930.123 km</source>
-        <translation type="unfinished"></translation>
+        <translation>12509.429 km x 5930.123 km</translation>
     </message>
     <message>
         <source>6254.715 km x 3351.985 km</source>
-        <translation type="unfinished"></translation>
+        <translation>6254.715 km x 3351.985 km</translation>
     </message>
     <message>
         <source>18764.144 km x 7605.642 km</source>
-        <translation type="unfinished"></translation>
+        <translation>18764.144 km x 7605.642 km</translation>
     </message>
     <message>
         <source>3127.357 km x 1737.202 km</source>
-        <translation type="unfinished"></translation>
+        <translation>3127.357 km x 1737.202 km</translation>
     </message>
     <message>
         <source>9382.072 km x 4760.424 km</source>
-        <translation type="unfinished"></translation>
+        <translation>9382.072 km x 4760.424 km</translation>
     </message>
     <message>
         <source>1563.679 km x 876.788 km</source>
-        <translation type="unfinished"></translation>
+        <translation>1563.679 km x 876.788 km</translation>
     </message>
     <message>
         <source>4691.036 km x 2566.349 km</source>
-        <translation type="unfinished"></translation>
+        <translation>4691.036 km x 2566.349 km</translation>
     </message>
     <message>
         <source>781.839 km x 439.436 km</source>
-        <translation type="unfinished"></translation>
+        <translation>781.839 km x 439.436 km</translation>
     </message>
     <message>
         <source>2345.518 km x 1310.024 km</source>
-        <translation type="unfinished"></translation>
+        <translation>2345.518 km x 1310.024 km</translation>
     </message>
     <message>
         <source>390.920 km x 219.849 km</source>
-        <translation type="unfinished"></translation>
+        <translation>390.920 km x 219.849 km</translation>
     </message>
     <message>
         <source>1172.759 km x 658.501 km</source>
-        <translation type="unfinished"></translation>
+        <translation>1172.759 km x 658.501 km</translation>
     </message>
     <message>
         <source>195.460 km x 109.941 km</source>
-        <translation type="unfinished"></translation>
+        <translation>195.460 km x 109.941 km</translation>
     </message>
     <message>
         <source>586.379 km x 329.691 km</source>
-        <translation type="unfinished"></translation>
+        <translation>586.379 km x 329.691 km</translation>
     </message>
     <message>
         <source>97.730 km x 54.972 km</source>
-        <translation type="unfinished"></translation>
+        <translation>97.730 km x 54.972 km</translation>
     </message>
     <message>
         <source>293.190 km x 164.901 km</source>
-        <translation type="unfinished"></translation>
+        <translation>293.190 km x 164.901 km</translation>
     </message>
     <message>
         <source>48.865 km x 27.486 km</source>
-        <translation type="unfinished"></translation>
+        <translation>48.865 km x 27.486 km</translation>
     </message>
     <message>
         <source>146.595 km x 82.457 km</source>
-        <translation type="unfinished"></translation>
+        <translation>146.595 km x 82.457 km</translation>
     </message>
     <message>
         <source>24.432 km x 13.743 km</source>
-        <translation type="unfinished"></translation>
+        <translation>24.432 km x 13.743 km</translation>
     </message>
     <message>
         <source>73.297 km x 41.230 km</source>
-        <translation type="unfinished"></translation>
+        <translation>73.297 km x 41.230 km</translation>
     </message>
     <message>
         <source>12.216 km x 6.872 km</source>
-        <translation type="unfinished"></translation>
+        <translation>12.216 km x 6.872 km</translation>
     </message>
     <message>
         <source>36.649 km x 20.615 km</source>
-        <translation type="unfinished"></translation>
+        <translation>36.649 km x 20.615 km</translation>
     </message>
     <message>
         <source>6.108 km x 3.436 km</source>
-        <translation type="unfinished"></translation>
+        <translation>6.108 km x 3.436 km</translation>
     </message>
     <message>
         <source>18.324 km x 10.307 km</source>
-        <translation type="unfinished"></translation>
+        <translation>18.324 km x 10.307 km</translation>
     </message>
     <message>
         <source>3.054 km x 1.718 km</source>
-        <translation type="unfinished"></translation>
+        <translation>3.054 km x 1.718 km</translation>
     </message>
     <message>
         <source>9.162 km x 5.154 km</source>
-        <translation type="unfinished"></translation>
+        <translation>9.162 km x 5.154 km</translation>
     </message>
     <message>
         <source>1.527 km x 0.859 km</source>
-        <translation type="unfinished"></translation>
+        <translation>1.527 km x 0.859 km</translation>
     </message>
     <message>
         <source>4.581 km x 2.577 km</source>
-        <translation type="unfinished"></translation>
+        <translation>4.581 km x 2.577 km</translation>
     </message>
     <message>
         <source>0.764 km x 0.429 km</source>
-        <translation type="unfinished"></translation>
+        <translation>0.764 km x 0.429 km</translation>
     </message>
     <message>
         <source>2.291 km x 1.288 km</source>
-        <translation type="unfinished"></translation>
+        <translation>2.291 km x 1.288 km</translation>
     </message>
     <message>
         <source>1.145 km x 0.644 km</source>
-        <translation type="unfinished"></translation>
+        <translation>1.145 km x 0.644 km</translation>
     </message>
     <message>
         <source>Notes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Anmerkung:</translation>
     </message>
     <message>
         <source>Because Google Maps don&apos;t respect perfect alignment when using high zoom level, all map sizes lesser than 400 meters are useless with ffDiaporama.</source>
-        <translation type="unfinished"></translation>
+        <translation>Da Google Maps bei großen Zoomstufen nicht exakt ausrichtet, sind alle Karten, die kleiner als 400 Meter sind, für ffDiaporama unbrauchbar.</translation>
     </message>
     <message>
         <source>Google Maps zoom levels 0 and 1 are useless with ffDiaporama because they produce images that are too small.</source>
-        <translation type="unfinished"></translation>
+        <translation>Google Maps Zoomstufe 0 und 1 sind für ffDiaporama nicht brauchbar, da die erstellten Bilder zu klein sind.</translation>
     </message>
     <message>
         <source>Google Maps zoom levels 20 and 11 are useless with ffDiaporama Google Maps don&apos;t respect perfect alignment when using high zoom level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Google Maps Zoomstufe 20 und 11 sind für ffDiaporama nicht brauchbar, da Google Maps bei hohen Zoomstufen nicht exakt ausrichtet.</translation>
     </message>
     <message>
         <source>Bitmap image file and Bitmap image from clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitmap Bilddatei und Bitmap Bild aus der Zwischenablage</translation>
     </message>
     <message>
         <source>Google Maps</source>
-        <translation type="unfinished"></translation>
+        <translation>Google Maps</translation>
     </message>
     <message>
         <source>ffDiaporama can use music file in the following formats: wav, aac, adts, ac3, mp2, mp3, m4a or m4b or m4p, 3g2 or 3ga or 3gp, ogg or oga, spx, wma, flac</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama unterstützt Musikstücke in den Formaten: wav, aac, adts, ac3, mp2, mp3, m4a or m4b or m4p, 3g2 or 3ga or 3gp, ogg or oga, spx, wma, flac</translation>
     </message>
     <message>
         <source>See also: </source>
-        <translation type="unfinished"></translation>
+        <translation>Siehe auch:</translation>
     </message>
     <message>
         <source>Definition of music file on Wikipedia</source>
-        <translation type="unfinished"></translation>
+        <translation>Definition von Musikdateien auf Wikipedia</translation>
     </message>
     <message>
         <source>ffDiaporama can use bitmap images in the following formats: bmp, gif (but not animated gif), jpg or jpeg, png, pbm, pgm, ppm, tiff or tif, xbm, xpm</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama unterstützt Bitmap Bilddateien der folgenden Formate: bmp, gif (aber nicht animierte gif-Dateien), jpg or jpeg, png, pbm, pgm, ppm, tiff or tif, xbm, xpm</translation>
     </message>
     <message>
         <source>Definition of Bitmap image file on Wikipedia</source>
-        <translation type="unfinished"></translation>
+        <translation>Definition von Bitmap Bilddateien auf Wikipedia</translation>
     </message>
     <message>
         <source>ffDiaporama can use vector images in the following formats: svg</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama unterstützt Vector Bilddateien in den folgenden Formaten: svg</translation>
     </message>
     <message>
         <source>Definition of vector image file on Wikipedia</source>
-        <translation type="unfinished"></translation>
+        <translation>Definition von Vektor Bilddateien auf Wikipedia</translation>
     </message>
     <message>
         <source>ffDiaporama can use video files in the following formats: avi, mov, mpg or mpeg, mkv, mp4 or m4v, flv, 3gp, ogv, webm, dv, wmv, mts or m2ts or mod</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama untertützt Videodateien der folgenden Formate:  avi, mov, mpg or mpeg, mkv, mp4 or m4v, flv, 3gp, ogv, webm, dv, wmv, mts or m2ts or mod</translation>
     </message>
     <message>
         <source>Note: mts, m2ts and mod files are stream formats (AVCHD) which involve some limitations. For more information on AVCHD, see: </source>
-        <translation type="unfinished"></translation>
+        <translation>Anmerkung : mts, m2ts und mod Dateien sind Streamformate (AVCHD) mit manchen Einschränkungen. Für mehr Informationen über AVCHD, siehe: </translation>
     </message>
     <message>
         <source>Advanced Video Coding High Definition on Wikipedia</source>
-        <translation type="unfinished"></translation>
+        <translation>Advanced Video Coding High Definition auf Wikipedia</translation>
     </message>
     <message>
         <source>Definition of video file on Wikipedia</source>
-        <translation type="unfinished"></translation>
+        <translation>Definition von Videodateien auf Wikipedia</translation>
     </message>
     <message>
         <source>Note: ffDiaporama uses the filename extension to determine the type of image. It is therefore necessary that this extension was valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Anmerkung: ffDiaporama verwendet die Dateierweiterung, um den Type des Bildes zu erkennen. Damit ist unerlässlich, dass die Erweiterung gültig ist.</translation>
     </message>
 </context>
 <context>
@@ -5108,55 +5108,55 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Network settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerkeinstellungen</translation>
     </message>
     <message>
         <source>Use a proxy to access the Internet</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwenden eines Proxy für den Zugriff auf das Internet</translation>
     </message>
     <message>
         <source>Check this box if your network requires that you use a proxy.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivieren Sie diese Option, wenn Sie einen Proxy für den Internetzugang benötigen.</translation>
     </message>
     <message>
         <source>Proxy address</source>
-        <translation type="unfinished"></translation>
+        <translation>Proxyadresse</translation>
     </message>
     <message>
         <source>Enter address of the proxy host.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie hier die Adresse des Proxy ein.</translation>
     </message>
     <message>
         <source>Proxy port</source>
-        <translation type="unfinished"></translation>
+        <translation>Proxyport</translation>
     </message>
     <message>
         <source>Enter the port number to access the proxy or nothing to use default port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie hier den Port des Proxy für den Internetzugriff ein, oder keinen Port um den Standardwert zu verwenden.</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Login</translation>
     </message>
     <message>
         <source>Enter the login name to access the proxy or nothing if no login is required.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie hier den Anmeldennamen für den Proxyzugriff ein, falls eine Anmeldung notwendig ist.</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Kennwort</translation>
     </message>
     <message>
         <source>Enter the login password to access the proxy or nothing if no login is required.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie hier das Kennwort für den Proxy ein oder keines, wenn keine Anmeldung notwendig ist.</translation>
     </message>
     <message>
         <source>Distance unit</source>
-        <translation type="unfinished"></translation>
+        <translation>Einheit der Distanz</translation>
     </message>
     <message>
         <source>This option lets you specify the unit to be used for distances.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mit dieser Option können Sie die Einheit für die Distanz festlegen.</translation>
     </message>
     <message>
         <source>Album</source>
@@ -5164,7 +5164,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Defines the default value for the field Album</source>
-        <translation type="unfinished"></translation>
+        <translation>Legt den Standardwert für das Feld Album fest</translation>
     </message>
 </context>
 <context>
@@ -5430,47 +5430,48 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>For example, if the project is &lt;U&gt;My vacation from 1 to 15&lt;/U&gt;, the chapter may be limited to the &lt;U&gt;3&lt;/U&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Beispiel versteh ich nicht ....</translatorcomment>
+        <translation>Zum Beispiel, wenn das Projekt heißt &lt;U&gt;Mein Urlaub von 1 bis 15&lt;/U&gt;, das Kapitel wird limitiert auf &lt;U&gt;3&lt;/U&gt;.</translation>
     </message>
     <message>
         <source>Chapter location different from project location</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapitelort unterschiedlich zum Projektort</translation>
     </message>
     <message>
         <source>If this box is checked, the location of the chapter is different from the location of the project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Ist diese Option aktiv, so ist der Ort des Kapitels unterschiedich zum Ort des Projektes.</translation>
     </message>
     <message>
         <source>Remark: It is often useful to differentiate the location of the chapter of the location of the project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Anmerkung: Es ist des öfteren sinnvoll, den Ort des Kaptitels gegenüber dem Ort des Projektes zu verändern.</translation>
     </message>
     <message>
         <source>For example, if the project location is &lt;U&gt;where I rented for the holidays&lt;/U&gt;, the chapter location may be &lt;U&gt;where I went on tour&lt;/U&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>zum Beispiel: Wenn der Projektort &lt;U&gt;Wo ich für den Urlaub eingemietet&lt;/U&gt; war, könnte der Kapitelort &lt;U&gt;hier war meine Tour&lt;/U&gt; sein.</translation>
     </message>
     <message>
         <source>Event location</source>
-        <translation type="unfinished"></translation>
+        <translation>Ereignissort </translation>
     </message>
     <message>
         <source>The location where the chapter&apos;s event took place</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Ort wo das Ereignis im Kapitel stattfand</translation>
     </message>
     <message>
         <source>Click on this </source>
-        <translation type="unfinished"></translation>
+        <translation>Klicken Sie diesen</translation>
     </message>
     <message>
         <source> button to select a location from the &lt;a href=&quot;0123.html&quot;&gt;Add or modify a location&lt;/a&gt; dialog or using a favorite</source>
-        <translation type="unfinished"></translation>
+        <translation> Knopf um einen Ort aus dem Dialog &lt;a href=&quot;0123.html&quot;&gt;Hinzufügen oder Ändern eines Ortes&lt;/a&gt; oder von einem Favoriten zu wählen</translation>
     </message>
     <message>
         <source> button to remove actual location (set to empty)</source>
-        <translation type="unfinished"></translation>
+        <translation> Knopf um den aktuelle Ort zu löschen (auf leer setzen)</translation>
     </message>
     <message>
         <source>Remark: These fields and buttons are enabled only if the &lt;I&gt;&lt;B&gt;Chapter location different from project location&lt;/B&gt;&lt;/I&gt; check box is checked.</source>
-        <translation type="unfinished"></translation>
+        <translation>Anmerkung: Diese Felder und Knöpfe sind nur aktiv, wenn die Option &lt;I&gt;&lt;B&gt;Kapitelort unterschiedlich zum Projektort&lt;/B&gt;&lt;/I&gt; aktiv ist.</translation>
     </message>
 </context>
 <context>
@@ -5672,47 +5673,47 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>For example, if the project is &lt;U&gt;My vacation from 1 to 15&lt;/U&gt;, the chapter may be limited to the &lt;U&gt;3&lt;/U&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zum Beispiel, wenn das Projekt heißt &lt;U&gt;Mein Urlaub von 1 bis 15&lt;/U&gt;, könnte das Kapiteld auf &lt;U&gt;3&lt;/U&gt; limitiert sein.</translation>
     </message>
     <message>
         <source>Chapter location different from project location</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapitelort unterschiedlich zum Projektort</translation>
     </message>
     <message>
         <source>If this box is checked, the location of the chapter is different from the location of the project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Ist diese Option aktiv, so ist der Ort des Kapitels unterschiedich zum Ort des Projektes.</translation>
     </message>
     <message>
         <source>Remark: It is often useful to differentiate the location of the chapter of the location of the project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Anmerkung: Es ist des öfteren sinnvoll, den Ort des Kaptitels gegenüber dem Ort des Projektes zu verändern.</translation>
     </message>
     <message>
         <source>For example, if the project location is &lt;U&gt;where I rented for the holidays&lt;/U&gt;, the chapter location may be &lt;U&gt;where I went on tour&lt;/U&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>zum Beispiel: Wenn der Projektort &lt;U&gt;Wo ich für den Urlaub eingemietet war&lt;/U&gt;, könnte der Kapitelort &lt;U&gt;hier war meine Tour&lt;/U&gt; sein.</translation>
     </message>
     <message>
         <source>Event location</source>
-        <translation type="unfinished"></translation>
+        <translation>Ereignissort </translation>
     </message>
     <message>
         <source>The location where the chapter&apos;s event took place</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Ort wo das Ereignis im Kapitel stattfand</translation>
     </message>
     <message>
         <source>Click on this </source>
-        <translation type="unfinished"></translation>
+        <translation>Klicken Sie diesen</translation>
     </message>
     <message>
         <source> button to select a location from the &lt;a href=&quot;0123.html&quot;&gt;Add or modify a location&lt;/a&gt; dialog or using a favorite</source>
-        <translation type="unfinished"></translation>
+        <translation> Knopf, um einen Ort aus dem Dialog &lt;a href=&quot;0123.html&quot;&gt;Hinzufügen oder Ändern eines Ortes&lt;/a&gt; oder von einem Favoriten zu wählen</translation>
     </message>
     <message>
         <source> button to remove actual location (set to empty)</source>
-        <translation type="unfinished"></translation>
+        <translation> Knopf um den aktuelle Ort zu löschen (auf leer setzen)</translation>
     </message>
     <message>
         <source>Remark: These fields and buttons are enabled only if the &lt;I&gt;&lt;B&gt;Chapter location different from project location&lt;/B&gt;&lt;/I&gt; check box is checked.</source>
-        <translation type="unfinished"></translation>
+        <translation>Anmerkung: Diese Felder und Knöpfe sind nur akiv, wenn die Option &lt;I&gt;&lt;B&gt;Kapitelort unterschiedlich zum Projektort&lt;/B&gt;&lt;/I&gt; aktiv ist.</translation>
     </message>
 </context>
 <context>
@@ -6145,31 +6146,31 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>These options allow you to define the thumbnail that will be attached to the video file when rendering </source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Option ermöglicht das Festlegen eines Vorschaubildes, das dem Video beim Erstellen hinzugefügt wird</translation>
     </message>
     <message>
         <source>Event location</source>
-        <translation type="unfinished"></translation>
+        <translation>Ereignisort</translation>
     </message>
     <message>
         <source>The location where the project&apos;s event took place</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Ort wo das Projektereignisl stattfand</translation>
     </message>
     <message>
         <source>Click on this </source>
-        <translation type="unfinished"></translation>
+        <translation>Klicken Sie diesen</translation>
     </message>
     <message>
         <source> button to select a location from the &lt;a href=&quot;0123.html&quot;&gt;Add or modify a location&lt;/a&gt; dialog or using a favorite</source>
-        <translation type="unfinished"></translation>
+        <translation> Knopf um einen Ort aus dem Dialog &lt;a href=&quot;0123.html&quot;&gt;Hinzufügen oder Ändern eines Ortes&lt;/a&gt; oder von einem Favoriten zu wählen</translation>
     </message>
     <message>
         <source> button to remove actual location (set to empty)</source>
-        <translation type="unfinished"></translation>
+        <translation> Knopf um den aktuellen Ort zu löschen (auf leer setzen)</translation>
     </message>
     <message>
         <source>These options sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot; </source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Option setzt den Wert für die Anstiegskurve, die verwendet wird, wenn der entprechende Wert auf &quot;Projektstandardwerte&quot; gesetzt ist</translation>
     </message>
 </context>
 <context>
@@ -6607,95 +6608,95 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Define a Google Maps map.</source>
-        <translation type="unfinished"></translation>
+        <translation>Festlegen einer Google Maps Karte.</translation>
     </message>
     <message>
         <source> The Google Maps Map tag</source>
-        <translation type="unfinished"></translation>
+        <translation> Der Tag für die Google Maps Karte</translation>
     </message>
     <message>
         <source>This tag is available only for Google Maps map.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dieser Tag ist nur für Google Maps Karten verfügbar.</translation>
     </message>
     <message>
         <source>this dialog box is organized in tab that are available depending on the type of the object to edit.</source>
-        <translation type="unfinished"></translation>
+        <translation>dieser Dialog ist in Tabs organisiert, die je nachdem welcher Typ von Objekt bearbeitet wird, verfügbar sind.</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;#IMAGETAG&quot;&gt;The image correct and reframe tag&lt;/a&gt; is available with all object types</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&quot;#IMAGETAG&quot;&gt;Der Tag für Bildkorrektur und Bildbeschneidung&lt;/a&gt; ist für alle Objekttypen verfügbar</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;#VIDEOTAG&quot;&gt;The video tag&lt;/a&gt; is available only with video object</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&quot;#VIDEOTAG&quot;&gt;Der Tag für Video&lt;/a&gt; ist nur für Videoobjekte verfügbar</translation>
     </message>
     <message>
         <source>For more information on available types of objects see: &lt;a href=&quot;0045.html&quot;&gt;Types of objects in ffDiaporama&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Für mehr Informationen über verfügbare Objekttypen, siehe: &lt;a href=&quot;0045.html&quot;&gt;Objekttype in ffDiaporama&lt;/a&gt;</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;#GMAPSMAPTAG&quot;&gt;The Google Maps map tag&lt;/a&gt; is available only with Google Maps map object</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&quot;#GMAPSMAPTAG&quot;&gt;Der Tag für eine Google Maps Karte&lt;/a&gt; ist nur bei einem Google Maps Kartenobjekt verfügbar</translation>
     </message>
     <message>
         <source>On the upper left part, you define the map properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Im oberen linken Teil legen Sie die Karteneigenschaften fest</translation>
     </message>
     <message>
         <source>On the bottom left part, the map is displayed with markers</source>
-        <translation type="unfinished"></translation>
+        <translation>Im unteren linken Teil wird die Karte mit den Markern angezeigt</translation>
     </message>
     <message>
         <source>On the upper right part, the table of location is displayed</source>
-        <translation type="unfinished"></translation>
+        <translation>Im oberen rechten Teil wird die Tabelle mit den Orten angezeigt</translation>
     </message>
     <message>
         <source>On the bottom right part, you define the properties of the selected location</source>
-        <translation type="unfinished"></translation>
+        <translation>Im unteren rechten Teil werden die Eigenschaften für den gewählten Ort festgelegt</translation>
     </message>
     <message>
         <source>The map properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Karteneigenschaften</translation>
     </message>
     <message>
         <source>Map type</source>
-        <translation type="unfinished"></translation>
+        <translation>Kartentype</translation>
     </message>
     <message>
         <source>Define the type of the map. You can select between the four Google Maps possibilities:</source>
-        <translation type="unfinished"></translation>
+        <translation>Legt den Type der Karte fest. Sie können zwischen den 4 Google Maps Typen wählen:</translation>
     </message>
     <message>
         <source>Roadmap</source>
-        <translation type="unfinished"></translation>
+        <translation>Strassenkarte</translation>
     </message>
     <message>
         <source>Satellite</source>
-        <translation type="unfinished"></translation>
+        <translation>Satellit</translation>
     </message>
     <message>
         <source>Terrain</source>
-        <translation type="unfinished"></translation>
+        <translation>Gelände</translation>
     </message>
     <message>
         <source>Hybrid</source>
-        <translation type="unfinished"></translation>
+        <translation>Hybrid</translation>
     </message>
     <message>
         <source>Map size</source>
-        <translation type="unfinished"></translation>
+        <translation>Kartengröße</translation>
     </message>
     <message>
         <source>Define the size of the map. This size represents the distance in width and height of the map.</source>
-        <translation type="unfinished"></translation>
+        <translation>Legt die Größe für die Karte fest. Die Größe repräsentiert den Abstand in Weite und Höhe der Karte.</translation>
     </message>
     <message>
         <source>Smaller the zoom is and huger the area represented by the map is.</source>
-        <translation type="unfinished"></translation>
+        <translation>Umso kleiner der Zoom ist, desto größer ist der auf der Karte gezeigte Bereich.</translation>
     </message>
     <message>
         <source>Higher the zoom is and smaller the area represented by the map is.</source>
-        <translation type="unfinished"></translation>
+        <translation>Je größer der Zoom, desto kleiner wird der Bereich in der Karte.</translation>
     </message>
     <message>
         <source>Image size</source>
@@ -6703,27 +6704,27 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Define the size of the image generated for the map. ffDiaporama proposes to generate maps of several image sizes, so, to create a fluid zoom animation, you can use a large image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Legt die Größe des Bildes für die Karte fest. ffDiaporama schlägt mehrere Bildgrößen zum Erstellen vor. Um eine flüssige Zoomanimation zu erstellen, verwenden Sie größere Bilder.</translation>
     </message>
     <message>
         <source>The table of locations</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Tabelle der Orte</translation>
     </message>
     <message>
         <source>Select a location from the &lt;a href=&quot;0123.html&quot;&gt;Add or modify a location&lt;/a&gt; dialog or using a favorite.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wählen Sie den Ort vom Dialog &lt;a href=&quot;0123.html&quot;&gt;Hinzufügen oder Ändern von Orten&lt;/a&gt; oder verwenden Sie einen Favoriten.</translation>
     </message>
     <message>
         <source>Edit current location. Open the &lt;a href=&quot;0123.html&quot;&gt;Add or modify a location&lt;/a&gt; dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktuelle Position ändern. Öffnen Sie den Dialog &lt;a href=&quot;0123.html&quot;&gt;Hinzufügen oder Ändern von Orten&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Remove current location.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktuelle Position löschen.</translation>
     </message>
     <message>
         <source>The marker properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Markereigenschaften</translation>
     </message>
     <message>
         <source>Properties for all shots</source>
@@ -6731,99 +6732,99 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>This settings group defines properties for all shots, so, the modifications made to the following properties will apply to all shots. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Einstellungsgruppe legt die Eigenschaften für alle Aufnahmen fest. Die Änderungen die hier durchgeführt werden, wirken sich auf alle Aufnahmen aus. Um den Unterschied zwischen Einstellungen, die sich auf alle Aufnahmen auswirken und jenen Einstellungen, die sich nur auf die aktuelle Aufnahme auswirken, lesen Sie &lt;a href=&quot;0010.html&quot;&gt;Wie ffDiaporama arbeitet&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>GPS Position form</source>
-        <translation type="unfinished"></translation>
+        <translation>Form für die GPS Position</translation>
     </message>
     <message>
         <source>Define a form for the GPS position</source>
-        <translation type="unfinished"></translation>
+        <translation>Legt eine Form für die GPS Position fest</translation>
     </message>
     <message>
         <source>Marker form</source>
-        <translation type="unfinished"></translation>
+        <translation>Form für Marker</translation>
     </message>
     <message>
         <source>Define a form for the marker</source>
-        <translation type="unfinished"></translation>
+        <translation>Legt eine Form für den Marker fest</translation>
     </message>
     <message>
         <source>Composition</source>
-        <translation type="unfinished"></translation>
+        <translation>Zusammensetzung</translation>
     </message>
     <message>
         <source>Defined what information will be displayed in the marker</source>
-        <translation type="unfinished"></translation>
+        <translation>Legt die Informationen fest, die im Marker angezeigt werden</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Größe</translation>
     </message>
     <message>
         <source>Define the size of the marker and the GPS position</source>
-        <translation type="unfinished"></translation>
+        <translation>Legt die Größe der Marker und der GPS Position fest</translation>
     </message>
     <message>
         <source>Distance</source>
-        <translation type="unfinished"></translation>
+        <translation>Entfernung</translation>
     </message>
     <message>
         <source>Defined where to display the marker (the distance between the marker and the GPS position)</source>
-        <translation type="unfinished"></translation>
+        <translation>Legt fest, wo die Marker angezeigt werden (die Entfernung zwischen dem Marker und der GPS Position)</translation>
     </message>
     <message>
         <source>Properties for this shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Eigenschaften für die Aufnahme</translation>
     </message>
     <message>
         <source>This settings group defines properties for the current shot, so you can create animation of makers by defining different properties for each shots.</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Einstellungsgruppe legt die Eigentschaften für die aktuelle Aufnahme fest. Damit können Sie eine Animation von Markern mit unterschiedlichen Eigenschaften pro Aufnahme erstellen.</translation>
     </message>
     <message>
         <source>Text color</source>
-        <translation type="unfinished"></translation>
+        <translation>Textfarbe</translation>
     </message>
     <message>
         <source>Defines the color of the text</source>
-        <translation type="unfinished"></translation>
+        <translation>Legt die Textfarbe fest</translation>
     </message>
     <message>
         <source>Background color</source>
-        <translation type="unfinished"></translation>
+        <translation>Huntergrundfarbe</translation>
     </message>
     <message>
         <source>Defines the color of the background of the marker, of the GPS position and of the part between the two</source>
-        <translation type="unfinished"></translation>
+        <translation>Legt die Hintergrundfarbe für die Marker, für die GPS Position und für den Teil zwischen diesen beiden, fest</translation>
     </message>
     <message>
         <source>Line color</source>
-        <translation type="unfinished"></translation>
+        <translation>Linienfarbe</translation>
     </message>
     <message>
         <source>Defines the color of the border</source>
-        <translation type="unfinished"></translation>
+        <translation>Legt die Farbe der Umrahmung fest</translation>
     </message>
     <message>
         <source>Visibility</source>
-        <translation type="unfinished"></translation>
+        <translation>Sichtbarkeit</translation>
     </message>
     <message>
         <source>Defined if the marker is visible, half-visible (masked) or hidden</source>
-        <translation type="unfinished"></translation>
+        <translation>Legt fest ob der Marker sichtbar, halb sichtbar (maskiert) oder versteckt ist</translation>
     </message>
     <message>
         <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90°, the image is turned by a quarter to the right.</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Rotationswinkel für die Z-Achse. Diese Position wird in Grad angegeben. Zum Beispiel: Wenn die Rotation 90° beträgt, wird das Bild um ein Viertel nach rechts gedreht.</translation>
     </message>
     <message>
         <source>Turn the image to the left (to the nearest multiple of 90°).</source>
-        <translation type="unfinished"></translation>
+        <translation>Dreht das Bild nach links (zum nächsten Vielfachen von 90°).</translation>
     </message>
     <message>
         <source>Turn the image to the right (to the nearest multiple of 90°).</source>
-        <translation type="unfinished"></translation>
+        <translation>Dreht das Bild nach rechts (zum nächsten Vielfachen von 90°).</translation>
     </message>
 </context>
 <context>
@@ -7391,27 +7392,27 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The following options are apply to the current music during the slide:</source>
-        <translation type="unfinished"></translation>
+        <translation>Die folgenden Optionen werden für das aktuelle Musikstück innerhalb des Dia angewandt:</translation>
     </message>
     <message>
         <source>Specifies that the sound volume is reduced during this slide. (This option is particularly useful, for example, to reduce the sound of the music during the play of a video.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Legt fest, dass die Laustärke während des Dias reduziert wird. (Diese Option ist zum Beispiel sinnvoll um die Laustärke während des Abspielens eines Videostückes zu reduzieren.)</translation>
     </message>
     <message>
         <source>Pauses the current play list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pausiert die aktuelle Abspielliste.</translation>
     </message>
     <message>
         <source>The music files are listed in the order in which they will be played, from top to bottom.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Musikdateien werden in der Abspielreihenfolge aufgelistet, von oben nach unten.</translation>
     </message>
     <message>
         <source>The Volume column defines the &quot; Master volume &quot; for the file. This volume is independent of any reductions in the volume that you define in the upper part of the dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Spalte &quot;Lautstärke&quot; legt die Gesamtlautstärke für die Datei fest. Diese Lautstärke ist unabhängig von einer Reduktion der Lautstärke, die im oberen Teil des Dialoges festgelegt wird.</translation>
     </message>
     <message>
         <source>The Credit column defines if the file should appear or not when using %STM% variable in a credit title. For more information on variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Spalte &quot;Danksagung&quot; legt fest, ob die Datei angezeigt werden soll oder nicht wenn die %STM% Variable im Danksagungstitel verwendet wird. Für mehr Informationen über Variablen, siehe &lt;a href=&quot;0013.html&quot;&gt;Dynamische Variablen&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Remarks</source>
@@ -7662,11 +7663,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Variable bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>Variable Bitrate</translation>
     </message>
     <message>
         <source>If this box is checked, the bitrate is variable. (Note: This option is available only for h264 codec.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn diese Option gesetzt ist, wird eine variable Bitrate verwendet. (Anmerkung: Diese Option ist nur für h264 Codec&apos;s verfügbar.)</translation>
     </message>
     <message>
         <source>Remarks:</source>
@@ -7674,27 +7675,27 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> &lt;U&gt;Rendering duration:&lt;/U&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;U&gt;Umwandlungsdauer:&lt;/U&gt;</translation>
     </message>
     <message>
         <source> &lt;U&gt;Variable bitrate:&lt;/U&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;U&gt;Variable Bitrate:&lt;/U&gt;</translation>
     </message>
     <message>
         <source> If variable bitrate is activated, the video compression bitrate could vary from -50% to +125% </source>
-        <translation type="unfinished"></translation>
+        <translation> wenn variable Bitrate aktiviert ist, kann die Bitrate für Videokompression zwischen -50% und +125% varieren </translation>
     </message>
     <message>
         <source>If the project contains mostly pictures, this option can significantly reduce the size of the video file (up to 80%)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn das Projekt hauptsächlich Bilder enthält, kann diese Option die Größe des erstellten Videos drastisch reduzieren (bis zu 80%)</translation>
     </message>
     <message>
         <source>By cons, if the project contains mostly videos this option will increase the size of the video file</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn andereseits hauptsächlich Videos verwendet werden, erhöht diese Option die Größe des erstellten Videos</translation>
     </message>
     <message>
         <source> By default, variable bitrate is activated when duration of videos are less than half of the total duration of the projet. </source>
-        <translation type="unfinished"></translation>
+        <translation> Standardmässig wird die variable Bitrate aktiviert, wenn die Laufzeiten der Videos weniger als die Hälfte der Gesamtlaufzeit des erstellten Videos ausmachen.</translation>
     </message>
 </context>
 <context>
@@ -9042,63 +9043,63 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Add special - Open a sub menu with the following options: </source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen Spezial - Öffnet ein Untermenü mit den folgenden Optionen:</translation>
     </message>
     <message>
         <source>Add image from clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen Bild aus der Zwischenablage</translation>
     </message>
     <message>
         <source>Add a GMaps map</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen einer Google Maps Karte</translation>
     </message>
     <message>
         <source>Once you have selected one of the options, the new object is inserted into the block table and depending on object, the &lt;a href=&quot;0110.html&quot;&gt;Image framing and correction dialog&lt;/a&gt; opens.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachdem Sie eine der Optionen gewählt haben, wird das neue Objekt in der Blocktabelle eingefügt und abhängig vom Objekt wird der Dialog &lt;a href=&quot;0110.html&quot;&gt;Beschneiden oder Korrigieren von Bildern&lt;/a&gt; aufgerufen.</translation>
     </message>
     <message>
         <source>Paste block or image from the clipboard and insert it to the end of the block table</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfügen eines Blocks oder Bildes aus der Zwischenablage an das Ende der Blocktabelle</translation>
     </message>
     <message>
         <source>Selects a speed curve for block animations (movement, resizing and rotating of blocks, animation of text and blocks)</source>
-        <translation type="unfinished"></translation>
+        <translation>Auswahl einer Geschwindigkeitskurve für Blockanimationen (Verschieben, Größe ändern, Rotieren von Blöcken, Animation von Text und Blöcken)</translation>
     </message>
     <message>
         <source>To change the velocity curve for image animation (graphic effect and framing), edit the image or video and select a velocity in the Image framing and correction dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Um die Anstiegskurve für Bildanimationen (grafische Effekte oder Beschneidungen)zu ändern, bearbeiten Sie das Bild oder Video und wählen eine Anstiegskurve im Dialog Bildbeschneidung und Korrektur</translation>
     </message>
     <message>
         <source>This setting is define for the current shot, so, the modifications made will apply only to current shot. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Einstellung legt die Werte für die aktuelle Aufnahme fest. Änderungen wirken sich somit nur auf die aktuelle Aufnahmen aus. Um den Unterschied zwischen Eigenschaften, die sich auf alle Aufnahmen und denen, die sich nur auf die aktuelle Aufnahmen auswirken, lesen Sie &lt;a href=&quot;0010.html&quot;&gt;Wie ffDiaporama arbeitet&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>These settings are defines for the current shot, so, the modifications made will apply only to current shot. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Einstellungen legen die Werte für die aktuelle Aufnahme fest. Änderungen wirken sich somit nur auf die aktuelle Aufnahmen aus. Um den Unterschied zwischen Eigenschaften, die sich auf alle Aufnahmen und denen, die sich nur auf die aktuelle Aufnahmen auswirken, lesen Sie &lt;a href=&quot;0010.html&quot;&gt;Wie ffDiaporama arbeitet&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>The block animations define which animations will run during the current shot. You can define different animations for every shot!</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Blockanimation legt fest, welche Animationen während der aktuellen Aufnahme laufen. Sie können unterschiedliche Animationen für jede Aufnahme festlegen!</translation>
     </message>
     <message>
         <source> If changes made on previous shot are applied for this block also to this shot. (This information does not appear for the 1st shot.)</source>
-        <translation type="unfinished"></translation>
+        <translation> wenn Änderungen im Block der vorherigen Aufnahme angewandt wurden, wirken sich diese auch auf diese Aufnahme aus (Diese Information gilt nicht für die 1. Aufnahme)</translation>
     </message>
     <message>
         <source> If changes made on previous shot are not applied for this block to this shot. (This information does not appear for the 1st shot.)</source>
-        <translation type="unfinished"></translation>
+        <translation> wenn Änderungen des Blockes in der vorherigen Aufnahme durchgeführt wurden, werden diese in dieser Aufnahme nicht angewandt. (Diese Information gilt nicht für die 1. Aufnahme)</translation>
     </message>
     <message>
         <source>Inheritance changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Vererbte Änderungen</translation>
     </message>
     <message>
         <source>Inherit changes: If this box is checked, the changes made in a previous shot will be applied to this object in this shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Vererbte Änderungen. Wenn diese Option gesetzt ist, werden die Änderungen des Blockes in der vorherigen Aufnahme, auch in diesem Block angewandt</translation>
     </message>
     <message>
         <source>This settings group defines how changes to the block parameters are reflected to the different shots.</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Einstellungsgruppe legt fest, wie Änderungen eines Blockes sich auf andere Aufnahmen auswirkt.</translation>
     </message>
 </context>
 <context>
@@ -9514,107 +9515,108 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     <name>0123</name>
     <message>
         <source>Add or modify a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen oder Ändern eines Ortes</translation>
     </message>
     <message>
         <source> This dialog allows you to define a location using Google Maps. </source>
-        <translation type="unfinished"></translation>
+        <translation> Dieser Dialog ermöglicht das Festlegen eines Ortes für Google Maps.</translation>
     </message>
     <message>
         <source>Google address</source>
-        <translation type="unfinished"></translation>
+        <translation>Google Adresse</translation>
     </message>
     <message>
         <source>Enter the postal adress to find in this zone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie die zu suchende Postadresse ein.</translation>
     </message>
     <message>
         <source>When you press the Enter key, a search is made using Google Maps and the addresses found are used to fill the list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn Sie die Enter-Taste drücken, wird eine Suche bei Google Maps ausgelöst und die gefundenen Adressen aufgelistet.</translation>
     </message>
     <message>
         <source>Then select the correct address in the list</source>
-        <translation type="unfinished"></translation>
+        <translation>Anschliessend wählen Sie die korrekte Adresse aus der Liste</translation>
     </message>
     <message>
         <source>Open the favorite menu: </source>
-        <translation type="unfinished"></translation>
+        <translation>Öffnen des Menü Favoriten:</translation>
     </message>
     <message>
         <source>Add to favorite: Adds the current location to the list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zu den Favoriten hinzufügen. Fügt die aktuelle Position zur Liste hinzu.</translation>
     </message>
     <message>
         <source>Update this favorite: Update the favorite using current settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualisiere diesen Favoriten. Aktualisiere den aktuellen Favoriten mit der aktuellen Position.</translation>
     </message>
     <message>
         <source>Remove this favorites: Remove the favorite from the list</source>
-        <translation type="unfinished"></translation>
+        <translation>Entferne diesen Favoriten. Löscht den Favoriten aus der Liste</translation>
     </message>
     <message>
         <source>The list of the favourite: Use a favorite to fill the dialog box fields.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Liste der Favoriten. Verwenden Sie einen Favoriten um die Felder dieser Dialogbox zu befüllen.</translation>
     </message>
     <message>
         <source>Friendly address</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezeichnung Adresse</translation>
     </message>
     <message>
         <source>Enter the address in a more readable form. This form will be used to display the marker.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie hier eine leicht lesbare Kurzform der Adresse ein. Diese Bezeichnung wird  beim Anzeigen der Marker verwendet.</translation>
     </message>
     <message>
         <source>Friendly name</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezeichnung Name</translation>
     </message>
     <message>
         <source>Enter a name for this location. This name will be used to display the marker.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie hier eine leicht lesbare Bezeichnung für den Namen ein. Dieser Name wird beim Anzeigen des Markers verwendet.</translation>
     </message>
     <message>
         <source>Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Symbol</translation>
     </message>
     <message>
         <source>Select an image to be used as icon to display the marker.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wählen Sie ein Bild, welches als Symbol für den Marker verwendet werden soll.</translation>
     </message>
     <message>
         <source> Click on the icon zone or on the </source>
-        <translation type="unfinished"></translation>
+        <translation>Klicken Sie in die Symbolleite oder auf den </translation>
     </message>
     <message>
         <source> button to select an image and edit it.</source>
-        <translation type="unfinished"></translation>
+        <translation> Knopf, um das Bild auszuwählen und ändern.</translation>
     </message>
     <message>
         <source> Click on this </source>
-        <translation type="unfinished"></translation>
+        <translation> Klicken sie diesen </translation>
     </message>
     <message>
         <source> button to clear the icon.</source>
-        <translation type="unfinished"></translation>
+        <translation> Knopf, um das Symbol zurückzusetzen.</translation>
     </message>
     <message>
         <source>Map zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Kartenbereich</translation>
     </message>
     <message>
         <source>Click on a point on the map zone to select it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klicken sie auf einen Punkt des Kartenbereichs, um diesen auszuwählen.</translation>
     </message>
     <message>
         <source>You can also use the slider and the </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">
+Sie können den Schieberegler verwenden und die </translation>
     </message>
     <message>
         <source> and </source>
-        <translation type="unfinished"></translation>
+        <translation> und </translation>
     </message>
     <message>
         <source> buttons to modify the zoom level.</source>
-        <translation type="unfinished"></translation>
+        <translation> Knöpfe, um die Zoomstufe zu verändern.</translation>
     </message>
 </context>
 <context>
@@ -9841,11 +9843,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Types of objects in ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Objekttypen in ffDiaporama</translation>
     </message>
     <message>
         <source>Add or modify a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen oder Ändern eines Ortes</translation>
     </message>
 </context>
 <context>

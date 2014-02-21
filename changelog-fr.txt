@@ -1,251 +1,41 @@
 **************************************************
-* FFDIAPORAMA 2.1 - trunk (Version Française)
+* FFDIAPORAMA 2.2 - trunk (Version Française)
 **************************************************
 
-[Commit: 09/02/2014] - ffDiaporama 2.1 stable 20140209
+[Commit: 21/02/2014] - ffDiaporama 2.2 devel 20140221
     Correction de bug :
-        -Retire un avertissement de compilation dans cLocation.cpp
-        -Retire plusieurs avertissements de compilation dans cBrushDefinition.cpp
-        -Corrige une boucle infini qui bloquait parfois la génération
-
---------------------------------------------------------------------------------
-
-[Commit: 06/02/2014] - ffDiaporama 2.1 devel 20140206
-    Correction de bug :
-        -Elargie le panneau de droite de la boite d'edition des diapositives pour que tout s'affiche dans certaines langues dont les mots sont longs
-        -Corrige un problème de prise en compte des pauses dans les musiques lors de l'encodage
-
---------------------------------------------------------------------------------
-
-[Commit: 03/02/2014] - ffDiaporama 2.1 devel 20140203
-    Correction de bug :
-        -Corrige un problème de traduction pour l'intitulé de la variable %STA%
-        -Corrige un bug aléatoire dans la boite d'option qui pouvait provoquer des crash
-        -Corrige un bug d'affichage dans la boite "Vérifier la configuration" sur la disponibilité de la fonction preview image dans exiv2
-        -Corrige un bug de synchronisation audio/vidéo lors des encodages en NTSC
-
---------------------------------------------------------------------------------
-
-[Commit: 21/01/2014] - ffDiaporama 2.1 devel 20140121
-    Correction de bug :
-        -Corrige le positionnement du lecteur de prévisualisation lors des modifications de taille de la fenêtre principale
-        -Corrige un crash lors des copies de bloc de type GMap dans la boite d'édition des diapositives
-        -Corrige un bug de calcul de la fin des musiques lors de l'encodage
-
---------------------------------------------------------------------------------
-
-[Commit: 17/01/2014]
-    Correction de bug :
-        -Corrige un problème d'activation non demandé du proxy
+        -Supprime des warnings inutiles lors de la compilation dans cBaseMediaFile et cBrushDefinition
+        -Corrige le ratio d'affichage dans la zone de prévisualisation quand celle ci est contrainte par la largeur
+        -Corrige un problème d'encodage du son lors des pasages de la piste son en pause
+        -Corrige un crash qui intervennait lors du rechargement d'un projet dont un des morceaux de musique à été modifiée en dehors de ffDiaporama (désormais un message d'erreur apparait et le morceau est supprimé du montage)
 
     Nouveautés :
-        -Grosse réorganisation du code afin de pouvoir découper l'application en plusieurs paquets
-            -Paquets ffDiaporama_RSC contenant les ressources
-            -Paquets ffDiaporama contenant l'application
-        -Création d'une librairie pour le moment statique et intégrée au paquet ffDiaporama
+        -Dans la boite d'edition des diapositives, pour la zone d'édition de la durée de la diapositive :
+            -positionne par défaut le curseur sur la zone des secondes. (Ainsi les flèches (+ et -) modifient par défaut les secondes au lieu des heures)
+            -positionne les valeurs sur des débuts d'images (incrément/décrément par image) en fonction du standard défini dans les options de l'application (PAL ou NTSC)
+            -autorise les incréments/décréments de l'unité supérieure
+        -Dans la boite d'option de l'application, dans l'onglet projet
+            -ajoute la possibilité de sélectioner la transition B2
+        -Intégration des LUMA proposées par Alexander Goponenko
+            -remplace les 2 dernières LUMA clock (en étoile) et ajoute leurs inverses
+            -remplace 4 LUMA centre (les 2 en clercles et les 2 en carrés)
+            -remplace les LUMA mélangeur damier, spirale et vitrail et ajoute un deuxième vitrail et une nouvelle tache
+        -Dans la boite d'édition des vidéos
+            -positionne par défaut le lecteur sur la position de début de la vidéo
+            -retourne le triangle correspondant à la poigné de la position courante sur la barre de progression
+            -ajoute 2 poignées sur la barre de progression pour définir "à la souris" les positions de début et de fin de la vidéo
+            -allume les poignées (début, fin et position courante) lorsqu'elles sont clickées ou maintenus avec la souris
+            -Modifie les zones d'édition des positions de début et de fin de sorte à ce que les boutons + et - :
+                -par défaut modifie les millisecondes
+                -positionne les valeurs sur des débuts d'images (incrément/décrément par image)
+                -autorise les incréments/décréments de l'unité supérieure
+        -Montées de versions pour le paquet Windows
+            -QT passe en version 5.2.1 au lieu de 5.1.1
+            -ffmpeg passe en version 2.1.3 au lieu de 2.1.0
+            -exiv2 passe en version 0.24 au lieu de 0.23
 
 --------------------------------------------------------------------------------
-
-[Commit: 14/01/2014] - ffDiaporama 2.1 devel 20140111
-    Correction de bug :
-        -Corrige une fuite de mémoire qui intervenait lors de l'utilisation d'image de la librairie
-        -Corrige un problème d'application du volume sur les musiques lors des transitions
-        -Force l'utilisation de l'UTF-8 pour lire le journal des changements dans la boite de dialog a propos de
-        -Corrige le positionnement du lecteur de prévisualisation au démarrage de l'application
-
---------------------------------------------------------------------------------
-
-[Commit: 12/01/2014]
-    Correction de bug :
-        -Corrige la boite de sélection des transitions : quand la boite est réduite ou élargie, augmente ou réduit le nombre de colonne
-        -Corrige un bug dans le rechargement des fichiers projets qui générait un recalcul des vignettes des diapositives
-
-    Nouveautés :
-        -Modifie la boite de dialogue de paramétrage de la piste musical :
-            -Affiche la jaquette de la musique si elle existe
-            -Ajoute une case à cocher dans la table des morceaux pour autoriser au non le référencement de ce titre dans les génériques (variables %STM%)
-            -Autorise le paramétrage des options de volume et de pause même si la diapositive définie une nouvelle liste de lecture
-        -Modifie l'affichage de la piste musical sur la barre de temps
-            -Ajoute l'affichage de la jaquette du morceau
-            -Réduit la police de caractère pour l'affichage de l'artiste et du titre du morceau
-        -Modifie le Drag & Drop de la barre de temps
-            -Permet le déplacement d'une définition de playlist musical d'une diapo vers une autre
-            -Permet le déplacement d'une définition de fond d'écran d'une diapo vers une autre
-
---------------------------------------------------------------------------------
-
-[Commit: 10/01/2014] - ffDiaporama 2.1 devel 20140111
-    Correction de bug :
-        -Corrige un gros bug lors de la relecture des projets [regression 20140103]
-        -Corrige l'erreur d'affichage du VBR pour les autres codec que le h264 dans la boite de génération des videos
-
---------------------------------------------------------------------------------
-
-[Commit: 10/01/2014] - ffDiaporama 2.1 devel 20140110
-    Correction de bug :
-        -Corrige la non relecture des options de volumes et de désentrelacement des vidéos dans les fichiers projet [regression 20131221]
-        -Ne génère plus les cartes 2 fois à la fermeture de la boite d'edition des diapositives automatiques
-        -Regénère la carte si le modèle de diapo automatique change le modèle de carte
-        -Ne regénère plus la carte lors de la transformation en diapo standard
-        -Ajoute un timeout de 30 secondes pour ne pas rester bloquer pendant 10 minutes quand l'accès aux réseaux n'est pas possible au lancement de l'application
-        -Fixe une boucle infinie qui arrive parfois durant la lecture des vidéos
-
-    Nouveautés :
-        -Supprime le contour des textes et passe le zoomlevel par défaut à 14 dans les 2 nouveaux modèles de titre (avec carte GMaps)
-        -Ajoute une option pour passer l'encodage h264 en mode variable afin de réduire la taille des vidéos et d'éviter les saccadements dans les effets ken burns
-            -Cette option est activée par défaut dès que la durée des vidéos représente moins de 50% du projet (au dela cela peut augmenter la taille de la vidéo générée)
-            -Dans les projets contenant beaucoup de photo, la réduction du fichier peut atteindre 80%
-        -Ajoute une centaine de nouveaux modèles d'équipement (Téléphones et tablettes)
-
---------------------------------------------------------------------------------
-
-[Commit: 06/01/2014]
-    Nouveautés :
-        -Programme certaines LUMA plutôt que d'utiliser des fichiers pour améliorer leur qualité
-            -Traite les 24 transitions LUMA-BAR
-            -Traite les 24 premières transitions LUMA-CLOCK
-        -Retire les fichiers LUMA inutilisés (réduit la taille des paquets)
-
---------------------------------------------------------------------------------
-
-[Commit: 03/01/2014] - ffDiaporama 2.1 devel 20140103
-    Correction de bug :
-        -Corrige un plantage lors de la fermeture de la boite d'edition image/video/gmap lorsque des localisations ont été ajoutées
-        -Corrige l'affichage des dates de création et de modification des fichiers dans l'explorateur multimédia (Sous windows, la date de modification peut être invalide)
-
-    Nouveautés :
-        -Augmente légèrement l'opacité des marqueurs masqués (ils étaient vraiment trop peu visible)
-        -Met le champ Nom en 1er dans la boite de dialogue d'édition des localisations (plus logique)
-        -Accélère les sélections/déselections de fichiers dans l'explorateur multimédia
-        -N'affiche plus les durées à 0 dans l'explorateur multimédia en mode détail
-        -Modifie le comportement du refresh dans l'explorateur multimédia : force une mise à complète des fichiers
-        -Ajoute un onglet Changelog (avec le contenu du fichier changelog) et un onglet Traduction (avec l'état des traductions) dans la boite A propos de
-        -Ne duplique plus les cartes GMap lors des copier/coller tant que les localisations n'ont pas été changées (pour réduire la taille des fichiers .ffd)
-
---------------------------------------------------------------------------------
-
-[Commit: 27/12/2013] - ffDiaporama 2.1 devel 20131227
-    Correction de bug :
-        -Corrige un gros bug dans le rechargement des projets contenant des ressources
-        -Corrige un crash lors de copier/couper/coller de carte GMpas dans la boite d'édition des slides
-        -Améliore la synchronisation audio/vidéo lors des encodages en NTSC
-
-    Nouveautés :
-        -Redesign la boite des propriétés du projet pour supprimer les onglets et ajouter la localisation de l'évenement
-        -Ajoute la possibilité de modifier la localisation de l'évenement dans la boite d'édition des chapitres et dans la partie chapitre de la boite d'édition des slides automatiques
-        -Transforme le champs "Supplanter la date" de la boite d'édition des slides automatiques en multi-lignes
-        -Ajoute des variables de texte %PLN% et %PLA% correspondant aux nom et adresse de la localisation de l'évenement du projet
-        -Ajoute des variables de texte %CLN% et %CLA% correspondant aux nom et adresse de la localisation de l'évenement du chapitre en cours
-        -Ajoute le champs "Album du projet par defaut" et la sélection des "unités de distance" à utiliser dans la boite de configuration de l'application
-        -Modifie le bouton "Ajouter une localisation" de l'onglet GMap de la boite d'edition image/video/gmap pour utiliser les localisations du projet ou du chapitre ou de sélectionner directement un favoris
-        -Ajoute une option "Ajouter une carte" dans le sous menu qui apparait lorsqu'on click sur Ajouter un titre dans la fenêtre principal
-        -Ajoute des modèles de Titre fixe et animé contenant une carte GMap basée sur la localisation du projet
-        -Ajoute des options dans la boite de configuration pour déclarer un proxy pour accéder à internet
-        -Supprime les unités de CD-ROM vide de la liste des unités gérées dans le navigateur multimédia [Windows]
-
---------------------------------------------------------------------------------
-
-[Commit: 21/12/2013] - ffDiaporama 2.1 devel 20131221
-    Correction de bug :
-        -Corrige le problème de lenteur dans l'affichage des marqueurs sur les cartes GMaps lors des animations
-        -Corrige l'affichage de la carte dans l'onglet GMaps : s'assure que la carte n'est jamais tronquée et que l'affichage est centré
-        -Corrige le problème de qualité des cartes GMaps  quand elles sont en haute résolution
-        -Corrige l'activation/désactivation des actions de collage dans la boite d'édition des slides [regression 17/12/2013]
-        -Corrige l'application des modifications des propriétés modifiées dans la boite d'edition des images/vidéo/GMap vers les plans suivants
-         dans la boite d'édition des slides (n'applique que la modification en cours et non plus l'ensemble des propriétés)
-
-    Nouveautés :
-        -Ne duplique plus systématiquement les ressources à l'ouverture de la boite de dialog d'édition image/video/gmap quand il s'agit d'objet gmap (accélère l'ouverture de la boite)
-        -Remplace l'affichage en double buffer des marqueurs des objets gmap par un affichage en simple buffer pour la preview (plus rapide)
-        -Ajoute un bouton "Exporter la carte" dans la boite de dialog d'édition image/video/gmap quand il s'agit d'objet gmap
-        -Remplace le format d'export par défaut de jpg à png pour toutes les captures (image de l'éditeur video, image de la prévisualisation et carte dans l'onglet GMaps)
-        -Ajoute des formats de carte GMaps très haute résolution : 720px9-16:9 (3840x2160) et 1080px9-16:9 (5760x3240)
-        -Supprime les unités de disques amovible vide de la liste des unités gérées dans le navigateur multimédia [Windows]
-
---------------------------------------------------------------------------------
-
-[Commit: 20/12/2013]
-    Correction de bug :
-        -Corrige le bug de non remplacement de l'icône lors de la sélection d'un favoris dans la boite de sélection des positions GPS
-        -Rend actif la touche F1 dans toute les boites de dialog
-        -Corrige l'UNDO dans la boite d'édition des slides (repositionne sur le plan actif et remet les sélections)
-        -Corrige l'application des modifications des propriétés vers les plans suivants dans la boite d'édition des slides (n'applique que la modification en cours et non plus l'ensemble des propriétés)
-
-    Nouveautés :
-        -Change le cadrage par défaut pour l'icône des positions GPS lors de la sélection d'une image dans la boite de sélection des positions GPS
-        -Remplace le verrouillage des propriétés d'un bloc, dans la boite d'édition des slides, par une nouvelle propriété : hériter les modifications faites dans les plans précédents
-            -Ajoute une case à cocher dans la boite d'édition des slides pour activer ou désactiver cette propriété
-            -Lors de la désactivation de cette propriété, propose de reprendre (et d'appliquer aux plans suivants) les propriétés de ce bloc du plan précédent
-
---------------------------------------------------------------------------------
-
-[Commit: 17/12/2013]
-    Correction de bug :
-        -Corrige le forçage de la langue anglaise avec le paramètre -lang=en (regression 20131215)
-        -Corrige un bug lors de l'application de l'UNDO dans la boite d'édition des slides : Des propriétés sont appliquées aux plans suivants alors que le slide entier est restauré
-        -Corrige un bug lors de l'application des propriétés d'un bloc aux plans suivant (regression 20131215)
-        -Corrige un bug de lecture des caractères accentués lors du chargement de projet sous Windows (regression 20131215)
-
---------------------------------------------------------------------------------
-
-[Commit: 16/12/2013]
-    Correction de bug :
-        -Corrige un bug dans la gestion des ressources mise en cache (Lulo)
-        -Corrige un bug lors de la mise à jours de la table de localisation dans la base de données utilisateur (database version 5 vers 6)
-
-    Nouveautés :
-        -Mets en cache les icônes des marqueurs pour accélérer les générations et rafraichissements des cartes GMaps
-        -Ajoute l'affichage des marqueurs des cartes GMaps dans l'onglet image de la boite d'édition des images/video/gmap
-
---------------------------------------------------------------------------------
-
-[Commit: 15/12/2013]
-    Correction de bug :
-        -Corrige un bug sur les favoris dans la boite de sélection de localisation GPS
-        -Corrige un bug sur le vérouillage des propriétés d'un block dans la boite d'édition des slides: Certaines propriétés n'étaient pas répercutées dans les plans non vérouillés (voir: http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=644)
-        -Corrige le bug d'inactivité du bouton Annuler de la boite de génération des cartes GMap
-        -Corrige le plantage lors des reprises de génération des cartes GMap
-        -Corrige un bug lors de la génération des cartes GMap (si la précédente carte n'était pas totalement générée, il tentait de finir la génération au lieu de démarrer la nouvelle)
-
-    Nouveautés :
-        -Ajoute un champ Friendly address dans la boite de sélection des localisations GPS et dans la table des localisations favorites
-        -Redesign l'onglet d'édition des cartes GMap dans la boite d'édition des images/vidéos/carte GMap
-        -La suppression d'une localisation de regénère plus de carte dans l'onglet d'édition des cartes GMap
-        -Commence la prise en charge des marqueurs des cartes GMap
-
---------------------------------------------------------------------------------
-
-[Commit: 13/12/2013] - ffDiaporama 2.1 devel 20131212
-    Correction de bug :
-        -Corrige le bug sur les images dans la génération du WIKI
-        -Corrige un bug dans la génération du WIKI en n'ajoutant plus de surlignage sur les titres non traduit des pages
-
-    Nouveautés :
-        -Modifie le format des fichiers .ffd pour pouvoir y intégrer des ressources
-        -Modifie l'inscription des vignettes des diapositives dans le fichier .ffd pour qu'elles soient stockées sous forme de ressource et non plus dans la diapositive
-        -Ajout des nouveaux types d'objets : Image from clipboard et Google Maps map
-        -Ajout d'un bouton "Ajouter spécial" dans la boite d'édition des diapositives pour insérer les nouveaux types d'objets
-        -Ajout d'un nouvel onglet Google Maps Map dans la boite d'édition et de recadrage des images/vidéo/map
-        -Modification du fonctionnement du copier/coller dans la boite d'édition des diapositives pour autoriser le collage d'image sous forme d'un nouvelle objet "Image from clipboard"
-        -Modification du fonctionnement du copier/coller dans la fenêtre principale pour autoriser le collage d'image sous forme d'un nouvelle slide contenant un objet "Image from clipboard"
-        -Création d'une boite de dialogue de sélection/modification d'une localisation (GPS) via utilisation de Google Maps et ajoute une nouvelle entrée dans le Wiki pour cette boite
-        -Ajout de nouvelles entrées dans le WIKI pour décrire les types d'objets utilisables avec ffDiaporama (les pages sont à compléter !)
-
---------------------------------------------------------------------------------
-
-[Commit: 05/12/2013] - ffDiaporama 2.0.1 stable
-    Correction de bug :
-        -Corrige un crash dans la boite d'edition des diapositives
-        -Corrige les UNDO dans la boite d'edition des diapositives (conserve la sélection)
-        -Corrige l'application des styles de forme dans la boite d'edition des diapositives
-
---------------------------------------------------------------------------------
-
-[Commit: 01/12/2013]
-    Correction de bug :
-        -Corrige le filtre de format de fichier proposé pour sélectionner une autre image lors d'un fichier image manquant pendant le chargement d'un projet [regression 20131130]
-        -Améliore la détection d'une autre instance de ffdiaporama et ré-autorise le lancement si la dernière instance s'est crashée
-        -Remplace du codes spécifique QT5 dans la devel.20131130 par un code compatible QT4/QT5 [regression 20131130]
+[Commit: 09/02/2014] - ffDiaporama 2.1 Stable
 
 --------------------------------------------------------------------------------
 

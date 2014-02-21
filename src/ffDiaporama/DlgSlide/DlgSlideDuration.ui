@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>534</width>
-    <height>92</height>
+    <width>532</width>
+    <height>88</height>
    </rect>
   </property>
   <property name="font">
@@ -57,7 +57,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QTimeEdit" name="ShotDurationED">
+      <widget class="cQDateTimeEdit" name="ShotDurationED">
        <property name="font">
         <font>
          <pointsize>9</pointsize>
@@ -84,7 +84,7 @@
         </time>
        </property>
        <property name="currentSection">
-        <enum>QDateTimeEdit::HourSection</enum>
+        <enum>QDateTimeEdit::SecondSection</enum>
        </property>
        <property name="displayFormat">
         <string>HH:mm:ss.zzz</string>
@@ -198,6 +198,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>cQDateTimeEdit</class>
+   <extends>QDateTimeEdit</extends>
+   <header>CustomCtrl/cQDateTimeEdit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../RSCffDiaporama.qrc"/>
  </resources>

@@ -126,50 +126,68 @@ void cSoundBlockList::SetAt(int index,int16_t *Packet) {
 //====================================================================================================================
 // Detach the first packet of the list (do not make av_free)
 //====================================================================================================================
-int16_t *cSoundBlockList::DetachFirstPacket() {
-    Mutex.lock();
+int16_t *cSoundBlockList::DetachFirstPacket(bool NoLock) {
+    if (!NoLock) Mutex.lock();
     int16_t *Ret=NULL;
     if (List.count()>0) {
         Ret=(int16_t *)List.takeFirst();
         ListVolume.removeFirst();
         CurrentPosition+=(double(SoundPacketSize)/(SampleBytes*Channels*SamplingRate))*AV_TIME_BASE;
     }
-    Mutex.unlock();
+    if (!NoLock) Mutex.unlock();
     return Ret;
 }
 
 //====================================================================================================================
 // Append a packet to the end of the list
 //====================================================================================================================
-void cSoundBlockList::AppendPacket(int64_t Position,int16_t *PacketToAdd) {
-    Mutex.lock();
+void cSoundBlockList::AppendPacket(int64_t Position,int16_t *PacketToAdd,bool NoLock) {
+    if (!NoLock) Mutex.lock();
     if (CurrentPosition==-1)
         CurrentPosition=Position;
     List.append(PacketToAdd);
     ListVolume.append(false);
-    Mutex.unlock();
+    if (!NoLock) Mutex.unlock();
 }
 
 //====================================================================================================================
 // Append a packet to the begining of the list
 //====================================================================================================================
-void cSoundBlockList::PrependPacket(int64_t Position,int16_t *PacketToAdd) {
-    Mutex.lock();
+void cSoundBlockList::PrependPacket(int64_t Position,int16_t *PacketToAdd,bool NoLock) {
+    if (!NoLock) Mutex.lock();
     if (CurrentPosition==-1) CurrentPosition=Position;
     List.prepend(PacketToAdd);
     ListVolume.prepend(false);
-    Mutex.unlock();
+    if (!NoLock) Mutex.unlock();
 }
 
 //====================================================================================================================
 // Append a packet of null sound to the end of the list
 //====================================================================================================================
-void cSoundBlockList::AppendNullSoundPacket(int64_t Position) {
-    AppendPacket(Position,NULL);
+void cSoundBlockList::AppendNullSoundPacket(int64_t Position,bool NoLock) {
+    AppendPacket(Position,NULL,NoLock);
 }
 
-void cSoundBlockList::PrependNullSoundPacket(int64_t Position) {
-    PrependPacket(Position,NULL);
+//====================================================================================================================
+// Append a packet of null sound to the beginning of the list
+//====================================================================================================================
+void cSoundBlockList::PrependNullSoundPacket(int64_t Position,bool NoLock) {
+    PrependPacket(Position,NULL,NoLock);
+}
+
+//====================================================================================================================
+// Ensure the liste contains enought null packet at start for a pause
+//====================================================================================================================
+void cSoundBlockList::EnsureEnoughtNullAtStart() {
+    int NbrNull=0;
+    for (int i=0;i<NbrPacketForFPS;i++) if ((i<List.count())&&(List[i]==NULL)) NbrNull++;
+    for (int i=0;i<NbrPacketForFPS-NbrNull;i++) PrependNullSoundPacket(0);
+}
+//====================================================================================================================
+// Ensure the liste contains no null packet at start
+//====================================================================================================================
+void cSoundBlockList::EnsureNoNullAtStart() {
+    while ((List.count()>0)&&(List[0]==NULL)) List.removeFirst();
 }
 
 //====================================================================================================================
@@ -252,11 +270,11 @@ void cSoundBlockList::AppendData(int64_t Position,int16_t *Data,int64_t DataLen)
 // Append a packet to the end of the list by mixing 2 packet
 // Note : the 2 packet are free during process
 //====================================================================================================================
-void cSoundBlockList::MixAppendPacket(int64_t Position,int16_t *PacketA,int16_t *PacketB) {
+void cSoundBlockList::MixAppendPacket(int64_t Position,int16_t *PacketA,int16_t *PacketB,bool NoLock) {
     int32_t mix;
-    if ((PacketA==NULL)&&(PacketB==NULL))           AppendNullSoundPacket(Position);
-        else if ((PacketA!=NULL)&&(PacketB==NULL))  AppendPacket(Position,PacketA);
-        else if ((PacketA==NULL)&&(PacketB!=NULL))  AppendPacket(Position,PacketB);
+    if ((PacketA==NULL)&&(PacketB==NULL))           AppendNullSoundPacket(Position,NoLock);
+        else if ((PacketA!=NULL)&&(PacketB==NULL))  AppendPacket(Position,PacketA,NoLock);
+        else if ((PacketA==NULL)&&(PacketB!=NULL))  AppendPacket(Position,PacketB,NoLock);
         else {
             // Mix the 2 sources buffer using the first buffer as destination
             int16_t *Buf1=PacketA;
@@ -267,7 +285,7 @@ void cSoundBlockList::MixAppendPacket(int64_t Position,int16_t *PacketA,int16_t 
                 *(Buf1++)=int16_t(mix);
             }
             av_free(PacketB); // Free the second buffer
-            AppendPacket(Position,PacketA);
+            AppendPacket(Position,PacketA,NoLock);
     }
 }
 

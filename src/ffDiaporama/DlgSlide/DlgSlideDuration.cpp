@@ -44,6 +44,9 @@ DlgSlideDuration::~DlgSlideDuration() {
 
 void DlgSlideDuration::DoInitDialog() {
     ui->ShotDurationED->setTime(QTime(0,0,0,0).addMSecs(Duration));
+    ui->ShotDurationED->setCurrentSection(QDateTimeEdit::SecondSection);
+    ui->ShotDurationED->setSelectedSection(QDateTimeEdit::SecondSection);
+    ui->ShotDurationED->MsecStep=(ApplicationConfig->DefaultStandard==STANDARD_PAL?qreal(1000)/qreal(25):qreal(1001)/qreal(30));
 }
 
 //====================================================================================================================
@@ -52,4 +55,3 @@ bool DlgSlideDuration::DoAccept() {
     Duration=QTime(0,0,0,0).msecsTo(ui->ShotDurationED->time());
     return true;
 }
-

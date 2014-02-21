@@ -53,20 +53,22 @@ public:
     virtual         ~cSoundBlockList();
 
     virtual void    ClearList();                                                                                        // Clear the list (make av_free of each packet)
-    virtual int16_t *DetachFirstPacket();                                                                               // Detach the first packet of the list (do not make av_free)
-    virtual void    AppendNullSoundPacket(int64_t Position);                                                            // Append a packet of null sound to the end of the list
-    virtual void    PrependNullSoundPacket(int64_t Position);                                                           // Append a packet of null sound to the begining of the list
-    virtual void    MixAppendPacket(int64_t Position,int16_t *PacketA,int16_t *PacketB);                                // Append a packet to the end of the list by mixing 2 packet
+    virtual int16_t *DetachFirstPacket(bool NoLock=false);                                                              // Detach the first packet of the list (do not make av_free)
+    virtual void    AppendNullSoundPacket(int64_t Position,bool NoLock=false);                                          // Append a packet of null sound to the end of the list
+    virtual void    PrependNullSoundPacket(int64_t Position,bool NoLock=false);                                         // Append a packet of null sound to the begining of the list
+    virtual void    MixAppendPacket(int64_t Position,int16_t *PacketA,int16_t *PacketB,bool NoLock=false);              // Append a packet to the end of the list by mixing 2 packet
     virtual void    AppendData(int64_t Position,int16_t *Data,int64_t DataLen);                                         // Append data to the list creating packet as necessary and filling TempData
     virtual void    SetFPS(double WantedDuration,int Channels,int64_t SamplingRate,enum AVSampleFormat SampleFormat);   // Prepare and calculate values for a frame rate
     virtual void    SetFrameSize(int FrameSize,int Channels,int64_t SamplingRate,enum AVSampleFormat SampleFormat);     // Prepare and calculate values for a frame size
     virtual void    ApplyVolume(int PacketNumber,double VolumeFactor);                                                  // Adjust volume
-    virtual void    AppendPacket(int64_t Position,int16_t *PacketToAdd);                                                // Append a packet to the end of the list
-    virtual void    PrependPacket(int64_t Position,int16_t *PacketToAdd);                                               // Append a packet to the begining of the list
+    virtual void    AppendPacket(int64_t Position,int16_t *PacketToAdd,bool NoLock=false);                              // Append a packet to the end of the list
+    virtual void    PrependPacket(int64_t Position,int16_t *PacketToAdd,bool NoLock=false);                             // Append a packet to the begining of the list
     virtual void    AdjustSoundPosition(int64_t SoundPosition,int64_t VideoPosition);                                   // Synchronise sound and video by adding null sound to catch VideoPosition
     virtual int     ListCount();
     virtual int16_t *GetAt(int index);
     virtual void    SetAt(int index,int16_t *Packet);
+    virtual void    EnsureEnoughtNullAtStart();
+    virtual void    EnsureNoNullAtStart();
 
 private:
     QList<int16_t *>    List;                       // List of sound packet

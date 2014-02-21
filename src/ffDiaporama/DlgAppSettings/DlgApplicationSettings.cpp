@@ -138,7 +138,8 @@ void DlgApplicationSettings::DoInitDialog() {
     ui->ImageSpeedWaveCB->SetCurrentValue(ApplicationConfig->DefaultImageAnimSpeedWave);
     ui->RandomTransitionRD->setChecked(ApplicationConfig->RandomTransition);
     ui->NoTransitionRD->setChecked((!ApplicationConfig->RandomTransition)&&(ApplicationConfig->DefaultTransitionFamilly==0)&&(ApplicationConfig->DefaultTransitionSubType==0));
-    ui->BasicTransitionRD->setChecked((!ApplicationConfig->RandomTransition)&&(ApplicationConfig->DefaultTransitionFamilly==0)&&(ApplicationConfig->DefaultTransitionSubType==1));
+    ui->BasicTransitionB1RD->setChecked((!ApplicationConfig->RandomTransition)&&(ApplicationConfig->DefaultTransitionFamilly==0)&&(ApplicationConfig->DefaultTransitionSubType==1));
+    ui->BasicTransitionB2RD->setChecked((!ApplicationConfig->RandomTransition)&&(ApplicationConfig->DefaultTransitionFamilly==0)&&(ApplicationConfig->DefaultTransitionSubType==2));
     QString Duration=QString("%1").arg(double(ApplicationConfig->DefaultTransitionDuration)/double(1000),0,'f');
     while (Duration.endsWith('0')) Duration=Duration.left(Duration.length()-1);
     while (Duration.endsWith('.')) Duration=Duration.left(Duration.length()-1);
@@ -423,7 +424,7 @@ bool DlgApplicationSettings::DoAccept() {
 
     ApplicationConfig->DefaultTransitionDuration    =int(GetDoubleValue(ui->TransitionDurationCB->currentText())*double(1000));
     ApplicationConfig->RandomTransition             =ui->RandomTransitionRD->isChecked();
-    ApplicationConfig->DefaultTransitionSubType     =(ui->NoTransitionRD->isChecked()?0:1);
+    ApplicationConfig->DefaultTransitionSubType     =(ui->NoTransitionRD->isChecked()?0:ui->BasicTransitionB1RD->isChecked()?1:2);
     ApplicationConfig->DefaultTransitionFamilly     =TRANSITIONFAMILLY_BASE;
 
     // ProjectDefault part

@@ -867,10 +867,6 @@ bool cEncodeVideo::DoEncode() {
     QThread::currentThread()->setPriority(QThread::TimeCriticalPriority);
     #endif
 
-    //QTime Time;
-    //int   Prepare=0,LoadSources=0,Assembly=0,Audio=0,Video=0;
-    //Time.start();
-
     for (RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
         // Calculate position & column
         AdjustedDuration=((Column>=0)&&(Column<Diaporama->List.count()))?Diaporama->List[Column]->GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
@@ -909,15 +905,25 @@ bool cEncodeVideo::DoEncode() {
             Frame->TransitObject_SoundTrackMontage->SetFPS(IncreasingVideoPts,AudioChannels,AudioSampleRate,AV_SAMPLE_FMT_S16);
         }
 
-        //Prepare+=Time.elapsed(); Time.restart();
         // Prepare frame (if W=H=0 then soundonly)
         if ((Frame->IsTransition)&&(Frame->TransitObject)) Diaporama->CreateObjectContextList(Frame,InternalWidth,InternalHeight,false,false,true,PreparedTransitBrushList,&FakeParentObject);
         Diaporama->CreateObjectContextList(Frame,InternalWidth,InternalHeight,true,false,true,PreparedBrushList,&FakeParentObject);
-        Diaporama->LoadSources(Frame,InternalWidth,InternalHeight,false,true,PreparedTransitBrushList,PreparedBrushList);                       // Load background and image
-        //LoadSources+=Time.elapsed(); Time.restart();
+        Diaporama->LoadSources(Frame,InternalWidth,InternalHeight,false,true,PreparedTransitBrushList,PreparedBrushList,2);
 
         // Ensure previous Assembly was ended
         if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
+
+        // mix audio data
+        int MaxJ=Frame->CurrentObject_MusicTrack->NbrPacketForFPS;
+        //if (MaxJ>Frame->CurrentObject_MusicTrack->ListCount()) MaxJ=Frame->CurrentObject_MusicTrack->ListCount();
+        RenderMusic.Mutex.lock();
+        for (int j=0;j<MaxJ;j++) {
+            int16_t *Music=(((Frame->IsTransition)&&(Frame->TransitObject)&&(!Frame->TransitObject->MusicPause))||
+                            (!Frame->CurrentObject->MusicPause))?Frame->CurrentObject_MusicTrack->DetachFirstPacket(true):NULL;
+            int16_t *Sound=(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket(true):NULL;
+            RenderMusic.MixAppendPacket(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,Music,Sound,true);
+        }
+        RenderMusic.Mutex.unlock();
 
         // Delete PreviousFrame used by assembly thread
         if (PreviousPreviousFrame) delete PreviousPreviousFrame;
@@ -987,14 +993,6 @@ void cEncodeVideo::Assembly(cDiaporamaObjectInfo *Frame,cDiaporamaObjectInfo *Pr
 //*************************************************************************************************************************************************
 
 void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *RenderMusic,cSoundBlockList *ToEncodeMusic,bool &Continue) {
-    // mix audio data
-    int MaxJ=Frame->CurrentObject_MusicTrack->NbrPacketForFPS;
-    if (MaxJ>Frame->CurrentObject_MusicTrack->ListCount()) MaxJ=Frame->CurrentObject_MusicTrack->ListCount();
-    for (int j=0;j<MaxJ;j++)
-        RenderMusic->MixAppendPacket(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,
-                                    Frame->CurrentObject_MusicTrack->DetachFirstPacket(),
-                                    Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket());
-
     // Transfert RenderMusic data to EncodeMusic data
     //while ((Continue)&&(RenderMusic->List.count()>0)) {
     int MaxPQ=RenderMusic->NbrPacketForFPS;
@@ -1002,7 +1000,7 @@ void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *Rend
     for (int PQ=0;(Continue)&&(PQ<MaxPQ);PQ++) {
         u_int8_t *PacketSound=(u_int8_t *)RenderMusic->DetachFirstPacket();
         if (PacketSound==NULL) {
-            PacketSound=(u_int8_t *)av_malloc(RenderMusic->SoundPacketSize+4);
+            PacketSound=(u_int8_t *)av_malloc(RenderMusic->SoundPacketSize+8);
             memset(PacketSound,0,RenderMusic->SoundPacketSize);
         }
         #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
@@ -1148,6 +1146,7 @@ void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *Rend
                             Continue=false;
                         }
                     }
+
                     LastAudioPts+=IncreasingAudioPts;
                     AudioFrameNbr++;
                     //ToLog(LOGMSG_INFORMATION,QString("Audio:  Stream:%1 - Frame:%2 - PTS:%3").arg(AudioStream->index).arg(AudioFrameNbr).arg(LastAudioPts));
@@ -1163,6 +1162,7 @@ void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *Rend
                 av_free(AudioFrame->extended_data);
                 AudioFrame->extended_data=NULL;
             }
+
         }
         av_free(PacketSound);
 
@@ -1171,6 +1171,7 @@ void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *Rend
         AudioResamplerBuffer=NULL;
         #endif
     }
+
 }
 
 //*************************************************************************************************************************************************

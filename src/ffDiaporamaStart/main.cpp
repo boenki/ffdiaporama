@@ -18,6 +18,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:wmainCRTStartup")
+
 #include <windows.h>
 #include <winbase.h>
 #include <stdio.h>

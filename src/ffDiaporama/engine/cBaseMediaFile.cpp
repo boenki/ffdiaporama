@@ -34,13 +34,24 @@
 //****************************************************************************************************************************************************************
 // EXIV2 PART
 //****************************************************************************************************************************************************************
-#include <exiv2/exif.hpp>
-#if (EXIV2_MAJOR_VERSION>=0)||((EXIV2_MAJOR_VERSION==0)&&(EXIV2_MINOR_VERSION>20))
-    #include <exiv2/exiv2.hpp>
-    bool Exiv2WithPreview=true;
+#ifdef Q_OS_WIN
+    #include <exif.hpp>
+    #if (EXIV2_MAJOR_VERSION>=0)||((EXIV2_MAJOR_VERSION==0)&&(EXIV2_MINOR_VERSION>20))
+        #include <exiv2.hpp>
+        bool Exiv2WithPreview=true;
+    #else
+        bool Exiv2WithPreview=false;
+        #include <image.hpp>
+    #endif
 #else
-    bool Exiv2WithPreview=false;
-    #include <exiv2/image.hpp>
+    #include <exiv2/exif.hpp>
+    #if (EXIV2_MAJOR_VERSION>=0)||((EXIV2_MAJOR_VERSION==0)&&(EXIV2_MINOR_VERSION>20))
+        #include <exiv2/exiv2.hpp>
+        bool Exiv2WithPreview=true;
+    #else
+        bool Exiv2WithPreview=false;
+        #include <exiv2/image.hpp>
+    #endif
 #endif
 
 int  Exiv2MajorVersion=EXIV2_MAJOR_VERSION;
@@ -1484,7 +1495,7 @@ bool cGMapsMap::LoadBasicInformationFromDatabase(QDomElement *ParentElement,QStr
         while ((ParentElement->elementsByTagName(QString("PendingSection_%1").arg(i)).length()>0)&&(ParentElement->elementsByTagName(QString("PendingSection_%1").arg(i)).item(0).isElement()==true)) {
             QDomElement     SubElement=ParentElement->elementsByTagName(QString("PendingSection_%1").arg(i)).item(0).toElement();
             RequestSection  Item;
-            double          X,Y;
+            double          X=1,Y=1;
             QString         R;
             if (SubElement.hasAttribute("X")) X=GetDoubleValue(SubElement,"X");
             if (SubElement.hasAttribute("Y")) Y=GetDoubleValue(SubElement,"Y");
@@ -2991,6 +3002,18 @@ u_int8_t *cVideoFile::Resample(AVFrame *Frame,int64_t *SizeDecoded,int DstSample
 }
 
 //====================================================================================================================
+// return duration of one frame
+//====================================================================================================================
+
+qreal cVideoFile::GetFPSDuration() {
+    qreal FPSDuration;
+    if ((VideoStreamNumber>=0)&&(LibavVideoFile->streams[VideoStreamNumber]))
+        FPSDuration=qreal(LibavVideoFile->streams[VideoStreamNumber]->r_frame_rate.den*(AV_TIME_BASE/1000))/qreal(LibavVideoFile->streams[VideoStreamNumber]->r_frame_rate.num);
+        else FPSDuration=1;
+    return FPSDuration;
+}
+
+//====================================================================================================================
 // Read a frame from current stream
 //====================================================================================================================
 // maximum diff between asked image position and founded image position
@@ -2999,7 +3022,7 @@ u_int8_t *cVideoFile::Resample(AVFrame *Frame,int64_t *SizeDecoded,int DstSample
 #define MAXDELTA        2500000
 
 // Remark: Position must use AV_TIMEBASE Unit
-QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndPos,bool Deinterlace,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly) {
+QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndPos,bool Deinterlace,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly,int NbrDuration) {
     // Ensure file was previously open
     if ((!IsOpen)&&(!OpenCodecAndFile())) return NULL;
 
@@ -3086,8 +3109,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
 
         // Check if we need to continue loop
         // Note: FPSDuration*(!VideoStream?2:1) is to enhance preview speed
-        ContinueAudio=((AudioStream)&&(SoundTrackBloc)&&
-                       (!((LastAudioReadedPosition>=Position+FPSDuration*2)||(LastAudioReadedPosition>=int64_t(dEndFile*AV_TIME_BASE)))));
+        ContinueAudio=(AudioStream)&&(SoundTrackBloc);
     }
 
     // Count number of image > position
@@ -3220,8 +3242,8 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
 
             // Check if we need to continue loop
             // Note: FPSDuration*(!VideoStream?2:1) is to enhance preview speed
-            ContinueAudio=((ContinueAudio)&&(Counter>0)&&(AudioStream)&&(SoundTrackBloc)&&
-                           (!((LastAudioReadedPosition>=Position+FPSDuration*2)||(LastAudioReadedPosition>=int64_t(dEndFile*AV_TIME_BASE)))));
+            ContinueAudio=((ContinueAudio)&&(Counter>0)&&(AudioStream)&&(SoundTrackBloc)&&((SoundTrackBloc->ListCount()<SoundTrackBloc->NbrPacketForFPS)||
+                           (!((LastAudioReadedPosition>=Position+FPSDuration*NbrDuration)||(LastAudioReadedPosition>=int64_t(dEndFile*AV_TIME_BASE))))));
         }
         // Continue with a new one
         if (StreamPacket!=NULL) {
@@ -3536,7 +3558,7 @@ QImage *cVideoFile::ConvertYUVToRGB(bool PreviewMode,AVFrame *Frame) {
 // Load a video frame
 // DontUseEndPos default=false
 QImage *cVideoFile::ImageAt(bool PreviewMode,int64_t Position,cSoundBlockList *SoundTrackBloc,bool Deinterlace,
-                            double Volume,bool ForceSoundOnly,bool DontUseEndPos) {
+                            double Volume,bool ForceSoundOnly,bool DontUseEndPos,int NbrDuration) {
 
     if (!IsValide) return NULL;
     if (!IsOpen) OpenCodecAndFile();
@@ -3553,7 +3575,7 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,int64_t Position,cSoundBlockList *S
             ImageObject->CachePreviewImage=NULL;
         }
         ImageObject->Position=Position;
-        ImageObject->CachePreviewImage=ReadFrame(PreviewMode,Position*1000,DontUseEndPos,Deinterlace,SoundTrackBloc,Volume,ForceSoundOnly);
+        ImageObject->CachePreviewImage=ReadFrame(PreviewMode,Position*1000,DontUseEndPos,Deinterlace,SoundTrackBloc,Volume,ForceSoundOnly,NbrDuration);
         if (ImageObject->CachePreviewImage) return new QImage(ImageObject->CachePreviewImage->copy());
             else return NULL;
 
@@ -3695,13 +3717,13 @@ bool cMusicObject::CheckFormatValide(QWidget *Window) {
 
     // check if file have at least one sound track compatible
     if ((IsOk)&&(AudioStreamNumber==-1)) {
-        QString ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","No audio track found","Error message");
+        QString ErrorMessage=QApplication::translate("MainWindow","No audio track found","Error message")+"\n";
         CustomMessageBox(Window,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),ShortName()+"\n\n"+ErrorMessage,QMessageBox::Close);
         IsOk=false;
 
     } else {
         if (!((LibavAudioFile->streams[AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||(LibavAudioFile->streams[AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8))) {
-            QString ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with unsigned 8 bits or signed 16 bits sample format","Error message");
+            QString ErrorMessage=QApplication::translate("MainWindow","This application support only audio track with unsigned 8 bits or signed 16 bits sample format","Error message")+"\n";
             CustomMessageBox(Window,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),ShortName()+"\n\n"+ErrorMessage,QMessageBox::Close);
             IsOk=false;
         }
@@ -3709,7 +3731,7 @@ bool cMusicObject::CheckFormatValide(QWidget *Window) {
         #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
         // check if sound is mono or stereo (libav 8 version can not reduce 5.1 to stereo)
         if ((IsOk)&&(LibavAudioFile->streams[AudioStreamNumber]->codec->channels>2)) {
-            QString ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
+            QString ErrorMessage=QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message")+"\n";
             CustomMessageBox(Window,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),ShortName()+"\n\n"+ErrorMessage,QMessageBox::Close);
             IsOk=false;
         }
