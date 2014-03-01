@@ -3472,9 +3472,9 @@ void cVideoFile::DecodeAudioFrame(sAudioContext *AudioContext,int64_t *FramePts,
     } else {
         Data=Frame->data[0];
         #if (defined(LIBAV)&&(LIBAVVERSIONINT<=8))
-        SizeDecoded=Frame->nb_samples*av_get_bytes_per_sample(AudioStream->codec->sample_fmt)*AudioStream->codec->channels;
+        SizeDecoded=Frame->nb_samples*av_get_bytes_per_sample(AudioContext->AudioStream->codec->sample_fmt)*AudioContext->AudioStream->codec->channels;
         #elif (defined(LIBAV)&&(LIBAVVERSIONINT<=9))
-        SizeDecoded=av_samples_get_buffer_size(NULL,AudioStream->codec->channels,Frame->nb_samples,AudioStream->codec->sample_fmt,0);
+        SizeDecoded=av_samples_get_buffer_size(NULL,AudioContext->AudioStream->codec->channels,Frame->nb_samples,AudioContext->AudioStream->codec->sample_fmt,0);
         #elif defined(FFMPEG)
         SizeDecoded=Frame->nb_samples*av_get_bytes_per_sample(AudioContext->AudioStream->codec->sample_fmt)*AudioContext->AudioStream->codec->channels;
         #endif
