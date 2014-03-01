@@ -415,7 +415,7 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
     VideoStream->codec->sample_aspect_ratio =PixelAspectRatio;
     VideoStream->sample_aspect_ratio        =PixelAspectRatio;
     if ((codec->id!=AV_CODEC_ID_H264)||(!VBR)) {
-        VideoStream->codec->bit_rate            =VideoBitrate;
+        VideoStream->codec->bit_rate=VideoBitrate;
         av_dict_set(&opts,"b",QString("%1").arg(VideoBitrate).toUtf8(),0);
     }
 
@@ -464,18 +464,7 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
         #endif
 
     } else if (codec->id==AV_CODEC_ID_H264) {
-        // -vcodec libx264 -vsync vfr -pix_fmt yuv420p -b:0 1500000 -minrate 1350000 -maxrate 1650000 -bufsize 3000000
-        // -preset veryfast -refs:0 3 -r 25  -sws_flags bicubic
-        // Stream #0.0: Video: libx264, yuv420p, 640x360 [PAR 1:1 DAR 16:9], q=-1--1, 1500 kb/s, 1k tbn, 25 tbc
-        // Stream #0.1: Audio: libfaac, 44100 Hz, stereo, 159 kb/s
-        // cabac=1 ref=3 deblock=1:0:0 analyse=0x1:0x111 me=hex subme=2 psy=1 psy_rd=1.00:0.00 mixed_ref=0
-        // me_range=16 chroma_me=1 trellis=0 8x8dct=0 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=0
-        // threads=3 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3
-        // b_pyramid=0 b_adapt=1 b_bias=0 direct=1 weightb=0 open_gop=1 weightp=1 keyint=250 keyint_min=25
-        // scenecut=40 intra_refresh=0 rc_lookahead=10 rc=abr mbtree=1 bitrate=1500 ratetol=1.0 qcomp=0.60
-        // qpmin=0 qpmax=69 qpstep=4 vbv_maxrate=1650 vbv_bufsize=3000 nal_hrd=none ip_ratio=1.25 aq=1:1.00
-        // profile Main, level 3.0
-        av_dict_set(&opts,"preset","veryfast",0);
+
         VideoStream->codec->gop_size=250;           av_dict_set(&opts,"g",QString("%1").arg(VideoStream->codec->gop_size).toUtf8(),0);
         VideoStream->codec->qmin    =0;             av_dict_set(&opts,"qmin",QString("%1").arg(VideoStream->codec->qmin).toUtf8(),0);
         VideoStream->codec->qmax    =69;            av_dict_set(&opts,"qmax",QString("%1").arg(VideoStream->codec->qmax).toUtf8(),0);
@@ -483,27 +472,8 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
 
         switch (VideoCodecSubId) {
             case VCODEC_H264HQ:     // High Quality H.264 AVC/MPEG-4 AVC
-                av_dict_set(&opts,"refs",    "3",          0);
-                av_dict_set(&opts,"vprofile","main",       0);  // 2 versions to support differents libav/ffmpeg
-                av_dict_set(&opts,"profile", "main",       0);
-                av_dict_set(&opts,"tune",    "zerolatency",0);
-                BFrames=3;
-                if (VBR) {
-                    MinRate=int(double(VideoBitrate)*VBRMINCOEF);
-                    MaxRate=int(double(VideoBitrate)*VBRMAXCOEF);
-                    BufSize=int(double(VideoBitrate)*4);
-                } else {
-                    MinRate=int(double(VideoBitrate)*0.9);
-                    MaxRate=int(double(VideoBitrate)*1.1);
-                    BufSize=int(double(VideoBitrate)*2);
-                }
-                break;
-
             case VCODEC_H264PQ:     // Phone Quality H.264 AVC/MPEG-4 AVC
-                av_dict_set(&opts,"refs","3",           0);
-                av_dict_set(&opts,"vprofile","baseline",0);
-                av_dict_set(&opts,"profile", "baseline",0);     // 2 versions to support differents libav/ffmpeg
-                av_dict_set(&opts,"tune","fastdecode",  0);
+                av_dict_set(&opts,"refs","3",0);
                 if (VBR) {
                     MinRate=int(double(VideoBitrate)*VBRMINCOEF);
                     MaxRate=int(double(VideoBitrate)*VBRMAXCOEF);
@@ -513,9 +483,15 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
                     MaxRate=int(double(VideoBitrate)*1.1);
                     BufSize=int(double(VideoBitrate)*2);
                 }
+                //                                                           High Quality   Phone Quality
+                av_dict_set(&opts,"preset",  (VideoCodecSubId==VCODEC_H264HQ?Diaporama->ApplicationConfig->Preset_HQ :Diaporama->ApplicationConfig->Preset_PQ).toLocal8Bit(),0);
+                av_dict_set(&opts,"vprofile",(VideoCodecSubId==VCODEC_H264HQ?Diaporama->ApplicationConfig->Profile_HQ:Diaporama->ApplicationConfig->Profile_PQ).toLocal8Bit(),0);  // 2 versions to support differents libav/ffmpeg
+                av_dict_set(&opts,"profile", (VideoCodecSubId==VCODEC_H264HQ?Diaporama->ApplicationConfig->Profile_HQ:Diaporama->ApplicationConfig->Profile_PQ).toLocal8Bit(),0);
+                av_dict_set(&opts,"tune",    (VideoCodecSubId==VCODEC_H264HQ?Diaporama->ApplicationConfig->Tune_HQ   :Diaporama->ApplicationConfig->Tune_PQ).toLocal8Bit(),0);
                 break;
 
-            case VCODEC_X264LL:     // x264 lossless
+            case VCODEC_X264LL: // x264 lossless
+                av_dict_set(&opts,"preset","veryfast",0);
                 av_dict_set(&opts,"refs","3",0);
                 av_dict_set(&opts,"qp",  "0",0);
                 break;
@@ -914,17 +890,18 @@ bool cEncodeVideo::DoEncode() {
         if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
 
         // mix audio data
-        int MaxJ=Frame->CurrentObject_MusicTrack->NbrPacketForFPS;
-        //if (MaxJ>Frame->CurrentObject_MusicTrack->ListCount()) MaxJ=Frame->CurrentObject_MusicTrack->ListCount();
-        RenderMusic.Mutex.lock();
-        for (int j=0;j<MaxJ;j++) {
-            int16_t *Music=(((Frame->IsTransition)&&(Frame->TransitObject)&&(!Frame->TransitObject->MusicPause))||
-                            (!Frame->CurrentObject->MusicPause))?Frame->CurrentObject_MusicTrack->DetachFirstPacket(true):NULL;
-            int16_t *Sound=(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket(true):NULL;
-            RenderMusic.MixAppendPacket(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,Music,Sound,true);
+        if (Frame->CurrentObject_MusicTrack) {
+            int MaxJ=Frame->CurrentObject_MusicTrack->NbrPacketForFPS;
+            //if (MaxJ>Frame->CurrentObject_MusicTrack->ListCount()) MaxJ=Frame->CurrentObject_MusicTrack->ListCount();
+            RenderMusic.Mutex.lock();
+            for (int j=0;j<MaxJ;j++) {
+                int16_t *Music=(((Frame->IsTransition)&&(Frame->TransitObject)&&(!Frame->TransitObject->MusicPause))||
+                                (!Frame->CurrentObject->MusicPause))?Frame->CurrentObject_MusicTrack->DetachFirstPacket(true):NULL;
+                int16_t *Sound=(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket(true):NULL;
+                RenderMusic.MixAppendPacket(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,Music,Sound,true);
+            }
+            RenderMusic.Mutex.unlock();
         }
-        RenderMusic.Mutex.unlock();
-
         // Delete PreviousFrame used by assembly thread
         if (PreviousPreviousFrame) delete PreviousPreviousFrame;
 

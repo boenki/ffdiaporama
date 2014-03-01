@@ -1120,6 +1120,10 @@
         <source>Add or modify a location</source>
         <translation>Aggiungi o modifica una località</translation>
     </message>
+    <message>
+        <source>Cut a sound file</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0021</name>
@@ -6366,18 +6370,6 @@
         <translation>La barra di avanzamento</translation>
     </message>
     <message>
-        <source>Displays as follows:</source>
-        <translation>Viene visualizzato come segue:</translation>
-    </message>
-    <message>
-        <source>The length of the ruler is increased in proportion to the duration of the video.</source>
-        <translation>La lunghezza del righello aumenta in proporzione alla durata del video.</translation>
-    </message>
-    <message>
-        <source>The blue part represents the part of the video which is selected (which will be used in the assembly).</source>
-        <translation>La parte blu rappresenta la parte del video che viene selezionato (che verrà utilizzato nel montaggio).</translation>
-    </message>
-    <message>
         <source> This button starts playback. Click again on this button to pause. </source>
         <translation> Questo pulsante avvia la riproduzione. Fare di nuovo clic su questo pulsante per mettere in pausa. </translation>
     </message>
@@ -6820,6 +6812,42 @@
     <message>
         <source>Turn the image to the right (to the nearest multiple of 90°).</source>
         <translation>Ruotare l&apos;immagine a destra (al più vicino multiplo di 90°).</translation>
+    </message>
+    <message>
+        <source>You can move with the mouse the </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> handle, on the progress bar, to move the current position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can move with the mouse the two </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> and </source>
+        <translation type="unfinished"> e </translation>
+    </message>
+    <message>
+        <source> handles, on the progress bar, to move the Start and End positions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Displays as follows: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The wave form of the sound of the video is dispayed under a white background.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The ruler representing the duration of the video is dispayed under a black background. Remark than the length of the ruler is increased in proportion to the duration of the video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The blue part, on wave form and ruler, represents the part of the video which is selected (which will be used in the assembly).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7358,10 +7386,6 @@
         <translation>Aggiungi un file alla lista di riproduzione. Una finestra di selezione appare, e consente di selezionare un file.</translation>
     </message>
     <message>
-        <source>Removes the current selected file from the playlist.</source>
-        <translation>Rimuovere il file correntemente selezionato dalla lista di riproduzione.</translation>
-    </message>
-    <message>
         <source>Changes the order in which the music files will be played. Moves the currently selected file one step up.</source>
         <translation>Consente di modificare l&apos;ordine in cui vengono riprodotti i file musicali. Sposta il file selezionato di un gradino verso l&apos;alto.</translation>
     </message>
@@ -7412,6 +7436,18 @@
     <message>
         <source>Remarks</source>
         <translation>Osservazioni</translation>
+    </message>
+    <message>
+        <source>Cut the currently selected file from the playlist. The &lt;a href=&quot;0124.html&quot;&gt;Cut a sound file&lt;/a&gt; dialog appears.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removes the currently selected file from the playlist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can double click a music file from the playlist to edit it, the &lt;a href=&quot;0124.html&quot;&gt;Cut a sound file&lt;/a&gt; dialog appears.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -9615,6 +9651,81 @@
     </message>
 </context>
 <context>
+    <name>0124</name>
+    <message>
+        <source>Cut a sound file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog allows you to cut a sound file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The progress bar</source>
+        <translation type="unfinished">La barra di avanzamento</translation>
+    </message>
+    <message>
+        <source>Displays as follows: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The wave form of the sound is dispayed under a white background.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The ruler representing the duration of the sound file is dispayed under a black background. Remark than the length of the ruler is increased in proportion to the duration of the sound file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The blue part, on wave form and ruler, represents the part of the sound file which is selected (which will be used in the assembly).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> This button starts playback. Click again on this button to pause. </source>
+        <translation type="unfinished"> Questo pulsante avvia la riproduzione. Fare di nuovo clic su questo pulsante per mettere in pausa. </translation>
+    </message>
+    <message>
+        <source>You can move with the mouse the </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> handle, on the progress bar, to move the current position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can move with the mouse the two </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> and </source>
+        <translation type="unfinished"> e </translation>
+    </message>
+    <message>
+        <source> handles, on the progress bar, to move the Start and End positions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The working range</source>
+        <translation type="unfinished">L&apos;intervallo di lavoro</translation>
+    </message>
+    <message>
+        <source> Positions the cursor at the starting point</source>
+        <translation type="unfinished"> Posiziona il cursore al punto iniziale</translation>
+    </message>
+    <message>
+        <source> Uses the current cursor position as starting point (carries out an edit)</source>
+        <translation type="unfinished"> Utilizza la posizione del cursore come punto di partenza (effettua una modifica)</translation>
+    </message>
+    <message>
+        <source> Positions the cursor at the end point</source>
+        <translation type="unfinished"> Posiziona il cursore nel punto finale</translation>
+    </message>
+    <message>
+        <source> Uses the current cursor position as end point (carries out an edit)</source>
+        <translation type="unfinished"> Utilizza la posizione del cursore attuale come punto di arrivo (effettua una modifica)</translation>
+    </message>
+</context>
+<context>
     <name>QHP</name>
     <message>
         <source>Welcome to the ffDiaporama WIKI</source>
@@ -9843,6 +9954,10 @@
     <message>
         <source>Add or modify a location</source>
         <translation>Aggiungi o modifica una posizione</translation>
+    </message>
+    <message>
+        <source>Cut a sound file</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -93,7 +93,7 @@ class cBaseMediaFile {
 public:
     enum    ImageSizeFmt {FULLWEB,SIZEONLY,FMTONLY,GEOONLY};
 
-    cApplicationConfig *ApplicationConfig;
+    cApplicationConfig      *ApplicationConfig;
     OBJECTTYPE              ObjectType;
     QString                 ObjectName;                     // ObjectName in XML .ffd file
 
@@ -127,6 +127,8 @@ public:
     virtual void            SaveBasicInformationToDatabase(QDomElement *,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *,bool)                     {}
     virtual bool            LoadFromXML(QDomElement *,QString,QString,QStringList *,bool *,QList<cSlideThumbsTable::TRResKeyItem> *,bool )                      {return true;}
     virtual void            SaveToXML(QDomElement *,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *,bool)                                          {}
+    virtual bool            LoadAnalyseSound(QList<qreal> *Peak,QList<qreal> *Moyenne);
+    virtual void            SaveAnalyseSound(QList<qreal> *Peak,QList<qreal> *Moyenne);
 
     virtual void            Reset();
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey=-1);
@@ -455,6 +457,27 @@ protected:
     int                     RSC_InChannels,RSC_OutChannels;
     int                     RSC_InSampleRate,RSC_OutSampleRate;
     AVSampleFormat          RSC_InSampleFmt,RSC_OutSampleFmt;
+
+private:
+    struct sAudioContext {
+        AVStream        *AudioStream;
+        cSoundBlockList *SoundTrackBloc;
+        int64_t         FPSSize;
+        int64_t         FPSDuration;
+        int64_t         DstSampleSize;
+        double          *dEndFile;
+        int             NbrDuration;
+        double          TimeBase;
+        bool            NeedResampling;
+        int64_t         AudioLenDecoded;
+        int             Counter;
+        double          AudioFramePosition;
+        double          Volume;
+        bool            ContinueAudio;
+    };
+private slots:
+    void DecodeAudio(sAudioContext *AudioContext,AVPacket *StreamPacket,int64_t Position);
+    void DecodeAudioFrame(sAudioContext *AudioContext,int64_t *FramePts,AVFrame *Frame,int64_t Position);
 };
 
 //*********************************************************************************************************************************************
@@ -471,6 +494,7 @@ public:
     virtual bool            CheckFormatValide(QWidget *);
     void                    SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
     bool                    LoadFromXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag);
+    QTime                   GetDuration();
 };
 
 #endif // CBASEMEDIAFILE_H

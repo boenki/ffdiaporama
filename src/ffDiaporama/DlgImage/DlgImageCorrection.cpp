@@ -219,6 +219,9 @@ bool DlgImageCorrection::DoAccept() {
 }
 
 void DlgImageCorrection::DoRejet() {
+    if (ImageWidget) ImageWidget->DoRejet();
+    if (VideoWidget) VideoWidget->DoRejet();
+    if (GMapsWidget) GMapsWidget->DoRejet();
     if (BackgroundForm) *BackgroundForm=SavedBackgroundForm;
 }
 

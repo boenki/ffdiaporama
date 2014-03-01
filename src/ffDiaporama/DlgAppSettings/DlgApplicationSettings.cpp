@@ -328,6 +328,13 @@ void DlgApplicationSettings::DoInitDialog() {
     connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(TabChanged(int)));
     connect(ui->ProxyCB,SIGNAL(clicked()),this,SLOT(s_ProxyChanged()));
 
+    ui->Profile_HQ_CB->setCurrentIndex(ui->Profile_HQ_CB->findText(ApplicationConfig->Profile_HQ));
+    ui->Profile_PQ_CB->setCurrentIndex(ui->Profile_PQ_CB->findText(ApplicationConfig->Profile_PQ));
+    ui->Preset_HQ_CB->setCurrentIndex(ui->Preset_HQ_CB->findText(ApplicationConfig->Preset_HQ));
+    ui->Preset_PQ_CB->setCurrentIndex(ui->Preset_PQ_CB->findText(ApplicationConfig->Preset_PQ));
+    ui->Tune_HQ_CB->setCurrentIndex(ui->Tune_HQ_CB->findText(ApplicationConfig->Tune_HQ));
+    ui->Tune_PQ_CB->setCurrentIndex(ui->Tune_PQ_CB->findText(ApplicationConfig->Tune_PQ));
+
     ui->tabWidget->setCurrentIndex(0);
 }
 
@@ -510,6 +517,14 @@ bool DlgApplicationSettings::DoAccept() {
     i=0;
     while ((i<ApplicationConfig->DeviceModelList.RenderDeviceModel.count())&&(Text!=ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->DeviceName)) i++;
     if ((i<ApplicationConfig->DeviceModelList.RenderDeviceModel.count())&&(Text==ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->DeviceName)) ApplicationConfig->DefaultForTheWEBModel=ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->DeviceIndex;
+
+    ApplicationConfig->Profile_HQ=ui->Profile_HQ_CB->currentText();
+    ApplicationConfig->Profile_PQ=ui->Profile_PQ_CB->currentText();
+    ApplicationConfig->Preset_HQ =ui->Preset_HQ_CB->currentText();
+    ApplicationConfig->Preset_PQ =ui->Preset_PQ_CB->currentText();
+    ApplicationConfig->Tune_HQ   =ui->Tune_HQ_CB->currentText();
+    ApplicationConfig->Tune_PQ   =ui->Tune_PQ_CB->currentText();
+
     return true;
 }
 

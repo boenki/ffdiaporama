@@ -108,6 +108,7 @@ OTHER_FILES += $$TRANSLATIONS \
     WIKI/src_en/0121.html \
     WIKI/src_en/0122.html \
     WIKI/src_en/0123.html \
+    WIKI/src_en/0124.html \
     WIKI/UpdateTSFiles.bash \
     WIKI/UpdateQMFiles.bash \
     WIKI/readme.txt \

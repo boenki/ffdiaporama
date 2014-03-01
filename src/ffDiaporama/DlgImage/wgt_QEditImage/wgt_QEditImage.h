@@ -55,6 +55,7 @@ public:
     void                    WinFocus();
     void                    LostFocus();
     bool                    DoAccept() {return true;}                                 // Call when user click on Ok button
+    void                    DoRejet() {}
 
     void                    ReloadFile(QString BrushFileName);
     void                    ResetCachedImage();

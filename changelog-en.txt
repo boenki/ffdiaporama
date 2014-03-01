@@ -2,6 +2,19 @@
 * FFDIAPORAMA 2.2 - trunk - (English version)
 **************************************************
 
+[Commit: 01/03/2014] - ffDiaporama 2.2 devel 20140301
+    Bug fixes:
+        -Fixed a problem of unreadable x264 video encoded with some versions of ffmpeg (removes forcing b-frames in profile High Quality)
+        -Fixed a problem when encoding videos without sound [2.1 regression]
+
+    New features:
+        -In the options dialog, adds 6 combobox to select "profile", "preset" and "tune" options for codecs h264HQ and h264PQ
+        -Creates a new edit music dialog that displays the sound wave and allow to change the start and end positions of a song
+        -In music properties dialog
+            -Adds an edit button that opens the new edit music dialog
+            -Opens the new edit music dialog when you double click on a song in the playlist
+        -Adds the display of the sound wave in the edit video dialog
+
 [Commit: 21/02/2014] - ffDiaporama 2.2 devel 20140221
     Bug fixes:
         -Removes unnecessary warnings when compiling in cBaseMediaFile and cBrushDefinition

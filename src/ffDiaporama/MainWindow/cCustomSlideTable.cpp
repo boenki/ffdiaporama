@@ -368,11 +368,11 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         cMusicObject    *NextMusic          =(ItemIndex+1)<ParentTable->columnCount()?Object->Parent->GetMusicObject(ItemIndex+1,NextStartPosition,NULL,&OwnerObjectNextMusic):NULL;
         bool            EndMusic            =true;
 
-        if ((CurMusic)&&(StartPosition>=(QTime(0,0,0,0).msecsTo(CurMusic->Duration)-Object->TransitionDuration))) CurMusic=NULL;
+        if ((CurMusic)&&(StartPosition>=(QTime(0,0,0,0).msecsTo(CurMusic->GetDuration())-Object->TransitionDuration))) CurMusic=NULL;
         if (NextMusic) {
             if ((OwnerObjectMusic==OwnerObjectNextMusic)&&(CurMusic!=NULL)&&(NextMusic!=NULL)) EndMusic=false;
-                else if ((CurMusic)&&((QTime(0,0,0,0).msecsTo(CurMusic->Duration))-StartPosition>=Object->CachedDuration)) EndMusic=false;
-        } else if (CurMusic) EndMusic=(QTime(0,0,0,0).msecsTo(CurMusic->Duration)-StartPosition)<Object->CachedDuration;
+                else if ((CurMusic)&&((QTime(0,0,0,0).msecsTo(CurMusic->GetDuration()))-StartPosition>=Object->CachedDuration)) EndMusic=false;
+        } else if (CurMusic) EndMusic=(QTime(0,0,0,0).msecsTo(CurMusic->GetDuration())-StartPosition)<Object->CachedDuration;
 
         bool            DrawVolumeTransition=(PreviousFactor!=CurrentFactor);
         bool            DrawInTransition    =false;
@@ -380,7 +380,7 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         bool            DrawPause           =false;
         int             RHeight             =int(TIMELINESOUNDHEIGHT*2*(CurrentFactor/1.5));
         int             PHeight             =int(TIMELINESOUNDHEIGHT*2*(PreviousFactor/1.5));
-        bool            DrawOutTransition   =((PrevMusique)&&((QTime(0,0,0,0).msecsTo(PrevMusique->Duration)-StartPosition)>Object->Parent->List[ItemIndex-1]->CachedDuration));
+        bool            DrawOutTransition   =((PrevMusique)&&((QTime(0,0,0,0).msecsTo(PrevMusique->GetDuration())-Object->Parent->List[ItemIndex-1]->CachedStartPosition)>Object->Parent->List[ItemIndex-1]->CachedDuration));
 
         if (CurMusic!=NULL) {
             // Search if sound end during the slide

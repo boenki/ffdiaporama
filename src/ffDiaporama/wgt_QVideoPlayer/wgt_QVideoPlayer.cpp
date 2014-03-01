@@ -27,131 +27,6 @@
 
 #define BUFFERING_NBR_FRAME                 10                                      // Number of frame wanted in the playing buffer
 
-//*********************************************************************************************************************************************
-// Base object for Movie frame
-//*********************************************************************************************************************************************
-QMovieLabel::QMovieLabel(QWidget *parent):QLabel(parent) {
-}
-
-QMovieLabel::~QMovieLabel() {
-}
-
-void QMovieLabel::mouseDoubleClickEvent(QMouseEvent *) {
-    emit DoubleClick();
-}
-
-void QMovieLabel::mouseReleaseEvent(QMouseEvent *event) {
-    if (event->button()==Qt::RightButton) emit RightClickEvent(event);  else QLabel::mouseReleaseEvent(event);
-}
-
-void QMovieLabel::SetImage(QImage Image) {
-    CurrentImage=Image;
-    repaint();
-}
-
-void QMovieLabel::SetImage(QImage *Image) {
-    CurrentImage=Image->copy();
-    repaint();
-}
-
-void QMovieLabel::resizeEvent(QResizeEvent *Ev) {
-    QLabel::resizeEvent(Ev);
-    repaint();
-}
-
-void QMovieLabel::paintEvent(QPaintEvent *) {
-    if (CurrentImage.isNull()) return;
-    QPainter Painter(this);
-    qreal Ratio=qreal(CurrentImage.width())/qreal(CurrentImage.height());
-    int MaxW=this->width();
-    int MaxH=qreal(MaxW)/Ratio;
-    if (MaxH>this->height()) {
-        MaxH=this->height();
-        MaxW=qreal(MaxH*Ratio);
-    }
-    if (CurrentImage.width()!=MaxW) {
-        QImage CI=CurrentImage.scaledToWidth(MaxW);
-        int LeftBar  =(this->width()-CI.width())/2;
-        int RightBar =this->width()-CI.width()-LeftBar;
-        int TopBar   =(this->height()-CI.height())/2;
-        int BottomBar=this->height()-CI.height()-TopBar;
-        Painter.drawImage(LeftBar,TopBar,CI);
-        if (LeftBar) {
-            Painter.fillRect(QRectF(0,0,LeftBar,this->height()),Qt::black);
-            Painter.fillRect(QRectF(this->width()-RightBar,0,RightBar,this->height()),Qt::black);
-        }
-        if (TopBar) {
-            Painter.fillRect(QRectF(LeftBar,0,CI.width(),TopBar),Qt::black);
-            Painter.fillRect(QRectF(LeftBar,this->height()-BottomBar,CI.width(),BottomBar),Qt::black);
-        }
-    } else {
-        int LeftBar  =(this->width()-CurrentImage.width())/2;
-        int RightBar =this->width()-CurrentImage.width()-LeftBar;
-        int TopBar   =(this->height()-CurrentImage.height())/2;
-        int BottomBar=this->height()-CurrentImage.height()-TopBar;
-        Painter.drawImage(LeftBar,TopBar,CurrentImage);
-        if (LeftBar) {
-            Painter.fillRect(QRectF(0,0,LeftBar,this->height()),Qt::black);
-            Painter.fillRect(QRectF(this->width()-RightBar,0,RightBar,this->height()),Qt::black);
-        }
-        if (TopBar) {
-            Painter.fillRect(QRectF(LeftBar,0,CurrentImage.width(),TopBar),Qt::black);
-            Painter.fillRect(QRectF(LeftBar,this->height()-BottomBar,CurrentImage.width(),BottomBar),Qt::black);
-        }
-    }
-}
-
-//*********************************************************************************************************************************************
-// Base object for image manipulation
-//*********************************************************************************************************************************************
-
-cImageList::cImageList() {
-}
-
-//====================================================================================================================
-
-cImageList::~cImageList() {
-    ClearList();
-}
-
-//====================================================================================================================
-// Clear the list (make av_free of each packet)
-//====================================================================================================================
-void cImageList::ClearList() {
-    while (List.count()>0) {
-        cDiaporamaObjectInfo *Frame=DetachFirstImage();
-        if (Frame) delete(Frame);
-    }
-}
-
-//====================================================================================================================
-// Detach the first image of the list (do not make delete)
-//====================================================================================================================
-cDiaporamaObjectInfo *cImageList::DetachFirstImage() {
-    if (List.count()>0) return (cDiaporamaObjectInfo *)List.takeFirst(); else return NULL;
-}
-
-//====================================================================================================================
-// Retreve a link to the first frame in the list
-//====================================================================================================================
-cDiaporamaObjectInfo *cImageList::GetFirstImage() {
-    if (List.count()>0) return (cDiaporamaObjectInfo *)List[0]; else return NULL;
-}
-
-//====================================================================================================================
-// Retreve a link to the last frame in the list
-//====================================================================================================================
-cDiaporamaObjectInfo *cImageList::GetLastImage() {
-    if (List.count()>0) return (cDiaporamaObjectInfo *)List[List.count()-1]; else return NULL;
-}
-
-//====================================================================================================================
-// Append a packet to the end of the list
-//====================================================================================================================
-void cImageList::AppendImage(cDiaporamaObjectInfo *Frame) {
-    List.append(Frame);
-}
-
 //====================================================================================================================
 
 wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui::wgt_QVideoPlayer) {
@@ -269,7 +144,6 @@ bool wgt_QVideoPlayer::InitDiaporamaPlay(cDiaporama *Diaporama) {
     ApplicationConfig   =Diaporama->ApplicationConfig;
     this->Diaporama     =Diaporama;
     WantedFPS           =Diaporama->ApplicationConfig->PreviewFPS;
-    ImageList.Diaporama =Diaporama;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->CustomRuler->ActiveSlider(Diaporama->GetDuration());
@@ -333,7 +207,7 @@ void wgt_QVideoPlayer::SetPlayerToPause() {
     if (SDL_GetAudioStatus()==SDL_AUDIO_PLAYING) SDL_PauseAudio(1);
     MixedMusic.ClearList();                         // Free sound buffers
     Music.ClearList();                              // Free sound buffers
-    ImageList.ClearList();                          // Free ImageList
+    FrameList.ClearList();                          // Free FrameList
     PlayerPlayMode  = true;
     PlayerPauseMode = true;
     ui->VideoPlayerPlayPauseBT->setIcon(IconPause);
@@ -399,9 +273,9 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 
             SetPlayerToPause();    // Stop if it's the end
 
-        } else if (ImageList.List.count()>1) {                        // Process
+        } else if (FrameList.List.count()>1) {                        // Process
             // Retrieve frame information
-            cDiaporamaObjectInfo *Frame=ImageList.DetachFirstImage();
+            cDiaporamaObjectInfo *Frame=(cDiaporamaObjectInfo *)FrameList.DetachFirstFrame();
 
             // Display frame
             if (!Frame->RenderedImage.isNull()) ui->MovieFrame->SetImage(Frame->RenderedImage.scaledToHeight(ui->MovieFrame->height()));
@@ -465,11 +339,11 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             }
             if ((Frame->IsTransition)&&(Frame->TransitObject)) Diaporama->CreateObjectContextList(Frame,W,H,false,true,true,PreparedTransitBrushList,Diaporama);
             Diaporama->CreateObjectContextList(Frame,W,H,true,true,true,PreparedBrushList,Diaporama);
-            PrepareImage(false,true,Frame,W,H);         // This will add frame to the ImageList
+            PrepareImage(false,true,Frame,W,H);         // This will add frame to the FrameList
 
             if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
 
-            Frame=ImageList.DetachFirstImage();     // Then detach frame from the ImageList
+            Frame=(cDiaporamaObjectInfo *)FrameList.DetachFirstFrame();     // Then detach frame from the FrameList
 
             // Display frame
             ui->MovieFrame->SetImage(Frame->RenderedImage.scaledToHeight(ui->MovieFrame->height()));
@@ -526,8 +400,8 @@ void wgt_QVideoPlayer::s_TimerEvent() {
             TimerDelta+=Elapsed-Wanted;
             if (TimerDelta>=Wanted) {
                 ToLog(LOGMSG_DEBUGTRACE,"FPS preview is too high: One image lost");
-                if (ImageList.List.count()>0) {
-                    delete ImageList.DetachFirstImage(); // Remove first image if we loose one tick
+                if (FrameList.List.count()>0) {
+                    delete (cDiaporamaObjectInfo *)FrameList.DetachFirstFrame(); // Remove first image if we loose one tick
                 } else {
                     // Increase next position to one frame
                     if (FileInfo) ActualPosition+=Wanted;
@@ -553,7 +427,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
         Mutex.lock();
         MixedMusic.ClearList();                         // Free sound buffers
         Music.ClearList();                              // Free sound buffers
-        ImageList.ClearList();                          // Free ImageList
+        FrameList.ClearList();                          // Free FrameList
         ResetPositionWanted=false;
         Mutex.unlock();
     }
@@ -561,7 +435,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
 
     // If no image in the list then create the first
-    if (ImageList.List.count()==0) {
+    if (FrameList.List.count()==0) {
 
         if (FileInfo) LastPosition=ActualPosition;
             else      LastPosition=Diaporama->CurrentPosition;
@@ -612,7 +486,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
         }
     }
 
-    cDiaporamaObjectInfo *PreviousFrame=ImageList.GetLastImage();
+    cDiaporamaObjectInfo *PreviousFrame=(cDiaporamaObjectInfo *)FrameList.GetLastFrame();
 
     if (FileInfo)       LastPosition=PreviousFrame->CurrentObject_InObjectTime;
     else if (Diaporama) LastPosition=PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
@@ -620,13 +494,13 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     NextPosition=LastPosition+int(double(1000)/WantedFPS);
 
     // Add image to the list if it's not full
-    if ((FileInfo)&&(ImageList.List.count()<BUFFERING_NBR_FRAME)&&(!ThreadPrepareVideo.isRunning())) {
+    if ((FileInfo)&&(FrameList.List.count()<BUFFERING_NBR_FRAME)&&(!ThreadPrepareVideo.isRunning())) {
 
         cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,NextPosition,NULL,int(double(1000)/WantedFPS),true);
         NewFrame->CurrentObject_StartTime   =0;
         ThreadPrepareVideo.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareVideoFrame,NewFrame,NewFrame->CurrentObject_InObjectTime));
 
-    } else if (((Diaporama)&&(ImageList.List.count()<BUFFERING_NBR_FRAME))&&(!ThreadPrepareImage.isRunning()))  {
+    } else if (((Diaporama)&&(FrameList.List.count()<BUFFERING_NBR_FRAME))&&(!ThreadPrepareImage.isRunning()))  {
 
         cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(PreviousFrame,NextPosition,Diaporama,double(1000)/WantedFPS,true);
 
@@ -666,14 +540,14 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 
     // if TimerTick update the preview
     if ((TimerTick)&&(ui->CustomRuler!=NULL))
-        s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
+        s_SliderMoved(((cDiaporamaObjectInfo *)FrameList.GetFirstFrame())->CurrentObject_StartTime+((cDiaporamaObjectInfo *)FrameList.GetFirstFrame())->CurrentObject_InObjectTime);
 
-    ui->BufferState->setValue(ImageList.List.count());
-    if (ImageList.List.count()<2)
+    ui->BufferState->setValue(FrameList.List.count());
+    if (FrameList.List.count()<2)
         ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: red;\n}");
-    else if (ImageList.List.count()<4)
+    else if (FrameList.List.count()<4)
         ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: yellow;\n}");
-    else if (ImageList.List.count()<=BUFFERING_NBR_FRAME)
+    else if (FrameList.List.count()<=BUFFERING_NBR_FRAME)
         ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: green;\n}");
 }
 
@@ -700,7 +574,7 @@ void wgt_QVideoPlayer::StartThreadAssembly(double PCT,cDiaporamaObjectInfo *Fram
     }
 
     // Append this image to the queue
-    ImageList.AppendImage(Frame);
+    FrameList.AppendFrame(Frame);
     Mutex.unlock();
 }
 
@@ -711,7 +585,7 @@ void wgt_QVideoPlayer::PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Posi
         delete Temp;
         for (int j=0;j<Music.NbrPacketForFPS;j++) MixedMusic.AppendPacket(Music.CurrentPosition,Music.DetachFirstPacket());
     }
-    if (!NewFrame->RenderedImage.isNull()) ImageList.AppendImage(NewFrame);
+    if (!NewFrame->RenderedImage.isNull()) FrameList.AppendFrame(NewFrame);
         else delete NewFrame;
 }
 //============================================================================================

@@ -2341,12 +2341,12 @@ cMusicObject *cDiaporama::GetMusicObject(int ObjectIndex,int64_t &StartPosition,
 
     // Now we have the object owner of the playlist (or 0). Then we can calculate wich music in the playlist is usable for this object
     int i=0;
-    while ((i<List[Index]->MusicList.count())&&(StartPosition>QTime(0,0,0,0).msecsTo(List[Index]->MusicList[i].Duration))) {
-        StartPosition-=QTime(0,0,0,0).msecsTo(List[Index]->MusicList[i].Duration);
+    while ((i<List[Index]->MusicList.count())&&(StartPosition>QTime(0,0,0,0).msecsTo(List[Index]->MusicList[i].GetDuration()))) {
+        StartPosition-=QTime(0,0,0,0).msecsTo(List[Index]->MusicList[i].GetDuration());
         i++;
     }
 
-    if ((i<List[Index]->MusicList.count())&&(StartPosition<=QTime(0,0,0,0).msecsTo(List[Index]->MusicList[i].Duration))) Ret=&List[Index]->MusicList[i];
+    if ((i<List[Index]->MusicList.count())&&(StartPosition<=QTime(0,0,0,0).msecsTo(List[Index]->MusicList[i].GetDuration()))) Ret=&List[Index]->MusicList[i];
 
     // Keep owner of the playlist (if wanted)
     if (IndexObject) *IndexObject=Index;
@@ -2488,7 +2488,7 @@ void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,int64_t Position,c
         }
 
         // Get more music bloc at correct position (volume is always 100% @ this point !)
-        CurMusic->ImageAt(PreviewMode,Position+StartPosition,MusicTrack,false,1,true,false,NbrDuration);
+        CurMusic->ImageAt(PreviewMode,Position+StartPosition+QTime(0,0,0,0).msecsTo(CurMusic->StartPos),MusicTrack,false,1,true,false,NbrDuration);
 
         // Apply correct volume to block in queue
         if (Factor!=1.0)

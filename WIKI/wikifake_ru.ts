@@ -1120,6 +1120,10 @@
         <source>Add or modify a location</source>
         <translation>Добавить или изменить местоположение</translation>
     </message>
+    <message>
+        <source>Cut a sound file</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0021</name>
@@ -6337,18 +6341,6 @@
         <translation>Прогресс бар</translation>
     </message>
     <message>
-        <source>Displays as follows:</source>
-        <translation>Отображается следующее:</translation>
-    </message>
-    <message>
-        <source>The length of the ruler is increased in proportion to the duration of the video.</source>
-        <translation>Длина линии увеличивается пропорционально продолжительности видео.</translation>
-    </message>
-    <message>
-        <source>The blue part represents the part of the video which is selected (which will be used in the assembly).</source>
-        <translation>Синяя часть соответствует выделенной части видео (которая будет использоваться в проекте).</translation>
-    </message>
-    <message>
         <source>The working range</source>
         <translation>Рабочий диапазон</translation>
     </message>
@@ -6831,6 +6823,42 @@
     <message>
         <source>Turn the image to the right (to the nearest multiple of 90°).</source>
         <translation>Перевернуть изображение вправо (до числа ближайшего к 90°).</translation>
+    </message>
+    <message>
+        <source>You can move with the mouse the </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> handle, on the progress bar, to move the current position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can move with the mouse the two </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> and </source>
+        <translation type="unfinished"> и </translation>
+    </message>
+    <message>
+        <source> handles, on the progress bar, to move the Start and End positions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Displays as follows: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The wave form of the sound of the video is dispayed under a white background.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The ruler representing the duration of the video is dispayed under a black background. Remark than the length of the ruler is increased in proportion to the duration of the video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The blue part, on wave form and ruler, represents the part of the video which is selected (which will be used in the assembly).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7361,10 +7389,6 @@
         <translation>Добавляет файл в список воспроизведения. Появится диалоговое окно выбора файлов, позволяющее выбрать файл.</translation>
     </message>
     <message>
-        <source>Removes the current selected file from the playlist.</source>
-        <translation>Удаляет выбранный файл из списка воспроизведения.</translation>
-    </message>
-    <message>
         <source>Changes the order in which the music files will be played. Moves the currently selected file one step up.</source>
         <translation>Изменение порядка в котором музыкальные файлы будут воспроизводиться. Перемещение выбранного файла на один шаг вверх.</translation>
     </message>
@@ -7424,6 +7448,18 @@
     <message>
         <source>Remarks</source>
         <translation>Примечания</translation>
+    </message>
+    <message>
+        <source>Cut the currently selected file from the playlist. The &lt;a href=&quot;0124.html&quot;&gt;Cut a sound file&lt;/a&gt; dialog appears.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removes the currently selected file from the playlist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can double click a music file from the playlist to edit it, the &lt;a href=&quot;0124.html&quot;&gt;Cut a sound file&lt;/a&gt; dialog appears.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -9626,6 +9662,81 @@
     </message>
 </context>
 <context>
+    <name>0124</name>
+    <message>
+        <source>Cut a sound file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog allows you to cut a sound file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The progress bar</source>
+        <translation type="unfinished">Прогресс бар</translation>
+    </message>
+    <message>
+        <source>Displays as follows: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The wave form of the sound is dispayed under a white background.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The ruler representing the duration of the sound file is dispayed under a black background. Remark than the length of the ruler is increased in proportion to the duration of the sound file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The blue part, on wave form and ruler, represents the part of the sound file which is selected (which will be used in the assembly).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> This button starts playback. Click again on this button to pause. </source>
+        <translation type="unfinished">Эта кнопка запускает воспроизведение. Повторное нажатие ставит на паузу.</translation>
+    </message>
+    <message>
+        <source>You can move with the mouse the </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> handle, on the progress bar, to move the current position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can move with the mouse the two </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> and </source>
+        <translation type="unfinished"> и </translation>
+    </message>
+    <message>
+        <source> handles, on the progress bar, to move the Start and End positions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The working range</source>
+        <translation type="unfinished">Рабочий диапазон</translation>
+    </message>
+    <message>
+        <source> Positions the cursor at the starting point</source>
+        <translation type="unfinished">Переместить курсор в начало</translation>
+    </message>
+    <message>
+        <source> Uses the current cursor position as starting point (carries out an edit)</source>
+        <translation type="unfinished">Использовать текущую позицию как стартовую (происходит редактирование - обрезка видео)</translation>
+    </message>
+    <message>
+        <source> Positions the cursor at the end point</source>
+        <translation type="unfinished">Переместить курсор в конец</translation>
+    </message>
+    <message>
+        <source> Uses the current cursor position as end point (carries out an edit)</source>
+        <translation type="unfinished">Использовать текущую позицию как конечную (происходит редактирование - обрезка видео)</translation>
+    </message>
+</context>
+<context>
     <name>QHP</name>
     <message>
         <source>Welcome to the ffDiaporama WIKI</source>
@@ -9854,6 +9965,10 @@
     <message>
         <source>Add or modify a location</source>
         <translation>Добавить или изменить местоположение</translation>
+    </message>
+    <message>
+        <source>Cut a sound file</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

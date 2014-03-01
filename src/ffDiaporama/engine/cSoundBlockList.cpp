@@ -55,6 +55,14 @@ int cSoundBlockList::ListCount() {
 }
 
 //====================================================================================================================
+// Return duration of actual data
+//====================================================================================================================
+qint64 cSoundBlockList::GetDuration() {
+    qreal NbrPacket=List.count()+qreal(CurrentTempSize)/qreal(SoundPacketSize);
+    return NbrPacket*dDuration*1000;
+}
+
+//====================================================================================================================
 // Prepare and calculate values for a frame rate
 //====================================================================================================================
 void cSoundBlockList::SetFPS(double TheWantedDuration,int TheChannels,int64_t TheSamplingRate,enum AVSampleFormat TheSampleFormat) {

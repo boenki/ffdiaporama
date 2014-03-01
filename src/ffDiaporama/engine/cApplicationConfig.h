@@ -402,6 +402,10 @@ public:
     bool                    DefaultExportThumbnail;
     bool                    DefaultExportXBMCNfo;
 
+    QString                 Profile_HQ,Profile_PQ;                      // Profiles for h264 codecs
+    QString                 Preset_HQ,Preset_PQ;                        // Presets for h264 codecs
+    QString                 Tune_HQ,Tune_PQ;                            // Tune for h264 codecs
+
     QStringList             RecentFile;                                 // Recent project files
 
     QString                 Plateforme;                                 // Operating system in use

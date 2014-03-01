@@ -210,10 +210,10 @@ unix {
         ../../../win_src/exiv2-0.24/src/canonmn.cpp \
         ../../../win_src/exiv2-0.24/src/bmpimage.cpp \
         ../../../win_src/exiv2-0.24/src/basicio.cpp \
-    ../../../win_src/exiv2-0.24/src/asfvideo.cpp \
-    ../../../win_src/exiv2-0.24/src/matroskavideo.cpp \
-    ../../../win_src/exiv2-0.24/src/quicktimevideo.cpp \
-    ../../../win_src/exiv2-0.24/src/riffvideo.cpp
+        ../../../win_src/exiv2-0.24/src/asfvideo.cpp \
+        ../../../win_src/exiv2-0.24/src/matroskavideo.cpp \
+        ../../../win_src/exiv2-0.24/src/quicktimevideo.cpp \
+        ../../../win_src/exiv2-0.24/src/riffvideo.cpp
 
     HEADERS += \
         ../../../win_src/exiv2-0.24/src/xmpsidecar.hpp \
@@ -280,12 +280,12 @@ unix {
         ../../../win_src/exiv2-0.24/src/canonmn_int.hpp \
         ../../../win_src/exiv2-0.24/src/bmpimage.hpp \
         ../../../win_src/exiv2-0.24/src/basicio.hpp \
-    ../../../win_src/exiv2-0.24/src/actions.hpp \
-    ../../../win_src/exiv2-0.24/src/asfvideo.hpp \
-    ../../../win_src/exiv2-0.24/src/matroskavideo.hpp \
-    ../../../win_src/exiv2-0.24/src/quicktimevideo.hpp \
-    ../../../win_src/exiv2-0.24/src/riffvideo.hpp \
-        ../exiv2/exv_msvc.h
+        ../../../win_src/exiv2-0.24/src/actions.hpp \
+        ../../../win_src/exiv2-0.24/src/asfvideo.hpp \
+        ../../../win_src/exiv2-0.24/src/matroskavideo.hpp \
+        ../../../win_src/exiv2-0.24/src/quicktimevideo.hpp \
+        ../../../win_src/exiv2-0.24/src/riffvideo.hpp \
+            ../exiv2/exv_msvc.h
 
     RC_FILE     += ffDiaporama.rc
     OTHER_FILES += ffdiaporama.ico \    # icon file to be install on windows system
@@ -312,6 +312,7 @@ SOURCES +=  MainWindow/cCustomSlideTable.cpp \
             DlgAbout/DlgAbout.cpp \
             DlgTransition/DlgTransitionProperties.cpp \
             DlgMusic/DlgMusicProperties.cpp \
+            DlgMusic/DlgEditMusic.cpp \
             DlgBackground/DlgBackgroundProperties.cpp \
             DlgAppSettings/DlgManageDevices/DlgManageDevices.cpp \
             DlgAppSettings/DlgApplicationSettings.cpp \
@@ -365,14 +366,15 @@ SOURCES +=  MainWindow/cCustomSlideTable.cpp \
             CustomCtrl/cCFramingComboBox.cpp \
             CustomCtrl/cCShapeComboBox.cpp \
             CustomCtrl/cThumbnailComboBox.cpp \
+            CustomCtrl/cQDateTimeEdit.cpp \
+            CustomCtrl/QCustomRuler.cpp \
             wgt_QMultimediaBrowser/QCustomFolderTable.cpp \
             wgt_QMultimediaBrowser/QCustomFolderTree.cpp \
             wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp \
-            wgt_QVideoPlayer/QCustomRuler.cpp \
             wgt_QVideoPlayer/wgt_QVideoPlayer.cpp \
             HelpPopup/HelpContent.cpp \
             main.cpp \
-            CustomCtrl/cQDateTimeEdit.cpp
+    CustomCtrl/QMovieLabel.cpp
 
 # Header files
 HEADERS  += MainWindow/cCustomSlideTable.h \
@@ -382,6 +384,7 @@ HEADERS  += MainWindow/cCustomSlideTable.h \
             DlgAbout/DlgAbout.h \
             DlgTransition/DlgTransitionProperties.h \
             DlgMusic/DlgMusicProperties.h \
+            DlgMusic/DlgEditMusic.h \
             DlgBackground/DlgBackgroundProperties.h \
             DlgAppSettings/DlgManageDevices/DlgManageDevices.h \
             DlgAppSettings/DlgApplicationSettings.h \
@@ -435,13 +438,14 @@ HEADERS  += MainWindow/cCustomSlideTable.h \
             CustomCtrl/cCFramingComboBox.h \
             CustomCtrl/cCShapeComboBox.h \
             CustomCtrl/cThumbnailComboBox.h \
+            CustomCtrl/cQDateTimeEdit.h \
+            CustomCtrl/QCustomRuler.h \
             wgt_QMultimediaBrowser/QCustomFolderTable.h \
             wgt_QMultimediaBrowser/QCustomFolderTree.h \
             wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.h \
-            wgt_QVideoPlayer/QCustomRuler.h \
             wgt_QVideoPlayer/wgt_QVideoPlayer.h \
             HelpPopup/HelpContent.h \
-            CustomCtrl/cQDateTimeEdit.h
+    CustomCtrl/QMovieLabel.h
 
 # Forms files
 FORMS    += MainWindow/mainwindow.ui \
@@ -450,6 +454,7 @@ FORMS    += MainWindow/mainwindow.ui \
             DlgAbout/DlgAbout.ui \
             DlgTransition/DlgTransitionProperties.ui \
             DlgMusic/DlgMusicProperties.ui \
+            DlgMusic/DlgEditMusic.ui \
             DlgBackground/DlgBackgroundProperties.ui \
             DlgAppSettings/DlgManageDevices/DlgManageDevices.ui \
             DlgAppSettings/DlgApplicationSettings.ui \

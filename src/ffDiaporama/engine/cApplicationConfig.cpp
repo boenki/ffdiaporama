@@ -782,6 +782,12 @@ bool cApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfigFile
             if (Element.hasAttribute("DefaultLossLess"))                DefaultLossLess             =Element.attribute("DefaultLossLess").toInt();
             if (Element.hasAttribute("DefaultExportThumbnail"))         DefaultExportThumbnail      =Element.attribute("DefaultExportThumbnail")=="1";
             if (Element.hasAttribute("DefaultExportXBMCNfo"))           DefaultExportXBMCNfo        =Element.attribute("DefaultExportXBMCNfo")=="1";
+            if (Element.hasAttribute("ProfileHQ"))                      Profile_HQ                  =Element.attribute("ProfileHQ");
+            if (Element.hasAttribute("ProfilePQ"))                      Profile_PQ                  =Element.attribute("ProfilePQ");
+            if (Element.hasAttribute("PresetHQ"))                       Preset_HQ                   =Element.attribute("PresetHQ");
+            if (Element.hasAttribute("PresetPQ"))                       Preset_PQ                   =Element.attribute("PresetPQ");
+            if (Element.hasAttribute("TuneHQ"))                         Tune_HQ                     =Element.attribute("TuneHQ");
+            if (Element.hasAttribute("TunePQ"))                         Tune_PQ                     =Element.attribute("TunePQ");
         }
 
         if ((root.elementsByTagName("Models").length()>0)&&(root.elementsByTagName("Models").item(0).isElement()==true)) {
@@ -955,6 +961,12 @@ bool cApplicationConfig::SaveConfigurationFile() {
     Element.setAttribute("DefaultLossLess",             DefaultLossLess);
     Element.setAttribute("DefaultExportThumbnail",      DefaultExportThumbnail?"1":"0");
     Element.setAttribute("DefaultExportXBMCNfo",        DefaultExportXBMCNfo?"1":"0");
+    Element.setAttribute("ProfileHQ",                   Profile_HQ);
+    Element.setAttribute("ProfilePQ",                   Profile_PQ);
+    Element.setAttribute("PresetHQ",                    Preset_HQ);
+    Element.setAttribute("PresetPQ",                    Preset_PQ);
+    Element.setAttribute("TuneHQ",                      Tune_HQ);
+    Element.setAttribute("TunePQ",                      Tune_PQ);
     root.appendChild(Element);
 
     Element=domDocument.createElement("Models");
@@ -1045,6 +1057,12 @@ void cApplicationConfig::InitValues() {
     DefaultLossLess             = 0;                        // Default Lossless imagesize
     DefaultExportThumbnail      = true;
     DefaultExportXBMCNfo        = true;
+    Profile_HQ                  = "main";
+    Profile_PQ                  = "baseline";
+    Preset_HQ                   = "faster";
+    Preset_PQ                   = "veryfast";
+    Tune_HQ                     = "zerolatency";
+    Tune_PQ                     = "fastdecode";
 
     SDLAudioOldMode             = false;                    // If true SDL audio use old mode sample instead byte
 
