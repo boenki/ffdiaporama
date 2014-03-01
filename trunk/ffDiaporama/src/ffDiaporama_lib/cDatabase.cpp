@@ -20,7 +20,7 @@
 
 #include "cBaseAppConfig.h"
 
-#define DATABASEVERSION 6       // Current database version
+#define DATABASEVERSION 7       // Current database version
 
 void DisplayLastSQLError(QSqlQuery *Query) {
     ToLog(LOGMSG_CRITICAL,Query->lastQuery());
@@ -805,6 +805,60 @@ bool cFilesTable::GetThumbs(qlonglong FileKey,QImage *Icon16,QImage *Icon100) {
     return (!Icon16->isNull())&&(!Icon100->isNull());
 }
 
+//====================================================================================================================
+
+bool cFilesTable::GetAnalyseSound(qlonglong FileKey,QList<qreal> *Peak,QList<qreal> *Moyenne) {
+    QSqlQuery Query(Database->db);
+    Query.prepare((QString("SELECT SoundWave FROM %1 WHERE Key=:Key").arg(TableName)));
+    Query.bindValue(":Key",FileKey,QSql::In);
+    if (!Query.exec()) {
+        DisplayLastSQLError(&Query);
+        return false;
+    }
+    while (Query.next()) {
+        QDomDocument    domDocument;
+        QString         errorStr;
+        int             errorLine,errorColumn;
+        QString         Value=Query.value(0).toString();
+        int             PeakNbr=0;
+        if ((domDocument.setContent(Value,true,&errorStr,&errorLine,&errorColumn))&&
+            (domDocument.elementsByTagName("SOUNDWAVE").length()>0)&&
+            (domDocument.elementsByTagName("SOUNDWAVE").item(0).isElement()==true)) {
+
+            QDomElement root=domDocument.elementsByTagName("SOUNDWAVE").item(0).toElement();
+            Peak->clear();
+            Moyenne->clear();
+            while ((root.elementsByTagName(QString("Peak-%1").arg(PeakNbr)).length()>0)&&(root.elementsByTagName(QString("Peak-%1").arg(PeakNbr)).item(0).isElement()==true)) {
+                QDomElement Element=root.elementsByTagName(QString("Peak-%1").arg(PeakNbr)).item(0).toElement();
+                Peak->append(   GetDoubleValue(Element,"P"));
+                Moyenne->append(GetDoubleValue(Element,"M"));
+                PeakNbr++;
+            }
+        }
+        return (PeakNbr>0);
+    }
+    return false;
+}
+
+//====================================================================================================================
+
+void cFilesTable::SetAnalyseSound(qlonglong FileKey,QList<qreal> *Peak,QList<qreal> *Moyenne) {
+    QDomDocument domDocument("SOUNDWAVE");
+    QDomElement  root=domDocument.createElement("SOUNDWAVE");
+    for (int PeakNbr=0;PeakNbr<Peak->count();PeakNbr++) {
+        QDomElement Element=domDocument.createElement(QString("Peak-%1").arg(PeakNbr));
+        Element.setAttribute("P",Peak->at(PeakNbr));
+        Element.setAttribute("M",Moyenne->at(PeakNbr));
+        root.appendChild(Element);
+    }
+    domDocument.appendChild(root);
+    QSqlQuery Query(Database->db);
+    Query.prepare((QString("UPDATE %1 SET SoundWave=:SoundWave WHERE Key=:Key").arg(TableName)));
+    Query.bindValue(":Key",      FileKey,               QSql::In);
+    Query.bindValue(":SoundWave",domDocument.toString(),QSql::In);
+    if (!Query.exec()) DisplayLastSQLError(&Query);
+}
+
 //=====================================================================================================
 
 bool cFilesTable::DoUpgradeTableVersion(qlonglong OldVersion) {
@@ -814,6 +868,7 @@ bool cFilesTable::DoUpgradeTableVersion(qlonglong OldVersion) {
     if          (OldVersion==1) Ret=Query.exec("DROP TABLE MediaFiles");
         else if (OldVersion==2) Ret=Query.exec("DELETE FROM MediaFiles");
         else if (OldVersion==3) Ret=Query.exec("DELETE FROM MediaFiles");
+        else if ((OldVersion>=4)&&(OldVersion<=6)) Ret=Query.exec("ALTER TABLE MediaFiles ADD COLUMN SoundWave text;");
 
     if (!Ret) DisplayLastSQLError(&Query);
     return Ret;

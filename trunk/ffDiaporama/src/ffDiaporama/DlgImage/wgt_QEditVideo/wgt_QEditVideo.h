@@ -25,6 +25,7 @@
 #include "engine/_GlobalDefines.h"
 #include "CustomCtrl/_QCustomDialog.h"
 #include "engine/_Diaporama.h"
+#include "CustomCtrl/QCustomRuler.h"
 
 namespace Ui {
     class wgt_QEditVideo;
@@ -36,7 +37,44 @@ Q_OBJECT
 public:
     cBrushDefinition        *CurrentBrush;
     QCustomDialog           *ParentDialog;
-    bool                    StopMaj;
+    bool                    StopMaj,InSliderMoveEvent;
+
+    QTime                   PreviousTimerEvent;
+    int                     TimerDelta;
+
+    bool                    Deinterlace;            // Add a YADIF filter to deinterlace video (on/off)
+    cVideoFile              *FileInfo;              // Link to the file wrapper object when DlgVideoDialogBox
+    cApplicationConfig      *ApplicationConfig;
+
+    int                     ActualPosition;         // Current position (in msec)
+    QTime                   tDuration;              // Duration of the video
+    double                  WantedFPS;
+
+    cFrameList              FrameList;              // Collection of bufered image
+    cSoundBlockList         Music;                  // Sound to play (in direct player mode)
+
+    bool                    IsValide;               // if true then object if fuly initialise
+    bool                    IsInit;                 // if true then player was first started
+    bool                    ResetPositionWanted;
+    QTime                   StartPos;               // Start position
+    QTime                   EndPos;                 // End position
+    QIcon                   IconPlay;               // Icon : "images/player_play.png"
+    QIcon                   IconPause;              // Icon : "images/player_pause.png"
+    bool                    DisplayMSec;            // if True, display millisecondes instead of secondes
+    bool                    PlayerPlayMode;        // Is MPlayer currently play mode
+    bool                    PlayerPauseMode;       // Is MPlayer currently plause mode
+    QTimer                  Timer;
+    QDateTime               PreviousTimerTick;
+    int                     TimerValue;
+    bool                    IsSliderProcess;        // true is slider is currently moving by user
+    bool                    PreviousPause;          // Flag to keep pause state before slider process
+    QTime                   LastTimeCheck;          // time save for plaing diaporama
+    bool                    TimerTick;              // To use timer 1 time for 2 call
+
+    // Thread controls
+    QMutex                  PlayerMutex;
+    QFutureWatcher<void>    ThreadPrepareVideo;
+    QFutureWatcher<void>    ThreadAnalyseMusic;
 
     explicit                wgt_QEditVideo(QWidget *parent = 0);
                             ~wgt_QEditVideo();
@@ -46,11 +84,33 @@ public:
     void                    RefreshControls();
     void                    WinFocus();
     void                    LostFocus();
-    bool                    DoAccept() {return true;}                                 // Call when user click on Ok button
+    bool                    DoAccept();
+    void                    DoRejet();
+
+    void                    SetStartEndPos(int StartPos,int Duration,int PreviousStartPos,int PrevisousEndPos,int NextStartPos,int NextEndPos);
+    void                    SeekPlayer(int Value);
+    QTime                   GetCurrentPos();
+    void                    SetCurrentPos(QTime Pos);
+
+    void                    SetPlayerToPause();
+    void                    SetPlayerToPlay(bool force);
+
+protected:
+    virtual void            closeEvent(QCloseEvent *);
+    virtual void            showEvent(QShowEvent *);
+    virtual void            resizeEvent(QResizeEvent *);
 
 private slots:
-    void                    s_Event_SaveImageEvent();
+    void                    s_AnalyseSound();
+    void                    s_EndSoundAnalyse();
+    void                    s_TimerEvent();
+    void                    s_VideoPlayerPlayPauseBT();
+    void                    s_SliderPressed();
+    void                    s_SliderReleased();
+    void                    s_SliderMoved(int Value);
+    void                    s_PositionChangeByUser();
     void                    s_StartEndChangeByUser();
+    void                    s_Event_SaveImageEvent();
     void                    s_DefStartPos();
     void                    s_DefEndPos();
     void                    s_SeekLeft();
@@ -64,6 +124,8 @@ signals:
     void                    DoRefreshImageObject();
 
 private:
+    void                    PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position);
+
     Ui::wgt_QEditVideo      *ui;
 };
 

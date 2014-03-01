@@ -24,49 +24,12 @@
 // Basic inclusions (common to all files)
 #include "engine/_GlobalDefines.h"
 #include "engine/_Diaporama.h"
-
-#include <QLabel>
+#include "CustomCtrl/QCustomRuler.h"
+#include "CustomCtrl/QMovieLabel.h"
 
 namespace Ui {
     class wgt_QVideoPlayer;
 }
-
-class cImageList {
-public:
-    QList<cDiaporamaObjectInfo *>   List;       // List of rendere image
-    cDiaporama                      *Diaporama; // Link to the current Diaporama
-
-    cImageList();
-    ~cImageList();
-
-    void                    ClearList();                                        // Clear the list (make delete of each image)
-    cDiaporamaObjectInfo    *DetachFirstImage();                                // Detach the first image of the list (do not make delete)
-    cDiaporamaObjectInfo    *GetFirstImage();                                   // Retreve a link to the first frame in the list
-    cDiaporamaObjectInfo    *GetLastImage();                                    // Retreve a link to the last frame in the list
-    void                    AppendImage(cDiaporamaObjectInfo *Frame);           // Append an image to the end of the list
-};
-
-class QMovieLabel : public QLabel {
-Q_OBJECT
-public:
-    QImage          CurrentImage;
-
-    explicit        QMovieLabel(QWidget *parent=0);
-                    ~QMovieLabel();
-
-    void            SetImage(QImage Image);
-    void            SetImage(QImage *Image);
-
-protected:
-    virtual void    resizeEvent(QResizeEvent *);
-    virtual void    paintEvent(QPaintEvent *event);
-    virtual void    mouseDoubleClickEvent(QMouseEvent *e);
-    virtual void    mouseReleaseEvent(QMouseEvent *e);
-
-signals:
-    void            DoubleClick();
-    void            RightClickEvent(QMouseEvent *);
-};
 
 class wgt_QVideoPlayer : public QWidget {
 Q_OBJECT
@@ -84,7 +47,7 @@ public:
     QTime                   tDuration;              // Duration of the video
     double                  WantedFPS;
 
-    cImageList              ImageList;              // Collection of bufered image
+    cFrameList              FrameList;              // Collection of bufered image
     cSoundBlockList         Music;                  // Sound to play (in direct player mode)
 
     bool                    IsValide;               // if true then object if fuly initialise

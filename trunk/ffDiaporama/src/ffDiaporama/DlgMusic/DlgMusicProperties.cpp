@@ -22,6 +22,7 @@
 #include "ui_DlgMusicProperties.h"
 
 #include "DlgFileExplorer/DlgFileExplorer.h"
+#include "DlgEditMusic.h"
 #include <QMessageBox>
 
 DlgMusicProperties::DlgMusicProperties(cDiaporamaObject *TheDiaporamaObject,cApplicationConfig *ApplicationConfig,QWidget *parent):
@@ -63,9 +64,10 @@ void DlgMusicProperties::DoInitDialog() {
     connect(ui->SameMusicPauseRD,SIGNAL(clicked()),this,SLOT(s_SameMusicPause()));
     connect(ui->UpMusicBt,SIGNAL(clicked()),this,SLOT(s_UpMusic()));
     connect(ui->DownMusicBt,SIGNAL(clicked()),this,SLOT(s_DownMusic()));
+    connect(ui->EditMusicBt,SIGNAL(clicked()),this,SLOT(s_EditMusic()));
     connect(ui->NewMusicCB,SIGNAL(clicked()),this,SLOT(s_NewMusic()));
-    connect(ui->AddMusicBt,SIGNAL(pressed()),this,SLOT(s_AddMusic()));
-    connect(ui->RemoveMusicBt,SIGNAL(pressed()),this,SLOT(s_RemoveMusic()));
+    connect(ui->AddMusicBt,SIGNAL(clicked()),this,SLOT(s_AddMusic()));
+    connect(ui->RemoveMusicBt,SIGNAL(clicked()),this,SLOT(s_RemoveMusic()));
     connect(ui->PlayListTable,SIGNAL(itemDoubleClicked(QTableWidgetItem *)),this,SLOT(s_PlayListTable_DoubleClick(QTableWidgetItem *)));
     connect(ui->PlayListTable,SIGNAL(itemSelectionChanged()),this,SLOT(s_PlayListTable_SelectionChanged()));
 }
@@ -157,7 +159,7 @@ void DlgMusicProperties::SetItem(int row,int MusicIndex) {
     Item->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
     ui->PlayListTable->setItem(row,0,Item);
 
-    Item=new QTableWidgetItem(DiaporamaObject->MusicList[MusicIndex].Duration.toString("hh:mm:ss"));
+    Item=new QTableWidgetItem(DiaporamaObject->MusicList[MusicIndex].GetDuration().toString("hh:mm:ss"));
     Item->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
     ui->PlayListTable->setItem(row,1,Item);
 
@@ -207,15 +209,17 @@ void DlgMusicProperties::RefreshControl(bool RefreshList) {
         ui->PlayListTable->setEnabled(true);
         ui->AddMusicBt->setEnabled(true);
         ui->RemoveMusicBt->setEnabled((DiaporamaObject->MusicList.count()>0)&&(ui->PlayListTable->currentRow()!=-1));
+        ui->EditMusicBt->setEnabled((DiaporamaObject->MusicList.count()>0)&&(ui->PlayListTable->currentRow()!=-1));
         ui->UpMusicBt->setEnabled((DiaporamaObject->MusicList.count()>0)&&(ui->PlayListTable->currentRow()>0));
-        ui->DownMusicBt->setEnabled((DiaporamaObject->MusicList.count()>0)&&(ui->PlayListTable->currentRow()<ui->PlayListTable->rowCount()-1));
+        ui->DownMusicBt->setEnabled((DiaporamaObject->MusicList.count()>0)&&(ui->PlayListTable->currentRow()!=-1)&&(ui->PlayListTable->currentRow()<ui->PlayListTable->rowCount()-1));
         int TotalDuration=0;
-        for (int CurIndex=0;CurIndex<DiaporamaObject->MusicList.count();CurIndex++) TotalDuration+=QTime(0,0,0,0).msecsTo(DiaporamaObject->MusicList[CurIndex].Duration);
+        for (int CurIndex=0;CurIndex<DiaporamaObject->MusicList.count();CurIndex++) TotalDuration+=QTime(0,0,0,0).msecsTo(DiaporamaObject->MusicList[CurIndex].GetDuration());
         ui->LabelDuration->setText(QTime(0,0,0,0).addMSecs(TotalDuration).toString("hh:mm:ss"));
     } else {
         ui->PlayListTable->setEnabled(false);
         ui->AddMusicBt->setEnabled(false);
         ui->RemoveMusicBt->setEnabled(false);
+        ui->EditMusicBt->setEnabled(false);
         ui->UpMusicBt->setEnabled(false);
         ui->DownMusicBt->setEnabled(false);
         ui->Label1->setText("");
@@ -268,8 +272,18 @@ void DlgMusicProperties::s_RemoveMusic() {
 
 //====================================================================================================================
 
+void DlgMusicProperties::s_EditMusic() {
+    int CurIndex=ui->PlayListTable->currentRow();
+    if (CurIndex==-1) return;
+    DlgEditMusic Dlg(&DiaporamaObject->MusicList[CurIndex],ApplicationConfig,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) RefreshControl(true);
+}
+
+//====================================================================================================================
+
 void DlgMusicProperties::s_PlayListTable_DoubleClick(QTableWidgetItem *) {
-    RefreshControl();
+    s_EditMusic();
 }
 
 //====================================================================================================================

@@ -963,6 +963,34 @@ Nota: questo campo è limitato a 30 caratteri per essere compatibile con jukebox
         <source>Enter the login password to access the proxy or nothing if no login is required</source>
         <translation>Immettere la password di login per accedere al proxy o nulla se non è richiesto alcun login</translation>
     </message>
+    <message>
+        <source>Select a compression preset (set of advanced options to trade off compression efficiency against encoding speed)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preset :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a profil (set of advanced options)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tune :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced codec settings:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Profile :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a tune preset (set of advanced options to further optimize them for your input content)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgAutoTitleSlide</name>
@@ -1556,6 +1584,84 @@ Giallo: il componente funziona parzialmente
     <message>
         <source>&amp;Help</source>
         <translation>A&amp;iuto</translation>
+    </message>
+</context>
+<context>
+    <name>DlgEditMusic</name>
+    <message>
+        <source>Edit music file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click to start play, click again to pause the music</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start :</source>
+        <translation type="unfinished">Partenza :</translation>
+    </message>
+    <message>
+        <source>Move to start position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Sposta alla posizione iniziale</translation>
+    </message>
+    <message>
+        <source>Use current position as start position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Usa la posizione corrente come posizione iniziale</translation>
+    </message>
+    <message>
+        <source>Define the start position to use</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Definire la posizione iniziale da utilizzare</translation>
+    </message>
+    <message>
+        <source>Duration :</source>
+        <translation type="unfinished">Durata :</translation>
+    </message>
+    <message>
+        <source>End :</source>
+        <translation type="unfinished">Fine :</translation>
+    </message>
+    <message>
+        <source>Define the end position to use</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Definire la posizione finale da utilizzare</translation>
+    </message>
+    <message>
+        <source>Use current position as end position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Usa la posizione corrente come posizione finale</translation>
+    </message>
+    <message>
+        <source>Move to end position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Sposta alla posizione finale</translation>
+    </message>
+    <message>
+        <source>Accept modification and exit dialog box</source>
+        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
+    </message>
+    <message>
+        <source>&amp;Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel modification and exit dialog box</source>
+        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Annulla</translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished">Molsta aiuto riguardo a questa finestra</translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation type="unfinished">A&amp;iuto</translation>
     </message>
 </context>
 <context>
@@ -3071,10 +3177,6 @@ A file selection dialog appears, allowing you to select a file</source>
 Viene visualizzata una finestra di dialogo di selezione dei file, che consente di selezionare un file</translation>
     </message>
     <message>
-        <source>Removes the current selected file from the playlist</source>
-        <translation>Rimuove il file selezionato dalla playlist corrente</translation>
-    </message>
-    <message>
         <source>Changes the order in which the music files will be played.
 Moves the currently selected file one step up.</source>
         <translation>Consente di modificare l&apos;ordine in cui vengono riprodotti i file musicali.
@@ -3101,6 +3203,14 @@ Sposta il file selezionato di un passo verso il basso</translation>
     <message>
         <source>Settings for the music track</source>
         <translation>Impostazioni per la traccia musicale</translation>
+    </message>
+    <message>
+        <source>Cut the currently selected file from the playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removes the currently selected file from the playlist</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5455,8 +5565,8 @@ Capitoli</translation>
         <translation>ffDiaporama è un &lt;a href=&quot;http://en.wikipedia.org/wiki/Free_software&quot;&gt;Software Libero (Open Source)&lt;/a&gt; ed è distribuito sotto la &lt;a href=&quot;http://www.gnu.org/licenses/gpl-2.0.html&quot;&gt;GNU General Public License (GPL) versione 2&lt;/a&gt;</translation>
     </message>
     <message>
-        <source>©2011-2013 The ffDiaporama Team - This wiki and all the resources it contains are under license</source>
-        <translation>©2011-2013 Il Team ffDiaporama - Questo wiki e tutte le risorse che contiene sono sotto lincenza</translation>
+        <source>©2011-2014 The ffDiaporama Team - This wiki and all the resources it contains are under license</source>
+        <translation type="unfinished">©2011-2013 Il Team ffDiaporama - Questo wiki e tutte le risorse che contiene sono sotto lincenza {2011-2014 ?}</translation>
     </message>
 </context>
 <context>
@@ -6499,6 +6609,10 @@ Vuoi scaricarla ora?</translation>
     <message>
         <source>Loading project ressources: %1</source>
         <translation>Caricamento risorse progetto: %1</translation>
+    </message>
+    <message>
+        <source>Analyse file %1% ...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8119,6 +8233,16 @@ Esempio: se Y=25 % del primo trimestre nella parte superiore dell&apos;immagine 
     <message>
         <source>Deinterlace video</source>
         <translation>Deinterlacciamento video</translation>
+    </message>
+    <message>
+        <source>Click to start play, click again to pause the movie</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Clicca per avviare la riproduzione, clicca ancora per mettere in pausa il filmato</translation>
+    </message>
+    <message>
+        <source>Save this image of the movie</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">Salva questa immagine per il filmato</translation>
     </message>
 </context>
 <context>

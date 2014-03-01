@@ -907,6 +907,34 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
         <source>Enter the login password to access the proxy or nothing if no login is required</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Select a compression preset (set of advanced options to trade off compression efficiency against encoding speed)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preset :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a profil (set of advanced options)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tune :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced codec settings:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Profile :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a tune preset (set of advanced options to further optimize them for your input content)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgAutoTitleSlide</name>
@@ -1477,6 +1505,84 @@ Yellow: The component works partially
     <message>
         <source>&amp;Help</source>
         <translation>求助(&amp;H)</translation>
+    </message>
+</context>
+<context>
+    <name>DlgEditMusic</name>
+    <message>
+        <source>Edit music file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click to start play, click again to pause the music</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start :</source>
+        <translation type="unfinished">開始：</translation>
+    </message>
+    <message>
+        <source>Move to start position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">移動開始位置</translation>
+    </message>
+    <message>
+        <source>Use current position as start position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">使用現行位置做為開始位置</translation>
+    </message>
+    <message>
+        <source>Define the start position to use</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration :</source>
+        <translation type="unfinished">持續時間：</translation>
+    </message>
+    <message>
+        <source>End :</source>
+        <translation type="unfinished">結束：</translation>
+    </message>
+    <message>
+        <source>Define the end position to use</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use current position as end position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">使用現行位置做為結束位置</translation>
+    </message>
+    <message>
+        <source>Move to end position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">移動到結束位置</translation>
+    </message>
+    <message>
+        <source>Accept modification and exit dialog box</source>
+        <translation type="unfinished">採納修改然後離開對話方塊</translation>
+    </message>
+    <message>
+        <source>&amp;Ok</source>
+        <translation type="unfinished">確定(&amp;O)</translation>
+    </message>
+    <message>
+        <source>Cancel modification and exit dialog box</source>
+        <translation type="unfinished">取消修改然後離開對話方塊</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">取消(&amp;C)</translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation type="unfinished">求助(&amp;H)</translation>
     </message>
 </context>
 <context>
@@ -2918,10 +3024,6 @@ A file selection dialog appears, allowing you to select a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Removes the current selected file from the playlist</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Changes the order in which the music files will be played.
 Moves the currently selected file one step up.</source>
         <translation type="unfinished"></translation>
@@ -2945,6 +3047,14 @@ Moves the currently selected file one step down</source>
     </message>
     <message>
         <source>Settings for the music track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cut the currently selected file from the playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removes the currently selected file from the playlist</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5161,7 +5271,7 @@ Chapters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>©2011-2013 The ffDiaporama Team - This wiki and all the resources it contains are under license</source>
+        <source>©2011-2014 The ffDiaporama Team - This wiki and all the resources it contains are under license</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6197,6 +6307,10 @@ Do you want to download it now?</source>
     </message>
     <message>
         <source>Loading project ressources: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Analyse file %1% ...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7789,6 +7903,16 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
     </message>
     <message>
         <source>Deinterlace video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click to start play, click again to pause the movie</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished">按一下開始播放，再按一下暫停影片</translation>
+    </message>
+    <message>
+        <source>Save this image of the movie</source>
+        <extracomment>Tooltip in dialog box</extracomment>
         <translation type="unfinished"></translation>
     </message>
 </context>

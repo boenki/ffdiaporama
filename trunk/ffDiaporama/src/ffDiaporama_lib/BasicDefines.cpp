@@ -96,3 +96,26 @@ void ToLog(int MessageType,QString Message,QString Source,bool AddBreak) {
     LogMutex.unlock();
 }
 
+//====================================================================================================================
+
+double GetDoubleValue(QDomElement CorrectElement,QString Name) {
+    QString sValue=CorrectElement.attribute(Name);
+    bool    IsOk=true;
+    double  dValue=sValue.toDouble(&IsOk);
+    if (!IsOk) {
+        for (int i=0;i<sValue.length();i++) if (sValue[i]==',') sValue[i]='.';
+        //sValue=sValue.replace(",",".");
+        dValue=sValue.toDouble(&IsOk);
+    }
+    return dValue;
+}
+
+double GetDoubleValue(QString sValue) {
+    bool    IsOk=true;
+    double  dValue=sValue.toDouble(&IsOk);
+    if (!IsOk) {
+        sValue=sValue.replace(",",".");
+        dValue=sValue.toDouble(&IsOk);
+    }
+    return dValue;
+}

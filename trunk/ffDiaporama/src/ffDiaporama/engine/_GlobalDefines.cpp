@@ -115,30 +115,6 @@ int     SCALINGTEXTFACTOR=700;                  // 700 instead of 400 (ffD 1.0/1
 
 //====================================================================================================================
 
-double GetDoubleValue(QDomElement CorrectElement,QString Name) {
-    QString sValue=CorrectElement.attribute(Name);
-    bool    IsOk=true;
-    double  dValue=sValue.toDouble(&IsOk);
-    if (!IsOk) {
-        for (int i=0;i<sValue.length();i++) if (sValue[i]==',') sValue[i]='.';
-        //sValue=sValue.replace(",",".");
-        dValue=sValue.toDouble(&IsOk);
-    }
-    return dValue;
-}
-
-double GetDoubleValue(QString sValue) {
-    bool    IsOk=true;
-    double  dValue=sValue.toDouble(&IsOk);
-    if (!IsOk) {
-        sValue=sValue.replace(",",".");
-        dValue=sValue.toDouble(&IsOk);
-    }
-    return dValue;
-}
-
-//====================================================================================================================
-
 QString UpInitials(QString Source) {
     for (int i=0;i<Source.length();i++)
         if ((i==0)||(Source.at(i-1)==' ')) Source[i]=Source.at(i).toUpper();

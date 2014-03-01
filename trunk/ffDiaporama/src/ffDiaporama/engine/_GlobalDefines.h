@@ -100,8 +100,6 @@ enum    LoadConfigFileType  {USERCONFIGFILE,GLOBALCONFIGFILE};
 
 QString ito2a(int val);
 QString ito3a(int val);
-double  GetDoubleValue(QDomElement CorrectElement,QString Name);                                        // Load a double value from an XML element
-double  GetDoubleValue(QString sValue);                                                                 // Load a double value from a string
 QString UpInitials(QString Source);
 QString FormatLongDate(QDate EventDate);
 QString GetInformationValue(QString ValueToSearch,QStringList *InformationList);                        // Get a value from a list of value (value as store in pair name##value)

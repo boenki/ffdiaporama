@@ -51,6 +51,7 @@ private slots:
     void    s_SameMusicNormal();
     void    s_SameMusicReduceVolume();
     void    s_SameMusicPause();
+    void    s_EditMusic();
     void    s_NewMusic();
     void    s_AddMusic();
     void    s_RemoveMusic();

@@ -49,6 +49,7 @@ public:
     void                    WinFocus();
     void                    LostFocus();
     bool                    DoAccept();                                 // Call when user click on Ok button
+    void                    DoRejet() {}
 
     void                    UpdateDisplayMap();
     void                    UpdateMapSizes();

@@ -48,6 +48,7 @@ public:
     double              dDuration;                  // Duration of a packet (in msec)
     double              FPS;
     QMutex              Mutex;
+    u_int8_t            *TempData;                  // Buffer for stocking temporary data (when decoding data are less than a packet)
 
     cSoundBlockList();
     virtual         ~cSoundBlockList();
@@ -69,11 +70,11 @@ public:
     virtual void    SetAt(int index,int16_t *Packet);
     virtual void    EnsureEnoughtNullAtStart();
     virtual void    EnsureNoNullAtStart();
+    virtual qint64  GetDuration();
 
 private:
     QList<int16_t *>    List;                       // List of sound packet
     QList<bool>         ListVolume;
-    u_int8_t            *TempData;                  // Buffer for stocking temporary data (when decoding data are less than a packet)
 };
 
 #endif // CSOUNDBLOCKLIST_H

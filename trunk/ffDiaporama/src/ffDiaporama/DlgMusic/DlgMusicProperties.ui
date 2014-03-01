@@ -228,14 +228,28 @@ A file selection dialog appears, allowing you to select a file</string>
        </property>
        <property name="icon">
         <iconset resource="../RSCffDiaporama.qrc">
-         <normaloff>:/img/object_sound.png</normaloff>:/img/object_sound.png</iconset>
+         <normaloff>:/img/add_sound.png</normaloff>:/img/add_sound.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="EditMusicBt">
+       <property name="toolTip">
+        <string>Cut the currently selected file from the playlist</string>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="icon">
+        <iconset resource="../RSCffDiaporama.qrc">
+         <normaloff>:/img/EditSound.png</normaloff>:/img/EditSound.png</iconset>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QToolButton" name="RemoveMusicBt">
        <property name="toolTip">
-        <string>Removes the current selected file from the playlist</string>
+        <string>Removes the currently selected file from the playlist</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -470,12 +484,14 @@ Moves the currently selected file one step down</string>
   <tabstop>SameMusicPauseRD</tabstop>
   <tabstop>NewMusicCB</tabstop>
   <tabstop>AddMusicBt</tabstop>
+  <tabstop>EditMusicBt</tabstop>
   <tabstop>RemoveMusicBt</tabstop>
   <tabstop>UpMusicBt</tabstop>
   <tabstop>DownMusicBt</tabstop>
   <tabstop>PlayListTable</tabstop>
   <tabstop>OKBT</tabstop>
   <tabstop>CancelBt</tabstop>
+  <tabstop>HelpBt</tabstop>
  </tabstops>
  <resources>
   <include location="../RSCffDiaporama.qrc"/>

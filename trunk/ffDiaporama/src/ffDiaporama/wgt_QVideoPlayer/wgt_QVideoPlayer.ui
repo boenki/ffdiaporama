@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>573</width>
-    <height>358</height>
+    <width>571</width>
+    <height>356</height>
    </rect>
   </property>
   <property name="font">
@@ -357,14 +357,14 @@ font-size: 10px;
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QMovieLabel</class>
-   <extends>QLabel</extends>
-   <header>wgt_QVideoPlayer/wgt_QVideoPlayer.h</header>
-  </customwidget>
-  <customwidget>
    <class>QCustomRuler</class>
    <extends>QSlider</extends>
-   <header>wgt_QVideoPlayer/QCustomRuler.h</header>
+   <header>CustomCtrl/QCustomRuler.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QMovieLabel</class>
+   <extends>QLabel</extends>
+   <header>CustomCtrl/QMovieLabel.h</header>
   </customwidget>
  </customwidgets>
  <resources>

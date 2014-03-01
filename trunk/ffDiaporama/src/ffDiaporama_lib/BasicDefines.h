@@ -164,4 +164,11 @@ enum OBJECTTYPE {
 
 #define PREVIEWMAXHEIGHT    720         // Max height for preview image
 
+//============================================
+// Utility functions
+//============================================
+
+double  GetDoubleValue(QDomElement CorrectElement,QString Name);                                        // Load a double value from an XML element
+double  GetDoubleValue(QString sValue);                                                                 // Load a double value from a string
+
 #endif // _BASICDEFINES_H
