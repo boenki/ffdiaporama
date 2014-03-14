@@ -333,12 +333,34 @@ void cBaseMediaFile::Reset() {
     ModifDateTime       = QDateTime(QDate(0,0,0),QTime(0,0,0));     // Last modified date/time
     AspectRatio         = 1;
     ImageOrientation    = -1;
+
     Duration            = QTime(0,0,0);
+    GivenDuration       = Duration;
+    IsComputedDuration  = false;
 }
 
 //====================================================================================================================
 
 cBaseMediaFile::~cBaseMediaFile() {
+}
+
+//====================================================================================================================
+
+QTime cBaseMediaFile::GetRealDuration() {
+    return IsComputedDuration?Duration:GivenDuration;
+}
+
+QTime cBaseMediaFile::GetGivenDuration() {
+    return GivenDuration;
+}
+
+void cBaseMediaFile::SetGivenDuration(QTime GivenDuration) {
+    this->GivenDuration=GivenDuration;
+}
+
+void cBaseMediaFile::SetRealDuration(QTime RealDuration) {
+    IsComputedDuration=true;
+    Duration=RealDuration;
 }
 
 //====================================================================================================================
@@ -358,13 +380,16 @@ QString cBaseMediaFile::ShortName() {
 //====================================================================================================================
 
 bool cBaseMediaFile::LoadAnalyseSound(QList<qreal> *Peak,QList<qreal> *Moyenne) {
-    return ApplicationConfig->FilesTable->GetAnalyseSound(FileKey,Peak,Moyenne);
+    int64_t RealDuration;
+    bool    IsOk=ApplicationConfig->FilesTable->GetAnalyseSound(FileKey,Peak,Moyenne,&RealDuration);
+    if (IsOk) SetRealDuration(QTime(0,0,0,0).addMSecs(RealDuration));
+    return IsOk;
 }
 
 //====================================================================================================================
 
 void cBaseMediaFile::SaveAnalyseSound(QList<qreal> *Peak,QList<qreal> *Moyenne) {
-    ApplicationConfig->FilesTable->SetAnalyseSound(FileKey,Peak,Moyenne);
+    ApplicationConfig->FilesTable->SetAnalyseSound(FileKey,Peak,Moyenne,QTime(0,0,0,0).msecsTo(GetRealDuration()));
 }
 
 //====================================================================================================================
@@ -580,7 +605,7 @@ QStringList cBaseMediaFile::GetSummaryText(QStringList *ExtendedProperties) {
         if (GetInformationValue("Photo.ExposureTime",   ExtendedProperties)!="") SummaryText[2]=SummaryText[2]+(SummaryText[2]!=""?"-":"")+GetInformationValue("Photo.ExposureTime",   ExtendedProperties);
         if (GetInformationValue("Photo.ApertureValue",  ExtendedProperties)!="") SummaryText[2]=SummaryText[2]+(SummaryText[2]!=""?"-":"")+GetInformationValue("Photo.ApertureValue",  ExtendedProperties);
         if (GetInformationValue("Photo.ISOSpeedRatings",ExtendedProperties)!="") SummaryText[2]=SummaryText[2]+(SummaryText[2]!=""?"-":"")+GetInformationValue("Photo.ISOSpeedRatings",ExtendedProperties)+" ISO";
-    } else SummaryText.append(QApplication::translate("DlgSlideProperties","Duration:")+Duration.toString("HH:mm:ss.zzz"));
+    } else SummaryText.append(QApplication::translate("DlgSlideProperties","Duration:")+GetRealDuration().toString("HH:mm:ss.zzz"));
     return SummaryText;
 }
 
@@ -757,7 +782,7 @@ void cffDProjectFile::SaveToXML(QDomElement *ParentElement,QString,QString PathF
     Element.setAttribute("OverrideDate",OverrideDate?1:0);
     Element.setAttribute("Comment",Comment);
     Element.setAttribute("Composer",Composer);
-    Element.setAttribute("Duration",qlonglong(QTime(0,0,0,0).msecsTo(Duration)));
+    Element.setAttribute("Duration",qlonglong(QTime(0,0,0,0).msecsTo(GetRealDuration())));
     Element.setAttribute("ffDRevision",ffDRevision);
     Element.setAttribute("DefaultLanguage",DefaultLanguage);
     Element.setAttribute("ChaptersNumber",NbrChapters);
@@ -798,7 +823,7 @@ bool cffDProjectFile::LoadFromXML(QDomElement *ParentElement,QString,QString Pat
         if (Element.hasAttribute("ffDRevision"))        ffDRevision=Element.attribute("ffDRevision");
         if (Element.hasAttribute("Composer"))           Composer=Element.attribute("Composer");
         if (Element.hasAttribute("DefaultLanguage"))    DefaultLanguage=Element.attribute("DefaultLanguage");
-        if (Element.hasAttribute("Duration"))           Duration=QTime(0,0,0,0).addMSecs(Element.attribute("Duration").toLongLong());
+        if (Element.hasAttribute("Duration"))           SetRealDuration(QTime(0,0,0,0).addMSecs(Element.attribute("Duration").toLongLong()));
 
         if (Element.hasAttribute("ChaptersNumber")) {
             NbrChapters=Element.attribute("ChaptersNumber").toInt();
@@ -1963,19 +1988,126 @@ cVideoFile::~cVideoFile() {
 
 //====================================================================================================================
 
+bool cVideoFile::DoAnalyseSound(QList<qreal> *Peak,QList<qreal> *Moyenne,bool *CancelFlag,qreal *Analysed) {
+    bool IsAnalysed=LoadAnalyseSound(Peak,Moyenne);
+    if (!IsAnalysed) {
+        qint64          NewPosition=0,Position=-1;
+        qint64          Duration=QTime(0,0,0,0).msecsTo(GetRealDuration());
+        int             WantedValues;
+        QList<qreal>    Values;
+        int16_t         *Block=NULL,*CurData=NULL;
+        cSoundBlockList AnalyseMusic;
+
+        AnalyseMusic.SetFPS(2000,2,1000,AV_SAMPLE_FMT_S16);
+        WantedValues=(Duration/2000);
+
+        //*******************************************************************************************
+        // Load music and compute music count, max value, 2000 peak and 2000 moyenne values
+        // decibels=decibels>0?0.02*log10(decibels/32768.0):0;    // PCM S16 is from -48db to +48db
+        //*******************************************************************************************
+        while ((!*CancelFlag)&&(Position!=NewPosition)) {
+            *Analysed=qreal(NewPosition)/qreal(Duration);
+            QApplication::processEvents();
+            Position=NewPosition;
+            ReadFrame(true,Position*1000,true,false,&AnalyseMusic,1,true);
+            NewPosition+=qreal(AnalyseMusic.ListCount())*AnalyseMusic.dDuration*qreal(1000);
+            while (AnalyseMusic.ListCount()>0) {
+                Block=AnalyseMusic.DetachFirstPacket();
+                CurData=Block;
+                for (int j=0;j<AnalyseMusic.SoundPacketSize/4;j++) {
+                    int16_t sample16Bit =*CurData++;
+                    double  decibels1=sample16Bit<0?-sample16Bit:sample16Bit;
+                    sample16Bit =*CurData++;
+                    double  decibels2=sample16Bit<0?-sample16Bit:sample16Bit;
+                    double  decibels=(decibels1+decibels2)/2;
+                    Values.append(decibels);
+                    if (Values.count()==WantedValues) {
+                        qreal vPeak=0,vMoyenne=0;
+                        foreach (qreal V,Values) {
+                            if (vPeak<V) vPeak=V;
+                            vMoyenne=vMoyenne+V;
+                        }
+                        vMoyenne=vMoyenne/Values.count();
+                        Peak->append(vPeak);
+                        Moyenne->append(vMoyenne);
+                        Values.clear();
+                    }
+                }
+                av_free(Block);
+            }
+        }
+        // tempdata
+        CurData=(int16_t *)AnalyseMusic.TempData;
+        for (int j=0;j<AnalyseMusic.CurrentTempSize/4;j++) {
+            int16_t sample16Bit =*CurData++;
+            double  decibels1=sample16Bit<0?-sample16Bit:sample16Bit;
+            sample16Bit =*CurData++;
+            double  decibels2=sample16Bit<0?-sample16Bit:sample16Bit;
+            double  decibels=(decibels1+decibels2)/2;
+            Values.append(decibels);
+            if (Values.count()==WantedValues) {
+                qreal vPeak=0,vMoyenne=0;
+                foreach (qreal V,Values) {
+                    if (vPeak<V) vPeak=V;
+                    vMoyenne=vMoyenne+V;
+                }
+                vMoyenne=vMoyenne/Values.count();
+                Peak->append(vPeak);
+                Moyenne->append(vMoyenne);
+                Values.clear();
+            }
+        }
+        if (Values.count()>0) {
+            qreal vPeak=0,vMoyenne=0;
+            foreach (qreal V,Values) {
+                if (vPeak<V) vPeak=V;
+                vMoyenne=vMoyenne+V;
+            }
+            vMoyenne=vMoyenne/Values.count();
+            Peak->append(vPeak);
+            Moyenne->append(vMoyenne);
+            Values.clear();
+        }
+
+        // Compute MaxSoundValue as 90% of the max peak value
+        QList<qreal> MaxVal;
+        foreach (qreal Value,*Peak) MaxVal.append(Value);
+        qSort(MaxVal.begin(),MaxVal.end());
+        qreal MaxSoundValue=MaxVal.count()>0?MaxVal[MaxVal.count()*0.9]:1;
+
+        // Adjust Peak and Moyenne values by transforming them as % of the max value
+        for (int i=0;i<Peak->count();i++) {
+            (*Peak)[i]   =(*Peak)[i]/MaxSoundValue;
+            (*Moyenne)[i]=(*Moyenne)[i]/MaxSoundValue;
+        }
+
+        //**************************
+        // End analyse
+        //**************************
+        IsAnalysed=true;
+        SaveAnalyseSound(Peak,Moyenne);
+        if (EndPos>GetRealDuration()) EndPos=GetRealDuration();
+    }
+    return IsAnalysed;
+}
+
+//====================================================================================================================
+
 bool cVideoFile::LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString,QString,QStringList *,bool *,QList<cSlideThumbsTable::TRResKeyItem> *,bool) {
     ImageWidth       =ParentElement->attribute("ImageWidth").toInt();
     ImageHeight      =ParentElement->attribute("ImageHeight").toInt();
     ImageOrientation =ParentElement->attribute("ImageOrientation").toInt();
     ObjectGeometry   =ParentElement->attribute("ObjectGeometry").toInt();
     AspectRatio      =GetDoubleValue(*ParentElement,"AspectRatio");
-    Duration         =QTime(0,0,0,0).addMSecs(ParentElement->attribute("Duration").toLongLong());
     NbrChapters      =ParentElement->attribute("NbrChapters").toInt();
     VideoStreamNumber=ParentElement->attribute("VideoStreamNumber").toInt();
     VideoTrackNbr    =ParentElement->attribute("VideoTrackNbr").toInt();
     AudioStreamNumber=ParentElement->attribute("AudioStreamNumber").toInt();
     AudioTrackNbr    =ParentElement->attribute("AudioTrackNbr").toInt();
-    if (EndPos==QTime(0,0,0,0)) EndPos=Duration;
+    SetGivenDuration(QTime(0,0,0,0).addMSecs(ParentElement->attribute("Duration").toLongLong()));
+    SetRealDuration(ParentElement->hasAttribute("RealDuration")?QTime(0,0,0,0).addMSecs(ParentElement->attribute("RealDuration").toLongLong()):GetGivenDuration());
+    IsComputedDuration=ParentElement->attribute("IsComputedDuration")=="1";
+    if (EndPos==QTime(0,0,0,0)) EndPos=GetRealDuration();
     return true;
 }
 
@@ -1987,7 +2119,9 @@ void cVideoFile::SaveBasicInformationToDatabase(QDomElement *ParentElement,QStri
     ParentElement->setAttribute("ImageOrientation",  ImageOrientation);
     ParentElement->setAttribute("ObjectGeometry",    ObjectGeometry);
     ParentElement->setAttribute("AspectRatio",       QString("%1").arg(AspectRatio,0,'f'));
-    ParentElement->setAttribute("Duration",          QTime(0,0,0,0).msecsTo(Duration));
+    ParentElement->setAttribute("Duration",          QTime(0,0,0,0).msecsTo(GetGivenDuration()));
+    ParentElement->setAttribute("RealDuration",      QTime(0,0,0,0).msecsTo(GetRealDuration()));
+    ParentElement->setAttribute("IsComputedDuration",IsComputedDuration?"1":"0");
     ParentElement->setAttribute("NbrChapters",       NbrChapters);
     ParentElement->setAttribute("VideoStreamNumber", VideoStreamNumber);
     ParentElement->setAttribute("VideoTrackNbr",     VideoTrackNbr);
@@ -2138,8 +2272,8 @@ bool cVideoFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *
         mm      =mm-(hh*60);
         ss      =ss-(ss/60)*60;
         ms      =ms-(ms/1000)*1000;
-        Duration=QTime(hh,mm,ss,ms);
-        EndPos  =Duration;
+        SetGivenDuration(QTime(hh,mm,ss,ms));
+        EndPos  =GetRealDuration();
 
         //*********************************************************************************************************
         // Get information from track
@@ -2293,7 +2427,7 @@ bool cVideoFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *
                         // Try to load one image to be sure we can make something with this file
                         // and use this first image as thumbnail (if no jukebox thumbnail)
                         int64_t   Position =0;
-                        double    dEndFile =double(QTime(0,0,0,0).msecsTo(Duration))/1000;    // End File Position in double format
+                        double    dEndFile =double(QTime(0,0,0,0).msecsTo(GetRealDuration()))/1000;    // End File Position in double format
                         if (dEndFile!=0) {
                             // Allocate structure for YUV image
 
@@ -2550,7 +2684,8 @@ void cVideoFile::CloseCodecAndFile() {
     CloseResampler();
 
     // Close the filter context
-    if (VideoFilterGraph) VideoFilter_Close();
+    if (VideoFilterGraph)
+        VideoFilter_Close();
 
     // Close the video codec
     if (VideoDecoderCodec!=NULL) {
@@ -3039,7 +3174,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
     if ((!IsOpen)&&(!OpenCodecAndFile())) return NULL;
 
     // Ensure file have an end file Position
-    double dEndFile=double(QTime(0,0,0,0).msecsTo(DontUseEndPos?Duration:EndPos))/1000;
+    double dEndFile=double(QTime(0,0,0,0).msecsTo(DontUseEndPos?GetRealDuration():EndPos))/1000;
     if (dEndFile==0) {
         ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadFrame : dEndFile=0 ?????");
         return NULL;
@@ -3061,6 +3196,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
     AudioContext.Volume         =Volume;
     AudioContext.dEndFile       =&dEndFile;
     AudioContext.NbrDuration    =NbrDuration;
+    AudioContext.DontUseEndPos  =DontUseEndPos;
 
     if (!AudioContext.FPSDuration) {
         if (PreviewMode)            AudioContext.FPSDuration=double(AV_TIME_BASE)/((cApplicationConfig *)ApplicationConfig)->PreviewFPS;
@@ -3072,9 +3208,9 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
 
     Mutex.lock();
 
-    // If position >= end of file : disable audio
+    // If position >= end of file : disable audio (only if IsComputedDuration)
     double dPosition=double(Position)/AV_TIME_BASE;
-    if ((dPosition>0)&&(dPosition>=dEndFile)) {
+    if ((dPosition>0)&&(dPosition>=dEndFile+1000)&&(IsComputedDuration)) {
         AudioContext.AudioStream=NULL; // Disable audio
         // Check if last image is ready and correspond to end of file
         if ((!LastImage.isNull())&&(FrameBufferYUVReady)&&(FrameBufferYUVPosition>=dEndFile*AV_TIME_BASE-AudioContext.FPSDuration)) {
@@ -3084,6 +3220,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
         // If not then change Position to end file - a FPS to prepare a last image
         Position=dEndFile*AV_TIME_BASE-AudioContext.FPSDuration;
         dPosition=double(Position)/AV_TIME_BASE;
+        SoundTrackBloc->UseLatestData();
     }
 
     //================================================
@@ -3171,9 +3308,17 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
             StreamPacket->flags|=AV_PKT_FLAG_KEY;
             if (av_read_frame(LibavAudioFile,StreamPacket)<0) {
                 // If error reading frame then we considere we have reach the end of file
-                dEndFile=AudioContext.AudioFramePosition;
-                if (dEndFile==double(QTime(0,0,0,0).msecsTo(EndPos))) EndPos=QTime(0,0,0).addMSecs(AudioContext.AudioFramePosition*1000);
+                if (!IsComputedDuration) {
+                    dEndFile=qreal(SoundTrackBloc->CurrentPosition)/AV_TIME_BASE;
+                    dEndFile=dEndFile+qreal(SoundTrackBloc->GetDuration())/1000;
+                    if (dEndFile==double(QTime(0,0,0,0).msecsTo(EndPos))/1000) EndPos=QTime(0,0,0).addMSecs(dEndFile*1000);
+                    SetRealDuration(QTime(0,0,0,0).addMSecs(qlonglong(dEndFile*1000)));
+                }
                 AudioContext.ContinueAudio=false;
+
+                // Use data in TempData to create a latest block
+                SoundTrackBloc->UseLatestData();
+
             } else {
                 //if (ThreadAudio.isRunning()) ThreadAudio.waitForFinished();
                 //ThreadAudio.setFuture(QtConcurrent::run(this,&cVideoFile::DecodeAudio,&AudioContext,StreamPacket,Position));
@@ -3211,8 +3356,11 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                     if ((errcode=av_read_frame(LibavVideoFile,StreamPacket))<0) {
                         if (errcode==AVERROR_EOF) {
                             // We have reach the end of file
-                            dEndFile=VideoFramePosition;
-                            if (dEndFile==double(QTime(0,0,0,0).msecsTo(EndPos))) EndPos=QTime(0,0,0).addMSecs(VideoFramePosition*1000);
+                            if (!IsComputedDuration) {
+                                dEndFile=VideoFramePosition;
+                                if (dEndFile==double(QTime(0,0,0,0).msecsTo(EndPos))/1000) EndPos=QTime(0,0,0).addMSecs(dEndFile*1000);
+                                SetRealDuration(QTime(0,0,0,0).addMSecs(qlonglong(dEndFile*1000)));
+                            }
                             ContinueVideo=false;
 
                             if ((!LastImage.isNull())&&(FrameBufferYUVReady)&&(FrameBufferYUVPosition>=(dEndFile-1.5)*AV_TIME_BASE)) {
@@ -3459,7 +3607,7 @@ void cVideoFile::DecodeAudio(sAudioContext *AudioContext,AVPacket *StreamPacket,
     // Note: FPSDuration*(!VideoStream?2:1) is to enhance preview speed
     AudioContext->ContinueAudio=((AudioContext->ContinueAudio)&&(AudioContext->Counter>0)&&
                                  (AudioContext->AudioStream)&&(AudioContext->SoundTrackBloc)&&((AudioContext->SoundTrackBloc->ListCount()<AudioContext->SoundTrackBloc->NbrPacketForFPS)||
-                                 (!((LastAudioReadedPosition>=Position+AudioContext->FPSDuration*AudioContext->NbrDuration)||(LastAudioReadedPosition>=int64_t((*AudioContext->dEndFile)*AV_TIME_BASE))))));
+                                 (!((LastAudioReadedPosition>=Position+AudioContext->FPSDuration*AudioContext->NbrDuration)))));
 }
 
 //============================
@@ -3500,9 +3648,11 @@ void cVideoFile::DecodeAudioFrame(sAudioContext *AudioContext,int64_t *FramePts,
             }
         }
         // Append decoded data to SoundTrackBloc
-        AudioContext->SoundTrackBloc->AppendData(/*Position*/pts,(int16_t*)Data,SizeDecoded);
-        AudioContext->AudioLenDecoded   +=SizeDecoded;
-        AudioContext->AudioFramePosition =AudioContext->AudioFramePosition+FrameDuration;
+        if ((AudioContext->DontUseEndPos)||(AudioContext->AudioFramePosition<*AudioContext->dEndFile)) {
+            AudioContext->SoundTrackBloc->AppendData(/*Position*/pts,(int16_t*)Data,SizeDecoded);
+            AudioContext->AudioLenDecoded   +=SizeDecoded;
+            AudioContext->AudioFramePosition =AudioContext->AudioFramePosition+FrameDuration;
+        }
     }
     LastAudioReadedPosition =int64_t(AudioContext->AudioFramePosition*AV_TIME_BASE);    // Keep NextPacketPosition for determine next time if we need to seek
     if (Data!=Frame->data[0]) av_free(Data);
@@ -3728,6 +3878,8 @@ bool cVideoFile::OpenCodecAndFile() {
 cMusicObject::cMusicObject(cApplicationConfig *ApplicationConfig):cVideoFile(ApplicationConfig) {
     Volume      =1.0;                           // Volume as % from 1% to 150%
     AllowCredit =true;                          // // if true, this music will appear in credit title
+    ForceFadIn  =0;
+    ForceFadOut =0;
     Reset(OBJECTTYPE_MUSICFILE);
 }
 
@@ -3786,12 +3938,18 @@ void cMusicObject::SaveToXML(QDomElement *ParentElement,QString ElementName,QStr
             else TheFileName=QDir(QFileInfo(PathForRelativPath).absolutePath()).relativeFilePath(FileName());
     } else TheFileName=FileName();
 
-    Element.setAttribute("FilePath",    TheFileName);
-    Element.setAttribute("StartPos",    StartPos.toString());
-    Element.setAttribute("EndPos",      EndPos.toString());
-    Element.setAttribute("Volume",      QString("%1").arg(Volume,0,'f'));
-    Element.setAttribute("AllowCredit", AllowCredit?"1":"0");
-
+    Element.setAttribute("FilePath",     TheFileName);
+    Element.setAttribute("iStartPos",    QTime(0,0,0,0).msecsTo(StartPos));
+    Element.setAttribute("iEndPos",      QTime(0,0,0,0).msecsTo(EndPos));
+    Element.setAttribute("Volume",       QString("%1").arg(Volume,0,'f'));
+    Element.setAttribute("AllowCredit",  AllowCredit?"1":"0");
+    Element.setAttribute("ForceFadIn",   qlonglong(ForceFadIn));
+    Element.setAttribute("ForceFadOut",  qlonglong(ForceFadOut));
+    Element.setAttribute("GivenDuration",QTime(0,0,0,0).msecsTo(GetGivenDuration()));
+    if (IsComputedDuration) {
+        Element.setAttribute("RealDuration",      QTime(0,0,0,0).msecsTo(GetRealDuration()));
+        Element.setAttribute("IsComputedDuration",IsComputedDuration?"1":0);
+    }
     ParentElement->appendChild(Element);
 }
 
@@ -3813,10 +3971,20 @@ bool cMusicObject::LoadFromXML(QDomElement *ParentElement,QString ElementName,QS
             #endif
         }
         if (GetInformationFromFile(FileName,AliasList,ModifyFlag)&&(CheckFormatValide(NULL))) {
-            StartPos=QTime().fromString(Element.attribute("StartPos"));
-            EndPos  =QTime().fromString(Element.attribute("EndPos"));
-            Volume  =GetDoubleValue(Element,"Volume");
-            if (Element.hasAttribute("AllowCredit")) AllowCredit=Element.attribute("AllowCredit")=="1";
+            // Old format prior to ffDiaporama 2.2.2014.0308
+            if (Element.hasAttribute("StartPos")) StartPos=QTime().fromString(Element.attribute("StartPos"));
+            if (Element.hasAttribute("EndPos"))   EndPos  =QTime().fromString(Element.attribute("EndPos"));
+            // New format since ffDiaporama 2.2.2014.0308
+            if (Element.hasAttribute("iStartPos")) StartPos=QTime(0,0,0,0).addMSecs(Element.attribute("iStartPos").toLongLong());
+            if (Element.hasAttribute("iEndPos"))   EndPos  =QTime(0,0,0,0).addMSecs(Element.attribute("iEndPos").toLongLong());
+
+            Volume=GetDoubleValue(Element,"Volume");
+            if (Element.hasAttribute("GivenDuration"))      SetGivenDuration(QTime(0,0,0,0).addMSecs(Element.attribute("GivenDuration").toLongLong()));
+            if (Element.hasAttribute("IsComputedDuration")) IsComputedDuration=Element.attribute("IsComputedDuration")=="1";
+            if (Element.hasAttribute("RealDuration"))       SetRealDuration(QTime(0,0,0,0).addMSecs(Element.attribute("RealDuration").toLongLong()));
+            if (Element.hasAttribute("AllowCredit"))        AllowCredit=Element.attribute("AllowCredit")=="1";
+            if (Element.hasAttribute("ForceFadIn"))         ForceFadIn =Element.attribute("ForceFadIn").toLongLong();
+            if (Element.hasAttribute("ForceFadOut"))        ForceFadOut=Element.attribute("ForceFadOut").toLongLong();
             return true;
         } else return false;
     } else return false;
@@ -3826,4 +3994,28 @@ bool cMusicObject::LoadFromXML(QDomElement *ParentElement,QString ElementName,QS
 
 QTime cMusicObject::GetDuration() {
     return EndPos.addMSecs(-QTime(0,0,0,0).msecsTo(StartPos));
+}
+
+//====================================================================================================================
+
+qreal cMusicObject::GetFading(int64_t Position,bool SlideHaveFadIn,bool SlideHaveFadOut) {
+    int64_t RealFadIN =ForceFadIn;
+    int64_t RealFadOUT=ForceFadOut;
+    int64_t Duration  =QTime(0,0,0,0).msecsTo(GetDuration());
+    qreal   RealVolume=Volume;
+    // If fade duration longer than duration, then reduce them
+    if (Duration<(RealFadIN+RealFadOUT)) {
+        qreal Ratio=qreal(RealFadIN+RealFadOUT)/qreal(Duration);
+        RealFadIN =int64_t(qreal(RealFadIN)/Ratio);
+        RealFadOUT=int64_t(qreal(RealFadOUT)/Ratio);
+    }
+    if ((!SlideHaveFadIn)&&(Position<RealFadIN)) {
+        qreal PCTDone=ComputePCT(SPEEDWAVE_SINQUARTER,double(Position)/double(RealFadIN));
+        RealVolume=RealVolume*PCTDone;
+    }
+    if ((!SlideHaveFadOut)&&(Position>(Duration-RealFadOUT))) {
+        qreal PCTDone=ComputePCT(SPEEDWAVE_SINQUARTER,double(Position-(Duration-RealFadOUT))/double(RealFadOUT));
+        RealVolume=RealVolume*(1-PCTDone);
+    }
+    return RealVolume=RealVolume;
 }

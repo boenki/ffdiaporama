@@ -313,6 +313,7 @@ SOURCES +=  MainWindow/cCustomSlideTable.cpp \
             DlgTransition/DlgTransitionProperties.cpp \
             DlgMusic/DlgMusicProperties.cpp \
             DlgMusic/DlgEditMusic.cpp \
+            DlgMusic/DlgAdjustToSound.cpp \
             DlgBackground/DlgBackgroundProperties.cpp \
             DlgAppSettings/DlgManageDevices/DlgManageDevices.cpp \
             DlgAppSettings/DlgApplicationSettings.cpp \
@@ -368,13 +369,13 @@ SOURCES +=  MainWindow/cCustomSlideTable.cpp \
             CustomCtrl/cThumbnailComboBox.cpp \
             CustomCtrl/cQDateTimeEdit.cpp \
             CustomCtrl/QCustomRuler.cpp \
+            CustomCtrl/QMovieLabel.cpp \
             wgt_QMultimediaBrowser/QCustomFolderTable.cpp \
             wgt_QMultimediaBrowser/QCustomFolderTree.cpp \
             wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.cpp \
             wgt_QVideoPlayer/wgt_QVideoPlayer.cpp \
             HelpPopup/HelpContent.cpp \
-            main.cpp \
-    CustomCtrl/QMovieLabel.cpp
+            main.cpp
 
 # Header files
 HEADERS  += MainWindow/cCustomSlideTable.h \
@@ -385,6 +386,7 @@ HEADERS  += MainWindow/cCustomSlideTable.h \
             DlgTransition/DlgTransitionProperties.h \
             DlgMusic/DlgMusicProperties.h \
             DlgMusic/DlgEditMusic.h \
+            DlgMusic/DlgAdjustToSound.h \
             DlgBackground/DlgBackgroundProperties.h \
             DlgAppSettings/DlgManageDevices/DlgManageDevices.h \
             DlgAppSettings/DlgApplicationSettings.h \
@@ -440,12 +442,12 @@ HEADERS  += MainWindow/cCustomSlideTable.h \
             CustomCtrl/cThumbnailComboBox.h \
             CustomCtrl/cQDateTimeEdit.h \
             CustomCtrl/QCustomRuler.h \
+            CustomCtrl/QMovieLabel.h \
             wgt_QMultimediaBrowser/QCustomFolderTable.h \
             wgt_QMultimediaBrowser/QCustomFolderTree.h \
             wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.h \
             wgt_QVideoPlayer/wgt_QVideoPlayer.h \
-            HelpPopup/HelpContent.h \
-    CustomCtrl/QMovieLabel.h
+            HelpPopup/HelpContent.h
 
 # Forms files
 FORMS    += MainWindow/mainwindow.ui \
@@ -481,7 +483,8 @@ FORMS    += MainWindow/mainwindow.ui \
             DlgExportProject/DlgExportProject.ui \
             wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui \
             wgt_QVideoPlayer/wgt_QVideoPlayer.ui \
-            HelpPopup/HelpPopup.ui
+            HelpPopup/HelpPopup.ui \
+    DlgMusic/DlgAdjustToSound.ui
 
 #--------------------------------------------------------------
 # INSTALLATION

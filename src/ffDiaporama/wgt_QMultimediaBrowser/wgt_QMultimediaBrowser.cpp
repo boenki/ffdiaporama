@@ -228,7 +228,7 @@ void wgt_QMultimediaBrowser::DoBrowserRefreshSelectedFileInfo() {
         QString FStr=MediaObject->GetFileSizeStr();
         if (FStr!="") ui->FileInfo1a->setText(QString("%1 (%2)").arg(MediaObject->ShortName()).arg(FStr));
             else ui->FileInfo1a->setText(MediaObject->ShortName());
-        if (QTime(0,0,0,0).msecsTo(MediaObject->Duration)>0) ui->FileInfo2a->setText(QString("%1-%2").arg(MediaObject->GetTechInfo(&TempExtProperties)).arg(MediaObject->Duration.toString("HH:mm:ss.zzz")));
+        if (QTime(0,0,0,0).msecsTo(MediaObject->GetRealDuration())>0) ui->FileInfo2a->setText(QString("%1-%2").arg(MediaObject->GetTechInfo(&TempExtProperties)).arg(MediaObject->GetRealDuration().toString("HH:mm:ss.zzz")));
             else ui->FileInfo2a->setText(MediaObject->GetTechInfo(&TempExtProperties));
         ui->FileInfo3a->setText(MediaObject->GetTAGInfo(&TempExtProperties));
 
@@ -248,7 +248,7 @@ void wgt_QMultimediaBrowser::DoBrowserRefreshSelectedFileInfo() {
             IsFind=false;   for (int j=0;j<FileExtensions.count();j++)  if (FileExtension==FileExtensions[j])           IsFind=true; if (!IsFind) FileExtensions.append(FileExtension);
 
             if ((MediaList[i]->ObjectType==OBJECTTYPE_MUSICFILE)||(MediaList[i]->ObjectType==OBJECTTYPE_VIDEOFILE)||(MediaList[i]->ObjectType==OBJECTTYPE_FFDFILE))
-                TotalDuration=TotalDuration+QTime(0,0,0,0).msecsTo(MediaList[i]->Duration);
+                TotalDuration=TotalDuration+QTime(0,0,0,0).msecsTo(MediaList[i]->GetRealDuration());
 
             TotalSize=TotalSize+MediaList[i]->FileSize;
         }

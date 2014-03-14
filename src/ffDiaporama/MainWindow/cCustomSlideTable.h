@@ -52,7 +52,14 @@ public:
     int                     DragItemSource;
     int                     DragItemDest;
     int                     IsDragOn;                   // DragOff=0, DragInternal=1 or DragExternal=0
+    int                     DragMoveItemCause;          // Wich action cause emit of DragMoveItem message
     bool                    CursorPosValide;
+
+    // Contextual Menu
+    int                     ClickedSlide;
+    bool                    MusicPart;
+    bool                    BackgroundPart;
+
 
     explicit    cCustomSlideTable(QWidget *parent = 0);
 
@@ -84,7 +91,6 @@ signals:
     void    DragMoveItem();
     void    DoAddDragAndDropFile();
     void    EditTransition();
-    void    EditSoundTrack();
     void    EditMediaObject();
     void    EditBackGTransition();
     void    EditBackground();

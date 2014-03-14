@@ -2753,7 +2753,7 @@ and help</string>
        <bool>true</bool>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Box</enum>
+       <enum>QFrame::StyledPanel</enum>
       </property>
       <property name="frameShadow">
        <enum>QFrame::Sunken</enum>
@@ -2878,7 +2878,7 @@ and help</string>
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>410</width>
+           <width>406</width>
            <height>272</height>
           </rect>
          </property>
@@ -3747,6 +3747,45 @@ and help</string>
    </property>
    <property name="toolTip">
     <string>Add a Google Maps map</string>
+   </property>
+  </action>
+  <action name="actionRemovePlaylist">
+   <property name="icon">
+    <iconset resource="../RSCffDiaporama.qrc">
+     <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove playlist</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove playlist</string>
+   </property>
+  </action>
+  <action name="actionPlaylistToPause">
+   <property name="icon">
+    <iconset resource="../RSCffDiaporama.qrc">
+     <normaloff>:/img/player_pause.png</normaloff>:/img/player_pause.png</iconset>
+   </property>
+   <property name="text">
+    <string>Set music to pause</string>
+   </property>
+  </action>
+  <action name="actionPlaylistToPlay">
+   <property name="icon">
+    <iconset resource="../RSCffDiaporama.qrc">
+     <normaloff>:/img/player_play.png</normaloff>:/img/player_play.png</iconset>
+   </property>
+   <property name="text">
+    <string>Set music to play (remove pause)</string>
+   </property>
+  </action>
+  <action name="actionAdjustOnMusic">
+   <property name="icon">
+    <iconset resource="../RSCffDiaporama.qrc">
+     <normaloff>:/img/Transform.png</normaloff>:/img/Transform.png</iconset>
+   </property>
+   <property name="text">
+    <string>Adjust slide duration on music</string>
    </property>
   </action>
  </widget>

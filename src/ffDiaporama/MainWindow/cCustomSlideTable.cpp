@@ -57,6 +57,8 @@
 #define ICON_AUTOPROJECT                    ":/img/object_text.png"
 #define ICON_AUTOCHAPTER                    ":/img/Chapter_big.png"
 #define ICON_AUTOCREDIT                     ":/img/medal.png"
+#define ICON_CONTINUEPLAYLIST               ":/img/ContinuePlayList.png"
+#define ICON_EMPTYPLAYLIST                  ":/img/sound_KO.png"
 
 //********************************************************************************************************
 // QCustomThumbItemDelegate
@@ -117,6 +119,7 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
 
         cDiaporamaObject *Object        =ParentTable->Diaporama->List[ItemIndex];
         cDiaporamaObject *PreviousObject=ItemIndex>0?ParentTable->Diaporama->List[ItemIndex-1]:NULL;
+        cDiaporamaObject *NextObject    =ItemIndex<ParentTable->Diaporama->List.count()-1?ParentTable->Diaporama->List[ItemIndex+1]:NULL;
 
         int              ThumbWidth  =ParentTable->columnWidth(0);
         int              ThumbHeight =ParentTable->rowHeight(0);
@@ -129,6 +132,11 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         Painter->fillRect(option.rect,QColor(WidgetBackground_Color));
         // Translate painter (if needed) so all coordinate are from 0,0
         if ((option.rect.x()!=0)||(option.rect.y()!=0)) Painter->translate(option.rect.x(),option.rect.y());
+
+        QPen RedPen;
+        RedPen.setWidth(1);
+        RedPen.setStyle(Qt::SolidLine);
+        RedPen.setColor(QColor(0xff,0,0));
 
         // Draw slide separation line for Partition mode
         QPen    Pen;
@@ -354,80 +362,100 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         // Track MUSIC (last 1/4 height of the slide)
         //==========================================================================================================================
 
+        int             OwnerObjectMusic    =0;
         int             CurrentCountObjet   =0;
         int64_t         StartPosition       =0;
-        int64_t         PrevStartPosition   =0;
-        int64_t         NextStartPosition   =0;
-
-        int             OwnerObjectMusic    =0;
-        int             OwnerObjectNextMusic=0;
         cMusicObject    *CurMusic           =Object->Parent->GetMusicObject(ItemIndex,StartPosition,&CurrentCountObjet,&OwnerObjectMusic);
-        double          CurrentFactor       =Object->MusicPause?0:Object->MusicReduceVolume?Object->MusicReduceFactor:1;
-        cMusicObject    *PrevMusique        =ItemIndex>0?Object->Parent->GetMusicObject(ItemIndex-1,PrevStartPosition):NULL;
-        double          PreviousFactor      =PrevMusique?((Object->Parent->List[ItemIndex-1]->MusicPause)?0:(Object->Parent->List[ItemIndex-1]->MusicReduceVolume)?Object->Parent->List[ItemIndex-1]->MusicReduceFactor:1):0;
-        cMusicObject    *NextMusic          =(ItemIndex+1)<ParentTable->columnCount()?Object->Parent->GetMusicObject(ItemIndex+1,NextStartPosition,NULL,&OwnerObjectNextMusic):NULL;
-        bool            EndMusic            =true;
 
-        if ((CurMusic)&&(StartPosition>=(QTime(0,0,0,0).msecsTo(CurMusic->GetDuration())-Object->TransitionDuration))) CurMusic=NULL;
-        if (NextMusic) {
-            if ((OwnerObjectMusic==OwnerObjectNextMusic)&&(CurMusic!=NULL)&&(NextMusic!=NULL)) EndMusic=false;
-                else if ((CurMusic)&&((QTime(0,0,0,0).msecsTo(CurMusic->GetDuration()))-StartPosition>=Object->CachedDuration)) EndMusic=false;
-        } else if (CurMusic) EndMusic=(QTime(0,0,0,0).msecsTo(CurMusic->GetDuration())-StartPosition)<Object->CachedDuration;
+        int             PrevCountObjet      =0;
+        int64_t         PrevStartPosition   =0;
+        cMusicObject    *PrevMusic          =PreviousObject?Object->Parent->GetMusicObject(ItemIndex-1,PrevStartPosition,&PrevCountObjet):NULL;
+
+        bool            EndMusic            =Object->CachedMusicEnd;
+        int64_t         CurSlideDuration    =Object->CachedDuration-(NextObject?NextObject->GetTransitDuration():0);
+        double          CurrentFactor       =Object->MusicPause?0:Object->MusicReduceVolume?Object->MusicReduceFactor:1;
+
+        bool            DrawOutTransition   =Object->CachedPrevMusicFadOUT;                                 //false;
+        bool            DrawInTransition    =Object->CachedMusicFadIN;                                      //false;
+        bool            PrevEndMusic        =PreviousObject?PreviousObject->CachedMusicEnd:false;           //false;
+        bool            PrevEndMusicTransit =Object->CachedPrevMusicEnd;                                    //false;
+        double          PreviousFactor      =PrevMusic?((PreviousObject->MusicPause)?0:(PreviousObject->MusicReduceVolume)?PreviousObject->MusicReduceFactor:1):0;
 
         bool            DrawVolumeTransition=(PreviousFactor!=CurrentFactor);
-        bool            DrawInTransition    =false;
-        bool            DrawOutCut          =false;
-        bool            DrawPause           =false;
         int             RHeight             =int(TIMELINESOUNDHEIGHT*2*(CurrentFactor/1.5));
         int             PHeight             =int(TIMELINESOUNDHEIGHT*2*(PreviousFactor/1.5));
-        bool            DrawOutTransition   =((PrevMusique)&&((QTime(0,0,0,0).msecsTo(PrevMusique->GetDuration())-Object->Parent->List[ItemIndex-1]->CachedStartPosition)>Object->Parent->List[ItemIndex-1]->CachedDuration));
+
+        // Draw out transition from a previous object
+        if (DrawOutTransition) {
+            if ((PrevCountObjet & 1)==1) {
+                Painter->setBrush(QBrush(QColor(FirstMusic_Color)));
+                Pen.setColor(FirstMusic_Color);
+            } else {
+                Painter->setBrush(QBrush(QColor(SecondMusic_Color)));
+                Pen.setColor(SecondMusic_Color);
+            }
+            Pen.setWidth(0);
+            Painter->setPen(Pen);
+            Table[0]=QPointF(-1,ThumbHeight-5-PHeight+2);
+            Table[1]=QPointF(TransitionSize,ThumbHeight-5+2);
+            Table[2]=QPointF(-1,ThumbHeight-5+2);
+            Painter->drawPolygon(Table,3);
+            if (PreviousObject->CachedMusicRemaining<Object->CachedTransitDuration) {
+                Painter->setPen(RedPen);
+                Painter->drawLine(Table[0],Table[1]);
+            }
+
+        // Previous music end during the entering transition
+        } else if (PrevEndMusicTransit) {
+            if ((PrevCountObjet & 1)==1) {
+                Painter->setBrush(QBrush(QColor(FirstMusic_Color)));
+                Pen.setColor(FirstMusic_Color);
+            } else {
+                Painter->setBrush(QBrush(QColor(SecondMusic_Color)));
+                Pen.setColor(SecondMusic_Color);
+            }
+            Pen.setWidth(0);
+            Painter->setPen(Pen);
+            qreal PCTSound=qreal(PreviousObject->CachedMusicRemaining)/qreal(Object->CachedTransitDuration);
+            Table[0]=QPointF(-1,ThumbHeight-5+2);
+            Table[1]=QPointF(-1,ThumbHeight-5-PHeight+2);
+            Table[2]=QPointF(qreal(TransitionSize)*PCTSound,ThumbHeight-5-PHeight+2);
+            Table[3]=QPointF(qreal(TransitionSize)*PCTSound,ThumbHeight-5+2);
+            Table[4]=QPointF(-1,ThumbHeight-5+2);
+            Painter->drawPolygon(Table,5);
+            if (PreviousObject->CachedMusicRemaining<Object->CachedTransitDuration) {
+                Painter->setPen(RedPen);
+                Painter->drawLine(Table[2],Table[3]);
+            }
+        }
 
         if (CurMusic!=NULL) {
-            // Search if sound end during the slide
-            if (EndMusic) DrawOutCut=true;
-
             // Start a new Playlist
-            if (Object->MusicType) {
-                if (Object->MusicList.count()>0) {
-                    // Search if previous slide have music
-                    if (((PrevMusique!=NULL))&&(IsTransition)) DrawInTransition=true;
-                    DrawVolumeTransition=false;
-                }
+            if ((Object->MusicType)&&(Object->MusicList.count()>0)) {
+                if (((PrevMusic!=NULL))&&(IsTransition)&&(!PrevEndMusic)) DrawInTransition=true;
+                DrawVolumeTransition=false;
             }
-            if (Object->MusicPause) DrawPause=true;
             if (DrawInTransition && IsTransition) {
-                // Draw out transition from a previous object
-                if (DrawOutTransition) {
-                    if ((CurrentCountObjet & 1)!=1) {
-                        Painter->setBrush(QBrush(QColor(FirstMusic_Color)));
-                        Pen.setColor(FirstMusic_Color);
-                    } else {
-                        Painter->setBrush(QBrush(QColor(SecondMusic_Color)));
-                        Pen.setColor(SecondMusic_Color);
-                    }
-                    Pen.setWidth(0);
-                    Painter->setPen(Pen);
-                    Table[0]=QPointF(-1,ThumbHeight-5-PHeight+2);
-                    Table[1]=QPointF(34,ThumbHeight-5+2);
-                    Table[2]=QPointF(-1,ThumbHeight-5+2);
-                    Painter->drawPolygon(Table,3);
-                }
                 Table[0]=QPointF(-1,ThumbHeight-5+2);
-                Table[1]=QPointF(34,ThumbHeight-5-RHeight+2);
+                Table[1]=QPointF(TransitionSize,ThumbHeight-5-RHeight+2);
             } else if (DrawVolumeTransition && IsTransition) {
                 Table[0]=QPointF(-1,ThumbHeight-5-PHeight+2);
-                Table[1]=QPointF(34,ThumbHeight-5-RHeight+2);
+                Table[1]=QPointF(TransitionSize,ThumbHeight-5-RHeight+2);
             } else {
                 Table[0]=QPointF(-1,ThumbHeight-5+2);
                 Table[1]=QPointF(-1,ThumbHeight-5-RHeight+2);
             }
-            if (DrawOutCut) {
-                Table[2]=QPointF(ThumbWidth-34,ThumbHeight-5-RHeight+2);
-                Table[3]=QPointF(ThumbWidth-34,ThumbHeight-5+2);
+
+            // Music end during the slide
+            if (EndMusic) {
+                qreal PCTSound=qreal(Object->CachedMusicTimePlayed-Object->CachedTransitDuration)/qreal(CurSlideDuration-Object->CachedTransitDuration);
+                Table[2]=QPointF(TransitionSize+(ThumbWidth-TransitionSize)*PCTSound,ThumbHeight-5-RHeight+2);
+                Table[3]=QPointF(TransitionSize+(ThumbWidth-TransitionSize)*PCTSound,ThumbHeight-5+2);
             } else {
                 Table[2]=QPointF(ThumbWidth+2,ThumbHeight-5-RHeight+2);
                 Table[3]=QPointF(ThumbWidth+2,ThumbHeight-5+2);
             }
+
             Table[4]=QPointF(-1,ThumbHeight-5+2);
 
             if ((CurrentCountObjet & 1)==1) {
@@ -441,25 +469,15 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
             Painter->setPen(Pen);
             Painter->drawPolygon(Table,5);
 
-            if (DrawPause) Painter->drawImage((ThumbWidth-24-TransitionSize)/2+TransitionSize,ThumbHeight-5-24,QImage(ICON_PLAYERPAUSE));
-        } else if (DrawOutTransition) {
-            // Draw out transition from a previous object
-            if ((CurrentCountObjet & 1)!=1) {
-                Painter->setBrush(QBrush(QColor(FirstMusic_Color)));
-                Pen.setColor(FirstMusic_Color);
-            } else {
-                Painter->setBrush(QBrush(QColor(SecondMusic_Color)));
-                Pen.setColor(SecondMusic_Color);
+            // if music end during this slide, draw a red line at the end
+            if (EndMusic) {
+                Painter->setPen(RedPen);
+                Painter->drawLine(Table[2],Table[3]);
+                Painter->setPen(Pen);
             }
-            Pen.setWidth(0);
-            Painter->setPen(Pen);
-            Table[0]=QPointF(-1,ThumbHeight-5-PHeight+2);
-            Table[1]=QPointF(34,ThumbHeight-5+2);
-            Table[2]=QPointF(-1,ThumbHeight-5+2);
-            Painter->drawPolygon(Table,3);
         }
 
-        if ((CurMusic)&&(OwnerObjectMusic==ItemIndex)) {
+        if ((CurMusic)&&(CurMusic!=PrevMusic)) {
             QStringList TempExtProperties;
             ParentTable->ApplicationConfig->FilesTable->GetExtendedProperties(CurMusic->FileKey,&TempExtProperties);
             QImage  Icon     =CurMusic->GetIcon(cCustomIcon::ICON100,false).scaledToHeight(24);
@@ -477,7 +495,11 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
             Pen.setColor(Qt::white);
             Painter->setPen(Pen);
             Painter->drawText(QRectF(TransitionSize+4,ThumbHeight-4-24,ThumbWidth-8-TransitionSize,24),MusicName,Qt::AlignLeft|Qt::AlignVCenter);
+            if (OwnerObjectMusic!=ItemIndex) Painter->drawImage(TransitionSize-1-24,ThumbHeight-4-24+1,QImage(ICON_CONTINUEPLAYLIST));
+        } else if ((!CurMusic)&&(Object->MusicType)) {
+            Painter->drawImage(TransitionSize-1-24,ThumbHeight-4-24+1,QImage(ICON_EMPTYPLAYLIST));
         }
+        if (Object->MusicPause) Painter->drawImage((ThumbWidth-24-TransitionSize)/2+TransitionSize,ThumbHeight-5-24,QImage(ICON_PLAYERPAUSE));
         // Draw separated line
         Pen.setWidth(1);
         Pen.setStyle(Qt::DotLine);
@@ -729,7 +751,7 @@ void cCustomSlideTable::dragMoveEvent(QDragMoveEvent *event) {
             if (IsDragOn==DRAGMODE_EXTERNALADD_MUSIC) {
                 if ((Selected>=0)&&(Selected<Diaporama->List.count())&&(event->pos().x()>=-columnWidth(0))&&(event->pos().x()<=width()+columnWidth(0))&&
                     (event->pos().y()>=0-(PartitionMode?rowHeight(0):0))&&(event->pos().y()<=height()+(PartitionMode?rowHeight(0):0))) {
-                        if ((MusicPart)&&(!Diaporama->List[Selected]->MusicType)) CursorPosValide=true;
+                        if ((MusicPart)/*&&(!Diaporama->List[Selected]->MusicType)*/) CursorPosValide=true;
                 }
             } else if (IsDragOn==DRAGMODE_EXTERNALADD_SLIDE) {
                 if ((Selected!=-1)&&(event->pos().x()>=-columnWidth(0))&&(event->pos().x()<=width()+columnWidth(0))&&
@@ -791,7 +813,7 @@ void cCustomSlideTable::mouseMoveEvent(QMouseEvent *event) {
             if (IsDragOn==DRAGMODE_INTERNALMOVE_MUSIC) {
                 if ((Selected!=-1)&&(event->pos().x()>=-columnWidth(0))&&(event->pos().x()<=width()+columnWidth(0))&&
                     (event->pos().y()>=0-(PartitionMode?rowHeight(0):0))&&(event->pos().y()<=height()+(PartitionMode?rowHeight(0):0))) {
-                        if ((Selected!=Diaporama->CurrentCol)&&(Selected<Diaporama->List.count())&&(MusicPart)&&(!Diaporama->List[Selected]->MusicType)) CursorPosValide=true;
+                        if ((Selected!=Diaporama->CurrentCol)&&(Selected<Diaporama->List.count())&&(MusicPart)/*&&(!Diaporama->List[Selected]->MusicType)*/) CursorPosValide=true;
                 }
             } else if (IsDragOn==DRAGMODE_INTERNALMOVE_BACKGROUND) {
                 if ((Selected!=-1)&&(event->pos().x()>=-columnWidth(0))&&(event->pos().x()<=width()+columnWidth(0))&&
@@ -884,6 +906,15 @@ void cCustomSlideTable::mousePressEvent(QMouseEvent *event) {
 void cCustomSlideTable::mouseReleaseEvent(QMouseEvent *event) {
     setCursor(Qt::ArrowCursor);
     if (event->button()==Qt::RightButton) {
+        int ThumbWidth      =columnWidth(0);
+        int ThumbHeight     =rowHeight(0);
+        int row             =(event->pos().y()+verticalOffset())/ThumbHeight;
+        int col             =(event->pos().x()+horizontalOffset())/ThumbWidth;
+
+        ClickedSlide  =row*columnCount()+col;
+        MusicPart     =((event->pos().y()+verticalOffset())-row*ThumbHeight)>=3*(ThumbHeight/4);
+        BackgroundPart=((event->pos().y()+verticalOffset())-row*ThumbHeight)<(ThumbHeight/4);
+
         emit RightClickEvent(event);
         IsDragOn=DRAGMODE_NOACTION;
     } else if ((IsDragOn!=DRAGMODE_INTERNALMOVE_SLIDE)&&(IsDragOn!=DRAGMODE_INTERNALMOVE_MUSIC)&&(IsDragOn!=DRAGMODE_INTERNALMOVE_BACKGROUND)) {
@@ -891,8 +922,13 @@ void cCustomSlideTable::mouseReleaseEvent(QMouseEvent *event) {
         IsDragOn=DRAGMODE_NOACTION;
     } else {
         if ((DragItemDest!=-1)&&(DragItemDest!=DragItemSource)&&(event->pos().x()>=-columnWidth(0))&&(event->pos().x()<=width()+columnWidth(0))&&
-            (event->pos().y()>=0-(PartitionMode?rowHeight(0):0))&&(event->pos().y()<=height()+(PartitionMode?rowHeight(0):0)))
-            emit DragMoveItem(); else {setUpdatesEnabled(false); setUpdatesEnabled(true);}
+            (event->pos().y()>=0-(PartitionMode?rowHeight(0):0))&&(event->pos().y()<=height()+(PartitionMode?rowHeight(0):0))) {
+            DragMoveItemCause=IsDragOn;
+            emit DragMoveItem();
+        } else {
+            setUpdatesEnabled(false);
+            setUpdatesEnabled(true);
+        }
         IsDragOn=DRAGMODE_NOACTION;
     }
     setCursor(Qt::ArrowCursor);
@@ -902,28 +938,22 @@ void cCustomSlideTable::mouseReleaseEvent(QMouseEvent *event) {
 
 void cCustomSlideTable::mouseDoubleClickEvent(QMouseEvent *event) {
     if (columnCount()==0) return;
-    int ThumbWidth =columnWidth(0);
-    int ThumbHeight=rowHeight(0);
-    int row=(event->pos().y()+verticalOffset())/ThumbHeight;
-    int col=(event->pos().x()+horizontalOffset())/ThumbWidth;
-    int NbrX       =width()/ThumbWidth;
+    int  ThumbWidth =columnWidth(0);
+    int  ThumbHeight=rowHeight(0);
+    int  row=(event->pos().y()+verticalOffset())/ThumbHeight;
+    int  col=(event->pos().x()+horizontalOffset())/ThumbWidth;
+    int  NbrX          =width()/ThumbWidth;
+    bool MusicPart     =((event->pos().y()+verticalOffset())-row*ThumbHeight)>=3*(ThumbHeight/4);
+    bool BackgroundPart=((event->pos().y()+verticalOffset())-row*ThumbHeight)<(ThumbHeight/4);
 
     int Selected=(PartitionMode?row*NbrX+col:col);
     int x=event->pos().x()+horizontalOffset()-col*ThumbWidth;
-    int y=event->pos().y()+verticalOffset()-row*ThumbHeight;
 
     if ((Selected>=0)&&(Selected<Diaporama->List.count())) {
-        if (x<=TransitionSize) {
-            // In transition column
-            if (y<ThumbHeight/4)                        ; //emit EditBackGTransition()
-            else if (y<ThumbHeight/4+TransitionSize)    emit EditTransition();
-            else if (y>=3*ThumbHeight/4)                emit EditSoundTrack();
-        } else {
-            // In object column
-            if (y<ThumbHeight/4)                        emit EditBackground();
-            else if (y<3*ThumbHeight/4)                 emit EditMediaObject();
-            else if (y>=3*ThumbHeight/4)                emit EditMusicTrack();
-        }
+        if (MusicPart)              emit EditMusicTrack();
+        else if (BackgroundPart)    emit EditBackground();
+        else if (x<=TransitionSize) emit EditTransition();
+        else                        emit EditMediaObject();
     }
 }
 
@@ -1050,12 +1080,10 @@ void cCustomSlideTable::CurrentSelectionList(QList<int> *List) {
 
 void cCustomSlideTable::SetCurrentCell(int Index) {
     if (columnCount()==0) return;
-    setUpdatesEnabled(false);
     selectionModel()->clear();      // Clear selection
     int row=Index/columnCount();
     int col=Index-row*columnCount();
     setCurrentCell(row,col,QItemSelectionModel::Select|QItemSelectionModel::Current);    
-    setUpdatesEnabled(true);
 }
 
 //====================================================================================================================

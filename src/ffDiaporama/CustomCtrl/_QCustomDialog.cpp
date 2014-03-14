@@ -49,7 +49,8 @@ QString CustomInputDialog(QWidget *parent,const QString &title,const QString &la
 
 //====================================================================================================================
 
-int CustomMessageBox(QWidget *parent,QMessageBox::Icon icon,const QString& title,const QString& text,QMessageBox::StandardButtons buttons,QMessageBox::StandardButton defaultButton) {
+int CustomMessageBox(QWidget *parent,QMessageBox::Icon icon,const QString& title,const QString& text,QMessageBox::StandardButtons buttons,QMessageBox::StandardButton defaultButton,
+                     QString ButtonYesText,QString ButtonNoText) {
     Qt::WindowFlags Flags=(Qt::Dialog|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint);
 
     QMessageBox         msgBox(icon,title,text,QMessageBox::NoButton,parent,Flags);
@@ -61,6 +62,8 @@ int CustomMessageBox(QWidget *parent,QMessageBox::Icon icon,const QString& title
         mask <<= 1;
         if (!sb) continue;
         QPushButton *button = msgBox.addButton((QMessageBox::StandardButton)sb);
+        if ((sb==QMessageBox::Yes)&&(!ButtonYesText.isEmpty())) button->setText(ButtonYesText);
+        if ((sb==QMessageBox::No)&&(!ButtonNoText.isEmpty())) button->setText(ButtonNoText);
         // Choose the first accept role as the default
         if (msgBox.defaultButton()) continue;
         if ((defaultButton == QMessageBox::NoButton && buttonBox->buttonRole(button) == QDialogButtonBox::AcceptRole)

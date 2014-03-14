@@ -675,7 +675,7 @@ void DlgImageComposer::s_BlockTable_AddFilesBlock(QStringList FileList,int Posit
 
             if (CurrentBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
                 cVideoFile *Video=(cVideoFile *)CurrentBrush->MediaObject;
-                Video->EndPos=Video->Duration;
+                Video->EndPos=Video->GetRealDuration();
                 if (Video->LibavStartTime>0) Video->StartPos=QTime(0,0,0,0).addMSecs(int64_t((double(Video->LibavStartTime)/AV_TIME_BASE)*1000));
             }
 

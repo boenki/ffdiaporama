@@ -32,7 +32,7 @@
 wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui::wgt_QVideoPlayer) {
     ui->setupUi(this);
     FLAGSTOPITEMSELECTION   = NULL;
-    FileInfo                = NULL;
+    InPlayerUpdate          = false;
     Diaporama               = NULL;
     WantedFPS               = 12.5;
     IsValide                = false;
@@ -47,7 +47,6 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     tDuration               = QTime(0,0,0,0);
     ResetPositionWanted     = false;
     Deinterlace             = false;
-    this->FileInfo          = FileInfo;
 
     Music.SetFPS(MixedMusic.WantedDuration,MixedMusic.Channels,MixedMusic.SamplingRate,MixedMusic.SampleFormat);
 
@@ -155,27 +154,6 @@ bool wgt_QVideoPlayer::InitDiaporamaPlay(cDiaporama *Diaporama) {
 }
 
 //============================================================================================
-// Init a video show
-//============================================================================================
-
-bool wgt_QVideoPlayer::StartPlay(cVideoFile *theFileInfo,double theWantedFPS) {
-    if (theFileInfo==NULL) return false;
-    FileInfo =theFileInfo;
-    WantedFPS=theWantedFPS;
-    IsValide=true;
-    SDLFlushBuffers();
-
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    SetActualDuration(QTime(0,0,0,0).msecsTo(FileInfo->Duration));
-    resizeEvent(NULL);
-    PlayerPlayMode  = true;
-    PlayerPauseMode = true;
-    ui->VideoPlayerPlayPauseBT->setIcon(IconPause);
-    QApplication::restoreOverrideCursor();
-    return true;
-}
-
-//============================================================================================
 // Pause -> play
 //============================================================================================
 
@@ -253,10 +231,10 @@ void wgt_QVideoPlayer::s_SliderReleased() {
 //============================================================================================
 
 void wgt_QVideoPlayer::s_SliderMoved(int Value) {
-    if (((MainWindow *)ApplicationConfig->TopLevelWindow)->InPlayerUpdate) return;
-    ((MainWindow *)ApplicationConfig->TopLevelWindow)->InPlayerUpdate=true;
+    if (InPlayerUpdate) return;
+    InPlayerUpdate=true;
 
-    if (ResetPositionWanted) SetPlayerToPause();
+    if ((ResetPositionWanted)||(Value>ui->CustomRuler->maximum())) SetPlayerToPause();
 
     // Update display in controls
     ui->CustomRuler->setValue(Value);
@@ -269,11 +247,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
     //***********************************************************************
     if (PlayerPlayMode && !PlayerPauseMode) {
 
-        if (((FileInfo)&&(ActualPosition>=QTime(0,0,0,0).msecsTo(tDuration)))||((Diaporama)&&(Value>=Diaporama->GetDuration()))) {
-
-            SetPlayerToPause();    // Stop if it's the end
-
-        } else if (FrameList.List.count()>1) {                        // Process
+        if (FrameList.List.count()>1) {                        // Process
             // Retrieve frame information
             cDiaporamaObjectInfo *Frame=(cDiaporamaObjectInfo *)FrameList.DetachFirstFrame();
 
@@ -310,70 +284,57 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
     //***********************************************************************
     // If moving by user
     //***********************************************************************
-    } else {
-
+    } else if (Diaporama) {
         QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+        if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
+        if (ThreadPrepareImage.isRunning()) ThreadPrepareImage.waitForFinished();
+        if (ThreadAssembly.isRunning())     ThreadAssembly.waitForFinished();
 
-        if (FileInfo) {
+        // Create a frame from actual position
+        cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,ActualPosition,Diaporama,double(1000)/WantedFPS,false);
 
-            QImage *VideoImage=FileInfo->ImageAt(true,ActualPosition,NULL,Deinterlace,1,false,false);
-            if (VideoImage) {
-                // Display frame
-                ui->MovieFrame->SetImage(VideoImage->scaledToHeight(ui->MovieFrame->height()));
-                delete VideoImage;
-            }
-
-        } else if (Diaporama) {
-            if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
-            if (ThreadPrepareImage.isRunning()) ThreadPrepareImage.waitForFinished();
-            if (ThreadAssembly.isRunning())     ThreadAssembly.waitForFinished();
-
-            // Create a frame from actual position
-            cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,ActualPosition,Diaporama,double(1000)/WantedFPS,false);
-
-            int H=ui->MovieFrame->height();
-            int W=Diaporama->GetWidthForHeight(H);
-            if (W>ui->MovieFrame->width()) {
-                W=ui->MovieFrame->width();
-                H=Diaporama->GetHeightForWidth(W);
-            }
-            if ((Frame->IsTransition)&&(Frame->TransitObject)) Diaporama->CreateObjectContextList(Frame,W,H,false,true,true,PreparedTransitBrushList,Diaporama);
-            Diaporama->CreateObjectContextList(Frame,W,H,true,true,true,PreparedBrushList,Diaporama);
-            PrepareImage(false,true,Frame,W,H);         // This will add frame to the FrameList
-
-            if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
-
-            Frame=(cDiaporamaObjectInfo *)FrameList.DetachFirstFrame();     // Then detach frame from the FrameList
-
-            // Display frame
-            ui->MovieFrame->SetImage(Frame->RenderedImage.scaledToHeight(ui->MovieFrame->height()));
-
-            // If needed, set Diaporama to another object
-            if ((Diaporama->CurrentCol!=Frame->CurrentObject_Number)&&((!Frame->IsTransition)||(Diaporama->CurrentCol!=Frame->TransitObject_Number))) {
-                if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=true;    // Ensure mainwindow no modify player widget position
-                Diaporama->CurrentCol=Frame->CurrentObject_Number;
-                ((MainWindow *)ApplicationConfig->TopLevelWindow)->SetTimelineCurrentCell(Frame->CurrentObject_Number);
-                if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=false;
-
-                // Update slider mark
-                if (Diaporama->List.count()>0)
-                    SetStartEndPos(
-                            Diaporama->GetObjectStartPosition(Diaporama->CurrentCol),                                                               // Current slide
-                            Diaporama->List[Diaporama->CurrentCol]->GetDuration(),
-                            (Diaporama->CurrentCol>0)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol-1):((Diaporama->CurrentCol==0)?0:-1), // Previous slide
-                            (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1]->GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
-                            Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol+1):-1,        // Next slide
-                            Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1]->GetDuration():0);
-
-            }
-            Diaporama->CurrentPosition=Value;
-
-            // Free frame
-            delete Frame;
+        int H=ui->MovieFrame->height();
+        int W=Diaporama->GetWidthForHeight(H);
+        if (W>ui->MovieFrame->width()) {
+            W=ui->MovieFrame->width();
+            H=Diaporama->GetHeightForWidth(W);
         }
+        if ((Frame->IsTransition)&&(Frame->TransitObject)) Diaporama->CreateObjectContextList(Frame,W,H,false,true,true,PreparedTransitBrushList,Diaporama);
+        Diaporama->CreateObjectContextList(Frame,W,H,true,true,true,PreparedBrushList,Diaporama);
+        PrepareImage(false,true,Frame,W,H);         // This will add frame to the FrameList
+
+        if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
+
+        Frame=(cDiaporamaObjectInfo *)FrameList.DetachFirstFrame();     // Then detach frame from the FrameList
+
+        // Display frame
+        ui->MovieFrame->SetImage(Frame->RenderedImage.scaledToHeight(ui->MovieFrame->height()));
+
+        // If needed, set Diaporama to another object
+        if ((Diaporama->CurrentCol!=Frame->CurrentObject_Number)&&((!Frame->IsTransition)||(Diaporama->CurrentCol!=Frame->TransitObject_Number))) {
+            if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=true;    // Ensure mainwindow no modify player widget position
+            Diaporama->CurrentCol=Frame->CurrentObject_Number;
+            if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=false;
+            ((MainWindow *)ApplicationConfig->TopLevelWindow)->SetTimelineCurrentCell(Frame->CurrentObject_Number);
+
+            // Update slider mark
+            if (Diaporama->List.count()>0)
+                SetStartEndPos(
+                        Diaporama->GetObjectStartPosition(Diaporama->CurrentCol),                                                               // Current slide
+                        Diaporama->List[Diaporama->CurrentCol]->GetDuration(),
+                        (Diaporama->CurrentCol>0)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol-1):((Diaporama->CurrentCol==0)?0:-1), // Previous slide
+                        (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1]->GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
+                        Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol+1):-1,        // Next slide
+                        Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1]->GetDuration():0);
+
+        }
+        Diaporama->CurrentPosition=Value;
+
+        // Free frame
+        delete Frame;
         QApplication::restoreOverrideCursor();
     }
-    ((MainWindow *)ApplicationConfig->TopLevelWindow)->InPlayerUpdate=false;
+    InPlayerUpdate=false;
 }
 
 //============================================================================================
@@ -400,13 +361,8 @@ void wgt_QVideoPlayer::s_TimerEvent() {
             TimerDelta+=Elapsed-Wanted;
             if (TimerDelta>=Wanted) {
                 ToLog(LOGMSG_DEBUGTRACE,"FPS preview is too high: One image lost");
-                if (FrameList.List.count()>0) {
-                    delete (cDiaporamaObjectInfo *)FrameList.DetachFirstFrame(); // Remove first image if we loose one tick
-                } else {
-                    // Increase next position to one frame
-                    if (FileInfo) ActualPosition+=Wanted;
-                        else      Diaporama->CurrentPosition+=Wanted;
-                }
+                if (FrameList.List.count()>0)   delete (cDiaporamaObjectInfo *)FrameList.DetachFirstFrame(); // Remove first image if we loose one tick
+                    else                        Diaporama->CurrentPosition+=Wanted; // Increase next position to one frame
                 TimerDelta-=Wanted;
             }
         }
@@ -437,70 +393,53 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     // If no image in the list then create the first
     if (FrameList.List.count()==0) {
 
-        if (FileInfo) LastPosition=ActualPosition;
-            else      LastPosition=Diaporama->CurrentPosition;
+        LastPosition=Diaporama->CurrentPosition;
         NextPosition=LastPosition+int(double(1000)/WantedFPS);
 
         // If no image in the list then prepare a first frame
-        if (FileInfo) {
+        cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,NextPosition,Diaporama,double(1000)/WantedFPS,true);
 
-            cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(NULL,NextPosition,NULL,double(1000)/WantedFPS,true);
-            NewFrame->CurrentObject_StartTime   =0;
-            PrepareVideoFrame(NewFrame,NewFrame->CurrentObject_InObjectTime);
-
-        } else {
-
-            cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,NextPosition,Diaporama,double(1000)/WantedFPS,true);
-
-            // Ensure MusicTracks are ready
-            if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
-                Frame->CurrentObject_MusicTrack=new cSDLSoundBlockList();
-                Frame->CurrentObject_MusicTrack->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
-            }
-            if ((Frame->TransitObject)&&(Frame->TransitObject_MusicTrack==NULL)&&(Frame->TransitObject_MusicObject!=NULL)&&(Frame->TransitObject_MusicObject!=Frame->CurrentObject_MusicObject)) {
-                Frame->TransitObject_MusicTrack=new cSDLSoundBlockList();
-                Frame->TransitObject_MusicTrack->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
-            }
-
-            // Ensure SoundTracks are ready
-            if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)) {
-                Frame->CurrentObject_SoundTrackMontage=new cSDLSoundBlockList();
-                Frame->CurrentObject_SoundTrackMontage->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
-            }
-            if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)) {
-                Frame->TransitObject_SoundTrackMontage=new cSDLSoundBlockList();
-                Frame->TransitObject_SoundTrackMontage->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
-            }
-
-            // Ensure background, image and soundtrack is ready
-            int H=ui->MovieFrame->height();
-            int W=Diaporama->GetWidthForHeight(H);
-            if (W>ui->MovieFrame->width()) {
-                W=ui->MovieFrame->width();
-                H=Diaporama->GetHeightForWidth(W);
-            }
-            if ((Frame->IsTransition)&&(Frame->TransitObject)) Diaporama->CreateObjectContextList(Frame,W,H,false,true,true,PreparedTransitBrushList,Diaporama);
-            Diaporama->CreateObjectContextList(Frame,W,H,true,true,true,PreparedBrushList,Diaporama);
-            PrepareImage(true,true,Frame,W,H);
-            if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
+        // Ensure MusicTracks are ready
+        if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
+            Frame->CurrentObject_MusicTrack=new cSDLSoundBlockList();
+            Frame->CurrentObject_MusicTrack->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
         }
+        if ((Frame->TransitObject)&&(Frame->TransitObject_MusicTrack==NULL)&&(Frame->TransitObject_MusicObject!=NULL)&&(Frame->TransitObject_MusicObject!=Frame->CurrentObject_MusicObject)) {
+            Frame->TransitObject_MusicTrack=new cSDLSoundBlockList();
+            Frame->TransitObject_MusicTrack->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+        }
+
+        // Ensure SoundTracks are ready
+        if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)) {
+            Frame->CurrentObject_SoundTrackMontage=new cSDLSoundBlockList();
+            Frame->CurrentObject_SoundTrackMontage->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+        }
+        if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)) {
+            Frame->TransitObject_SoundTrackMontage=new cSDLSoundBlockList();
+            Frame->TransitObject_SoundTrackMontage->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+        }
+
+        // Ensure background, image and soundtrack is ready
+        int H=ui->MovieFrame->height();
+        int W=Diaporama->GetWidthForHeight(H);
+        if (W>ui->MovieFrame->width()) {
+            W=ui->MovieFrame->width();
+            H=Diaporama->GetHeightForWidth(W);
+        }
+        if ((Frame->IsTransition)&&(Frame->TransitObject)) Diaporama->CreateObjectContextList(Frame,W,H,false,true,true,PreparedTransitBrushList,Diaporama);
+        Diaporama->CreateObjectContextList(Frame,W,H,true,true,true,PreparedBrushList,Diaporama);
+        PrepareImage(true,true,Frame,W,H);
+        if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
     }
 
     cDiaporamaObjectInfo *PreviousFrame=(cDiaporamaObjectInfo *)FrameList.GetLastFrame();
 
-    if (FileInfo)       LastPosition=PreviousFrame->CurrentObject_InObjectTime;
-    else if (Diaporama) LastPosition=PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
+    if (Diaporama) LastPosition=PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
 
     NextPosition=LastPosition+int(double(1000)/WantedFPS);
 
     // Add image to the list if it's not full
-    if ((FileInfo)&&(FrameList.List.count()<BUFFERING_NBR_FRAME)&&(!ThreadPrepareVideo.isRunning())) {
-
-        cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,NextPosition,NULL,int(double(1000)/WantedFPS),true);
-        NewFrame->CurrentObject_StartTime   =0;
-        ThreadPrepareVideo.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareVideoFrame,NewFrame,NewFrame->CurrentObject_InObjectTime));
-
-    } else if (((Diaporama)&&(FrameList.List.count()<BUFFERING_NBR_FRAME))&&(!ThreadPrepareImage.isRunning()))  {
+    if (((Diaporama)&&(FrameList.List.count()<BUFFERING_NBR_FRAME))&&(!ThreadPrepareImage.isRunning()))  {
 
         cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(PreviousFrame,NextPosition,Diaporama,double(1000)/WantedFPS,true);
 
@@ -578,16 +517,6 @@ void wgt_QVideoPlayer::StartThreadAssembly(double PCT,cDiaporamaObjectInfo *Fram
     Mutex.unlock();
 }
 
-void wgt_QVideoPlayer::PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position) {
-    QImage *Temp=FileInfo->ImageAt(true,Position,&Music,Deinterlace,1,false,true);
-    if (Temp) {
-        NewFrame->RenderedImage=QImage(Temp->scaledToHeight(ui->MovieFrame->height()));
-        delete Temp;
-        for (int j=0;j<Music.NbrPacketForFPS;j++) MixedMusic.AppendPacket(Music.CurrentPosition,Music.DetachFirstPacket());
-    }
-    if (!NewFrame->RenderedImage.isNull()) FrameList.AppendFrame(NewFrame);
-        else delete NewFrame;
-}
 //============================================================================================
 // Define zone selection on the ruller
 //============================================================================================

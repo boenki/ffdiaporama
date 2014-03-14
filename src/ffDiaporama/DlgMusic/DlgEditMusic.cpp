@@ -95,6 +95,7 @@ void DlgEditMusic::s_EndSoundAnalyse() {
     ui->EndPosEd->setEnabled(true);
     ui->VideoPlayerPlayPauseBT->setEnabled(true);
     Timer.stop();
+    RefreshControls();
     // Activate player
     SetPlayerToPlay();
     QApplication::restoreOverrideCursor();
@@ -105,21 +106,12 @@ void DlgEditMusic::s_EndSoundAnalyse() {
 void DlgEditMusic::DoInitDialog() {
     ui->SeekLeftBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaSkipBackward));
     ui->SeekRightBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaSkipForward));
-    ui->StartPosEd->setCurrentSection(QDateTimeEdit::MSecSection);  ui->StartPosEd->setCurrentSectionIndex(3);  ui->StartPosEd->MsecStep=MusicObject->GetFPSDuration();
-    ui->EndPosEd->setCurrentSection(QDateTimeEdit::MSecSection);    ui->EndPosEd->setCurrentSectionIndex(3);    ui->EndPosEd->MsecStep  =MusicObject->GetFPSDuration();
+    ui->StartPosEd->setCurrentSection(QDateTimeEdit::MSecSection);  ui->StartPosEd->setCurrentSectionIndex(3);  ui->StartPosEd->MsecStep=1;//MusicObject->GetFPSDuration();
+    ui->EndPosEd->setCurrentSection(QDateTimeEdit::MSecSection);    ui->EndPosEd->setCurrentSectionIndex(3);    ui->EndPosEd->MsecStep  =1;//MusicObject->GetFPSDuration();
 
     SDLFlushBuffers();
     Music.SetFPS(MixedMusic.WantedDuration,MixedMusic.Channels,MixedMusic.SamplingRate,MixedMusic.SampleFormat);
 
-    ui->EndPosEd->setMaximumTime(MusicObject->Duration.addMSecs(-1));
-    if (MusicObject->EndPos>=MusicObject->Duration) MusicObject->EndPos=MusicObject->Duration.addMSecs(-1);
-
-    ui->Duration->setText(MusicObject->Duration.toString("hh:mm:ss.zzz"));
-    ui->CustomRuler->setMaximum(QTime(0,0,0,0).msecsTo(MusicObject->Duration)-1);
-
-    ui->CustomRuler->StartPos     =QTime(0,0,0,0).msecsTo(MusicObject->StartPos);
-    ui->CustomRuler->EndPos       =QTime(0,0,0,0).msecsTo(MusicObject->EndPos);
-    ui->CustomRuler->TotalDuration=QTime(0,0,0,0).msecsTo(MusicObject->Duration);
     ui->CustomRuler->EditStartEnd =true;
     ui->CustomRuler->setSingleStep(25);
 
@@ -161,6 +153,15 @@ void DlgEditMusic::DoInitDialog() {
 void DlgEditMusic::RefreshControls() {
     if (StopMaj) return;
     StopMaj=true;
+    ui->EndPosEd->setMaximumTime(MusicObject->GetRealDuration());
+    if (MusicObject->EndPos>=MusicObject->GetRealDuration()) MusicObject->EndPos=MusicObject->GetRealDuration();
+
+    ui->Duration->setText(MusicObject->GetRealDuration().toString("hh:mm:ss.zzz"));
+    ui->CustomRuler->setMaximum(QTime(0,0,0,0).msecsTo(MusicObject->GetRealDuration()));
+
+    ui->CustomRuler->StartPos     =QTime(0,0,0,0).msecsTo(MusicObject->StartPos);
+    ui->CustomRuler->EndPos       =QTime(0,0,0,0).msecsTo(MusicObject->EndPos);
+    ui->CustomRuler->TotalDuration=QTime(0,0,0,0).msecsTo(MusicObject->GetRealDuration());
     QTime Duration=QTime(0,0,0,0).addMSecs(MusicObject->StartPos.msecsTo(MusicObject->EndPos));
     ui->ActualDuration->setText(Duration.toString("hh:mm:ss.zzz"));
     ui->StartPosEd->setMaximumTime(MusicObject->EndPos);    ui->StartPosEd->setTime(MusicObject->StartPos);
@@ -234,6 +235,7 @@ void DlgEditMusic::SeekPlayer(int Value) {
 void DlgEditMusic::s_DefStartPos() {
     if (StopMaj) return;
     MusicObject->StartPos=GetCurrentPos();
+    ui->CustomRuler->StartPos=QTime(0,0,0,0).msecsTo(MusicObject->StartPos);
     RefreshControls();
 }
 
@@ -251,6 +253,8 @@ void DlgEditMusic::s_EditStartPos(QTime NewValue) {
 void DlgEditMusic::s_DefEndPos() {
     if (StopMaj) return;
     MusicObject->EndPos=GetCurrentPos();
+    if (MusicObject->EndPos>=MusicObject->GetRealDuration()) MusicObject->EndPos=MusicObject->GetRealDuration().addMSecs(-1);
+    ui->CustomRuler->EndPos=QTime(0,0,0,0).msecsTo(MusicObject->EndPos);
     RefreshControls();
 }
 
@@ -391,7 +395,7 @@ void DlgEditMusic::s_SliderMoved(int Value) {
     ui->Position->setText(GetCurrentPos().toString("hh:mm:ss.zzz"));
 
     if (PlayerPlayMode && !PlayerPauseMode) {
-        if (ActualPosition>=QTime(0,0,0,0).msecsTo(MusicObject->Duration)) {
+        if (ActualPosition>=QTime(0,0,0,0).msecsTo(MusicObject->GetRealDuration())) {
             SetPlayerToPause(); // Stop if it's the end
         } else if (FrameList.List.count()>1) {                        // Process
             cDiaporamaObjectInfo *Frame=(cDiaporamaObjectInfo *)FrameList.DetachFirstFrame();   // Retrieve frame information

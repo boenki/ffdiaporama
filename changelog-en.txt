@@ -2,6 +2,37 @@
 * FFDIAPORAMA 2.2 - trunk - (English version)
 **************************************************
 
+[Commit: 10/03/2014] - ffDiaporama 2.2 devel 20140310
+    Bug fixes:
+        -Fixed a problem shifting axes for 2 LUMA clock
+        -Fixed a problem reading the sound that was not to the end with some MP3 files
+        -Fixed bugs in the management of fade-in/fade-out
+
+    New features:
+        -When music files are dragged to the music part of a slide that already has a playlist, no longer refuses the operation but offers:
+            -either to add them to the current slide playlist
+            -either to use them as a substitute of the current slide playlist
+        -Adds options in the context menu when opened from the musical track
+            -Proposes to remove the playlist (if the slide has one)
+            -Proposes to set music to pause (if music is played during the slide)
+            -Proposes to set music to play (if music is paused during the slide)
+        -Do sound files analysis when they are added to the project
+        -Changes the progress dialog to display the status of the analysis and allow the stop of adding
+        -Adds the display of a progress dialog in the music dialog when adding new songs (and do analysis of them)
+        -Changes the display of the list of songs in the music dialog:
+            -To view the selected duration / total duration of the song
+            -To show the full path of the selected file below the list rather than in the list to optimize the display
+        -Adds fade-in/fade-out options in music box (note: fade-in/out of transition have higher priority than these new options)
+        -Changes the display of the musick track in the timeline
+            -Makes the length of the track proportional on the slide where the music stops
+            -Adds the display of titles and cover of the next song and an arrow indicating the continuation in the playlist
+            -Adds the display of a barred sound icon when empty playlist is placed on a slide
+            -Adds the display of a red bar at the end of the runway, if the music stops during slide
+            -Adds the display of a fade-out topped with a red bar if the music stops during transition
+        -Adds a new dialog box to adjust the slide duration depending on the music
+
+--------------------------------------------------------------------------------
+
 [Commit: 01/03/2014] - ffDiaporama 2.2 devel 20140301
     Bug fixes:
         -Fixed a problem of unreadable x264 video encoded with some versions of ffmpeg (removes forcing b-frames in profile High Quality)
@@ -14,6 +45,8 @@
             -Adds an edit button that opens the new edit music dialog
             -Opens the new edit music dialog when you double click on a song in the playlist
         -Adds the display of the sound wave in the edit video dialog
+
+--------------------------------------------------------------------------------
 
 [Commit: 21/02/2014] - ffDiaporama 2.2 devel 20140221
     Bug fixes:

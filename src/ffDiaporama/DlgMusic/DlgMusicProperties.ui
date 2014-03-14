@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>525</width>
-    <height>331</height>
+    <width>631</width>
+    <height>325</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -292,8 +292,14 @@ Moves the currently selected file one step down</string>
      </item>
      <item>
       <widget class="QLabel" name="Label1">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
-        <string>Total playlist duration : </string>
+        <string>Playlist duration:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -351,7 +357,7 @@ Moves the currently selected file one step down</string>
       <number>0</number>
      </property>
      <attribute name="horizontalHeaderStretchLastSection">
-      <bool>true</bool>
+      <bool>false</bool>
      </attribute>
      <attribute name="verticalHeaderVisible">
       <bool>false</bool>
@@ -375,6 +381,9 @@ Moves the currently selected file one step down</string>
         <pointsize>9</pointsize>
        </font>
       </property>
+      <property name="textAlignment">
+       <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+      </property>
      </column>
      <column>
       <property name="text">
@@ -384,6 +393,9 @@ Moves the currently selected file one step down</string>
        <font>
         <pointsize>9</pointsize>
        </font>
+      </property>
+      <property name="textAlignment">
+       <set>AlignHCenter|AlignVCenter|AlignCenter</set>
       </property>
      </column>
      <column>
@@ -396,14 +408,36 @@ Moves the currently selected file one step down</string>
      </column>
      <column>
       <property name="text">
-       <string>Source folder</string>
+       <string>Fade-IN</string>
       </property>
-      <property name="font">
-       <font>
-        <pointsize>9</pointsize>
-       </font>
+      <property name="textAlignment">
+       <set>AlignHCenter|AlignVCenter|AlignCenter</set>
       </property>
      </column>
+     <column>
+      <property name="text">
+       <string>Fade-OUT</string>
+      </property>
+      <property name="textAlignment">
+       <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="FilePath">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string notr="true">&lt;filepath&gt;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item>

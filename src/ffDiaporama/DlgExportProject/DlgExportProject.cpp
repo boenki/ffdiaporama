@@ -174,7 +174,7 @@ void DlgExportProject::ScanDiaporama() {
     for (int i=0;i<ffdProject->List.count();i++) {
         // MusicList
         if ((ffdProject->List[i]->MusicType)) {
-            for (int j=0;j<ffdProject->List[i]->MusicList.count();j++)  SearchAppendObject(ffdProject->List[i]->MusicList[j].FileName());
+            for (int j=0;j<ffdProject->List[i]->MusicList.count();j++)  SearchAppendObject(ffdProject->List[i]->MusicList[j]->FileName());
         }
         // BackgroundBrush of object
         if ((ffdProject->List[i]->BackgroundType)&&(ffdProject->List[i]->BackgroundBrush)) {

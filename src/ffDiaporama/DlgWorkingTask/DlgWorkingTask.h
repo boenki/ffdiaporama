@@ -34,6 +34,10 @@ public:
     bool    *CancelActionFlag;
     int     MaxValue,AddValue;
 
+    QTimer  Timer;
+    qreal   TimerProgress;
+    QString TimerText;
+
     explicit DlgWorkingTask(QString Title,bool *CancelAction,cApplicationConfig *ApplicationConfig,QWidget *parent=0);
     ~DlgWorkingTask();
 
@@ -44,10 +48,16 @@ public:
     virtual void    PrepareGlobalUndo() {/*Nothing to do*/}     // Initiale Undo
     virtual void    DoGlobalUndo()      {/*Nothing to do*/}     // Apply Undo : call when user click on Cancel button
 
-    void    DisplayText(QString Text);
-    void    DisplayProgress(int Value);
-    void    SetMaxValue(int Value,int AddValue);
-    void    HideProgress();
+    void            DisplayText(QString Text);
+    void            DisplayText2(QString Text);
+    void            StopText2();
+    void            DisplayProgress(int Value);
+    void            SetMaxValue(int Value,int AddValue);
+    void            HideProgress();
+
+private slots:
+    void            s_TimerEvent();
+
 
 private:
     Ui::DlgWorkingTask *ui;

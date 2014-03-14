@@ -77,29 +77,18 @@ void wgt_QEditVideo::DoInitWidget(QCustomDialog *ParentDialog,cBrushDefinition *
     ui->MovieFrame->setText("");
     ui->MovieFrame->setAttribute(Qt::WA_OpaquePaintEvent);
 
-    if (FileInfo->EndPos>=FileInfo->Duration) FileInfo->EndPos=FileInfo->Duration.addMSecs(-1);
+    if (FileInfo->EndPos>=FileInfo->GetRealDuration()) FileInfo->EndPos=FileInfo->GetRealDuration().addMSecs(-1);
 
     // Init embeded widgets
     for (int Factor=150;Factor>=0;Factor-=10) ui->VolumeReductionFactorCB->addItem(QString("%1%").arg(Factor));
 
     ui->StartPosEd->setCurrentSection(QDateTimeEdit::MSecSection);  ui->StartPosEd->setCurrentSectionIndex(3);  ui->StartPosEd->MsecStep=FileInfo->GetFPSDuration();
     ui->EndPosEd->setCurrentSection(QDateTimeEdit::MSecSection);    ui->EndPosEd->setCurrentSectionIndex(3);    ui->EndPosEd->MsecStep  =FileInfo->GetFPSDuration();
-    ui->EndPosEd->setMaximumTime(FileInfo->Duration.addMSecs(-1));
-    ui->Duration->setText(FileInfo->Duration.toString("hh:mm:ss.zzz"));
+    ui->EndPosEd->setMaximumTime(FileInfo->GetRealDuration().addMSecs(-1));
+    ui->Duration->setText(FileInfo->GetRealDuration().toString("hh:mm:ss.zzz"));
 
-    ui->CustomRuler->setMaximum(QTime(0,0,0,0).msecsTo(FileInfo->Duration)-1);
-    ui->CustomRuler->StartPos     =QTime(0,0,0,0).msecsTo(FileInfo->StartPos);
-    ui->CustomRuler->EndPos       =QTime(0,0,0,0).msecsTo(FileInfo->EndPos);
-    ui->CustomRuler->TotalDuration=QTime(0,0,0,0).msecsTo(FileInfo->Duration);
     ui->CustomRuler->EditStartEnd =true;
     ui->CustomRuler->setSingleStep(25);
-
-    qint64 Duration=QTime(0,0,0,0).msecsTo(FileInfo->Duration);
-    int     TimeMSec    =(Duration %1000);
-    int     TimeSec     =int(Duration/1000);
-    int     TimeHour    =TimeSec/(60*60);
-    int     TimeMinute  =(TimeSec%(60*60))/60;
-    tDuration.setHMS(TimeHour,TimeMinute,TimeSec%60,TimeMSec);
 }
 
 //====================================================================================================================
@@ -211,6 +200,7 @@ void wgt_QEditVideo::s_EndSoundAnalyse() {
     ui->VolumeReductionFactorCB->setEnabled(true);
     ui->VideoPlayerSaveImageBT->setEnabled(true);
     Timer.stop();
+    RefreshControls();
     // Activate player
     SetPlayerToPlay(true);
     QApplication::restoreOverrideCursor();
@@ -231,6 +221,16 @@ void wgt_QEditVideo::LostFocus() {
 void wgt_QEditVideo::RefreshControls() {
     if (StopMaj) return;
     StopMaj=true;
+    ui->CustomRuler->setMaximum(QTime(0,0,0,0).msecsTo(FileInfo->GetRealDuration())-1);
+    ui->CustomRuler->StartPos     =QTime(0,0,0,0).msecsTo(FileInfo->StartPos);
+    ui->CustomRuler->EndPos       =QTime(0,0,0,0).msecsTo(FileInfo->EndPos);
+    ui->CustomRuler->TotalDuration=QTime(0,0,0,0).msecsTo(FileInfo->GetRealDuration());
+    qint64 iDuration=QTime(0,0,0,0).msecsTo(FileInfo->GetRealDuration());
+    int     TimeMSec    =(iDuration %1000);
+    int     TimeSec     =int(iDuration/1000);
+    int     TimeHour    =TimeSec/(60*60);
+    int     TimeMinute  =(TimeSec%(60*60))/60;
+    tDuration.setHMS(TimeHour,TimeMinute,TimeSec%60,TimeMSec);
     QTime Duration=QTime(0,0,0,0).addMSecs(FileInfo->StartPos.msecsTo(FileInfo->EndPos));
     ui->DeinterlaceBt->setChecked(CurrentBrush->Deinterlace);
     ui->ActualDuration->setText(Duration.toString("hh:mm:ss.zzz"));
@@ -304,6 +304,7 @@ void wgt_QEditVideo::s_DefStartPos() {
     if (StopMaj) return;
     ((DlgImageCorrection *)ParentDialog)->AppendPartialUndo(DlgImageCorrection::UNDOACTION_VIDEOPART,ui->StartPosEd,true);
     FileInfo->StartPos=GetCurrentPos();
+    ui->CustomRuler->StartPos=QTime(0,0,0,0).msecsTo(FileInfo->StartPos);
     RefreshControls();
     emit DoRefreshImageObject();
 }
@@ -325,7 +326,10 @@ void wgt_QEditVideo::s_DefEndPos() {
     if (StopMaj) return;
     ((DlgImageCorrection *)ParentDialog)->AppendPartialUndo(DlgImageCorrection::UNDOACTION_VIDEOPART,ui->EndPosEd,true);
     FileInfo->EndPos=GetCurrentPos();
+    if (FileInfo->EndPos>=FileInfo->GetRealDuration()) FileInfo->EndPos=FileInfo->GetRealDuration().addMSecs(-1);
+    ui->CustomRuler->EndPos=QTime(0,0,0,0).msecsTo(FileInfo->EndPos);
     RefreshControls();
+    emit DoRefreshImageObject();
 }
 
 //====================================================================================================================

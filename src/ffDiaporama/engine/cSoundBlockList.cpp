@@ -313,3 +313,16 @@ void cSoundBlockList::ApplyVolume(int PacketNumber,double VolumeFactor) {
         *(Buf1++)=int16_t(mix);
     }
 }
+
+//====================================================================================================================
+// Transform temp data as a normal block (filling it will null sound to complet block)
+//====================================================================================================================
+void cSoundBlockList::UseLatestData() {
+    // Use data in TempData to create a latest block
+    if (CurrentTempSize>0) {
+        int8_t *EndData=(int8_t *)av_malloc(SoundPacketSize+8);
+        memset(EndData,0,SoundPacketSize+8);
+        AppendData(0,(int16_t *)EndData,SoundPacketSize-CurrentTempSize);
+        av_free(EndData);
+    }
+}

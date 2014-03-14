@@ -2,6 +2,37 @@
 * FFDIAPORAMA 2.2 - trunk (Version Française)
 **************************************************
 
+[Commit: 10/03/2014] - ffDiaporama 2.2 devel 20140310
+    Correction de bug :
+        -Corrige un problème de décalage d'axes sur 2 LUMA clock
+        -Corrige un problème de lecture du son qui n'allait pas jusqu'au bout avec certains fichiers MP3
+        -Corrige des bugs dans la gestion des fade-in/fade-out
+
+    Nouveautés :
+        -Quand des fichiers musicaux sont déposés sur la partie musique d'un slide qui a déjà une playlist, ne refuse plus l'opération mais propose :
+            -Soit de les ajouter à la playlist du slide
+            -Soit de les utiliser en remplacement de la playlist du slide
+        -Ajoute des options dans le menu contextuel lorsqu'il est ouvert depuis la piste musical
+            -Propose de supprimer la playlist (si le slide en a une)
+            -Propose de passer la musique en pause (si une musique est jouée pendant le slide)
+            -Propose de passer la musique en lecture (si une musique est en pause pendant le slide)
+        -Force l'analyse des fichiers son lorsqu'ils sont ajoutés au projet
+        -Modifie la boite de progression pour afficher l'état de l'analyse et permettre l'arret de l'ajout
+        -Ajoute l'affichage d'une boite de progression dans la boite musique lors de l'ajout de morceaux
+        -Modifie l'affichage de la liste des morceaux dans la boite musique pour :
+            -Afficher la durée sélectionnée / la durée total du morceau
+            -Afficher le chemin complèt du fichier sélectionné sous la liste plutôt que dans la liste pour optimiser l'affichage
+        -Ajoute des options de fade-in/fade-out dans la boite musique (note: les transitions ont une priorité plus élevée que ces nouvelles options)
+        -Modifie l'affichage de la piste musicale sur la barre de temps
+            -Rend proportionnelle la longueur de la piste sur la diapositive sur laquelle la musique s'arrete
+            -Ajoute l'affichage des titres et jaquette du morceau suivant ainsi qu'une d'une flèche indiquant la poursuite dans la playlist
+            -Ajoute l'affichage d'une icone son barrée lorsqu'une liste de lecture vide est placée sur une diapositive
+            -Ajoute l'affichage d'une barre verticale rouge à la fin de la piste, si la musique s'arrete en cours de diapositive
+            -Ajoute l'affichage d'un fade-out surmonté d'une barre rouge, si la musique s'arrete en cours de transition
+        -Ajoute une nouvelle boite de dialogue permettant d'ajuster la durée des diapositives en fonction de la musique
+
+--------------------------------------------------------------------------------
+
 [Commit: 01/03/2014] - ffDiaporama 2.2 devel 20140301
     Correction de bug :
         -Corrige un problème d'illisibilité des vidéos encodées en x264 avec certaines versions de ffmpeg (supprime le forçage des b-frames en profile High Quality)
@@ -14,6 +45,8 @@
             -Ajoute un bouton d'édition des musiques qui ouvre la nouvelle de boite d'édition des musiques
             -Ouvre la nouvelle de boite d'édition des musiques quand on double click sur un morceau dans la playlist
         -Ajoute l'affichage de la courbe de son dans la boite d'édition des vidéos
+
+--------------------------------------------------------------------------------
 
 [Commit: 21/02/2014] - ffDiaporama 2.2 devel 20140221
     Correction de bug :
