@@ -8538,9 +8538,9 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
     </message>
     <message>
         <location filename="fake/fake.cpp" line="1784"/>
-        <source>The wave form of the sound of the video is dispayed under a white background.</source>
-        <oldsource>The length of the ruler is increased in proportion to the duration of the video.</oldsource>
-        <translation>La courbe du son de la vidéo est affichée sur un fond blanc.</translation>
+        <source>The wave form of the sound of the video is displayed under a white background.</source>
+        <oldsource>The wave form of the sound of the video is dispayed under a white background.</oldsource>
+        <translation type="unfinished">La courbe du son de la vidéo est affichée sur un fond blanc.</translation>
     </message>
     <message>
         <location filename="fake/fake.cpp" line="1787"/>
@@ -12539,8 +12539,9 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
     </message>
     <message>
         <location filename="fake/fake.cpp" line="2641"/>
-        <source>The wave form of the sound is dispayed under a white background.</source>
-        <translation>La courbe du son du fichier musical est affichée sur un fond blanc.</translation>
+        <source>The wave form of the sound is displayed under a white background.</source>
+        <oldsource>The wave form of the sound is dispayed under a white background.</oldsource>
+        <translation type="unfinished">La courbe du son du fichier musical est affichée sur un fond blanc.</translation>
     </message>
     <message>
         <location filename="fake/fake.cpp" line="2642"/>

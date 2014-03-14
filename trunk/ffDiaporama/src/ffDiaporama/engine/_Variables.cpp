@@ -179,7 +179,7 @@ QString cVariable::ResolveTextVariable(cDiaporamaObject *Object,QString SourceTe
         else if (Variables[i].VarName=="PLN") VarName=Object->Parent->ProjectInfo->Location?((cLocation *)Object->Parent->ProjectInfo->Location)->Name:QApplication::translate("Variables","Project's location not set (Name)");
         else if (Variables[i].VarName=="PLA") VarName=Object->Parent->ProjectInfo->Location?((cLocation *)Object->Parent->ProjectInfo->Location)->FriendlyAddress:QApplication::translate("Variables","Project's location not set (Address)");
         else if (Variables[i].VarName=="PCT") VarName=Object->Parent->ProjectInfo->Comment;
-        else if (Variables[i].VarName=="PDD") { VarName=Object->Parent->ProjectInfo->Duration.toString("HH:mm:ss.zzz"); VarName=VarName.left(VarName.lastIndexOf(".")); }
+        else if (Variables[i].VarName=="PDD") { VarName=Object->Parent->ProjectInfo->GetRealDuration().toString("HH:mm:ss.zzz"); VarName=VarName.left(VarName.lastIndexOf(".")); }
         else if (Variables[i].VarName=="PSC") VarName=QString("%1").arg(Object->Parent->List.count());
 
         // Project date values

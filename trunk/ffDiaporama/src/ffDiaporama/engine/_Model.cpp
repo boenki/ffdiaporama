@@ -72,7 +72,7 @@ QImage cModelListItem::PrepareImage(int64_t Position,cDiaporama *DiaporamaToUse,
             Diaporama->ProjectInfo->EventDate   =DiaporamaToUse->ProjectInfo->EventDate;
             Diaporama->ProjectInfo->OverrideDate=DiaporamaToUse->ProjectInfo->OverrideDate;
             Diaporama->ProjectInfo->LongDate    =DiaporamaToUse->ProjectInfo->LongDate;
-            Diaporama->ProjectInfo->Duration    =DiaporamaToUse->ProjectInfo->Duration;
+            Diaporama->ProjectInfo->SetGivenDuration(DiaporamaToUse->ProjectInfo->GetGivenDuration());
             Diaporama->ProjectInfo->NbrSlide    =DiaporamaToUse->ProjectInfo->NbrSlide;
             Diaporama->ProjectInfo->NbrChapters =DiaporamaToUse->ProjectInfo->NbrChapters;
         }

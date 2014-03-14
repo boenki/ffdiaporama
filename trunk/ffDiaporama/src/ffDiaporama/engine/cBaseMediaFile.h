@@ -111,7 +111,6 @@ public:
     int                     ImageOrientation;               // EXIF ImageOrientation (or -1)
     int                     ObjectGeometry;                 // Image geometry of the embeded image or video
     double                  AspectRatio;                    // Aspect ratio
-    QTime                   Duration;                       // Duration of the video
 
     bool                    IsValide;                       // if true if object if initialise
     bool                    IsInformationValide;            // if true if ExtendedProperties if fuly initialise in the database
@@ -127,6 +126,7 @@ public:
     virtual void            SaveBasicInformationToDatabase(QDomElement *,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *,bool)                     {}
     virtual bool            LoadFromXML(QDomElement *,QString,QString,QStringList *,bool *,QList<cSlideThumbsTable::TRResKeyItem> *,bool )                      {return true;}
     virtual void            SaveToXML(QDomElement *,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *,bool)                                          {}
+
     virtual bool            LoadAnalyseSound(QList<qreal> *Peak,QList<qreal> *Moyenne);
     virtual void            SaveAnalyseSound(QList<qreal> *Peak,QList<qreal> *Moyenne);
 
@@ -151,6 +151,18 @@ public:
 
     // return icon
     virtual QImage          GetIcon(cCustomIcon::IconSize Size,bool useDelayed);
+
+private:
+    QTime   Duration;                       // Used duration
+    QTime   GivenDuration;                  // Duration as given by libav/ffmpeg
+
+public:
+    bool    IsComputedDuration;             // True if duration was computed
+
+    QTime   GetRealDuration();
+    QTime   GetGivenDuration();
+    void    SetGivenDuration(QTime GivenDuration);
+    void    SetRealDuration(QTime RealDuration);
 };
 
 //*********************************************************************************************************************************************
@@ -381,14 +393,14 @@ public:
     int64_t                 LastVideoReadedPosition;            // Use to keep the last readed position to determine if a seek is needed
 
     // Video part
-    int                     VideoStreamNumber;          // Number of the video stream
-    int                     VideoTrackNbr;              // Number of video stream in file
-    QImage                  LastImage;                  // Keep last image return
+    int                     VideoStreamNumber;                  // Number of the video stream
+    int                     VideoTrackNbr;                      // Number of video stream in file
+    QImage                  LastImage;                          // Keep last image return
     QList<cImageInCache *>  CacheImage;
 
     // Audio part
-    int                     AudioStreamNumber;          // Number of the audio stream
-    int                     AudioTrackNbr;              // Number of audio stream in file
+    int                     AudioStreamNumber;                  // Number of the audio stream
+    int                     AudioTrackNbr;                      // Number of audio stream in file
 
     explicit                cVideoFile(cApplicationConfig *ApplicationConfig);
                             ~cVideoFile();
@@ -404,6 +416,7 @@ public:
 
     virtual QString         GetTechInfo(QStringList *ExtendedProperties);
     virtual QString         GetTAGInfo(QStringList *ExtendedProperties);
+    virtual bool            DoAnalyseSound(QList<qreal> *Peak,QList<qreal> *Moyenne,bool *IsAnalysed,qreal *Analysed);
 
     virtual int             getThreadFlags(AVCodecID ID);
 
@@ -465,6 +478,7 @@ private:
         int64_t         FPSSize;
         int64_t         FPSDuration;
         int64_t         DstSampleSize;
+        bool            DontUseEndPos;
         double          *dEndFile;
         int             NbrDuration;
         double          TimeBase;
@@ -486,8 +500,10 @@ private slots:
 
 class cMusicObject : public cVideoFile {
 public:
-    double              Volume;                 // Volume as % from 10% to 150%
-    bool                AllowCredit;            // if true, this music will appear in credit title
+    double                  Volume;                 // Volume as % from 10% to 150%
+    bool                    AllowCredit;            // if true, this music will appear in credit title
+    int64_t                 ForceFadIn;             // Fad-IN duration on sound part (or 0 if none)
+    int64_t                 ForceFadOut;            // Fad-OUT duration on sound part (or 0 if none)
 
     cMusicObject(cApplicationConfig *ApplicationConfig);
 
@@ -495,6 +511,7 @@ public:
     void                    SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
     bool                    LoadFromXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag);
     QTime                   GetDuration();
+    qreal                   GetFading(int64_t Position,bool SlideHaveFadIn,bool SlideHaveFadOut);
 };
 
 #endif // CBASEMEDIAFILE_H

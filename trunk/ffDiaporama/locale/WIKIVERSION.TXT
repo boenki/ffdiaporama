@@ -1,8 +1,8 @@
-20140301
-fr = 100% (2459/2459)
+20140302
+fr = 100% (2457/2459)
 it = 98% (2427/2459) 32 to translate
 de = 98% (2426/2459) 33 to translate
-es = 98% (2427/2459) 32 to translate
+es = 99% (2457/2459) 2 to translate
 pt = 98% (2427/2459) 32 to translate
 ru = 98% (2427/2459) 32 to translate
 el = 31% (764/2459) 1695 to translate

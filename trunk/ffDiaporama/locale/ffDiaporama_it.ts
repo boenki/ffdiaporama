@@ -58,6 +58,81 @@ Se volete aiutarci o completando una traduzione incompleta, o traducendo l&apos;
     </message>
 </context>
 <context>
+    <name>DlgAdjustToSound</name>
+    <message>
+        <source>Adjust slide duration on music</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Music file:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration:</source>
+        <translation type="unfinished">Durata:</translation>
+    </message>
+    <message>
+        <source>Title:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Artist:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Number of slide in selection:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration of selection:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time played before these slides:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time remaining after these slides:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time to adjust to finish before transition:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time to adjust to finish with transition:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel modification and exit dialog box</source>
+        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Annulla</translation>
+    </message>
+    <message>
+        <source>Accept modification and exit dialog box</source>
+        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
+    </message>
+    <message>
+        <source>&amp;Adjust to end before transition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Adjust to end with transition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished">Molsta aiuto riguardo a questa finestra</translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation type="unfinished">A&amp;iuto</translation>
+    </message>
+</context>
+<context>
     <name>DlgApplicationSettings</name>
     <message>
         <source>Application settings</source>
@@ -3113,10 +3188,6 @@ Essa riguarda anche il nome dello stile come impostazioni associate.</translatio
         <translation>Avvia una nuova playlist da questa diapositiva</translation>
     </message>
     <message>
-        <source>Total playlist duration : </source>
-        <translation>Durata totale playlist :</translation>
-    </message>
-    <message>
         <source>File</source>
         <translation>File</translation>
     </message>
@@ -3127,10 +3198,6 @@ Essa riguarda anche il nome dello stile come impostazioni associate.</translatio
     <message>
         <source>Volume</source>
         <translation>Volume</translation>
-    </message>
-    <message>
-        <source>Source folder</source>
-        <translation>Cartella sorgente</translation>
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
@@ -3210,6 +3277,18 @@ Sposta il file selezionato di un passo verso il basso</translation>
     </message>
     <message>
         <source>Removes the currently selected file from the playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Playlist duration:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fade-IN</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fade-OUT</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6612,6 +6691,62 @@ Vuoi scaricarla ora?</translation>
     </message>
     <message>
         <source>Analyse file %1% ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set music to pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set music to play (remove pause)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add music file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add to the current playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace the current playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This slide already has a playlist. What to do?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Analyse file:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Analyse file :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Analyse file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust slide duration on music</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move music file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To adjust duration of multiple slides on music, selected slides must be adjacent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To adjust duration of multiple slides on music, no slides can define a new playlist (except the first)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

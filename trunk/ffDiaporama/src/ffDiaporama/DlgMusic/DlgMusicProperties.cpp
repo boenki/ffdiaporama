@@ -33,11 +33,17 @@ DlgMusicProperties::DlgMusicProperties(cDiaporamaObject *TheDiaporamaObject,cApp
     HelpBt  =ui->HelpBt;
     HelpFile="0114";
     DiaporamaObject=TheDiaporamaObject;
+    DlgWorkingTaskDialog=NULL;
 }
 
 //====================================================================================================================
 
 DlgMusicProperties::~DlgMusicProperties() {
+    if (DlgWorkingTaskDialog) {
+        DlgWorkingTaskDialog->close();
+        delete DlgWorkingTaskDialog;
+        DlgWorkingTaskDialog=NULL;
+    }
     delete ui;
 }
 
@@ -104,10 +110,14 @@ bool DlgMusicProperties::DoAccept() {
     // Get Music volume for each file of the playlist
     if (DiaporamaObject->MusicType) {
         for (int CurIndex=0;CurIndex<DiaporamaObject->MusicList.count();CurIndex++) {
-            QComboBox *CB   =(QComboBox *)ui->PlayListTable->cellWidget(CurIndex,2);
-            QString   Volume=CB->currentText(); Volume=Volume.left(Volume.length()-1);
-            DiaporamaObject->MusicList[CurIndex].AllowCredit=GetCBChecked(CurIndex);
-            DiaporamaObject->MusicList[CurIndex].Volume=double(Volume.toInt())/100;
+            QString   Volume =((QComboBox *)ui->PlayListTable->cellWidget(CurIndex,2))->currentText(); Volume=Volume.left(Volume.length()-1);
+            QString   FadeIN =((QComboBox *)ui->PlayListTable->cellWidget(CurIndex,4))->currentText();
+            QString   FadeOUT=((QComboBox *)ui->PlayListTable->cellWidget(CurIndex,5))->currentText();
+
+            DiaporamaObject->MusicList[CurIndex]->AllowCredit=GetCBChecked(CurIndex);
+            DiaporamaObject->MusicList[CurIndex]->Volume     =double(Volume.toInt())/100;
+            DiaporamaObject->MusicList[CurIndex]->ForceFadIn =int64_t(FadeIN.toDouble()*1000);
+            DiaporamaObject->MusicList[CurIndex]->ForceFadOut=int64_t(FadeOUT.toDouble()*1000);
         }
     } else DiaporamaObject->MusicList.clear();
     return true;
@@ -146,10 +156,10 @@ void DlgMusicProperties::s_NewMusic() {
 //====================================================================================================================
 
 void DlgMusicProperties::SetItem(int row,int MusicIndex) {
-    QImage Icon=DiaporamaObject->MusicList[MusicIndex].GetIcon(cCustomIcon::ICON100,false);
+    QImage Icon=DiaporamaObject->MusicList[MusicIndex]->GetIcon(cCustomIcon::ICON100,false);
     if (!Icon.isNull()) Icon=Icon.scaledToHeight(32);
 
-    QString SN=DiaporamaObject->MusicList[MusicIndex].ShortName();
+    QString SN=DiaporamaObject->MusicList[MusicIndex]->ShortName();
     if (SN.length()>30) {
         int i=SN.length()/2;
         while ((i<SN.length())&&(SN[i]>='A')) i++;
@@ -159,15 +169,17 @@ void DlgMusicProperties::SetItem(int row,int MusicIndex) {
     Item->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
     ui->PlayListTable->setItem(row,0,Item);
 
-    Item=new QTableWidgetItem(DiaporamaObject->MusicList[MusicIndex].GetDuration().toString("hh:mm:ss"));
+    Item=new QTableWidgetItem(DiaporamaObject->MusicList[MusicIndex]->GetDuration().toString("hh:mm:ss.zzz")+"/"+DiaporamaObject->MusicList[MusicIndex]->GetRealDuration().toString("hh:mm:ss.zzz"));
     Item->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+    if (!DiaporamaObject->MusicList[MusicIndex]->IsComputedDuration) Item->setTextColor(Qt::red);
     ui->PlayListTable->setItem(row,1,Item);
 
     QComboBox *InternalCB=new QComboBox(ui->PlayListTable);
     for (int Factor=150;Factor>=10;Factor-=10) InternalCB->addItem(QString("%1%").arg(Factor));
-    InternalCB->setCurrentIndex(InternalCB->findText(QString("%1%").arg(int(DiaporamaObject->MusicList[MusicIndex].Volume*100))));
+    InternalCB->setCurrentIndex(InternalCB->findText(QString("%1%").arg(int(DiaporamaObject->MusicList[MusicIndex]->Volume*100))));
     ui->PlayListTable->setCellWidget(row,2,InternalCB);
 
+    // Generic column
     QWidget     *wdg        =new QWidget;
     QCheckBox   *InternalChB=new QCheckBox(wdg);
     QHBoxLayout *layout     =new QHBoxLayout(wdg);
@@ -175,12 +187,20 @@ void DlgMusicProperties::SetItem(int row,int MusicIndex) {
     layout->addWidget(InternalChB);
     layout->setAlignment(Qt::AlignCenter);
     wdg->setLayout(layout);
-    InternalChB->setChecked(DiaporamaObject->MusicList[MusicIndex].AllowCredit);
+    InternalChB->setChecked(DiaporamaObject->MusicList[MusicIndex]->AllowCredit);
     ui->PlayListTable->setCellWidget(row,3,wdg);
 
-    Item=new QTableWidgetItem(QFileInfo(DiaporamaObject->MusicList[MusicIndex].FileName()).path());
-    Item->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
-    ui->PlayListTable->setItem(row,4,Item);
+    // Fade-In column
+    QComboBox *FadeINCB=new QComboBox(ui->PlayListTable);
+    for (double Factor=0;Factor<=10000;Factor+=500) FadeINCB->addItem(QString("%1").arg(Factor/1000,4,'f',1,'0'));
+    FadeINCB->setCurrentIndex(FadeINCB->findText(QString("%1").arg(double(DiaporamaObject->MusicList[MusicIndex]->ForceFadIn)/1000,4,'f',1,'0')));
+    ui->PlayListTable->setCellWidget(row,4,FadeINCB);
+
+    // Fade-Out column
+    QComboBox *FadeOUTCB=new QComboBox(ui->PlayListTable);
+    for (double Factor=0;Factor<=10000;Factor+=500) FadeOUTCB->addItem(QString("%1").arg(Factor/1000,4,'f',1,'0'));
+    FadeOUTCB->setCurrentIndex(FadeOUTCB->findText(QString("%1").arg(double(DiaporamaObject->MusicList[MusicIndex]->ForceFadOut)/1000,4,'f',1,'0')));
+    ui->PlayListTable->setCellWidget(row,5,FadeOUTCB);
 }
 
 //====================================================================================================================
@@ -213,7 +233,7 @@ void DlgMusicProperties::RefreshControl(bool RefreshList) {
         ui->UpMusicBt->setEnabled((DiaporamaObject->MusicList.count()>0)&&(ui->PlayListTable->currentRow()>0));
         ui->DownMusicBt->setEnabled((DiaporamaObject->MusicList.count()>0)&&(ui->PlayListTable->currentRow()!=-1)&&(ui->PlayListTable->currentRow()<ui->PlayListTable->rowCount()-1));
         int TotalDuration=0;
-        for (int CurIndex=0;CurIndex<DiaporamaObject->MusicList.count();CurIndex++) TotalDuration+=QTime(0,0,0,0).msecsTo(DiaporamaObject->MusicList[CurIndex].GetDuration());
+        for (int CurIndex=0;CurIndex<DiaporamaObject->MusicList.count();CurIndex++) TotalDuration+=QTime(0,0,0,0).msecsTo(DiaporamaObject->MusicList[CurIndex]->GetDuration());
         ui->LabelDuration->setText(QTime(0,0,0,0).addMSecs(TotalDuration).toString("hh:mm:ss"));
     } else {
         ui->PlayListTable->setEnabled(false);
@@ -225,36 +245,69 @@ void DlgMusicProperties::RefreshControl(bool RefreshList) {
         ui->Label1->setText("");
         ui->LabelDuration->setText("");
     }
+    int CurIndex=ui->PlayListTable->currentRow();
+    if ((CurIndex<0)||(CurIndex>=DiaporamaObject->MusicList.count())) ui->FilePath->setText("");
+        else ui->FilePath->setText(QFileInfo(DiaporamaObject->MusicList[CurIndex]->FileName()).absoluteFilePath());
 }
 
 //====================================================================================================================
 
 void DlgMusicProperties::s_AddMusic() {
-    QStringList FileList;
+    CancelAction=false;
+    FileList.clear();
     DlgFileExplorer Dlg(BROWSER_TYPE_SOUNDONLY,true,false,false,QApplication::translate("DlgMusicProperties","Add music files"),DiaporamaObject->Parent->ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
 
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    int CurIndex=DiaporamaObject->MusicList.count();
-
     // Add files
-    for (int i=0;i<FileList.count();i++) {
-        QString NewFile=FileList[i];
-        DiaporamaObject->MusicList.insert(CurIndex,cMusicObject(ApplicationConfig));
-        bool        ModifyFlag=false;
-        if (DiaporamaObject->MusicList[CurIndex].GetInformationFromFile(NewFile,NULL,&ModifyFlag)&&(DiaporamaObject->MusicList[CurIndex].CheckFormatValide(this))) {
-            if (ModifyFlag) emit SetModifyFlag();
-            int j=ui->PlayListTable->rowCount();     // Item will be add at end of the list
-            ui->PlayListTable->insertRow(j);
-            SetItem(j,CurIndex);
-            CurIndex++;
-        } else {
-            DiaporamaObject->MusicList.removeAt(CurIndex);
+    if (FileList.count()>0) {
+        if (DlgWorkingTaskDialog) {
+            DlgWorkingTaskDialog->close();
+            delete DlgWorkingTaskDialog;
+            DlgWorkingTaskDialog=NULL;
         }
+        DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("DlgMusicProperties","Add music files"),&CancelAction,ApplicationConfig,this);
+        DlgWorkingTaskDialog->InitDialog();
+        DlgWorkingTaskDialog->SetMaxValue(FileList.count(),0);
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_AddMusic()));
+        DlgWorkingTaskDialog->exec();
+    }
+}
+
+void DlgMusicProperties::s_Action_AddMusic() {
+    if ((FileList.count()==0)||(CancelAction)) {
+        if (DlgWorkingTaskDialog) {
+            DlgWorkingTaskDialog->close();
+            delete DlgWorkingTaskDialog;
+            DlgWorkingTaskDialog=NULL;
+        }
+        FileList.clear();
+        RefreshControl(true);
+        return;
+    }
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    QString NewFile   =FileList.takeFirst();
+    bool    ModifyFlag=false;
+    int     CurIndex  =DiaporamaObject->MusicList.count();
+    DlgWorkingTaskDialog->DisplayText(QFileInfo(NewFile).fileName());
+    DlgWorkingTaskDialog->DisplayProgress(DlgWorkingTaskDialog->MaxValue+DlgWorkingTaskDialog->AddValue-FileList.count());
+    DiaporamaObject->MusicList.insert(CurIndex,new cMusicObject(ApplicationConfig));
+    if (DiaporamaObject->MusicList[CurIndex]->GetInformationFromFile(NewFile,NULL,&ModifyFlag)&&(DiaporamaObject->MusicList[CurIndex]->CheckFormatValide(this))) {
+        if (!DiaporamaObject->MusicList[CurIndex]->IsComputedDuration) {
+            DlgWorkingTaskDialog->DisplayText2(QApplication::translate("MainWindow","Analyse file:"));
+            QList<qreal> Peak,Moyenne;
+            DlgWorkingTaskDialog->TimerProgress=0;
+            if (!DiaporamaObject->MusicList[CurIndex]->IsComputedDuration)
+                DiaporamaObject->MusicList[CurIndex]->DoAnalyseSound(&Peak,&Moyenne,&CancelAction,&DlgWorkingTaskDialog->TimerProgress);
+            DlgWorkingTaskDialog->StopText2();
+            DiaporamaObject->MusicList[CurIndex]->EndPos=DiaporamaObject->MusicList[CurIndex]->GetRealDuration();
+        }
+        if (ModifyFlag) emit SetModifyFlag();
+    } else {
+        DiaporamaObject->MusicList.removeAt(CurIndex);
     }
     QApplication::restoreOverrideCursor();
-    RefreshControl();
+    QTimer::singleShot(LATENCY,this,SLOT(s_Action_AddMusic()));
 }
 
 //====================================================================================================================
@@ -275,7 +328,7 @@ void DlgMusicProperties::s_RemoveMusic() {
 void DlgMusicProperties::s_EditMusic() {
     int CurIndex=ui->PlayListTable->currentRow();
     if (CurIndex==-1) return;
-    DlgEditMusic Dlg(&DiaporamaObject->MusicList[CurIndex],ApplicationConfig,this);
+    DlgEditMusic Dlg(DiaporamaObject->MusicList[CurIndex],ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) RefreshControl(true);
 }

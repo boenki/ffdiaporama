@@ -1333,7 +1333,7 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
 
         if ((MediaObject)&&(MediaObject->GetInformationFromFile(BrushFileName,NULL,NULL,-1)&&(MediaObject->CheckFormatValide(this)))) {
             if (MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
-                ((cVideoFile *)MediaObject)->EndPos=((cVideoFile *)MediaObject)->Duration;
+                ((cVideoFile *)MediaObject)->EndPos=((cVideoFile *)MediaObject)->GetRealDuration();
                 if (((cVideoFile *)MediaObject)->LibavStartTime>0) ((cVideoFile *)MediaObject)->StartPos=QTime(0,0,0,0).addMSecs(int64_t((double(((cVideoFile *)MediaObject)->LibavStartTime)/AV_TIME_BASE)*1000));
             }
             DoAddBlock(MediaObject,PositionToInsert);

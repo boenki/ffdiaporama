@@ -84,7 +84,7 @@ public:
 
     QList<sUndoData>            UndoDataList;
 
-    cApplicationConfig      *ApplicationConfig;
+    cApplicationConfig          *ApplicationConfig;
     qlonglong                   TypeWindowState;
     QSplitter                   *Splitter;
     QDomDocument                *Undo;                          // Save object before modification for cancel button
@@ -148,6 +148,7 @@ public:
 
 // New definition for QInputDialog::getText
 QString CustomInputDialog(QWidget *parent,const QString &title,const QString &label,int mode,const QString &text,bool *ok,Qt::InputMethodHints inputMethodHints=Qt::ImhNone);
-int     CustomMessageBox (QWidget *parent,QMessageBox::Icon icon,const QString& title,const QString& text,QMessageBox::StandardButtons buttons=QMessageBox::Ok,QMessageBox::StandardButton defaultButton=QMessageBox::NoButton);
+int     CustomMessageBox (QWidget *parent,QMessageBox::Icon icon,const QString& title,const QString& text,QMessageBox::StandardButtons buttons=QMessageBox::Ok,
+                          QMessageBox::StandardButton defaultButton=QMessageBox::NoButton,QString ButtonYesText="",QString ButtonNoText="");
 
 #endif // _QCUSTOMDIALOG_H

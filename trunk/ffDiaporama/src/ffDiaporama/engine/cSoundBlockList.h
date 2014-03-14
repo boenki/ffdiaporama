@@ -71,6 +71,7 @@ public:
     virtual void    EnsureEnoughtNullAtStart();
     virtual void    EnsureNoNullAtStart();
     virtual qint64  GetDuration();
+    virtual void    UseLatestData();
 
 private:
     QList<int16_t *>    List;                       // List of sound packet

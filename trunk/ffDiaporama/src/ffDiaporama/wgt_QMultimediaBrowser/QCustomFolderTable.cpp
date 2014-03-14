@@ -54,7 +54,7 @@ MediaFileItem::MediaFileItem(cBaseMediaFile *MediaFileObject) {
     DefaultTypeIcon16   =MediaFileObject->GetDefaultTypeIcon(cCustomIcon::ICON16);
     DefaultTypeIcon100  =MediaFileObject->GetDefaultTypeIcon(cCustomIcon::ICON100);
     ShortName           =MediaFileObject->ShortName();
-    Duration            =MediaFileObject->Duration;
+    Duration            =MediaFileObject->GetRealDuration();
     Modified            =MediaFileObject->ModifDateTime;
 }
 
@@ -363,7 +363,7 @@ QString QCustomFolderTable::GetTextForColumn(int Col,cBaseMediaFile *MediaObject
     else if (ColName==QApplication::translate("QCustomFolderTable","File Type","Column header"))        TextToDisplay=MediaObject->GetFileTypeStr();
     else if (ColName==QApplication::translate("QCustomFolderTable","File Size","Column header"))        TextToDisplay=MediaObject->GetFileSizeStr();
     else if (ColName==QApplication::translate("QCustomFolderTable","File Date","Column header"))        TextToDisplay=MediaObject->GetFileDateTimeStr();
-    else if (ColName==QApplication::translate("QCustomFolderTable","Duration","Column header"))         TextToDisplay=MediaObject->Duration!=QTime(0,0,0,0)?MediaObject->Duration.toString("HH:mm:ss.zzz"):"";
+    else if (ColName==QApplication::translate("QCustomFolderTable","Duration","Column header"))         TextToDisplay=MediaObject->GetRealDuration()!=QTime(0,0,0,0)?MediaObject->GetRealDuration().toString("HH:mm:ss.zzz"):"";
     else if (ColName==QApplication::translate("QCustomFolderTable","Image Size","Column header"))       TextToDisplay=MediaObject->GetImageSizeStr(cBaseMediaFile::SIZEONLY);
     else if (ColName==QApplication::translate("QCustomFolderTable","Image Format","Column header"))     TextToDisplay=MediaObject->GetImageSizeStr(cBaseMediaFile::FMTONLY);
     else if (ColName==QApplication::translate("QCustomFolderTable","Image Geometry","Column header"))   TextToDisplay=MediaObject->GetImageSizeStr(cBaseMediaFile::GEOONLY);

@@ -532,16 +532,16 @@ void cBrushDefinition::SaveToXML(QDomElement *ParentElement,QString ElementName,
         case BRUSHTYPE_IMAGEDISK :
             if (MediaObject) switch (MediaObject->ObjectType) {
                 case OBJECTTYPE_VIDEOFILE:
-                    if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
-                        Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
-                        Element.setAttribute("StartPos",((cVideoFile*)MediaObject)->StartPos.toString("HH:mm:ss.zzz"));              // Start position (video only)
-                        Element.setAttribute("EndPos",((cVideoFile*)MediaObject)->EndPos.toString("HH:mm:ss.zzz"));                  // End position (video only)
+                    if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                            // Global definition only !
+                        Element.setAttribute("BrushFileName",BrushFileName);                                                // File name if image from disk
+                        Element.setAttribute("StartPos",((cVideoFile*)MediaObject)->StartPos.toString("HH:mm:ss.zzz"));     // Start position (video only)
+                        Element.setAttribute("EndPos",((cVideoFile*)MediaObject)->EndPos.toString("HH:mm:ss.zzz"));         // End position (video only)
                     } else AddShotPartToXML(&Element);
                     break;
                 case OBJECTTYPE_IMAGEFILE:
                 case OBJECTTYPE_IMAGEVECTOR:
-                    if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
-                        Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
+                    if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                            // Global definition only !
+                        Element.setAttribute("BrushFileName",BrushFileName);                                                // File name if image from disk
                         Element.setAttribute("ImageOrientation",((cImageFile*)MediaObject)->ImageOrientation);
                     }
                     break;

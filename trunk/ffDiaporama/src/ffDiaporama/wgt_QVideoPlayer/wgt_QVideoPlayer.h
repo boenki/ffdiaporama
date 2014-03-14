@@ -37,9 +37,9 @@ public:
     QTime                   PreviousTimerEvent;
     int                     TimerDelta;
     bool                    *FLAGSTOPITEMSELECTION; // Flag to stop Item Selection process in the timeline
+    bool                    InPlayerUpdate;
 
     bool                    Deinterlace;            // Add a YADIF filter to deinterlace video (on/off)
-    cVideoFile              *FileInfo;              // Link to the file wrapper object when DlgVideoDialogBox
     cDiaporama              *Diaporama;             // Link to the Diaporama hierarchy when preview
     cApplicationConfig      *ApplicationConfig;
 
@@ -81,7 +81,6 @@ public:
     explicit wgt_QVideoPlayer(QWidget *parent = 0);
     ~wgt_QVideoPlayer();
 
-    bool    StartPlay(cVideoFile *FileInfo,double WantedFPS);         // Start player in DlgVideoDialogBox mode
     bool    InitDiaporamaPlay(cDiaporama *Diaporama);       // Start player in preview mode
     void    StartThreadAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H,bool SoundWanted);
 
@@ -119,7 +118,6 @@ private slots:
 private:
     void    EnableWidget(bool State);
     void    PrepareImage(bool SoundWanted,bool AddStartPos,cDiaporamaObjectInfo *Frame,int W,int H);
-    void    PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position);
 
     Ui::wgt_QVideoPlayer *ui;
 

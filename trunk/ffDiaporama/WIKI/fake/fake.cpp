@@ -1781,7 +1781,7 @@ void Append() {
 	Str=QApplication::translate("0110","This tag is available only for video.");
 	Str=QApplication::translate("0110","The progress bar");
 	Str=QApplication::translate("0110","Displays as follows: ");
-	Str=QApplication::translate("0110","The wave form of the sound of the video is dispayed under a white background.");
+	Str=QApplication::translate("0110","The wave form of the sound of the video is displayed under a white background.");
 	Str=QApplication::translate("0110","The ruler representing the duration of the video is dispayed under a black background. Remark than the length of the ruler is increased in proportion to the duration of the video.");
 	Str=QApplication::translate("0110","The blue part, on wave form and ruler, represents the part of the video which is selected (which will be used in the assembly).");
 	Str=QApplication::translate("0110"," This button starts playback. Click again on this button to pause. ");
@@ -2638,7 +2638,7 @@ void Append() {
 	Str=QApplication::translate("0124","This dialog allows you to cut a sound file.");
 	Str=QApplication::translate("0124","The progress bar");
 	Str=QApplication::translate("0124","Displays as follows: ");
-	Str=QApplication::translate("0124","The wave form of the sound is dispayed under a white background.");
+	Str=QApplication::translate("0124","The wave form of the sound is displayed under a white background.");
 	Str=QApplication::translate("0124","The ruler representing the duration of the sound file is dispayed under a black background. Remark than the length of the ruler is increased in proportion to the duration of the sound file.");
 	Str=QApplication::translate("0124","The blue part, on wave form and ruler, represents the part of the sound file which is selected (which will be used in the assembly).");
 	Str=QApplication::translate("0124"," This button starts playback. Click again on this button to pause. ");

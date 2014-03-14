@@ -32,6 +32,9 @@
 #include "cTextFrame.h"
 #include "_SDL_Support.h"
 
+#include "DlgWorkingTask/DlgWorkingTask.h"
+
+
 // Specific inclusions
 class cCompositionList;
 class cCompositionObject;
@@ -277,10 +280,17 @@ public:
     int64_t                 CachedTransitDuration;      // Real duration of the transition of slide
     int64_t                 CachedStartPosition;        // Start position of the music
     int                     CachedMusicIndex;           // Index of slide owner of the music
+    int                     CachedMusicListIndex;       // Index of track in music table of slide owner of the music
     int                     CachedBackgroundIndex;      // Index of slide owner of the background
     bool                    CachedHaveFilter;           // True if object in slide have at least one filter
     bool                    CachedHaveSound;            // True if object in slide have sound
     double                  CachedSoundVolume;          // Max volume in the slide
+    bool                    CachedMusicFadIN;           // if true fad-in to music during entering transition
+    bool                    CachedMusicEnd;             // if true then music end during slide
+    bool                    CachedPrevMusicFadOUT;      // if true then fad-out to previous music during entering transition
+    bool                    CachedPrevMusicEnd;         // if true then previous music end during entering transition
+    int64_t                 CachedMusicRemaining;       // time left for music after this slide
+    int64_t                 CachedMusicTimePlayed;      // time played during this slide
 
     // Chapter definition
     bool                    StartNewChapter;            // if true then start a new chapter from this slide
@@ -312,7 +322,7 @@ public:
     int                     TransitionSpeedWave;        // Transition SpeedWave
 
     qlonglong               ThumbnailKey;               // Thumbnail key in the database
-    QList<cMusicObject>     MusicList;                  // List of music definition
+    QList<cMusicObject*>    MusicList;                  // List of music definition
 
     explicit                cDiaporamaObject(cDiaporama *Parent);
                             ~cDiaporamaObject();
@@ -323,7 +333,7 @@ public:
     int64_t                 GetDuration();
     void                    DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY,int ShotNumber=0);   // Draw Thumb @ position 0
     void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool SaveThumbAllowed);
-    bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
+    bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes,DlgWorkingTask *DlgWorkingTaskDialog=NULL);
     int64_t                 GetTransitDuration();
     int                     GetSpeedWave();
     int                     ComputeChapterNumber(cDiaporamaObject **Object=NULL);
@@ -461,7 +471,19 @@ public:
     cDiaporamaObject        *GetChapterDefObject(cDiaporamaObject *Object);
 
     // Thread functions
-    void                    PrepareMusicBloc(bool PreviewMode,int Column,int64_t Position,cSoundBlockList *MusicTrack,int NbrDuration=2);
+    struct PrepareMusicBlocContext {
+        bool            PreviewMode;
+        int             Column;
+        int64_t         Position;
+        cSoundBlockList *MusicTrack;
+        int             NbrDuration;
+        bool            FadIn;
+        bool            FadOut;
+        bool            IsCurrent;
+        int64_t         PositionInSlide;
+    };
+
+    void                    PrepareMusicBloc(PrepareMusicBlocContext *Context);
     void                    LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode,bool AddStartPos,QList<cCompositionObjectContext *> &PreparedTransitBrushList,QList<cCompositionObjectContext *> &PreparedBrushList,int NbrDuration=2);
     void                    DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H,QImage::Format QTFMT=QImage::Format_ARGB32_Premultiplied);
 

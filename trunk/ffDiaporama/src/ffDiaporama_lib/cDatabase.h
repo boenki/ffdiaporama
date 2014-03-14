@@ -151,8 +151,8 @@ public:
     virtual bool            GetExtendedProperties(qlonglong FileKey,QStringList *PropertiesList);
     virtual bool            SetThumbs(qlonglong FileKey,QImage *Icon16,QImage *Icon100);
     virtual bool            GetThumbs(qlonglong FileKey,QImage *Icon16,QImage *Icon100);
-    virtual bool            GetAnalyseSound(qlonglong FileKey,QList<qreal> *Peak,QList<qreal> *Moyenne);
-    virtual void            SetAnalyseSound(qlonglong FileKey,QList<qreal> *Peak,QList<qreal> *Moyenne);
+    virtual bool            GetAnalyseSound(qlonglong FileKey,QList<qreal> *Peak,QList<qreal> *Moyenne,int64_t *RealDuration);
+    virtual void            SetAnalyseSound(qlonglong FileKey,QList<qreal> *Peak,QList<qreal> *Moyenne,int64_t RealDuration);
 };
 
 //**********************************************************************************************

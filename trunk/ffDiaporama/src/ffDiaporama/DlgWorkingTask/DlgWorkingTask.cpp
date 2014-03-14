@@ -39,6 +39,7 @@ DlgWorkingTask::~DlgWorkingTask() {
 
 void DlgWorkingTask::DoInitDialog() {
     (*CancelActionFlag)=false;
+    connect(&Timer,SIGNAL(timeout()),this,SLOT(s_TimerEvent()));
 }
 
 //====================================================================================================================
@@ -51,6 +52,26 @@ void DlgWorkingTask::DoRejet() {
 
 void DlgWorkingTask::DisplayText(QString Text) {
     ui->ActionLabel->setText(Text);
+}
+
+//====================================================================================================================
+
+void DlgWorkingTask::DisplayText2(QString Text) {
+    TimerText=Text;
+    TimerProgress=0;
+    Timer.start(250);
+}
+
+//====================================================================================================================
+
+void DlgWorkingTask::StopText2() {
+    Timer.stop();
+}
+
+//====================================================================================================================
+
+void DlgWorkingTask::s_TimerEvent() {
+    ui->ActionLabel2->setText(TimerText+QString(" (%1%)").arg(TimerProgress*100,0,'f',1));
 }
 
 //====================================================================================================================

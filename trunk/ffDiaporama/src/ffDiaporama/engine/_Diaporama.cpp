@@ -1446,10 +1446,16 @@ cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama):QObject(Diaporama),Obj
     CachedTransitDuration   =0;
     CachedStartPosition     =0;
     CachedMusicIndex        =0;
+    CachedMusicListIndex    =0;
     CachedBackgroundIndex   =0;
     CachedHaveSound         =0;
     CachedSoundVolume       =0;
     CachedHaveFilter        =false;
+    CachedMusicFadIN        =false;
+    CachedPrevMusicFadOUT   =false;
+    CachedMusicEnd          =false;
+    CachedPrevMusicEnd      =false;
+    CachedMusicRemaining    =0;
 
     InitDefaultValues();
 
@@ -1772,7 +1778,7 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
         if (MusicReduceFactor!=DEFAULT_MUSICREDUCEFACTOR)   Element.setAttribute("MusicReduceFactor",QString("%1").arg(MusicReduceFactor,0,'f'));   // factor for volume reduction if MusicReduceVolume is true
         if (MusicList.count()>0) {
             Element.setAttribute("MusicNumber",MusicList.count());                           // Number of file in the playlist
-            for (int i=0;i<MusicList.count();i++) MusicList[i].SaveToXML(&Element,"Music-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,false);
+            for (int i=0;i<MusicList.count();i++) MusicList[i]->SaveToXML(&Element,"Music-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,ReplaceList,ResKeyList,false);
         }
 
         if ((ThumbnailKey!=-1)&&(SaveThumbAllowed)) {
@@ -1800,7 +1806,8 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 
 //===============================================================
 
-bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
+bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,
+                                   QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes,DlgWorkingTask *DlgWorkingTaskDialog) {
     if ((ElementName!=THUMBMODEL_ELEMENTNAME)&&(ElementName!=TITLEMODEL_ELEMENTNAME)) InitDefaultValues();
 
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
@@ -1862,7 +1869,14 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                 for (int i=0;i<MusicNumber;i++) {
                     cMusicObject *MusicObject=new cMusicObject(((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->ApplicationConfig);
                     if (!MusicObject->LoadFromXML(&Element,"Music-"+QString("%1").arg(i),PathForRelativPath,AliasList,&ModifyFlag)) IsOk=false;
-                    MusicList.append(*MusicObject);
+                    if ((DlgWorkingTaskDialog)&&(!MusicObject->IsComputedDuration)) {
+                        QList<qreal> Peak,Moyenne;
+                        DlgWorkingTaskDialog->DisplayText2(QApplication::translate("MainWindow","Analyse file %1").arg(MusicObject->CachedFileName));
+                        MusicObject->DoAnalyseSound(&Peak,&Moyenne,DlgWorkingTaskDialog->CancelActionFlag,&DlgWorkingTaskDialog->TimerProgress);
+                        DlgWorkingTaskDialog->StopText2();
+                        if (ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
+                    }
+                    MusicList.append(MusicObject);
                     if (ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
                 }
             }
@@ -2038,6 +2052,7 @@ cDiaporama::~cDiaporama() {
 void cDiaporama::UpdateInformation() {
     UpdateChapterInformation();
     UpdateStatInformation();
+    UpdateCachedInformation();
 }
 
 void cDiaporama::UpdateChapterInformation() {
@@ -2091,7 +2106,7 @@ void cDiaporama::UpdateStatInformation() {
                     for (int j=0;j<List[i]->ObjectComposition.List.count();j++) {
                         if ((List[i]->ObjectComposition.List[j]->BackgroundBrush->MediaObject)&&(List[i]->ObjectComposition.List[j]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)) {
                             NbrVideo++;
-                            VideoDuration=VideoDuration.addMSecs(QTime(0,0,0,0).msecsTo(List[i]->ObjectComposition.List[j]->BackgroundBrush->MediaObject->Duration));
+                            VideoDuration=VideoDuration.addMSecs(QTime(0,0,0,0).msecsTo(List[i]->ObjectComposition.List[j]->BackgroundBrush->MediaObject->GetRealDuration()));
                         } else if ((List[i]->ObjectComposition.List[j]->BackgroundBrush->MediaObject)&&(List[i]->ObjectComposition.List[j]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_IMAGEVECTOR)) {
                             NbrVectorImg++;
                         } else if ((List[i]->ObjectComposition.List[j]->BackgroundBrush->MediaObject)&&(List[i]->ObjectComposition.List[j]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_IMAGEFILE)) {
@@ -2103,7 +2118,7 @@ void cDiaporama::UpdateStatInformation() {
             }
 
             Text=QApplication::translate("Variables","Content:","Project statistics");
-            if (List.count())               Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%1 slides (%2)").arg(List.count()).arg(ProjectInfo->Duration.toString("hh:mm:ss.zzz"));
+            if (List.count())               Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%1 slides (%2)").arg(List.count()).arg(ProjectInfo->GetRealDuration().toString("hh:mm:ss.zzz"));
             if (ProjectInfo->NbrChapters)   Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%1 chapters").arg(ProjectInfo->NbrChapters);
             if (NbrVideo)                   Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%1 videos (%2)").arg(NbrVideo).arg(VideoDuration.toString("hh:mm:ss.zzz"));
             if (NbrVectorImg)               Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%3 vector images").arg(NbrVectorImg);
@@ -2118,14 +2133,14 @@ void cDiaporama::UpdateStatInformation() {
             // Parse all object to construct values
             QStringList MusicList;
             Text=QApplication::translate("Variables","Musical content:","Project statistics");
-            for (int i=0;i<List.count();i++) if (List[i]->MusicType) for (int music=0;music<List[i]->MusicList.count();music++) if (List[i]->MusicList[music].AllowCredit) {
+            for (int i=0;i<List.count();i++) if (List[i]->MusicType) for (int music=0;music<List[i]->MusicList.count();music++) if (List[i]->MusicList[music]->AllowCredit) {
                 QStringList TempExtProperties;
-                ApplicationConfig->FilesTable->GetExtendedProperties(List[i]->MusicList[music].FileKey,&TempExtProperties);
+                ApplicationConfig->FilesTable->GetExtendedProperties(List[i]->MusicList[music]->FileKey,&TempExtProperties);
                 QString TMusc =GetInformationValue("title",&TempExtProperties);
                 QString Album =GetInformationValue("album",&TempExtProperties);
                 QString Date  =GetInformationValue("date",&TempExtProperties);
                 QString Artist=GetInformationValue("artist",&TempExtProperties);
-                QString SubText=(!TMusc.isEmpty()?TMusc:List[i]->MusicList[music].ShortName());
+                QString SubText=(!TMusc.isEmpty()?TMusc:List[i]->MusicList[music]->ShortName());
                 if (!Artist.isEmpty()) {
                     if (!Date.isEmpty())  SubText=SubText+QApplication::translate("Variables"," - © %1 (%2)","Project statistics-Music").arg(Artist).arg(Date);
                         else              SubText=SubText+QApplication::translate("Variables"," - © %1",     "Project statistics-Music").arg(Artist);
@@ -2274,38 +2289,47 @@ void cDiaporama::PrepareBackground(int Index,int Width,int Height,QPainter *Pain
 //====================================================================================================================
 
 void cDiaporama::UpdateCachedInformation() {
-    int64_t StartPosition=0;
-    int     MusicIndex=0;
-    int     BackgroundIndex=0;
+    int64_t             StartPosition   =0;
+    int                 MusicIndex      =-1;
+    int                 MusicListIndex  =-1;
+    int64_t             CumulDuration   =0;
+    int64_t             CurMusicDuration=0;
+    int                 BackgroundIndex =0;
+    cDiaporamaObject    *PrevObject     =NULL;
+    cMusicObject        *CurMusic       =NULL;
+    cMusicObject        *PrevMusic      =NULL;
 
     for (int DiaporamaObjectNum=0;DiaporamaObjectNum<List.count();DiaporamaObjectNum++) {
-        cDiaporamaObject    *DiaporamaObject=List[DiaporamaObjectNum];
-        bool                HaveSound=false;
-        bool                HaveFilter=false;
+        cDiaporamaObject    *CurObject =List[DiaporamaObjectNum];
+        cDiaporamaObject    *NextObject=DiaporamaObjectNum<List.count()-1?List[DiaporamaObjectNum+1]:NULL;
+
+        bool                HaveSound  =false;
+        bool                HaveFilter =false;
         double              SoundVolume=0;
 
         // Owner of the background
-        if (DiaporamaObject->BackgroundType) BackgroundIndex=DiaporamaObjectNum;
+        if (CurObject->BackgroundType) BackgroundIndex=DiaporamaObjectNum;
 
         // Owner and start position of the music
-        if ((DiaporamaObjectNum==0)||(DiaporamaObject->MusicType)) {
-            StartPosition=0;
-            MusicIndex=DiaporamaObjectNum;
-        } else if (!List[DiaporamaObjectNum-1]->MusicPause) {
-            int64_t Duration=List[DiaporamaObjectNum-1]->GetDuration()-GetTransitionDuration(DiaporamaObjectNum);
-            StartPosition+=((Duration)>=33?Duration:33);
+        if ((DiaporamaObjectNum==0)||(CurObject->MusicType)) {
+            StartPosition   =0;
+            MusicIndex      =DiaporamaObjectNum;
+            CumulDuration   =0;
+            MusicListIndex  =0;
+            CurMusic        =MusicListIndex<List[MusicIndex]->MusicList.count()?List[MusicIndex]->MusicList[MusicListIndex]:NULL;
+            CurMusicDuration=CurMusic?QTime(0,0,0,0).msecsTo(CurMusic->GetDuration()):0;
         }
 
         // Parse ObjectComposition table to determine if slide have sound
-        for (int ObjNum=0;ObjNum<DiaporamaObject->ObjectComposition.List.count();ObjNum++)
-            if ((DiaporamaObject->ObjectComposition.List[ObjNum]->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)
-                    &&(DiaporamaObject->ObjectComposition.List[ObjNum]->BackgroundBrush->MediaObject)
-                    &&(DiaporamaObject->ObjectComposition.List[ObjNum]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE))
+        for (int ObjNum=0;ObjNum<CurObject->ObjectComposition.List.count();ObjNum++)
+            if ((CurObject->ObjectComposition.List[ObjNum]->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)
+                    &&(CurObject->ObjectComposition.List[ObjNum]->BackgroundBrush->MediaObject)
+                    &&(CurObject->ObjectComposition.List[ObjNum]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE))
                 HaveSound=true;
 
         // Parse shots and objects in shot to determine if slide have filter and max SoundVolume
-        for (int shot=0;shot<DiaporamaObject->List.count();shot++) for (int ObjNum=0;ObjNum<DiaporamaObject->List[shot]->ShotComposition.List.count();ObjNum++) {
-            cCompositionObject *CompoObject=DiaporamaObject->List[shot]->ShotComposition.List[ObjNum];
+        for (int shot=0;shot<CurObject->List.count();shot++) for (int ObjNum=0;ObjNum<CurObject->List[shot]->ShotComposition.List.count();ObjNum++) {
+            cCompositionObject *CompoObject=CurObject->List[shot]->ShotComposition.List[ObjNum];
             if ((CompoObject->IsVisible)&&(CompoObject->BackgroundBrush))
                 if ((CompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)
                         &&(CompoObject->BackgroundBrush->MediaObject)
@@ -2319,14 +2343,51 @@ void cDiaporama::UpdateCachedInformation() {
                ) HaveFilter=true;
         }
 
-        DiaporamaObject->CachedDuration         =DiaporamaObject->GetDuration();
-        DiaporamaObject->CachedTransitDuration  =DiaporamaObject->GetTransitDuration();
-        DiaporamaObject->CachedStartPosition    =StartPosition;
-        DiaporamaObject->CachedMusicIndex       =MusicIndex;
-        DiaporamaObject->CachedBackgroundIndex  =BackgroundIndex;
-        DiaporamaObject->CachedHaveSound        =HaveSound;
-        DiaporamaObject->CachedSoundVolume      =SoundVolume;
-        DiaporamaObject->CachedHaveFilter       =HaveFilter;
+        CurObject->CachedDuration         =CurObject->GetDuration(); if (CurObject->CachedDuration<33) CurObject->CachedDuration=33;
+        CurObject->CachedTransitDuration  =CurObject->GetTransitDuration();
+        CurObject->CachedStartPosition    =StartPosition;
+        CurObject->CachedMusicIndex       =MusicIndex;
+        CurObject->CachedMusicListIndex   =MusicListIndex;
+        CurObject->CachedBackgroundIndex  =BackgroundIndex;
+        CurObject->CachedHaveSound        =HaveSound;
+        CurObject->CachedSoundVolume      =SoundVolume;
+        CurObject->CachedHaveFilter       =HaveFilter;
+
+        // Compute information about music track
+        if ((CurMusic)&&(PrevMusic)&&(CurMusic==PrevMusic)&&(PrevObject->CachedMusicRemaining<=CurObject->CachedTransitDuration)) CurMusic=NULL;
+
+        int64_t TrackDuration =CurMusic?QTime(0,0,0,0).msecsTo(CurMusic->GetDuration()):0;
+        int64_t DurationLeft  =TrackDuration>CurObject->CachedStartPosition?TrackDuration-CurObject->CachedStartPosition:0;
+        int64_t NextTransition=NextObject?NextObject->GetTransitDuration():0;
+        int64_t TimePlayed    =CurObject->MusicPause?((!PrevObject)||(!PrevObject->MusicPause)?CurObject->CachedTransitDuration:0):DurationLeft>CurObject->CachedDuration-NextTransition?CurObject->CachedDuration-NextTransition:DurationLeft;
+
+        CurObject->CachedMusicTimePlayed=TimePlayed;
+        CurObject->CachedMusicRemaining =DurationLeft>TimePlayed?DurationLeft-TimePlayed:0;
+        CurObject->CachedPrevMusicFadOUT=(PrevMusic)&&(PrevMusic!=CurMusic)&&(PrevObject->CachedMusicRemaining>0)&&(CurObject->CachedTransitDuration>0);
+        CurObject->CachedMusicFadIN     =(CurMusic)&&(PrevMusic)&&(PrevMusic!=CurMusic)&&(PrevObject->CachedMusicRemaining>0);
+        CurObject->CachedMusicEnd       =(CurMusic)&&(TimePlayed<CurObject->CachedDuration-NextTransition);
+        CurObject->CachedPrevMusicEnd   =(PrevObject)&&(PrevMusic)&&(CurObject->CachedTransitDuration>0)&&(PrevObject->CachedMusicRemaining>0)&&(PrevObject->CachedMusicRemaining<=CurObject->CachedTransitDuration);
+
+        // prepare next loop
+        PrevObject=CurObject;
+        PrevMusic =CurMusic;
+        if ((CumulDuration+TimePlayed+NextTransition)>=CurMusicDuration) {
+            MusicListIndex++;
+            CumulDuration=0;
+            StartPosition=0;
+            if ((MusicIndex>=0)&&(MusicIndex<List.count())&&(MusicListIndex>=0)&&(MusicListIndex<List[MusicIndex]->MusicList.count())) {
+                CurMusic        =MusicListIndex<List[MusicIndex]->MusicList.count()?List[MusicIndex]->MusicList[MusicListIndex]:NULL;
+                CurMusicDuration=CurMusic?QTime(0,0,0,0).msecsTo(CurMusic->GetDuration()):0;
+            } else {
+                CurMusic=NULL;
+                CurMusicDuration=0;
+                MusicIndex=-1;
+                MusicListIndex=-1;
+            }
+        } else {
+            StartPosition+=TimePlayed;
+            CumulDuration=CumulDuration+TimePlayed;
+        }
     }
 }
 
@@ -2336,31 +2397,21 @@ cMusicObject *cDiaporama::GetMusicObject(int ObjectIndex,int64_t &StartPosition,
     if (ObjectIndex>=List.count()) return NULL;
 
     StartPosition=List[ObjectIndex]->CachedStartPosition;
-    int Index    =List[ObjectIndex]->CachedMusicIndex;
-    cMusicObject *Ret =NULL;
-
-    // Now we have the object owner of the playlist (or 0). Then we can calculate wich music in the playlist is usable for this object
-    int i=0;
-    while ((i<List[Index]->MusicList.count())&&(StartPosition>QTime(0,0,0,0).msecsTo(List[Index]->MusicList[i].GetDuration()))) {
-        StartPosition-=QTime(0,0,0,0).msecsTo(List[Index]->MusicList[i].GetDuration());
-        i++;
-    }
-
-    if ((i<List[Index]->MusicList.count())&&(StartPosition<=QTime(0,0,0,0).msecsTo(List[Index]->MusicList[i].GetDuration()))) Ret=&List[Index]->MusicList[i];
-
-    // Keep owner of the playlist (if wanted)
-    if (IndexObject) *IndexObject=Index;
-
-    // Calc object number in the playlist (if wanted)
+    if (IndexObject) *IndexObject=List[ObjectIndex]->CachedMusicIndex;
     if (CountObject) {
         *CountObject=0;
-        while (Index>0) {
-            Index--;
-            if (List[Index]->MusicType) *CountObject+=1;
+        if ((ObjectIndex>=0)&&(ObjectIndex<List.count())) {
+            int i=0;
+            while ((i<List.count())&&(i<List[ObjectIndex]->CachedMusicIndex)) {
+                if (List[i]->MusicType) *CountObject=(*CountObject)+1;
+                i++;
+            }
         }
     }
-
-    return Ret;
+    if ((List[ObjectIndex]->CachedMusicIndex>=0)&&(List[ObjectIndex]->CachedMusicIndex<List.count())&&
+        (List[ObjectIndex]->CachedMusicListIndex>=0)&&(List[ObjectIndex]->CachedMusicListIndex<List[List[ObjectIndex]->CachedMusicIndex]->MusicList.count()))
+        return List[List[ObjectIndex]->CachedMusicIndex]->MusicList[List[ObjectIndex]->CachedMusicListIndex];
+    return NULL;
 }
 
 //====================================================================================================================
@@ -2455,48 +2506,57 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow,cReplaceObjectList *ReplaceList,
 // Function use directly or with thread to prepare an image number Column at given position
 // Note : Position is relative to the start of the Column object !
 //============================================================================================
-void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,int64_t Position,cSoundBlockList *MusicTrack,int NbrDuration) {
-    if (Column>=List.count()) {
-        for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket(Position);
+void cDiaporama::PrepareMusicBloc(PrepareMusicBlocContext *Context) {
+    if (Context->Column>=List.count()) {
+        for (int j=0;j<Context->MusicTrack->NbrPacketForFPS;j++) Context->MusicTrack->AppendNullSoundPacket(Context->Position);
         return;
     }
 
     int64_t       StartPosition=0;
-    cMusicObject  *CurMusic=GetMusicObject(Column,StartPosition); // Get current music file from column and position
+    cMusicObject  *CurMusic=GetMusicObject(Context->Column,StartPosition); // Get current music file from column and position
     if (CurMusic==NULL) {
-        for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket(Position);
+        for (int j=0;j<Context->MusicTrack->NbrPacketForFPS;j++) Context->MusicTrack->AppendNullSoundPacket(Context->Position);
         return;
     }
 
-    bool IsCurrentTransitionIN =(Column>0)&&(Position<List[Column]->TransitionDuration);
-    bool FadeEffect            =(IsCurrentTransitionIN && (
-                                    (List[Column-1]->MusicReduceVolume!=List[Column]->MusicReduceVolume)||
-                                    (List[Column-1]->MusicPause!=List[Column]->MusicPause)||
-                                    ((List[Column-1]->MusicReduceVolume==List[Column]->MusicReduceVolume)&&(List[Column-1]->MusicReduceFactor!=List[Column]->MusicReduceFactor))
+    if ((Context->IsCurrent)&&(Context->Column>0)) {
+        if ((List[Context->Column-1]->MusicPause)&&(!List[Context->Column]->MusicPause)) Context->FadIn =true;
+        if ((!List[Context->Column-1]->MusicPause)&&(List[Context->Column]->MusicPause)) Context->FadOut=true;
+    }
+
+    bool IsCurrentTransitionIN =(Context->PositionInSlide<List[(Context->IsCurrent?Context->Column:Context->Column+1)]->TransitionDuration);
+    bool FadeEffect            =(Context->IsCurrent && IsCurrentTransitionIN && (Context->Column>0) && (
+                                    (List[Context->Column-1]->MusicReduceVolume!=List[Context->Column]->MusicReduceVolume)||
+                                    ((List[Context->Column-1]->MusicReduceVolume==List[Context->Column]->MusicReduceVolume)&&(List[Context->Column-1]->MusicReduceFactor!=List[Context->Column]->MusicReduceFactor))
                                 ));
 
-    if (!List[Column]->MusicPause || (IsCurrentTransitionIN && !List[Column-1]->MusicPause)) {
-        double Factor=CurMusic->Volume; // Master volume
-        if (List[Column]->MusicReduceVolume || FadeEffect) {
-            if (FadeEffect) {
-                double  PctDone  =ComputePCT(SPEEDWAVE_SINQUARTER,double(Position)/double(List[Column]->TransitionDuration));
-                double  AncReduce=List[Column-1]->MusicPause?0:List[Column-1]->MusicReduceVolume?List[Column-1]->MusicReduceFactor:1;
-                double  NewReduce=List[Column]->MusicPause?0:List[Column]->MusicReduceVolume?List[Column]->MusicReduceFactor:1;
-                double  ReduceFactor=AncReduce+(NewReduce-AncReduce)*PctDone;
-                Factor=Factor*ReduceFactor;
-            } else Factor=Factor*List[Column]->MusicReduceFactor;
+    if (!List[Context->Column]->MusicPause || IsCurrentTransitionIN) {
+        double Factor=1;
+        if (FadeEffect/* && !List[Context->Column-1]->MusicPause*/) {
+            double  PctDone  =ComputePCT(SPEEDWAVE_SINQUARTER,double(Context->Position)/double(List[Context->Column]->TransitionDuration));
+            double  AncReduce=List[Context->Column-1]->MusicPause?0:List[Context->Column-1]->MusicReduceVolume?List[Context->Column-1]->MusicReduceFactor:1;
+            double  NewReduce=List[Context->Column]->MusicPause?0:List[Context->Column]->MusicReduceVolume?List[Context->Column]->MusicReduceFactor:1;
+            double  ReduceFactor=AncReduce+(NewReduce-AncReduce)*PctDone;
+            Factor=Factor*ReduceFactor;
+        } else if (Context->FadIn && IsCurrentTransitionIN) {
+            double  PctDone  =ComputePCT(SPEEDWAVE_SINQUARTER,double(Context->PositionInSlide)/double(List[Context->Column]->TransitionDuration));
+            Factor=Factor*PctDone;
+        } else if (Context->FadOut && IsCurrentTransitionIN) {
+            double  PctDone  =ComputePCT(SPEEDWAVE_SINQUARTER,double(Context->PositionInSlide)/double(List[Context->IsCurrent?Context->Column:Context->Column+1]->TransitionDuration));
+            Factor=Factor*(1-PctDone);
+        } else {
+            if (List[Context->Column]->MusicReduceVolume) Factor=Factor*List[Context->Column]->MusicReduceFactor;
+            Factor=Factor*CurMusic->GetFading(StartPosition+Context->PositionInSlide,Context->FadIn,Context->IsCurrent?(Context->Column<List.count()-1?List[Context->Column+1]->CachedPrevMusicFadOUT:false):Context->FadOut);
         }
 
         // Get more music bloc at correct position (volume is always 100% @ this point !)
-        CurMusic->ImageAt(PreviewMode,Position+StartPosition+QTime(0,0,0,0).msecsTo(CurMusic->StartPos),MusicTrack,false,1,true,false,NbrDuration);
+        CurMusic->ImageAt(Context->PreviewMode,Context->Position+StartPosition+QTime(0,0,0,0).msecsTo(CurMusic->StartPos),Context->MusicTrack,false,1,true,false,Context->NbrDuration);
 
         // Apply correct volume to block in queue
         if (Factor!=1.0)
-            for (int i=0;i<MusicTrack->NbrPacketForFPS;i++)
-                MusicTrack->ApplyVolume(i,Factor);
+            for (int i=0;i<Context->MusicTrack->NbrPacketForFPS;i++)
+                Context->MusicTrack->ApplyVolume(i,Factor);
     }
-    // Ensure we have enought data
-    //while (MusicTrack->List.count()<MusicTrack->NbrPacketForFPS) MusicTrack->AppendNullSoundPacket();
 }
 
 //============================================================================================
@@ -2656,11 +2716,34 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
 
     //==============> Music track part
 
-    if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack))
-        ThreadPrepareCurrentMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack,NbrDuration));
+    if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)) {
+        PrepareMusicBlocContext Context;
+        Context.PreviewMode =PreviewMode;
+        Context.Column      =Info->CurrentObject_Number;
+        Context.Position    =Info->CurrentObject_InObjectTime;
+        Context.MusicTrack  =Info->CurrentObject_MusicTrack;
+        Context.NbrDuration =NbrDuration;
+        Context.FadIn       =Info->CurrentObject->CachedMusicFadIN;
+        Context.FadOut      =false;
+        Context.IsCurrent   =true;
+        Context.PositionInSlide =Info->CurrentObject_InObjectTime;
+        //ThreadPrepareCurrentMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,&Context));
+        PrepareMusicBloc(&Context);
+    }
 
-    if ((Info->IsTransition)&&(Info->TransitObject)&&(Info->TransitObject_MusicTrack))
-        ThreadPrepareTransitMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack,NbrDuration));
+    if ((Info->IsTransition)&&(Info->TransitObject)&&(Info->TransitObject_MusicTrack)) {
+        PrepareMusicBlocContext Context;
+        Context.PreviewMode     =PreviewMode;
+        Context.Column          =Info->TransitObject_Number;
+        Context.Position        =Info->TransitObject_InObjectTime;
+        Context.MusicTrack      =Info->TransitObject_MusicTrack;
+        Context.NbrDuration     =NbrDuration;
+        Context.FadIn           =false;
+        Context.FadOut          =Info->CurrentObject->CachedPrevMusicFadOUT;
+        Context.IsCurrent       =false;
+        Context.PositionInSlide =Info->CurrentObject_InObjectTime;
+        ThreadPrepareTransitMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,&Context));
+    }
 
     //==============> Image part
 
@@ -2791,47 +2874,40 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
     // Mix current and transit music
     // @ the end: only current music exist !
     // Mix the 2 sources buffer using the first buffer as destination and remove one paquet from the PreviousMusicTrack
-    if ((Info->IsTransition)&&(Info->CurrentObject_MusicTrack)&&(Info->CurrentObject_SoundTrackMontage)) {
+    if ((Info->IsTransition)&&(Info->CurrentObject_MusicTrack)) {
         Info->CurrentObject_MusicTrack->Mutex.lock();
-        Info->CurrentObject_SoundTrackMontage->Mutex.lock();
         int Max=Info->CurrentObject_MusicTrack->NbrPacketForFPS;
         if (Max>Info->CurrentObject_MusicTrack->ListCount()) Max=Info->CurrentObject_MusicTrack->ListCount();
         for (int i=0;i<Max;i++) {
             if (i>=Info->CurrentObject_MusicTrack->ListCount())
                 Info->CurrentObject_MusicTrack->AppendNullSoundPacket(0,true);
+
             int16_t *Buf1=Info->CurrentObject_MusicTrack->GetAt(i);
             int16_t *Buf2=Info->TransitObject_MusicTrack?Info->TransitObject_MusicTrack->DetachFirstPacket(true):NULL;
             int32_t mix;
             int     Max=Info->CurrentObject_MusicTrack->SoundPacketSize/(Info->CurrentObject_MusicTrack->SampleBytes*Info->CurrentObject_MusicTrack->Channels);
 
-            // Ensure Buf1 exist, elsewhere create one and init it to 0 (silence)
-            if (!Buf1) {
-                Buf1=(int16_t *)av_malloc(Info->CurrentObject_MusicTrack->SoundPacketSize+8);
-                memset((u_int8_t *)Buf1,0,Info->CurrentObject_MusicTrack->SoundPacketSize+8);
-            }
+            if (Buf2) {
+                if (!Buf1) {
+                    Info->CurrentObject_MusicTrack->SetAt(i,Buf2);
+                } else {
+                    int16_t *B1=Buf1,*B2=Buf2;
 
-            // Ensure paquet exist, elsewhere create one and init it to 0 (silence)
-            if (!Buf2) {
-                Buf2=(int16_t *)av_malloc(Info->CurrentObject_MusicTrack->SoundPacketSize+8);
-                memset((u_int8_t *)Buf2,0,Info->CurrentObject_MusicTrack->SoundPacketSize+8);
+                    for (int j=0;j<Max;j++) {
+                        // Left channel : Adjust if necessary (16 bits)
+                        mix=int32_t(*(B1)+*(B2++));
+                        if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
+                        *(B1++)=int16_t(mix);
+                        // Right channel : Adjust if necessary (16 bits)
+                        mix=int32_t(*(B1)+*(B2++));
+                        if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
+                        *(B1++)=int16_t(mix);
+                    }
+                    av_free(Buf2);
+                    Info->CurrentObject_MusicTrack->SetAt(i,Buf1);
+                }
             }
-
-            int16_t *B1=Buf1,*B2=Buf2;
-
-            for (int j=0;j<Max;j++) {
-                // Left channel : Adjust if necessary (16 bits)
-                mix=int32_t(*(B1)+*(B2++));
-                if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
-                *(B1++)=int16_t(mix);
-                // Right channel : Adjust if necessary (16 bits)
-                mix=int32_t(*(B1)+*(B2++));
-                if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
-                *(B1++)=int16_t(mix);
-            }
-            av_free(Buf2);
-            Info->CurrentObject_MusicTrack->SetAt(i,Buf1);
         }
-        Info->CurrentObject_SoundTrackMontage->Mutex.unlock();
         Info->CurrentObject_MusicTrack->Mutex.unlock();
     }
 }

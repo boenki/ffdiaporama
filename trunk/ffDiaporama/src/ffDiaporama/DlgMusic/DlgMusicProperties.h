@@ -34,6 +34,9 @@ class DlgMusicProperties : public QCustomDialog {
 Q_OBJECT
 public:
     cDiaporamaObject    *DiaporamaObject;
+    QStringList         FileList;
+    DlgWorkingTask      *DlgWorkingTaskDialog;
+    bool                CancelAction;
 
     explicit DlgMusicProperties(cDiaporamaObject *DiaporamaObject,cApplicationConfig *ApplicationConfig,QWidget *parent=0);
     ~DlgMusicProperties();
@@ -54,6 +57,7 @@ private slots:
     void    s_EditMusic();
     void    s_NewMusic();
     void    s_AddMusic();
+    void    s_Action_AddMusic();
     void    s_RemoveMusic();
     void    s_PlayListTable_DoubleClick(QTableWidgetItem *);
     void    s_PlayListTable_SelectionChanged();

@@ -49,6 +49,7 @@
 #include "DlgTransition/DlgTransitionProperties.h"
 #include "DlgTransition/DlgTransitionDuration.h"
 #include "DlgMusic/DlgMusicProperties.h"
+#include "DlgMusic/DlgAdjustToSound.h"
 #include "DlgBackground/DlgBackgroundProperties.h"
 #include "DlgSlide/DlgSlideProperties.h"
 #include "DlgSlide/DlgSlideDuration.h"
@@ -72,7 +73,6 @@ MainWindow::MainWindow(QString ForceLanguage,QWidget *parent):QMainWindow(parent
     CurrentThreadId         =this->thread()->currentThreadId();
     IsFirstInitDone         =false;        // true when first show window was done
     FLAGSTOPITEMSELECTION   =false;        // Flag to stop Item Selection process for delete and move of object
-    InPlayerUpdate          =false;
     DlgWorkingTaskDialog    =NULL;
     CancelAction            =false;
     CurrentDriveCheck       =0;
@@ -272,6 +272,10 @@ void MainWindow::InitWindow() {
     ui->actionAddGMap->setIconVisibleInMenu(true);
     ui->actionSaveProjectAs->setIconVisibleInMenu(true);
     ui->actionExportProject->setIconVisibleInMenu(true);
+    ui->actionRemovePlaylist->setIconVisibleInMenu(true);
+    ui->actionPlaylistToPlay->setIconVisibleInMenu(true);
+    ui->actionPlaylistToPause->setIconVisibleInMenu(true);
+    ui->actionAdjustOnMusic->setIconVisibleInMenu(true);
 
     ui->ActionDocumentation_BT->setIcon(QApplication::style()->standardIcon(QStyle::SP_DialogHelpButton));
     ui->ActionDocumentation_BT_2->setIcon(QApplication::style()->standardIcon(QStyle::SP_DialogHelpButton));
@@ -372,6 +376,10 @@ void MainWindow::InitWindow() {
     connect(ui->actionSelect_a_transition,SIGNAL(triggered()),this,SLOT(s_ActionMultiple_SelectTransition()));
     connect(ui->actionSet_transition_duration,SIGNAL(triggered()),this,SLOT(s_ActionMultiple_SetTransitionDuration()));
     connect(ui->actionRandomize_transition,SIGNAL(triggered()),this,SLOT(s_ActionMultiple_Randomize()));
+    connect(ui->actionRemovePlaylist,SIGNAL(triggered()),this,SLOT(s_Action_RemovePlaylist()));
+    connect(ui->actionPlaylistToPlay,SIGNAL(triggered()),this,SLOT(s_Action_PlaylistToPlay()));
+    connect(ui->actionPlaylistToPause,SIGNAL(triggered()),this,SLOT(s_Action_PlaylistToPause()));
+    connect(ui->actionAdjustOnMusic,SIGNAL(triggered()),this,SLOT(s_Action_AdjustOnMusic()));
 
     // Render menu
     connect(ui->ActionRender_BT,SIGNAL(released()),this,SLOT(s_Action_RenderVideo()));                          connect(ui->ActionRender_BT_2,SIGNAL(released()),this,SLOT(s_Action_RenderVideo()));
@@ -543,6 +551,18 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
 
 void MainWindow::ToStatusBar(QString Text) {
     if (IsFirstInitDone) ui->StatusBar_General->setText(Text);
+}
+
+//====================================================================================================================
+
+bool MainWindow::ForcePause(const char *caller) {
+    if ((ui->preview->PlayerPlayMode && !ui->preview->PlayerPauseMode)||(ui->preview2->PlayerPlayMode && !ui->preview2->PlayerPauseMode)) {
+        ui->preview->SetPlayerToPause();    // Ensure player is stop
+        ui->preview2->SetPlayerToPause();   // Ensure player is stop
+        QTimer::singleShot(LATENCY,this,caller);
+        return true;
+    }
+    return false;
 }
 
 //====================================================================================================================
@@ -825,9 +845,12 @@ void MainWindow::s_Event_SetModifyFlag() {
 //====================================================================================================================
 
 void MainWindow::SetTimelineCurrentCell(int Cell) {
+    if (FLAGSTOPITEMSELECTION) return;
+    FLAGSTOPITEMSELECTION=true;
     int OldCurrentCol=Diaporama->CurrentCol;
     ui->timeline->SetCurrentCell(Cell);
     if (OldCurrentCol!=Diaporama->CurrentCol) UpdateChapterInfo();
+    FLAGSTOPITEMSELECTION=false;
 }
 
 //====================================================================================================================
@@ -867,13 +890,7 @@ void MainWindow::s_Action_NewFunctions() {
 //====================================================================================================================
 
 void MainWindow::s_Action_Exit() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_Exit()));
-        return;
-    }
-
+    if (ForcePause(SLOT(s_Action_Exit()))) return;
     ui->Browser->EnsureThreadIsStopped();
     close();
 }
@@ -881,13 +898,7 @@ void MainWindow::s_Action_Exit() {
 //====================================================================================================================
 
 void MainWindow::s_Action_ZoomPlus() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_ZoomPlus()));
-        return;
-    }
-
+    if (ForcePause(SLOT(s_Action_ZoomPlus()))) return;
     if (ui->timeline->rowHeight(0)<TIMELINEMAXHEIGH) {
         ApplicationConfig->TimelineHeight+=20;
         if (ApplicationConfig->TimelineHeight>TIMELINEMAXHEIGH) ApplicationConfig->TimelineHeight=TIMELINEMAXHEIGH;
@@ -900,13 +911,7 @@ void MainWindow::s_Action_ZoomPlus() {
 //====================================================================================================================
 
 void MainWindow::s_Action_ZoomMinus() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_ZoomMinus()));
-        return;
-    }
-
+    if (ForcePause(SLOT(s_Action_ZoomMinus()))) return;
     if (ui->timeline->rowHeight(0)>TIMELINEMINHEIGH) {
         ApplicationConfig->TimelineHeight-=20;
         if (ApplicationConfig->TimelineHeight<TIMELINEMINHEIGH) ApplicationConfig->TimelineHeight=TIMELINEMINHEIGH;
@@ -944,13 +949,7 @@ void MainWindow::s_Action_ChWindowDisplayMode(int Mode) {
 }
 
 void MainWindow::s_Action_ChWindowDisplayMode() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_ChWindowDisplayMode()));
-        return;
-    }
-
+    if (ForcePause(SLOT(s_Action_ChWindowDisplayMode()))) return;
     int Selected=ui->timeline->CurrentSelected(); // Save current seleted item
 
     SetTimelineHeight();
@@ -966,12 +965,7 @@ void MainWindow::s_Action_ChWindowDisplayMode() {
 //====================================================================================================================
 
 void MainWindow::s_Event_DoubleClickedOnObject() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Event_DoubleClickedOnObject()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Event_DoubleClickedOnObject()))) return;
     if (Diaporama->List.count()==0) return;
 
     bool DoneAgain=true;
@@ -1032,13 +1026,7 @@ void MainWindow::s_Event_DoubleClickedOnObject() {
 //====================================================================================================================
 
 void MainWindow::s_Event_DoubleClickedOnTransition() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Event_DoubleClickedOnTransition()));
-        return;
-    }
-
+    if (ForcePause(SLOT(s_Event_DoubleClickedOnTransition()))) return;
     DlgTransitionProperties Dlg(false,Diaporama->List[Diaporama->CurrentCol],ApplicationConfig,this);
     Dlg.InitDialog();
     int Ret=Dlg.exec();
@@ -1055,12 +1043,7 @@ void MainWindow::s_Event_DoubleClickedOnTransition() {
 
 void MainWindow::s_Event_DoubleClickedOnBackground() {
     if (Diaporama->CurrentCol>=Diaporama->List.count()) return;
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Event_DoubleClickedOnBackground()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Event_DoubleClickedOnBackground()))) return;
     DlgBackgroundProperties Dlg(Diaporama->List[Diaporama->CurrentCol],ApplicationConfig,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_Event_RefreshDisplay()));
@@ -1082,13 +1065,7 @@ void MainWindow::s_Event_RefreshDisplay() {
 //====================================================================================================================
 
 void MainWindow::s_Event_DoubleClickedOnMusic() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Event_DoubleClickedOnMusic()));
-        return;
-    }
-
+    if (ForcePause(SLOT(s_Event_DoubleClickedOnMusic()))) return;
     DlgMusicProperties Dlg(Diaporama->List[Diaporama->CurrentCol],ApplicationConfig,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
@@ -1103,20 +1080,36 @@ void MainWindow::s_Event_DoubleClickedOnMusic() {
 //====================================================================================================================
 
 void MainWindow::s_Event_TimelineDragMoveItem() {
+    if (ForcePause(SLOT(s_Event_TimelineDragMoveItem()))) return;
     if (!ui->timeline->CursorPosValide) return;
-    if ((ui->timeline->IsDragOn==DRAGMODE_INTERNALMOVE_SLIDE)&&(ui->timeline->DragItemSource<ui->timeline->DragItemDest)) ui->timeline->DragItemDest--;
+    if ((ui->timeline->DragMoveItemCause==DRAGMODE_INTERNALMOVE_SLIDE)&&(ui->timeline->DragItemSource<ui->timeline->DragItemDest)) ui->timeline->DragItemDest--;
 
     if ((ui->timeline->DragItemSource!=ui->timeline->DragItemDest)&&(ui->timeline->DragItemSource>=0)&&(ui->timeline->DragItemSource<Diaporama->List.count())
         &&(ui->timeline->DragItemDest>=0)&&(ui->timeline->DragItemDest<Diaporama->List.count())) {
 
-        if (ui->timeline->IsDragOn==DRAGMODE_INTERNALMOVE_SLIDE) {
+        if (ui->timeline->DragMoveItemCause==DRAGMODE_INTERNALMOVE_SLIDE) {
             Diaporama->List.move(ui->timeline->DragItemSource,ui->timeline->DragItemDest);
-        } else if (ui->timeline->IsDragOn==DRAGMODE_INTERNALMOVE_MUSIC) {
-             for (int i=0;i<Diaporama->List[ui->timeline->DragItemSource]->MusicList.count();i++)
-                 Diaporama->List[ui->timeline->DragItemDest]->MusicList.append(Diaporama->List[ui->timeline->DragItemSource]->MusicList.takeFirst());
-             Diaporama->List[ui->timeline->DragItemDest]->MusicType  =true;
-             Diaporama->List[ui->timeline->DragItemSource]->MusicType=false;
-        } else if (ui->timeline->IsDragOn==DRAGMODE_INTERNALMOVE_BACKGROUND) {
+        } else if (ui->timeline->DragMoveItemCause==DRAGMODE_INTERNALMOVE_MUSIC) {
+            bool Continue=true;
+            if (Diaporama->List[ui->timeline->DragItemDest]->MusicType) {
+                if (Diaporama->List[ui->timeline->DragItemDest]->MusicList.count()>0) {
+                    int Ret=CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Move music file"),
+                                              QApplication::translate("MainWindow","This slide already has a playlist. What to do?"),
+                                              QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel, QMessageBox::Yes,
+                                              QApplication::translate("MainWindow","Add to the current playlist"),
+                                              QApplication::translate("MainWindow","Replace the current playlist"));
+                    if (Ret==QMessageBox::Cancel) Continue=false; else if (Ret==QMessageBox::No) {
+                        while (Diaporama->List[ui->timeline->DragItemDest]->MusicList.count()) Diaporama->List[ui->timeline->DragItemDest]->MusicList.removeAt(0);
+                    }
+                }
+            }
+            if (Continue) {
+                while (!Diaporama->List[ui->timeline->DragItemSource]->MusicList.isEmpty())
+                    Diaporama->List[ui->timeline->DragItemDest]->MusicList.append(Diaporama->List[ui->timeline->DragItemSource]->MusicList.takeFirst());
+                Diaporama->List[ui->timeline->DragItemDest]->MusicType  =true;
+                Diaporama->List[ui->timeline->DragItemSource]->MusicType=false;
+            }
+        } else if (ui->timeline->DragMoveItemCause==DRAGMODE_INTERNALMOVE_BACKGROUND) {
             cBrushDefinition *BR=Diaporama->List[ui->timeline->DragItemDest]->BackgroundBrush;
             Diaporama->List[ui->timeline->DragItemDest]->BackgroundType   =true;
             Diaporama->List[ui->timeline->DragItemDest]->BackgroundBrush  =Diaporama->List[ui->timeline->DragItemSource]->BackgroundBrush;
@@ -1125,6 +1118,9 @@ void MainWindow::s_Event_TimelineDragMoveItem() {
         }
         SetModifyFlag(true);
         ui->timeline->SetCurrentCell(ui->timeline->DragItemDest);
+        ui->timeline->setUpdatesEnabled(false);
+        Diaporama->UpdateInformation();
+        ui->timeline->setUpdatesEnabled(true);
     }
 }
 
@@ -1133,40 +1129,30 @@ void MainWindow::s_Event_TimelineDragMoveItem() {
 //====================================================================================================================
 
 void MainWindow::s_Event_TimelineSelectionChanged() {
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Event_TimelineSelectionChanged()));
-        return;
+    if (!FLAGSTOPITEMSELECTION) {
+        if (ForcePause(SLOT(s_Event_TimelineSelectionChanged()))) return;
+        DoTimelineSelectionChanged();
     }
-    DoTimelineSelectionChanged();
 }
 
 void MainWindow::DoTimelineSelectionChanged() {
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     if (!FLAGSTOPITEMSELECTION) {
+        FLAGSTOPITEMSELECTION=true;
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
         int OldCurrentCol=Diaporama->CurrentCol;
         int Selected=ui->timeline->CurrentSelected();
         if (Selected>=Diaporama->List.count()) {
             Selected=Diaporama->List.count()-1;
-            FLAGSTOPITEMSELECTION=true;
             ui->timeline->SetCurrentCell(Selected);
-            FLAGSTOPITEMSELECTION=false;
         }
         if (Selected<0) {
             Selected=0;
-            FLAGSTOPITEMSELECTION=true;
             ui->timeline->SetCurrentCell(Selected);
-            FLAGSTOPITEMSELECTION=false;
         }
         if (Diaporama->CurrentCol<0) Diaporama->CurrentCol=0;
 
         if ((Diaporama->CurrentCol!=Selected)||((Diaporama->List.count()==1)&&(Diaporama->CurrentCol==0))) {
-            //************************************************************
-            // We are here only if user has click on the timeline
-            //************************************************************
-
             if (Diaporama->List.count()>0) {
-                ui->preview->SetPlayerToPause();    // Ensure player is stop
-                ui->preview2->SetPlayerToPause();   // Ensure player is stop
                 Diaporama->CurrentCol=Selected;
                 Diaporama->CurrentPosition=Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol);
                 if (Diaporama->List[Diaporama->CurrentCol]->GetTransitDuration()>0) Diaporama->CurrentPosition--;
@@ -1180,8 +1166,9 @@ void MainWindow::DoTimelineSelectionChanged() {
         RefreshControls();
         ui->timeline->repaint();
         if (OldCurrentCol!=Diaporama->CurrentCol) UpdateChapterInfo();
+        QApplication::restoreOverrideCursor();
+        FLAGSTOPITEMSELECTION=false;
     }
-    QApplication::restoreOverrideCursor();
 }
 
 //====================================================================================================================
@@ -1224,12 +1211,7 @@ void MainWindow::s_Event_ToolbarChanged(int MenuIndex) {
 //====================================================================================================================
 
 void MainWindow::s_Action_RenderVideo() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_RenderVideo()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_RenderVideo()))) return;
     ui->ActionRender_BT->setDown(false);
     ui->ActionRender_BT_2->setDown(false);
 
@@ -1242,12 +1224,7 @@ void MainWindow::s_Action_RenderVideo() {
 }
 
 void MainWindow::s_Action_RenderSmartphone() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_RenderSmartphone()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_RenderSmartphone()))) return;
     ui->ActionSmartphone_BT->setDown(false);
     ui->ActionSmartphone_BT_2->setDown(false);
 
@@ -1260,12 +1237,7 @@ void MainWindow::s_Action_RenderSmartphone() {
 }
 
 void MainWindow::s_Action_RenderMultimedia() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_RenderMultimedia()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_RenderMultimedia()))) return;
     ui->ActionMultimedia_BT->setDown(false);
     ui->ActionMultimedia_BT_2->setDown(false);
 
@@ -1278,12 +1250,7 @@ void MainWindow::s_Action_RenderMultimedia() {
 }
 
 void MainWindow::s_Action_RenderForTheWEB() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_RenderForTheWEB()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_RenderForTheWEB()))) return;
     ui->ActionForTheWEB_BT->setDown(false);
     ui->ActionForTheWEB_BT_2->setDown(false);
 
@@ -1296,12 +1263,7 @@ void MainWindow::s_Action_RenderForTheWEB() {
 }
 
 void MainWindow::s_Action_RenderLossLess() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_RenderLossLess()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_RenderLossLess()))) return;
     ui->ActionLossLess_BT->setDown(false);
     ui->ActionLossLess_BT_2->setDown(false);
 
@@ -1314,12 +1276,7 @@ void MainWindow::s_Action_RenderLossLess() {
 }
 
 void MainWindow::s_Action_RenderSoundTrack() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_RenderSoundTrack()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_RenderSoundTrack()))) return;
     ui->ActionSoundtrack_BT->setDown(false);
     ui->ActionSoundtrack_BT_2->setDown(false);
 
@@ -1336,12 +1293,7 @@ void MainWindow::s_Action_RenderSoundTrack() {
 //====================================================================================================================
 
 void MainWindow::s_Action_ProjectProperties() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_ProjectProperties()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_ProjectProperties()))) return;
     ui->Action_PrjProperties_BT->setDown(false);
     ui->Action_PrjProperties_BT_2->setDown(false);
 
@@ -1366,12 +1318,7 @@ void MainWindow::s_Action_ProjectProperties() {
 //====================================================================================================================
 
 void MainWindow::s_Action_ChangeApplicationSettings() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_ChangeApplicationSettings()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_ChangeApplicationSettings()))) return;
     ui->ActionConfiguration_BT->setDown(false);
     ui->ActionConfiguration_BT_2->setDown(false);
 
@@ -1400,12 +1347,7 @@ void MainWindow::s_Action_ChangeApplicationSettings() {
 //====================================================================================================================
 
 void MainWindow::s_Action_New() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_New()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_New()))) return;
     ui->Action_New_BT->setDown(false);
     ui->Action_New_BT_2->setDown(false);
 
@@ -1451,12 +1393,7 @@ void MainWindow::s_Action_New() {
 //====================================================================================================================
 
 void MainWindow::s_Action_OpenRecent() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_OpenRecent()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_OpenRecent()))) return;
     QMenu *ContextMenu=new QMenu(this);
     for (int i=ApplicationConfig->RecentFile.count()-1;i>=0;i--) ContextMenu->addAction(QDir::toNativeSeparators(ApplicationConfig->RecentFile.at(i)));
     QAction *Action=ContextMenu->exec(QCursor::pos());
@@ -1477,12 +1414,7 @@ void MainWindow::s_Action_OpenRecent() {
 }
 
 void MainWindow::s_Action_Open() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_Open()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_Open()))) return;
     ui->Action_Open_BT->setDown(false);
     ui->Action_Open_BT_2->setDown(false);
 
@@ -1501,12 +1433,7 @@ void MainWindow::s_Action_Open() {
 }
 
 void MainWindow::DoOpenFile() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
-        return;
-    }
+    if (ForcePause(SLOT(DoOpenFile()))) return;
     ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(FileForIO).fileName());
     bool            Continue=true;
     QDomDocument    domDocument;
@@ -1710,7 +1637,7 @@ void MainWindow::DoOpenFileObject() {
         Diaporama->List.append(new cDiaporamaObject(Diaporama));
 
         if (Diaporama->List[Diaporama->List.count()-1]->LoadFromXML(CurrentLoadingProjectDocument,"Object-"+QString("%1").arg(CurrentLoadingProjectObject).trimmed(),
-                                                                    QFileInfo(Diaporama->ProjectFileName).absolutePath(),&AliasList,&ResKeyList,false)) {
+                                                                    QFileInfo(Diaporama->ProjectFileName).absolutePath(),&AliasList,&ResKeyList,false,DlgWorkingTaskDialog)) {
 
             if (CurrentLoadingProjectObject==0) Diaporama->CurrentPosition=Diaporama->GetTransitionDuration(0);
 
@@ -1771,12 +1698,7 @@ void MainWindow::DoSaveFile() {
 //====================================================================================================================
 
 void MainWindow::s_Action_SaveAsBT() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_SaveAsBT()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_SaveAsBT()))) return;
     ui->ActionSave_as_BT->setDown(false);
     ui->ActionSave_as_BT_2->setDown(false);
     QMenu *ContextMenu=new QMenu(this);
@@ -1824,12 +1746,7 @@ void MainWindow::s_Action_SaveAs() {
 //====================================================================================================================
 
 void MainWindow::s_Action_AddTitle() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_AddTitle()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_AddTitle()))) return;
     ui->ActionAddtitle_BT->setDown(false);
     ui->ActionAddtitle_BT_2->setDown(false);
     QMenu *ContextMenu=new QMenu(this);
@@ -2044,12 +1961,7 @@ void MainWindow::s_Action_AddGMap() {
 //====================================================================================================================
 
 void MainWindow::s_Action_AddFile() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_AddFile()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_AddFile()))) return;
     ui->ActionAdd_BT->setDown(false);
     ui->ActionAdd_BT_2->setDown(false);
 
@@ -2098,15 +2010,11 @@ bool ByNumber(const QString &Item1,const QString &Item2) {
 void MainWindow::s_Event_TimelineAddDragAndDropFile() {
     if (!ui->timeline->CursorPosValide) return;
 
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Event_TimelineAddDragAndDropFile()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Event_TimelineAddDragAndDropFile()))) return;
 
     CurIndex     =ui->timeline->DragItemDest;
     SavedCurIndex=CurIndex-1;
+    CancelAction =false;
 
     // Sort files in the fileList
     if          (ui->Browser->GetSortOrder()==SORTORDER_BYNUMBER)   qSort(FileList.begin(),FileList.end(),ByNumber);
@@ -2114,7 +2022,7 @@ void MainWindow::s_Event_TimelineAddDragAndDropFile() {
         else if (ui->Browser->GetSortOrder()==SORTORDER_BYDATE)     qSort(FileList.begin(),FileList.end(),ByDate);
 
     // Parse all files to find music files (and put them in MusicFileList)
-    QStringList MusicFileList;
+    MusicFileList.clear();
     int i=0;
     while (i<FileList.count()) {
         if (ApplicationConfig->AllowMusicExtension.contains(QFileInfo(FileList.at(i)).suffix().toLower())) {
@@ -2125,12 +2033,39 @@ void MainWindow::s_Event_TimelineAddDragAndDropFile() {
             } else i++;
         } else i++;
     }
-    if (MusicFileList.count()>0) s_Action_DoUseAsPlayList(MusicFileList,ui->timeline->DragItemDest); else {
-        if (DlgWorkingTaskDialog) {
-            DlgWorkingTaskDialog->close();
-            delete DlgWorkingTaskDialog;
-            DlgWorkingTaskDialog=NULL;
+    if (DlgWorkingTaskDialog) {
+        DlgWorkingTaskDialog->close();
+        delete DlgWorkingTaskDialog;
+        DlgWorkingTaskDialog=NULL;
+    }
+    if (MusicFileList.count()>0) {
+        CurIndex     =ui->timeline->DragItemDest;
+        SavedCurIndex=ui->timeline->DragItemDest;
+
+        bool Continue=true;
+        if (Diaporama->List[CurIndex]->MusicType) {
+            if (Diaporama->List[CurIndex]->MusicList.count()>0) {
+                int Ret=CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Add music file"),
+                                          QApplication::translate("MainWindow","This slide already has a playlist. What to do?"),
+                                          QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel, QMessageBox::Yes,
+                                          QApplication::translate("MainWindow","Add to the current playlist"),
+                                          QApplication::translate("MainWindow","Replace the current playlist"));
+                if (Ret==QMessageBox::Cancel) Continue=false; else if (Ret==QMessageBox::No) {
+                    while (Diaporama->List[CurIndex]->MusicList.count()) Diaporama->List[CurIndex]->MusicList.removeAt(0);
+                }
+            }
         }
+        if (Continue) {
+            // Open progress window
+            CurrentLoadingProjectNbrObject=MusicFileList.count();
+            DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Add music file"),&CancelAction,ApplicationConfig,this);
+            DlgWorkingTaskDialog->InitDialog();
+            DlgWorkingTaskDialog->SetMaxValue(CurrentLoadingProjectNbrObject,0);
+            ToStatusBar(QApplication::translate("MainWindow","Analyse file :")+QFileInfo(MusicFileList[0]).fileName());
+            QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoUseAsPlayList()));
+            DlgWorkingTaskDialog->exec();
+        }
+    } else {
         DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Add file to project"),&CancelAction,ApplicationConfig,this);
         DlgWorkingTaskDialog->InitDialog();
         DlgWorkingTaskDialog->SetMaxValue(FileList.count(),0);
@@ -2170,12 +2105,7 @@ void MainWindow::DoAppendFile() {
 //====================================================================================================================
 
 void MainWindow::s_Action_AddProject() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_AddProject()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_AddProject()))) return;
     ui->ActionAddProject_BT->setDown(false);
     ui->ActionAddProject_BT_2->setDown(false);
 
@@ -2414,7 +2344,7 @@ void MainWindow::DoAddFile() {
                     Video->EndPos  =QTime().fromString(End);
                     DiaporamaObject->SlideName   =GetInformationValue(ChapterStr+"title",&TempExtProperties);
                 } else {
-                    Video->EndPos=Video->Duration;
+                    Video->EndPos=Video->GetRealDuration();
                     if (Video->LibavStartTime>0) Video->StartPos=QTime(0,0,0,0).addMSecs(int64_t((double(Video->LibavStartTime)/AV_TIME_BASE)*1000));
                 }
                 QString FileExtension=QFileInfo(Video->FileName()).completeSuffix().toLower();
@@ -2514,35 +2444,57 @@ void MainWindow::DoAddFile() {
 // Define a music playlist (Drag & drop or browser contextual menu)
 //====================================================================================================================
 
-void MainWindow::s_Action_DoUseAsPlayList(QStringList &MusicFileList,int Index) {
-    if ((Index>=0)&&(Index<Diaporama->List.count())) {
-        bool ModifyFlag=false;
-        while (Diaporama->List[Index]->MusicList.count()) Diaporama->List[Index]->MusicList.removeAt(0);
-        for (int i=0;i<MusicFileList.count();i++) {
-            int CurMusIndex=Diaporama->List[Index]->MusicList.count();
-            Diaporama->List[Index]->MusicList.insert(CurMusIndex,cMusicObject(ApplicationConfig));
-            if (!Diaporama->List[Index]->MusicList[CurMusIndex].GetInformationFromFile(MusicFileList[i],NULL,&ModifyFlag)&&(!Diaporama->List[Index]->MusicList[CurMusIndex].CheckFormatValide(this)))
-                Diaporama->List[Index]->MusicList.removeAt(CurMusIndex);
+void MainWindow::s_Action_DoUseAsPlayList() {
+    if (!DlgWorkingTaskDialog) return;
+    if ((MusicFileList.count()==0)||(CancelAction)) {
+        if (DlgWorkingTaskDialog) {
+            DlgWorkingTaskDialog->close();
+            delete DlgWorkingTaskDialog;
+            DlgWorkingTaskDialog=NULL;
         }
-        Diaporama->List[Index]->MusicType=true;
-        Diaporama->List[Index]->MusicPause=false;
-        Diaporama->List[Index]->MusicReduceVolume=false;
-        SetModifyFlag(true);
+        MusicFileList.clear();
         Diaporama->UpdateCachedInformation();
         ui->timeline->setUpdatesEnabled(false);
         ui->timeline->setUpdatesEnabled(true);
+        return;
     }
+
+    if ((CurIndex>=0)&&(CurIndex<Diaporama->List.count())) {
+        if (!Diaporama->List[CurIndex]->MusicType) {
+            Diaporama->List[CurIndex]->MusicType=true;
+            Diaporama->List[CurIndex]->MusicPause=false;
+            Diaporama->List[CurIndex]->MusicReduceVolume=false;
+        }
+        while ((!CancelAction)&&(MusicFileList.count()>0)) {
+            QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+            QString NewFile=MusicFileList.takeFirst();
+            DlgWorkingTaskDialog->DisplayText(QFileInfo(NewFile).fileName());
+            DlgWorkingTaskDialog->DisplayProgress(DlgWorkingTaskDialog->MaxValue+DlgWorkingTaskDialog->AddValue-MusicFileList.count());
+            int CurMusIndex=Diaporama->List[CurIndex]->MusicList.count();
+            Diaporama->List[CurIndex]->MusicList.insert(CurMusIndex,new cMusicObject(ApplicationConfig));
+            bool ModifyFlag=false;
+            if (!Diaporama->List[CurIndex]->MusicList[CurMusIndex]->GetInformationFromFile(NewFile,NULL,&ModifyFlag)&&(!Diaporama->List[CurIndex]->MusicList[CurMusIndex]->CheckFormatValide(this))) {
+                Diaporama->List[CurIndex]->MusicList.removeAt(CurMusIndex);
+            } else {
+                DlgWorkingTaskDialog->DisplayText2(QApplication::translate("MainWindow","Analyse file:"));
+                QList<qreal> Peak,Moyenne;
+                DlgWorkingTaskDialog->TimerProgress=0;
+                if (!Diaporama->List[CurIndex]->MusicList[CurMusIndex]->IsComputedDuration)
+                    Diaporama->List[CurIndex]->MusicList[CurMusIndex]->DoAnalyseSound(&Peak,&Moyenne,&CancelAction,&DlgWorkingTaskDialog->TimerProgress);
+                DlgWorkingTaskDialog->StopText2();
+                Diaporama->List[CurIndex]->MusicList[CurMusIndex]->EndPos=Diaporama->List[CurIndex]->MusicList[CurMusIndex]->GetRealDuration();
+            }
+            SetModifyFlag(true);
+            QApplication::restoreOverrideCursor();
+        }
+    }
+    QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoUseAsPlayList()));
 }
 
 //====================================================================================================================
 
 void MainWindow::s_VideoPlayer_SaveImageEvent() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_VideoPlayer_SaveImageEvent()));
-        return;
-    }
+    if (ForcePause(SLOT(s_VideoPlayer_SaveImageEvent()))) return;
     QStringList Size;
     QMenu *ContextMenu=new QMenu(this);
     for (int i=0;i<NBR_SIZEDEF;i++)
@@ -2595,18 +2547,21 @@ void MainWindow::s_VideoPlayer_SaveImageEvent() {
 //====================================================================================================================
 
 void MainWindow::s_Event_ContextualMenu(QMouseEvent *) {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Event_ContextualMenu()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Event_ContextualMenu()))) return;
 
     int         Current=ui->timeline->CurrentSelected();
     QList<int>  SlideList;
 
     if ((Current<0)||(Current>=Diaporama->List.count())) return;
     ui->timeline->CurrentSelectionList(&SlideList);
+
+    // Check if slides in selection are concurrent
+    //bool IsConcurrent=true;
+    //bool MusicRestart=false;
+    //for (int i=0;i<SlideList.count();i++) {
+    //    if ((i<SlideList.count()-1)&&(SlideList[i+1]-SlideList[i]>1)) IsConcurrent=false;
+    //    if (Diaporama->List[SlideList[i]]->MusicType) MusicRestart=true;
+    //}
 
     QMenu *ContextMenu=new QMenu(this);
     if (SlideList.count()==1) {
@@ -2625,6 +2580,24 @@ void MainWindow::s_Event_ContextualMenu(QMouseEvent *) {
         ContextMenu->addAction(ui->actionPaste);
         ContextMenu->addSeparator();
         ContextMenu->addAction(ui->actionRemove);
+        if ((ui->timeline->ClickedSlide>=0)&&(ui->timeline->ClickedSlide<Diaporama->List.count())&&(ui->timeline->MusicPart)) {
+            bool AddSep=false;
+            if (Diaporama->List[ui->timeline->ClickedSlide]->MusicType)  {
+                ContextMenu->addSeparator();
+                AddSep=true;
+                ContextMenu->addAction(ui->actionRemovePlaylist);
+            }
+            int          CurrentCountObjet   =0;
+            int64_t      StartPosition       =0;
+            cMusicObject *CurMusic=Diaporama->GetMusicObject(ui->timeline->ClickedSlide,StartPosition,&CurrentCountObjet);
+            if ((CurMusic)&&(StartPosition>=(QTime(0,0,0,0).msecsTo(CurMusic->GetDuration())-Diaporama->List[ui->timeline->ClickedSlide]->TransitionDuration))) CurMusic=NULL;
+            if (CurMusic) {
+                if (!AddSep) ContextMenu->addSeparator();
+                if (Diaporama->List[ui->timeline->ClickedSlide]->MusicPause) ContextMenu->addAction(ui->actionPlaylistToPlay);
+                    else                                                     ContextMenu->addAction(ui->actionPlaylistToPause);
+                ContextMenu->addAction(ui->actionAdjustOnMusic);
+            }
+        }
     } else if (SlideList.count()>1) {
         // Multiple slide selection
         ContextMenu->addAction(ui->actionAddTitle);
@@ -2645,6 +2618,13 @@ void MainWindow::s_Event_ContextualMenu(QMouseEvent *) {
         ContextMenu->addAction(ui->actionRandomize_transition);
         ContextMenu->addSeparator();
         ContextMenu->addAction(ui->actionRemove);
+
+        int64_t      StartPosition=0;
+        cMusicObject *CurMusic    =Diaporama->GetMusicObject(SlideList.at(0),StartPosition,NULL,NULL);
+        if (CurMusic) {
+            ContextMenu->addSeparator();
+            ContextMenu->addAction(ui->actionAdjustOnMusic);
+        }
     }
     ContextMenu->exec(QCursor::pos());
     delete ContextMenu;
@@ -2652,13 +2632,86 @@ void MainWindow::s_Event_ContextualMenu(QMouseEvent *) {
 
 //====================================================================================================================
 
-void MainWindow::s_Action_EditObject() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_EditObject()));
-        return;
+void MainWindow::s_Action_RemovePlaylist() {
+    int Current=ui->timeline->ClickedSlide;
+    if ((Current<0)||(Current>=Diaporama->List.count())) return;
+    while (Diaporama->List[Current]->MusicList.count()) Diaporama->List[Current]->MusicList.removeAt(0);
+    Diaporama->List[Current]->MusicType=false;
+    SetModifyFlag(true);
+    Diaporama->UpdateCachedInformation();
+    ui->timeline->setUpdatesEnabled(false);
+    ui->timeline->setUpdatesEnabled(true);
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Action_PlaylistToPlay() {
+    int Current=ui->timeline->ClickedSlide;
+    if ((Current<0)||(Current>=Diaporama->List.count())) return;
+    Diaporama->List[Current]->MusicPause=false;
+    SetModifyFlag(true);
+    Diaporama->UpdateCachedInformation();
+    ui->timeline->setUpdatesEnabled(false);
+    ui->timeline->setUpdatesEnabled(true);
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Action_PlaylistToPause() {
+    int Current=ui->timeline->ClickedSlide;
+    if ((Current<0)||(Current>=Diaporama->List.count())) return;
+    Diaporama->List[Current]->MusicPause=true;
+    SetModifyFlag(true);
+    Diaporama->UpdateCachedInformation();
+    ui->timeline->setUpdatesEnabled(false);
+    ui->timeline->setUpdatesEnabled(true);
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Action_AdjustOnMusic() {
+    int         Current=ui->timeline->CurrentSelected();
+    QList<int>  SlideList;
+
+    if ((Current<0)||(Current>=Diaporama->List.count())) return;
+    ui->timeline->CurrentSelectionList(&SlideList);
+
+    // Ensure first slide of the selection have music
+    int64_t      StartPosition=0;
+    cMusicObject *CurMusic    =Diaporama->GetMusicObject(SlideList.at(0),StartPosition,NULL,NULL);
+    if (CurMusic) {
+        // Ensure all slides in selection are concurrent
+        bool IsConcurrent=true;
+        bool MusicRestart=false;
+        for (int i=0;i<SlideList.count();i++) {
+            if ((i<SlideList.count()-1)&&(SlideList[i+1]-SlideList[i]>1)) IsConcurrent=false;
+            if ((i>0)&&(Diaporama->List[SlideList[i]]->MusicType)) MusicRestart=true;
+        }
+        if (!IsConcurrent) {
+            CustomMessageBox(this,QMessageBox::Information,QApplication::translate("MainWindow","Adjust slide duration on music"),
+                QApplication::translate("MainWindow","To adjust duration of multiple slides on music, selected slides must be adjacent"));
+            return;
+        }
+        if (MusicRestart) {
+            CustomMessageBox(this,QMessageBox::Information,QApplication::translate("MainWindow","Adjust slide duration on music"),
+                QApplication::translate("MainWindow","To adjust duration of multiple slides on music, no slides can define a new playlist (except the first)"));
+            return;
+        }
+        DlgAdjustToSound Dlg(&SlideList,Diaporama,ApplicationConfig,this);
+        Dlg.InitDialog();
+        if (Dlg.exec()==0) {
+            SetModifyFlag(true);
+            Diaporama->UpdateCachedInformation();
+            ui->timeline->setUpdatesEnabled(false);
+            ui->timeline->setUpdatesEnabled(true);
+        }
     }
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Action_EditObject() {
+    if (ForcePause(SLOT(s_Action_EditObject()))) return;
 
     int         Current=ui->timeline->CurrentSelected();
     QList<int>  SlideList;
@@ -2693,12 +2746,7 @@ void MainWindow::s_Action_EditObject() {
 //====================================================================================================================
 
 void MainWindow::s_Action_RemoveObject() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_RemoveObject()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_RemoveObject()))) return;
     ui->ActionRemove_BT->setDown(false);
     ui->ActionRemove_BT_2->setDown(false);
 
@@ -2726,6 +2774,7 @@ void MainWindow::s_Action_RemoveObject() {
     }
     if (Current<0) Current=0;
     if (Current>=Diaporama->List.count()) Current=Diaporama->List.count()-1;
+    Diaporama->UpdateInformation();
     ui->timeline->ResetDisplay(Current);    // FLAGSTOPITEMSELECTION is set to false by ResetDisplay
     (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Current)+Diaporama->GetTransitionDuration(Current));
     SetModifyFlag(true);
@@ -2737,12 +2786,7 @@ void MainWindow::s_Action_RemoveObject() {
 //====================================================================================================================
 
 void MainWindow::s_Action_CutToClipboard() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_CutToClipboard()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_CutToClipboard()))) return;
     ui->ActionCut_BT->setDown(false);
     ui->ActionCut_BT_2->setDown(false);
 
@@ -2777,12 +2821,7 @@ void MainWindow::s_Action_CutToClipboard() {
 //====================================================================================================================
 
 void MainWindow::s_Action_CopyToClipboard() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_CopyToClipboard()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_CopyToClipboard()))) return;
     ui->ActionCopy_BT->setDown(false);
     ui->ActionCopy_BT_2->setDown(false);
 
@@ -2816,12 +2855,7 @@ void MainWindow::s_Action_CopyToClipboard() {
 //====================================================================================================================
 
 void MainWindow::s_Action_PasteFromClipboard() {
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_PasteFromClipboard()));
-        return;
-    }
+    if (ForcePause(SLOT(s_Action_PasteFromClipboard()))) return;
     ui->ActionPaste_BT->setDown(false);
     ui->ActionPaste_BT_2->setDown(false);
 
@@ -2987,7 +3021,7 @@ void MainWindow::AdjustRuller(int CurIndex) {
         (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
     } else ui->timeline->repaint();
     if (Diaporama->List.count()>0)  {
-        Diaporama->ProjectInfo->Duration=QTime(0,0,0,0).addMSecs(Diaporama->GetDuration());
+        Diaporama->ProjectInfo->SetGivenDuration(QTime(0,0,0,0).addMSecs(Diaporama->GetDuration()));
         Diaporama->ProjectInfo->NbrSlide=Diaporama->List.count();
         ui->preview->SetStartEndPos(
                 Diaporama->GetObjectStartPosition(Diaporama->CurrentCol),                                                           // Current slide
@@ -3043,10 +3077,47 @@ void MainWindow::s_Browser_AddFiles() {
     ui->Browser->GetCurrentSelectedMediaFile(&MediaList);
     if (MediaList.count()>0) {
         // Query the list to known if it is music
-        QStringList MusicFileList;
-        for (int i=0;i<MediaList.count();i++) if (MediaList[i]->ObjectType==OBJECTTYPE_MUSICFILE)
-            MusicFileList.append(QFileInfo(MediaList[i]->FileName()).absoluteFilePath());
-        if (MusicFileList.count()>0) s_Action_DoUseAsPlayList(MusicFileList,Diaporama->CurrentCol); else {
+        MusicFileList.clear();
+        for (int i=0;i<MediaList.count();i++) if (MediaList[i]->ObjectType==OBJECTTYPE_MUSICFILE) MusicFileList.append(QFileInfo(MediaList[i]->FileName()).absoluteFilePath());
+
+        if (DlgWorkingTaskDialog) {
+            DlgWorkingTaskDialog->close();
+            delete DlgWorkingTaskDialog;
+            DlgWorkingTaskDialog=NULL;
+        }
+
+        CancelAction                =false;
+        CurrentLoadingProjectObject =0;
+
+        if (MusicFileList.count()>0) {
+            CurIndex     =Diaporama->CurrentCol;
+            SavedCurIndex=Diaporama->CurrentCol;
+
+            bool Continue=true;
+            if (Diaporama->List[CurIndex]->MusicType) {
+                if (Diaporama->List[CurIndex]->MusicList.count()>0) {
+                    int Ret=CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Add music file"),
+                                              QApplication::translate("MainWindow","This slide already has a playlist. What to do?"),
+                                              QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel, QMessageBox::Yes,
+                                              QApplication::translate("MainWindow","Add to the current playlist"),
+                                              QApplication::translate("MainWindow","Replace the current playlist"));
+                    if (Ret==QMessageBox::Cancel) Continue=false; else if (Ret==QMessageBox::No) {
+                        while (Diaporama->List[CurIndex]->MusicList.count()) Diaporama->List[CurIndex]->MusicList.removeAt(0);
+                    }
+                }
+            }
+            if (Continue) {
+                // Open progress window
+                CurrentLoadingProjectNbrObject=MusicFileList.count();
+                DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Add music file"),&CancelAction,ApplicationConfig,this);
+                DlgWorkingTaskDialog->InitDialog();
+                DlgWorkingTaskDialog->SetMaxValue(CurrentLoadingProjectNbrObject,0);
+                ToStatusBar(QApplication::translate("MainWindow","Analyse file :")+QFileInfo(MusicFileList[0]).fileName());
+                QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoUseAsPlayList()));
+                DlgWorkingTaskDialog->exec();
+
+            }
+        } else {
             // If it is not music object, then calc position of new object depending on ApplicationConfig->AppendObject
             if (ApplicationConfig->AppendObject) {
                 SavedCurIndex   =Diaporama->List.count();
@@ -3059,17 +3130,8 @@ void MainWindow::s_Browser_AddFiles() {
             FileList.clear();
             for (int i=0;i<MediaList.count();i++) FileList.append(MediaList[i]->FileName());
 
-            // Load object list
-            CurrentLoadingProjectNbrObject=FileList.count();
-            CurrentLoadingProjectObject   =0;
-            CancelAction                  =false;
-
             // Open progress window
-            if (DlgWorkingTaskDialog) {
-                DlgWorkingTaskDialog->close();
-                delete DlgWorkingTaskDialog;
-                DlgWorkingTaskDialog=NULL;
-            }
+            CurrentLoadingProjectNbrObject=FileList.count();
             DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Add files to project"),&CancelAction,ApplicationConfig,this);
             DlgWorkingTaskDialog->InitDialog();
             DlgWorkingTaskDialog->SetMaxValue(CurrentLoadingProjectNbrObject,0);

@@ -45,7 +45,7 @@ public:
     QString                 ForceLanguage;
     bool                    IsFirstInitDone;                // true when first show window was done
     bool                    FLAGSTOPITEMSELECTION;          // Flag to stop Item Selection process in the timeline
-    cApplicationConfig  *ApplicationConfig;
+    cApplicationConfig      *ApplicationConfig;
     cDiaporama              *Diaporama;
     int                     LastCount;
     QString                 TitleBar;
@@ -56,16 +56,15 @@ public:
     // Variables used for actions
     QString                 FileForIO;
     int                     SavedCurIndex,CurIndex;
-    QStringList             FileList;
 
     Qt::HANDLE              CurrentThreadId;
-    bool                    InPlayerUpdate;
 
     DlgWorkingTask          *DlgWorkingTaskDialog;
     bool                    CancelAction;
     int                     CurrentDriveCheck;
 
     // Loading operation
+    QStringList             FileList,MusicFileList;
     QDomElement             CurrentLoadingProjectDocument;
     int                     CurrentLoadingProjectObject;
     int                     CurrentLoadingProjectNbrObject;
@@ -87,6 +86,7 @@ public:
     void    ToStatusBar(QString Text);
     void    SetTimelineCurrentCell(int Cell);
     void    DoTimelineSelectionChanged();                   // Timeline current item changed
+    bool    ForcePause(const char *caller);
 
 protected:
     virtual void    resizeEvent(QResizeEvent *);
@@ -109,7 +109,7 @@ private slots:
     // Event functions
     void    s_Event_ClipboardChanged();                     // Something have changed in the clipboard
     void    s_Event_ToolbarChanged(int MenuIndex);          // User change current toolbar TAB
-    void    DoCheckBUILDVERSION(QNetworkReply*);           // Build version was downloaded from internet
+    void    DoCheckBUILDVERSION(QNetworkReply*);            // Build version was downloaded from internet
 
     // Timeline & player
     void    s_Event_TimelineDragMoveItem();                 // Drag & drop operation in timeline
@@ -120,7 +120,7 @@ private slots:
     void    s_Event_DoubleClickedOnBackground();            // Double click on widget in the background track
     void    s_Event_DoubleClickedOnMusic();                 // Double click on widget in the music track
     void    s_Event_ContextualMenu(QMouseEvent *);          // Right click
-    void    s_VideoPlayer_SaveImageEvent();                       // Click on preview save image button
+    void    s_VideoPlayer_SaveImageEvent();                 // Click on preview save image button
 
     // Actions small bottom right toolbar menu
     void    s_Action_Version();
@@ -154,12 +154,18 @@ private slots:
     void    s_Action_AddProject();
     void    DoAddFile();
     void    DoAppendFile();
-    void    s_Action_DoUseAsPlayList(QStringList &MusicFileList,int Index);
+    void    s_Action_DoUseAsPlayList();
     void    s_Action_RemoveObject();
     void    s_Action_EditObject();
     void    s_Action_CutToClipboard();
     void    s_Action_CopyToClipboard();
     void    s_Action_PasteFromClipboard();
+
+    // Actions contextual menu (on single slide music part)
+    void    s_Action_RemovePlaylist();
+    void    s_Action_PlaylistToPlay();
+    void    s_Action_PlaylistToPause();
+    void    s_Action_AdjustOnMusic();
 
     // Actions contextual menu (on multiple selection)
     void    s_ActionMultiple_SetFirstShotDuration();

@@ -6844,15 +6844,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The wave form of the sound of the video is dispayed under a white background.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>The ruler representing the duration of the video is dispayed under a black background. Remark than the length of the ruler is increased in proportion to the duration of the video.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The blue part, on wave form and ruler, represents the part of the video which is selected (which will be used in the assembly).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The wave form of the sound of the video is displayed under a white background.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -9674,10 +9674,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The wave form of the sound is dispayed under a white background.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>The ruler representing the duration of the sound file is dispayed under a black background. Remark than the length of the ruler is increased in proportion to the duration of the sound file.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9728,6 +9724,10 @@
     <message>
         <source> Uses the current cursor position as end point (carries out an edit)</source>
         <translation type="unfinished">Usa a posição actual do cursor como ponto final (realiza um edit)</translation>
+    </message>
+    <message>
+        <source>The wave form of the sound is displayed under a white background.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
