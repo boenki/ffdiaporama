@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>382</width>
-    <height>291</height>
+    <width>380</width>
+    <height>289</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -357,7 +357,7 @@
      <item row="0" column="0">
       <widget class="QPushButton" name="OKBefore">
        <property name="toolTip">
-        <string>Accept modification and exit dialog box</string>
+        <string>Adjust the duration of selected slides to the music end before the transition and exit dialog box</string>
        </property>
        <property name="text">
         <string>&amp;Adjust to end before transition</string>
@@ -384,7 +384,7 @@
      <item row="1" column="0">
       <widget class="QPushButton" name="OKWith">
        <property name="toolTip">
-        <string>Accept modification and exit dialog box</string>
+        <string>Adjust the duration of selected slides to the music end with the transition and exit dialog box</string>
        </property>
        <property name="text">
         <string>&amp;Adjust to end with transition</string>

@@ -116,6 +116,7 @@ QCustomRuler::~QCustomRuler() {
 
 void QCustomRuler::AnalyseSound(cVideoFile *MusicObject) {
     IsAnalysed=MusicObject->DoAnalyseSound(&Peak,&Moyenne,&IsAnalysed,&Analysed);
+    SoundLevel=MusicObject->GetSoundLevel();
     PrepareSoundWave();
     Analysed=100;
     TotalDuration=QTime(0,0,0,0).msecsTo(MusicObject->GetRealDuration());
@@ -126,18 +127,48 @@ void QCustomRuler::AnalyseSound(cVideoFile *MusicObject) {
 void QCustomRuler::PrepareSoundWave() {
     QImage   *Image=new QImage(width()-TAQUET_SIZE*2,height()-32,QImage::Format_ARGB32_Premultiplied);
     QPainter Painter;
-    QPen     BluePen,GreenPen;
+    QPen     BluePen,GreenPen,BlackPen,WhitePen;
     int      Height=Image->height();
     Painter.begin(Image);
     Painter.fillRect(QRect(0,0,Image->width(),Height),Qt::white);
+    Height=Height/2;
+    Painter.translate(0,Height);
+    Painter.save();
     BluePen.setColor(Qt::blue);
     GreenPen.setColor(Qt::green);
+    BlackPen.setColor(Qt::black);
+    WhitePen.setColor(Qt::white);
     Painter.scale(qreal(Image->width())/qreal(Peak.count()),1);
-    Painter.translate(0,Height/2);
-    Height=Height/2;
     for (int i=0;i<Peak.count();i++) {
         Painter.setPen(BluePen);  Painter.drawLine(QPointF(i,Peak[i]*Height),QPointF(i,-Peak[i]*Height));
         Painter.setPen(GreenPen); Painter.drawLine(QPointF(i,Moyenne[i]*Height),QPointF(i,-Moyenne[i]*Height));
+    }
+    Painter.restore();
+    WhitePen.setStyle(Qt::DashLine);    Painter.setPen(WhitePen);
+    Painter.drawLine(QPointF(0,-SoundLevel*Height),QPointF(Image->width(),-SoundLevel*Height));
+    BlackPen.setStyle(Qt::DashLine);    Painter.setPen(BlackPen);
+    Painter.drawLine(QPointF(-1,-1-SoundLevel*Height),QPointF(-1+Image->width(),-1-SoundLevel*Height));
+    BlackPen.setStyle(Qt::SolidLine);
+    WhitePen.setStyle(Qt::SolidLine);
+    QFont font= QApplication::font();
+    Painter.setFont(font);
+    #ifdef Q_OS_WIN
+    font.setPointSizeF(double(90)/ScaleFontAdjust);                    // Scale font
+    #else
+    font.setPointSizeF((double(110)/ScaleFontAdjust)*ScreenFontAdjust);// Scale font
+    #endif
+    Painter.setFont(font);
+    int HFont=Painter.fontMetrics().height();
+    if (Height-SoundLevel*Height-HFont>0) {
+        Painter.setPen(WhitePen);
+        Painter.drawText(QRectF(0,-Height,Image->width(),Height-SoundLevel*Height),QString("%1").arg(int(SoundLevel*100)),QTextOption(Qt::AlignRight|Qt::AlignBottom));
+        Painter.setPen(BlackPen);
+        Painter.drawText(QRectF(-1,-1-Height,Image->width(),Height-SoundLevel*Height),QString("%1").arg(int(SoundLevel*100)),QTextOption(Qt::AlignRight|Qt::AlignBottom));
+    } else {
+        Painter.setPen(WhitePen);
+        Painter.drawText(QRectF(0,-Height+SoundLevel*Height,Image->width(),SoundLevel*Height),QString("%1").arg(int(SoundLevel*100)),QTextOption(Qt::AlignRight|Qt::AlignTop));
+        Painter.setPen(BlackPen);
+        Painter.drawText(QRectF(-1,-1-Height+SoundLevel*Height,Image->width(),SoundLevel*Height),QString("%1").arg(int(SoundLevel*100)),QTextOption(Qt::AlignRight|Qt::AlignTop));
     }
     Painter.end();
     if (SoundWave) delete SoundWave;

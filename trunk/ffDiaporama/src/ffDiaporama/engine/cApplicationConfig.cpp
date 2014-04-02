@@ -212,6 +212,7 @@ cApplicationConfig::cApplicationConfig(QMainWindow *TheTopLevelWindow,QString Th
     Crop1088To1080          =true;                                                         // Automaticaly crop video from 1088 lines to 1080 (CANON)
     Deinterlace             =false;
     RememberLastDirectories =true;
+    DefaultSoundLevel       =20;
 
     //*********************************************************************
     // Search plateforme and define specific value depending on plateforme
@@ -651,6 +652,7 @@ bool cApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfigFile
             if (Element.hasAttribute("Deinterlace"))                Deinterlace             =Element.attribute("Deinterlace")!="0";
             if (Element.hasAttribute("Smoothing"))                  Smoothing               =Element.attribute("Smoothing")=="1";
             if (Element.hasAttribute("CheckConfigAtStartup"))       CheckConfigAtStartup    =Element.attribute("CheckConfigAtStartup")=="1";
+            if (Element.hasAttribute("DefaultSoundLevel"))          DefaultSoundLevel       =Element.attribute("DefaultSoundLevel").toInt();
         }
 
         if ((domDocument.elementsByTagName("CacheMemory").length()>0)&&(domDocument.elementsByTagName("CacheMemory").item(0).isElement()==true)) {
@@ -857,6 +859,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
     Element.setAttribute("Deinterlace",                 Deinterlace?"1":"0");
     Element.setAttribute("Smoothing",                   Smoothing?"1":0);
     Element.setAttribute("CheckConfigAtStartup",        CheckConfigAtStartup?"1":"0");
+    Element.setAttribute("DefaultSoundLevel",           DefaultSoundLevel);
     root.appendChild(Element);
 
     Element=domDocument.createElement("CacheMemory");

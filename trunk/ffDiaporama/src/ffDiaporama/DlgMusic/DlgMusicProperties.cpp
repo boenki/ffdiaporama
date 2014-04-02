@@ -110,12 +110,14 @@ bool DlgMusicProperties::DoAccept() {
     // Get Music volume for each file of the playlist
     if (DiaporamaObject->MusicType) {
         for (int CurIndex=0;CurIndex<DiaporamaObject->MusicList.count();CurIndex++) {
-            QString   Volume =((QComboBox *)ui->PlayListTable->cellWidget(CurIndex,2))->currentText(); Volume=Volume.left(Volume.length()-1);
-            QString   FadeIN =((QComboBox *)ui->PlayListTable->cellWidget(CurIndex,4))->currentText();
-            QString   FadeOUT=((QComboBox *)ui->PlayListTable->cellWidget(CurIndex,5))->currentText();
-
+            QString Volume =((QComboBox *)ui->PlayListTable->cellWidget(CurIndex,2))->currentText(); Volume=Volume.left(Volume.length()-1);
+            QString FadeIN =((QComboBox *)ui->PlayListTable->cellWidget(CurIndex,4))->currentText();
+            QString FadeOUT=((QComboBox *)ui->PlayListTable->cellWidget(CurIndex,5))->currentText();
+            bool    ok     =true;
+            double  qVolume=Volume.toInt(&ok);
+            if (!ok) qVolume=-1; else qVolume=qreal(qVolume)/100;
             DiaporamaObject->MusicList[CurIndex]->AllowCredit=GetCBChecked(CurIndex);
-            DiaporamaObject->MusicList[CurIndex]->Volume     =double(Volume.toInt())/100;
+            DiaporamaObject->MusicList[CurIndex]->Volume     =qVolume;
             DiaporamaObject->MusicList[CurIndex]->ForceFadIn =int64_t(FadeIN.toDouble()*1000);
             DiaporamaObject->MusicList[CurIndex]->ForceFadOut=int64_t(FadeOUT.toDouble()*1000);
         }
@@ -171,12 +173,14 @@ void DlgMusicProperties::SetItem(int row,int MusicIndex) {
 
     Item=new QTableWidgetItem(DiaporamaObject->MusicList[MusicIndex]->GetDuration().toString("hh:mm:ss.zzz")+"/"+DiaporamaObject->MusicList[MusicIndex]->GetRealDuration().toString("hh:mm:ss.zzz"));
     Item->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
-    if (!DiaporamaObject->MusicList[MusicIndex]->IsComputedDuration) Item->setTextColor(Qt::red);
+    if (!DiaporamaObject->MusicList[MusicIndex]->IsComputedAudioDuration) Item->setTextColor(Qt::red);
     ui->PlayListTable->setItem(row,1,Item);
 
     QComboBox *InternalCB=new QComboBox(ui->PlayListTable);
     for (int Factor=150;Factor>=10;Factor-=10) InternalCB->addItem(QString("%1%").arg(Factor));
-    InternalCB->setCurrentIndex(InternalCB->findText(QString("%1%").arg(int(DiaporamaObject->MusicList[MusicIndex]->Volume*100))));
+    InternalCB->addItem(QApplication::translate("DlgMusicProperties","Auto"));
+    if (DiaporamaObject->MusicList[MusicIndex]->Volume==-1) InternalCB->setCurrentIndex(InternalCB->count()-1);
+        else InternalCB->setCurrentIndex(InternalCB->findText(QString("%1%").arg(int(DiaporamaObject->MusicList[MusicIndex]->Volume*100))));
     ui->PlayListTable->setCellWidget(row,2,InternalCB);
 
     // Generic column
@@ -276,6 +280,7 @@ void DlgMusicProperties::s_AddMusic() {
 
 void DlgMusicProperties::s_Action_AddMusic() {
     if ((FileList.count()==0)||(CancelAction)) {
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
         if (DlgWorkingTaskDialog) {
             DlgWorkingTaskDialog->close();
             delete DlgWorkingTaskDialog;
@@ -283,21 +288,22 @@ void DlgMusicProperties::s_Action_AddMusic() {
         }
         FileList.clear();
         RefreshControl(true);
+        QApplication::restoreOverrideCursor();
         return;
     }
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     QString NewFile   =FileList.takeFirst();
     bool    ModifyFlag=false;
     int     CurIndex  =DiaporamaObject->MusicList.count();
-    DlgWorkingTaskDialog->DisplayText(QFileInfo(NewFile).fileName());
+    DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","Add file to project :")+QFileInfo(NewFile).fileName());
     DlgWorkingTaskDialog->DisplayProgress(DlgWorkingTaskDialog->MaxValue+DlgWorkingTaskDialog->AddValue-FileList.count());
     DiaporamaObject->MusicList.insert(CurIndex,new cMusicObject(ApplicationConfig));
     if (DiaporamaObject->MusicList[CurIndex]->GetInformationFromFile(NewFile,NULL,&ModifyFlag)&&(DiaporamaObject->MusicList[CurIndex]->CheckFormatValide(this))) {
-        if (!DiaporamaObject->MusicList[CurIndex]->IsComputedDuration) {
+        if (!DiaporamaObject->MusicList[CurIndex]->IsComputedAudioDuration) {
             DlgWorkingTaskDialog->DisplayText2(QApplication::translate("MainWindow","Analyse file:"));
             QList<qreal> Peak,Moyenne;
             DlgWorkingTaskDialog->TimerProgress=0;
-            if (!DiaporamaObject->MusicList[CurIndex]->IsComputedDuration)
+            if (!DiaporamaObject->MusicList[CurIndex]->IsComputedAudioDuration)
                 DiaporamaObject->MusicList[CurIndex]->DoAnalyseSound(&Peak,&Moyenne,&CancelAction,&DlgWorkingTaskDialog->TimerProgress);
             DlgWorkingTaskDialog->StopText2();
             DiaporamaObject->MusicList[CurIndex]->EndPos=DiaporamaObject->MusicList[CurIndex]->GetRealDuration();

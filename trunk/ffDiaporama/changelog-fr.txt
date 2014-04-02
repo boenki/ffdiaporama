@@ -2,7 +2,23 @@
 * FFDIAPORAMA 2.2 - trunk (Version Française)
 **************************************************
 
-[Commit: 10/03/2014] - ffDiaporama 2.2 devel 20140310
+[Commit: 02/04/2014] - ffDiaporama 2.2 devel 20140402
+    Correction de bug :
+        -Corrige un bug de calcul lors de l'encodage en MJPEG qui échouait parfois en NTSC
+        -Corrige un bug de non respect des pauses lors de transition sur la musique
+        -Corrige un bug de mauvais positionnement audio dans certaines vidéos
+        -Corrige un bug de non mise à jours de la variable %PDD% (durée du projet)
+
+    Nouveautés :
+        -Ajoute une option pour régler la valeur à atteindre pour les amplifications automatique de volume dans la boite d'option
+        -Définie par défaut le "master volume" sur automatique lors des ajouts de musique dans la piste musical
+        -Définie par défaut le "master volume" sur automatique lors des ajouts de vidéo dans une diapositive
+        -Ajoute l'affichage des fade-in/out dans la barre de temps sous forme de ligne rouge en diagonale
+        -Force l'analyse des vidéos lors de leur ajout au projet (depuis la fenêtre principal ou la boite d'édition des diapositives)
+        -Ajoute l'affichage d'une boite de progression (avec bouton d'annulation) lors des ajouts de fichier dans la boite d'édition des diapositives
+
+--------------------------------------------------------------------------------
+[Commit: 10/03/2014] - ffDiaporama 2.2 devel 20140314
     Correction de bug :
         -Corrige un problème de décalage d'axes sur 2 LUMA clock
         -Corrige un problème de lecture du son qui n'allait pas jusqu'au bout avec certains fichiers MP3

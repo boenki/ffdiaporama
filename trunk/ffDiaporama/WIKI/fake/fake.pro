@@ -24,7 +24,8 @@ TRANSLATIONS += ../wikifake_fr.ts \
                 ../wikifake_it.ts \
                 ../wikifake_de.ts \
                 ../wikifake_es.ts \
+                ../wikifake_gl.ts \
                 ../wikifake_pt.ts \
                 ../wikifake_ru.ts \
-                ../wikifake_el.ts 
+                ../wikifake_el.ts
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>524</width>
-    <height>498</height>
+    <width>522</width>
+    <height>496</height>
    </rect>
   </property>
   <property name="font">
@@ -90,6 +90,9 @@
        <property name="icon">
         <iconset resource="../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -296,8 +299,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>506</width>
-        <height>226</height>
+        <width>484</width>
+        <height>220</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="formLayout">
@@ -492,7 +495,7 @@ border: 1px solid darkgray;
 }</string>
            </property>
            <property name="frameShape">
-            <enum>QFrame::Box</enum>
+            <enum>QFrame::StyledPanel</enum>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_4">
             <property name="spacing">

@@ -437,8 +437,8 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
         VideoStream->codec->pix_fmt             =PIX_FMT_YUVJ420P;
         VideoStream->codec->qmin                =2;
         VideoStream->codec->qmax                =2;
-        VideoStream->codec->bit_rate_tolerance  =(ImageWidth*ImageHeight*2*VideoFrameRate.den/VideoFrameRate.num)*2;
-
+        VideoStream->codec->bit_rate_tolerance  =int(qreal(int64_t(ImageWidth)*int64_t(ImageHeight)*int64_t(VideoFrameRate.den))/qreal(VideoFrameRate.num))*10;
+qDebug()<<ImageWidth<<ImageHeight<<VideoFrameRate.den<<VideoFrameRate.num<<ImageWidth*ImageHeight*VideoFrameRate.den/VideoFrameRate.num;
     } else if (codec->id==AV_CODEC_ID_VP8) {
 
         BFrames=3;

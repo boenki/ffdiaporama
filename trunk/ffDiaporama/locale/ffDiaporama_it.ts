@@ -112,10 +112,6 @@ Se volete aiutarci o completando una traduzione incompleta, o traducendo l&apos;
         <translation type="unfinished">&amp;Annulla</translation>
     </message>
     <message>
-        <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
-    </message>
-    <message>
         <source>&amp;Adjust to end before transition</source>
         <translation type="unfinished"></translation>
     </message>
@@ -130,6 +126,14 @@ Se volete aiutarci o completando una traduzione incompleta, o traducendo l&apos;
     <message>
         <source>&amp;Help</source>
         <translation type="unfinished">A&amp;iuto</translation>
+    </message>
+    <message>
+        <source>Adjust the duration of selected slides to the music end before the transition and exit dialog box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust the duration of selected slides to the music end with the transition and exit dialog box</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -445,14 +449,6 @@ Vedere la guida per maggiori dettagli!</translation>
         <translation>Senza perdite :</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Preview options&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Anteprima opzioni&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Project options (default values)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Opzioni progetto (valori predefiniti)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
         <source>Remember size and position of windows</source>
         <translation>Ricorda dimensione e posizione delle finestre</translation>
     </message>
@@ -589,10 +585,6 @@ Inquadratura:</translation>
     <message>
         <source>image portrait</source>
         <translation>immagine ritratto</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Default options for speed wave&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Opzioni predefinite per la velocità onda&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Block animation:</source>
@@ -909,10 +901,6 @@ Al di là di questa altezza, i video vengono automaticamente ridotti per la crea
         <translation>dd/MM/yyyy</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Various options&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Opzioni varie&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
         <source>Default thumbnail :</source>
         <translation>Miniatura predefinita :</translation>
     </message>
@@ -999,10 +987,6 @@ Nota: questo campo è limitato a 30 caratteri per essere compatibile con jukebox
         <translation>Indirizzo Proxy :</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Network settings&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Impostazioni rete&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
         <source>Check this box if your network requires that you use a proxy</source>
         <translation>Seleziona questa casella se la rete richiede l&apos;utilizzo di un proxy</translation>
     </message>
@@ -1064,6 +1048,34 @@ Nota: questo campo è limitato a 30 caratteri per essere compatibile con jukebox
     </message>
     <message>
         <source>Select a tune preset (set of advanced options to further optimize them for your input content)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preview options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Various options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project options (default values)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default options for speed wave</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default sound level :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set the volume level to be achieved by amplification for music and audio tracks when the volume is set to auto</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3291,6 +3303,10 @@ Sposta il file selezionato di un passo verso il basso</translation>
         <source>Fade-OUT</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Auto</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgRenderVideo</name>
@@ -4777,6 +4793,10 @@ Coordinate blocco :</translation>
 Block shape (common to all shots):</source>
         <translation>
 Bloccare forma (comune a tutti gli scatti):</translation>
+    </message>
+    <message>
+        <source>Add files</source>
+        <translation type="unfinished">Aggiungi files</translation>
     </message>
 </context>
 <context>
@@ -8378,6 +8398,10 @@ Esempio: se Y=25 % del primo trimestre nella parte superiore dell&apos;immagine 
         <source>Save this image of the movie</source>
         <extracomment>Tooltip in dialog box</extracomment>
         <translation type="unfinished">Salva questa immagine per il filmato</translation>
+    </message>
+    <message>
+        <source>Auto</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

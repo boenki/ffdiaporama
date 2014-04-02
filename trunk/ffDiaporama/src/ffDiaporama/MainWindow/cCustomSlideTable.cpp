@@ -192,7 +192,7 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
 
         bool    HaveFilter          =Object->CachedHaveFilter;
         bool    HaveSound           =Object->CachedHaveSound;
-        double  SoundVolume         =Object->CachedSoundVolume;
+        double  SoundVolume         =Object->CachedSoundVolume; if (SoundVolume==-1) SoundVolume=1;
         bool    PreviousHaveSound   =PreviousObject?PreviousObject->CachedHaveSound:false;
         double  PreviousSoundVolume =PreviousObject?PreviousObject->CachedSoundVolume:0;
 
@@ -377,7 +377,6 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
 
         bool            DrawOutTransition   =Object->CachedPrevMusicFadOUT;                                 //false;
         bool            DrawInTransition    =Object->CachedMusicFadIN;                                      //false;
-        bool            PrevEndMusic        =PreviousObject?PreviousObject->CachedMusicEnd:false;           //false;
         bool            PrevEndMusicTransit =Object->CachedPrevMusicEnd;                                    //false;
         double          PreviousFactor      =PrevMusic?((PreviousObject->MusicPause)?0:(PreviousObject->MusicReduceVolume)?PreviousObject->MusicReduceFactor:1):0;
 
@@ -431,10 +430,7 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
 
         if (CurMusic!=NULL) {
             // Start a new Playlist
-            if ((Object->MusicType)&&(Object->MusicList.count()>0)) {
-                if (((PrevMusic!=NULL))&&(IsTransition)&&(!PrevEndMusic)) DrawInTransition=true;
-                DrawVolumeTransition=false;
-            }
+            if ((Object->MusicType)&&(Object->MusicList.count()>0)) DrawVolumeTransition=false;
             if (DrawInTransition && IsTransition) {
                 Table[0]=QPointF(-1,ThumbHeight-5+2);
                 Table[1]=QPointF(TransitionSize,ThumbHeight-5-RHeight+2);
@@ -473,6 +469,12 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
             if (EndMusic) {
                 Painter->setPen(RedPen);
                 Painter->drawLine(Table[2],Table[3]);
+                if (CurMusic->ForceFadOut>0) {
+                    // if force fade out, draw a diag line
+                    qreal length=(ThumbWidth-TransitionSize)*(qreal(CurMusic->ForceFadOut)/qreal(CurSlideDuration));
+                    Table[2].setX(Table[2].x()-length);
+                    Painter->drawLine(Table[2],Table[3]);
+                }
                 Painter->setPen(Pen);
             }
         }
@@ -496,6 +498,15 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
             Painter->setPen(Pen);
             Painter->drawText(QRectF(TransitionSize+4,ThumbHeight-4-24,ThumbWidth-8-TransitionSize,24),MusicName,Qt::AlignLeft|Qt::AlignVCenter);
             if (OwnerObjectMusic!=ItemIndex) Painter->drawImage(TransitionSize-1-24,ThumbHeight-4-24+1,QImage(ICON_CONTINUEPLAYLIST));
+            if ((!DrawInTransition)&&(CurMusic->ForceFadIn>0)) {
+                // if force fade in, draw a diag line
+                qreal length=(ThumbWidth-TransitionSize)*(qreal(CurMusic->ForceFadIn)/qreal(CurSlideDuration));
+                Table[0]=QPointF(-1,ThumbHeight-5+2);
+                Table[1]=QPointF(-1+length,ThumbHeight-5-RHeight+2);
+                Painter->setPen(RedPen);
+                Painter->drawLine(Table[0],Table[1]);
+                Painter->setPen(Pen);
+            }
         } else if ((!CurMusic)&&(Object->MusicType)) {
             Painter->drawImage(TransitionSize-1-24,ThumbHeight-4-24+1,QImage(ICON_EMPTYPLAYLIST));
         }
@@ -789,8 +800,8 @@ void cCustomSlideTable::mouseMoveEvent(QMouseEvent *event) {
     if ((IsDragOn!=DRAGMODE_INTERNALMOVE_SLIDE)&&(IsDragOn!=DRAGMODE_INTERNALMOVE_MUSIC)&&(IsDragOn!=DRAGMODE_INTERNALMOVE_BACKGROUND)) {
         QTableWidget::mouseMoveEvent(event);
     } else {
-        if      ((!PartitionMode)&&(event->pos().x()<0)&&(horizontalScrollBar()->value()>0))                                        horizontalScrollBar()->setValue(horizontalScrollBar()->value()-1);  // Try to scroll left if not partition mode
-        else if ((!PartitionMode)&&(event->pos().x()>width())&&(horizontalScrollBar()->value()<horizontalScrollBar()->maximum()))   horizontalScrollBar()->setValue(horizontalScrollBar()->value()+1);  // Try to scroll right if not partition mode
+        if      ((!PartitionMode)&&(event->pos().x()<5/*0*/)&&(horizontalScrollBar()->value()>0))                                        horizontalScrollBar()->setValue(horizontalScrollBar()->value()-1);  // Try to scroll left if not partition mode
+        else if ((!PartitionMode)&&(event->pos().x()>width()-5)&&(horizontalScrollBar()->value()<horizontalScrollBar()->maximum()))   horizontalScrollBar()->setValue(horizontalScrollBar()->value()+1);  // Try to scroll right if not partition mode
         else if (( PartitionMode)&&(event->pos().y()<0)&&(verticalScrollBar()->value()>0))                                          verticalScrollBar()->setValue(verticalScrollBar()->value()-1);      // Try to scroll up if partition mode
         else if (( PartitionMode)&&(event->pos().y()>height())&&(verticalScrollBar()->value()<verticalScrollBar()->maximum()))      verticalScrollBar()->setValue(verticalScrollBar()->value()+1);      // Try to scroll down if partition mode
 

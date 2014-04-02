@@ -807,9 +807,10 @@ bool cFilesTable::GetThumbs(qlonglong FileKey,QImage *Icon16,QImage *Icon100) {
 
 //====================================================================================================================
 
-bool cFilesTable::GetAnalyseSound(qlonglong FileKey,QList<qreal> *Peak,QList<qreal> *Moyenne,int64_t *RealDuration) {
+bool cFilesTable::GetAnalyseSound(qlonglong FileKey,QList<qreal> *Peak,QList<qreal> *Moyenne,int64_t *RealAudioDuration,int64_t *RealVideoDuration,qreal *MaxMoyenneValue) {
     QSqlQuery Query(Database->db);
-    *RealDuration=0;
+    *RealAudioDuration=0;
+    if (RealVideoDuration) *RealVideoDuration=0;
     Query.prepare((QString("SELECT SoundWave FROM %1 WHERE Key=:Key").arg(TableName)));
     Query.bindValue(":Key",FileKey,QSql::In);
     if (!Query.exec()) {
@@ -835,16 +836,18 @@ bool cFilesTable::GetAnalyseSound(qlonglong FileKey,QList<qreal> *Peak,QList<qre
                 Moyenne->append(GetDoubleValue(Element,"M"));
                 PeakNbr++;
             }
-            if (root.hasAttribute("RealDuration")) *RealDuration=root.attribute("RealDuration").toLongLong();
+            if (root.hasAttribute("RealAudioDuration"))                         *RealAudioDuration=root.attribute("RealAudioDuration").toLongLong();
+            if ((RealVideoDuration)&&(root.hasAttribute("RealVideoDuration")))  *RealVideoDuration=root.attribute("RealVideoDuration").toLongLong();
+            if (root.hasAttribute("MaxMoyenne"))                                *MaxMoyenneValue  =GetDoubleValue(root,"MaxMoyenne");
         }
-        return (PeakNbr>0)&&((*RealDuration)>0);
+        return (PeakNbr>0)&&((*RealAudioDuration)>0)&&((*MaxMoyenneValue)>0)&&((!RealVideoDuration)||((*RealVideoDuration)>0));
     }
     return false;
 }
 
 //====================================================================================================================
 
-void cFilesTable::SetAnalyseSound(qlonglong FileKey,QList<qreal> *Peak,QList<qreal> *Moyenne,int64_t RealDuration) {
+void cFilesTable::SetAnalyseSound(qlonglong FileKey,QList<qreal> *Peak,QList<qreal> *Moyenne,int64_t RealAudioDuration,int64_t *RealVideoDuration,qreal MaxMoyenneValue) {
     QDomDocument domDocument("SOUNDWAVE");
     QDomElement  root=domDocument.createElement("SOUNDWAVE");
     for (int PeakNbr=0;PeakNbr<Peak->count();PeakNbr++) {
@@ -853,7 +856,9 @@ void cFilesTable::SetAnalyseSound(qlonglong FileKey,QList<qreal> *Peak,QList<qre
         Element.setAttribute("M",Moyenne->at(PeakNbr));
         root.appendChild(Element);
     }
-    root.setAttribute("RealDuration",(qlonglong)RealDuration);
+    root.setAttribute("RealAudioDuration",(qlonglong)RealAudioDuration);
+    if (RealVideoDuration) root.setAttribute("RealVideoDuration",(qlonglong)*RealVideoDuration);
+    root.setAttribute("MaxMoyenne",MaxMoyenneValue);
     domDocument.appendChild(root);
     QSqlQuery Query(Database->db);
     Query.prepare((QString("UPDATE %1 SET SoundWave=:SoundWave WHERE Key=:Key").arg(TableName)));

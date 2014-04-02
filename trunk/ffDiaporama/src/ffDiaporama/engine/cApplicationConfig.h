@@ -377,6 +377,7 @@ public:
     int                     DefaultTransitionDuration;                  // Transition duration (in msec)
 
     // Default rendering options
+    int                     DefaultSoundLevel;                          // Default sound level wanted to keed constant sound level
     int                     DefaultNameProjectName;                     // Use project name as default name for rendering
     int                     DefaultFormat;                              // Default output format container
     QString                 DefaultVideoCodec;                          // Default video codec

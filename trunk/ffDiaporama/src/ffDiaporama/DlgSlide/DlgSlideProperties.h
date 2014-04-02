@@ -33,8 +33,6 @@ public:
 
     SELECTMODE              ShotSelectMode;             // Current shot selection mode
     cDiaporamaShot          *CurrentShot;               // Current shot (if selection mode = SELECTMODE_ONE)
-
-
     QString                 FramingStyleLabelPixmap;
 
     // Framing CB control
@@ -49,7 +47,13 @@ public:
     // specific flag for GMapsObject
     bool                    RedoneStyleCoordinate;
 
-    explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,cApplicationConfig *ApplicationConfig,QWidget *parent = 0);
+    // specific for adding files
+    QStringList             FileList;
+    int                     PositionToInsert;
+    DlgWorkingTask          *DlgWorkingTaskDialog;
+    bool                    CancelAction;
+
+    explicit                DlgSlideProperties(cDiaporamaObject *DiaporamaObject,cApplicationConfig *ApplicationConfig,QWidget *parent = 0);
     virtual                 ~DlgSlideProperties();
 
     // function to be overloaded
@@ -103,6 +107,7 @@ private slots:
     void            s_ShotTable_RightClickEvent(QMouseEvent *);
 
     // Block table
+    void            s_BlockTable_AddFilesBlock();
     void            s_BlockTable_StartSelectionChange();
     void            s_BlockTable_EndSelectionChange();
     void            s_BlockTable_ItemDoubleClicked(QMouseEvent *);
@@ -164,7 +169,6 @@ private slots:
 private:
 
     void            s_ShotTable_DisplayDuration();
-    void            s_BlockTable_AddFilesBlock(QStringList FileList,int PositionToInsert);
 
     void            DoAddBlock(cBaseMediaFile *MediaObject,int PositionToInsert);
 

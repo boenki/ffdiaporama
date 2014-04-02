@@ -1,11 +1,12 @@
-20140314
-fr = 100% (1920/1920)
-it = 96% (1855/1920) 65 to translate
-de = 96% (1855/1920) 65 to translate
-nl = 53% (1031/1920) 889 to translate
-es = 98% (1885/1920) 35 to translate
-pt = 96% (1855/1920) 65 to translate
-ru = 96% (1855/1920) 65 to translate
-el = 96% (1855/1920) 65 to translate
-cz = 14% (277/1920) 1643 to translate
-zh_tw = 31% (605/1920) 1315 to translate
+20140402
+cz = 14% (277/1926) 1649 to translate
+de = 96% (1850/1926) 76 to translate
+el = 96% (1850/1926) 76 to translate
+es = 99% (1914/1926) 12 to translate
+fr = 100% (1926/1926)
+gl = 99% (1914/1926) 12 to translate
+it = 96% (1850/1926) 76 to translate
+nl = 53% (1029/1926) 897 to translate
+pt = 96% (1850/1926) 76 to translate
+ru = 96% (1850/1926) 76 to translate
+zh_tw = 31% (605/1926) 1321 to translate

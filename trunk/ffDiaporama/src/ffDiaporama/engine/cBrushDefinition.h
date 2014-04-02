@@ -62,7 +62,7 @@ void   AutoFramingDefInit();
 class cBrushDefinition:public cBaseBrushDefinition {
 public:
     // Link to global objects
-    cApplicationConfig  *ApplicationConfig;
+    cApplicationConfig      *ApplicationConfig;
     QObject                 *CompositionObject;         // Link to parent (cCompositionObject)
 
     // Basic settings

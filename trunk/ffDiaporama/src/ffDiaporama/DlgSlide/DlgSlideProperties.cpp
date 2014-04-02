@@ -86,12 +86,18 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,cApplic
     FramingCB_CurrentShot           =-1;
     actionAddImageClipboard         =ui->actionAddImageClipboard;
     actionPaste                     =ui->actionPaste;
+    DlgWorkingTaskDialog            =NULL;
 }
 
 //====================================================================================================================
 
 DlgSlideProperties::~DlgSlideProperties() {
     InRefreshControls=true; // To ensure no controls will change during delete
+    if (DlgWorkingTaskDialog) {
+        DlgWorkingTaskDialog->close();
+        delete DlgWorkingTaskDialog;
+        DlgWorkingTaskDialog=NULL;
+    }
     delete ui;
     CurrentSlide->Parent->CloseUnusedLibAv(CurrentSlide->Parent->CurrentCol);
 }
@@ -1289,16 +1295,28 @@ void DlgSlideProperties::s_BlockTable_DragDropFiles(QList<QUrl> urlList) {
     if (urlList.count()>0) {
         QString     fName;
         QFileInfo   info;
-        QStringList FileList;
+        FileList.clear();
         for (int i=0;i<urlList.count();i++) {
             fName = urlList[i].toLocalFile();           // convert first QUrl to local path
             info.setFile(fName);                        // information about file
             if (info.isFile()) FileList.append(fName);  // append file
         }
         if (FileList.count()>0) {
-            if (BlockTable->DragItemDest<0)                          BlockTable->DragItemDest=0;
+            if (BlockTable->DragItemDest<0)                      BlockTable->DragItemDest=0;
             if (BlockTable->DragItemDest>BlockTable->rowCount()) BlockTable->DragItemDest=BlockTable->rowCount();
-            s_BlockTable_AddFilesBlock(FileList,BlockTable->DragItemDest);
+            PositionToInsert=BlockTable->DragItemDest;
+            if (DlgWorkingTaskDialog) {
+                DlgWorkingTaskDialog->close();
+                delete DlgWorkingTaskDialog;
+                DlgWorkingTaskDialog=NULL;
+            }
+            CancelAction=false;
+            InteractiveZone->setUpdatesEnabled(false);
+            DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("DlgSlideProperties","Add files"),&CancelAction,ApplicationConfig,this);
+            DlgWorkingTaskDialog->InitDialog();
+            DlgWorkingTaskDialog->SetMaxValue(FileList.count(),0);
+            QTimer::singleShot(LATENCY,this,SLOT(s_BlockTable_AddFilesBlock()));
+            DlgWorkingTaskDialog->exec();
         }
     }
 }
@@ -1307,47 +1325,82 @@ void DlgSlideProperties::s_BlockTable_DragDropFiles(QList<QUrl> urlList) {
 
 void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
     ui->AddFileBlock->setDown(false);
-    QStringList FileList;
-    DlgFileExplorer Dlg(BROWSER_TYPE_MEDIAFILES,true,false,true,QApplication::translate("MainWindow","Add files"),ApplicationConfig,this);
+    FileList.clear();
+    DlgFileExplorer Dlg(BROWSER_TYPE_MEDIAFILES,true,false,true,QApplication::translate("DlgSlideProperties","Add files"),ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
     if (FileList.count()==0) return;
-
     QApplication::processEvents();
-    s_BlockTable_AddFilesBlock(FileList,BlockTable->rowCount());
+    PositionToInsert=BlockTable->rowCount();
+    if (DlgWorkingTaskDialog) {
+        DlgWorkingTaskDialog->close();
+        delete DlgWorkingTaskDialog;
+        DlgWorkingTaskDialog=NULL;
+    }
+    CancelAction=false;
+    InteractiveZone->setUpdatesEnabled(false);
+    DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("DlgSlideProperties","Add files"),&CancelAction,ApplicationConfig,this);
+    DlgWorkingTaskDialog->InitDialog();
+    DlgWorkingTaskDialog->SetMaxValue(FileList.count(),0);
+    QTimer::singleShot(LATENCY,this,SLOT(s_BlockTable_AddFilesBlock()));
+    DlgWorkingTaskDialog->exec();
 }
 
 //====================================================================================================================
 
-void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int PositionToInsert) {
+void DlgSlideProperties::s_BlockTable_AddFilesBlock() {
+    if ((FileList.count()==0)||(CancelAction)) {
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+        if (DlgWorkingTaskDialog) {
+            DlgWorkingTaskDialog->close();
+            delete DlgWorkingTaskDialog;
+            DlgWorkingTaskDialog=NULL;
+        }
+        FileList.clear();
+        // Reset thumbs if needed
+        ResetThumbs(true);
+        // Reset blocks table
+        RefreshBlockTable(PositionToInsert-1);
+        InteractiveZone->setUpdatesEnabled(true);
+        QApplication::restoreOverrideCursor();
+        return;
+    }
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     // Add files
-    for (int i=0;i<FileList.count();i++) {
-        QString         BrushFileName=QFileInfo(FileList[i]).absoluteFilePath();
-        QString         Extension    =QFileInfo(BrushFileName).suffix().toLower();
-        cBaseMediaFile  *MediaObject =NULL;
+    QString         FileName     =FileList.takeFirst();
+    QString         BrushFileName=QFileInfo(FileName).absoluteFilePath();
+    QString         Extension    =QFileInfo(BrushFileName).suffix().toLower();
+    cBaseMediaFile  *MediaObject =NULL;
 
-        if (ApplicationConfig->AllowImageExtension.contains(Extension))                 MediaObject=new cImageFile(ApplicationConfig);
-            else if (ApplicationConfig->AllowImageVectorExtension.contains(Extension))  MediaObject=new cImageFile(ApplicationConfig);
-            else if (ApplicationConfig->AllowVideoExtension.contains(Extension))        MediaObject=new cVideoFile(ApplicationConfig);
+    DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","Add file to project :")+QFileInfo(FileName).fileName());
+    DlgWorkingTaskDialog->DisplayProgress(DlgWorkingTaskDialog->MaxValue+DlgWorkingTaskDialog->AddValue-FileList.count());
 
-        if ((MediaObject)&&(MediaObject->GetInformationFromFile(BrushFileName,NULL,NULL,-1)&&(MediaObject->CheckFormatValide(this)))) {
-            if (MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
-                ((cVideoFile *)MediaObject)->EndPos=((cVideoFile *)MediaObject)->GetRealDuration();
-                if (((cVideoFile *)MediaObject)->LibavStartTime>0) ((cVideoFile *)MediaObject)->StartPos=QTime(0,0,0,0).addMSecs(int64_t((double(((cVideoFile *)MediaObject)->LibavStartTime)/AV_TIME_BASE)*1000));
-            }
-            DoAddBlock(MediaObject,PositionToInsert);
-            PositionToInsert++;
+    if (ApplicationConfig->AllowImageExtension.contains(Extension))                 MediaObject=new cImageFile(ApplicationConfig);
+        else if (ApplicationConfig->AllowImageVectorExtension.contains(Extension))  MediaObject=new cImageFile(ApplicationConfig);
+        else if (ApplicationConfig->AllowVideoExtension.contains(Extension))        MediaObject=new cVideoFile(ApplicationConfig);
 
-        } else {
-            delete CurrentSlide->ObjectComposition.List.takeAt(PositionToInsert);
-            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),FileList[i]+"\n\n"+QApplication::translate("MainWindow","Format not supported","Error message"),QMessageBox::Close);
+    if ((MediaObject)&&(MediaObject->GetInformationFromFile(BrushFileName,NULL,NULL,-1)&&(MediaObject->CheckFormatValide(this)))) {
+        if (MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) {
+            // Do analyse
+            DlgWorkingTaskDialog->DisplayText2(QApplication::translate("MainWindow","Analyse file:"));
+            QList<qreal> Peak,Moyenne;
+            DlgWorkingTaskDialog->TimerProgress=0;
+            if (!((cVideoFile *)MediaObject)->IsComputedAudioDuration) ((cVideoFile *)MediaObject)->DoAnalyseSound(&Peak,&Moyenne,&CancelAction,&DlgWorkingTaskDialog->TimerProgress);
+            DlgWorkingTaskDialog->StopText2();
+            // Prepare default values
+            ((cVideoFile *)MediaObject)->EndPos=((cVideoFile *)MediaObject)->GetRealDuration();
+            if (((cVideoFile *)MediaObject)->LibavStartTime>0) ((cVideoFile *)MediaObject)->StartPos=QTime(0,0,0,0).addMSecs(int64_t((double(((cVideoFile *)MediaObject)->LibavStartTime)/AV_TIME_BASE)*1000));
         }
+        DoAddBlock(MediaObject,PositionToInsert);
+        PositionToInsert++;
+    } else {
+        delete CurrentSlide->ObjectComposition.List.takeAt(PositionToInsert);
+        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),FileName+"\n\n"+QApplication::translate("MainWindow","Format not supported","Error message"),QMessageBox::Close);
     }
-    // Reset thumbs if needed
-    ResetThumbs(true);
-    // Reset blocks table
-    RefreshBlockTable(PositionToInsert-1);
+    QApplication::restoreOverrideCursor();
+    QTimer::singleShot(LATENCY,this,SLOT(s_BlockTable_AddFilesBlock()));
 }
 
 //====================================================================================================================
@@ -1402,10 +1455,10 @@ void DlgSlideProperties::DoAddBlock(cBaseMediaFile *MediaObject,int PositionToIn
                 if (CurrentBrush->MediaObject->FileKey==CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->MediaObject->FileKey)
                     CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->SoundVolume=0;
             } else {
-                // Set all other block to SoundVolume=0 and this block to SoundVolume=1
+                // Set all other block to SoundVolume=0 and this block to SoundVolume=-1 (auto)
                 if (CurrentBrush->MediaObject->FileKey!=CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->MediaObject->FileKey)
                     CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->SoundVolume=0;
-                else CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->SoundVolume=1;
+                else CurrentSlide->List[k]->ShotComposition.List[l]->BackgroundBrush->SoundVolume=-1;
             }
     }
 
@@ -1682,8 +1735,8 @@ void DlgSlideProperties::s_BlockSettings_ToggleVisibleState() {
             // Parse table to know if a block have sound for this shot
             for (int i=0;i<CompositionList->List.count();i++)
                 if ((ISVIDEO(CompositionList->List[i]->BackgroundBrush))&&(CompositionList->List[i]->BackgroundBrush->SoundVolume!=0)) SomeOneHaveSound=true;
-            // If no block have sound => get sound to this video
-            if (!SomeOneHaveSound) CurrentCompoObject->BackgroundBrush->SoundVolume=1;
+            // If no block have sound => get sound to this video (-1=auto)
+            if (!SomeOneHaveSound) CurrentCompoObject->BackgroundBrush->SoundVolume=-1;
         }
     }
     // Reset thumbs if needed
@@ -1703,7 +1756,7 @@ void DlgSlideProperties::s_BlockSettings_GetSound() {
     if (CurrentCompoObject->BackgroundBrush->SoundVolume==0) {
         for (int i=0;i<CompositionList->List.count();i++)
             if ((CurrentCompoObject!=CompositionList->List[i])&&(ISVIDEO(CompositionList->List[i]->BackgroundBrush))) CompositionList->List[i]->BackgroundBrush->SoundVolume=0;
-        CurrentCompoObject->BackgroundBrush->SoundVolume=1;
+        CurrentCompoObject->BackgroundBrush->SoundVolume=-1; //(-1=auto)
         // Reset blocks table
         RefreshBlockTable(CurrentCompoObjectNbr);
     }

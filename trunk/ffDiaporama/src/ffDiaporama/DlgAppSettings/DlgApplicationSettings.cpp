@@ -235,6 +235,10 @@ void DlgApplicationSettings::DoInitDialog() {
     // RenderDefault part
     //********************************
 
+    // default sound level
+    for (int i=15;i<=35;i++) ui->SoundLevelCB->addItem(QString("%1").arg(i));
+    ui->SoundLevelCB->setCurrentIndex(ui->SoundLevelCB->findText(QString("%1").arg(ApplicationConfig->DefaultSoundLevel)));
+
     // Init format container combo
     for (int i=0;i<VFORMAT_NBR;i++) if (FORMATDEF[i].IsFind) {
         ui->FileFormatCB->addItem(FORMATDEF[i].LongName,QVariant(i));
@@ -248,7 +252,6 @@ void DlgApplicationSettings::DoInitDialog() {
         if (i==ApplicationConfig->DefaultSoundtrackFormat) ui->SoundtrackFileFormatCB->setCurrentIndex(ui->SoundtrackFileFormatCB->count()-1);
     }
     if (ui->SoundtrackFileFormatCB->currentIndex()<0) ui->SoundtrackFileFormatCB->setCurrentIndex(0);
-
 
     // Image size & standard
     ui->StandardCombo->setCurrentIndex(ApplicationConfig->DefaultStandard);
@@ -468,7 +471,8 @@ bool DlgApplicationSettings::DoAccept() {
     }
 
     // RenderDefault part
-    ApplicationConfig->DefaultLanguage =ui->LanguageED->text();
+    ApplicationConfig->DefaultSoundLevel=ui->SoundLevelCB->currentText().toInt();
+    ApplicationConfig->DefaultLanguage  =ui->LanguageED->text();
     if (ApplicationConfig->DefaultLanguage=="") ApplicationConfig->DefaultLanguage="und";
     if (ApplicationConfig->DefaultLanguage.length()!=3) {
         CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgApplicationSettings","Language selection"),

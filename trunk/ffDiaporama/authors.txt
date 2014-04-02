@@ -28,6 +28,7 @@ Translation:
     Dutch: J.G. Visser <jgvnet@gmail.com>
     English: Dominique LEVRAY <domledom@laposte.net>
     French: Dominique LEVRAY <domledom@laposte.net>
+    Galician: Miguel Anxo Bouzada <mbouzada@gmail.com> <http://minino.galpon.org>
     German: Thomas Böhmwalder <http://ffdiaporama.tuxfamily.org/Forum/misc.php?email=104> + Armin Ipfelkofer <a.ipfelkofer@gmx.net>
     Greec: Dimitrios Glentadakis <http://ffdiaporama.tuxfamily.org/Forum/misc.php?email=34>
     Italian: Lino Fantasia <http://www.anxurweb.com/fine-dello-sviluppo-di-videoporama-benvenuto-ffdiaporama.html>
