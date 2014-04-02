@@ -2061,7 +2061,6 @@ void MainWindow::s_Event_TimelineAddDragAndDropFile() {
             DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Add music file"),&CancelAction,ApplicationConfig,this);
             DlgWorkingTaskDialog->InitDialog();
             DlgWorkingTaskDialog->SetMaxValue(CurrentLoadingProjectNbrObject,0);
-            ToStatusBar(QApplication::translate("MainWindow","Analyse file :")+QFileInfo(MusicFileList[0]).fileName());
             QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoUseAsPlayList()));
             DlgWorkingTaskDialog->exec();
         }
@@ -2331,6 +2330,14 @@ void MainWindow::DoAddFile() {
 
             CurrentBrush->MediaObject=MediaFile;
             if (Video) {
+                // Do analyse
+                DlgWorkingTaskDialog->DisplayText2(QApplication::translate("MainWindow","Analyse file:"));
+                QList<qreal> Peak,Moyenne;
+                DlgWorkingTaskDialog->TimerProgress=0;
+                if (!Video->IsComputedAudioDuration) Video->DoAnalyseSound(&Peak,&Moyenne,&CancelAction,&DlgWorkingTaskDialog->TimerProgress);
+                DlgWorkingTaskDialog->StopText2();
+
+                // Prepare default values
                 DiaporamaObject->List[0]->StaticDuration=1000;
                 if (ChapterNum>=0) {
                     QStringList TempExtProperties;
@@ -2479,7 +2486,7 @@ void MainWindow::s_Action_DoUseAsPlayList() {
                 DlgWorkingTaskDialog->DisplayText2(QApplication::translate("MainWindow","Analyse file:"));
                 QList<qreal> Peak,Moyenne;
                 DlgWorkingTaskDialog->TimerProgress=0;
-                if (!Diaporama->List[CurIndex]->MusicList[CurMusIndex]->IsComputedDuration)
+                if (!Diaporama->List[CurIndex]->MusicList[CurMusIndex]->IsComputedAudioDuration)
                     Diaporama->List[CurIndex]->MusicList[CurMusIndex]->DoAnalyseSound(&Peak,&Moyenne,&CancelAction,&DlgWorkingTaskDialog->TimerProgress);
                 DlgWorkingTaskDialog->StopText2();
                 Diaporama->List[CurIndex]->MusicList[CurMusIndex]->EndPos=Diaporama->List[CurIndex]->MusicList[CurMusIndex]->GetRealDuration();
@@ -2555,14 +2562,6 @@ void MainWindow::s_Event_ContextualMenu(QMouseEvent *) {
     if ((Current<0)||(Current>=Diaporama->List.count())) return;
     ui->timeline->CurrentSelectionList(&SlideList);
 
-    // Check if slides in selection are concurrent
-    //bool IsConcurrent=true;
-    //bool MusicRestart=false;
-    //for (int i=0;i<SlideList.count();i++) {
-    //    if ((i<SlideList.count()-1)&&(SlideList[i+1]-SlideList[i]>1)) IsConcurrent=false;
-    //    if (Diaporama->List[SlideList[i]]->MusicType) MusicRestart=true;
-    //}
-
     QMenu *ContextMenu=new QMenu(this);
     if (SlideList.count()==1) {
         // Single slide selection
@@ -2580,9 +2579,9 @@ void MainWindow::s_Event_ContextualMenu(QMouseEvent *) {
         ContextMenu->addAction(ui->actionPaste);
         ContextMenu->addSeparator();
         ContextMenu->addAction(ui->actionRemove);
-        if ((ui->timeline->ClickedSlide>=0)&&(ui->timeline->ClickedSlide<Diaporama->List.count())&&(ui->timeline->MusicPart)) {
+        if ((ui->timeline->ClickedSlide>=0)&&(ui->timeline->ClickedSlide<Diaporama->List.count())) {
             bool AddSep=false;
-            if (Diaporama->List[ui->timeline->ClickedSlide]->MusicType)  {
+            if ((Diaporama->List[ui->timeline->ClickedSlide]->MusicType)&&(ui->timeline->MusicPart))  {
                 ContextMenu->addSeparator();
                 AddSep=true;
                 ContextMenu->addAction(ui->actionRemovePlaylist);
@@ -2592,9 +2591,15 @@ void MainWindow::s_Event_ContextualMenu(QMouseEvent *) {
             cMusicObject *CurMusic=Diaporama->GetMusicObject(ui->timeline->ClickedSlide,StartPosition,&CurrentCountObjet);
             if ((CurMusic)&&(StartPosition>=(QTime(0,0,0,0).msecsTo(CurMusic->GetDuration())-Diaporama->List[ui->timeline->ClickedSlide]->TransitionDuration))) CurMusic=NULL;
             if (CurMusic) {
+                if (ui->timeline->MusicPart) {
+                    if (!AddSep) {
+                        ContextMenu->addSeparator();
+                        AddSep=true;
+                    }
+                    if (Diaporama->List[ui->timeline->ClickedSlide]->MusicPause) ContextMenu->addAction(ui->actionPlaylistToPlay);
+                        else                                                     ContextMenu->addAction(ui->actionPlaylistToPause);
+                }
                 if (!AddSep) ContextMenu->addSeparator();
-                if (Diaporama->List[ui->timeline->ClickedSlide]->MusicPause) ContextMenu->addAction(ui->actionPlaylistToPlay);
-                    else                                                     ContextMenu->addAction(ui->actionPlaylistToPause);
                 ContextMenu->addAction(ui->actionAdjustOnMusic);
             }
         }

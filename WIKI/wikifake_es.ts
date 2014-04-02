@@ -6848,7 +6848,7 @@
     </message>
     <message>
         <source>The wave form of the sound of the video is displayed under a white background.</source>
-        <translation type="unfinished"></translation>
+        <translation>La forma de onda del sonido del vídeo se muestra bajo un fondo blanco.</translation>
     </message>
 </context>
 <context>
@@ -9722,7 +9722,7 @@
     </message>
     <message>
         <source>The wave form of the sound is displayed under a white background.</source>
-        <translation type="unfinished"></translation>
+        <translation>La forma de onda del sonido del vídeo se muestra bajo un fondo blanco.</translation>
     </message>
 </context>
 <context>

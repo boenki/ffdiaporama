@@ -128,7 +128,7 @@ public:
     virtual void            SaveToXML(QDomElement *,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *,bool)                                          {}
 
     virtual bool            LoadAnalyseSound(QList<qreal> *Peak,QList<qreal> *Moyenne);
-    virtual void            SaveAnalyseSound(QList<qreal> *Peak,QList<qreal> *Moyenne);
+    virtual void            SaveAnalyseSound(QList<qreal> *Peak,QList<qreal> *Moyenne,qreal MaxMoyenneValue);
 
     virtual void            Reset();
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey=-1);
@@ -152,17 +152,25 @@ public:
     // return icon
     virtual QImage          GetIcon(cCustomIcon::IconSize Size,bool useDelayed);
 
-private:
-    QTime   Duration;                       // Used duration
+public:
+    QTime   RealAudioDuration;              // Real duration of audio
+    QTime   RealVideoDuration;              // Real duration of video
     QTime   GivenDuration;                  // Duration as given by libav/ffmpeg
+    qreal   SoundLevel;                     // Sound level
 
 public:
-    bool    IsComputedDuration;             // True if duration was computed
+    bool    IsComputedAudioDuration;             // True if audio duration was computed
+    bool    IsComputedVideoDuration;             // True if video duration was computed
 
     QTime   GetRealDuration();
+    QTime   GetRealAudioDuration();
+    QTime   GetRealVideoDuration();
     QTime   GetGivenDuration();
     void    SetGivenDuration(QTime GivenDuration);
-    void    SetRealDuration(QTime RealDuration);
+    void    SetRealAudioDuration(QTime RealDuration);
+    void    SetRealVideoDuration(QTime RealDuration);
+    qreal   GetSoundLevel()                         { return SoundLevel;        }
+    void    SetSoundLevel(qreal TheSoundLevel)      { SoundLevel=TheSoundLevel; }
 };
 
 //*********************************************************************************************************************************************
@@ -222,6 +230,7 @@ public:
 
     void                    InitDefaultValues();
 
+    virtual void            SetRealDuration(QTime RealDuration) { SetRealAudioDuration(RealDuration); } // Special case for project : audioduration is project duration
     virtual QString         GetFileTypeStr();
     virtual bool            LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
     virtual void            SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
@@ -397,6 +406,8 @@ public:
     int                     VideoTrackNbr;                      // Number of video stream in file
     QImage                  LastImage;                          // Keep last image return
     QList<cImageInCache *>  CacheImage;
+
+    int                     SeekErrorCount;
 
     // Audio part
     int                     AudioStreamNumber;                  // Number of the audio stream

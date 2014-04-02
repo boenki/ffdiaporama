@@ -1869,7 +1869,7 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                 for (int i=0;i<MusicNumber;i++) {
                     cMusicObject *MusicObject=new cMusicObject(((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->ApplicationConfig);
                     if (!MusicObject->LoadFromXML(&Element,"Music-"+QString("%1").arg(i),PathForRelativPath,AliasList,&ModifyFlag)) IsOk=false;
-                    if ((DlgWorkingTaskDialog)&&(!MusicObject->IsComputedDuration)) {
+                    if ((DlgWorkingTaskDialog)&&(!MusicObject->IsComputedAudioDuration)) {
                         QList<qreal> Peak,Moyenne;
                         DlgWorkingTaskDialog->DisplayText2(QApplication::translate("MainWindow","Analyse file %1").arg(MusicObject->CachedFileName));
                         MusicObject->DoAnalyseSound(&Peak,&Moyenne,DlgWorkingTaskDialog->CancelActionFlag,&DlgWorkingTaskDialog->TimerProgress);
@@ -2086,6 +2086,7 @@ void cDiaporama::UpdateChapterInformation() {
         ProjectInfo->ChaptersProperties.append("Chapter_"+ChapterNum+":LocationName"+QString("##")+(List[i]->ChapterLocation?((cLocation *)List[i]->ChapterLocation)->Name:ProjectInfo->Location?((cLocation *)ProjectInfo->Location)->Name:QApplication::translate("Variables","Project's location not set (Name)")));
         ProjectInfo->ChaptersProperties.append("Chapter_"+ChapterNum+":LocationAddress"+QString("##")+(List[i]->ChapterLocation?((cLocation *)List[i]->ChapterLocation)->FriendlyAddress:ProjectInfo->Location?((cLocation *)ProjectInfo->Location)->FriendlyAddress:QApplication::translate("Variables","Project's location not set (Address)")));
     }
+    ProjectInfo->SetRealDuration(QTime(0,0,0,0).addMSecs(GetDuration()));
 }
 
 void cDiaporama::UpdateStatInformation() {
@@ -2330,13 +2331,19 @@ void cDiaporama::UpdateCachedInformation() {
         // Parse shots and objects in shot to determine if slide have filter and max SoundVolume
         for (int shot=0;shot<CurObject->List.count();shot++) for (int ObjNum=0;ObjNum<CurObject->List[shot]->ShotComposition.List.count();ObjNum++) {
             cCompositionObject *CompoObject=CurObject->List[shot]->ShotComposition.List[ObjNum];
-            if ((CompoObject->IsVisible)&&(CompoObject->BackgroundBrush))
+            if ((CompoObject->IsVisible)&&(CompoObject->BackgroundBrush)) {
+                double dSoundVolume=CompoObject->BackgroundBrush->SoundVolume;
+                if (dSoundVolume==-1) {
+                    if ((CompoObject->BackgroundBrush->MediaObject)&&(CompoObject->BackgroundBrush->MediaObject->GetSoundLevel()>0))
+                            dSoundVolume=double(CompoObject->BackgroundBrush->MediaObject->GetSoundLevel()*100)/double(ApplicationConfig->DefaultSoundLevel);
+                        else dSoundVolume=1;
+                }
                 if ((CompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)
                         &&(CompoObject->BackgroundBrush->MediaObject)
                         &&(CompoObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)
-                        &&(CompoObject->BackgroundBrush->SoundVolume>SoundVolume))
-                    SoundVolume=CompoObject->BackgroundBrush->SoundVolume;
-
+                        &&(dSoundVolume>SoundVolume))
+                    SoundVolume=dSoundVolume;
+            }
             if ((CompoObject->BackgroundBrush->GaussBlurSharpenSigma!=0)||(CompoObject->BackgroundBrush->QuickBlurSharpenSigma!=0)||
                 (CompoObject->BackgroundBrush->Desat!=0)||(CompoObject->BackgroundBrush->Swirl!=0)||(CompoObject->BackgroundBrush->Implode!=0)||
                 (CompoObject->BackgroundBrush->OnOffFilter!=0)
@@ -2364,7 +2371,7 @@ void cDiaporama::UpdateCachedInformation() {
         CurObject->CachedMusicTimePlayed=TimePlayed;
         CurObject->CachedMusicRemaining =DurationLeft>TimePlayed?DurationLeft-TimePlayed:0;
         CurObject->CachedPrevMusicFadOUT=(PrevMusic)&&(PrevMusic!=CurMusic)&&(PrevObject->CachedMusicRemaining>0)&&(CurObject->CachedTransitDuration>0);
-        CurObject->CachedMusicFadIN     =(CurMusic)&&(PrevMusic)&&(PrevMusic!=CurMusic)&&(PrevObject->CachedMusicRemaining>0);
+        CurObject->CachedMusicFadIN     =(CurMusic)&&(PrevMusic)&&(PrevMusic!=CurMusic)&&(CurObject->CachedPrevMusicFadOUT)&&(PrevObject->CachedMusicRemaining>0);
         CurObject->CachedMusicEnd       =(CurMusic)&&(TimePlayed<CurObject->CachedDuration-NextTransition);
         CurObject->CachedPrevMusicEnd   =(PrevObject)&&(PrevMusic)&&(CurObject->CachedTransitDuration>0)&&(PrevObject->CachedMusicRemaining>0)&&(PrevObject->CachedMusicRemaining<=CurObject->CachedTransitDuration);
 
@@ -2530,7 +2537,7 @@ void cDiaporama::PrepareMusicBloc(PrepareMusicBlocContext *Context) {
                                     ((List[Context->Column-1]->MusicReduceVolume==List[Context->Column]->MusicReduceVolume)&&(List[Context->Column-1]->MusicReduceFactor!=List[Context->Column]->MusicReduceFactor))
                                 ));
 
-    if (!List[Context->Column]->MusicPause || IsCurrentTransitionIN) {
+    if (!List[Context->Column]->MusicPause /*|| IsCurrentTransitionIN*/) {
         double Factor=1;
         if (FadeEffect/* && !List[Context->Column-1]->MusicPause*/) {
             double  PctDone  =ComputePCT(SPEEDWAVE_SINQUARTER,double(Context->Position)/double(List[Context->Column]->TransitionDuration));
@@ -2553,7 +2560,14 @@ void cDiaporama::PrepareMusicBloc(PrepareMusicBlocContext *Context) {
         CurMusic->ImageAt(Context->PreviewMode,Context->Position+StartPosition+QTime(0,0,0,0).msecsTo(CurMusic->StartPos),Context->MusicTrack,false,1,true,false,Context->NbrDuration);
 
         // Apply correct volume to block in queue
-        if (Factor!=1.0)
+        double Volume=CurMusic->Volume;
+        if (Volume==-1) {
+            if (CurMusic->GetSoundLevel()!=-1)
+                Volume=double(ApplicationConfig->DefaultSoundLevel)/double(CurMusic->GetSoundLevel()*100);
+                else Volume=1;
+        }
+        if (Volume!=1) Factor=Factor*Volume;
+        if (Factor!=1)
             for (int i=0;i<Context->MusicTrack->NbrPacketForFPS;i++)
                 Context->MusicTrack->ApplyVolume(i,Factor);
     }

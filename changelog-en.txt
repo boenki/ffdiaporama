@@ -2,7 +2,24 @@
 * FFDIAPORAMA 2.2 - trunk - (English version)
 **************************************************
 
-[Commit: 10/03/2014] - ffDiaporama 2.2 devel 20140310
+[Commit: 02/04/2014] - ffDiaporama 2.2 devel 20140402
+    Bug fixes:
+        -Fixed a bug in the calculation when encoding MJPEG which sometimes failed using NTSC format
+        -Fixed a bug of not respects of breaks during music transition
+        -Fixed a bug of bad audio positioning in some videos
+        -Fixed a bug of not updates the %PDD% variable (project duration)
+
+    New features:
+        -Adds an option to adjust the target value for automatic amplification volume in the option dialog (master volume)
+        -Set the default "master volume" to auto when additions of music in the music track
+        -Set the default "master volume" to auto when additions of video in slides
+        -Adds the display of fade-in/out in the timeline as red diagonal line
+        -Force analysis of videos when they are added to the project (from the main window or from the edit slides dialog)
+        -Adds the display of a progress box (with cancel button) during file additions in the edit slides dialog
+
+
+--------------------------------------------------------------------------------
+[Commit: 10/03/2014] - ffDiaporama 2.2 devel 20140314
     Bug fixes:
         -Fixed a problem shifting axes for 2 LUMA clock
         -Fixed a problem reading the sound that was not to the end with some MP3 files

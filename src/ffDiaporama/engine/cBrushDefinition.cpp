@@ -104,7 +104,7 @@ cBrushDefinition::cBrushDefinition(QObject *TheCompositionObject,cApplicationCon
 void cBrushDefinition::InitDefaultValues() {
     cBaseBrushDefinition::InitDefaultValues();
 
-    SoundVolume             =1;                             // Volume of soundtrack
+    SoundVolume             =-1;                            // Volume of soundtrack (-1=auto)
     Deinterlace             =false;                         // Add a YADIF filter to deinterlace video (on/off)
 
     // Image correction part

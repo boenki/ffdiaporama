@@ -62,6 +62,7 @@ public:
     QImage          *SoundWave;
     bool            IsAnalysed;
     QList<qreal>    Peak,Moyenne;
+    qreal           SoundLevel;
 
     // current mouse tracking mode
     enum DefTrackingMode {

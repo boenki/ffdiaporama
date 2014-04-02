@@ -81,6 +81,7 @@ void wgt_QEditVideo::DoInitWidget(QCustomDialog *ParentDialog,cBrushDefinition *
 
     // Init embeded widgets
     for (int Factor=150;Factor>=0;Factor-=10) ui->VolumeReductionFactorCB->addItem(QString("%1%").arg(Factor));
+    ui->VolumeReductionFactorCB->addItem(QApplication::translate("wgt_QEditVideo","Auto"));
 
     ui->StartPosEd->setCurrentSection(QDateTimeEdit::MSecSection);  ui->StartPosEd->setCurrentSectionIndex(3);  ui->StartPosEd->MsecStep=FileInfo->GetFPSDuration();
     ui->EndPosEd->setCurrentSection(QDateTimeEdit::MSecSection);    ui->EndPosEd->setCurrentSectionIndex(3);    ui->EndPosEd->MsecStep  =FileInfo->GetFPSDuration();
@@ -236,7 +237,8 @@ void wgt_QEditVideo::RefreshControls() {
     ui->ActualDuration->setText(Duration.toString("hh:mm:ss.zzz"));
     ui->StartPosEd->setMaximumTime(FileInfo->EndPos);    ui->StartPosEd->setTime(FileInfo->StartPos);
     ui->EndPosEd->setMinimumTime(FileInfo->StartPos);    ui->EndPosEd->setTime(FileInfo->EndPos);
-    ui->VolumeReductionFactorCB->setCurrentIndex(ui->VolumeReductionFactorCB->findText(QString("%1%").arg(int(CurrentBrush->SoundVolume*100))));
+    if (CurrentBrush->SoundVolume==-1) ui->VolumeReductionFactorCB->setCurrentIndex(ui->VolumeReductionFactorCB->count()-1);
+        else ui->VolumeReductionFactorCB->setCurrentIndex(ui->VolumeReductionFactorCB->findText(QString("%1%").arg(int(CurrentBrush->SoundVolume*100))));
     SetStartEndPos(QTime(0,0,0,0).msecsTo(FileInfo->StartPos),
                                     QTime(0,0,0,0).msecsTo(FileInfo->EndPos)-QTime(0,0,0,0).msecsTo(FileInfo->StartPos),
                                     -1,0,-1,0);
@@ -281,7 +283,10 @@ void wgt_QEditVideo::s_MusicReduceFactorChange(int) {
     ((DlgImageCorrection *)ParentDialog)->AppendPartialUndo(DlgImageCorrection::UNDOACTION_VIDEOPART,ui->VolumeReductionFactorCB,true);
     QString Volume=ui->VolumeReductionFactorCB->currentText();
     if (Volume!="") Volume=Volume.left(Volume.length()-1);  // Remove %
-    CurrentBrush->SoundVolume=double(Volume.toInt())/100;
+    bool ok=true;
+    double dVolume=Volume.toInt(&ok);
+    if (!ok) dVolume=-1; else dVolume=double(Volume.toInt())/100;
+    CurrentBrush->SoundVolume=dVolume;
     RefreshControls();
 }
 

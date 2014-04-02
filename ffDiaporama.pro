@@ -40,15 +40,16 @@ SUBDIRS         += src/ffDiaporama
 TARGET          += ffDiaporama
 
 # Translation files
-TRANSLATIONS += locale/ffDiaporama_fr.ts \
-    locale/ffDiaporama_it.ts \
+TRANSLATIONS += locale/ffDiaporama_cz.ts \
     locale/ffDiaporama_de.ts \
-    locale/ffDiaporama_nl.ts \
+    locale/ffDiaporama_el.ts \
     locale/ffDiaporama_es.ts \
+    locale/ffDiaporama_fr.ts \
+    locale/ffDiaporama_gl.ts \
+    locale/ffDiaporama_it.ts \
+    locale/ffDiaporama_nl.ts \
     locale/ffDiaporama_pt.ts \
     locale/ffDiaporama_ru.ts \
-    locale/ffDiaporama_el.ts \
-    locale/ffDiaporama_cz.ts \
     locale/ffDiaporama_zh_tw.ts
 
 OTHER_FILES += $$TRANSLATIONS \
@@ -121,6 +122,7 @@ OTHER_FILES += $$TRANSLATIONS \
     WIKI/wikifake_el.ts \
     WIKI/wikifake_es.ts \
     WIKI/wikifake_fr.ts \
+    WIKI/wikifake_gl.ts \
     WIKI/wikifake_it.ts \
     WIKI/wikifake_pt.ts \
     WIKI/wikifake_ru.ts

@@ -134,8 +134,11 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
     if (ParentTable->CurrentShotNbr>0) Painter->drawImage(QRectF(option.rect.x()+1+RowHeight,option.rect.y()+1,16,16),QImage(ParentTable->CompositionList->List[index.row()]->BlockInheritance?ICON_INHERITDOWNLOCK:ICON_INHERITDOWNUNLOCK));
 
     // With sound ?
-    if ((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->MediaObject)&&(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE))
-        Painter->drawImage(QRectF(option.rect.x()+1+RowHeight,option.rect.y()+1+RowHeight/3,16,16),QImage((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->SoundVolume!=0)?ICON_SOUND_OK:ICON_SOUND_KO));
+    if ((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->MediaObject)&&(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)) {
+        double SoundVolume=ParentTable->CompositionList->List[index.row()]->BackgroundBrush->SoundVolume;
+        if (SoundVolume==-1) SoundVolume=1;
+        Painter->drawImage(QRectF(option.rect.x()+1+RowHeight,option.rect.y()+1+RowHeight/3,16,16),QImage((SoundVolume!=0)?ICON_SOUND_OK:ICON_SOUND_KO));
+    }
 
     // With filter ?
     if ((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->GaussBlurSharpenSigma!=0)||
