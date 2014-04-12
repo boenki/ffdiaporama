@@ -29,6 +29,21 @@
 int AVLOGLEVEL=AV_LOG_ERROR;    // Default loglevel for libav
 QMutex Mutex;
 
+//****************************************************************************************************************************************************************
+
+AVFrame *ALLOCFRAME() {
+    #if (FFMPEGVERSIONINT>=220)
+    return av_frame_alloc();
+    #else
+    return avcodec_alloc_frame();
+    #endif
+}
+
+void FREEFRAME(AVFrame **Buf) {
+    avcodec_free_frame(Buf);
+    *Buf=NULL;
+}
+
 /****************************************************************************
   Definition of image format supported by the application
 ****************************************************************************/

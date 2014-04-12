@@ -20,7 +20,7 @@
 
 #include "cBaseAppConfig.h"
 
-#define DATABASEVERSION 7       // Current database version
+#define DATABASEVERSION 8       // Current database version
 
 void DisplayLastSQLError(QSqlQuery *Query) {
     ToLog(LOGMSG_CRITICAL,Query->lastQuery());
@@ -873,10 +873,11 @@ bool cFilesTable::DoUpgradeTableVersion(qlonglong OldVersion) {
     QSqlQuery Query(Database->db);
     bool Ret=true;
 
-    if          (OldVersion==1) Ret=Query.exec("DROP TABLE MediaFiles");
-        else if (OldVersion==2) Ret=Query.exec("DELETE FROM MediaFiles");
-        else if (OldVersion==3) Ret=Query.exec("DELETE FROM MediaFiles");
-        else if ((OldVersion>=4)&&(OldVersion<=6)) Ret=Query.exec("ALTER TABLE MediaFiles ADD COLUMN SoundWave text;");
+    if          (OldVersion==1)                     Ret=Query.exec("DROP TABLE MediaFiles");
+        else if (OldVersion==2)                     Ret=Query.exec("DELETE FROM MediaFiles");
+        else if (OldVersion==3)                     Ret=Query.exec("DELETE FROM MediaFiles");
+        else if ((OldVersion>=4)&&(OldVersion<=6))  Ret=Query.exec("ALTER TABLE MediaFiles ADD COLUMN SoundWave text;");
+        else if (OldVersion==7)                     Ret=Query.exec("UPDATE MediaFiles SET SoundWave=NULL WHERE SoundWave IS NOT NULL;");
 
     if (!Ret) DisplayLastSQLError(&Query);
     return Ret;

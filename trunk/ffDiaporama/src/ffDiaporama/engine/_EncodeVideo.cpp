@@ -197,7 +197,7 @@ int cEncodeVideo::getThreadFlags(AVCodecID ID) {
 
 //*************************************************************************************************************************************************
 
-bool cEncodeVideo::OpenEncoder(cDiaporama *Diaporama,QString OutputFileName,int FromSlide,int ToSlide,
+bool cEncodeVideo::OpenEncoder(QWidget *ParentWindow,cDiaporama *Diaporama,QString OutputFileName,int FromSlide,int ToSlide,
                     bool EncodeVideo,int VideoCodecSubId,bool VBR,sIMAGEDEF *ImageDef,int ImageWidth,int ImageHeight,int ExtendV,int InternalWidth,int InternalHeight,AVRational PixelAspectRatio,int VideoBitrate,
                     bool EncodeAudio,int AudioCodecSubId,int AudioChannels,int AudioBitrate,int AudioSampleRate,QString Language) {
 
@@ -293,8 +293,12 @@ bool cEncodeVideo::OpenEncoder(cDiaporama *Diaporama,QString OutputFileName,int 
     //********************************************
     if (!PrepareTAG(Language)) return false;
 
-    if (avio_open(&Container->pb,Container->filename,AVIO_FLAG_WRITE)<0) {
-        ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenEncoder: avio_open() failed");
+    int errcode=avio_open(&Container->pb,Container->filename,AVIO_FLAG_WRITE);
+    if (errcode<0) {
+        ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-OpenEncoder: avio_open() failed : %1").arg(GetAvErrorMessage(errcode)));
+        QString ErrorMessage=errcode==-2?QString("\n\n")+QApplication::translate("DlgRenderVideo","invalid path or invalid filename"):QString("\n\n%1").arg(GetAvErrorMessage(errcode));
+        CustomMessageBox(ParentWindow,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Start rendering process"),
+            QApplication::translate("DlgRenderVideo","Error starting encoding process:")+ErrorMessage);
         return false;
     }
     int mux_preload=int(0.5*AV_TIME_BASE);
@@ -438,7 +442,6 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
         VideoStream->codec->qmin                =2;
         VideoStream->codec->qmax                =2;
         VideoStream->codec->bit_rate_tolerance  =int(qreal(int64_t(ImageWidth)*int64_t(ImageHeight)*int64_t(VideoFrameRate.den))/qreal(VideoFrameRate.num))*10;
-qDebug()<<ImageWidth<<ImageHeight<<VideoFrameRate.den<<VideoFrameRate.num<<ImageWidth*ImageHeight*VideoFrameRate.den/VideoFrameRate.num;
     } else if (codec->id==AV_CODEC_ID_VP8) {
 
         BFrames=3;
@@ -540,7 +543,7 @@ qDebug()<<ImageWidth<<ImageHeight<<VideoFrameRate.den<<VideoFrameRate.num<<Image
     #endif
 
     // Create and prepare VideoFrame and VideoFrameBuf
-    VideoFrame=avcodec_alloc_frame();  // Allocate structure for RGB image
+    VideoFrame=ALLOCFRAME();  // Allocate structure for RGB image
     if (!VideoFrame) {
         ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenVideoStream: avcodec_alloc_frame() failed");
         return false;
@@ -630,7 +633,7 @@ bool cEncodeVideo::OpenAudioStream(sAudioCodecDef *AudioCodecDef,int &AudioChann
         return false;
     }
 
-    AudioFrame=avcodec_alloc_frame();
+    AudioFrame=ALLOCFRAME();  // Allocate structure for RGB image
     if (AudioFrame==NULL) {
         ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-OpenAudioStream:: avcodec_alloc_frame failed"));
         return false;
@@ -1070,7 +1073,13 @@ void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *Rend
             if (Continue) {
                 // Init AudioFrame
                 AVRational AVR;
-                avcodec_get_frame_defaults(AudioFrame);
+
+                #if (FFMPEGVERSIONINT>=220)
+                    av_frame_unref(AudioFrame);
+                #else
+                    avcodec_get_frame_defaults(AudioFrame);
+                #endif
+
                 AVR.num                     =1;
                 AVR.den                     =AudioStream->codec->sample_rate;
                 AudioFrame->nb_samples      =DestPacketSize/DestSampleSize;
@@ -1158,7 +1167,11 @@ void cEncodeVideo::EncodeVideo(QImage *SrcImage,bool &Continue) {
     int     errcode;
 
     if (Image) {
-        avcodec_get_frame_defaults(VideoFrame);
+        #if (FFMPEGVERSIONINT>=220)
+            av_frame_unref(VideoFrame);
+        #else
+            avcodec_get_frame_defaults(VideoFrame);
+        #endif
         if (avpicture_fill(
             (AVPicture *)VideoFrame,            // Frame to prepare
             VideoFrameBuf,                      // Buffer which will contain the image data

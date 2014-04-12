@@ -157,6 +157,14 @@ bool wgt_QVideoPlayer::InitDiaporamaPlay(cDiaporama *Diaporama) {
 // Pause -> play
 //============================================================================================
 
+void wgt_QVideoPlayer::SwitchPlayerPlayPause() {
+    s_VideoPlayerPlayPauseBT();
+}
+
+//============================================================================================
+// Pause -> play
+//============================================================================================
+
 void wgt_QVideoPlayer::SetPlayerToPlay() {
     if (!(PlayerPlayMode && PlayerPauseMode)) return;
     PlayerPlayMode  = true;

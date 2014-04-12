@@ -127,9 +127,6 @@ int  Exiv2PatchVersion=EXIV2_PATCH_VERSION;
 #define PIXFMT          PIX_FMT_RGB24
 #define QTPIXFMT        QImage::Format_RGB888
 
-AVFrame *ALLOCFRAME()           { return avcodec_alloc_frame(); }
-void    FREEFRAME(AVFrame **Buf){ avcodec_free_frame(Buf); *Buf=NULL; }
-
 //****************************************************************************************************************************************************************
 
 // from Google music manager (see:http://code.google.com/p/gogglesmm/source/browse/src/gmutils.cpp?spec=svn6c3dbecbad40ee49736b9ff7fe3f1bfa6ca18c13&r=6c3dbecbad40ee49736b9ff7fe3f1bfa6ca18c13)
@@ -2111,12 +2108,16 @@ bool cVideoFile::DoAnalyseSound(QList<qreal> *Peak,QList<qreal> *Moyenne,bool *C
             (*Peak)[i]   =(*Peak)[i]/MaxSoundValue;
             (*Moyenne)[i]=(*Moyenne)[i]/MaxSoundValue;
         }
+        MaxVal.clear();
+        foreach (qreal Value,*Moyenne) MaxVal.append(Value);
+        qSort(MaxVal.begin(),MaxVal.end());
+        MaxSoundValue=MaxVal.count()>0?MaxVal[MaxVal.count()*0.9]:1;
 
         //**************************
         // End analyse
         //**************************
         IsAnalysed=true;
-        SaveAnalyseSound(Peak,Moyenne,MaxVal[MaxVal.count()*0.9]);
+        SaveAnalyseSound(Peak,Moyenne,MaxSoundValue);
         if (EndPos>GetRealDuration()) EndPos=GetRealDuration();
     }
     return IsAnalysed;

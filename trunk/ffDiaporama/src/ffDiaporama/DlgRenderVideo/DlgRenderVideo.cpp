@@ -1022,7 +1022,7 @@ void DlgRenderVideo::StartEncode() {
 
             ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Encoding sound"));
 
-            Continue=Encoder.OpenEncoder(Diaporama,OutputFileName,FromSlide,ToSlide,
+            Continue=Encoder.OpenEncoder(this,Diaporama,OutputFileName,FromSlide,ToSlide,
                                     false,AV_CODEC_ID_NONE,false,NULL,0,0,0,0,0,MakeAVRational(1,1),0,
                                     true,AudioCodecIndex,2,AudioBitRate,AudioFrequency,Language);
             InitDisplay();
@@ -1076,7 +1076,7 @@ void DlgRenderVideo::StartEncode() {
             }
 
             int CurrentCodec=ui->AudioFormatCB->currentIndex(); if (CurrentCodec>=0) CurrentCodec=ui->AudioFormatCB->itemData(CurrentCodec).toInt();
-            Continue=Encoder.OpenEncoder(Diaporama,OutputFileName,FromSlide,ToSlide,
+            Continue=Encoder.OpenEncoder(this,Diaporama,OutputFileName,FromSlide,ToSlide,
                                     true,VideoCodecIndex,VBR && ((CurrentCodec==VCODEC_H264HQ)||(CurrentCodec==VCODEC_H264PQ)),&DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize],Final_W,Final_H,Ext_H,Internal_W,Internal_H,PixelAspectRatio,VideoBitRate,
                                     ui->IncludeSoundCB->isChecked(),AudioCodecIndex,2,AudioBitRate,AudioFrequency,Language);
             InitDisplay();
@@ -1143,7 +1143,7 @@ void DlgRenderVideo::EndThreadEncode() {
                              QMessageBox::Yes|QMessageBox::Close,QMessageBox::Yes)==QMessageBox::Yes)
             QDesktopServices::openUrl(QUrl().fromLocalFile(OutputFileName));
     } else if (Encoder.StopProcessWanted) CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job canceled!"));
-        else                                CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job error!\nPlease contact ffDiaporama team"));
+        else                              CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job error!\nPlease contact ffDiaporama team"));
     if (Continue) accept();
         else reject();
 }

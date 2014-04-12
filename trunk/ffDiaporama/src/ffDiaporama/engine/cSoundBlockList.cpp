@@ -308,7 +308,8 @@ void cSoundBlockList::ApplyVolume(int PacketNumber,double VolumeFactor) {
     if (Buf1==NULL) return;
     double mix;
     for (int j=0;j<SoundPacketSize/2;j++) {
-        mix=double(*(Buf1))*VolumeFactor;
+        mix=double(*Buf1);
+        mix=mix*VolumeFactor;
         if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768; //Adjust if necessary (16 bits)
         *(Buf1++)=int16_t(mix);
     }
