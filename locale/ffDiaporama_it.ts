@@ -3718,6 +3718,18 @@ Do you want to open the audio track now?</source>
         <translation>Lavoro completato con successo!
 Vuoi aprire la traccia audio ora?</translation>
     </message>
+    <message>
+        <source>invalid path or invalid filename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start rendering process</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error starting encoding process:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgRulerDef</name>

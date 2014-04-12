@@ -531,6 +531,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
         else if (event->matches(QKeySequence::Delete))      s_Action_RemoveObject();
         //else if (event->matches(QKeySequence::ZoomIn))    s_Action_ZoomPlus();
         //else if (event->matches(QKeySequence::ZoomOut))   s_Action_ZoomMinus();
+        else if (event->key()==Qt::Key_Space)               s_Event_PlayPause();
         else if (event->key()==Qt::Key_Insert)              s_Action_AddFile();
         else if (event->key()==Qt::Key_F1)                  s_Action_Documentation();
         else if (event->key()==Qt::Key_F5)                  ui->Browser->RefreshAll();
@@ -1075,6 +1076,12 @@ void MainWindow::s_Event_DoubleClickedOnMusic() {
         (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
         AdjustRuller();
     }
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Event_PlayPause() {
+    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SwitchPlayerPlayPause();
 }
 
 //====================================================================================================================

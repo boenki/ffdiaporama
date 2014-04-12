@@ -93,6 +93,7 @@ public:
 
     void    SetPlayerToPause();
     void    SetPlayerToPlay();
+    void    SwitchPlayerPlayPause();
 
     void    SetBackgroundColor(QColor Background);
     int     GetButtonBarHeight();

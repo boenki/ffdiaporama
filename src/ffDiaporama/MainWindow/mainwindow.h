@@ -112,6 +112,7 @@ private slots:
     void    DoCheckBUILDVERSION(QNetworkReply*);            // Build version was downloaded from internet
 
     // Timeline & player
+    void    s_Event_PlayPause();
     void    s_Event_TimelineDragMoveItem();                 // Drag & drop operation in timeline
     void    s_Event_TimelineAddDragAndDropFile();           // Add files from drag & drop (event send from timeline)
     void    s_Event_TimelineSelectionChanged();             // Timeline current item changed

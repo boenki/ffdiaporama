@@ -2,6 +2,16 @@
 * FFDIAPORAMA 2.2 - trunk - (English version)
 **************************************************
 
+[Commit: ]
+    Bug fixes:
+        -Fixed a bug in computing the new feature "master volume"
+
+    New features:
+        -Improves error message when encoding fails due to bad filename
+        -Adds a keyboard shortcut with the space bar to start or pause the preview player
+
+--------------------------------------------------------------------------------
+
 [Commit: 02/04/2014] - ffDiaporama 2.2 devel 20140402
     Bug fixes:
         -Fixed a bug in the calculation when encoding MJPEG which sometimes failed using NTSC format
