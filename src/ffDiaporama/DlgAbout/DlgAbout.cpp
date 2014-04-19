@@ -63,7 +63,15 @@ void DlgAbout::DoInitDialog() {
         FName=ApplicationConfig->UserConfigPath+QString("%1_LOCALEVERSION.TXT").arg(ApplicationConfig->CurrentLanguage);
         File.setFileName(FName);
         if (!File.exists()) {
+            FName=ApplicationConfig->UserConfigPath+QString("%1_VERSION.TXT").arg(ApplicationConfig->CurrentLanguage);
+            File.setFileName(FName);
+        }
+        if (!File.exists()) {
             FName=ApplicationConfig->UserConfigPath+QString("LOCALEVERSION.TXT");
+            File.setFileName(FName);
+        }
+        if (!File.exists()) {
+            FName=ApplicationConfig->UserConfigPath+QString("VERSION.TXT");
             File.setFileName(FName);
         }
         if (File.open(QIODevice::ReadOnly|QIODevice::Text)) {

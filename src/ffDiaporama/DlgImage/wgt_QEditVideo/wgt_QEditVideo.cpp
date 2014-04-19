@@ -164,7 +164,7 @@ void wgt_QEditVideo::closeEvent(QCloseEvent *) {
 void wgt_QEditVideo::resizeEvent(QResizeEvent *ev) {
     QWidget::resizeEvent(ev);
     if (IsInit && ui->CustomRuler->IsAnalysed) {
-        ui->CustomRuler->PrepareSoundWave();
+        ui->CustomRuler->PrepareSoundWave(FileInfo->LibavStartTime);
         ui->CustomRuler->repaint();
     }
 }

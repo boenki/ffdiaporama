@@ -147,6 +147,32 @@ int16_t *cSoundBlockList::DetachFirstPacket(bool NoLock) {
 }
 
 //====================================================================================================================
+// Synchronize sound to a wanted position
+//====================================================================================================================
+void cSoundBlockList::AdjustSoundPosition(int64_t WantedPosition) {
+    if (List.count()==0) {
+
+        for (int i=0;i<NbrPacketForFPS;i++) AppendPacket(WantedPosition,NULL,true);
+
+    } else if (CurrentPosition>WantedPosition) {
+
+        int64_t BlockDuration=(double(SoundPacketSize)/(SampleBytes*Channels*SamplingRate))*AV_TIME_BASE;
+        while (CurrentPosition>WantedPosition) {
+            CurrentPosition-=BlockDuration;
+            PrependPacket(CurrentPosition,NULL,true);
+        }
+
+    } else if (CurrentPosition<WantedPosition-50000) {
+
+        while (CurrentPosition<WantedPosition-50000) {
+            int16_t *Packet=DetachFirstPacket();
+            if (Packet) av_free(Packet);
+        }
+
+    }
+}
+
+//====================================================================================================================
 // Append a packet to the end of the list
 //====================================================================================================================
 void cSoundBlockList::AppendPacket(int64_t Position,int16_t *PacketToAdd,bool NoLock) {
@@ -196,44 +222,6 @@ void cSoundBlockList::EnsureEnoughtNullAtStart() {
 //====================================================================================================================
 void cSoundBlockList::EnsureNoNullAtStart() {
     while ((List.count()>0)&&(List[0]==NULL)) List.removeFirst();
-}
-
-//====================================================================================================================
-// Synchronise sound and video by adding null sound to catch VideoPosition
-//====================================================================================================================
-void cSoundBlockList::AdjustSoundPosition(int64_t SoundPosition,int64_t VideoPosition) {
-    if ((CurrentTempSize+SoundPacketSize*List.count())==0) {
-        if (SoundPosition>VideoPosition) {
-            int64_t Delay=int64_t((qreal(SoundPosition-VideoPosition)/1000000)*SamplingRate)*SampleBytes*Channels;
-            u_int8_t *NullData=(u_int8_t *)av_malloc(Delay+8);
-            memset(NullData,0,Delay);
-            AppendData(VideoPosition,(int16_t *)NullData,Delay);
-            av_free(NullData);
-        }
-    } else if (CurrentPosition>VideoPosition) {
-        u_int8_t *OldPacket=(u_int8_t *)av_malloc(List.count()*SoundPacketSize+CurrentTempSize+8);
-        u_int8_t *CurOldPacket=OldPacket;
-        int64_t  CurSize=0;
-        int64_t  OldPosition=CurrentPosition;
-        while (!List.isEmpty()) {
-            u_int8_t *Packet=(u_int8_t *)List.takeFirst();
-            ListVolume.removeFirst();
-            memcpy(CurOldPacket,Packet,SoundPacketSize);
-            av_free(Packet);
-            CurOldPacket+=SoundPacketSize;
-            CurSize+=SoundPacketSize;
-        }
-        if (CurrentTempSize) {
-            memcpy(CurOldPacket,TempData,CurrentTempSize);
-            CurSize+=CurrentTempSize;
-            CurrentTempSize=0;
-        }
-        CurrentPosition=-1;
-        AdjustSoundPosition(OldPosition,VideoPosition);
-        AppendData(SoundPosition,(int16_t *)OldPacket,CurSize);
-        av_free(OldPacket);
-    }
-    Adjusted=true;
 }
 
 //====================================================================================================================

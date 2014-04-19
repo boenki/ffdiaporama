@@ -2,7 +2,21 @@
 * FFDIAPORAMA 2.2 - trunk - (English version)
 **************************************************
 
-[Commit: ]
+[Commit: 19/04/2014] - ffDiaporama 2.2 devel 20140419
+    Bug fixes:
+        -Fixed a bug in copy/past operation
+        -Fixed icone display by windows explorer for ffd files
+        -Fixed display of waveforme in edit video dialog (remove extra space to the right)
+        -Fixed a display bug of translation in about dialog on Windows
+        -Improve audio/video synchronization
+
+    New features:
+        -Also saving the position of the vertical scrollbar in the edit slides dialog
+        -Upgrade ffmpeg on Windows to version 2.2.1
+
+--------------------------------------------------------------------------------
+
+[Commit: 12/04/2014] - ffDiaporama 2.2 devel 20140412
     Bug fixes:
         -Fixed a bug in computing the new feature "master volume"
 
@@ -29,6 +43,7 @@
 
 
 --------------------------------------------------------------------------------
+
 [Commit: 10/03/2014] - ffDiaporama 2.2 devel 20140314
     Bug fixes:
         -Fixed a problem shifting axes for 2 LUMA clock

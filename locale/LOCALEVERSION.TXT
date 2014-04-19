@@ -1,8 +1,8 @@
-20140412
+20140413
 cz = 14% (277/1929) 1652 to translate
 de = 95% (1850/1929) 79 to translate
 el = 95% (1850/1929) 79 to translate
-es = 99% (1914/1929) 15 to translate
+es = 100% (1929/1929)
 fr = 100% (1929/1929)
 gl = 99% (1914/1929) 15 to translate
 it = 95% (1850/1929) 79 to translate

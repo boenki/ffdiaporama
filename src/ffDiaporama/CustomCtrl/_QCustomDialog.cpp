@@ -200,13 +200,13 @@ void QCustomDialog::SaveWindowState() {
             cSaveWindowPosition DlgWSP(objectName(),ApplicationConfig->RestoreWindow,false);
             DlgWSP.SaveWindowState(this);
             DlgWSP.SaveToXML(root);
-            ApplicationConfig->SettingsTable->SetIntAndTextValue(objectName(),TypeWindowState,domDocument.toString());
         } else if (TypeWindowState==TypeWindowState_withsplitterpos) {
             cSaveWinWithSplitterPos DlgWSP(objectName(),ApplicationConfig->RestoreWindow,false);
             DlgWSP.SaveWindowState(this,Splitter);
             DlgWSP.SaveToXML(root);
-            ApplicationConfig->SettingsTable->SetIntAndTextValue(objectName(),TypeWindowState,domDocument.toString());
         }
+        SaveAdditionnalWindowState(root);
+        ApplicationConfig->SettingsTable->SetIntAndTextValue(objectName(),TypeWindowState,domDocument.toString());
     }
 }
 
@@ -231,6 +231,7 @@ void QCustomDialog::RestoreWindowState() {
                 DlgWSP.LoadFromXML(domDocument.documentElement());
                 if (DlgWSP.IsInit) DlgWSP.ApplyToWindow(this,Splitter);
             }
+            RestoreAdditionnalWindowState(domDocument.documentElement());
         }
     }
 }

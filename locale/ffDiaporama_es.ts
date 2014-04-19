@@ -140,7 +140,7 @@ Si quieres ayudarnos a completar una traducción incompleta, o mediante la tradu
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="360"/>
         <source>Adjust the duration of selected slides to the music end before the transition and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajustar la duración de diapositivas seleccionadas al audio y antes de la transición y salir</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="363"/>
@@ -150,7 +150,7 @@ Si quieres ayudarnos a completar una traducción incompleta, o mediante la tradu
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="387"/>
         <source>Adjust the duration of selected slides to the music end with the transition and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajustar la duración de diapositivas seleccionadas al audio con la transición y salir</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="390"/>
@@ -880,7 +880,7 @@ Opciones de edición (al añadir objetos)</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="773"/>
         <source>Preview options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciones de previsualización</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="794"/>
@@ -920,7 +920,7 @@ Opciones de edición (al añadir objetos)</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="900"/>
         <source>Various options</source>
-        <translation type="unfinished"></translation>
+        <translation>Varias opciones</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1459"/>
@@ -954,12 +954,12 @@ Este estilo define la transparencia del bloque y su relleno.</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2472"/>
         <source>Project options (default values)</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciones del proyecto (valores por defecto)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2715"/>
         <source>Default options for speed wave</source>
-        <translation type="unfinished"></translation>
+        <translation>Valores por defecto para onda de velocidad</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2794"/>
@@ -1191,7 +1191,7 @@ Nota: este campo está limitado a 30 caracteres para ser compatible con el jukeb
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="585"/>
         <source>Network settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración de red</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3384"/>
@@ -1222,12 +1222,12 @@ Nota: este campo está limitado a 30 caracteres para ser compatible con el jukeb
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3907"/>
         <source>Default sound level :</source>
-        <translation type="unfinished"></translation>
+        <translation>Nivel de sonido por defecto :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3917"/>
         <source>Set the volume level to be achieved by amplification for music and audio tracks when the volume is set to auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Definir el nivel sonoro que se logra mediante la amplificación para la música y las pistas de audio cuando el volumen se establece en automático</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3957"/>
@@ -4144,7 +4144,7 @@ Mueve el archivo seleccionado un paso hacia abajo</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.cpp" line="181"/>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.cpp" line="262"/>
@@ -4673,17 +4673,17 @@ Por favor, contacta con ele equipo de ffDiaporama</translation>
     <message>
         <location filename="../src/ffDiaporama/engine/_EncodeVideo.cpp" line="299"/>
         <source>invalid path or invalid filename</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruta o archivo no válidos</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_EncodeVideo.cpp" line="300"/>
         <source>Start rendering process</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciando proceso de renderizado</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_EncodeVideo.cpp" line="301"/>
         <source>Error starting encoding process:</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al iniciar proceso de codificación:</translation>
     </message>
 </context>
 <context>
@@ -5936,7 +5936,7 @@ toma</translation>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1329"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1342"/>
         <source>Add files</source>
-        <translation type="unfinished">Añadir archivos</translation>
+        <translation>Añadir archivos</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/cShotComposer.cpp" line="832"/>
@@ -10845,7 +10845,7 @@ Ejemplo: si Y = 25% del 1er cuarto en la parte superior de la imagen se elimina.
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="84"/>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto</translation>
     </message>
 </context>
 <context>

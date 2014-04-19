@@ -69,7 +69,7 @@ void cShotComposer::DoInitDialog() {
         GETDOUBLESPINBOX("PosYEd")->setDecimals(2);     GETDOUBLESPINBOX("PosYEd")->setSingleStep(1);       GETDOUBLESPINBOX("PosYEd")->setSuffix("%");
         GETDOUBLESPINBOX("WidthEd")->setDecimals(2);    GETDOUBLESPINBOX("WidthEd")->setSingleStep(1);      GETDOUBLESPINBOX("WidthEd")->setSuffix("%");
         GETDOUBLESPINBOX("HeightEd")->setDecimals(2);   GETDOUBLESPINBOX("HeightEd")->setSingleStep(1);     GETDOUBLESPINBOX("HeightEd")->setSuffix("%");
-    } else { // DisplayUnit==DISPLAYUNIT_PIXELS
+    } else { // DisplayUnit==DISPLAYUNIT_PIXELSTypeWindowState
         GETDOUBLESPINBOX("PosXEd")->setDecimals(0);     GETDOUBLESPINBOX("PosXEd")->setSingleStep(1);       GETDOUBLESPINBOX("PosXEd")->setSuffix("");
         GETDOUBLESPINBOX("PosYEd")->setDecimals(0);     GETDOUBLESPINBOX("PosYEd")->setSingleStep(1);       GETDOUBLESPINBOX("PosYEd")->setSuffix("");
         GETDOUBLESPINBOX("WidthEd")->setDecimals(0);    GETDOUBLESPINBOX("WidthEd")->setSingleStep(1);      GETDOUBLESPINBOX("WidthEd")->setSuffix("");

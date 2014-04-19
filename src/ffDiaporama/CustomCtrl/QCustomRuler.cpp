@@ -117,15 +117,18 @@ QCustomRuler::~QCustomRuler() {
 void QCustomRuler::AnalyseSound(cVideoFile *MusicObject) {
     IsAnalysed=MusicObject->DoAnalyseSound(&Peak,&Moyenne,&IsAnalysed,&Analysed);
     SoundLevel=MusicObject->GetSoundLevel();
-    PrepareSoundWave();
+    qreal Duration =QTime(0,0,0,0).msecsTo(MusicObject->GetRealAudioDuration());
+    qreal dDelta   =qreal(MusicObject->LibavStartTime/2000)/Duration;
+    int64_t Delta  =int64_t(qreal(Peak.count())*dDelta);
+    PrepareSoundWave(Delta);
     Analysed=100;
     TotalDuration=QTime(0,0,0,0).msecsTo(MusicObject->GetRealDuration());
 }
 
 //====================================================================================================================
 
-void QCustomRuler::PrepareSoundWave() {
-    QImage   *Image=new QImage(width()-TAQUET_SIZE*2,height()-32,QImage::Format_ARGB32_Premultiplied);
+void QCustomRuler::PrepareSoundWave(int64_t Delta) {
+    QImage   *Image=new QImage(width()-TAQUET_SIZE,height()-32,QImage::Format_ARGB32_Premultiplied);
     QPainter Painter;
     QPen     BluePen,GreenPen,BlackPen,WhitePen;
     int      Height=Image->height();
@@ -140,8 +143,8 @@ void QCustomRuler::PrepareSoundWave() {
     WhitePen.setColor(Qt::white);
     Painter.scale(qreal(Image->width())/qreal(Peak.count()),1);
     for (int i=0;i<Peak.count();i++) {
-        Painter.setPen(BluePen);  Painter.drawLine(QPointF(i,Peak[i]*Height),QPointF(i,-Peak[i]*Height));
-        Painter.setPen(GreenPen); Painter.drawLine(QPointF(i,Moyenne[i]*Height),QPointF(i,-Moyenne[i]*Height));
+        Painter.setPen(BluePen);  Painter.drawLine(QPointF(i+Delta,Peak[i]*Height),QPointF(i+Delta,-Peak[i]*Height));
+        Painter.setPen(GreenPen); Painter.drawLine(QPointF(i+Delta,Moyenne[i]*Height),QPointF(i+Delta,-Moyenne[i]*Height));
     }
     Painter.restore();
     WhitePen.setStyle(Qt::DashLine);    Painter.setPen(WhitePen);

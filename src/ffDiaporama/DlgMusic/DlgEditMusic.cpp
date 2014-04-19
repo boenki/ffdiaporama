@@ -61,7 +61,7 @@ DlgEditMusic::~DlgEditMusic() {
 void DlgEditMusic::resizeEvent(QResizeEvent *ev) {
     QCustomDialog::resizeEvent(ev);
     if (IsInit && ui->CustomRuler->IsAnalysed) {
-        ui->CustomRuler->PrepareSoundWave();
+        ui->CustomRuler->PrepareSoundWave(0);
         ui->CustomRuler->repaint();
     }
 }

@@ -336,6 +336,26 @@ void DlgSlideProperties::DoGlobalUndo() {
 
 //====================================================================================================================
 
+void DlgSlideProperties::SaveAdditionnalWindowState(QDomElement &domDocument) {
+    int             ScrollBarValue=ui->scrollArea->verticalScrollBar()->value();
+    QDomDocument    DomDocument;
+    QDomElement     Element=DomDocument.createElement("ScrollBar");
+    Element.setAttribute("ScrollBarValue",ScrollBarValue);
+    domDocument.appendChild(Element);
+}
+
+void DlgSlideProperties::RestoreAdditionnalWindowState(QDomElement domDocument) {
+    if ((domDocument.elementsByTagName("ScrollBar").length()>0)&&(domDocument.elementsByTagName("ScrollBar").item(0).isElement()==true)) {
+        QDomElement Element=domDocument.elementsByTagName("ScrollBar").item(0).toElement();
+        if (Element.hasAttribute("ScrollBarValue")) {
+            int ScrollBarValue=Element.attribute("ScrollBarValue").toInt();
+            ui->scrollArea->verticalScrollBar()->setValue(ScrollBarValue);
+        }
+    }
+}
+
+//====================================================================================================================
+
 void DlgSlideProperties::keyReleaseEvent(QKeyEvent *event) {
     if ((focusWidget()==BlockTable)||(focusWidget()==InteractiveZone)||(focusWidget()==ShotTable)) {
         if (event->modifiers()==Qt::ControlModifier) {

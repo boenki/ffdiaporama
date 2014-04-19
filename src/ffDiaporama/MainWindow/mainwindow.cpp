@@ -2889,6 +2889,8 @@ void MainWindow::s_Action_PasteFromClipboard() {
             CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),
                              QApplication::translate("MainWindow","Error getting image from clipboard","Error message"),QMessageBox::Close);
         } else {
+            ui->timeline->setUpdatesEnabled(false);
+
             cImageClipboard *MediaObject=new cImageClipboard(ApplicationConfig);
             MediaObject->CreatDateTime=QDateTime().currentDateTime();
             ApplicationConfig->SlideThumbsTable->SetThumbs(&MediaObject->RessourceKey,ImageClipboard);
@@ -2967,6 +2969,12 @@ void MainWindow::s_Action_PasteFromClipboard() {
             int NewThumbHeight  =Diaporama->GetHeightForWidth(NewThumbWidth);
 
             Diaporama->List[CurIndex]->DrawThumbnail(NewThumbWidth,NewThumbHeight,NULL,0,0,0);
+
+            // Set title flag
+            SetModifyFlag(true);
+            ui->timeline->ResetDisplay(CurIndex);
+            AdjustRuller();
+            ui->timeline->setUpdatesEnabled(true);
         }
 
     } else if ((Mime)&&(Mime->hasFormat("ffDiaporama/slide"))) {
@@ -2989,17 +2997,17 @@ void MainWindow::s_Action_PasteFromClipboard() {
                     CurIndex++;
                 }
             }
+            // Set title flag
+            SetModifyFlag(true);
+
+            // Set current selection to first new object
+            ui->timeline->ResetDisplay(SavedCurIndex+1);
+            AdjustRuller();
+            ui->timeline->setUpdatesEnabled(true);
         }
     }
     ClipboardLock=false;
 
-    // Set title flag
-    SetModifyFlag(true);
-
-    // Set current selection to first new object
-    ui->timeline->ResetDisplay(SavedCurIndex+1);
-    AdjustRuller();
-    ui->timeline->setUpdatesEnabled(true);
     QApplication::restoreOverrideCursor();
 }
 
