@@ -2,7 +2,21 @@
 * FFDIAPORAMA 2.2 - trunk (Version Française)
 **************************************************
 
-[Commit: ]
+[Commit: 19/04/2014] - ffDiaporama 2.2 devel 20140419
+    Correction de bug :
+        -Corrige un bug dans les copier/coller
+        -Corrige l'icone qui apparait dans l'explorateur de fichier sous Windows
+        -Corrige l'affichage de la courbe de son des vidéos (supprime l'espace en trop à droite)
+        -Corrige un bug d'affichage des traductions dans la boite à propos de sous Windows
+        -Améliore la synchronisation audio/vidéo
+
+    Nouveautés :
+        -Sauvegarde aussi la position de l'ascenseur vertical dans la boite d'édition des diapositives
+        -Met à jours ffmpeg sous Windows vers la version 2.2.1
+
+--------------------------------------------------------------------------------
+
+[Commit: 12/04/2014] - ffDiaporama 2.2 devel 20140412
     Correction de bug :
         -Corrige un bug de calcul dans la nouvelle fonctionnalité de "master volume"
 

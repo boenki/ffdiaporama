@@ -64,7 +64,7 @@ public:
     virtual void    ApplyVolume(int PacketNumber,double VolumeFactor);                                                  // Adjust volume
     virtual void    AppendPacket(int64_t Position,int16_t *PacketToAdd,bool NoLock=false);                              // Append a packet to the end of the list
     virtual void    PrependPacket(int64_t Position,int16_t *PacketToAdd,bool NoLock=false);                             // Append a packet to the begining of the list
-    virtual void    AdjustSoundPosition(int64_t SoundPosition,int64_t VideoPosition);                                   // Synchronise sound and video by adding null sound to catch VideoPosition
+    virtual void    AdjustSoundPosition(int64_t WantedPosition);
     virtual int     ListCount();
     virtual int16_t *GetAt(int index);
     virtual void    SetAt(int index,int16_t *Packet);

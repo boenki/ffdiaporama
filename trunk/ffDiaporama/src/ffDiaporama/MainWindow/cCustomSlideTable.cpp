@@ -106,6 +106,8 @@ void DrawThumbnailsBox(int Xa,int Ya,int Width,int Height,QPainter *Painter,QIma
 //========================================================================================================================
 
 void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
+    if (ParentTable->columnCount()==0) return;
+
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     Painter->save();
 
@@ -869,7 +871,7 @@ void cCustomSlideTable::mousePressEvent(QMouseEvent *event) {
         QTableWidget::mousePressEvent(event);
         IsDragOn=DRAGMODE_NOACTION;
     } else {
-        if ((Diaporama->List.count()==0)||(IsDragOn==DRAGMODE_INTERNALMOVE_SLIDE)||(IsDragOn==DRAGMODE_INTERNALMOVE_MUSIC)||(IsDragOn==DRAGMODE_INTERNALMOVE_BACKGROUND)) {
+        if ((columnCount()==0)||(Diaporama->List.count()==0)||(IsDragOn==DRAGMODE_INTERNALMOVE_SLIDE)||(IsDragOn==DRAGMODE_INTERNALMOVE_MUSIC)||(IsDragOn==DRAGMODE_INTERNALMOVE_BACKGROUND)) {
             QTableWidget::mousePressEvent(event);
             return;
         }

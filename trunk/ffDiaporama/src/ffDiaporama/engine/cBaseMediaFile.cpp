@@ -3081,7 +3081,7 @@ void cVideoFile::VideoFilter_Close() {
 //====================================================================================================================
 
 bool cVideoFile::SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Position) {
-    bool ret=true;
+    bool            ret=true;
     AVFormatContext *LibavFile  =NULL;
     int             StreamNumber=0;
 
@@ -3099,7 +3099,7 @@ bool cVideoFile::SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Po
         StreamNumber=VideoStreamNumber;
     }
 
-    if ((LibavStartTime>0)&&(VideoStream)) Position-=LibavStartTime;
+    //if ((LibavStartTime>0)&&(VideoStream)) Position-=LibavStartTime;
     if (Position<0) Position=0;
 
     // Flush LibAV buffers
@@ -3439,7 +3439,6 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                         int64_t FramePts=StreamPacket->pts!=(int64_t)AV_NOPTS_VALUE?StreamPacket->pts:-1;
                         double  TimeBase=double(LibavVideoFile->streams[StreamPacket->stream_index]->time_base.den)/double(LibavVideoFile->streams[StreamPacket->stream_index]->time_base.num);
                         if (FramePts>=0) VideoFramePosition=(double(FramePts)/TimeBase);
-
                         if (StreamPacket->stream_index==VideoStreamNumber) {
 
                             // Allocate structures
@@ -3521,7 +3520,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                                             }
                                         }
                                         FrameBufferYUVReady   =true;                                            // Keep actual value for FrameBufferYUV
-                                        FrameBufferYUVPosition=int64_t((double(pts)/TimeBase)*AV_TIME_BASE)-LibavStartTime;    // Keep actual value for FrameBufferYUV
+                                        FrameBufferYUVPosition=int64_t((qreal(pts)*av_q2d(VideoStream->time_base))*AV_TIME_BASE)-LibavStartTime;    // Keep actual value for FrameBufferYUV
 
                                         // Append this frame
                                         cImageInCache *ObjImage=
@@ -3611,6 +3610,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                 else i++;
         }
     }
+    if ((AudioContext.AudioStream)&&(SoundTrackBloc)&&(CacheImage.count()>0)) SoundTrackBloc->AdjustSoundPosition(CacheImage[0]->Position);
 
     Mutex.unlock();
     return RetImage;
@@ -3619,9 +3619,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
 //====================================================================================================================
 
 void cVideoFile::DecodeAudio(sAudioContext *AudioContext,AVPacket *StreamPacket,int64_t Position) {
-    int64_t FramePts=StreamPacket->pts!=(int64_t)AV_NOPTS_VALUE?StreamPacket->pts:-1;
-    if (FramePts>=0) AudioContext->AudioFramePosition=(double(FramePts)/AudioContext->TimeBase);
-
+    qreal FramePts=StreamPacket->pts!=(int64_t)AV_NOPTS_VALUE?StreamPacket->pts*av_q2d(AudioContext->AudioStream->time_base):-1;
     if ((StreamPacket->stream_index==AudioStreamNumber)&&(StreamPacket->size>0)) {
         AVPacket PacketTemp;
         av_init_packet(&PacketTemp);
@@ -3666,7 +3664,7 @@ void cVideoFile::DecodeAudio(sAudioContext *AudioContext,AVPacket *StreamPacket,
 
 //============================
 
-void cVideoFile::DecodeAudioFrame(sAudioContext *AudioContext,int64_t *FramePts,AVFrame *Frame,int64_t Position) {
+void cVideoFile::DecodeAudioFrame(sAudioContext *AudioContext,qreal *FramePts,AVFrame *Frame,int64_t Position) {
     int64_t  SizeDecoded=0;
     u_int8_t *Data      =NULL;
     if ((AudioContext->NeedResampling)&&(RSC!=NULL)) {
@@ -3686,10 +3684,10 @@ void cVideoFile::DecodeAudioFrame(sAudioContext *AudioContext,int64_t *FramePts,
         // Adjust FrameDuration with real Nbr Sample
         double FrameDuration=double(SizeDecoded)/(AudioContext->SoundTrackBloc->SamplingRate*AudioContext->DstSampleSize);
         // Adjust pts and inc FramePts int the case there is multiple blocks
-        int64_t pts=int64_t((double(*FramePts)/AudioContext->TimeBase)*AV_TIME_BASE);
-        if (pts<0) pts=int64_t((double(Position+AudioContext->FPSDuration)/AudioContext->TimeBase)*AV_TIME_BASE);
-        (*FramePts)+=FrameDuration*AV_TIME_BASE;
-        AudioContext->AudioFramePosition=qreal(pts)/1000000;
+        qreal pts=(*FramePts)/av_q2d(AudioContext->AudioStream->time_base);
+        if (pts<0) pts=qreal(Position+AudioContext->FPSDuration);
+        (*FramePts)+=FrameDuration;
+        AudioContext->AudioFramePosition=(*FramePts);
         // Adjust volume if master volume <>1
         double Volume=AudioContext->Volume;
         if (Volume==-1) Volume=GetSoundLevel()!=-1?double(ApplicationConfig->DefaultSoundLevel)/double(GetSoundLevel()*100):1;
@@ -3705,7 +3703,7 @@ void cVideoFile::DecodeAudioFrame(sAudioContext *AudioContext,int64_t *FramePts,
         }
         // Append decoded data to SoundTrackBloc
         if ((AudioContext->DontUseEndPos)||(AudioContext->AudioFramePosition<*AudioContext->dEndFile)) {
-            AudioContext->SoundTrackBloc->AppendData(/*Position*/pts,(int16_t*)Data,SizeDecoded);
+            AudioContext->SoundTrackBloc->AppendData(AudioContext->AudioFramePosition*AV_TIME_BASE,(int16_t*)Data,SizeDecoded);
             AudioContext->AudioLenDecoded   +=SizeDecoded;
             AudioContext->AudioFramePosition =AudioContext->AudioFramePosition+FrameDuration;
         }

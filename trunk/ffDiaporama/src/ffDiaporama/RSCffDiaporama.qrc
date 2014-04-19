@@ -99,7 +99,6 @@
         <file>img/Shadow.png</file>
         <file>img/Smartphone.png</file>
         <file>img/sound_KO.png</file>
-        <file>img/splash.png</file>
         <file>img/TextStyle.png</file>
         <file>img/TimelineBlocks.png</file>
         <file>img/TimelineShots.png</file>
@@ -390,5 +389,6 @@
         <file>img/EditSound.png</file>
         <file>img/add_sound.png</file>
         <file>img/ContinuePlayList.png</file>
+        <file>img/splash.png</file>
     </qresource>
 </RCC>

@@ -109,6 +109,9 @@ public:
 
     virtual void                SaveWindowState();
     virtual void                RestoreWindowState();
+    virtual void                SaveAdditionnalWindowState(QDomElement &)   {}
+    virtual void                RestoreAdditionnalWindowState(QDomElement)  {}
+
 
     virtual void                AppendPartialUndo(int ActionType,QWidget *FocusWindow,bool ForceAdd,QWidget *FocusTab=NULL,bool DuplicateRessource=false);
     virtual void                AppendPartialUndo(int ActionType,QString WidgetName,bool ForceAdd,QWidget *FocusTab=NULL,bool DuplicateRessource=false);

@@ -62,6 +62,8 @@ public:
     virtual void            DoRejet();                                  // Call when user click on Cancel button
     virtual void            PrepareGlobalUndo();                        // Initiale Undo
     virtual void            DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
+    virtual void            SaveAdditionnalWindowState(QDomElement &);
+    virtual void            RestoreAdditionnalWindowState(QDomElement);
 
     virtual void            RefreshStyleControls();
     virtual void            RefreshControls(bool UpdateInteractiveZone=true);

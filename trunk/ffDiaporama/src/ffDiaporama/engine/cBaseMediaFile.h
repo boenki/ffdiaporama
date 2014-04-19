@@ -502,7 +502,7 @@ private:
     };
 private slots:
     void DecodeAudio(sAudioContext *AudioContext,AVPacket *StreamPacket,int64_t Position);
-    void DecodeAudioFrame(sAudioContext *AudioContext,int64_t *FramePts,AVFrame *Frame,int64_t Position);
+    void DecodeAudioFrame(sAudioContext *AudioContext,qreal *FramePts,AVFrame *Frame,int64_t Position);
 };
 
 //*********************************************************************************************************************************************
