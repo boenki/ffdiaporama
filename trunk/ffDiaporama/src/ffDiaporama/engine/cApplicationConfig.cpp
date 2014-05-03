@@ -666,7 +666,6 @@ bool cApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfigFile
             #if (!defined(Q_OS_WIN64))&&(defined(Q_OS_WIN32) || defined(Q_OS_LINUX32) || defined(Q_OS_SOLARIS32))
             if (MemCacheMaxValue>int64_t(512*1024*1024)) MemCacheMaxValue=int64_t(512*1024*1024);
             #endif
-            if (Element.hasAttribute("SDLAudioOldMode"))            SDLAudioOldMode             =Element.attribute("SDLAudioOldMode")=="1";
             if (Element.hasAttribute("AppendObject"))               AppendObject                =Element.attribute("AppendObject")=="1";
             if (Element.hasAttribute("PartitionMode"))              PartitionMode               =Element.attribute("PartitionMode")=="1";
             if (Element.hasAttribute("WindowDisplayMode"))          WindowDisplayMode           =Element.attribute("WindowDisplayMode").toInt();
@@ -676,6 +675,7 @@ bool cApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfigFile
             if (TimelineHeight>TIMELINEMAXHEIGH) TimelineHeight=TIMELINEMAXHEIGH;
             if (Element.hasAttribute("DefaultFraming"))             DefaultFraming              =Element.attribute("DefaultFraming").toInt();
             if (Element.hasAttribute("PreviewFPS"))                 PreviewFPS                  =GetDoubleValue(Element,"PreviewFPS");
+            if (Element.hasAttribute("PreviewSoundVolume"))         PreviewSoundVolume          =GetDoubleValue(Element,"PreviewSoundVolume");
             if (Element.hasAttribute("PreviewSamplingRate"))        PreviewSamplingRate         =Element.attribute("PreviewSamplingRate").toLong();
             if (Element.hasAttribute("MaxVideoPreviewHeight"))      MaxVideoPreviewHeight       =Element.attribute("MaxVideoPreviewHeight").toInt();
             if (Element.hasAttribute("RandomTransition"))           RandomTransition            =Element.attribute("RandomTransition")=="1";
@@ -868,7 +868,6 @@ bool cApplicationConfig::SaveConfigurationFile() {
 
     // Save preferences
     Element=domDocument.createElement("EditorOptions");
-    Element.setAttribute("SDLAudioOldMode",             SDLAudioOldMode?"1":"0");
     Element.setAttribute("AppendObject",                AppendObject?"1":"0");
     Element.setAttribute("DisplayUnit",                 DisplayUnit);
     Element.setAttribute("PartitionMode",               PartitionMode?"1":"0");
@@ -876,6 +875,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
     Element.setAttribute("NewTimelineHeight",           TimelineHeight);
     Element.setAttribute("DefaultFraming",              DefaultFraming);
     Element.setAttribute("PreviewFPS",                  (QString("%1").arg(PreviewFPS,0,'f')));
+    Element.setAttribute("PreviewSoundVolume",          (QString("%1").arg(PreviewSoundVolume,0,'f')));
     Element.setAttribute("PreviewSamplingRate",         (QString("%1").arg(PreviewSamplingRate)));
     Element.setAttribute("MaxVideoPreviewHeight",       MaxVideoPreviewHeight);
     Element.setAttribute("RandomTransition",            RandomTransition?"1":"0");
@@ -1017,6 +1017,7 @@ void cApplicationConfig::InitValues() {
     DefaultFraming              = 2;                        // 0=Width, 1=Height, 2=Full
     TimelineHeight              = TIMELINEMINHEIGH;         // Initial height of the timeline
     PreviewFPS                  = 12.5;                     // Preview FrameRate
+    PreviewSoundVolume          = 0.8;
     PreviewSamplingRate         = 44100;                    // Preview sound audio rate
     MaxVideoPreviewHeight       = 360;
     NoShotDuration              = 6000;                     // Default duration for fixed image when is alone (no shot)
@@ -1066,8 +1067,6 @@ void cApplicationConfig::InitValues() {
     Preset_PQ                   = "veryfast";
     Tune_HQ                     = "zerolatency";
     Tune_PQ                     = "fastdecode";
-
-    SDLAudioOldMode             = false;                    // If true SDL audio use old mode sample instead byte
 
     // Init collections
     StyleTextCollection.CollectionName          =QString(STYLENAME_TEXTSTYLE);

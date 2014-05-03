@@ -3856,6 +3856,10 @@
         <source> Note: messages appear only if you launched the program from a console (CMD under Windows or Terminal under Linux). It is possible to redirect these messages into a log file by using &gt;. </source>
         <translation>Nota: Los mensajes sólo aparecen si se ha iniciado el programa desde una consola (CMD en Windows o Terminal en Linux). Es posible redirigir estos mensajes a un archivo de registro usando el carácter &gt;.</translation>
     </message>
+    <message>
+        <source>&lt;B&gt;gl&lt;/B&gt; to use Galician</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0042</name>
@@ -4458,14 +4462,6 @@
     <message>
         <source>The &quot;raster&quot; Graphics accelerates the display but can raise problems on some computer in particular with KDE.</source>
         <translation>El sistema gráfico &quot;raster&quot; acelera la pantalla, pero puede plantear problemas en algún equipo, en particular con KDE.</translation>
-    </message>
-    <message>
-        <source>SDL Audio use old mode</source>
-        <translation>Usar el modo antiguo SDL audio</translation>
-    </message>
-    <message>
-        <source>&lt;B&gt;For the users Linux only: &lt;/B&gt;if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</source>
-        <translation>&lt;B&gt; Sólo para los usuarios de Linux: &lt;/B&gt; si esta casilla está marcada, se usará el antiguo modo de audio SDL Audio. Esta opción es útil en alguna distribución Linux que todavía utilizan los paquetes antiguos SDL (Por ejemplo: Ubuntu 10.10 y 11.04, Fedora 14 y 15, etc.).</translation>
     </message>
     <message>
         <source>Memory profil</source>
@@ -5166,6 +5162,14 @@
     <message>
         <source>Defines the default value for the field Album</source>
         <translation>Define el valor predeterminado para el campo Álbum</translation>
+    </message>
+    <message>
+        <source>Default sound level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set the volume level to be achieved by amplification for music and audio tracks when the volume is set to auto</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -184,10 +184,6 @@ void MainWindow::InitWindow() {
     screen.showMessage(QApplication::translate("MainWindow","Loading system icons..."),Qt::AlignHCenter|Qt::AlignBottom);
     ApplicationConfig->PreloadSystemIcons();
 
-    // Register SDL
-    screen.showMessage(QApplication::translate("MainWindow","Starting SDL..."),Qt::AlignHCenter|Qt::AlignBottom);
-    SDLFirstInit(double(1000)/double(ApplicationConfig->PreviewFPS),ApplicationConfig->SDLAudioOldMode,ApplicationConfig->PreviewSamplingRate);
-
     // Register all formats and codecs for libavformat/libavcodec/etc ...
     screen.showMessage(QApplication::translate("MainWindow","Starting libav..."),Qt::AlignHCenter|Qt::AlignBottom);
     if (!ApplicationConfig->DeviceModelList.InitLibav()) exit(1);
@@ -417,6 +413,10 @@ void MainWindow::InitWindow() {
     connect(ui->preview,SIGNAL(SaveImageEvent()),this,SLOT(s_VideoPlayer_SaveImageEvent()));
     connect(ui->preview2,SIGNAL(SaveImageEvent()),this,SLOT(s_VideoPlayer_SaveImageEvent()));
 
+    // Volume Changed
+    connect(ui->preview,SIGNAL(VolumeChanged()),this,SLOT(s_VideoPlayer_VolumeChanged()));
+    connect(ui->preview2,SIGNAL(VolumeChanged()),this,SLOT(s_VideoPlayer_VolumeChanged()));
+
     // Browser event
     connect(ui->Browser,SIGNAL(DoRefreshControls()),this,SLOT(RefreshControls()));
     connect(ui->Browser,SIGNAL(DoOpenFile()),this,SLOT(s_Browser_OpenFile()));
@@ -473,8 +473,6 @@ void MainWindow::toolTipTowhatsThis(QObject *StartObj) {
 //====================================================================================================================
 
 MainWindow::~MainWindow() {
-    SDLLastClose();
-
     delete ui;
     delete Diaporama;
     delete ApplicationConfig;
@@ -1336,9 +1334,9 @@ void MainWindow::s_Action_ChangeApplicationSettings() {
         ToStatusBar(QApplication::translate("MainWindow","Saving configuration file and applying new configuration ..."));
         QApplication::processEvents();
         QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-        ui->preview->WantedFPS =ApplicationConfig->PreviewFPS;
-        ui->preview2->WantedFPS=ApplicationConfig->PreviewFPS;
-        SDLSetFPS(double(1000)/ApplicationConfig->PreviewFPS,ApplicationConfig->SDLAudioOldMode,ApplicationConfig->PreviewSamplingRate);  // Reinit SDL if Preview FPS has changed
+        ui->preview->SetAudioFPS();
+        ui->preview2->SetAudioFPS();
+
         // Save configuration
         //ApplicationConfig->MainWinWSP->SaveWindowState(this); // Do not change get WindowState for mainwindow except when closing
         ApplicationConfig->ImagesCache.MaxValue=ApplicationConfig->MemCacheMaxValue;
@@ -1593,7 +1591,7 @@ void MainWindow::DoOpenFile() {
                 while (ApplicationConfig->RecentFile.count()>10) ApplicationConfig->RecentFile.takeFirst();
 
                 // Load project properties
-                Diaporama->ProjectInfo->LoadFromXML(&CurrentLoadingProjectDocument,"",QFileInfo(Diaporama->ProjectFileName).absolutePath(),&AliasList,NULL,&ResKeyList,false);
+                Diaporama->ProjectInfo->LoadFromXML(&CurrentLoadingProjectDocument,"",QFileInfo(Diaporama->ProjectFileName).absolutePath(),&AliasList,NULL,&ResKeyList,false,false);
                 Diaporama->ProjectThumbnail->LoadFromXML(CurrentLoadingProjectDocument,"ProjectThumbnail",QFileInfo(Diaporama->ProjectFileName).absolutePath(),&AliasList,&ResKeyList,false);
 
                 // Load project geometry and adjust timeline and preview geometry
@@ -2503,6 +2501,13 @@ void MainWindow::s_Action_DoUseAsPlayList() {
         }
     }
     QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoUseAsPlayList()));
+}
+
+//====================================================================================================================
+
+void MainWindow::s_VideoPlayer_VolumeChanged() {
+    if (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER) ui->preview2->audio_outputStream->setVolume(ApplicationConfig->PreviewSoundVolume);
+        else ui->preview->audio_outputStream->setVolume(ApplicationConfig->PreviewSoundVolume);
 }
 
 //====================================================================================================================

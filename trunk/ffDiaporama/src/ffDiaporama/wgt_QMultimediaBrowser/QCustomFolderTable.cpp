@@ -1117,14 +1117,16 @@ void QCustomFolderTable::AppendMediaToTable(cBaseMediaFile *MediaObject) {
 //====================================================================================================================
 
 void QCustomFolderTable::DoScanMediaList() {
+
     if (InScanMediaFunction) return;
     InScanMediaFunction=true;
     CurrentShowDuration=0;
 
     for (int ItemIndex=0;(ItemIndex<MediaList.count())&&(!StopScanMediaList)&&(!StopAllEvent);ItemIndex++) {
+
         if (!MediaList[ItemIndex].IsInformationValide) {
             cBaseMediaFile *MediaObject=MediaList[ItemIndex].CreateBaseMediaFile();
-            MediaObject->GetFullInformationFromFile(); // Get full information
+            MediaObject->GetFullInformationFromFile(true); // Get full information
 
             // Update display
             while (!MediaList[ItemIndex].TextToDisplay.isEmpty()) MediaList[ItemIndex].TextToDisplay.removeLast();
@@ -1140,9 +1142,11 @@ void QCustomFolderTable::DoScanMediaList() {
                 update(model()->index(Row,Col));
             }
             delete MediaObject;
+
         }
         if ((MediaList[ItemIndex].ObjectType==OBJECTTYPE_MUSICFILE)||(MediaList[ItemIndex].ObjectType==OBJECTTYPE_VIDEOFILE)||(MediaList[ItemIndex].ObjectType==OBJECTTYPE_FFDFILE))
                 CurrentShowDuration=CurrentShowDuration+QTime(0,0,0,0).msecsTo(MediaList[ItemIndex].Duration);
+
     }
 
     // Clear ScanMediaListProgress flag to inform that scan is done

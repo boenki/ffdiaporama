@@ -3861,6 +3861,10 @@
         <source> Note: messages appear only if you launched the program from a console (CMD under Windows or Terminal under Linux). It is possible to redirect these messages into a log file by using &gt;. </source>
         <translation>Примечание: сообщения появляются только если вы запустили программу из консоли (cmd в Windows или terminal в Linux). Можно перенаправить эти сообщения в лог-файл с помощью &gt;. </translation>
     </message>
+    <message>
+        <source>&lt;B&gt;gl&lt;/B&gt; to use Galician</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0042</name>
@@ -4463,14 +4467,6 @@
     <message>
         <source>The &quot;raster&quot; Graphics accelerates the display but can raise problems on some computer in particular with KDE.</source>
         <translation>Растровая графика ускоряет отображение, но может вызвать проблемы на некоторых компьютерах, в частности с KDE.</translation>
-    </message>
-    <message>
-        <source>SDL Audio use old mode</source>
-        <translation>Использовать старый аудио режим SDL</translation>
-    </message>
-    <message>
-        <source>&lt;B&gt;For the users Linux only: &lt;/B&gt;if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</source>
-        <translation>&lt;B&gt;Только для пользователей Linux: &lt;/B&gt;если этот флажок установлен, используется старый режим SDL аудио. Этот параметр полезен на некоторых дистрибутивах Linux, которые все еще используют старые пакеты SDL (например: Ubuntu 10.10 и 11.04, Fedora 14 и 15, и т.д.).</translation>
     </message>
     <message>
         <source>Memory profil</source>
@@ -5175,6 +5171,14 @@
     <message>
         <source>Defines the default value for the field Album</source>
         <translation>Определяет значение поля Альбом по умолчанию</translation>
+    </message>
+    <message>
+        <source>Default sound level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set the volume level to be achieved by amplification for music and audio tracks when the volume is set to auto</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

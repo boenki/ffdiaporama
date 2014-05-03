@@ -79,7 +79,7 @@ public:
     void            ActiveSlider(int TotalDuration);
 
     void            AnalyseSound(cVideoFile *MusicObject);
-    void            PrepareSoundWave(int64_t LibavStartTime);
+    void            PrepareSoundWave();
 
 protected:
     virtual void    resizeEvent(QResizeEvent *);

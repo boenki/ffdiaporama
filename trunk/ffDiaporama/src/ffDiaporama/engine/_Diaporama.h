@@ -30,7 +30,6 @@
 #include "cBaseMediaFile.h"
 #include "cBrushDefinition.h"
 #include "cTextFrame.h"
-#include "_SDL_Support.h"
 
 #include "DlgWorkingTask/DlgWorkingTask.h"
 

@@ -1002,6 +1002,7 @@ void Append() {
 	Str=QApplication::translate("0041","<B>es</B> to use Spanish");
 	Str=QApplication::translate("0041","<B>el</B> to use Greek");
 	Str=QApplication::translate("0041","<B>fr</B> to use French");
+	Str=QApplication::translate("0041","<B>gl</B> to use Galician");
 	Str=QApplication::translate("0041","<B>it</B> to use Italian");
 	Str=QApplication::translate("0041","<B>nl</B> to use Dutch");
 	Str=QApplication::translate("0041","<B>pt</B> to use Portuguese");
@@ -1220,8 +1221,6 @@ void Append() {
 	Str=QApplication::translate("0101","The \"raster\" Graphics accelerates the display but can raise problems on some computer in particular with KDE.");
 	Str=QApplication::translate("0101","Disable tooltips in dialog box");
 	Str=QApplication::translate("0101","If this box is checked, tooltips will no longer appear in dialog boxes (only what's this will be available).");
-	Str=QApplication::translate("0101","SDL Audio use old mode");
-	Str=QApplication::translate("0101","<B>For the users Linux only: </B>if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).");
 	Str=QApplication::translate("0101","Offer to open the download Web page when a new version is available");
 	Str=QApplication::translate("0101","If this box is checked, a dialog box will appear at startup the next time a new version will be available. ");
 	Str=QApplication::translate("0101","By default, this box is checked for Windows users and unchecked for Linux users");
@@ -1370,6 +1369,8 @@ void Append() {
 	Str=QApplication::translate("0101","If this box is checked then a thumbnail file will be created with video.");
 	Str=QApplication::translate("0101","Join XBMC .nfo file to rendered file");
 	Str=QApplication::translate("0101","If this box is checked then a XMBC .nfo file will be created with video.");
+	Str=QApplication::translate("0101","Default sound level");
+	Str=QApplication::translate("0101","Set the volume level to be achieved by amplification for music and audio tracks when the volume is set to auto");
 	Str=QApplication::translate("0101","Default device mode rendering options");
 	Str=QApplication::translate("0101","Smartphone");
 	Str=QApplication::translate("0101","Selects the default type and equipment model when you will click the \"Player and Smartphone\" button of the \"Render movie\" menu");

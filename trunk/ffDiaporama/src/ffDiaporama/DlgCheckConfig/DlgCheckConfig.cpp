@@ -23,7 +23,6 @@
 #include "engine/cBaseMediaFile.h"
 #include "engine/_Transition.h"
 #include "engine/cBrushDefinition.h"
-#include "engine/_SDL_Support.h"
 
 #define ICON_GREEN      ":/img/SmallGreen.png"
 #define ICON_RED        ":/img/SmallRed.png"
@@ -71,8 +70,6 @@ void DlgCheckConfig::DoInitDialog() {
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","The background library contains %1 pictures").arg(BackgroundList.List.count())));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","The non-luma library contains %1 transitions").arg(IconList.List.count()-LumaListNbr)));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","The luma library contains %1 transitions").arg(LumaListNbr)));
-    // SDL
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","SDL version: %1.%2.%3-Licence=GPL version 2.1 or later").arg(SDL_MAJOR_VERSION).arg(SDL_MINOR_VERSION).arg(SDL_PATCHLEVEL)));
     // fmt_filters
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","fmt_filters version:0.6.4-Licence=LGPL")));
     // qimageblitz

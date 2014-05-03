@@ -2332,17 +2332,19 @@ void cDiaporama::UpdateCachedInformation() {
         for (int shot=0;shot<CurObject->List.count();shot++) for (int ObjNum=0;ObjNum<CurObject->List[shot]->ShotComposition.List.count();ObjNum++) {
             cCompositionObject *CompoObject=CurObject->List[shot]->ShotComposition.List[ObjNum];
             if ((CompoObject->IsVisible)&&(CompoObject->BackgroundBrush)) {
-                double dSoundVolume=CompoObject->BackgroundBrush->SoundVolume;
+                SoundVolume=CompoObject->BackgroundBrush->SoundVolume;
+                /*double dSoundVolume=CompoObject->BackgroundBrush->SoundVolume;
                 if (dSoundVolume==-1) {
-                    if ((CompoObject->BackgroundBrush->MediaObject)&&(CompoObject->BackgroundBrush->MediaObject->GetSoundLevel()>0))
+                    if ((CompoObject->BackgroundBrush->MediaObject)&&(CompoObject->BackgroundBrush->MediaObject->GetSoundLevel()>0)) {
                             dSoundVolume=double(CompoObject->BackgroundBrush->MediaObject->GetSoundLevel()*100)/double(ApplicationConfig->DefaultSoundLevel);
-                        else dSoundVolume=1;
+                    else dSoundVolume=1;
                 }
                 if ((CompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)
                         &&(CompoObject->BackgroundBrush->MediaObject)
                         &&(CompoObject->BackgroundBrush->MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE)
                         &&(dSoundVolume>SoundVolume))
                     SoundVolume=dSoundVolume;
+                */
             }
             if ((CompoObject->BackgroundBrush->GaussBlurSharpenSigma!=0)||(CompoObject->BackgroundBrush->QuickBlurSharpenSigma!=0)||
                 (CompoObject->BackgroundBrush->Desat!=0)||(CompoObject->BackgroundBrush->Swirl!=0)||(CompoObject->BackgroundBrush->Implode!=0)||
@@ -2819,7 +2821,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
 
         if (Info->CurrentObject_SoundTrackMontage==NULL) {
             // if we don't have a CurrentObject_SoundTrackMontage, we need to create it because it's the destination !
-            Info->CurrentObject_SoundTrackMontage=new cSDLSoundBlockList();
+            Info->CurrentObject_SoundTrackMontage=new cSoundBlockList();
             Info->CurrentObject_SoundTrackMontage->SetFPS(Info->FrameDuration,2,Info->TransitObject_SoundTrackMontage->SamplingRate,AV_SAMPLE_FMT_S16);
         }
         // Ensure this track have enough data

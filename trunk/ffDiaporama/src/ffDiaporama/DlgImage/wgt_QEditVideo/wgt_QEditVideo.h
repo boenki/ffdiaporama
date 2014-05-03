@@ -27,6 +27,8 @@
 #include "engine/_Diaporama.h"
 #include "CustomCtrl/QCustomRuler.h"
 
+#include <QtMultimedia/QAudioOutput>
+
 namespace Ui {
     class wgt_QEditVideo;
 }
@@ -75,6 +77,13 @@ public:
     QMutex                  PlayerMutex;
     QFutureWatcher<void>    ThreadPrepareVideo;
     QFutureWatcher<void>    ThreadAnalyseMusic;
+
+    u_int8_t                *AudioBuf;
+    int                     AudioBufSize;
+    QAudioOutput            *audio_outputStream;
+    QIODevice               *audio_outputDevice;
+    int                     AudioPlayed;
+    cSoundBlockList         MixedMusic;             // Sound to play
 
     explicit                wgt_QEditVideo(QWidget *parent = 0);
                             ~wgt_QEditVideo();

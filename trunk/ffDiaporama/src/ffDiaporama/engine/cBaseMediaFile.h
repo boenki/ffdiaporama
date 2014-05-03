@@ -133,8 +133,8 @@ public:
     virtual void            Reset();
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey=-1);
     virtual bool            CheckFormatValide(QWidget *)                                                                                                        {return true;}
-    virtual bool            GetFullInformationFromFile();
-    virtual bool            GetChildFullInformationFromFile(cCustomIcon *,QStringList *)                                                                        {return true;}
+    virtual bool            GetFullInformationFromFile(bool IsPartial=false);
+    virtual bool            GetChildFullInformationFromFile(bool,cCustomIcon *,QStringList *)                                                                   {return true;}
 
     // return information from basic properties
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize) {return NULL;}
@@ -198,7 +198,7 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            LoadBasicInformationFromDatabase(QDomElement *,QString,QString,QStringList *,bool *,QList<cSlideThumbsTable::TRResKeyItem> *,bool)  { return true;}
     virtual void            SaveBasicInformationToDatabase(QDomElement *,QString,QString,bool,cReplaceObjectList *,QList<qlonglong> *,bool)                     { /*Nothing to do*/}
-    virtual bool            GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties);
+    virtual bool            GetChildFullInformationFromFile(bool IsPartial,cCustomIcon *Icon,QStringList *ExtendedProperties);
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size)                                                                                     { return ApplicationConfig->DefaultFOLDERIcon.GetIcon(Size); }
     virtual QString         GetTechInfo(QStringList *)                                                                                                          { return ""; }
     virtual QString         GetTAGInfo(QStringList *)                                                                                                           { return ""; }
@@ -234,14 +234,14 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
     virtual void            SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
-    virtual bool            GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties);
+    virtual bool            GetChildFullInformationFromFile(bool IsPartial,cCustomIcon *Icon,QStringList *ExtendedProperties);
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return ApplicationConfig->DefaultFFDIcon.GetIcon(Size); }
 
     virtual QString         GetTechInfo(QStringList *ExtendedProperties);
     virtual QString         GetTAGInfo(QStringList *ExtendedProperties);
 
     void                    SaveToXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
-    bool                    LoadFromXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
+    bool                    LoadFromXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes,bool IsPartial);
 };
 
 //*********************************************************************************************************************************************
@@ -260,7 +260,7 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
     virtual void            SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
-    virtual bool            GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties);
+    virtual bool            GetChildFullInformationFromFile(bool IsPartial,cCustomIcon *Icon,QStringList *ExtendedProperties);
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return (ObjectType==OBJECTTYPE_THUMBNAIL?ApplicationConfig->DefaultThumbIcon:ApplicationConfig->DefaultIMAGEIcon).GetIcon(Size); }
     virtual QString         GetTechInfo(QStringList *ExtendedProperties);
     virtual QString         GetTAGInfo(QStringList *ExtendedProperties);
@@ -282,7 +282,7 @@ public:
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey);
     virtual bool            LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
     virtual void            SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
-    virtual bool            GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties);
+    virtual bool            GetChildFullInformationFromFile(bool IsPartial,cCustomIcon *Icon,QStringList *ExtendedProperties);
     virtual QStringList     GetSummaryText(QStringList *ExtendedProperties);   // return 3 lines to display Summary of media file in dialog box which need them
 
     virtual bool            LoadFromXML(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
@@ -343,7 +343,7 @@ public:
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey);
     virtual bool            LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
     virtual void            SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
-    virtual bool            GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties);
+    virtual bool            GetChildFullInformationFromFile(bool IsPartial,cCustomIcon *Icon,QStringList *ExtendedProperties);
     virtual QString         GetTechInfo(QStringList *ExtendedProperties);
     virtual QString         GetTAGInfo(QStringList *ExtendedProperties);
     virtual QStringList     GetSummaryText(QStringList *ExtendedProperties);   // return 3 lines to display Summary of media file in dialog box which need them
@@ -422,7 +422,7 @@ public:
     virtual bool            LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes);
     virtual void            SaveBasicInformationToDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList,QList<qlonglong> *ResKeyList,bool IsModel);
     virtual bool            CheckFormatValide(QWidget *);
-    virtual bool            GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties);
+    virtual bool            GetChildFullInformationFromFile(bool IsPartial,cCustomIcon *Icon,QStringList *ExtendedProperties);
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size);
 
     virtual QString         GetTechInfo(QStringList *ExtendedProperties);

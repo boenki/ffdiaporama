@@ -389,7 +389,7 @@ bool cEncodeVideo::AddStream(AVStream **Stream,AVCodec **codec,const char *Codec
         )
         (*Stream)->codec->flags|=CODEC_FLAG_GLOBAL_HEADER;
 
-    int ThreadC =((getCpuCount()-1)>1)?(getCpuCount()-1):1;
+    int ThreadC =((getCpuCount()/*-1*/)>1)?(getCpuCount()/*-1*/):1;
     if (ThreadC>0) (*Stream)->codec->thread_count=ThreadC;
     (*Stream)->codec->thread_type=getThreadFlags((*codec)->id);
 
@@ -418,12 +418,14 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
     VideoStream->codec->time_base           =VideoFrameRate;
     VideoStream->codec->sample_aspect_ratio =PixelAspectRatio;
     VideoStream->sample_aspect_ratio        =PixelAspectRatio;
+
     if ((codec->id!=AV_CODEC_ID_H264)||(!VBR)) {
         VideoStream->codec->bit_rate=VideoBitrate;
         av_dict_set(&opts,"b",QString("%1").arg(VideoBitrate).toUtf8(),0);
     }
 
     if (codec->id==AV_CODEC_ID_MPEG2VIDEO) {
+
         BFrames=2;
         #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
         MinRate=VideoBitrate;
@@ -437,11 +439,13 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
         VideoStream->codec->gop_size              =12;
 
     } else if (codec->id==AV_CODEC_ID_MJPEG) {
+
         //-qscale 2 -qmin 2 -qmax 2
         VideoStream->codec->pix_fmt             =PIX_FMT_YUVJ420P;
         VideoStream->codec->qmin                =2;
         VideoStream->codec->qmax                =2;
         VideoStream->codec->bit_rate_tolerance  =int(qreal(int64_t(ImageWidth)*int64_t(ImageHeight)*int64_t(VideoFrameRate.den))/qreal(VideoFrameRate.num))*10;
+
     } else if (codec->id==AV_CODEC_ID_VP8) {
 
         BFrames=3;
@@ -468,7 +472,6 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
 
     } else if (codec->id==AV_CODEC_ID_H264) {
 
-        VideoStream->codec->gop_size=250;           av_dict_set(&opts,"g",QString("%1").arg(VideoStream->codec->gop_size).toUtf8(),0);
         VideoStream->codec->qmin    =0;             av_dict_set(&opts,"qmin",QString("%1").arg(VideoStream->codec->qmin).toUtf8(),0);
         VideoStream->codec->qmax    =69;            av_dict_set(&opts,"qmax",QString("%1").arg(VideoStream->codec->qmax).toUtf8(),0);
         if (VideoStream->codec->thread_count>0)     av_dict_set(&opts,"threads",QString("%1").arg(VideoStream->codec->thread_count).toUtf8(),0);
@@ -499,7 +502,13 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
                 av_dict_set(&opts,"qp",  "0",0);
                 break;
         }
+
     }
+
+    VideoStream->codec->gop_size  =4;
+    VideoStream->codec->keyint_min=1;
+    av_dict_set(&opts,"g",QString("%1").arg(VideoStream->codec->gop_size).toUtf8(),0);
+    av_dict_set(&opts,"keyint_min",QString("%1").arg(VideoStream->codec->keyint_min).toUtf8(),0);
 
     if (MinRate!=-1) {
         av_dict_set(&opts,"minrate",QString("%1").arg(MinRate).toUtf8(),0);

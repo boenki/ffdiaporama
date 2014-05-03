@@ -82,6 +82,12 @@ bool SetWorkingPath(char * const argv[],QString ApplicationName) {
 //====================================================================================================================
 
 int main(int argc, char* argv[]) {
+    #if QT_VERSION >= 0x050000
+    qInstallMessageHandler(QTMessageOutput);
+    #else
+    qInstallMsgHandler(QTMessageOutput);
+    #endif
+
     ToLog(LOGMSG_INFORMATION,QString("QT Version:%1").arg(qVersion()));
 
     // Change startup directory to the one containing BUILDVERSION.txt

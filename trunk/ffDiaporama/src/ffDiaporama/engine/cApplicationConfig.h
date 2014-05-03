@@ -305,7 +305,6 @@ public:
     bool                    RestoreWindow;                              // If true, restore window state and position at startup
     bool                    RememberLastDirectories;                    // If true, Remember all directories for future use
     bool                    DisableTooltips;                            // If true, tooltips are disable in dialog boxes
-    bool                    SDLAudioOldMode;                            // If true SDL audio use old mode sample instead byte
     bool                    AskUserToRemove;                            // If true, user must answer to a confirmation dialog box to remove slide
     bool                    PartitionMode;                              // If true, partition mode is on
     int                     WindowDisplayMode;
@@ -328,6 +327,7 @@ public:
     double                  PreviewFPS;                                 // Preview FrameRate
     int64_t                 PreviewSamplingRate;                        // Sampling rate (frequency) for preview
     int                     MaxVideoPreviewHeight;
+    qreal                   PreviewSoundVolume;
 
     // Other
     bool                    Crop1088To1080;                             // Automaticaly crop video from 1088 lines to 1080 (CANON)

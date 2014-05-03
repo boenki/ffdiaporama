@@ -2,6 +2,18 @@
 * FFDIAPORAMA 2.2 - trunk (Version Française)
 **************************************************
 
+[Commit: 03/05/2014] - ffDiaporama 2.2 devel 20140503
+    Correction de bug :
+        -Corrige un bug d'affichage dans la barre de temps (l'affichage de la piste son des vidéos pouvait sortir du cadre quand le son était sur auto)
+        -Corrige des problèmes de synchronisation audio/video (grâce à QTMultimedia)
+        -Réduit l'écart entre les ref-frames dans les vidéos générées (passe de 1 toutes les 10 secondes à 4 par secondes)
+
+    Nouveautés :
+        -Remplace SDL par QTMultimedia
+        -Ajout d'un bouton de control du volume pour le lecteur de prévisualisation
+
+--------------------------------------------------------------------------------
+
 [Commit: 19/04/2014] - ffDiaporama 2.2 devel 20140419
     Correction de bug :
         -Corrige un bug dans les copier/coller

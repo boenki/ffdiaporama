@@ -148,7 +148,7 @@ void DlgffDPjrProperties::PrepareGlobalUndo() {
 void DlgffDPjrProperties::DoGlobalUndo() {
     QDomElement root=Undo->documentElement();
     if (root.tagName()=="UNDO-DLG") {
-        ffdProject->ProjectInfo->LoadFromXML(&root,"",ffdProject->ProjectFileName,NULL,NULL,NULL,false);
+        ffdProject->ProjectInfo->LoadFromXML(&root,"",ffdProject->ProjectFileName,NULL,NULL,NULL,false,true);
         ffdProject->ProjectThumbnail->LoadFromXML(root,"UNDO-DLG-ProjectThumbnail","",NULL,NULL,false);
     }
 }

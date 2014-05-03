@@ -70,9 +70,6 @@ void DlgApplicationSettings::DoInitDialog() {
     ui->RememberLastDirectoriesCH->setChecked(ApplicationConfig->RememberLastDirectories);
     ui->RestoreWindowCH->setChecked(ApplicationConfig->RestoreWindow);
     ui->DisableTooltipsCB->setChecked(ApplicationConfig->DisableTooltips);
-    #ifdef Q_OS_WIN
-        ui->SDLAudioModeCB->setVisible(false);
-    #endif
     #if (defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)) && (QT_VERSION < 0x050000)
         ui->RasterModeCB->setChecked(ApplicationConfig->RasterMode);
     #else
@@ -91,8 +88,6 @@ void DlgApplicationSettings::DoInitDialog() {
         else if (ApplicationConfig->MemCacheMaxValue<=int64_t(1024*1024*1024))    ui->MemCacheProfilCB->setCurrentIndex(2);
         else ui->MemCacheProfilCB->setCurrentIndex(3);
     #endif
-
-    ui->SDLAudioModeCB->setChecked(ApplicationConfig->SDLAudioOldMode);
 
     // Preview Options
     QString ASR=(QString("%1").arg(ApplicationConfig->PreviewSamplingRate));
@@ -399,7 +394,6 @@ bool DlgApplicationSettings::DoAccept() {
     ApplicationConfig->OpenWEBNewVersion        =ui->OpenWEBNewVersionCH->isChecked();
     ApplicationConfig->RememberLastDirectories  =ui->RememberLastDirectoriesCH->isChecked();
     ApplicationConfig->RestoreWindow            =ui->RestoreWindowCH->isChecked();
-    ApplicationConfig->SDLAudioOldMode          =ui->SDLAudioModeCB->isChecked();
     #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
     ApplicationConfig->RasterMode               =ui->RasterModeCB->isChecked();
     #endif

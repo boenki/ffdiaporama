@@ -271,31 +271,31 @@
     </message>
     <message>
         <source> Predefined title slide are complete slides including formatting and animations. </source>
-        <translation type="unfinished"></translation>
+        <translation> Οι προκαθορισμένοι τίτλοι διαφανειών είναι πλήρης διαφάνειες που συμπεριλαμβάνουν τη μορφοποίηση και τα εφέ κίνησης.</translation>
     </message>
     <message>
         <source>The main interest of these slides is to standardize the slides within a project or across projects. </source>
-        <translation type="unfinished"></translation>
+        <translation>Το κύριο χαρακτηριστικό αυτών των διαφανειών είναι η τυποποίηση των διαφανειών σε ένα έργο ή μεταξύ πολλών έργων.</translation>
     </message>
     <message>
         <source>ffDiaporama included many Predefined title slides, but you can also define your own Predefined title slides. </source>
-        <translation type="unfinished"></translation>
+        <translation>Το ffDiaporama περιλαμβάνει πολλές προκαθορισμένες διαφάνειες, αλλά μπορείτε επίσης να καθορίσετε τις δικές σας προκαθορισμένες διαφάνειες. </translation>
     </message>
     <message>
         <source>To do this, create a standard slide using the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog box&lt;/a&gt; and save your slide as a model using: </source>
-        <translation type="unfinished"></translation>
+        <translation>Για να το κάνετε αυτό, δημιουργήστε μια τυπική διαφάνεια μέσω του &lt;a href=&quot;0119.html&quot;&gt;Διαλόγου ιδιοτήτων διαφάνειας&lt;/a&gt; και αποθηκεύστε την ως πρότυπο με:  </translation>
     </message>
     <message>
         <source> Save as model function.</source>
-        <translation type="unfinished"></translation>
+        <translation> Αποθήκευση ως πρότυπο.</translation>
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished"></translation>
+        <translation>Σημειώσεις:</translation>
     </message>
     <message>
         <source>Predefined title slides are defined according to the following three categories: </source>
-        <translation type="unfinished"></translation>
+        <translation>Οι προκαθορισμένες διαφάνειες τίτλων καθορίζονται βάσει των τριών ακόλουθων κατηγοριών: </translation>
     </message>
     <message>
         <source>Project title</source>
@@ -303,11 +303,11 @@
     </message>
     <message>
         <source>This type of slide is usually used early in the project as the opening credits. </source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτός ο τύπος διαφάνειας χρησιμοποιείται στην έναρξη του έργου στους τίτλους ευχαριστιών. </translation>
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are based only on project information. For more information on project information, see: &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι μεταβλητές κειμένου που χρησιμοποιούνται από τα πρότυπα αυτού του τύπου διαφανειών βασίζονται μόνο στις πληροφορίες του έργου. Για περισσότερες πληροφορίες σχετικά με τις πληροφορίες του έργου, ανατρέξτε στις &lt;a href=&quot;0108.html&quot;&gt;Ιδιότητες του έργου&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Chapter title</source>
@@ -315,11 +315,11 @@
     </message>
     <message>
         <source>This type of slide is usually used several times in the project to mark the beginning of the chapter. </source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτός ο τύπος διαφάνειας χρησιμοποιείται συνήθως πολλές φορές στο έργο για τη σήμανση της αρχής των κεφαλαίων. </translation>
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are based on project information and on chapter information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι μεταβλητές κειμένου που χρησιμοποιούνται από πρότυπα αυτού του τύπου διαφανειών βασίζονται στις πληροφορίες του έργου και στις πληροφορίες του κεφαλαίου.</translation>
     </message>
     <message>
         <source>Credit title</source>
@@ -327,47 +327,47 @@
     </message>
     <message>
         <source>This type of slide is usually used at the end of the project as the end credits. </source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτός ο τύπος διαφάνειας χρησιμοποιείται συνήθως στο τέλος ως τίτλοι τέλους. </translation>
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are generally computed. For more information on texts variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι μεταβλητές κειμένου που χρησιμοποιούνται από τα πρότυπα διαφάνειας του τύπου αυτού υπολογίζονται γενικά. Για περισσότερες πληροφορίες σχετικά με τις μεταβλητές κειμένου, δείτε: &lt;a href=&quot;0013.html&quot;&gt;Δυναμικές μεταβλητές&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Within each category, the predefined title slides are classified into the following types: </source>
-        <translation type="unfinished"></translation>
+        <translation>Σε κάθε κατηγορία, οι προκαθορισμένες διαφάνειες τίτλων κατηγοριοποιούνται βάσει των ακόλουθων υποκατηγοριών: </translation>
     </message>
     <message>
         <source>Statics models</source>
-        <translation type="unfinished"></translation>
+        <translation>Τίτλοι χωρίς κίνηση</translation>
     </message>
     <message>
         <source>This type lists statics models ie without animations.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτός ο τύπος εμφανίζει τα στατικά πρότυπα δηλαδή αυτά χωρίς εφέ κίνησης.</translation>
     </message>
     <message>
         <source>Animated models</source>
-        <translation type="unfinished"></translation>
+        <translation>Κινούμενα πρότυπα</translation>
     </message>
     <message>
         <source>This type lists animated models ie with several shots.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτός ο τύπος εμφανίζει κινούμενα πρότυπα δηλαδή με πολλαπλά στιγμιότυπα.</translation>
     </message>
     <message>
         <source>Custom models</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσαρμοσμένα πρότυπα</translation>
     </message>
     <message>
         <source>This type lists the templates that you saved with the &lt;B&gt;&lt;I&gt;Save as model&lt;/I&gt;&lt;/B&gt; function of the &lt;a href=&quot;0119.html&quot;&gt;Slide properties&lt;/a&gt; dialog box.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτός ο τύπος εμφανίζει τα πρότυπα που έχετε αποθηκεύσει με τη λειτουργία &lt;B&gt;&lt;I&gt;Αποθήκευση ως πρότυπο&lt;/I&gt;&lt;/B&gt; από τον διάλογο &lt;a href=&quot;0119.html&quot;&gt;Ιδιότητες διαφάνειας&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>The resources used by the models you create are not moved. So, if you include a photo in a model, the model will only be valid until the picture will not move. This is why it is recommended, to think resources included before creating a new model.</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι πηγές που χρησιμοποιούνται από τα πρότυπα που δημιουργείτε δεν μετακινούνται. Ως εκ τούτου, αν συμπεριλαμβάνετε μια φωτογραφία σε ένα πρότυπο, το πρότυπο θα είναι έγκυρο όσο η φωτογραφία δεν έχει μετακινηθεί. Για τον λόγο αυτό συνιστάται, να σκεφτείτε καλά τις χρησιμοποιούμενες πηγές πριν τη δημιουργία ενός νέου πρότυπου.</translation>
     </message>
     <message>
         <source>It will always be possible to create slides from a model using the &lt;a href=&quot;0103.html&quot;&gt;Add or modify a predefined title slide dialog box&lt;/a&gt; then convert it to a standard slide using this function: </source>
-        <translation type="unfinished"></translation>
+        <translation>Θα είναι πάντα εφικτό να δημιουργήσετε μια διαφάνεια από ένα πρότυπο με τη χρήση του διαλόγου &lt;a href=&quot;0103.html&quot;&gt;Προσθήκη ή επεξεργασία μια προκαθορισμένη διαφάνεια τίτλων&lt;/a&gt; και στη συνέχεια να τη μετατρέψετε σε μια τυπική διαφάνεια με τη χρήση αυτής της λειτουργίας: </translation>
     </message>
     <message>
         <source> Convert to standard slide</source>
@@ -382,7 +382,7 @@
     </message>
     <message>
         <source>It&apos;s why variables are used in many parts of the application (slide, thumbnails, predefined titles slides, video tags, xbmc nfo, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτός είναι ο λόγος που οι μεταβλητές χρησιμοποιούνται σε ένα πλήθος τμημάτων της εφαρμογής (διαφάνειες, εικόνες επισκόπησης, προκαθορισμένες διαφάνειας τίτλων, ετικέτες βίντεο, αρχεία nfo για xbmc, κλπ ..)</translation>
     </message>
     <message>
         <source>Category</source>
@@ -390,403 +390,403 @@
     </message>
     <message>
         <source>Variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Μεταβλητή</translation>
     </message>
     <message>
         <source>Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Περιεχόμενο</translation>
     </message>
     <message>
         <source>Project properties values</source>
-        <translation type="unfinished"></translation>
+        <translation>Τιμές των ιδιοτήτων του έργου</translation>
     </message>
     <message>
         <source>%PTT%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PTT%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project title&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Η τιμή του πεδίου &lt;B&gt;&lt;I&gt;Τίτλου του έργου&lt;/I&gt;&lt;/B&gt; στις &lt;a href=&quot;0108.html&quot;&gt;Ιδιότητες έργου&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%PAU%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PAU%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Η τιμή του πεδίου &lt;B&gt;&lt;I&gt;Συγγραφέας του έργου&lt;/I&gt;&lt;/B&gt; στις &lt;a href=&quot;0108.html&quot;&gt;Ιδιότητες έργου&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%PAI%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PAI%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt; displayed as &lt;U&gt;Author presents&lt;/U&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Η τιμή του πεδίου &lt;B&gt;&lt;I&gt;Συγγραφέας του έργου&lt;/I&gt;&lt;/B&gt; στο &lt;a href=&quot;0108.html&quot;&gt;Ιδιότητες έργου&lt;/a&gt; εμφανιζόμενο ως &lt;U&gt;Ο συγγραφέας παρουσιάζει&lt;/U&gt;</translation>
     </message>
     <message>
         <source>%PAP%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PAP%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt; displayed as &lt;U&gt;A Author production&lt;/U&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Η τιμή του πεδίου &lt;B&gt;&lt;I&gt;Συγγραφέας του έργου&lt;/I&gt;&lt;/B&gt; στο &lt;a href=&quot;0108.html&quot;&gt;Ιδιότητες του έργου&lt;/a&gt; εμφανιζόμενο ως &lt;U&gt;Μια παραγωγή του συγγραφέα&lt;/U&gt;</translation>
     </message>
     <message>
         <source>%PAL%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PAL%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project album&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Η τιμή του πεδίου &lt;B&gt;&lt;I&gt;Άλμπουμ του έργου&lt;/I&gt;&lt;/B&gt; στις &lt;a href=&quot;0108.html&quot;&gt;Ιδιότητες του έργου&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%PCT%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PCT%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project comment&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Η τιμή του πεδίου &lt;B&gt;&lt;I&gt;Σχόλιο έργου&lt;/I&gt;&lt;/B&gt; στις &lt;a href=&quot;0108.html&quot;&gt;Ιδιότητες έργου&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%PDD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PDD%</translation>
     </message>
     <message>
         <source>Duration of the project displayed as &lt;U&gt;hh:mm:ss&lt;/U&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Η διάρκεια του έργου ως &lt;U&gt;ωω:λλ:δδ&lt;/U&gt;</translation>
     </message>
     <message>
         <source>%PSC%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PSC%</translation>
     </message>
     <message>
         <source>Project slide count (Number of slide in the project)</source>
-        <translation type="unfinished"></translation>
+        <translation>Αριθμός διαφανειών στο έργο</translation>
     </message>
     <message>
         <source>%PLD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PLD%</translation>
     </message>
     <message>
         <source>Long date (The form of the display depends on geographical information provided by the computer, depending on the current language)</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκτενής ημερομηνία (Η μορφή εμφάνισης εξαρτάται από τις γεωγραφικές πληροφορίες που παρέχονται από τον υπολογιστή, βάσει της τρέχουσας γλώσσας)</translation>
     </message>
     <message>
         <source>%PSD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PSD%</translation>
     </message>
     <message>
         <source>Short date (The form of the display depends on &lt;B&gt;&lt;I&gt;Short date format&lt;/I&gt;&lt;/B&gt; selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Σύντομη ημερομηνία (Η μορφή εμφάνισης εξαρτάται από τη &lt;B&gt;&lt;I&gt;Σύντομη μορφή ημερομηνίας&lt;/I&gt;&lt;/B&gt; που έχετε επιλέξει στον διάλογο &lt;a href=&quot;0101.html&quot;&gt;Επιλογές εφαρμογής&lt;/a&gt;)</translation>
     </message>
     <message>
         <source>%PYR%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PYR%</translation>
     </message>
     <message>
         <source>Year (The year of the event date as a four digit number)</source>
-        <translation type="unfinished"></translation>
+        <translation>Έτος (Το έτος του γεγονότος ως τετραψήφιος αριθμός)</translation>
     </message>
     <message>
         <source>%PMM%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PMM%</translation>
     </message>
     <message>
         <source>Month (The month of the event date as a name, depending on the current language: January, February, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Μήνας (Ο μήνας του γεγονότος ως όνομα, βάσει την τρέχουσα γλώσσα: Ιανουάριος, Φεβρουάριος, κλπ...)</translation>
     </message>
     <message>
         <source>%PMD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PMD%</translation>
     </message>
     <message>
         <source>Month as number (The month of the event date as a two digit number)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο μήνας ως αριθμός (Ο μήνας του γεγονότος ως διψήφιος αριθμός)</translation>
     </message>
     <message>
         <source>%PDY%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PDY%</translation>
     </message>
     <message>
         <source>Day (The day of the event date as a two digit number)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ημέρα (Η ημέρα του γεγονότος ως διψήφιος αριθμός)</translation>
     </message>
     <message>
         <source>%PDW%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PDW%</translation>
     </message>
     <message>
         <source>Day of week (The day of week of the event date as a name, depending on the current language: Monday, Thuesday, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ημέρα της εβδομάδας (Η ημέρα της εβδομάδας του γεγονότος ως όνομα, βάσει της τρέχουσας γλώσσας: Δευτέρα, Τρίτη, κλπ...)</translation>
     </message>
     <message>
         <source>Current slide values</source>
-        <translation type="unfinished"></translation>
+        <translation>Τιμές της τρέχουσας διαφάνειας</translation>
     </message>
     <message>
         <source>%CSN%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CSN%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Slide name&lt;/I&gt;&lt;/B&gt; field of the slide as defined in the &lt;U&gt;Slide settings zone&lt;/U&gt; of the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Η τιμή του πεδίου &lt;B&gt;&lt;I&gt;Όνομα διαφάνειας&lt;/I&gt;&lt;/B&gt; της διαφάνειας όπως καθορίζεται στην ζώνη &lt;U&gt;Ρυθμίσεις διαφανειών&lt;/U&gt; του διαλόγου &lt;a href=&quot;0119.html&quot;&gt;Ιδιότητες διαφάνειας&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%CSR%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CSR%</translation>
     </message>
     <message>
         <source>Current slide number</source>
-        <translation type="unfinished"></translation>
+        <translation>Τρέχων αριθμός διαφάνειας</translation>
     </message>
     <message>
         <source>Chapters values</source>
-        <translation type="unfinished"></translation>
+        <translation>Τιμές κεφαλαίων</translation>
     </message>
     <message>
         <source>%CCN%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CCN%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Chapter name&lt;/I&gt;&lt;/B&gt; field of the latest slide which defined &lt;U&gt;Chapters information&lt;/U&gt;. (Chapters information may be defined in &lt;a href=&quot;0105.html&quot;&gt;Chapter properties dialog&lt;/a&gt; or in &lt;a href=&quot;0103.html&quot;&gt;Predefined title slide dialog&lt;/a&gt;).</source>
-        <translation type="unfinished"></translation>
+        <translation>Η τιμή του πεδίου &lt;B&gt;&lt;I&gt;Όνομα κεφαλαίου&lt;/I&gt;&lt;/B&gt; της τελευταίας διαφάνειας που καθορίζεται στις &lt;U&gt;Πληροφορίες κεφαλαίων&lt;/U&gt;. (Οι πληροφορίες κεφαλαίων μπορούν να καθοριστούν από τον διάλογο &lt;a href=&quot;0105.html&quot;&gt;Ιδιότητες κεφαλαίου&lt;/a&gt; ή στον διάλογο &lt;a href=&quot;0103.html&quot;&gt;Προκαθορισμένη διαφάνεια τίτλων&lt;/a&gt;).</translation>
     </message>
     <message>
         <source>%CCR%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CCR%</translation>
     </message>
     <message>
         <source>Current chapter number</source>
-        <translation type="unfinished"></translation>
+        <translation>Τρέχων αριθμός κεφαλαίου</translation>
     </message>
     <message>
         <source>%CCI%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CCI%</translation>
     </message>
     <message>
         <source>%CCD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CCD%</translation>
     </message>
     <message>
         <source>Current chapter duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Διάρκεια τρέχων τίτλου</translation>
     </message>
     <message>
         <source>%CCT%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CCT%</translation>
     </message>
     <message>
         <source>Chapter count (Number of chapter in the project)</source>
-        <translation type="unfinished"></translation>
+        <translation>Αριθμός κεφαλαίων (Σύνολο στο έργο)</translation>
     </message>
     <message>
         <source>%CLD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CLD%</translation>
     </message>
     <message>
         <source>Long date of the chapter (if one is defined or project&apos;s date). (The form of the display depends on geographical information provided by the computer, depending on the current language)</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκτενής ημερομηνία του κεφαλαίου (Αν έχει καθοριστεί κάποιο διαφορετικά ή ημερομηνία του έργου). (Η μορφή εμφάνισης εξαρτάται από τις γεωγραφικές πληροφορίες που παρέχονται από τον υπολογιστή, βάσει της τρέχουσας γλώσσας)</translation>
     </message>
     <message>
         <source>%CSD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CSD%</translation>
     </message>
     <message>
         <source>Short date of the chapter (if one is defined or project&apos;s date). (The form of the display depends on &lt;B&gt;&lt;I&gt;Short date format&lt;/I&gt;&lt;/B&gt; selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Σύντομη ημερομηνία του κεφαλαίου (αν έχει καθοριστεί κάποιο διαφορετικά η ημερομηνία του έργου). (Η μορφή της ημερομηνίας εξαρτάται από τη &lt;B&gt;&lt;I&gt;μορφή της σύντομης ημερομηνίας&lt;/I&gt;&lt;/B&gt; που έχετε καθορίσει στον διάλογο των &lt;a href=&quot;0101.html&quot;&gt;Επιλογών του έργου&lt;/a&gt;)</translation>
     </message>
     <message>
         <source>%CYR%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CYR%</translation>
     </message>
     <message>
         <source>Year of the chapter&apos;s date (if one is defined or year of project&apos;s date), as a four digit number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το έτος του κεφαλαίου (αν έχει καθοριστεί κάποιο διαφορετικά το έτος του έργου), ως ένας τετραψήφιος αριθμός.</translation>
     </message>
     <message>
         <source>%CMM%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CMM%</translation>
     </message>
     <message>
         <source>Month of the chapter&apos;s date (if one is defined or month of project&apos;s date) as a name (depending on the current language: January, February, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο μήνας του κεφαλαίου (αν έχει καθοριστεί κάποιο διαφορετικά ο μήνας του έργου) ως όνομα  (βάσει την τρέχουσα γλώσσα: Ιανουάριος, Φεβρουάριος, κλπ...)</translation>
     </message>
     <message>
         <source>%CMD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CMD%</translation>
     </message>
     <message>
         <source>Month of the chapter&apos;s date (if one is defined or month of project&apos;s date) as a two digit number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο μήνας του κεφαλαίου (αν έχει καθοριστεί κάποιο διαφορετικά ο μήνας του έργου) ως διψήφιος αριθμός.</translation>
     </message>
     <message>
         <source>%CDY%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CDY%</translation>
     </message>
     <message>
         <source>Day of the chapter&apos;s date (if one is defined or day of project&apos;s date) as a two digit number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ημέρα του κεφαλαίου (αν έχει καθοριστεί κάποιο διαφορετικά η ημερομηνία του έργου) ως διψήφιος αριθμός.</translation>
     </message>
     <message>
         <source>%CDW%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CDW%</translation>
     </message>
     <message>
         <source>Day of week of the chapter&apos;s date (if one is defined or day of project&apos;s date) as a a name (depending on the current language: Monday, Thuesday, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ημέρα της εβδομάδας του κεφαλαίου (αν έχει καθοριστεί κάποιο διαφορετικά ή ημέρα από την ημερομηνία του έργου) ως όνομα (βάσει της τρέχουσας γλώσσας: Δευτέρα, Τρίτη, κλπ...)</translation>
     </message>
     <message>
         <source>Various values</source>
-        <translation type="unfinished"></translation>
+        <translation>Διάφορες τιμές</translation>
     </message>
     <message>
         <source>%FFD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%FFD%</translation>
     </message>
     <message>
         <source>ffDiaporama version as &lt;U&gt;ffDiaporama 1.7 (20130919)&lt;/U&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Η έκδοση του ffDiaporama ως &lt;U&gt;ffDiaporama 1.7 (20130919)&lt;/U&gt;</translation>
     </message>
     <message>
         <source>%CPY%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CPY%</translation>
     </message>
     <message>
         <source>%END%</source>
-        <translation type="unfinished"></translation>
+        <translation>%END%</translation>
     </message>
     <message>
         <source>The end (depending on the current language)</source>
-        <translation type="unfinished"></translation>
+        <translation>Το τέλος (ανάλογα με την τρέχουσα γλώσσα)</translation>
     </message>
     <message>
         <source>%STA%</source>
-        <translation type="unfinished"></translation>
+        <translation>%STA%</translation>
     </message>
     <message>
         <source>%STP%</source>
-        <translation type="unfinished"></translation>
+        <translation>%STP%</translation>
     </message>
     <message>
         <source>A full text composed of project statistics (Number of slides, project duration, list of chapters, list of musics, how many photo, vector images, videos and predefined title slides, etc...) </source>
-        <translation type="unfinished"></translation>
+        <translation>Ένα πλήρες κείμενο αποτελούμενο από στατιστικά του έργου (Αριθμός διαφανειών, διάρκεια του έργου, λίστα κεφαλαίων, λίστα αρχείων μουσικής, πλήθος φωτογραφιών, διανυσματικών εικόνων, βίντεο και προκαθορισμένων διαφανειών τίτλων, κλπ...) </translation>
     </message>
     <message>
         <source>%STM%</source>
-        <translation type="unfinished"></translation>
+        <translation>%STM%</translation>
     </message>
     <message>
         <source>A full text composed of list of musics</source>
-        <translation type="unfinished"></translation>
+        <translation>Ένα πλήρες κείμενο αποτελούμενο από τη λίστα κομματιών μουσικής</translation>
     </message>
     <message>
         <source>%TLD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%TLD%</translation>
     </message>
     <message>
         <source>Current date as long date format (The form of the display depends on geographical information provided by the computer, depending on the current language)</source>
-        <translation type="unfinished"></translation>
+        <translation>Η τρέχουσα ημερομηνία με εκτενής μορφή (Η μορφή εμφάνισης εξαρτάται από τις γεωγραφικές πληροφορίες που παρέχονται από τον υπολογιστή, βάσει της τρέχουσας γλώσσας)</translation>
     </message>
     <message>
         <source>%TSD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%TSD%</translation>
     </message>
     <message>
         <source>Current date as short date format (The form of the display depends on &lt;B&gt;&lt;I&gt;Short date format&lt;/I&gt;&lt;/B&gt; selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Η τρέχουσα ημερομηνία με σύντομη μορφή (Η μορφή εμφάνισης εξαρτάται από τη μορφή &lt;B&gt;&lt;I&gt;σύντομης ημερομηνίας&lt;/I&gt;&lt;/B&gt; που έχει ρυθμιστεί από τον διάλογο των &lt;a href=&quot;0101.html&quot;&gt;Επιλογών της εφαρμογής&lt;/a&gt;)</translation>
     </message>
     <message>
         <source>%TYR%</source>
-        <translation type="unfinished"></translation>
+        <translation>%TYR%</translation>
     </message>
     <message>
         <source>Current date&apos;s year as a four digit number</source>
-        <translation type="unfinished"></translation>
+        <translation>Το έτος της τρέχουσας ημερομηνίας ως τετραψήφιος αριθμός</translation>
     </message>
     <message>
         <source>%TMM%</source>
-        <translation type="unfinished"></translation>
+        <translation>%TMM%</translation>
     </message>
     <message>
         <source>Current date&apos;s month as a name (depending on the current language: January, February, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο μήνας της τρέχουσας ημερομηνίας ως όνομα (βάσει την τρέχουσα γλώσσα: Ιανουάριος, Φεβρουάριος, κλπ...)</translation>
     </message>
     <message>
         <source>%TMD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%TMD%</translation>
     </message>
     <message>
         <source>Current date&apos;s month as as a two digit number</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο τρέχων μήνας ως διψήφιος αριθμός</translation>
     </message>
     <message>
         <source>%TDY%</source>
-        <translation type="unfinished"></translation>
+        <translation>%TDY%</translation>
     </message>
     <message>
         <source>Current date&apos;s day as a two digit number</source>
-        <translation type="unfinished"></translation>
+        <translation>Η τρέχουσα ημέρα ως διψήφιος αριθμός</translation>
     </message>
     <message>
         <source>%TDW%</source>
-        <translation type="unfinished"></translation>
+        <translation>%TDW%</translation>
     </message>
     <message>
         <source>Current date&apos;s day of week as a a name (depending on the current language: Monday, Thuesday, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Η τρέχουσα ημέρα της εβδομάδος ως όνομα (βάσει της τρέχουσας γλώσσας: Δευτέρα, Τρίτη, κλπ...)</translation>
     </message>
     <message>
         <source>%PLN%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PLN%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project location name&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Η τιμή του πεδίου &lt;B&gt;&lt;I&gt;Όνομα τοποθεσίας του έργου&lt;/I&gt;&lt;/B&gt; από τις &lt;a href=&quot;0108.html&quot;&gt;Ιδιότητες του έργου&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%PLA%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PLA%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project location address&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Η τιμή του πεδίου &lt;B&gt;&lt;I&gt;Διεύθυνση τοποθεσίας του έργου&lt;/I&gt;&lt;/B&gt; στις &lt;a href=&quot;0108.html&quot;&gt;Ιδιότητες του έργου&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%CLN%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CLN%</translation>
     </message>
     <message>
         <source>Current chapter location name (if one is defined or project&apos;s location name).</source>
-        <translation type="unfinished"></translation>
+        <translation>Το όνομα της τοποθεσίας του τρέχοντος κεφαλαίου (Αν έχει καθοριστεί κάποιο διαφορετικά το όνομα τοποθεσίας του έργου).</translation>
     </message>
     <message>
         <source>%CLA%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CLA%</translation>
     </message>
     <message>
         <source>Current chapter location address (if one is defined or project&apos;s location address).</source>
-        <translation type="unfinished"></translation>
+        <translation>Διεύθυνση τοποθεσίας του τρέχοντος κεφαλαίου (Αν έχει καθοριστεί κάποιο διαφορετικά η διεύθυνση του έργου).</translation>
     </message>
     <message>
         <source>The following table lists all the available variables:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο παρακάτω πίνακας εμφανίζει όλες τις διαθέσιμες μεταβλητές:</translation>
     </message>
     <message>
         <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ​​only when they are used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το πλεονέκτημα των μεταβλητών είναι ότι εισάγονται στο κείμενο (δείτε: &lt;a href=&quot;0120.html&quot;&gt;Επεξεργασία κειμένου&lt;/a&gt;) και μετατρέπονται σε τιμές μόνο όταν χρησιμοποιούνται.</translation>
     </message>
     <message>
         <source>Current chapter number displayed as &lt;U&gt;Chapter N°&lt;/U&gt; (depending on the current language)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο τρέχων αριθμός κεφαλαίου εμφανιζόμενος ως &lt;U&gt;Κεφάλαιο Ν°&lt;/U&gt; (ανάλογα με την τρέχουσα γλώσσα)</translation>
     </message>
     <message>
         <source>Copyright of the project construct as &lt;U&gt;© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Πνευματικά δικαιώματα δημιουργίας του έργου ως &lt;U&gt;© Έτος - Συγγραφέας&lt;/U&gt; με &lt;B&gt;&lt;I&gt;Έτος&lt;/I&gt;&lt;/B&gt; να εκφράζει το τρέχον έτος και το &lt;B&gt;&lt;I&gt;Συγγραφέας&lt;/I&gt;&lt;/B&gt; την τιμή του &lt;B&gt;&lt;I&gt;Συγγραφέα του έργου&lt;/I&gt;&lt;/B&gt; από τις &lt;a href=&quot;0108.html&quot;&gt;Ιδιότητες του έργου&lt;/a&gt;</translation>
     </message>
     <message>
         <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with «&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ένα πλήρες κείμενο αποτελούμενο από: Το έργο δημιουργήθηκε στις &lt;U&gt;&lt;B&gt;&lt;I&gt;σύντομη ημερομηνία&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; με το «&lt;U&gt;&lt;B&gt;&lt;I&gt;έκδοση του ffDiaporama&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;» σε έναν  &lt;U&gt;&lt;B&gt;&lt;I&gt;Λειτουργικό σύστημα&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Αριθμός πυρήνων/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; πυρήνας/CPU) υπολογιστή.</translation>
     </message>
 </context>
 <context>
@@ -900,11 +900,11 @@
     </message>
     <message>
         <source>Text and text format</source>
-        <translation type="unfinished"></translation>
+        <translation>Κείμενο και μορφή κειμένου</translation>
     </message>
     <message>
         <source>Shape form</source>
-        <translation type="unfinished"></translation>
+        <translation>Μορφή σχήματος</translation>
     </message>
 </context>
 <context>
@@ -1010,7 +1010,7 @@
     </message>
     <message>
         <source>Add or modify a predefined title slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη ή επεξεργασία ενός προκαθορισμένου τίτλου διαφάνειας</translation>
     </message>
     <message>
         <source>Background properties</source>
@@ -1018,15 +1018,15 @@
     </message>
     <message>
         <source>Chapter properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιδιότητες κεφαλαίου</translation>
     </message>
     <message>
         <source>Check configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Έλεγχος της διαμόρφωσης</translation>
     </message>
     <message>
         <source>Export project</source>
-        <translation type="unfinished"></translation>
+        <translation>Εξαγωγή του έργου</translation>
     </message>
     <message>
         <source>Project properties</source>
@@ -1038,7 +1038,7 @@
     </message>
     <message>
         <source>Correct, reframe or cut image or video</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεξεργασία, αναπλαισίωση ή περικοπή του βίντεο</translation>
     </message>
     <message>
         <source>File information</source>
@@ -1086,15 +1086,15 @@
     </message>
     <message>
         <source>Transition properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιδιότητες μετάβασης</translation>
     </message>
     <message>
         <source>Dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation>Πλαίσια διαλόγων</translation>
     </message>
     <message>
         <source> This section contains information about using ffDiaporama. </source>
-        <translation type="unfinished"></translation>
+        <translation> Αυτή η ενότητα περιέχει πληροφορίες σχετικά με το ffDiaporama. </translation>
     </message>
     <message>
         <source>Index</source>
@@ -1102,27 +1102,27 @@
     </message>
     <message>
         <source>Configuration dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation>Πλαίσια διαλόγων διαμόρφωσης</translation>
     </message>
     <message>
         <source>Editing dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεξεργασία πλαισίων διαλόγων</translation>
     </message>
     <message>
         <source>Dialog boxes related to the project</source>
-        <translation type="unfinished"></translation>
+        <translation>Πλαίσια διαλόγων σχετικά με το έργο</translation>
     </message>
     <message>
         <source>Various dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation>Διάφορα πλαίσια διαλόγων</translation>
     </message>
     <message>
         <source>Add or modify a location</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη ή επεξεργασία μιας τοποθεσίας</translation>
     </message>
     <message>
         <source>Cut a sound file</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποκοπή ενός αρχείου ήχου</translation>
     </message>
 </context>
 <context>
@@ -1233,11 +1233,11 @@
     </message>
     <message>
         <source>The &lt;a href=&quot;0022.html&quot;&gt;toolbar&lt;/a&gt; and menu at the top</source>
-        <translation></translation>
+        <translation>Η &lt;a href=&quot;0022.html&quot;&gt;γραμμή εργαλείων&lt;/a&gt; και το μενού στην κορυφή</translation>
     </message>
     <message>
         <source>by using the buttons of the &lt;a href=&quot;0022.html&quot;&gt;toolbar&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>χρησιμοποιώντας τα κουμπιά της &lt;a href=&quot;0022.html&quot;&gt;γραμμής εργαλείων&lt;/a&gt;</translation>
     </message>
     <message>
         <source>To change display mode, use the buttons located in the status bar, to the right, at the bottom of the main window.</source>
@@ -1245,7 +1245,7 @@
     </message>
     <message>
         <source>The editing of slides is done:</source>
-        <translation type="unfinished"></translation>
+        <translation>Η σύνταξη των διαφανειών γίνεται:</translation>
     </message>
 </context>
 <context>
@@ -1578,31 +1578,31 @@
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0114.html&quot;&gt;music properties dialog&lt;/a&gt; (Equivalent to a double click on the music track)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανοίγει τον διάλογο &lt;a href=&quot;0114.html&quot;&gt;Ιδιοτήτων μουσικής&lt;/a&gt; (Ισοδύναμο με ο διπλό κλικ στο κομμάτι μουσικής)</translation>
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0122.html&quot;&gt;transition properties dialog&lt;/a&gt; (Equivalent to a double click on the transition)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανοίγει τον διάλογο &lt;a href=&quot;0122.html&quot;&gt;Ιδιοτήτων μεταβάσεων&lt;/a&gt; (Ισοδύναμο με ο διπλό κλικ στη μετάβαση)</translation>
     </message>
     <message>
         <source>It is possible to add slides by Drag and Drop directly using the file browser. Drag photos or videos onto the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; and slides are created at the point you release the files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Μπορείτε να προσθέσετε διαφάνειες με μεταφορά και απόθεση χρησιμοποιώντας τον περιηγητή αρχείων. Σύρετε φωτογραφίες και βίντεο στη &lt;a href=&quot;0023.html&quot;&gt;γραμμή χρονοδιαγράμματος&lt;/a&gt; και οι διαφάνειες δημιουργούνται στο σημείο που αποθέτετε τα αρχεία.</translation>
     </message>
     <message>
         <source>Allows you to render the video for selected equipment from the device database. </source>
-        <translation type="unfinished"></translation>
+        <translation>Σας επιτρέπει την αποτύπωση του βίντεο για τον επιλεγμένο εξοπλισμό από τη βάση συσκευών. </translation>
     </message>
     <message>
         <source>The &lt;a href=&quot;0115.html&quot;&gt;render movie dialog&lt;/a&gt; from database appears.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφανίζεται ο διάλογος &lt;a href=&quot;0115.html&quot;&gt;αποτύπωση της ταινίας&lt;/a&gt; από τη βάση δεδομένων.</translation>
     </message>
     <message>
         <source>Allows you to render the video in a lossless format. Lossless format is not destructive, so it is possible to render several times the same video without losing in quality. The &lt;a href=&quot;0115.html&quot;&gt;render movie dialog&lt;/a&gt; appears.</source>
-        <translation type="unfinished"></translation>
+        <translation>Σας επιτρέπει την αποτύπωση του βίντεο  σε μια μη απωλεστική μορφή. Η μη απωλεστική μορφή δεν είναι καταστρεπτική, και ως εκ τούτου είναι δυνατό να αποτυπώσετε πολλές φορές το ίδιο βίντεο χωρίς να χάσετε σε απώλεια. Εμφανίζεται ο διάλογος &lt;a href=&quot;0115.html&quot;&gt;αποτύπωσης βίντεο&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Allows you to render the video using the &lt;a href=&quot;0115.html&quot;&gt;Advanced render movie dialog&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτρέπει την αποτύπωση του βίντεο χρησιμοποιώντας τον διάλογο &lt;a href=&quot;0115.html&quot;&gt;Προχωρημένη αποτύπωση ταινίας&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Export Soundtrack</source>
@@ -1610,19 +1610,19 @@
     </message>
     <message>
         <source>Allows you to render only the sound track of the project. The &lt;a href=&quot;0115.html&quot;&gt;render movie dialog&lt;/a&gt; appears.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτρέπει  την αποτύπωση μόνο του μουσικού κομματιού του έργου. Εμφανίζεται ο διάλογος &lt;a href=&quot;0115.html&quot;&gt;αποτύπωσης ταινίας&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Note: Each selected file is added to the project using sort order specified in the configuration menu of the multimedia file explorer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Σημείωση: Κάθε επιλεγμένο αρχείο προστίθεται στο έργο χρησιμοποιώντας τη σειρά ταξινόμησης που καθορίζεται στο μενού διαμόρφωσης του εξερευνητή αρχείων πολυμέσων.</translation>
     </message>
     <message>
         <source>Allows you to paste the slide or the image currently in the clipboard into the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Σας επιτρέπει την επικόλληση από το πρόχειρο της διαφάνειας ή της εικόνας στη &lt;a href=&quot;0023.html&quot;&gt;γραμμή χρονοδιαγράμματος&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Add a map: Allows you to add a Google Maps map. The &lt;a href=&quot;0110.html&quot;&gt;correct, reframe or cut image or video dialog&lt;/a&gt; appears.</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη ενός χάρτη: Σας επιτρέπει την προσθήκη ενός χάρτη Google Maps. Εμφανίζεται &lt;a href=&quot;0110.html&quot;&gt;ο διάλογος διόρθωσης, αναπλαισίωσης ή περικοπής εικόνας ή βίντεο&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -1633,35 +1633,35 @@
     </message>
     <message>
         <source>The timeline lists the slides which compose the project. The slides are listed from left to right.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η γραμμή χρονοδιαγράμματος εμφανίζει τις διαφάνειες που αποτελούν το έργο. Οι διαφάνειες εμφανίζονται από τα αριστερά στα δεξιά.</translation>
     </message>
     <message>
         <source>Each slide is represented by the 3 tracks:</source>
-        <translation type="unfinished"></translation>
+        <translation>Κάθε διαφάνεια αναπαριστάται από 3 κομμάτια:</translation>
     </message>
     <message>
         <source>The background track:</source>
-        <translation type="unfinished"></translation>
+        <translation>Το κομμάτι παρασκηνίου</translation>
     </message>
     <message>
         <source>An icon corresponding to the transition selected to pass from the previous background to this slide (if a new background is defined). .</source>
-        <translation type="unfinished"></translation>
+        <translation>Ένα εικονίδιο που αντιστοιχεί στην επιλεγμένη μετάβαση για πέρασμα από το προηγούμενο φόντο σε αυτήν τη διαφάνεια (αν έχει καθοριστεί ένα νέο φόντο). </translation>
     </message>
     <message>
         <source>A thumbnail representing the background associated with this slide.</source>
-        <translation type="unfinished"></translation>
+        <translation>Μια εικόνα επισκόπησης που αναπαριστά το συσχετισμένο φόντο με τη διαφάνεια.</translation>
     </message>
     <message>
         <source>The slide number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο αριθμός της διαφάνειας.</translation>
     </message>
     <message>
         <source> Possibly this icon may appear at the upper left if the slide is used as chapter start</source>
-        <translation type="unfinished"></translation>
+        <translation> Πιθανώς αυτό το εικονίδιο να εμφανίζεται στο επάνω αριστερό τμήμα αν η διαφάνεια χρησιμοποιείται ως εκκίνηση κεφαλαίου</translation>
     </message>
     <message>
         <source>The mounting track:</source>
-        <translation type="unfinished"></translation>
+        <translation>Το κομμάτι της σύνθεσης</translation>
     </message>
     <message>
         <source>An icon corresponding to the transition selected to pass from the previous slide to this slide, under which is indicated the duration of the transition in seconds.</source>
@@ -1725,7 +1725,7 @@
     </message>
     <message>
         <source>To modify an element:</source>
-        <translation type="unfinished"></translation>
+        <translation>Για την τροποποίηση ενός στοιχείου:</translation>
     </message>
     <message>
         <source>You can also call a contextual menu by doing a right click ahead the thumbnail or click on the Edit button. This contextual menu allows you to select an action.</source>
@@ -3859,6 +3859,10 @@
         <source> Note: messages appear only if you launched the program from a console (CMD under Windows or Terminal under Linux). It is possible to redirect these messages into a log file by using &gt;. </source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&lt;B&gt;gl&lt;/B&gt; to use Galician</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0042</name>
@@ -4462,14 +4466,6 @@
     <message>
         <source>The &quot;raster&quot; Graphics accelerates the display but can raise problems on some computer in particular with KDE.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>SDL Audio use old mode</source>
-        <translation>Χρήση της παλιά λειτουργίας του SDL Audio</translation>
-    </message>
-    <message>
-        <source>&lt;B&gt;For the users Linux only: &lt;/B&gt;if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</source>
-        <translation>&lt;B&gt;Για χρήστες Linux μόνο: &lt;/B&gt;Αν αυτό το πλαίσιο είναι επιλεγμένο, χρησιμοποιείται η παλιά ρύθμιση λειτουργίας για SDL Audio. Αυτή η επιλογή είναι χρήσιμη σε μερικές διανομές Linux οι οποίες χρησιμοποιούν παλιά πακέτα SDL (π.χ.: Ubuntu 10.10 και 11.04, Fedora 14 και 15, κλπ.).</translation>
     </message>
     <message>
         <source>Memory profil</source>
@@ -5173,6 +5169,14 @@
         <source>Defines the default value for the field Album</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Default sound level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set the volume level to be achieved by amplification for music and audio tracks when the volume is set to auto</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0102</name>
@@ -5273,7 +5277,7 @@
     <name>0103</name>
     <message>
         <source>Add or modify a predefined title slide</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Προσθήκη ή επεξεργασία ενός προκαθορισμένου τίτλου διαφάνειας</translation>
     </message>
     <message>
         <source>This dialog allows you to select a model and define chapter information for predefined title slides.</source>
@@ -5301,11 +5305,11 @@
     </message>
     <message>
         <source>This type of slide is usually used early in the project as the opening credits. </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αυτός ο τύπος διαφάνειας χρησιμοποιείται στην έναρξη του έργου στους τίτλους ευχαριστιών. </translation>
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are based only on project information. For more information on project information, see: &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Οι μεταβλητές κειμένου που χρησιμοποιούνται από τα πρότυπα αυτού του τύπου διαφανειών βασίζονται μόνο στις πληροφορίες του έργου. Για περισσότερες πληροφορίες σχετικά με τις πληροφορίες του έργου, ανατρέξτε στις &lt;a href=&quot;0108.html&quot;&gt;Ιδιότητες του έργου&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Chapter title</source>
@@ -5313,11 +5317,11 @@
     </message>
     <message>
         <source>This type of slide is usually used several times in the project to mark the beginning of the chapter. </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αυτός ο τύπος διαφάνειας χρησιμοποιείται συνήθως πολλές φορές στο έργο για τη σήμανση της αρχής των κεφαλαίων. </translation>
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are based on project information and on chapter information.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Οι μεταβλητές κειμένου που χρησιμοποιούνται από πρότυπα αυτού του τύπου διαφανειών βασίζονται στις πληροφορίες του έργου και στις πληροφορίες του κεφαλαίου.</translation>
     </message>
     <message>
         <source>Credit title</source>
@@ -5325,11 +5329,11 @@
     </message>
     <message>
         <source>This type of slide is usually used at the end of the project as the end credits. </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αυτός ο τύπος διαφάνειας χρησιμοποιείται συνήθως στο τέλος ως τίτλοι τέλους. </translation>
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are generally computed. For more information on texts variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Οι μεταβλητές κειμένου που χρησιμοποιούνται από τα πρότυπα διαφάνειας του τύπου αυτού υπολογίζονται γενικά. Για περισσότερες πληροφορίες σχετικά με τις μεταβλητές κειμένου, δείτε: &lt;a href=&quot;0013.html&quot;&gt;Δυναμικές μεταβλητές&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Category</source>
@@ -5337,27 +5341,27 @@
     </message>
     <message>
         <source>Statics models</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τίτλοι χωρίς κίνηση</translation>
     </message>
     <message>
         <source>This type lists statics models ie without animations.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αυτός ο τύπος εμφανίζει τα στατικά πρότυπα δηλαδή αυτά χωρίς εφέ κίνησης.</translation>
     </message>
     <message>
         <source>Animated models</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κινούμενα πρότυπα</translation>
     </message>
     <message>
         <source>This type lists animated models ie with several shots.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αυτός ο τύπος εμφανίζει κινούμενα πρότυπα δηλαδή με πολλαπλά στιγμιότυπα.</translation>
     </message>
     <message>
         <source>Custom models</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Προσαρμοσμένα πρότυπα</translation>
     </message>
     <message>
         <source>This type lists the templates that you saved with the &lt;B&gt;&lt;I&gt;Save as model&lt;/I&gt;&lt;/B&gt; function of the &lt;a href=&quot;0119.html&quot;&gt;Slide properties&lt;/a&gt; dialog box.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αυτός ο τύπος εμφανίζει τα πρότυπα που έχετε αποθηκεύσει με τη λειτουργία &lt;B&gt;&lt;I&gt;Αποθήκευση ως πρότυπο&lt;/I&gt;&lt;/B&gt; από τον διάλογο &lt;a href=&quot;0119.html&quot;&gt;Ιδιότητες διαφάνειας&lt;/a&gt;.</translation>
     </message>
     <message>
         <source> The selection area display models corresponding to the current Type and Category you previously selected.</source>
@@ -5603,7 +5607,7 @@
     <name>0105</name>
     <message>
         <source>Chapter properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ιδιότητες κεφαλαίου</translation>
     </message>
     <message>
         <source> All slides have information chaptering so each slide can mark the beginning of a new chapter. </source>
@@ -5726,7 +5730,7 @@
     <name>0106</name>
     <message>
         <source>Check configuration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Έλεγχος της διαμόρφωσης</translation>
     </message>
     <message>
         <source>This dialog allows to check external tools configuration and libraries used by ffDiaporama.</source>
@@ -5749,7 +5753,7 @@
     <name>0107</name>
     <message>
         <source>Export project</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εξαγωγή του έργου</translation>
     </message>
     <message>
         <source>This dialog box allows you to export the project and all ressources used by the project to a folder</source>
@@ -6206,7 +6210,7 @@
     <name>0110</name>
     <message>
         <source>Correct, reframe or cut image or video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επεξεργασία, αναπλαισίωση ή περικοπή του βίντεο</translation>
     </message>
     <message>
         <source>This dialog box allows you to:</source>
@@ -9446,7 +9450,7 @@
     <name>0122</name>
     <message>
         <source>Transition properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ιδιότητες μετάβασης</translation>
     </message>
     <message>
         <source> This dialog allows you to define the entering transition for a slide. </source>
@@ -9553,7 +9557,7 @@
     <name>0123</name>
     <message>
         <source>Add or modify a location</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Προσθήκη ή επεξεργασία μιας τοποθεσίας</translation>
     </message>
     <message>
         <source> This dialog allows you to define a location using Google Maps. </source>
@@ -9660,7 +9664,7 @@
     <name>0124</name>
     <message>
         <source>Cut a sound file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αποκοπή ενός αρχείου ήχου</translation>
     </message>
     <message>
         <source>This dialog allows you to cut a sound file.</source>
@@ -9779,7 +9783,7 @@
     </message>
     <message>
         <source>Dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Πλαίσια διαλόγων</translation>
     </message>
     <message>
         <source>Application options</source>
@@ -9791,7 +9795,7 @@
     </message>
     <message>
         <source>Add or modify a predefined title slide</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Προσθήκη ή επεξεργασία ενός προκαθορισμένου τίτλου διαφάνειας</translation>
     </message>
     <message>
         <source>Background properties</source>
@@ -9799,15 +9803,15 @@
     </message>
     <message>
         <source>Chapter properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ιδιότητες κεφαλαίου</translation>
     </message>
     <message>
         <source>Check configuration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Έλεγχος της διαμόρφωσης</translation>
     </message>
     <message>
         <source>Export project</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εξαγωγή του έργου</translation>
     </message>
     <message>
         <source>Project properties</source>
@@ -9819,7 +9823,7 @@
     </message>
     <message>
         <source>Correct, reframe or cut image or video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επεξεργασία, αναπλαισίωση ή περικοπή του βίντεο</translation>
     </message>
     <message>
         <source>File information</source>
@@ -9867,7 +9871,7 @@
     </message>
     <message>
         <source>Transition properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ιδιότητες μετάβασης</translation>
     </message>
     <message>
         <source>Rendering videos</source>
@@ -9939,19 +9943,19 @@
     </message>
     <message>
         <source>Configuration dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Πλαίσια διαλόγων διαμόρφωσης</translation>
     </message>
     <message>
         <source>Editing dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επεξεργασία πλαισίων διαλόγων</translation>
     </message>
     <message>
         <source>Dialog boxes related to the project</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Πλαίσια διαλόγων σχετικά με το έργο</translation>
     </message>
     <message>
         <source>Various dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διάφορα πλαίσια διαλόγων</translation>
     </message>
     <message>
         <source>Types of objects in ffDiaporama</source>
@@ -9959,11 +9963,11 @@
     </message>
     <message>
         <source>Add or modify a location</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Προσθήκη ή επεξεργασία μιας τοποθεσίας</translation>
     </message>
     <message>
         <source>Cut a sound file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αποκοπή ενός αρχείου ήχου</translation>
     </message>
 </context>
 <context>

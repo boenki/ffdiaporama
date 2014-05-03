@@ -131,6 +131,12 @@ extern QObject      *EventReceiver;                     // Windows wich receive 
 void    PostEvent(int EventType,QString EventParam="");
 void    ToLog(int MessageType,QString Message,QString Source="internal",bool AddBreak=true);
 
+#if QT_VERSION >= 0x050000
+void    QTMessageOutput(QtMsgType type,const QMessageLogContext &,const QString &msg);
+#else
+void    QTMessageOutput(QtMsgType type,const char *msg);
+#endif
+
 //====================================================================
 // Standard project geometry definition
 //====================================================================

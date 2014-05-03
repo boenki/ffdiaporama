@@ -27,6 +27,8 @@
 #include "CustomCtrl/QCustomRuler.h"
 #include "CustomCtrl/QMovieLabel.h"
 
+#include <QtMultimedia/QAudioOutput>
+
 namespace Ui {
     class wgt_QVideoPlayer;
 }
@@ -45,7 +47,6 @@ public:
 
     int                     ActualPosition;         // Current position (in msec)
     QTime                   tDuration;              // Duration of the video
-    double                  WantedFPS;
 
     cFrameList              FrameList;              // Collection of bufered image
     cSoundBlockList         Music;                  // Sound to play (in direct player mode)
@@ -58,8 +59,8 @@ public:
     QIcon                   IconPlay;               // Icon : "images/player_play.png"
     QIcon                   IconPause;              // Icon : "images/player_pause.png"
     bool                    DisplayMSec;            // if True, display millisecondes instead of secondes
-    bool                    PlayerPlayMode;        // Is MPlayer currently play mode
-    bool                    PlayerPauseMode;       // Is MPlayer currently plause mode
+    bool                    PlayerPlayMode;         // Is MPlayer currently play mode
+    bool                    PlayerPauseMode;        // Is MPlayer currently plause mode
     QTimer                  Timer;
     QDateTime               PreviousTimerTick;
     int                     TimerValue;
@@ -69,6 +70,12 @@ public:
     bool                    TimerTick;              // To use timer 1 time for 2 call
 
     QMutex                  PlayerMutex;
+    u_int8_t                *AudioBuf;
+    int                     AudioBufSize;
+    QAudioOutput            *audio_outputStream;
+    QIODevice               *audio_outputDevice;
+    int                     AudioPlayed;
+    cSoundBlockList         MixedMusic;             // Prepared Sound
 
     QList<cCompositionObjectContext *> PreparedTransitBrushList;
     QList<cCompositionObjectContext *> PreparedBrushList;
@@ -99,6 +106,7 @@ public:
     int     GetButtonBarHeight();
 
     void    SetEditStartEnd(bool State);
+    void    SetAudioFPS();
 
 protected:
     virtual void closeEvent(QCloseEvent *);
@@ -113,6 +121,8 @@ private slots:
     void    s_SliderReleased();
     void    s_SliderMoved(int Value);
     void    s_SaveImage();
+    void    s_VideoPlayerVolume();
+    void    s_VolumeChanged(int newValue);
     void    s_PositionChangeByUser();
     void    s_StartEndChangeByUser();
 
@@ -121,12 +131,15 @@ private:
     void    PrepareImage(bool SoundWanted,bool AddStartPos,cDiaporamaObjectInfo *Frame,int W,int H);
 
     Ui::wgt_QVideoPlayer *ui;
+    QSlider              *VolumeSlider;
+    QLabel               *VolumeLabel;
 
 signals:
     void    DoubleClick();
     void    RightClickEvent(QMouseEvent *);
     void    SaveImageEvent();
     void    StartEndChangeByUser();
+    void    VolumeChanged();
 };
 
 #endif // WGT_QVIDEOPLAYER_H

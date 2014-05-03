@@ -30,9 +30,12 @@ greaterThan(QT_MAJOR_VERSION,4) {
 } else {
     # QT4 version
     CONFIG += help
+    unix {
+        INCLUDEPATH += /usr/include/QtMultimediaKit
+    }
 }
 
-QT          += core gui xml network svg sql
+QT          += core gui xml network svg sql multimedia
 QMAKE_STRIP  = echo
 APPFOLDER    = ffDiaporama
 TARGET       = ffDiaporama
@@ -127,7 +130,6 @@ unix {
         message("x86_64 build")
         INCLUDEPATH += "../../../win_src/ffmpeg-2.2.1-win64-dev/include"
         LIBS        += -L"../../../win_src/ffmpeg-2.2.1-win64-dev/lib"
-        LIBS        += -L"../../../win_src/SDL-1.2.15/lib/x64"
         CONFIG(debug, debug|release) {
             LIBS += -L"F:\Dev\ffdiaporama\trunk\Win64Debug\src\ffDiaporama_lib\debug"
         } else {
@@ -138,7 +140,6 @@ unix {
         message("x86 build")
         INCLUDEPATH += "../../../win_src/ffmpeg-2.2.1-win32-dev/include"
         LIBS        += -L"../../../win_src/ffmpeg-2.2.1-win32-dev/lib"
-        LIBS        += -L"../../../win_src/SDL-1.2.15/lib/x86"
         CONFIG(debug, debug|release) {
             LIBS += -L"F:\Dev\ffdiaporama\trunk\Win32Debug\src\ffDiaporama_lib\debug"
         } else {
@@ -152,7 +153,6 @@ unix {
     INCLUDEPATH += .                                                        #------ I don't know why, but windows need this !
     INCLUDEPATH += ../exiv2
     INCLUDEPATH += "../../../win_src/exiv2-0.24/src"
-    INCLUDEPATH += "../../../win_src/SDL-1.2.15/include"
     INCLUDEPATH += "../../../win_src/msinttypes"
 
     LIBS        += -lgdi32 -lkernel32 -luser32 -lshell32 -ladvapi32         #------ Windows GDI libs link
@@ -294,7 +294,6 @@ unix {
 }
 
 #---- Libs for windows and linux
-LIBS	    += -lSDL                                                        #------ SDL
 LIBS        += -lavformat -lavcodec -lavutil -lswscale -lavfilter           #------ libav
 
 #--------------------------------------------------------------
@@ -353,7 +352,6 @@ SOURCES +=  MainWindow/cCustomSlideTable.cpp \
             engine/cDeviceModelDef.cpp \
             engine/cSoundBlockList.cpp \
             engine/cBaseMediaFile.cpp \
-            engine/_SDL_Support.cpp \
             engine/cBrushDefinition.cpp \
             engine/cDriveList.cpp \
             engine/_Transition.cpp \
@@ -426,7 +424,6 @@ HEADERS  += MainWindow/cCustomSlideTable.h \
             engine/_GlobalDefines.h \
             engine/cSoundBlockList.h \
             engine/cBaseMediaFile.h \
-            engine/_SDL_Support.h \
             engine/cBrushDefinition.h \
             engine/cDriveList.h \
             engine/_Transition.h \
@@ -484,7 +481,7 @@ FORMS    += MainWindow/mainwindow.ui \
             wgt_QMultimediaBrowser/wgt_QMultimediaBrowser.ui \
             wgt_QVideoPlayer/wgt_QVideoPlayer.ui \
             HelpPopup/HelpPopup.ui \
-    DlgMusic/DlgAdjustToSound.ui
+            DlgMusic/DlgAdjustToSound.ui
 
 #--------------------------------------------------------------
 # INSTALLATION

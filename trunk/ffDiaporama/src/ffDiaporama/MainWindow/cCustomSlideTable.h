@@ -86,6 +86,7 @@ protected:
     virtual void wheelEvent(QWheelEvent *ev);
 
 private slots:
+    void    DoResetDisplay();
 
 signals:
     void    DragMoveItem();

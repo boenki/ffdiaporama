@@ -96,6 +96,25 @@ void ToLog(int MessageType,QString Message,QString Source,bool AddBreak) {
     LogMutex.unlock();
 }
 
+#if QT_VERSION >= 0x050000
+void QTMessageOutput(QtMsgType type,const QMessageLogContext &,const QString &msg) {
+     switch (type) {
+        case QtDebugMsg:    ToLog(LOGMSG_INFORMATION,msg);  break;
+        case QtWarningMsg:  ToLog(LOGMSG_INFORMATION,msg);  break;
+        case QtCriticalMsg: ToLog(LOGMSG_CRITICAL,msg);     break;
+        case QtFatalMsg:    ToLog(LOGMSG_CRITICAL,msg);     break;
+     }
+ }
+#else
+void QTMessageOutput(QtMsgType type,const char *msg) {
+     switch (type) {
+        case QtDebugMsg:    ToLog(LOGMSG_DEBUGTRACE,msg);   break;
+        case QtWarningMsg:  ToLog(LOGMSG_INFORMATION,msg);  break;
+        case QtCriticalMsg: ToLog(LOGMSG_CRITICAL,msg);     break;
+        case QtFatalMsg:    ToLog(LOGMSG_CRITICAL,msg);     break;
+     }
+ }
+#endif
 //====================================================================================================================
 
 double GetDoubleValue(QDomElement CorrectElement,QString Name) {
