@@ -438,12 +438,12 @@ QImage cBaseMediaFile::GetIcon(cCustomIcon::IconSize Size,bool useDelayed) {
 
 //====================================================================================================================
 
-bool cBaseMediaFile::GetFullInformationFromFile() {
+bool cBaseMediaFile::GetFullInformationFromFile(bool IsPartial) {
     cCustomIcon Icon;
     QStringList ExtendedProperties;
     IsInformationValide=ApplicationConfig->FilesTable->GetExtendedProperties(FileKey,&ExtendedProperties)&&ApplicationConfig->FilesTable->GetThumbs(FileKey,&Icon.Icon16,&Icon.Icon100);
     if (!IsInformationValide) {
-        IsInformationValide=GetChildFullInformationFromFile(&Icon,&ExtendedProperties);
+        IsInformationValide=GetChildFullInformationFromFile(IsPartial,&Icon,&ExtendedProperties);
         if (IsInformationValide) {
             QDomDocument domDocument;
             QDomElement  root=domDocument.createElement("BasicProperties");
@@ -495,7 +495,7 @@ bool cBaseMediaFile::GetInformationFromFile(QString FileName,QStringList *AliasL
     bool Continue=true;
     while ((Continue)&&(!QFileInfo(FileName).exists())) {
         QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
-        if (CustomMessageBox(ApplicationConfig->TopLevelWindow,QMessageBox::Question,QApplication::translate("cBaseMediaFile","Open file"),
+        if (CustomMessageBox(NULL,QMessageBox::Question,QApplication::translate("cBaseMediaFile","Open file"),
             QApplication::translate("cBaseMediaFile","Impossible to open file ")+FileName+"\n"+QApplication::translate("cBaseMediaFile","Do you want to select another file ?"),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes)
             Continue=false;
@@ -658,7 +658,7 @@ cFolder::cFolder(cApplicationConfig *ApplicationConfig):cBaseMediaFile(Applicati
 
 //====================================================================================================================
 
-bool cFolder::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *) {
+bool cFolder::GetChildFullInformationFromFile(bool,cCustomIcon *Icon,QStringList *) {
     QString AdjustedFileName=FileName();
     if (!AdjustedFileName.endsWith(QDir::separator())) AdjustedFileName=AdjustedFileName+QDir::separator();
 
@@ -778,7 +778,7 @@ void cffDProjectFile::InitDefaultValues() {
 //====================================================================================================================
 
 bool cffDProjectFile::LoadBasicInformationFromDatabase(QDomElement *ParentElement,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
-    return LoadFromXML(ParentElement,ElementName,PathForRelativPath,AliasList,ModifyFlag,ResKeyList,DuplicateRes);
+    return LoadFromXML(ParentElement,ElementName,PathForRelativPath,AliasList,ModifyFlag,ResKeyList,DuplicateRes,true);
 }
 
 //====================================================================================================================
@@ -830,7 +830,7 @@ void cffDProjectFile::SaveToXML(QDomElement *ParentElement,QString,QString PathF
 
 //====================================================================================================================
 
-bool cffDProjectFile::LoadFromXML(QDomElement *ParentElement,QString,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes) {
+bool cffDProjectFile::LoadFromXML(QDomElement *ParentElement,QString,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,QList<cSlideThumbsTable::TRResKeyItem> *ResKeyList,bool DuplicateRes,bool IsPartial) {
     InitDefaultValues();
     bool IsOk=false;
     if ((ParentElement->elementsByTagName("ffDiaporamaProjectProperties").length()>0)&&(ParentElement->elementsByTagName("ffDiaporamaProjectProperties").item(0).isElement()==true)) {
@@ -874,7 +874,7 @@ bool cffDProjectFile::LoadFromXML(QDomElement *ParentElement,QString,QString Pat
                 }
             }
         }
-        if ((Element.elementsByTagName("PrjLocation").length()>0)&&(Element.elementsByTagName("PrjLocation").item(0).isElement()==true)) {
+        if ((!IsPartial)&&(Element.elementsByTagName("PrjLocation").length()>0)&&(Element.elementsByTagName("PrjLocation").item(0).isElement()==true)) {
             QDomElement SubElement=Element.elementsByTagName("PrjLocation").item(0).toElement();
             if (Location) delete (cLocation *)Location;
             Location=new cLocation(ApplicationConfig);
@@ -900,7 +900,7 @@ bool cffDProjectFile::LoadFromXML(QDomElement *ParentElement,QString,QString Pat
 
 //====================================================================================================================
 
-bool cffDProjectFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *) {
+bool cffDProjectFile::GetChildFullInformationFromFile(bool IsPartial,cCustomIcon *Icon,QStringList *) {
     Icon->LoadIcons(&ApplicationConfig->DefaultFFDIcon);
 
     QFile           file(FileName());
@@ -925,7 +925,7 @@ bool cffDProjectFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringL
         if (domDocument.setContent(ffDPart,true,&errorStr,&errorLine,&errorColumn)) {
             root = domDocument.documentElement();
             // Load project properties
-            if (root.tagName()==FFD_APPLICATION_ROOTNAME) LoadFromXML(&root,"",QFileInfo(file.fileName()).absolutePath(),NULL,NULL,NULL,false);
+            if (root.tagName()==FFD_APPLICATION_ROOTNAME) LoadFromXML(&root,"",QFileInfo(file.fileName()).absolutePath(),NULL,NULL,NULL,false,IsPartial);
         }
         file.close();
     }
@@ -1031,7 +1031,7 @@ bool cImageFile::GetInformationFromFile(QString FileName,QStringList *AliasList,
 
 //====================================================================================================================
 
-bool cImageFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties) {
+bool cImageFile::GetChildFullInformationFromFile(bool,cCustomIcon *Icon,QStringList *ExtendedProperties) {
     ImageOrientation    =-1;
     bool                ExifOk=false;
 
@@ -1416,7 +1416,7 @@ bool cImageClipboard::GetInformationFromFile(QString,QStringList *,bool *,qlongl
 
 //====================================================================================================================
 
-bool cImageClipboard::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties) {
+bool cImageClipboard::GetChildFullInformationFromFile(bool,cCustomIcon *Icon,QStringList *ExtendedProperties) {
     if (Icon) {
         if (Icon->Icon16.isNull() || Icon->Icon100.isNull()) Icon->LoadIcons(&ApplicationConfig->DefaultIMAGEIcon);
     }
@@ -1619,8 +1619,8 @@ bool cGMapsMap::GetInformationFromFile(QString,QStringList *,bool *,qlonglong) {
 
 //====================================================================================================================
 
-bool cGMapsMap::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties) {
-    if ((cImageClipboard::GetChildFullInformationFromFile(Icon,ExtendedProperties))&&(ExtendedProperties)) {
+bool cGMapsMap::GetChildFullInformationFromFile(bool IsPartial,cCustomIcon *Icon,QStringList *ExtendedProperties) {
+    if ((cImageClipboard::GetChildFullInformationFromFile(IsPartial,Icon,ExtendedProperties))&&(ExtendedProperties)) {
         ExtendedProperties->append(QApplication::translate("cBaseMediaFile","Map type")+QString("##")+QString("%1").arg(GetCurrentMapTypeName()));
         ExtendedProperties->append(QApplication::translate("cBaseMediaFile","Image size")+QString("##")+QString("%1").arg(GetCurrentImageSizeName()));
         ExtendedProperties->append(QApplication::translate("cBaseMediaFile","Map zoom and size")+QString("##")+QString("%1").arg(GetMapSizesPerZoomLevel()[ZoomLevel]));
@@ -2041,27 +2041,29 @@ bool cVideoFile::DoAnalyseSound(QList<qreal> *Peak,QList<qreal> *Moyenne,bool *C
             NewPosition+=qreal(AnalyseMusic.ListCount())*AnalyseMusic.dDuration*qreal(1000);
             while (AnalyseMusic.ListCount()>0) {
                 Block=AnalyseMusic.DetachFirstPacket();
-                CurData=Block;
-                for (int j=0;j<AnalyseMusic.SoundPacketSize/4;j++) {
-                    int16_t sample16Bit =*CurData++;
-                    double  decibels1=sample16Bit<0?-sample16Bit:sample16Bit;
-                    sample16Bit =*CurData++;
-                    double  decibels2=sample16Bit<0?-sample16Bit:sample16Bit;
-                    double  decibels=(decibels1+decibels2)/2;
-                    Values.append(decibels);
-                    if (Values.count()==WantedValues) {
-                        qreal vPeak=0,vMoyenne=0;
-                        foreach (qreal V,Values) {
-                            if (vPeak<V) vPeak=V;
-                            vMoyenne=vMoyenne+V;
+                if (Block) {
+                    CurData=Block;
+                    for (int j=0;j<AnalyseMusic.SoundPacketSize/4;j++) {
+                        int16_t sample16Bit =*CurData++;
+                        double  decibels1=sample16Bit<0?-sample16Bit:sample16Bit;
+                        sample16Bit =*CurData++;
+                        double  decibels2=sample16Bit<0?-sample16Bit:sample16Bit;
+                        double  decibels=(decibels1+decibels2)/2;
+                        Values.append(decibels);
+                        if (Values.count()==WantedValues) {
+                            qreal vPeak=0,vMoyenne=0;
+                            foreach (qreal V,Values) {
+                                if (vPeak<V) vPeak=V;
+                                vMoyenne=vMoyenne+V;
+                            }
+                            vMoyenne=vMoyenne/Values.count();
+                            Peak->append(vPeak);
+                            Moyenne->append(vMoyenne);
+                            Values.clear();
                         }
-                        vMoyenne=vMoyenne/Values.count();
-                        Peak->append(vPeak);
-                        Moyenne->append(vMoyenne);
-                        Values.clear();
                     }
+                    av_free(Block);
                 }
-                av_free(Block);
             }
         }
         // tempdata
@@ -2223,7 +2225,7 @@ bool cVideoFile::CheckFormatValide(QWidget *Window) {
 //      return true if WantedObjectType=OBJECTTYPE_VIDEOFILE and at least one video track is present
 //      return true if WantedObjectType=OBJECTTYPE_MUSICFILE and at least one audio track is present
 
-bool cVideoFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *ExtendedProperties) {
+bool cVideoFile::GetChildFullInformationFromFile(bool,cCustomIcon *Icon,QStringList *ExtendedProperties) {
     //Mutex.lock();
     bool            Continu=true;
     AVFormatContext *LibavFile=NULL;
@@ -2302,7 +2304,7 @@ bool cVideoFile::GetChildFullInformationFromFile(cCustomIcon *Icon,QStringList *
         //*********************************************************************************************************
         // Get information about duration
         //*********************************************************************************************************
-        int64_t ms=LibavFile->duration/1000-LibavStartTime;
+        int64_t ms=LibavFile->duration/1000;
         int     ss=ms/1000;
         int     mm=ss/60;
         int     hh=mm/60;
@@ -3099,7 +3101,6 @@ bool cVideoFile::SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Po
         StreamNumber=VideoStreamNumber;
     }
 
-    //if ((LibavStartTime>0)&&(VideoStream)) Position-=LibavStartTime;
     if (Position<0) Position=0;
 
     // Flush LibAV buffers
@@ -3296,7 +3297,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
             ResamplingContinue=false;
             LastAudioReadedPosition=0;
             SeekErrorCount=0;
-            SeekFile(NULL,AudioContext.AudioStream,Position);        // Always seek one FPS before to ensure eventual filter have time to init
+            SeekFile(NULL,AudioContext.AudioStream,Position-SoundTrackBloc->WantedDuration*1000);        // Always seek one FPS before to ensure eventual filter have time to init
             AudioContext.AudioFramePosition=Position/AV_TIME_BASE;
         }
 
@@ -3315,6 +3316,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
     }
 
     QImage   *RetImage         =NULL;
+    int64_t  RetImagePosition  =0;
     double   VideoFramePosition=dPosition;
 
     // Count number of image > position
@@ -3387,6 +3389,11 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
     if (VideoStream) {
         if (!ContinueVideo) {
             ToLog(LOGMSG_DEBUGTRACE,QString("Video image for position %1 => use image in cache").arg(Position));
+        } else if (Position<LibavStartTime) {
+            ToLog(LOGMSG_CRITICAL,QString("Image position %1 is before video stream start => return black frame").arg(Position));
+            RetImage =new QImage(LibavVideoFile->streams[VideoStreamNumber]->codec->width,LibavVideoFile->streams[VideoStreamNumber]->codec->height,QImage::Format_ARGB32_Premultiplied);
+            RetImage->fill(0);
+            RetImagePosition=Position;
         } else {
             bool ByPassFirstImage=(Deinterlace)&&(CacheImage.count()==0);
             int  MaxErrorCount   =20;
@@ -3412,7 +3419,10 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                             ContinueVideo=false;
 
                             if ((!LastImage.isNull())&&(FrameBufferYUVReady)&&(FrameBufferYUVPosition>=(dEndFile-1.5)*AV_TIME_BASE)) {
-                                if (!RetImage) RetImage=new QImage(LastImage);
+                                if (!RetImage) {
+                                    RetImage=new QImage(LastImage);
+                                    RetImagePosition=FrameBufferYUVPosition;
+                                }
                                 IsVideoFind=true;
                                 ContinueVideo=false;
                             }
@@ -3425,7 +3435,10 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                                 MaxErrorCount--;
                             } else {
                                 if ((!LastImage.isNull())&&(FrameBufferYUVReady)&&(FrameBufferYUVPosition>=(dEndFile-1.5)*AV_TIME_BASE)) {
-                                    if (!RetImage) RetImage=new QImage(LastImage);
+                                    if (!RetImage) {
+                                        RetImage=new QImage(LastImage);
+                                        RetImagePosition=FrameBufferYUVPosition;
+                                    }
                                     IsVideoFind=true;
                                     ContinueVideo=false;
                                 } else {
@@ -3499,6 +3512,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                                             int ret=av_buffersink_get_frame(VideoFilterOut,FiltFrame);
                                             if ((ret<0)||(ret==AVERROR(EAGAIN))||(ret==AVERROR_EOF)) {
                                                 ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::ReadFrame : No image return by filter process");
+                                                av_frame_unref(FiltFrame);
                                                 av_frame_free(&FiltFrame);
                                                 FiltFrame=NULL;
                                             }
@@ -3520,8 +3534,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                                             }
                                         }
                                         FrameBufferYUVReady   =true;                                            // Keep actual value for FrameBufferYUV
-                                        FrameBufferYUVPosition=int64_t((qreal(pts)*av_q2d(VideoStream->time_base))*AV_TIME_BASE)-LibavStartTime;    // Keep actual value for FrameBufferYUV
-
+                                        FrameBufferYUVPosition=int64_t((qreal(pts)*av_q2d(VideoStream->time_base))*AV_TIME_BASE);    // Keep actual value for FrameBufferYUV
                                         // Append this frame
                                         cImageInCache *ObjImage=
                                             #if defined(LIBAV) || (defined(FFMPEG)&&(FFMPEGVERSIONINT<201))
@@ -3592,10 +3605,12 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                 }
             if ((i>=0)&&(i<CacheImage.count())/*&&(CacheImage[i]->Position>=Position)&&(CacheImage[i]->Position-Position<100000)*/) {
                 RetImage=ConvertYUVToRGB(PreviewMode,CacheImage[i]->FiltFrame?CacheImage[i]->FiltFrame:CacheImage[i]->FrameBufferYUV);
+                RetImagePosition=CacheImage[i]->Position,
                 ToLog(LOGMSG_DEBUGTRACE,QString("Video image for position %1 => return image at %2").arg(Position).arg(CacheImage[i]->Position));
             } else {
                 ToLog(LOGMSG_CRITICAL,QString("No video image return for position %1 => return image at %2").arg(Position).arg(CacheImage[0]->Position));
                 RetImage=ConvertYUVToRGB(PreviewMode,CacheImage[0]->FiltFrame?CacheImage[0]->FiltFrame:CacheImage[0]->FrameBufferYUV);
+                RetImagePosition=CacheImage[0]->Position;
             }
         }
 
@@ -3603,6 +3618,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
             ToLog(LOGMSG_CRITICAL,QString("No video image return for position %1 => return black frame").arg(Position));
             RetImage =new QImage(LibavVideoFile->streams[VideoStreamNumber]->codec->width,LibavVideoFile->streams[VideoStreamNumber]->codec->height,QImage::Format_ARGB32_Premultiplied);
             RetImage->fill(0);
+            RetImagePosition=Position;
         }
         int i=0;
         while (i<CacheImage.count()) {
@@ -3610,7 +3626,8 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                 else i++;
         }
     }
-    if ((AudioContext.AudioStream)&&(SoundTrackBloc)&&(CacheImage.count()>0)) SoundTrackBloc->AdjustSoundPosition(CacheImage[0]->Position);
+    if ((AudioContext.AudioStream)&&(SoundTrackBloc)&&(CacheImage.count()>0))
+        SoundTrackBloc->AdjustSoundPosition(RetImagePosition);
 
     Mutex.unlock();
     return RetImage;

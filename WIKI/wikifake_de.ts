@@ -3858,6 +3858,10 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <source> Note: messages appear only if you launched the program from a console (CMD under Windows or Terminal under Linux). It is possible to redirect these messages into a log file by using &gt;. </source>
         <translation> Anmerkung: Nachrichten werden nur angezeigt, wenn das Programm auch aus einer Konsole (CMD unter Windows oder Terminal unter Linux) aufgerufen wurde. Es ist möglich, die Nachrichten (mittels &gt;) in eine Datei umzuleiten.</translation>
     </message>
+    <message>
+        <source>&lt;B&gt;gl&lt;/B&gt; to use Galician</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0042</name>
@@ -4460,14 +4464,6 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     <message>
         <source>The &quot;raster&quot; Graphics accelerates the display but can raise problems on some computer in particular with KDE.</source>
         <translation>Das &quot;Raster&quot;-System beschleunigt die Anzeige, kann allerdings auf manchem Computern (im besonderen unter KDE) zu Problemen führen.</translation>
-    </message>
-    <message>
-        <source>SDL Audio use old mode</source>
-        <translation>Verwenden des alten SDL Audio Modus</translation>
-    </message>
-    <message>
-        <source>&lt;B&gt;For the users Linux only: &lt;/B&gt;if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</source>
-        <translation>Nur für Linuxanwender: Wenn diese Option selektiert ist, wird der &quot;alte SDL Audio&quot;-Modus verwendet. Diese Option ist nützlich, wenn Ihre Distribution noch die alten SDL-Pakete verwendet (z.B: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</translation>
     </message>
     <message>
         <source>Memory profil</source>
@@ -5169,6 +5165,14 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     <message>
         <source>Defines the default value for the field Album</source>
         <translation>Legt den Standardwert für das Feld Album fest</translation>
+    </message>
+    <message>
+        <source>Default sound level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set the volume level to be achieved by amplification for music and audio tracks when the volume is set to auto</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

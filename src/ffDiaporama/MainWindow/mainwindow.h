@@ -23,7 +23,6 @@
 
 // Basic inclusions (common to all files)
 #include "engine/_GlobalDefines.h"
-#include "engine/_SDL_Support.h"
 #include "engine/cApplicationConfig.h"
 #include "engine/_Diaporama.h"
 
@@ -122,6 +121,7 @@ private slots:
     void    s_Event_DoubleClickedOnMusic();                 // Double click on widget in the music track
     void    s_Event_ContextualMenu(QMouseEvent *);          // Right click
     void    s_VideoPlayer_SaveImageEvent();                 // Click on preview save image button
+    void    s_VideoPlayer_VolumeChanged();
 
     // Actions small bottom right toolbar menu
     void    s_Action_Version();

@@ -177,7 +177,7 @@ void DlgInfoFile::DoInitDialog() {
             TempExtProperties.append(QString("%1##%2").arg(QApplication::translate("Variables","Project slide count")).arg(((cffDProjectFile *)MediaFile)->NbrSlide));
             TempExtProperties.append(QString("%1##%2").arg(QApplication::translate("Variables","Short date")).arg(((cffDProjectFile *)MediaFile)->EventDate.toString(ApplicationConfig->ShortDateFormat)));
         } else if (MediaFile->RessourceKey!=-1) {
-            MediaFile->GetChildFullInformationFromFile(NULL,&TempExtProperties);
+            MediaFile->GetChildFullInformationFromFile(false,NULL,&TempExtProperties);
         }
         for (int i=0;i<TempExtProperties.count();i++)
           if ((!((QString)TempExtProperties[i]).startsWith("Chapter_"))

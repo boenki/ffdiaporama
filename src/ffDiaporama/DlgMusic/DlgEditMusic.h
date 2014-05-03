@@ -26,6 +26,8 @@
 #include "engine/_Diaporama.h"
 #include "CustomCtrl/QCustomRuler.h"
 
+#include <QtMultimedia/QAudioOutput>
+
 namespace Ui {
     class DlgEditMusic;
 }
@@ -56,6 +58,12 @@ public:
     cFrameList              FrameList;              // Collection of bufered frame
     QFutureWatcher<void>    ThreadPrepareMusic;
     QFutureWatcher<void>    ThreadAnalyseMusic;
+
+    u_int8_t                *AudioBuf;
+    int                     AudioBufSize;
+    QAudioOutput            *audio_outputStream;
+    QIODevice               *audio_outputDevice;
+    cSoundBlockList         MixedMusic;             // Sound to play
 
     explicit                DlgEditMusic(cMusicObject *MusicObject,cApplicationConfig *ApplicationConfig,QWidget *parent=0);
                             ~DlgEditMusic();

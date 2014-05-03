@@ -196,7 +196,7 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         bool    HaveSound           =Object->CachedHaveSound;
         double  SoundVolume         =Object->CachedSoundVolume; if (SoundVolume==-1) SoundVolume=1;
         bool    PreviousHaveSound   =PreviousObject?PreviousObject->CachedHaveSound:false;
-        double  PreviousSoundVolume =PreviousObject?PreviousObject->CachedSoundVolume:0;
+        double  PreviousSoundVolume =PreviousObject?PreviousObject->CachedSoundVolume:0; if (PreviousSoundVolume==-1) PreviousSoundVolume=1;
 
         QString SlideDuration       =QTime(0,0,0,0).addMSecs(Object->CachedDuration).toString("hh:mm:ss.zzz");
         QString FileName            =Object->SlideName;
@@ -1011,6 +1011,10 @@ void cCustomSlideTable::AddObjectToTimeLine(int CurIndex) {
 
 //====================================================================================================================
 
+void cCustomSlideTable::DoResetDisplay() {
+    ResetDisplay(CurrentSelected());
+}
+
 void cCustomSlideTable::ResetDisplay(int Selected) {
     int ThumbWidth =Diaporama->GetWidthForHeight(ApplicationConfig->TimelineHeight/2-4)+36+5;
     int ThumbHeight=ApplicationConfig->TimelineHeight;
@@ -1049,7 +1053,7 @@ void cCustomSlideTable::ResetDisplay(int Selected) {
 
 void cCustomSlideTable::SetTimelineHeight(bool NewPartitionMode) {
     PartitionMode=NewPartitionMode;
-    int Selected=CurrentSelected();
+    //int Selected=CurrentSelected();
     if (!PartitionMode) {
         setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
         setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -1062,8 +1066,7 @@ void cCustomSlideTable::SetTimelineHeight(bool NewPartitionMode) {
         setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     }
     updateGeometry();
-    QApplication::processEvents(); // Give time to Qt to redefine position of each control and timeline height !
-    ResetDisplay(Selected);
+    QTimer::singleShot(LATENCY,this,SLOT(DoResetDisplay()));
 }
 
 //====================================================================================================================

@@ -190,10 +190,6 @@ If you want to help us or by completing an incomplete translation, or by transla
         <translation>自動裁剪 1920x1088 視訊為 1920x1080</translation>
     </message>
     <message>
-        <source>SDL Audio use old mode</source>
-        <translation>SDL 音訊使用舊的模式</translation>
-    </message>
-    <message>
         <source>256 Mb</source>
         <translation>256 Mb</translation>
     </message>
@@ -610,10 +606,6 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
         <source>This option allows you to adjust the positions occupied by new objects inserted into the timeline.
 - If Insert after the current selected object is selected, then the new slides will be created after the current slide.
 - If Append to the end of the project is selected, then the new slides will be created at the end of the project.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1551,10 +1543,6 @@ Yellow: The component works partially
     </message>
     <message>
         <source>qimageblitz version:0.6.6-Licence=LGPL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>SDL version: %1.%2.%3-Licence=GPL version 2.1 or later</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5754,10 +5742,6 @@ Image geometry in this file is not the same than the current project</source>
 這個檔案中的圖像位置與尺寸與目前的專案並不相同</translation>
     </message>
     <message>
-        <source>Starting SDL...</source>
-        <translation>啟動 SDL…</translation>
-    </message>
-    <message>
         <source>Loading background library...</source>
         <translation>載入背景圖庫…</translation>
     </message>
@@ -5978,14 +5962,6 @@ Soundtrack</source>
     </message>
     <message>
         <source>Reset music to &quot;Same as previous&quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error during startup</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error during initialisation of sound system. Check your configuration and try again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -8086,6 +8062,10 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
         <source>Auto</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Video stream start position is %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>wgt_QGMapsMap</name>
@@ -8365,6 +8345,11 @@ Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</sourc
         <source>The progress bar allows you to set the video display to a specific position.
 Remark : The length of the ruler is increased in proportion to the duration of the video.
 The blue part represents the part of the video which is selected (which will be used in the assembly).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the sound volume</source>
+        <extracomment>Tooltip in dialog box</extracomment>
         <translation type="unfinished"></translation>
     </message>
 </context>

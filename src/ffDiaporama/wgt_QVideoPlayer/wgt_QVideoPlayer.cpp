@@ -21,20 +21,26 @@
 #include "wgt_QVideoPlayer.h"
 #include "MainWindow/mainwindow.h"
 #include "ui_wgt_QVideoPlayer.h"
+#include <QAudioFormat>
 
 #define ICON_PLAYERPLAY                     ":/img/player_play.png"                 // FileName of play icon
 #define ICON_PLAYERPAUSE                    ":/img/player_pause.png"                // FileName of pause icon
 
 #define BUFFERING_NBR_FRAME                 10                                      // Number of frame wanted in the playing buffer
+#define BUFFERING_NBR_FRAME_MIN             5
+#define BUFFERING_NBR_AUDIO_FRAME           2
+#define AUDIOBUFSIZE                        100000
 
 //====================================================================================================================
 
 wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui::wgt_QVideoPlayer) {
     ui->setupUi(this);
+    AudioBuf                = (u_int8_t *)malloc(AUDIOBUFSIZE);
+    AudioBufSize            = 0;
+
     FLAGSTOPITEMSELECTION   = NULL;
     InPlayerUpdate          = false;
     Diaporama               = NULL;
-    WantedFPS               = 12.5;
     IsValide                = false;
     IsInit                  = false;
     DisplayMSec             = true;                                 // add msec to display
@@ -47,14 +53,17 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     tDuration               = QTime(0,0,0,0);
     ResetPositionWanted     = false;
     Deinterlace             = false;
-
-    Music.SetFPS(MixedMusic.WantedDuration,MixedMusic.Channels,MixedMusic.SamplingRate,MixedMusic.SampleFormat);
+    AudioPlayed             = 0;
 
     ui->CustomRuler->ActiveSlider(0);
     ui->CustomRuler->setSingleStep(25);
 
     ui->MovieFrame->setText("");
     ui->MovieFrame->setAttribute(Qt::WA_OpaquePaintEvent);
+
+    ui->VideoPlayerVolumeBT->setIcon(style()->standardIcon(QStyle::SP_MediaVolume));
+    ui->VideoPlayerVolumeBT->setPopupMode(QToolButton::InstantPopup);
+
 
     connect(&Timer,SIGNAL(timeout()),this,SLOT(s_TimerEvent()));
     connect(ui->VideoPlayerPlayPauseBT,SIGNAL(clicked()),this,SLOT(s_VideoPlayerPlayPauseBT()));
@@ -68,13 +77,43 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     connect(ui->CustomRuler,SIGNAL(PositionChangeByUser()),this,SLOT(s_PositionChangeByUser()));
     connect(ui->CustomRuler,SIGNAL(StartEndChangeByUser()),this,SLOT(s_StartEndChangeByUser()));
     connect(ui->VideoPlayerSaveImageBT,SIGNAL(pressed()),this,SLOT(s_SaveImage()));
+    connect(ui->VideoPlayerVolumeBT,SIGNAL(pressed()),this,SLOT(s_VideoPlayerVolume()));
+
+    MixedMusic.SetFPS(double(1000)/12.5,2,48000,AV_SAMPLE_FMT_S16);
+    Music.SetFPS(MixedMusic.WantedDuration,MixedMusic.Channels,MixedMusic.SamplingRate,MixedMusic.SampleFormat);
+
+    // Set up the format
+    QAudioFormat format;
+    format.setCodec("audio/pcm");
+    format.setSampleRate(MixedMusic.SamplingRate); // Usually this is specified through an UI option
+    format.setChannelCount(MixedMusic.Channels);
+    format.setSampleSize(16);
+    format.setByteOrder(QAudioFormat::LittleEndian);
+    format.setSampleType(QAudioFormat::SignedInt);
+
+    // Create audio output stream, set up signals
+    audio_outputStream=new QAudioOutput(format,this);
+    audio_outputStream->setBufferSize(MixedMusic.NbrPacketForFPS*MixedMusic.SoundPacketSize*BUFFERING_NBR_AUDIO_FRAME);
+    audio_outputDevice=audio_outputStream->start();
+    AudioPlayed=0;
+    audio_outputStream->suspend();
 }
 
 //============================================================================================
 
 wgt_QVideoPlayer::~wgt_QVideoPlayer() {
     SetPlayerToPause();         // Ensure player is correctly stoped
+    if (audio_outputStream->state()==QAudio::SuspendedState) {
+        audio_outputStream->reset();
+        audio_outputStream->stop();
+    }
+    if (audio_outputStream->state()!=QAudio::StoppedState) audio_outputStream->stop();
+    audio_outputDevice=NULL;
+    AudioBufSize=0;
+    delete audio_outputStream;
+    audio_outputStream=NULL;
     delete ui;
+    free(AudioBuf);
 }
 
 //============================================================================================
@@ -102,6 +141,42 @@ void wgt_QVideoPlayer::SetEditStartEnd(bool State) {
 
 void wgt_QVideoPlayer::s_SaveImage() {
     emit SaveImageEvent();
+}
+
+//============================================================================================
+
+void wgt_QVideoPlayer::s_VideoPlayerVolume() {
+    QWidget *popup = new QWidget(this);
+    VolumeSlider=new QSlider(Qt::Horizontal,popup);
+    VolumeSlider->setRange(0,100);
+    VolumeSlider->setValue(ApplicationConfig->PreviewSoundVolume*100);
+    connect(VolumeSlider,SIGNAL(valueChanged(int)),this,SLOT(s_VolumeChanged(int)));
+
+    VolumeLabel=new QLabel(popup);
+    VolumeLabel->setAlignment(Qt::AlignCenter);
+    VolumeLabel->setNum(ApplicationConfig->PreviewSoundVolume*100);
+    VolumeLabel->setMinimumWidth(VolumeLabel->sizeHint().width());
+    connect(VolumeSlider,SIGNAL(valueChanged(int)),VolumeLabel,SLOT(setNum(int)));
+
+    QBoxLayout *popupLayout = new QHBoxLayout(popup);
+    popupLayout->setMargin(2);
+    popupLayout->addWidget(VolumeSlider);
+    popupLayout->addWidget(VolumeLabel);
+
+    QWidgetAction *action=new QWidgetAction(this);
+    action->setDefaultWidget(popup);
+
+    QMenu *menu=new QMenu(this);
+    menu->addAction(action);
+    menu->exec(QCursor::pos());
+    delete menu;
+}
+
+void wgt_QVideoPlayer::s_VolumeChanged(int newValue) {
+    audio_outputStream->setVolume(qreal(newValue)/100);
+    VolumeLabel->setNum(newValue);
+    ApplicationConfig->PreviewSoundVolume=qreal(newValue)/100;
+    emit VolumeChanged();
 }
 
 //============================================================================================
@@ -135,6 +210,21 @@ void wgt_QVideoPlayer::EnableWidget(bool State) {
 }
 
 //============================================================================================
+
+void wgt_QVideoPlayer::SetAudioFPS() {
+    SetPlayerToPause();
+    MixedMusic.ClearList();    // Free sound buffers
+    Music.ClearList();
+    MixedMusic.SetFPS(double(1000)/ApplicationConfig->PreviewFPS,2,ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+    Music.SetFPS(MixedMusic.WantedDuration,MixedMusic.Channels,MixedMusic.SamplingRate,MixedMusic.SampleFormat);
+    audio_outputStream->stop();
+    audio_outputStream->setBufferSize(MixedMusic.NbrPacketForFPS*MixedMusic.SoundPacketSize*BUFFERING_NBR_AUDIO_FRAME);
+    audio_outputDevice=audio_outputStream->start();
+    AudioPlayed=0;
+    audio_outputStream->setVolume(ApplicationConfig->PreviewSoundVolume);
+}
+
+//============================================================================================
 // Init a diaporama show
 //============================================================================================
 
@@ -142,13 +232,13 @@ bool wgt_QVideoPlayer::InitDiaporamaPlay(cDiaporama *Diaporama) {
     if (Diaporama==NULL) return false;
     ApplicationConfig   =Diaporama->ApplicationConfig;
     this->Diaporama     =Diaporama;
-    WantedFPS           =Diaporama->ApplicationConfig->PreviewFPS;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->CustomRuler->ActiveSlider(Diaporama->GetDuration());
     PlayerPlayMode  = true;
     PlayerPauseMode = true;
     ui->VideoPlayerPlayPauseBT->setIcon(IconPause);
+    SetAudioFPS();
     QApplication::restoreOverrideCursor();
     return true;
 }
@@ -170,13 +260,24 @@ void wgt_QVideoPlayer::SetPlayerToPlay() {
     PlayerPlayMode  = true;
     PlayerPauseMode = false;
     ui->VideoPlayerPlayPauseBT->setIcon(IconPlay);
-    SDLFlushBuffers();
 
     // Start timer
+    PlayerMutex.lock();
     TimerTick           =true;
     PreviousTimerEvent  =QTime();
     TimerDelta          =0;
-    Timer.start(int(double(1000)/WantedFPS)/2);   // Start Timer
+    switch (audio_outputStream->state()) {
+        case QAudio::SuspendedState: audio_outputStream->resume();
+                                     break;
+        case QAudio::StoppedState:   audio_outputDevice=audio_outputStream->start();
+                                     AudioPlayed=0;
+                                     audio_outputStream->setVolume(ApplicationConfig->PreviewSoundVolume);
+                                     break;
+        case QAudio::ActiveState:    qDebug()<<"ActiveState";                           break;
+        case QAudio::IdleState:      qDebug()<<"IdleState";                             break;
+    }
+    Timer.start(int(double(1000)/ApplicationConfig->PreviewFPS)/2);   // Start Timer
+    PlayerMutex.unlock();
 }
 
 //============================================================================================
@@ -185,12 +286,17 @@ void wgt_QVideoPlayer::SetPlayerToPlay() {
 
 void wgt_QVideoPlayer::SetPlayerToPause() {
     if (!(PlayerPlayMode && !PlayerPauseMode)) return;
+    PlayerMutex.lock();
     Timer.stop();                                   // Stop Timer
     if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
     if (ThreadPrepareImage.isRunning()) ThreadPrepareImage.waitForFinished();
     if (ThreadAssembly.isRunning())     ThreadAssembly.waitForFinished();
-    PlayerMutex.lock();
-    if (SDL_GetAudioStatus()==SDL_AUDIO_PLAYING) SDL_PauseAudio(1);
+
+    if (audio_outputStream->state()!=QAudio::StoppedState) {
+        audio_outputStream->stop();
+        audio_outputStream->reset();
+        AudioBufSize=0;
+    }
     MixedMusic.ClearList();                         // Free sound buffers
     Music.ClearList();                              // Free sound buffers
     FrameList.ClearList();                          // Free FrameList
@@ -198,7 +304,6 @@ void wgt_QVideoPlayer::SetPlayerToPause() {
     PlayerPauseMode = true;
     ui->VideoPlayerPlayPauseBT->setIcon(IconPause);
     ui->BufferState->setValue(0);
-    SDLFlushBuffers();
     PlayerMutex.unlock();
 }
 
@@ -282,9 +387,6 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
                Diaporama->CurrentPosition=Value;
             }
 
-            // Start sound (if not previously started)
-            if ((PlayerPlayMode) && (!PlayerPauseMode) && (SDL_GetAudioStatus()!=SDL_AUDIO_PLAYING)) SDL_PauseAudio(0);
-
             // Free frame
             delete Frame;
         }
@@ -299,7 +401,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
         if (ThreadAssembly.isRunning())     ThreadAssembly.waitForFinished();
 
         // Create a frame from actual position
-        cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,ActualPosition,Diaporama,double(1000)/WantedFPS,false);
+        cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,ActualPosition,Diaporama,double(1000)/ApplicationConfig->PreviewFPS,false);
 
         int H=ui->MovieFrame->height();
         int W=Diaporama->GetWidthForHeight(H);
@@ -361,9 +463,10 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     #else
     if (!PlayerMutex.tryLock()) { if (!TimerTick) return; else {
     #endif
+        /*
         // specific case for windows because never a timer event can happens if a previous timer event was not ended
         // so next trylock is always true
-        int Elapsed=0,Wanted=int(double(1000)/WantedFPS);
+        int Elapsed=0,Wanted=int(double(1000)/ApplicationConfig->PreviewFPS);
         if (!PreviousTimerEvent.isValid()) PreviousTimerEvent.start(); else Elapsed=PreviousTimerEvent.restart();
         if (Elapsed>Wanted) {
             TimerDelta+=Elapsed-Wanted;
@@ -374,6 +477,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
                 TimerDelta-=Wanted;
             }
         }
+        */
     }
     #ifdef Q_OS_WIN
     PlayerMutex.lock();
@@ -402,29 +506,29 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     if (FrameList.List.count()==0) {
 
         LastPosition=Diaporama->CurrentPosition;
-        NextPosition=LastPosition+int(double(1000)/WantedFPS);
+        NextPosition=LastPosition+int(double(1000)/ApplicationConfig->PreviewFPS);
 
         // If no image in the list then prepare a first frame
-        cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,NextPosition,Diaporama,double(1000)/WantedFPS,true);
+        cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,NextPosition,Diaporama,double(1000)/ApplicationConfig->PreviewFPS,true);
 
         // Ensure MusicTracks are ready
         if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
-            Frame->CurrentObject_MusicTrack=new cSDLSoundBlockList();
-            Frame->CurrentObject_MusicTrack->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+            Frame->CurrentObject_MusicTrack=new cSoundBlockList();
+            Frame->CurrentObject_MusicTrack->SetFPS(double(1000)/double(ApplicationConfig->PreviewFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
         }
         if ((Frame->TransitObject)&&(Frame->TransitObject_MusicTrack==NULL)&&(Frame->TransitObject_MusicObject!=NULL)&&(Frame->TransitObject_MusicObject!=Frame->CurrentObject_MusicObject)) {
-            Frame->TransitObject_MusicTrack=new cSDLSoundBlockList();
-            Frame->TransitObject_MusicTrack->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+            Frame->TransitObject_MusicTrack=new cSoundBlockList();
+            Frame->TransitObject_MusicTrack->SetFPS(double(1000)/double(ApplicationConfig->PreviewFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
         }
 
         // Ensure SoundTracks are ready
         if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)) {
-            Frame->CurrentObject_SoundTrackMontage=new cSDLSoundBlockList();
-            Frame->CurrentObject_SoundTrackMontage->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+            Frame->CurrentObject_SoundTrackMontage=new cSoundBlockList();
+            Frame->CurrentObject_SoundTrackMontage->SetFPS(double(1000)/double(ApplicationConfig->PreviewFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
         }
         if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)) {
-            Frame->TransitObject_SoundTrackMontage=new cSDLSoundBlockList();
-            Frame->TransitObject_SoundTrackMontage->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+            Frame->TransitObject_SoundTrackMontage=new cSoundBlockList();
+            Frame->TransitObject_SoundTrackMontage->SetFPS(double(1000)/double(ApplicationConfig->PreviewFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
         }
 
         // Ensure background, image and soundtrack is ready
@@ -436,39 +540,46 @@ void wgt_QVideoPlayer::s_TimerEvent() {
         }
         if ((Frame->IsTransition)&&(Frame->TransitObject)) Diaporama->CreateObjectContextList(Frame,W,H,false,true,true,PreparedTransitBrushList,Diaporama);
         Diaporama->CreateObjectContextList(Frame,W,H,true,true,true,PreparedBrushList,Diaporama);
+
+        if (audio_outputStream->state()==QAudio::IdleState) {
+            int len=audio_outputStream->bytesFree();
+            if (len==audio_outputStream->bufferSize()) {
+                memset(AudioBuf,0,AUDIOBUFSIZE);
+                AudioBufSize=len-MixedMusic.NbrPacketForFPS*MixedMusic.SoundPacketSize;
+            }
+        }
+
         PrepareImage(true,true,Frame,W,H);
         if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
     }
 
-    cDiaporamaObjectInfo *PreviousFrame=(cDiaporamaObjectInfo *)FrameList.GetLastFrame();
-
-    if (Diaporama) LastPosition=PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
-
-    NextPosition=LastPosition+int(double(1000)/WantedFPS);
-
     // Add image to the list if it's not full
     if (((Diaporama)&&(FrameList.List.count()<BUFFERING_NBR_FRAME))&&(!ThreadPrepareImage.isRunning()))  {
 
-        cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(PreviousFrame,NextPosition,Diaporama,double(1000)/WantedFPS,true);
+        cDiaporamaObjectInfo *PreviousFrame=(cDiaporamaObjectInfo *)FrameList.GetLastFrame();
+        if (Diaporama) LastPosition=PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
+        NextPosition=LastPosition+int(double(1000)/ApplicationConfig->PreviewFPS);
+
+        cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(PreviousFrame,NextPosition,Diaporama,double(1000)/ApplicationConfig->PreviewFPS,true);
 
         // Ensure MusicTracks are ready
         if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
-            Frame->CurrentObject_MusicTrack=new cSDLSoundBlockList();
-            Frame->CurrentObject_MusicTrack->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+            Frame->CurrentObject_MusicTrack=new cSoundBlockList();
+            Frame->CurrentObject_MusicTrack->SetFPS(double(1000)/double(ApplicationConfig->PreviewFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
         }
         if ((Frame->TransitObject)&&(Frame->TransitObject_MusicTrack==NULL)&&(Frame->TransitObject_MusicObject!=NULL)&&(Frame->TransitObject_MusicObject!=Frame->CurrentObject_MusicObject)) {
-            Frame->TransitObject_MusicTrack=new cSDLSoundBlockList();
-            Frame->TransitObject_MusicTrack->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+            Frame->TransitObject_MusicTrack=new cSoundBlockList();
+            Frame->TransitObject_MusicTrack->SetFPS(double(1000)/double(ApplicationConfig->PreviewFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
         }
 
         // Ensure SoundTracks are ready
         if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)) {
-            Frame->CurrentObject_SoundTrackMontage=new cSDLSoundBlockList();
-            Frame->CurrentObject_SoundTrackMontage->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+            Frame->CurrentObject_SoundTrackMontage=new cSoundBlockList();
+            Frame->CurrentObject_SoundTrackMontage->SetFPS(double(1000)/double(ApplicationConfig->PreviewFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
         }
         if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)) {
-            Frame->TransitObject_SoundTrackMontage=new cSDLSoundBlockList();
-            Frame->TransitObject_SoundTrackMontage->SetFPS(double(1000)/double(WantedFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+            Frame->TransitObject_SoundTrackMontage=new cSoundBlockList();
+            Frame->TransitObject_SoundTrackMontage->SetFPS(double(1000)/double(ApplicationConfig->PreviewFPS),2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
         }
 
         // Ensure background, image and soundtrack is ready
@@ -485,9 +596,36 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 
     PlayerMutex.unlock();
 
-    // if TimerTick update the preview
-    if ((TimerTick)&&(ui->CustomRuler!=NULL))
-        s_SliderMoved(((cDiaporamaObjectInfo *)FrameList.GetFirstFrame())->CurrentObject_StartTime+((cDiaporamaObjectInfo *)FrameList.GetFirstFrame())->CurrentObject_InObjectTime);
+    // Audio
+    if ((audio_outputStream->state()==QAudio::ActiveState)||(audio_outputStream->state()==QAudio::IdleState)) {
+        int len=audio_outputStream->bytesFree();
+        if (len>0) {
+            Mutex.lock();
+            while ((AudioBufSize<len)&&(MixedMusic.ListCount()>0)) {
+                int16_t *Packet=MixedMusic.DetachFirstPacket(true);
+                if (Packet!=NULL) {
+                    memcpy(AudioBuf+AudioBufSize,Packet,MixedMusic.SoundPacketSize);
+                    AudioBufSize+=MixedMusic.SoundPacketSize;
+                }
+            }
+            if (len>AudioBufSize) len=AudioBufSize;
+            if (len) {
+                int RealLen=audio_outputDevice->write((char *)AudioBuf,len);
+                if (RealLen<=AudioBufSize) {
+                    memcpy(AudioBuf,AudioBuf+RealLen,AudioBufSize-RealLen);
+                    AudioBufSize-=RealLen;
+                }
+                AudioPlayed+=RealLen;
+            }
+            Mutex.unlock();
+
+            // Preview is updated is sound played correspond to 1 FPS
+            if (AudioPlayed>=MixedMusic.NbrPacketForFPS*MixedMusic.SoundPacketSize) {
+                s_SliderMoved(((cDiaporamaObjectInfo *)FrameList.GetFirstFrame())->CurrentObject_StartTime+((cDiaporamaObjectInfo *)FrameList.GetFirstFrame())->CurrentObject_InObjectTime);
+                AudioPlayed-=MixedMusic.NbrPacketForFPS*MixedMusic.SoundPacketSize;
+            }
+        }
+    }
 
     ui->BufferState->setValue(FrameList.List.count());
     if (FrameList.List.count()<2)
@@ -513,11 +651,14 @@ void wgt_QVideoPlayer::StartThreadAssembly(double PCT,cDiaporamaObjectInfo *Fram
     Diaporama->DoAssembly(PCT,Frame,W,H);
     Mutex.lock();
     // Append mixed musique to the queue
-    if ((SoundWanted)&&(Frame->CurrentObject)) for (int j=0;j<Frame->CurrentObject_MusicTrack->NbrPacketForFPS;j++) {
-        int16_t *Music=(((Frame->IsTransition)&&(Frame->TransitObject)&&(!Frame->TransitObject->MusicPause))||
-                        (!Frame->CurrentObject->MusicPause))?Frame->CurrentObject_MusicTrack->DetachFirstPacket():NULL;
-        int16_t *Sound=(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL;
-        MixedMusic.MixAppendPacket(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,Music,Sound);
+    if ((SoundWanted)&&(Frame->CurrentObject)) {
+        for (int j=0;j<Frame->CurrentObject_MusicTrack->NbrPacketForFPS;j++) {
+            int16_t *Music=(((Frame->IsTransition)&&(Frame->TransitObject)&&(!Frame->TransitObject->MusicPause))||
+                            (!Frame->CurrentObject->MusicPause))?Frame->CurrentObject_MusicTrack->DetachFirstPacket():NULL;
+            int16_t *Sound=(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL;
+            MixedMusic.MixAppendPacket((Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime)*1000,Music,Sound);
+        }
+        if (FrameList.List.isEmpty()) MixedMusic.AdjustSoundPosition((Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime)*1000);
     }
 
     // Append this image to the queue

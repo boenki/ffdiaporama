@@ -9,7 +9,6 @@ ffDiaporama use these third party libraries :
     Windows ffmpeg binaries <zeranoe...>
     libexiv2 <http://www.exiv2.org/>
     taglib <http://developer.kde.org/~wheeler/taglib.html>
-    libsdl <http://www.libsdl.org/>
 
 Logo & icons:
     Zouly <http://www.customxp.net/PngFactory/galerie-png-24105-Zouly.html>

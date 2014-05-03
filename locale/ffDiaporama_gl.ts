@@ -129,11 +129,11 @@ Se quere axudarnos a completar unha tradución incompleta, ou traducindo o progr
     </message>
     <message>
         <source>Adjust the duration of selected slides to the music end before the transition and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Axustar a duración das diapositivas seleccionadas ata a fin da música antes da transición e do cadro de diálogo de saída</translation>
     </message>
     <message>
         <source>Adjust the duration of selected slides to the music end with the transition and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Axustar a duración das diapositivas seleccionadas ata a fin da música coa transición e o cadro de diálogo de saída</translation>
     </message>
 </context>
 <context>
@@ -189,10 +189,6 @@ Se quere axudarnos a completar unha tradución incompleta, ou traducindo o progr
     <message>
         <source>Automatically crop 1920x1088 video to 1920x1080</source>
         <translation>Recorta automaticamente 1920x1088 a 1920x1080</translation>
-    </message>
-    <message>
-        <source>SDL Audio use old mode</source>
-        <translation>Usar o son SDL no modo antigo</translation>
     </message>
     <message>
         <source>256 Mb</source>
@@ -627,10 +623,6 @@ cando preme no botón de «Sistema multimedia» no menú «Xerar vídeo»</trans
 - No caso de engadilo na fin do proxecto e seren seleccionado, entón as novas diapositivas crearanse na fin do proxecto.</translation>
     </message>
     <message>
-        <source>if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</source>
-        <translation>Se está marcada esta caixa, usarase o modo de axuste antigo de son SDL. Esta opción é útil nalgunha distribución de Linux que sega a utilizar os vellos paquetes SDL (Por exemplo: Ubuntu 10.10 e 11.04, Fedora 14 e 15, etc.).</translation>
-    </message>
-    <message>
         <source>If this box is checked, the directories for images, videos, projects, music and the generation of your movie will be saved and reused the next time you use ffDiaporama.</source>
         <translation>Se está marcada esta caixa, os directorios de imaxes, vídeos, música, proxectos e a xeración do vídeo, poden gardarse e reutilizalos a próxima vez que utilice o ffDiaporama.</translation>
     </message>
@@ -1051,31 +1043,31 @@ Nota: este campo está limitado a 30 caracteres para seren compatíbel co «juke
     </message>
     <message>
         <source>Network settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Axustes da rede</translation>
     </message>
     <message>
         <source>Preview options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcións da vista previa</translation>
     </message>
     <message>
         <source>Various options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcións varias</translation>
     </message>
     <message>
         <source>Project options (default values)</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcións do proxecto (valores predeterminados)</translation>
     </message>
     <message>
         <source>Default options for speed wave</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcións predeterminadas para a curva de velocidade</translation>
     </message>
     <message>
         <source>Default sound level :</source>
-        <translation type="unfinished"></translation>
+        <translation>Nivel de son predeterminado :</translation>
     </message>
     <message>
         <source>Set the volume level to be achieved by amplification for music and audio tracks when the volume is set to auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Axuste o nivel do volume acadado pola amplificación para a música e as pistas de son cando o volume se establece en automático</translation>
     </message>
 </context>
 <context>
@@ -1182,7 +1174,7 @@ A diapositiva estándar é completamente personalizábel.</translation>
     </message>
     <message>
         <source>&amp;Convert to standard slide</source>
-        <translation>&amp;Converter á diapositiva estándar</translation>
+        <translation>&amp;Converter a diapositiva estándar</translation>
     </message>
     <message>
         <source>Please select a model first</source>
@@ -1561,15 +1553,15 @@ Por exemplo, se o proxecto é «As miñas vacacións do 1 ao 15», o capítulo p
     </message>
     <message>
         <source>The background library contains %1 pictures</source>
-        <translation>A galería de fondos conten %1 imaxes</translation>
+        <translation>A galería de fondos contén %1 imaxes</translation>
     </message>
     <message>
         <source>The non-luma library contains %1 transitions</source>
-        <translation>A galería non luma conten %1 transicións</translation>
+        <translation>A galería non luma contén %1 transicións</translation>
     </message>
     <message>
         <source>The luma library contains %1 transitions</source>
-        <translation>A galería luma conten %1 transicións</translation>
+        <translation>A galería luma contén %1 transicións</translation>
     </message>
     <message>
         <source>fmt_filters version:0.6.4-Licence=LGPL</source>
@@ -1630,10 +1622,6 @@ Amarelo: O compoñente funciona parcialmente
     <message>
         <source>qimageblitz version:0.6.6-Licence=LGPL</source>
         <translation>Versión de qimageblitz: 0.6.6-Licenza=LGPL</translation>
-    </message>
-    <message>
-        <source>SDL version: %1.%2.%3-Licence=GPL version 2.1 or later</source>
-        <translation>Versión do SDL: %1.%2.%3-Licenza=GPL versión 2.1 ou posterior</translation>
     </message>
     <message>
         <source>LIBAVUTIL version: %1.%2.%3.%4</source>
@@ -2692,7 +2680,7 @@ For every track, the following information is shown:
 - Codec:			The video codec used for compressed the images
 - Frame rate:		The number of images per second of the video
 - Bitrate:			The video compression ratio (when available)</source>
-        <translation>Esta zona conten unha táboa coa lista de cada pista de vídeo presente no ficheiro.
+        <translation>Esta zona contén unha táboa coa lista de cada pista de vídeo presente no ficheiro.
 Para cada pista amosase a seguinte información:
 - Núm.:		Número de pista
 - Tamaño da imaxe:	O tamaño das imaxes da pista de vídeo en número de puntos por número de liña
@@ -2712,7 +2700,7 @@ For every track, the following information is shown:
 - Bitrate:		The audio compression ratio (when available)
 - Frequency:	The frequency of sampling used by the audio track
 - Title:		A title (when available)</source>
-        <translation>Esta zona conten unha táboa coa lista de cada pista de son presente no ficheiro.
+        <translation>Esta zona contén unha táboa coa lista de cada pista de son presente no ficheiro.
 Para cada pista amosase a seguinte información:
 - Núm.:		Número de pista
 - Idioma:		O idioma da pista de son (as cámaras e videocámaras adoitan indicar «und» para indefinido)
@@ -2730,7 +2718,7 @@ For every chapter, the following information is shown:
 - Start:		The temporal position of the beginning of the chapter
 - End:		The temporal position of the end of the chapter
 - Duration:	The duration of the chapter</source>
-        <translation>Esta zona só aparece para os ficheiros que conteñen os capítulos. Conten unha táboa coa lista de cada capítulo presente no ficheiro.
+        <translation>Esta zona só aparece para os ficheiros que conteñen os capítulos. Contén unha táboa coa lista de cada capítulo presente no ficheiro.
 Para capítulo amosase a seguinte información:
 - Núm.:	Número do capítulo
 - Título:	O título do capítulo
@@ -2761,11 +2749,11 @@ Para un vídeo:
 Amosa a información no vídeo.
 Canda menos amosará a información sobre a duración do vídeo, mais pode fornecer unha gran cantidade de información segundo o que estea dispoñíbel no ficheiro, p.ex:
 - Hora de creación:	Data e hora de creación do vídeo
-- Título:		Campo «Título» da etiqueta ID3v2 do video
-- Artista:		Campo «Artista» da etiqueta ID3v2 do video
-- Álbum:		Campo «Álbum» da etiqueta ID3v2 do video
-- Fecha:		Campo «Data» da etiqueta ID3v2 do video
-- Comentario:	Campo «Comentario» da etiqueta ID3v2 do video
+- Título:		Campo «Título» da etiqueta ID3v2 do vídeo
+- Artista:		Campo «Artista» da etiqueta ID3v2 do vídeo
+- Álbum:		Campo «Álbum» da etiqueta ID3v2 do vídeo
+- Fecha:		Campo «Data» da etiqueta ID3v2 do vídeo
+- Comentario:	Campo «Comentario» da etiqueta ID3v2 do vídeo
 - Compositor:	O software co que foi creado o vídeo</translation>
     </message>
     <message>
@@ -3304,7 +3292,7 @@ Move o ficheiro seleccionado un paso cara abaixo.</translation>
     </message>
     <message>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Automático</translation>
     </message>
 </context>
 <context>
@@ -3702,8 +3690,8 @@ By default, this box is checked if duration of videos are less than half of the 
         <translation>Se está marcada esta caixa, a taxa de bits é variábel (entre -50% e +125%)
 
 Notas:
-- Se o proxecto conten maiormente imaxes, esta opción pode reducir significativamente o tamaño do ficheiro de vídeo (máis dun 80%)
-- Pola contra, se o proxecto conten unha maiormente vídeos esta opción aumentará o tamaño do ficheiro de vídeo
+- Se o proxecto contén maiormente imaxes, esta opción pode reducir significativamente o tamaño do ficheiro de vídeo (máis dun 80%)
+- Pola contra, se o proxecto contén unha maiormente vídeos esta opción aumentará o tamaño do ficheiro de vídeo
 
 De xeito predeterminado, esta caixa estará activada, se a duración dos vídeos e de menos da metade da duración total</translation>
     </message>
@@ -3719,15 +3707,15 @@ Quere abrir agora a pista de son?</translation>
     </message>
     <message>
         <source>invalid path or invalid filename</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruta ou ficheiro incorrecto</translation>
     </message>
     <message>
         <source>Start rendering process</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciar o proceso de xeración</translation>
     </message>
     <message>
         <source>Error starting encoding process:</source>
-        <translation type="unfinished"></translation>
+        <translation>Produciuse un erro ao iniciar o proceso de codificación:</translation>
     </message>
 </context>
 <context>
@@ -4807,7 +4795,7 @@ Forma do bloque (común a todas as tomas):</translation>
     </message>
     <message>
         <source>Add files</source>
-        <translation type="unfinished">Engadir ficheiros</translation>
+        <translation>Engadir ficheiros</translation>
     </message>
 </context>
 <context>
@@ -5676,7 +5664,7 @@ Capítulos</translation>
     </message>
     <message>
         <source>©2011-2014 The ffDiaporama Team - This wiki and all the resources it contains are under license</source>
-        <translation>©2011-2014 O equipo de ffDiaporama - Este wiki e todos os recursos que conten publicanse baixo a licenza</translation>
+        <translation>©2011-2014 O equipo de ffDiaporama - Este wiki e todos os recursos que contén publicanse baixo a licenza</translation>
     </message>
 </context>
 <context>
@@ -6048,10 +6036,6 @@ Image geometry in this file is not the same than the current project</source>
 A xeometría da imaxe deste ficheiro non é a mesma que a do proxecto actual</translation>
     </message>
     <message>
-        <source>Starting SDL...</source>
-        <translation>Iniciando SDL... </translation>
-    </message>
-    <message>
         <source>Loading background library...</source>
         <translation>Cargando a galería de fondos...</translation>
     </message>
@@ -6090,7 +6074,7 @@ Aínda así quere abrilo?</translation>
     <message>
         <source>This video files contains more than one chapter.
 Do you want to create one slide for each chapters ?</source>
-        <translation>Este vídeo conten máis dun capítulo.
+        <translation>Este vídeo contén máis dun capítulo.
 Quere crear unha diapositiva por cada capítulo ?</translation>
     </message>
     <message>
@@ -6274,14 +6258,6 @@ pista de son</translation>
     <message>
         <source>Reset music to &quot;Same as previous&quot;</source>
         <translation>Restablecer a música a «A mesma que a anterior»</translation>
-    </message>
-    <message>
-        <source>Error during startup</source>
-        <translation>Produciuse un erro ao iniciar</translation>
-    </message>
-    <message>
-        <source>Error during initialisation of sound system. Check your configuration and try again</source>
-        <translation>Produciuse un erro ao iniciar o sistema de son. Comprobe a configuración e volva tentalo</translation>
     </message>
     <message>
         <source>Total duration:</source>
@@ -7635,7 +7611,7 @@ Quere descargala agora?</translation>
     </message>
     <message>
         <source>Current chapter number as &quot;Chapter N°&quot;</source>
-        <translation>Número do capítulo actual como «Capítulo N°»</translation>
+        <translation>Número do capítulo actual como «Capítulo n°»</translation>
     </message>
     <message>
         <source>Project done the %1:
@@ -8414,6 +8390,10 @@ Exemplo: Se Y = 25%, entón eliminase a primeira cuarta parte superior da imaxe.
     </message>
     <message>
         <source>Auto</source>
+        <translation>Automático</translation>
+    </message>
+    <message>
+        <source>Video stream start position is %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8698,6 +8678,11 @@ The blue part represents the part of the video which is selected (which will be 
         <translation>A barra de progreso permite configurar a vista do vídeo nunha posición específica.
 Observación: A lonxitude da regra incrementase en proporción á duración do vídeo.
 A parte azul representa a parte do vídeo que se selecciona (a que será utilizada na montaxe).</translation>
+    </message>
+    <message>
+        <source>Change the sound volume</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

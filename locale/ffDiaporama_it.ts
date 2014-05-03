@@ -61,79 +61,79 @@ Se volete aiutarci o completando una traduzione incompleta, o traducendo l&apos;
     <name>DlgAdjustToSound</name>
     <message>
         <source>Adjust slide duration on music</source>
-        <translation type="unfinished"></translation>
+        <translation>Regola la durata della diapositiva sulla musica</translation>
     </message>
     <message>
         <source>Music file:</source>
-        <translation type="unfinished"></translation>
+        <translation>File musicale:</translation>
     </message>
     <message>
         <source>Duration:</source>
-        <translation type="unfinished">Durata:</translation>
+        <translation>Durata:</translation>
     </message>
     <message>
         <source>Title:</source>
-        <translation type="unfinished"></translation>
+        <translation>Titolo:</translation>
     </message>
     <message>
         <source>Artist:</source>
-        <translation type="unfinished"></translation>
+        <translation>Artista:</translation>
     </message>
     <message>
         <source>Number of slide in selection:</source>
-        <translation type="unfinished"></translation>
+        <translation>Numero di diapositive nella selezione:</translation>
     </message>
     <message>
         <source>Duration of selection:</source>
-        <translation type="unfinished"></translation>
+        <translation>Durata della selezione:</translation>
     </message>
     <message>
         <source>Time played before these slides:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo di riproduzione prima di queste diapositive:</translation>
     </message>
     <message>
         <source>Time remaining after these slides:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo rimanente dopo queste diapositive:</translation>
     </message>
     <message>
         <source>Time to adjust to finish before transition:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo di regolazione per finire la precedente transizione:</translation>
     </message>
     <message>
         <source>Time to adjust to finish with transition:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo di regolazione per finire con la transizione:</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Annulla le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Annulla</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>&amp;Adjust to end before transition</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Regola la fine prima della transizione</translation>
     </message>
     <message>
         <source>&amp;Adjust to end with transition</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Regola la fine con la transizione</translation>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished">Molsta aiuto riguardo a questa finestra</translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation type="unfinished">A&amp;iuto</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>Adjust the duration of selected slides to the music end before the transition and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Regola la durata delle diapositive selezionate alla  musica e prima delle finestre di transizione e di uscita</translation>
     </message>
     <message>
         <source>Adjust the duration of selected slides to the music end with the transition and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Regola la durata delle diapositive selezionate alla  musica e con le finestra transizione e uscita</translation>
     </message>
 </context>
 <context>
@@ -221,10 +221,6 @@ Se volete aiutarci o completando una traduzione incompleta, o traducendo l&apos;
     <message>
         <source>Automatically crop 1920x1088 video to 1920x1080</source>
         <translation>Ritaglio automatico video 1920x1088 a 1920x1080</translation>
-    </message>
-    <message>
-        <source>SDL Audio use old mode</source>
-        <translation>Vecchio modo di utilizzo audio SDL</translation>
     </message>
     <message>
         <source>256 Mb</source>
@@ -627,10 +623,6 @@ Inquadratura:</translation>
 -.Se si selezione accoda alla fine del progetto selezionato, le nuove diapositive saranno create alla fine del progetto.</translation>
     </message>
     <message>
-        <source>if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</source>
-        <translation>se questa casella è selezionata, verrà usata la vecchia modalità per SDL Audio. Questa opzione è utile in qualche distribuzione Linux che utilizza ancora il vecchio pacchetto SDL (Per esempio: Ubuntu 10.10 e 11.04, Fedora 14 e 15, ecc.).</translation>
-    </message>
-    <message>
         <source>If this box is checked, the directories for images, videos, projects, music and the generation of your movie will be saved and reused the next time you use ffDiaporama.</source>
         <translation>Se questa casella è selezionata, le directory per immagini, video, progetti, musica e la generazione del filmato verranno salvati e riutilizzati la prossima volta che si utilizza ffDiaporama.</translation>
     </message>
@@ -1024,59 +1016,59 @@ Nota: questo campo è limitato a 30 caratteri per essere compatibile con jukebox
     </message>
     <message>
         <source>Select a compression preset (set of advanced options to trade off compression efficiency against encoding speed)</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezionare una compressione predefinita (serie di opzioni avanzate per negoziare l&apos;efficienza di compressione contro la velocità di codifica)</translation>
     </message>
     <message>
         <source>Preset :</source>
-        <translation type="unfinished"></translation>
+        <translation>Preimpostata :</translation>
     </message>
     <message>
         <source>Select a profil (set of advanced options)</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezionare un profilo (serie di opzioni avanzate)</translation>
     </message>
     <message>
         <source>Tune :</source>
-        <translation type="unfinished"></translation>
+        <translation>Accordo :</translation>
     </message>
     <message>
         <source>Advanced codec settings:</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazioni codec avanzate:</translation>
     </message>
     <message>
         <source>Profile :</source>
-        <translation type="unfinished"></translation>
+        <translation>Profilo :</translation>
     </message>
     <message>
         <source>Select a tune preset (set of advanced options to further optimize them for your input content)</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona un accordo preinpostato (gruppo di opzioni avanzate per ottimizzare ulteriormente per il contenuti d&apos;ingresso)</translation>
     </message>
     <message>
         <source>Network settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazioni di rete</translation>
     </message>
     <message>
         <source>Preview options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opzioni ateprima</translation>
     </message>
     <message>
         <source>Various options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opzioni varie</translation>
     </message>
     <message>
         <source>Project options (default values)</source>
-        <translation type="unfinished"></translation>
+        <translation>Opzioni progetto (valori predefiniti)</translation>
     </message>
     <message>
         <source>Default options for speed wave</source>
-        <translation type="unfinished"></translation>
+        <translation>Opzioni predefiniti per la velocità onda</translation>
     </message>
     <message>
         <source>Default sound level :</source>
-        <translation type="unfinished"></translation>
+        <translation>Livello sonoro predefinito :</translation>
     </message>
     <message>
         <source>Set the volume level to be achieved by amplification for music and audio tracks when the volume is set to auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostare il livello del volume da raggiungere mediante l&apos;amplificazione per le traccie musica e audio quando il volume è impostato su auto</translation>
     </message>
 </context>
 <context>
@@ -1633,10 +1625,6 @@ Giallo: il componente funziona parzialmente
         <translation>versione qimageblitz: 0.6.6-Licenza=LGPL</translation>
     </message>
     <message>
-        <source>SDL version: %1.%2.%3-Licence=GPL version 2.1 or later</source>
-        <translation>versione SDL: %1.%2.%3-Licenza=GPL versione 2.1 o successiva</translation>
-    </message>
-    <message>
         <source>LIBAVUTIL version: %1.%2.%3.%4</source>
         <translation>versione LIBAVUTIL: %1.%2.%3.%4</translation>
     </message>
@@ -1677,78 +1665,78 @@ Giallo: il componente funziona parzialmente
     <name>DlgEditMusic</name>
     <message>
         <source>Edit music file</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica file musicale</translation>
     </message>
     <message>
         <source>Click to start play, click again to pause the music</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Clicca per avviare la riproduzione, clicca ancora per mettere in pausa la musica</translation>
     </message>
     <message>
         <source>Start :</source>
-        <translation type="unfinished">Partenza :</translation>
+        <translation>Avvio :</translation>
     </message>
     <message>
         <source>Move to start position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Sposta alla posizione iniziale</translation>
+        <translation>Sposta alla posizione iniziale</translation>
     </message>
     <message>
         <source>Use current position as start position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Usa la posizione corrente come posizione iniziale</translation>
+        <translation>Usa la posizione corrente come posizione iniziale</translation>
     </message>
     <message>
         <source>Define the start position to use</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Definire la posizione iniziale da utilizzare</translation>
+        <translation>Definire la posizione iniziale da utilizzare</translation>
     </message>
     <message>
         <source>Duration :</source>
-        <translation type="unfinished">Durata :</translation>
+        <translation>Durata :</translation>
     </message>
     <message>
         <source>End :</source>
-        <translation type="unfinished">Fine :</translation>
+        <translation>Fine :</translation>
     </message>
     <message>
         <source>Define the end position to use</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Definire la posizione finale da utilizzare</translation>
+        <translation>Definisce la posizione finale da utilizzare</translation>
     </message>
     <message>
         <source>Use current position as end position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Usa la posizione corrente come posizione finale</translation>
+        <translation>Usa la posizione corrente come posizione finale</translation>
     </message>
     <message>
         <source>Move to end position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Sposta alla posizione finale</translation>
+        <translation>Sposta alla posizione finale</translation>
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Annulla le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Annulla</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished">Molsta aiuto riguardo a questa finestra</translation>
+        <translation>Molstra aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation type="unfinished">A&amp;iuto</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
 </context>
 <context>
@@ -3285,27 +3273,27 @@ Sposta il file selezionato di un passo verso il basso</translation>
     </message>
     <message>
         <source>Cut the currently selected file from the playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Taglia il corrente file selezionato dalla lista di riproduzione</translation>
     </message>
     <message>
         <source>Removes the currently selected file from the playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuove il corrente file selezionato dalla lista di riproduzione</translation>
     </message>
     <message>
         <source>Playlist duration:</source>
-        <translation type="unfinished"></translation>
+        <translation>Durata lista di riproduzione:</translation>
     </message>
     <message>
         <source>Fade-IN</source>
-        <translation type="unfinished"></translation>
+        <translation>Dissolve-IN</translation>
     </message>
     <message>
         <source>Fade-OUT</source>
-        <translation type="unfinished"></translation>
+        <translation>Dissolve-OUT</translation>
     </message>
     <message>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto</translation>
     </message>
 </context>
 <context>
@@ -3720,15 +3708,15 @@ Vuoi aprire la traccia audio ora?</translation>
     </message>
     <message>
         <source>invalid path or invalid filename</source>
-        <translation type="unfinished"></translation>
+        <translation>Percorso invalido o nome file invalido</translation>
     </message>
     <message>
         <source>Start rendering process</source>
-        <translation type="unfinished"></translation>
+        <translation>Avvia processo di generazione</translation>
     </message>
     <message>
         <source>Error starting encoding process:</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore avvio processo di codifica:</translation>
     </message>
 </context>
 <context>
@@ -4808,7 +4796,7 @@ Bloccare forma (comune a tutti gli scatti):</translation>
     </message>
     <message>
         <source>Add files</source>
-        <translation type="unfinished">Aggiungi files</translation>
+        <translation>Aggiungi file</translation>
     </message>
 </context>
 <context>
@@ -5677,7 +5665,7 @@ Capitoli</translation>
     </message>
     <message>
         <source>©2011-2014 The ffDiaporama Team - This wiki and all the resources it contains are under license</source>
-        <translation type="unfinished">©2011-2013 Il Team ffDiaporama - Questo wiki e tutte le risorse che contiene sono sotto lincenza {2011-2014 ?}</translation>
+        <translation>©2011-2014 Il Team ffDiaporama - Questo wiki e tutte le risorse che contiene sono sotto lincenza</translation>
     </message>
 </context>
 <context>
@@ -6056,10 +6044,6 @@ la geometria dell&apos;immagine nel file non è uguale a quella del progetto cor
         <translation>Caricamento file :</translation>
     </message>
     <message>
-        <source>Starting SDL...</source>
-        <translation>Avvio di SDL...</translation>
-    </message>
-    <message>
         <source>Loading background library...</source>
         <translation>Caricamento libreria sfondi...</translation>
     </message>
@@ -6204,14 +6188,6 @@ Vuoi aprirlo comunque?</translation>
     <message>
         <source>Capture the image </source>
         <translation>Cattura l&apos;immagine</translation>
-    </message>
-    <message>
-        <source>Error during startup</source>
-        <translation>Errore durante l&apos;avvio</translation>
-    </message>
-    <message>
-        <source>Error during initialisation of sound system. Check your configuration and try again</source>
-        <translation>Errore durante l&apos;inizializzazione del suono di sistema. Controlla la tua configurazione a prova ancora</translation>
     </message>
     <message>
         <source>Starting libav...</source>
@@ -6723,63 +6699,63 @@ Vuoi scaricarla ora?</translation>
     </message>
     <message>
         <source>Analyse file %1% ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Analisi file %1% ...</translation>
     </message>
     <message>
         <source>Set music to pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Mette la musica in pausa</translation>
     </message>
     <message>
         <source>Set music to play (remove pause)</source>
-        <translation type="unfinished"></translation>
+        <translation>Mette la musica in riproduzione (toglie la pausa)</translation>
     </message>
     <message>
         <source>Add music file</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi file musicale</translation>
     </message>
     <message>
         <source>Add to the current playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi alla lista di riproduzione corrente</translation>
     </message>
     <message>
         <source>Replace the current playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Sostituisci alla lista di riproduzione corrente</translation>
     </message>
     <message>
         <source>Remove playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuovi lista di riproduzione</translation>
     </message>
     <message>
         <source>This slide already has a playlist. What to do?</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa diapositiva ha già una lista di riproduzione. Cosa fare?</translation>
     </message>
     <message>
         <source>Analyse file:</source>
-        <translation type="unfinished"></translation>
+        <translation>Analisi file:</translation>
     </message>
     <message>
         <source>Analyse file :</source>
-        <translation type="unfinished"></translation>
+        <translation>Analisi file :</translation>
     </message>
     <message>
         <source>Analyse file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Analisi file %1</translation>
     </message>
     <message>
         <source>Adjust slide duration on music</source>
-        <translation type="unfinished"></translation>
+        <translation>Regola la durata diapositiva sulla musica</translation>
     </message>
     <message>
         <source>Move music file</source>
-        <translation type="unfinished"></translation>
+        <translation>Sposta il file musicale</translation>
     </message>
     <message>
         <source>To adjust duration of multiple slides on music, selected slides must be adjacent</source>
-        <translation type="unfinished"></translation>
+        <translation>Per regolare la durata di diapositive multiple sulla musica, la selezione delle diapositive deve essere adiacente</translation>
     </message>
     <message>
         <source>To adjust duration of multiple slides on music, no slides can define a new playlist (except the first)</source>
-        <translation type="unfinished"></translation>
+        <translation>Per regolare la durata di diapositive multiple sulla musica, nessuna diapositiva può definire una nuova lista di riproduzione (eccetto la prima)</translation>
     </message>
 </context>
 <context>
@@ -8404,15 +8380,19 @@ Esempio: se Y=25 % del primo trimestre nella parte superiore dell&apos;immagine 
     <message>
         <source>Click to start play, click again to pause the movie</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Clicca per avviare la riproduzione, clicca ancora per mettere in pausa il filmato</translation>
+        <translation>Cliccare per avviare la riproduzione, clicca ancora per mettere in pausa il filmato</translation>
     </message>
     <message>
         <source>Save this image of the movie</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Salva questa immagine per il filmato</translation>
+        <translation>Salva questa immagine per il filmato</translation>
     </message>
     <message>
         <source>Auto</source>
+        <translation>Auto</translation>
+    </message>
+    <message>
+        <source>Video stream start position is %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8697,6 +8677,11 @@ The blue part represents the part of the video which is selected (which will be 
         <translation>La barra di avanzamento consente di impostare la visualizzazione del video a una posizione specifica.
 Osservazione: La lunghezza del righello aumenta in proporzione alla durata del video.
 La parte blu rappresenta la parte del video che viene selezionata (che verrà utilizzato nel montaggio).</translation>
+    </message>
+    <message>
+        <source>Change the sound volume</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

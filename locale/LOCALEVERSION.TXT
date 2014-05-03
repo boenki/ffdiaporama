@@ -1,12 +1,12 @@
-20140413
-cz = 14% (277/1929) 1652 to translate
-de = 95% (1850/1929) 79 to translate
-el = 95% (1850/1929) 79 to translate
-es = 100% (1929/1929)
-fr = 100% (1929/1929)
-gl = 99% (1914/1929) 15 to translate
-it = 95% (1850/1929) 79 to translate
-nl = 53% (1029/1929) 900 to translate
-pt = 95% (1850/1929) 79 to translate
-ru = 95% (1850/1929) 79 to translate
-zh_tw = 31% (605/1929) 1324 to translate
+20140503
+cz = 14% (276/1925) 1649 to translate
+de = 95% (1844/1925) 81 to translate
+el = 99% (1923/1925) 2 to translate
+es = 99% (1923/1925) 2 to translate
+fr = 100% (1925/1925)
+gl = 99% (1923/1925) 2 to translate
+it = 99% (1923/1925) 2 to translate
+nl = 53% (1025/1925) 900 to translate
+pt = 99% (1923/1925) 2 to translate
+ru = 95% (1844/1925) 81 to translate
+zh_tw = 31% (603/1925) 1322 to translate

@@ -25,6 +25,9 @@
 #define IconPlay    QIcon(":/img/player_pause.png")
 
 #define BUFFERING_NBR_FRAME                 10                                      // Number of frame wanted in the playing buffer
+#define BUFFERING_NBR_FRAME_MIN             5
+#define BUFFERING_NBR_AUDIO_FRAME           2
+#define AUDIOBUFSIZE                        100000
 
 DlgEditMusic::DlgEditMusic(cMusicObject *TheMusicObject,cApplicationConfig *ApplicationConfig,QWidget *parent):
     QCustomDialog(ApplicationConfig,parent), ui(new Ui::DlgEditMusic) {
@@ -43,6 +46,24 @@ DlgEditMusic::DlgEditMusic(cMusicObject *TheMusicObject,cApplicationConfig *Appl
     IsSliderProcess     =false;
     ActualPosition      =-1;
     ResetPositionWanted =false;
+
+    AudioBuf            =(u_int8_t *)malloc(AUDIOBUFSIZE);
+    AudioBufSize        =0;
+
+    MixedMusic.SetFPS(double(1000)/ApplicationConfig->PreviewFPS,2,ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
+    Music.SetFPS(MixedMusic.WantedDuration,MixedMusic.Channels,MixedMusic.SamplingRate,MixedMusic.SampleFormat);
+
+    // Set up the format
+    QAudioFormat format;
+    format.setCodec("audio/pcm");
+    format.setSampleRate(MixedMusic.SamplingRate); // Usually this is specified through an UI option
+    format.setChannelCount(MixedMusic.Channels);
+    format.setSampleSize(16);
+    format.setByteOrder(QAudioFormat::LittleEndian);
+    format.setSampleType(QAudioFormat::SignedInt);
+
+    // Create audio output stream, set up signals
+    audio_outputStream = new QAudioOutput(format,this);
 }
 
 //====================================================================================================================
@@ -53,7 +74,17 @@ DlgEditMusic::~DlgEditMusic() {
         ThreadAnalyseMusic.waitForFinished();
     }
     SetPlayerToPause();
+    if (audio_outputStream->state()==QAudio::SuspendedState) {
+        audio_outputStream->reset();
+        audio_outputStream->stop();
+    }
+    if (audio_outputStream->state()!=QAudio::StoppedState) audio_outputStream->stop();
+    audio_outputDevice=NULL;
+    AudioBufSize=0;
+    delete audio_outputStream;
+    audio_outputStream=NULL;
     delete ui;
+    free(AudioBuf);
 }
 
 //====================================================================================================================
@@ -61,7 +92,7 @@ DlgEditMusic::~DlgEditMusic() {
 void DlgEditMusic::resizeEvent(QResizeEvent *ev) {
     QCustomDialog::resizeEvent(ev);
     if (IsInit && ui->CustomRuler->IsAnalysed) {
-        ui->CustomRuler->PrepareSoundWave(0);
+        ui->CustomRuler->PrepareSoundWave();
         ui->CustomRuler->repaint();
     }
 }
@@ -109,8 +140,7 @@ void DlgEditMusic::DoInitDialog() {
     ui->StartPosEd->setCurrentSection(QDateTimeEdit::MSecSection);  ui->StartPosEd->setCurrentSectionIndex(3);  ui->StartPosEd->MsecStep=1;//MusicObject->GetFPSDuration();
     ui->EndPosEd->setCurrentSection(QDateTimeEdit::MSecSection);    ui->EndPosEd->setCurrentSectionIndex(3);    ui->EndPosEd->MsecStep  =1;//MusicObject->GetFPSDuration();
 
-    SDLFlushBuffers();
-    Music.SetFPS(MixedMusic.WantedDuration,MixedMusic.Channels,MixedMusic.SamplingRate,MixedMusic.SampleFormat);
+    Music.SetFPS(double(1000)/ApplicationConfig->PreviewFPS,2,ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
 
     ui->CustomRuler->EditStartEnd =true;
     ui->CustomRuler->setSingleStep(25);
@@ -146,6 +176,11 @@ void DlgEditMusic::DoInitDialog() {
     connect(ui->SeekRightBt,SIGNAL(clicked()),this,SLOT(s_SeekRight()));
     connect(ui->StartPosEd,SIGNAL(timeChanged(QTime)),this,SLOT(s_EditStartPos(QTime)));
     connect(ui->EndPosEd,SIGNAL(timeChanged(QTime)),this,SLOT(s_EditEndPos(QTime)));
+
+    audio_outputStream->setBufferSize(MixedMusic.NbrPacketForFPS*MixedMusic.SoundPacketSize*BUFFERING_NBR_AUDIO_FRAME);
+    audio_outputDevice=audio_outputStream->start();
+    audio_outputStream->setVolume(ApplicationConfig->PreviewSoundVolume);
+    audio_outputStream->suspend();
 }
 
 //====================================================================================================================
@@ -291,13 +326,23 @@ void DlgEditMusic::SetPlayerToPlay() {
     PlayerPlayMode  = true;
     PlayerPauseMode = false;
     ui->VideoPlayerPlayPauseBT->setIcon(IconPlay);
-    SDLFlushBuffers();
 
     // Start timer
+    PlayerMutex.lock();
     TimerTick           =true;
     PreviousTimerEvent  =QTime();
     TimerDelta          =0;
+    switch (audio_outputStream->state()) {
+        case QAudio::SuspendedState: audio_outputStream->resume();
+                                     break;
+        case QAudio::StoppedState:   audio_outputDevice=audio_outputStream->start();
+                                     audio_outputStream->setVolume(ApplicationConfig->PreviewSoundVolume);
+                                     break;
+        case QAudio::ActiveState:    qDebug()<<"ActiveState";                           break;
+        case QAudio::IdleState:      qDebug()<<"IdleState";                             break;
+    }
     Timer.start(int(double(1000)/ApplicationConfig->PreviewFPS)/2);   // Start Timer
+    PlayerMutex.unlock();
 }
 
 //============================================================================================
@@ -306,10 +351,14 @@ void DlgEditMusic::SetPlayerToPlay() {
 
 void DlgEditMusic::SetPlayerToPause() {
     if (!(PlayerPlayMode && !PlayerPauseMode)) return;
+    PlayerMutex.lock();
     Timer.stop();                                   // Stop Timer
     if (ThreadPrepareMusic.isRunning()) ThreadPrepareMusic.waitForFinished();
-    PlayerMutex.lock();
-    if (SDL_GetAudioStatus()==SDL_AUDIO_PLAYING) SDL_PauseAudio(1);
+    if (audio_outputStream->state()!=QAudio::SuspendedState) {
+        audio_outputStream->suspend();
+        audio_outputStream->reset();
+        AudioBufSize=0;
+    }
     MixedMusic.ClearList();                         // Free sound buffers
     Music.ClearList();                              // Free sound buffers
     FrameList.ClearList();                          // Free FrameList
@@ -317,7 +366,6 @@ void DlgEditMusic::SetPlayerToPause() {
     PlayerPauseMode = true;
     ui->VideoPlayerPlayPauseBT->setIcon(IconPause);
     ui->BufferState->setValue(0);
-    SDLFlushBuffers();
     PlayerMutex.unlock();
 }
 
@@ -394,12 +442,34 @@ void DlgEditMusic::s_SliderMoved(int Value) {
     ActualPosition=Value;
     ui->Position->setText(GetCurrentPos().toString("hh:mm:ss.zzz"));
 
+    // Audio
+    if ((audio_outputStream->state()==QAudio::ActiveState)||(audio_outputStream->state()==QAudio::IdleState)) {
+        int len=audio_outputStream->bytesFree();
+        if (len>0) {
+            Mutex.lock();
+            while ((AudioBufSize<len)&&(MixedMusic.ListCount()>0)) {
+                int16_t *Packet=MixedMusic.DetachFirstPacket(true);
+                if (Packet!=NULL) {
+                    memcpy(AudioBuf+AudioBufSize,Packet,MixedMusic.SoundPacketSize);
+                    AudioBufSize+=MixedMusic.SoundPacketSize;
+                }
+            }
+            if ((len)&&(len<=AudioBufSize)) {
+                int RealLen=audio_outputDevice->write((char *)AudioBuf,len);
+                if (RealLen<=AudioBufSize) {
+                    memcpy(AudioBuf,AudioBuf+RealLen,AudioBufSize-RealLen);
+                    AudioBufSize-=RealLen;
+                }
+            }
+            Mutex.unlock();
+        }
+    }
+
     if (PlayerPlayMode && !PlayerPauseMode) {
         if (ActualPosition>=QTime(0,0,0,0).msecsTo(MusicObject->GetRealDuration())) {
             SetPlayerToPause(); // Stop if it's the end
         } else if (FrameList.List.count()>1) {                        // Process
             cDiaporamaObjectInfo *Frame=(cDiaporamaObjectInfo *)FrameList.DetachFirstFrame();   // Retrieve frame information
-            if ((PlayerPlayMode) && (!PlayerPauseMode) && (SDL_GetAudioStatus()!=SDL_AUDIO_PLAYING)) SDL_PauseAudio(0);    // start if no yet started
             delete Frame;
         }
     }
@@ -429,6 +499,7 @@ void DlgEditMusic::s_TimerEvent() {
     #else
     if (!PlayerMutex.tryLock()) { if (!TimerTick) return; else {
     #endif
+        /*
         // specific case for windows because never a timer event can happens if a previous timer event was not ended
         // so next trylock is always true
         int Elapsed=0,Wanted=int(double(1000)/ApplicationConfig->PreviewFPS);
@@ -446,6 +517,7 @@ void DlgEditMusic::s_TimerEvent() {
                 TimerDelta-=Wanted;
             }
         }
+        */
     }
     #ifdef Q_OS_WIN
     PlayerMutex.lock();
@@ -471,6 +543,14 @@ void DlgEditMusic::s_TimerEvent() {
         cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(NULL,ActualPosition,NULL,double(1000)/ApplicationConfig->PreviewFPS,true);
         NewFrame->CurrentObject_StartTime   =0;
         PrepareSoundFrame(NewFrame,NewFrame->CurrentObject_InObjectTime);
+
+        if (audio_outputStream->state()==QAudio::IdleState) {
+            int len=audio_outputStream->bytesFree();
+            if (len==audio_outputStream->bufferSize()) {
+                memset(AudioBuf,0,AUDIOBUFSIZE);
+                AudioBufSize=len-MixedMusic.NbrPacketForFPS*MixedMusic.SoundPacketSize;
+            }
+        }
     }
 
     cDiaporamaObjectInfo *PreviousFrame=(cDiaporamaObjectInfo *)FrameList.GetLastFrame();
@@ -484,7 +564,8 @@ void DlgEditMusic::s_TimerEvent() {
         ThreadPrepareMusic.setFuture(QtConcurrent::run(this,&DlgEditMusic::PrepareSoundFrame,NewFrame,NewFrame->CurrentObject_InObjectTime));
     }
     PlayerMutex.unlock();
-    if (TimerTick) s_SliderMoved(((cDiaporamaObjectInfo *)FrameList.GetFirstFrame())->CurrentObject_StartTime+((cDiaporamaObjectInfo *)FrameList.GetFirstFrame())->CurrentObject_InObjectTime);
+
+    if ((TimerTick)&&(FrameList.List.count()>BUFFERING_NBR_FRAME_MIN)) s_SliderMoved(((cDiaporamaObjectInfo *)FrameList.GetFirstFrame())->CurrentObject_StartTime+((cDiaporamaObjectInfo *)FrameList.GetFirstFrame())->CurrentObject_InObjectTime);
 
     ui->BufferState->setValue(FrameList.List.count());
     if (FrameList.List.count()<2)

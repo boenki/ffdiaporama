@@ -119,6 +119,7 @@ void cSoundBlockList::ClearList() {
     }
     CurrentTempSize=0;
     CurrentPosition=-1;
+    Adjusted       =false;
 }
 
 //====================================================================================================================
@@ -150,6 +151,10 @@ int16_t *cSoundBlockList::DetachFirstPacket(bool NoLock) {
 // Synchronize sound to a wanted position
 //====================================================================================================================
 void cSoundBlockList::AdjustSoundPosition(int64_t WantedPosition) {
+    if (Adjusted) return;
+    Mutex.lock();
+    Adjusted=true;
+
     if (List.count()==0) {
 
         for (int i=0;i<NbrPacketForFPS;i++) AppendPacket(WantedPosition,NULL,true);
@@ -165,11 +170,12 @@ void cSoundBlockList::AdjustSoundPosition(int64_t WantedPosition) {
     } else if (CurrentPosition<WantedPosition-50000) {
 
         while (CurrentPosition<WantedPosition-50000) {
-            int16_t *Packet=DetachFirstPacket();
-            if (Packet) av_free(Packet);
+            int16_t *Packet=DetachFirstPacket(true);
+            if (Packet) av_free(Packet); else break;
         }
 
     }
+    Mutex.unlock();
 }
 
 //====================================================================================================================

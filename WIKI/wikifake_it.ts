@@ -1122,7 +1122,7 @@
     </message>
     <message>
         <source>Cut a sound file</source>
-        <translation type="unfinished"></translation>
+        <translation>Taglia un file sonoro</translation>
     </message>
 </context>
 <context>
@@ -3855,6 +3855,10 @@
         <source> Note: messages appear only if you launched the program from a console (CMD under Windows or Terminal under Linux). It is possible to redirect these messages into a log file by using &gt;. </source>
         <translation>Nota: I messaggi vengono visualizzati solo se è stato avviato il programma da una console (CMD sotto Windows o sotto Linux Terminale). E &apos;possibile reindirizzare questi messaggi in un file di registro utilizzando&gt;. </translation>
     </message>
+    <message>
+        <source>&lt;B&gt;gl&lt;/B&gt; to use Galician</source>
+        <translation>&lt;B&gt;gl&lt;/B&gt; per usare Galiziano</translation>
+    </message>
 </context>
 <context>
     <name>0042</name>
@@ -4457,14 +4461,6 @@
     <message>
         <source>The &quot;raster&quot; Graphics accelerates the display but can raise problems on some computer in particular with KDE.</source>
         <translation>La Grafica &quot;raster&quot; accelera lo schermo ma può sollevare problemi su qualche computer in particolare con KDE.</translation>
-    </message>
-    <message>
-        <source>SDL Audio use old mode</source>
-        <translation>Audio SDL utilizza la vecchia modalità</translation>
-    </message>
-    <message>
-        <source>&lt;B&gt;For the users Linux only: &lt;/B&gt;if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</source>
-        <translation>&lt;B&gt;Solo per utenti Linux: &lt;/B&gt; se questa casella è selezionata, la veccha modalità di settaggi viene utilizzata con Audio SDL. Questa opzione è utile in qualche distribuzione Linux che utilizzano ancora i vecchi pacchetti SDL (ad esempio: Ubuntu 10.10 e 11.04, Fedora 14 e 15, ecc.).</translation>
     </message>
     <message>
         <source>Memory profil</source>
@@ -5165,6 +5161,14 @@
     <message>
         <source>Defines the default value for the field Album</source>
         <translation>Definisce il valore predefinito per il campo Album</translation>
+    </message>
+    <message>
+        <source>Default sound level</source>
+        <translation>Livello sonoro predefinito</translation>
+    </message>
+    <message>
+        <source>Set the volume level to be achieved by amplification for music and audio tracks when the volume is set to auto</source>
+        <translation>Imposta il livello del volume da raggiungere tramite l&apos;amplificazione per la musica e le tracce audio quando il volume è impostato su auto</translation>
     </message>
 </context>
 <context>
@@ -6815,39 +6819,39 @@
     </message>
     <message>
         <source>You can move with the mouse the </source>
-        <translation type="unfinished"></translation>
+        <translation>Puoi muovere con il mouse la </translation>
     </message>
     <message>
         <source> handle, on the progress bar, to move the current position</source>
-        <translation type="unfinished"></translation>
+        <translation> maniglia, sulla barra di avanzamento, per la posizione corrente</translation>
     </message>
     <message>
         <source>You can move with the mouse the two </source>
-        <translation type="unfinished"></translation>
+        <translation>Puoi muovere con il mouse i due </translation>
     </message>
     <message>
         <source> and </source>
-        <translation type="unfinished"> e </translation>
+        <translation> e </translation>
     </message>
     <message>
         <source> handles, on the progress bar, to move the Start and End positions</source>
-        <translation type="unfinished"></translation>
+        <translation> maniglia, sulla barra del progresso, per muovere le posizioni Iniziale e Finale</translation>
     </message>
     <message>
         <source>Displays as follows: </source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza come segue: </translation>
     </message>
     <message>
         <source>The ruler representing the duration of the video is dispayed under a black background. Remark than the length of the ruler is increased in proportion to the duration of the video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il righello rappresenta la durata del video ed è visualizzato sotto uno sfondo nero. Osservare che la lunghezza del righello aumenta in proporzione alla durata del video.</translation>
     </message>
     <message>
         <source>The blue part, on wave form and ruler, represents the part of the video which is selected (which will be used in the assembly).</source>
-        <translation type="unfinished"></translation>
+        <translation>La parte blu, sulla forma onda e righello, rappresenta la parte del video che è selezionato (il quale sarà utilizzato nell&apos;assemblaggio).</translation>
     </message>
     <message>
         <source>The wave form of the sound of the video is displayed under a white background.</source>
-        <translation type="unfinished"></translation>
+        <translation>La forma onda del sonoro del video è visualizzata sotto ad uno sfondo bianco.</translation>
     </message>
 </context>
 <context>
@@ -7439,15 +7443,15 @@
     </message>
     <message>
         <source>Cut the currently selected file from the playlist. The &lt;a href=&quot;0124.html&quot;&gt;Cut a sound file&lt;/a&gt; dialog appears.</source>
-        <translation type="unfinished"></translation>
+        <translation>Taglia il file correntemente selezionato dalla lista di riproduzione. La finestra &lt;a href=&quot;0124.html&quot;&gt;Taglia un file sonoro&lt;/a&gt; apparirà.</translation>
     </message>
     <message>
         <source>Removes the currently selected file from the playlist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuove i file correntemente selezionato dalla lista di riproduzione.</translation>
     </message>
     <message>
         <source>You can double click a music file from the playlist to edit it, the &lt;a href=&quot;0124.html&quot;&gt;Cut a sound file&lt;/a&gt; dialog appears.</source>
-        <translation type="unfinished"></translation>
+        <translation>Puoi fare doppio clic su un file musicale della lista di riproduzione per modificarlo, La finestra &lt;a href=&quot;0124.html&quot;&gt;Taglia un file sonoro&lt;/a&gt; apparirà.</translation>
     </message>
 </context>
 <context>
@@ -9654,75 +9658,75 @@
     <name>0124</name>
     <message>
         <source>Cut a sound file</source>
-        <translation type="unfinished"></translation>
+        <translation>Taglia un file sonoro</translation>
     </message>
     <message>
         <source>This dialog allows you to cut a sound file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa finestra ti permette di tagliare un file sonoro.</translation>
     </message>
     <message>
         <source>The progress bar</source>
-        <translation type="unfinished">La barra di avanzamento</translation>
+        <translation>La barra di avanzamento</translation>
     </message>
     <message>
         <source>Displays as follows: </source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza come segue: </translation>
     </message>
     <message>
         <source>The ruler representing the duration of the sound file is dispayed under a black background. Remark than the length of the ruler is increased in proportion to the duration of the sound file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il righello rappresenta la durata del file sonoro ed è visualizzato sotto uno sfondo nero. Osserva che la lunghezza del righello aumenta in proporzione alla durata del file sonoro.</translation>
     </message>
     <message>
         <source>The blue part, on wave form and ruler, represents the part of the sound file which is selected (which will be used in the assembly).</source>
-        <translation type="unfinished"></translation>
+        <translation>La parte blu, sulla forma onda e righello, rappresenta la parte del file sonoro che è selezionato (il quale sarà utilizzato nell&apos;assemblaggio).</translation>
     </message>
     <message>
         <source> This button starts playback. Click again on this button to pause. </source>
-        <translation type="unfinished"> Questo pulsante avvia la riproduzione. Fare di nuovo clic su questo pulsante per mettere in pausa. </translation>
+        <translation> Questo pulsante avvia la riproduzione. Fare di nuovo clic su questo pulsante per mettere in pausa. </translation>
     </message>
     <message>
         <source>You can move with the mouse the </source>
-        <translation type="unfinished"></translation>
+        <translation>Puoi muovere con il mouse la </translation>
     </message>
     <message>
         <source> handle, on the progress bar, to move the current position</source>
-        <translation type="unfinished"></translation>
+        <translation> maniglia, sulla barra di avanzamento, per la posizione corrente</translation>
     </message>
     <message>
         <source>You can move with the mouse the two </source>
-        <translation type="unfinished"></translation>
+        <translation>Puoi muovere con il mouse i due </translation>
     </message>
     <message>
         <source> and </source>
-        <translation type="unfinished"> e </translation>
+        <translation> e </translation>
     </message>
     <message>
         <source> handles, on the progress bar, to move the Start and End positions</source>
-        <translation type="unfinished"></translation>
+        <translation> maniglia, sulla barra di avanzamento, per muovere le posizioni Iniziale e Finale</translation>
     </message>
     <message>
         <source>The working range</source>
-        <translation type="unfinished">L&apos;intervallo di lavoro</translation>
+        <translation>L&apos;intervallo di lavoro</translation>
     </message>
     <message>
         <source> Positions the cursor at the starting point</source>
-        <translation type="unfinished"> Posiziona il cursore al punto iniziale</translation>
+        <translation> Posiziona il cursore al punto iniziale</translation>
     </message>
     <message>
         <source> Uses the current cursor position as starting point (carries out an edit)</source>
-        <translation type="unfinished"> Utilizza la posizione del cursore come punto di partenza (effettua una modifica)</translation>
+        <translation> Utilizza la posizione del cursore come punto di partenza (effettua una modifica)</translation>
     </message>
     <message>
         <source> Positions the cursor at the end point</source>
-        <translation type="unfinished"> Posiziona il cursore nel punto finale</translation>
+        <translation> Posiziona il cursore al punto finale</translation>
     </message>
     <message>
         <source> Uses the current cursor position as end point (carries out an edit)</source>
-        <translation type="unfinished"> Utilizza la posizione del cursore attuale come punto di arrivo (effettua una modifica)</translation>
+        <translation> Utilizza la posizione del cursore corrente come punto di arrivo (effettua una modifica)</translation>
     </message>
     <message>
         <source>The wave form of the sound is displayed under a white background.</source>
-        <translation type="unfinished"></translation>
+        <translation>La forma onda del sonoro è visualizzata sotto ad uno sfondo bianco.</translation>
     </message>
 </context>
 <context>
@@ -9957,7 +9961,7 @@
     </message>
     <message>
         <source>Cut a sound file</source>
-        <translation type="unfinished"></translation>
+        <translation>Taglia un file sonoro</translation>
     </message>
 </context>
 <context>

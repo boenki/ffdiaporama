@@ -26,6 +26,9 @@
 #define ICON_PLAYERPAUSE                    ":/img/player_pause.png"                // FileName of pause icon
 
 #define BUFFERING_NBR_FRAME                 10                                      // Number of frame wanted in the playing buffer
+#define BUFFERING_NBR_FRAME_MIN             5
+#define BUFFERING_NBR_AUDIO_FRAME           2
+#define AUDIOBUFSIZE                        100000
 
 //====================================================================================================================
 
@@ -39,7 +42,17 @@ wgt_QEditVideo::wgt_QEditVideo(QWidget *parent):QWidget(parent),ui(new Ui::wgt_Q
 
 wgt_QEditVideo::~wgt_QEditVideo() {
     SetPlayerToPause();         // Ensure player is correctly stoped
+    if (audio_outputStream->state()==QAudio::SuspendedState) {
+        audio_outputStream->reset();
+        audio_outputStream->stop();
+    }
+    if (audio_outputStream->state()!=QAudio::StoppedState) audio_outputStream->stop();
+    audio_outputDevice=NULL;
+    AudioBufSize=0;
+    delete audio_outputStream;
+    audio_outputStream=NULL;
     delete ui;
+    free(AudioBuf);
 }
 
 //====================================================================================================================
@@ -69,8 +82,23 @@ void wgt_QEditVideo::DoInitWidget(QCustomDialog *ParentDialog,cBrushDefinition *
     ResetPositionWanted     = false;
     Deinterlace             = false;
 
-    SDLFlushBuffers();
+    AudioBuf                = (u_int8_t *)malloc(AUDIOBUFSIZE);
+    AudioBufSize            = 0;
+
+    MixedMusic.SetFPS(double(1000)/ApplicationConfig->PreviewFPS,2,ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
     Music.SetFPS(MixedMusic.WantedDuration,MixedMusic.Channels,MixedMusic.SamplingRate,MixedMusic.SampleFormat);
+
+    // Set up the format
+    QAudioFormat format;
+    format.setCodec("audio/pcm");
+    format.setSampleRate(MixedMusic.SamplingRate); // Usually this is specified through an UI option
+    format.setChannelCount(MixedMusic.Channels);
+    format.setSampleSize(16);
+    format.setByteOrder(QAudioFormat::LittleEndian);
+    format.setSampleType(QAudioFormat::SignedInt);
+
+    // Create audio output stream, set up signals
+    audio_outputStream = new QAudioOutput(format,this);
 
     ui->VideoPlayerPlayPauseBT->setIcon(IconPause);
 
@@ -130,6 +158,15 @@ void wgt_QEditVideo::DoInitDialog() {
 
     SetCurrentPos(FileInfo->StartPos);
     RefreshControls();
+
+    if (FileInfo->LibavStartTime>0) ui->VideoStartLabel->setText(QApplication::translate("wgt_QEditVideo","Video stream start position is %1").arg(QTime(0,0,0,0).addMSecs(FileInfo->LibavStartTime/1000).toString("hh:mm:ss.zzz")));
+        else ui->VideoStartLabel->setText("");
+
+    audio_outputStream->setBufferSize(MixedMusic.NbrPacketForFPS*MixedMusic.SoundPacketSize*BUFFERING_NBR_AUDIO_FRAME);
+    audio_outputDevice=audio_outputStream->start();
+    AudioPlayed=0;
+    audio_outputStream->setVolume(ApplicationConfig->PreviewSoundVolume);
+    audio_outputStream->suspend();
 }
 
 //====================================================================================================================
@@ -164,7 +201,7 @@ void wgt_QEditVideo::closeEvent(QCloseEvent *) {
 void wgt_QEditVideo::resizeEvent(QResizeEvent *ev) {
     QWidget::resizeEvent(ev);
     if (IsInit && ui->CustomRuler->IsAnalysed) {
-        ui->CustomRuler->PrepareSoundWave(FileInfo->LibavStartTime);
+        ui->CustomRuler->PrepareSoundWave();
         ui->CustomRuler->repaint();
     }
 }
@@ -372,13 +409,24 @@ void wgt_QEditVideo::SetPlayerToPlay(bool force) {
     PlayerPlayMode  = true;
     PlayerPauseMode = false;
     ui->VideoPlayerPlayPauseBT->setIcon(IconPlay);
-    SDLFlushBuffers();
 
     // Start timer
+    PlayerMutex.lock();
     TimerTick           =true;
     PreviousTimerEvent  =QTime();
     TimerDelta          =0;
+    switch (audio_outputStream->state()) {
+        case QAudio::SuspendedState: audio_outputStream->resume();
+                                     break;
+        case QAudio::StoppedState:   audio_outputDevice=audio_outputStream->start();
+                                     AudioPlayed=0;
+                                     audio_outputStream->setVolume(ApplicationConfig->PreviewSoundVolume);
+                                     break;
+        case QAudio::ActiveState:    qDebug()<<"ActiveState";                           break;
+        case QAudio::IdleState:      qDebug()<<"IdleState";                             break;
+    }
     Timer.start(int(double(1000)/WantedFPS)/2);   // Start Timer
+    PlayerMutex.unlock();
 }
 
 //============================================================================================
@@ -387,10 +435,14 @@ void wgt_QEditVideo::SetPlayerToPlay(bool force) {
 
 void wgt_QEditVideo::SetPlayerToPause() {
     if (!(PlayerPlayMode && !PlayerPauseMode)) return;
+    PlayerMutex.lock();
     Timer.stop();                                   // Stop Timer
     if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
-    PlayerMutex.lock();
-    if (SDL_GetAudioStatus()==SDL_AUDIO_PLAYING) SDL_PauseAudio(1);
+    if (audio_outputStream->state()!=QAudio::StoppedState) {
+        audio_outputStream->stop();
+        audio_outputStream->reset();
+        AudioBufSize=0;
+    }
     MixedMusic.ClearList();                         // Free sound buffers
     Music.ClearList();                              // Free sound buffers
     FrameList.ClearList();                          // Free FrameList
@@ -398,7 +450,6 @@ void wgt_QEditVideo::SetPlayerToPause() {
     PlayerPauseMode = true;
     ui->VideoPlayerPlayPauseBT->setIcon(IconPause);
     ui->BufferState->setValue(0);
-    SDLFlushBuffers();
     PlayerMutex.unlock();
 }
 
@@ -464,9 +515,6 @@ void wgt_QEditVideo::s_SliderMoved(int Value) {
             // Display frame
             if (!Frame->RenderedImage.isNull()) ui->MovieFrame->SetImage(Frame->RenderedImage.scaledToHeight(ui->MovieFrame->height()));
 
-            // Start sound (if not previously started)
-            if ((PlayerPlayMode) && (!PlayerPauseMode) && (SDL_GetAudioStatus()!=SDL_AUDIO_PLAYING)) SDL_PauseAudio(0);
-
             // Free frame
             delete Frame;
         }
@@ -507,6 +555,7 @@ void wgt_QEditVideo::s_TimerEvent() {
     #else
     if (!PlayerMutex.tryLock()) { if (!TimerTick) return; else {
     #endif
+        /*
         // specific case for windows because never a timer event can happens if a previous timer event was not ended
         // so next trylock is always true
         int Elapsed=0,Wanted=int(double(1000)/WantedFPS);
@@ -524,6 +573,7 @@ void wgt_QEditVideo::s_TimerEvent() {
                 TimerDelta-=Wanted;
             }
         }
+        */
     }
     #ifdef Q_OS_WIN
     PlayerMutex.lock();
@@ -548,6 +598,14 @@ void wgt_QEditVideo::s_TimerEvent() {
         cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(NULL,ActualPosition,NULL,double(1000)/WantedFPS,true);
         NewFrame->CurrentObject_StartTime   =0;
         PrepareVideoFrame(NewFrame,NewFrame->CurrentObject_InObjectTime);
+
+        if (audio_outputStream->state()==QAudio::IdleState) {
+            int len=audio_outputStream->bytesFree();
+            if (len==audio_outputStream->bufferSize()) {
+                memset(AudioBuf,0,AUDIOBUFSIZE);
+                AudioBufSize=len-MixedMusic.NbrPacketForFPS*MixedMusic.SoundPacketSize;
+            }
+        }
     }
 
     cDiaporamaObjectInfo *PreviousFrame=(cDiaporamaObjectInfo *)FrameList.GetLastFrame();
@@ -563,8 +621,42 @@ void wgt_QEditVideo::s_TimerEvent() {
 
     PlayerMutex.unlock();
 
-    // if TimerTick update the preview
-    if (TimerTick) s_SliderMoved(((cDiaporamaObjectInfo *)FrameList.GetFirstFrame())->CurrentObject_StartTime+((cDiaporamaObjectInfo *)FrameList.GetFirstFrame())->CurrentObject_InObjectTime);
+    // Audio
+    if ((audio_outputStream->state()==QAudio::ActiveState)||(audio_outputStream->state()==QAudio::IdleState)) {
+        int len=audio_outputStream->bytesFree();
+        if (len>0) {
+            Mutex.lock();
+            while ((AudioBufSize<len)&&(MixedMusic.ListCount()>0)) {
+                int16_t *Packet=MixedMusic.DetachFirstPacket(true);
+                if (Packet!=NULL) {
+                    memcpy(AudioBuf+AudioBufSize,Packet,MixedMusic.SoundPacketSize);
+                    AudioBufSize+=MixedMusic.SoundPacketSize;
+                }
+            }
+            if ((len)&&(AudioBufSize==0)&&(AudioPlayed==0)) {
+                // Remove 1 frame
+                delete (cDiaporamaObjectInfo *)FrameList.DetachFirstFrame();
+                Mutex.unlock();
+            } else {
+                if (len>AudioBufSize) len=AudioBufSize;
+                if (len) {
+                    int RealLen=audio_outputDevice->write((char *)AudioBuf,len);
+                    if (RealLen<=AudioBufSize) {
+                        memcpy(AudioBuf,AudioBuf+RealLen,AudioBufSize-RealLen);
+                        AudioBufSize-=RealLen;
+                    }
+                    AudioPlayed+=RealLen;
+                }
+                Mutex.unlock();
+
+                // Preview is updated is sound played correspond to 1 FPS
+                if (AudioPlayed>=MixedMusic.NbrPacketForFPS*MixedMusic.SoundPacketSize) {
+                    s_SliderMoved(((cDiaporamaObjectInfo *)FrameList.GetFirstFrame())->CurrentObject_StartTime+((cDiaporamaObjectInfo *)FrameList.GetFirstFrame())->CurrentObject_InObjectTime);
+                    AudioPlayed-=MixedMusic.NbrPacketForFPS*MixedMusic.SoundPacketSize;
+                }
+            }
+        }
+    }
 
     ui->BufferState->setValue(FrameList.List.count());
     if (FrameList.List.count()<2)
@@ -584,8 +676,8 @@ void wgt_QEditVideo::PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Positi
     if (Temp) {
         NewFrame->RenderedImage=QImage(Temp->scaledToHeight(ui->MovieFrame->height()));
         delete Temp;
-        for (int j=0;j<Music.NbrPacketForFPS;j++) MixedMusic.AppendPacket(Music.CurrentPosition,Music.DetachFirstPacket());
     }
+    for (int j=0;j<Music.NbrPacketForFPS;j++) MixedMusic.AppendPacket(Music.CurrentPosition,Music.DetachFirstPacket());
     if (!NewFrame->RenderedImage.isNull()) FrameList.AppendFrame(NewFrame);
         else delete NewFrame;
 }
