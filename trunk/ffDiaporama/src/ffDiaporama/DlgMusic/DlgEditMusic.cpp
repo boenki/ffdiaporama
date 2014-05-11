@@ -179,7 +179,9 @@ void DlgEditMusic::DoInitDialog() {
 
     audio_outputStream->setBufferSize(MixedMusic.NbrPacketForFPS*MixedMusic.SoundPacketSize*BUFFERING_NBR_AUDIO_FRAME);
     audio_outputDevice=audio_outputStream->start();
+    #if QT_VERSION >= 0x050000
     audio_outputStream->setVolume(ApplicationConfig->PreviewSoundVolume);
+    #endif
     audio_outputStream->suspend();
 }
 
@@ -336,7 +338,9 @@ void DlgEditMusic::SetPlayerToPlay() {
         case QAudio::SuspendedState: audio_outputStream->resume();
                                      break;
         case QAudio::StoppedState:   audio_outputDevice=audio_outputStream->start();
+                                     #if QT_VERSION >= 0x050000
                                      audio_outputStream->setVolume(ApplicationConfig->PreviewSoundVolume);
+                                     #endif
                                      break;
         case QAudio::ActiveState:    qDebug()<<"ActiveState";                           break;
         case QAudio::IdleState:      qDebug()<<"IdleState";                             break;

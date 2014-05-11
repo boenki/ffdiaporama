@@ -61,9 +61,13 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     ui->MovieFrame->setText("");
     ui->MovieFrame->setAttribute(Qt::WA_OpaquePaintEvent);
 
+    #if QT_VERSION >= 0x050000
     ui->VideoPlayerVolumeBT->setIcon(style()->standardIcon(QStyle::SP_MediaVolume));
     ui->VideoPlayerVolumeBT->setPopupMode(QToolButton::InstantPopup);
-
+    connect(ui->VideoPlayerVolumeBT,SIGNAL(pressed()),this,SLOT(s_VideoPlayerVolume()));
+    #else
+    ui->VideoPlayerVolumeBT->setVisible(false);
+    #endif
 
     connect(&Timer,SIGNAL(timeout()),this,SLOT(s_TimerEvent()));
     connect(ui->VideoPlayerPlayPauseBT,SIGNAL(clicked()),this,SLOT(s_VideoPlayerPlayPauseBT()));
@@ -77,7 +81,6 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     connect(ui->CustomRuler,SIGNAL(PositionChangeByUser()),this,SLOT(s_PositionChangeByUser()));
     connect(ui->CustomRuler,SIGNAL(StartEndChangeByUser()),this,SLOT(s_StartEndChangeByUser()));
     connect(ui->VideoPlayerSaveImageBT,SIGNAL(pressed()),this,SLOT(s_SaveImage()));
-    connect(ui->VideoPlayerVolumeBT,SIGNAL(pressed()),this,SLOT(s_VideoPlayerVolume()));
 
     MixedMusic.SetFPS(double(1000)/12.5,2,48000,AV_SAMPLE_FMT_S16);
     Music.SetFPS(MixedMusic.WantedDuration,MixedMusic.Channels,MixedMusic.SamplingRate,MixedMusic.SampleFormat);
@@ -173,10 +176,12 @@ void wgt_QVideoPlayer::s_VideoPlayerVolume() {
 }
 
 void wgt_QVideoPlayer::s_VolumeChanged(int newValue) {
+    #if QT_VERSION >= 0x050000
     audio_outputStream->setVolume(qreal(newValue)/100);
     VolumeLabel->setNum(newValue);
     ApplicationConfig->PreviewSoundVolume=qreal(newValue)/100;
     emit VolumeChanged();
+    #endif
 }
 
 //============================================================================================
@@ -221,7 +226,9 @@ void wgt_QVideoPlayer::SetAudioFPS() {
     audio_outputStream->setBufferSize(MixedMusic.NbrPacketForFPS*MixedMusic.SoundPacketSize*BUFFERING_NBR_AUDIO_FRAME);
     audio_outputDevice=audio_outputStream->start();
     AudioPlayed=0;
+    #if QT_VERSION >= 0x050000
     audio_outputStream->setVolume(ApplicationConfig->PreviewSoundVolume);
+    #endif
 }
 
 //============================================================================================
@@ -271,7 +278,9 @@ void wgt_QVideoPlayer::SetPlayerToPlay() {
                                      break;
         case QAudio::StoppedState:   audio_outputDevice=audio_outputStream->start();
                                      AudioPlayed=0;
+                                     #if QT_VERSION >= 0x050000
                                      audio_outputStream->setVolume(ApplicationConfig->PreviewSoundVolume);
+                                     #endif
                                      break;
         case QAudio::ActiveState:    qDebug()<<"ActiveState";                           break;
         case QAudio::IdleState:      qDebug()<<"IdleState";                             break;
@@ -605,6 +614,9 @@ void wgt_QVideoPlayer::s_TimerEvent() {
                 int16_t *Packet=MixedMusic.DetachFirstPacket(true);
                 if (Packet!=NULL) {
                     memcpy(AudioBuf+AudioBufSize,Packet,MixedMusic.SoundPacketSize);
+                    AudioBufSize+=MixedMusic.SoundPacketSize;
+                } else {
+                    memset(AudioBuf+AudioBufSize,0,MixedMusic.SoundPacketSize);
                     AudioBufSize+=MixedMusic.SoundPacketSize;
                 }
             }

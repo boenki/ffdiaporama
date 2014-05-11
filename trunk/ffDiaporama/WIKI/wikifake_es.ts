@@ -3858,7 +3858,7 @@
     </message>
     <message>
         <source>&lt;B&gt;gl&lt;/B&gt; to use Galician</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;gl&lt;/B&gt; para usar el Gallego</translation>
     </message>
 </context>
 <context>
@@ -5165,7 +5165,7 @@
     </message>
     <message>
         <source>Default sound level</source>
-        <translation type="unfinished"></translation>
+        <translation>Nivel de sonido predeterminado</translation>
     </message>
     <message>
         <source>Set the volume level to be achieved by amplification for music and audio tracks when the volume is set to auto</source>

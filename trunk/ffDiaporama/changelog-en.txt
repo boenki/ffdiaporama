@@ -2,6 +2,17 @@
 * FFDIAPORAMA 2.2 - trunk - (English version)
 **************************************************
 
+[Commit: 10/05/2014] - ffDiaporama 2.2 devel 20140510
+    Bug fixes:
+        -Increases the gap between the ref-frames in rendered video to reduce flicker (from 4 to 2 per second)
+        -Operates the preview player and the player of the video editing dialog even if there is no music track
+        -Fixed a crash when click in the time bar and the project is empty
+
+    New features:
+        -Added 4 new transitions: Transitions page type with prior unzoom
+
+--------------------------------------------------------------------------------
+
 [Commit: 03/05/2014] - ffDiaporama 2.2 devel 20140503
     Bug fixes:
         -Fixed a display bug in the timeline (the display for audio video could leave the frame when the sound was on auto)

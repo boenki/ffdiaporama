@@ -1285,12 +1285,12 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
         <translation>&amp;Storno</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="475"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="472"/>
         <source>Language selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="476"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="473"/>
         <source>Language must be empty or an ISO 639 language code (3 characters)
 See help for more details!</source>
         <translation type="unfinished"></translation>
@@ -3110,63 +3110,63 @@ When rulers are enabled, the mouse will automatically snap to the edges of the p
         <translation>&amp;Storno</translation>
     </message>
     <message>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="155"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="202"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="220"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="503"/>
+        <source>Full screen size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="156"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="203"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="221"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="505"/>
+        <source>TV margins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="157"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="204"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="222"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="507"/>
+        <source>Two thirds screen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="158"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="205"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="223"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="503"/>
-        <source>Full screen size</source>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="509"/>
+        <source>Half screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="159"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="206"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="224"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="505"/>
-        <source>TV margins</source>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="511"/>
+        <source>Third screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="160"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="207"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="225"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="507"/>
-        <source>Two thirds screen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="161"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="208"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="226"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="509"/>
-        <source>Half screen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="162"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="209"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="227"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="511"/>
-        <source>Third screen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="163"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="210"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="228"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="513"/>
         <source>Quarter screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="165"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="162"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="525"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="528"/>
         <source>Unlock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="204"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="222"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="201"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="219"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="500"/>
         <source>Real image size</source>
         <translation type="unfinished"></translation>
@@ -3182,7 +3182,7 @@ When rulers are enabled, the mouse will automatically snap to the edges of the p
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="167"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="164"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="530"/>
         <source>Lock to project geometry</source>
         <translation type="unfinished"></translation>
@@ -8248,14 +8248,14 @@ Do you want to download it now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="302"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="304"/>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp" line="535"/>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2544"/>
         <source>Capture image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="303"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="305"/>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp" line="536"/>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="226"/>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2545"/>

@@ -26,7 +26,11 @@
 #include "engine/_Diaporama.h"
 #include "CustomCtrl/QCustomRuler.h"
 
+#if QT_VERSION >= 0x050000
 #include <QtMultimedia/QAudioOutput>
+#else
+#include <QAudioOutput>
+#endif
 
 namespace Ui {
     class DlgEditMusic;

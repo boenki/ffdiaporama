@@ -1122,7 +1122,7 @@
     </message>
     <message>
         <source>Cut a sound file</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausschneiden der Audiodatei</translation>
     </message>
 </context>
 <context>
@@ -3860,7 +3860,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>&lt;B&gt;gl&lt;/B&gt; to use Galician</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;gl&lt;/B&gt; um Galician zu verwenden</translation>
     </message>
 </context>
 <context>
@@ -5168,11 +5168,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Default sound level</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardaudiolautstärke</translation>
     </message>
     <message>
         <source>Set the volume level to be achieved by amplification for music and audio tracks when the volume is set to auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Passt die Lautstärke durch Verstärkung der Musik und Audiodateien an, wenn die Lautstärke auf automatisch steht</translation>
     </message>
 </context>
 <context>
@@ -6824,39 +6824,39 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>You can move with the mouse the </source>
-        <translation type="unfinished"></translation>
+        <translation>Sie können mit der Maus den Marker </translation>
     </message>
     <message>
         <source> handle, on the progress bar, to move the current position</source>
-        <translation type="unfinished"></translation>
+        <translation> im Fortschrittsbalken verschieben, um die aktuelle Position zu ändern</translation>
     </message>
     <message>
         <source>You can move with the mouse the two </source>
-        <translation type="unfinished"></translation>
+        <translation>Sie können die zwei Marker </translation>
     </message>
     <message>
         <source> and </source>
-        <translation type="unfinished"> und </translation>
+        <translation> und </translation>
     </message>
     <message>
         <source> handles, on the progress bar, to move the Start and End positions</source>
-        <translation type="unfinished"></translation>
+        <translation> im Fortschrittsbalken verschieben, um die Start- und die Endposition zu ändern</translation>
     </message>
     <message>
         <source>Displays as follows: </source>
-        <translation type="unfinished"></translation>
+        <translation>Wird wie folgt angezeigt:</translation>
     </message>
     <message>
         <source>The ruler representing the duration of the video is dispayed under a black background. Remark than the length of the ruler is increased in proportion to the duration of the video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Lineal repräsentiert die Laufzeit des Videos, das auf einem schwarzem Hintergrund gezeigt wird. Anmerkung: Die Länge des Lineals ändert sich proportional zur Laufzeit des Videos.</translation>
     </message>
     <message>
         <source>The blue part, on wave form and ruler, represents the part of the video which is selected (which will be used in the assembly).</source>
-        <translation type="unfinished"></translation>
+        <translation>Der blaue Teil - in der Audiowelle und den Linealen - repräsentiert den ausgewählten Teil des Videos (welcher für die Montage verwendet wird).</translation>
     </message>
     <message>
         <source>The wave form of the sound of the video is displayed under a white background.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Audiowelle der Videotonspur wird auf einem weißem Hintergrund angezeigt.</translation>
     </message>
 </context>
 <context>
@@ -7448,15 +7448,15 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Cut the currently selected file from the playlist. The &lt;a href=&quot;0124.html&quot;&gt;Cut a sound file&lt;/a&gt; dialog appears.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausschneiden der ausgewählten Datei in der Abspielliste. Der Dialog &lt;a href=&quot;0124.html&quot;&gt;Beschneiden einer Audiodatei&lt;/a&gt; öffnet sich.</translation>
     </message>
     <message>
         <source>Removes the currently selected file from the playlist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Entfernt die aktuell ausgewählte Datei aus der Abspielliste.</translation>
     </message>
     <message>
         <source>You can double click a music file from the playlist to edit it, the &lt;a href=&quot;0124.html&quot;&gt;Cut a sound file&lt;/a&gt; dialog appears.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sie können ein Musikstück mit Doppelklick ändern. Der Dialog &lt;a href=&quot;0124.html&quot;&gt;Beschneiden einer Audiodatei&lt;/a&gt; öffnet sich.</translation>
     </message>
 </context>
 <context>
@@ -9647,8 +9647,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>You can also use the slider and the </source>
-        <translation type="unfinished">
-Sie können den Schieberegler verwenden und die </translation>
+        <translation>Sie können den Schieberegler verwenden und die Knöpfe </translation>
     </message>
     <message>
         <source> and </source>
@@ -9656,82 +9655,82 @@ Sie können den Schieberegler verwenden und die </translation>
     </message>
     <message>
         <source> buttons to modify the zoom level.</source>
-        <translation> Knöpfe, um die Zoomstufe zu verändern.</translation>
+        <translation>, um die Zoomstufe zu verändern.</translation>
     </message>
 </context>
 <context>
     <name>0124</name>
     <message>
         <source>Cut a sound file</source>
-        <translation type="unfinished"></translation>
+        <translation>Schneiden einer Audiodatei</translation>
     </message>
     <message>
         <source>This dialog allows you to cut a sound file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Dialog ermöglicht das Schneiden einer Audiodatei.</translation>
     </message>
     <message>
         <source>The progress bar</source>
-        <translation type="unfinished">Der Fortschrittsbalken</translation>
+        <translation>Der Fortschrittsbalken</translation>
     </message>
     <message>
         <source>Displays as follows: </source>
-        <translation type="unfinished"></translation>
+        <translation>wurd wie folgt angezeigt:</translation>
     </message>
     <message>
         <source>The ruler representing the duration of the sound file is dispayed under a black background. Remark than the length of the ruler is increased in proportion to the duration of the sound file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Lineal repräsentiert die Laufzeit der Audiodatei und wird auf schwarzem Hintergrund angezeigt. Anmerkung: Die Länge des Lineals ändert sich proportional zur Laufzeit der Audiodatei.</translation>
     </message>
     <message>
         <source>The blue part, on wave form and ruler, represents the part of the sound file which is selected (which will be used in the assembly).</source>
-        <translation type="unfinished"></translation>
+        <translation>Der blaue Anteil - in der Audiowelle und dem Lineal - repräsentiert den Teil der Audiodatei, der ausgewählt wurde (welcher für die Montage verwendet wird).</translation>
     </message>
     <message>
         <source> This button starts playback. Click again on this button to pause. </source>
-        <translation type="unfinished"> Dieser Knopf startet das Playback. Ein weiterer Klick auf denselben Knopf pausiert die Wiedergabe.</translation>
+        <translation> Dieser Knopf startet das Playback. Ein weiterer Klick auf denselben Knopf pausiert die Wiedergabe.</translation>
     </message>
     <message>
         <source>You can move with the mouse the </source>
-        <translation type="unfinished"></translation>
+        <translation>Sie können mit der Maus den Marker </translation>
     </message>
     <message>
         <source> handle, on the progress bar, to move the current position</source>
-        <translation type="unfinished"></translation>
+        <translation> auf dem Fortschrittsbalken verschieben, um die aktuelle Position zu ändern</translation>
     </message>
     <message>
         <source>You can move with the mouse the two </source>
-        <translation type="unfinished"></translation>
+        <translation>Sie können mit der Maus die zwei Marker </translation>
     </message>
     <message>
         <source> and </source>
-        <translation type="unfinished"> und </translation>
+        <translation> und </translation>
     </message>
     <message>
         <source> handles, on the progress bar, to move the Start and End positions</source>
-        <translation type="unfinished"></translation>
+        <translation> auf dem Fortschrittsbalken verschieben um die Start- und Endposition zu verändern</translation>
     </message>
     <message>
         <source>The working range</source>
-        <translation type="unfinished">Der Arbeitsbereich</translation>
+        <translation>Der Arbeitsbereich</translation>
     </message>
     <message>
         <source> Positions the cursor at the starting point</source>
-        <translation type="unfinished"> Positioniert den Cursor auf den Startpunkt</translation>
+        <translation> Positioniert den Cursor auf den Startpunkt</translation>
     </message>
     <message>
         <source> Uses the current cursor position as starting point (carries out an edit)</source>
-        <translation type="unfinished"> Verwendet die aktuelle Cursorposition als Startpunkt (Berücksichtigt eine Änderung)</translation>
+        <translation> Verwendet die aktuelle Cursorposition als Startpunkt (Berücksichtigt eine Änderung)</translation>
     </message>
     <message>
         <source> Positions the cursor at the end point</source>
-        <translation type="unfinished"> Positioniert den Cursor an den Endpunkt</translation>
+        <translation> Positioniert den Cursor an den Endpunkt</translation>
     </message>
     <message>
         <source> Uses the current cursor position as end point (carries out an edit)</source>
-        <translation type="unfinished"> Verwendet die aktuelle Cursorposition als Endpunkt (Berücksichtigt eine Änderung)</translation>
+        <translation> Verwendet die aktuelle Cursorposition als Endpunkt (Berücksichtigt eine Änderung)</translation>
     </message>
     <message>
         <source>The wave form of the sound is displayed under a white background.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Audiowelle der Datei wird auf weißem Hintergrund angezeigt.</translation>
     </message>
 </context>
 <context>
@@ -9966,7 +9965,7 @@ Sie können den Schieberegler verwenden und die </translation>
     </message>
     <message>
         <source>Cut a sound file</source>
-        <translation type="unfinished"></translation>
+        <translation>Schneiden einer Audiodatei</translation>
     </message>
 </context>
 <context>

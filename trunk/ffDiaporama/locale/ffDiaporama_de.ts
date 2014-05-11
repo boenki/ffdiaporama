@@ -76,97 +76,97 @@ Wenn Sie uns helfen möchten, um zum Beispiel unfertige Übersetzungen zu ergän
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="14"/>
         <source>Adjust slide duration on music</source>
-        <translation type="unfinished"></translation>
+        <translation>Anpassen der Musiklaufzeit im Dia</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="52"/>
         <source>Music file:</source>
-        <translation type="unfinished"></translation>
+        <translation>Musikdatei:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="59"/>
         <source>Duration:</source>
-        <translation type="unfinished"></translation>
+        <translation>Laufzeit:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="97"/>
         <source>Title:</source>
-        <translation type="unfinished"></translation>
+        <translation>Titel:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="104"/>
         <source>Artist:</source>
-        <translation type="unfinished"></translation>
+        <translation>Künstler:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="195"/>
         <source>Number of slide in selection:</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzahl Dias in Auswahl:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="215"/>
         <source>Duration of selection:</source>
-        <translation type="unfinished"></translation>
+        <translation>Laufzeit der Auswahl:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="242"/>
         <source>Time played before these slides:</source>
-        <translation type="unfinished"></translation>
+        <translation>Gespielte Zeit vor diesem Dia:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="262"/>
         <source>Time remaining after these slides:</source>
-        <translation type="unfinished"></translation>
+        <translation>zu spielende Zeit nach diesem Dia:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="282"/>
         <source>Time to adjust to finish before transition:</source>
-        <translation type="unfinished"></translation>
+        <translation>Notwendige Zeit zum Beenden vor dem Effektanfang:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="302"/>
         <source>Time to adjust to finish with transition:</source>
-        <translation type="unfinished"></translation>
+        <translation>Notwendige Zeit zum gleichzeiten Beenden mit Effekt:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="346"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Änderungen verwerfen und Fenster schliessen</translation>
+        <translation>Änderungen verwerfen und Fenster schliessen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="349"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Abbrechen</translation>
+        <translation>&amp;Abbrechen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="360"/>
         <source>Adjust the duration of selected slides to the music end before the transition and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anpassen der Laufzeit der ausgewählten Dias an die Musik, um vor dem Effekt zu beenden und anschliessend Dialogfenster verlassen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="363"/>
         <source>&amp;Adjust to end before transition</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Anpassen zum Ende der Musik bevor der Effekt startet</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="387"/>
         <source>Adjust the duration of selected slides to the music end with the transition and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anpassen der Laufzeit der ausgewählten Dias damit der Effekt zeitgleich mit der Musik endet und anschliessend Dialogfenster verlassen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="390"/>
         <source>&amp;Adjust to end with transition</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Anpassne zum Ende des Effektes</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="401"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished">Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgAdjustToSound.ui" line="404"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Hilfe</translation>
+        <translation>&amp;Hilfe</translation>
     </message>
 </context>
 <context>
@@ -866,7 +866,7 @@ Editoreinstellungen (beim Hinzufügen von Objekten)</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="774"/>
         <source>Preview options</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorschaueinstellungen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="795"/>
@@ -906,7 +906,7 @@ Editoreinstellungen (beim Hinzufügen von Objekten)</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="890"/>
         <source>Various options</source>
-        <translation type="unfinished"></translation>
+        <translation>Verschiedene Einstellungen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1449"/>
@@ -940,12 +940,12 @@ Der Stl beinhaltet die Transparenz und die Füllung des Blocks.</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2462"/>
         <source>Project options (default values)</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekteinstellungen (Standardwerte)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2705"/>
         <source>Default options for speed wave</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardeinstellungenfür Anstiegskurve</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2784"/>
@@ -993,33 +993,33 @@ Anmerkung: Dieses Eingabefeld ist auf 30 Zeichen beschränkt, um die Kompatibilt
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2933"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3093"/>
         <source>Select a compression preset (set of advanced options to trade off compression efficiency against encoding speed)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wählen von Standardvorgaben (Zusammenstellung von erweiterten Einstellungen, die jeweils einen Kompromiss zwischen Größe und Umwandlungsdauer darstellen)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3184"/>
         <source>Preset :</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardvorgabe:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3197"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3219"/>
         <source>Select a profil (set of advanced options)</source>
-        <translation type="unfinished"></translation>
+        <translation>Auswahl eines Profiles (Zusammenstellung von erweiterten Einstellungen)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3241"/>
         <source>Tune :</source>
-        <translation type="unfinished"></translation>
+        <translation>Abstimmung :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3309"/>
         <source>Advanced codec settings:</source>
-        <translation type="unfinished"></translation>
+        <translation>Erweiterte Codeceinstellungen:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3580"/>
         <source>Profile :</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3796"/>
@@ -1177,13 +1177,13 @@ Anmerkung: Dieses Feld ist auf 30 Stellen beschränkt, um kompatibel zu Jukebox 
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="585"/>
         <source>Network settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerkeinstellungen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3374"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3650"/>
         <source>Select a tune preset (set of advanced options to further optimize them for your input content)</source>
-        <translation type="unfinished"></translation>
+        <translation>Auswahl von Abstimmungseinstellungen (Zusammenstellung von erweiterten Einstellungen, die Ihren Inhalt optimieren)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3508"/>
@@ -1208,12 +1208,12 @@ Anmerkung: Dieses Feld ist auf 30 Stellen beschränkt, um kompatibel zu Jukebox 
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3897"/>
         <source>Default sound level :</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardlautstärke :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3907"/>
         <source>Set the volume level to be achieved by amplification for music and audio tracks when the volume is set to auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Passt die Lautstärke durch Verstärkung der Musik und Audiospuren an, wenn die Lautstärke auf auto gesetzt wird</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3947"/>
@@ -1341,12 +1341,12 @@ Anmerkung: Dieses Feld ist auf 30 Stellen beschränkt, um kompatibel zu Jukebox 
         <translation>&amp;Abbrechen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="475"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="472"/>
         <source>Language selection</source>
         <translation>Sprachauswahl</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="476"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="473"/>
         <source>Language must be empty or an ISO 639 language code (3 characters)
 See help for more details!</source>
         <translation>Sprache muss leer sein oder eine der ISO 639 Sprachcodes (3-stellig) beinhalten. Schauen Sie in der Hilfe für Details!</translation>
@@ -2107,94 +2107,94 @@ Gelb: Die Komponente funktioniert teilweise
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgEditMusic.ui" line="14"/>
         <source>Edit music file</source>
-        <translation type="unfinished"></translation>
+        <translation>Musikdatei bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgEditMusic.ui" line="96"/>
         <source>Click to start play, click again to pause the music</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Anklicken zum Abspielen, erneutes Anklicken zum Pausieren der Musik</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgEditMusic.ui" line="116"/>
         <source>Start :</source>
-        <translation type="unfinished">Start: </translation>
+        <translation>Start: </translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgEditMusic.ui" line="123"/>
         <source>Move to start position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Zum Anfang</translation>
+        <translation>Zum Anfang</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgEditMusic.ui" line="137"/>
         <source>Use current position as start position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Aktuelle Position als Start setzen</translation>
+        <translation>Aktuelle Position als Start setzen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgEditMusic.ui" line="157"/>
         <source>Define the start position to use</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Startposition festlegen</translation>
+        <translation>Startposition festlegen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgEditMusic.ui" line="179"/>
         <source>Duration :</source>
-        <translation type="unfinished">Dauer :</translation>
+        <translation>Dauer :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgEditMusic.ui" line="205"/>
         <source>End :</source>
-        <translation type="unfinished">Ende: </translation>
+        <translation>Ende: </translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgEditMusic.ui" line="221"/>
         <source>Define the end position to use</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Endposition festlegen</translation>
+        <translation>Endposition festlegen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgEditMusic.ui" line="240"/>
         <source>Use current position as end position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Aktuelle Position als Ende festlegen</translation>
+        <translation>Aktuelle Position als Ende festlegen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgEditMusic.ui" line="254"/>
         <source>Move to end position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Zum Ende gehen</translation>
+        <translation>Zum Ende gehen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgEditMusic.ui" line="415"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Änderungen speichern und Fenster schliessen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgEditMusic.ui" line="418"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Ok</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgEditMusic.ui" line="429"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Änderungen verwerfen und Fenster schliessen</translation>
+        <translation>Änderungen verwerfen und Fenster schliessen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgEditMusic.ui" line="432"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Abbrechen</translation>
+        <translation>&amp;Abbrechen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgEditMusic.ui" line="443"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished">Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgEditMusic.ui" line="446"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Hilfe</translation>
+        <translation>&amp;Hilfe</translation>
     </message>
 </context>
 <context>
@@ -3226,63 +3226,63 @@ Das Objekt “schnappt” an den Linien an, sodass ein leichtes und einheitliche
         <translation>&amp;Abbrechen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="158"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="205"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="223"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="155"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="202"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="220"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="503"/>
         <source>Full screen size</source>
         <translation>Vollbildgröße</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="159"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="206"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="224"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="156"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="203"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="221"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="505"/>
         <source>TV margins</source>
         <translation>TV Seitenränder</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="160"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="207"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="225"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="157"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="204"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="222"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="507"/>
         <source>Two thirds screen</source>
         <translation>Zwei Drittel Schirm</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="161"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="208"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="226"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="158"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="205"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="223"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="509"/>
         <source>Half screen</source>
         <translation>Halber Schirm</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="162"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="209"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="227"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="159"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="206"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="224"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="511"/>
         <source>Third screen</source>
         <translation>Drittel Schirm</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="163"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="210"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="228"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="160"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="207"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="225"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="513"/>
         <source>Quarter screen</source>
         <translation>Viertel Schirm</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="165"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="162"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="525"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="528"/>
         <source>Unlock</source>
         <translation>Entsperren</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="204"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="222"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="201"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="219"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="500"/>
         <source>Real image size</source>
         <translation>Tatsächliche Bildgröße</translation>
@@ -3298,7 +3298,7 @@ Das Objekt “schnappt” an den Linien an, sodass ein leichtes und einheitliche
         <translation>Festlegen auf Basis dieser Geometrie</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="167"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="164"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="530"/>
         <source>Lock to project geometry</source>
         <translation>Festlegen auf Basis der Projektgeometrie</translation>
@@ -4075,12 +4075,12 @@ Verschiebt das ausgewählte Musikstück um eine Position nach unten</translation
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="411"/>
         <source>Fade-IN</source>
-        <translation type="unfinished"></translation>
+        <translation>Aufblenden</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="419"/>
         <source>Fade-OUT</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausblenden</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="499"/>
@@ -4100,17 +4100,17 @@ Verschiebt das ausgewählte Musikstück um eine Position nach unten</translation
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="238"/>
         <source>Cut the currently selected file from the playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausschneiden der markierten Datei von der Abspielliste</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="252"/>
         <source>Removes the currently selected file from the playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Entfernen der markierten Datei aus der Abspielliste</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="302"/>
         <source>Playlist duration:</source>
-        <translation type="unfinished"></translation>
+        <translation>Laufzeit Abspielliste:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="474"/>
@@ -4130,7 +4130,7 @@ Verschiebt das ausgewählte Musikstück um eine Position nach unten</translation
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.cpp" line="181"/>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisch</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.cpp" line="262"/>
@@ -4655,17 +4655,17 @@ Bitte kontaktieren Sie das ffDiaporama Team</translation>
     <message>
         <location filename="../src/ffDiaporama/engine/_EncodeVideo.cpp" line="299"/>
         <source>invalid path or invalid filename</source>
-        <translation type="unfinished"></translation>
+        <translation>ungültiger Pfad oder Dateiname</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_EncodeVideo.cpp" line="300"/>
         <source>Start rendering process</source>
-        <translation type="unfinished"></translation>
+        <translation>Beginn der Umwandlung</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/engine/_EncodeVideo.cpp" line="301"/>
         <source>Error starting encoding process:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Starten der Umwandlung:</translation>
     </message>
 </context>
 <context>
@@ -5915,7 +5915,7 @@ entfernen</translation>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1349"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1362"/>
         <source>Add files</source>
-        <translation type="unfinished">Dateien hinzufügen</translation>
+        <translation>Dateien hinzufügen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/cShotComposer.cpp" line="832"/>
@@ -7075,7 +7075,7 @@ benutzerdefiniertes Modell</translation>
     <message>
         <location filename="../src/ffDiaporama/HelpPopup/HelpPopup.ui" line="648"/>
         <source>©2011-2014 The ffDiaporama Team - This wiki and all the resources it contains are under license</source>
-        <translation type="unfinished">©2011-2013 Das ffDiaporama Team - Dieses WIKI und alle verwendeten Elemente sind unter Lizenz {2011-2014 ?}</translation>
+        <translation>©2011-2014 Das ffDiaporama Team - Dieses WIKI und alle verwendeten Elemente sind unter Lizenz</translation>
     </message>
 </context>
 <context>
@@ -7456,24 +7456,24 @@ und Hilfe</translation>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3758"/>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3761"/>
         <source>Remove playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Abspielliste entfernen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3770"/>
         <source>Set music to pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Musik pausieren</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3779"/>
         <source>Set music to play (remove pause)</source>
-        <translation type="unfinished"></translation>
+        <translation>Musik abbspielen (Pause entfernen)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.ui" line="3788"/>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2708"/>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2713"/>
         <source>Adjust slide duration on music</source>
-        <translation type="unfinished"></translation>
+        <translation>Anpassen der Musiklaufzeit im Dia</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgGMapsLocation/DlgGMapsLocation.cpp" line="544"/>
@@ -7772,7 +7772,7 @@ und Hilfe</translation>
     <message>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1874"/>
         <source>Analyse file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Analysiere Datei %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="714"/>
@@ -8055,7 +8055,7 @@ Möchten Sie diese nun herunterladen ?</translation>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1101"/>
         <source>Move music file</source>
-        <translation type="unfinished"></translation>
+        <translation>Verschiebe Musikdatei</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1205"/>
@@ -8096,7 +8096,7 @@ Möchten Sie es speichern ?</translation>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="3140"/>
         <source>Analyse file :</source>
-        <translation type="unfinished"></translation>
+        <translation>Analysiere Datei:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2294"/>
@@ -8110,21 +8110,21 @@ Do you want to create one slide for each chapters ?</source>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="3124"/>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="3137"/>
         <source>Add music file</source>
-        <translation type="unfinished"></translation>
+        <translation>Musikdatei hinzufügen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1104"/>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2056"/>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="3127"/>
         <source>Add to the current playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>zur aktuellen Abspielliste hinzufügen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="1105"/>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2057"/>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="3128"/>
         <source>Replace the current playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Ersetzen der aktuellen Abspielliste</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2776"/>
@@ -8515,7 +8515,7 @@ Möchten Sie das Projekt dennoch öffnen?</translation>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2054"/>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="3125"/>
         <source>This slide already has a playlist. What to do?</source>
-        <translation type="unfinished"></translation>
+        <translation>Dieses Dia hat schon eine Abspielliste. Was möchten Sie tun?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2532"/>
@@ -8526,12 +8526,12 @@ Möchten Sie das Projekt dennoch öffnen?</translation>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2709"/>
         <source>To adjust duration of multiple slides on music, selected slides must be adjacent</source>
-        <translation type="unfinished"></translation>
+        <translation>Um die Laufzeit mehrer Dias an die Musik anzupassen, müssen die ausgewählten Dias nebeneinander liegen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2714"/>
         <source>To adjust duration of multiple slides on music, no slides can define a new playlist (except the first)</source>
-        <translation type="unfinished"></translation>
+        <translation>Um die Laufzeit mehrer Dias an die Musik anzupassen, darf kein Dia eine neue Abspielliste erhalten (ausgenommen das erste Dia)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2776"/>
@@ -8547,14 +8547,14 @@ Möchten Sie das Projekt dennoch öffnen?</translation>
         <translation>Datei zum Projekt hinzufügen:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="302"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="304"/>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp" line="535"/>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2544"/>
         <source>Capture image</source>
         <translation>Bild speichern</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="303"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="305"/>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QGMapsMap/wgt_QGMapsMap.cpp" line="536"/>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="226"/>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2545"/>
@@ -8590,7 +8590,7 @@ Möchten Sie das Projekt dennoch öffnen?</translation>
     <message>
         <location filename="../src/ffDiaporama/CustomCtrl/QCustomRuler.cpp" line="276"/>
         <source>Analyse file %1% ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Analysiere Datei %1 ...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.cpp" line="303"/>
@@ -8598,7 +8598,7 @@ Möchten Sie das Projekt dennoch öffnen?</translation>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2339"/>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2491"/>
         <source>Analyse file:</source>
-        <translation type="unfinished"></translation>
+        <translation>Analysiere Datei:</translation>
     </message>
 </context>
 <context>
@@ -10755,13 +10755,13 @@ Zum Beispiel: Wenn Y=25% eingestellt ist, dann wird das erste Viertel von oben a
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="126"/>
         <source>Click to start play, click again to pause the movie</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Zum Start klicken. Erneut klicken zum Anhalten des Videos</translation>
+        <translation>Zum Start klicken. Erneut klicken zum Anhalten des Videos</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="436"/>
         <source>Save this image of the movie</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">Speichern Sie dieses Bild als Titielbild für den Film</translation>
+        <translation>Speichern Sie dieses Bild als Titielbild für den Film</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.ui" line="481"/>
@@ -10786,7 +10786,7 @@ Zum Beispiel: Wenn Y=25% eingestellt ist, dann wird das erste Viertel von oben a
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="112"/>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisch</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/wgt_QEditVideo/wgt_QEditVideo.cpp" line="162"/>
