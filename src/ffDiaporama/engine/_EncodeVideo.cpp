@@ -418,6 +418,7 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
     VideoStream->codec->time_base           =VideoFrameRate;
     VideoStream->codec->sample_aspect_ratio =PixelAspectRatio;
     VideoStream->sample_aspect_ratio        =PixelAspectRatio;
+    VideoStream->codec->gop_size            =12;
 
     if ((codec->id!=AV_CODEC_ID_H264)||(!VBR)) {
         VideoStream->codec->bit_rate=VideoBitrate;
@@ -436,7 +437,6 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
         VideoStream->codec->scenechange_threshold =1000000000;
         VideoStream->codec->error_concealment    |=FF_EC_DEBLOCK;
         #endif
-        VideoStream->codec->gop_size              =12;
 
     } else if (codec->id==AV_CODEC_ID_MJPEG) {
 
@@ -449,7 +449,7 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
     } else if (codec->id==AV_CODEC_ID_VP8) {
 
         BFrames=3;
-        VideoStream->codec->gop_size=120;                                   av_dict_set(&opts,"g",QString("%1").arg(VideoStream->codec->gop_size).toUtf8(),0);
+        VideoStream->codec->gop_size=120;
         VideoStream->codec->qmax    =ImageHeight<=576?63:51;                av_dict_set(&opts,"qmax",QString("%1").arg(VideoStream->codec->qmax).toUtf8(),0);
         VideoStream->codec->qmin    =ImageHeight<=576?1:11;                 av_dict_set(&opts,"qmin",QString("%1").arg(VideoStream->codec->qmin).toUtf8(),0);
         VideoStream->codec->mb_lmin =VideoStream->codec->qmin*FF_QP2LAMBDA;
@@ -505,7 +505,6 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
 
     }
 
-    VideoStream->codec->gop_size  =4;
     VideoStream->codec->keyint_min=1;
     av_dict_set(&opts,"g",QString("%1").arg(VideoStream->codec->gop_size).toUtf8(),0);
     av_dict_set(&opts,"keyint_min",QString("%1").arg(VideoStream->codec->keyint_min).toUtf8(),0);

@@ -26,16 +26,19 @@ CONFIG += qt thread
 
 greaterThan(QT_MAJOR_VERSION,4) {
     # QT5 version
-    QT += widgets concurrent help
+    QT += widgets concurrent help multimedia
 } else {
     # QT4 version
-    CONFIG += help
+    CONFIG += help mobility
+    MOBILITY = multimedia
+
     unix {
         INCLUDEPATH += /usr/include/QtMultimediaKit
+        INCLUDEPATH += /usr/include/QtMobility
     }
 }
 
-QT          += core gui xml network svg sql multimedia
+QT          += core gui xml network svg sql
 QMAKE_STRIP  = echo
 APPFOLDER    = ffDiaporama
 TARGET       = ffDiaporama

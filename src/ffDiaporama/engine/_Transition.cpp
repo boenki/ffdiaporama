@@ -745,7 +745,13 @@ void Transition_Slide(int TransitionSubType,double PCT,QImage *ImageA,QImage *Im
 //      13      1/2 Rotating from y axis (flip)
 //      14      1/2 Rotating from x axis (flip)
 //      15      1/2 Rotating from x axis (flip)
+//      16      1/2 Rotating from y axis (flip) with zoom
+//      17      1/2 Rotating from y axis (flip) with zoom
+//      18      1/2 Rotating from x axis (flip) with zoom
+//      19      1/2 Rotating from x axis (flip) with zoom
 //============================================================================================
+
+#define     PCTPART    0.25
 
 void Transition_Push(int TransitionSubType,double PCT,QImage *ImageA,QImage *ImageB,QPainter *WorkingPainter,int DestImageWith,int DestImageHeight) {
     QRect       box1,box2;
@@ -756,8 +762,26 @@ void Transition_Push(int TransitionSubType,double PCT,QImage *ImageA,QImage *Ima
     int         PCTH=int(PCT*double(DestImageHeight));
     int         PCTWB=int((1-PCT)*double(DestImageWith));
     int         PCTHB=int((1-PCT)*double(DestImageHeight));
-    double      Rotate,dw,dh;
-    QImage      Img;
+    double      Rotate,dw,dh,ddw,ddh;
+    QImage      Img,ImgZoomed;
+    QPainter    P;
+    double      ZOOMFACTOR=0.4;     // à calculer selon la transition width/hyp pour horiz et height/hyp pour vert !
+
+    // for transition 16 to 19
+    if ((TransitionSubType>=16)&&(TransitionSubType<=19)) {
+        double Hyp=sqrt(DestImageWith*DestImageWith+DestImageHeight*DestImageHeight)*0.707106781; // COS/SIN 45°
+        if (TransitionSubType<=17) ZOOMFACTOR=(DestImageWith/Hyp)/2; else ZOOMFACTOR=(DestImageHeight/Hyp)/2;
+        if (PCT<PCTPART) {
+            ddh=DestImageHeight*(ZOOMFACTOR*PCT*2);
+            ddw=DestImageWith*(ZOOMFACTOR*PCT*2);
+        } else if (PCT<1-PCTPART) {
+            ddh=DestImageHeight*(ZOOMFACTOR*PCTPART*2);
+            ddw=DestImageWith*(ZOOMFACTOR*PCTPART*2);
+        } else {
+            ddh=DestImageHeight*(ZOOMFACTOR*(1-PCT)*2);
+            ddw=DestImageWith*(ZOOMFACTOR*(1-PCT)*2);
+        }
+    }
 
     switch (TransitionSubType) {
     case 0 :    // Since left to right
@@ -947,6 +971,122 @@ void Transition_Push(int TransitionSubType,double PCT,QImage *ImageA,QImage *Ima
         } else {
             Rotate=double(90)*((1-PCT)*2);
             Img=RotateImage(Rotate,0,0,ImageB);
+            dw=(double(DestImageWith)-double(Img.width()))/2;
+            dh=(double(DestImageHeight)-double(Img.height()))/2;
+            WorkingPainter->drawImage(QRectF(dw,DestImageHeight/2,Img.width(),Img.height()/2),Img,QRectF(0,Img.height()/2,Img.width(),Img.height()/2));
+        }
+        break;
+    case 16 :    // 1/2 Rotating from y axis (flip) with zoom
+        dw=DestImageWith/2;
+        WorkingPainter->drawImage(QRectF(ddw/2,ddh/2,dw-ddw/2,DestImageHeight-ddh),*ImageA,QRectF(0,0,dw,DestImageHeight));
+        WorkingPainter->drawImage(QRectF(dw,ddh/2,dw-ddw/2,DestImageHeight-ddh),*ImageB,QRectF(dw,0,dw,DestImageHeight));
+
+        ImgZoomed=QImage(DestImageWith,DestImageHeight,QImage::Format_ARGB32_Premultiplied);
+        P.begin(&ImgZoomed);
+        P.setCompositionMode(QPainter::CompositionMode_Source);
+        P.fillRect(QRect(0,0,DestImageWith,DestImageHeight),Qt::transparent);
+        P.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+        if (PCT<0.5) {
+            P.drawImage(QRectF(ddw/2,ddh/2,DestImageWith-ddw,DestImageHeight-ddh),*ImageA,QRectF(0,0,ImageA->width(),ImageA->height()));
+            P.end();
+            Rotate=double(90)*(PCT*2);
+            Img=RotateImage(0,Rotate,0,&ImgZoomed);
+            dw=(double(DestImageWith)-double(Img.width()))/2;
+            dh=(double(DestImageHeight)-double(Img.height()))/2;
+            WorkingPainter->drawImage(QRectF(DestImageWith/2,dh,Img.width()/2,Img.height()),Img,QRectF(Img.width()/2,0,Img.width()/2,Img.height()));
+        } else {
+            P.drawImage(QRectF(ddw/2,ddh/2,DestImageWith-ddw,DestImageHeight-ddh),*ImageB,QRectF(0,0,ImageB->width(),ImageB->height()));
+            P.end();
+            Rotate=double(-90)*((1-PCT)*2);
+            Img=RotateImage(0,Rotate,0,&ImgZoomed);
+            dw=(double(DestImageWith)-double(Img.width()))/2;
+            dh=(double(DestImageHeight)-double(Img.height()))/2;
+            WorkingPainter->drawImage(QRectF(dw,dh,Img.width()/2,Img.height()),Img,QRectF(0,0,Img.width()/2,Img.height()));
+        }
+        break;
+    case 17 :    // 1/2 Rotating from y axis (flip) with zoom
+        dw=DestImageWith/2;
+        WorkingPainter->drawImage(QRectF(ddw/2,ddh/2,dw-ddw/2,DestImageHeight-ddh),*ImageB,QRectF(0,0,dw,DestImageHeight));
+        WorkingPainter->drawImage(QRectF(dw,ddh/2,dw-ddw/2,DestImageHeight-ddh),*ImageA,QRectF(dw,0,dw,DestImageHeight));
+
+        ImgZoomed=QImage(DestImageWith,DestImageHeight,QImage::Format_ARGB32_Premultiplied);
+        P.begin(&ImgZoomed);
+        P.setCompositionMode(QPainter::CompositionMode_Source);
+        P.fillRect(QRect(0,0,DestImageWith,DestImageHeight),Qt::transparent);
+        P.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+        if (PCT<0.5) {
+            P.drawImage(QRectF(ddw/2,ddh/2,DestImageWith-ddw,DestImageHeight-ddh),*ImageA,QRectF(0,0,ImageA->width(),ImageA->height()));
+            P.end();
+            Rotate=double(-90)*(PCT*2);
+            Img=RotateImage(0,Rotate,0,&ImgZoomed);
+            dw=(double(DestImageWith)-double(Img.width()))/2;
+            dh=(double(DestImageHeight)-double(Img.height()))/2;
+            WorkingPainter->drawImage(QRectF(dw,dh,Img.width()/2,Img.height()),Img,QRectF(0,0,Img.width()/2,Img.height()));
+        } else {
+            P.drawImage(QRectF(ddw/2,ddh/2,DestImageWith-ddw,DestImageHeight-ddh),*ImageB,QRectF(0,0,ImageB->width(),ImageB->height()));
+            P.end();
+            Rotate=double(90)*((1-PCT)*2);
+            Img=RotateImage(0,Rotate,0,&ImgZoomed);
+            dw=(double(DestImageWith)-double(Img.width()))/2;
+            dh=(double(DestImageHeight)-double(Img.height()))/2;
+            WorkingPainter->drawImage(QRectF(DestImageWith/2,dh,Img.width()/2,Img.height()),Img,QRectF(Img.width()/2,0,Img.width()/2,Img.height()));
+        }
+        break;
+    case 18 :    // 1/2 Rotating from x axis (flip) with zoom
+        dh=DestImageHeight/2;
+        WorkingPainter->drawImage(QRectF(ddw/2,ddh/2,DestImageWith-ddw,dh-ddh/2),*ImageA,QRectF(0,0,DestImageWith,dh));
+        WorkingPainter->drawImage(QRectF(ddw/2,dh,DestImageWith-ddw,dh-ddh/2),*ImageB,QRectF(0,dh,DestImageWith,dh));
+
+        ImgZoomed=QImage(DestImageWith,DestImageHeight,QImage::Format_ARGB32_Premultiplied);
+        P.begin(&ImgZoomed);
+        P.setCompositionMode(QPainter::CompositionMode_Source);
+        P.fillRect(QRect(0,0,DestImageWith,DestImageHeight),Qt::transparent);
+        P.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+        if (PCT<0.5) {
+            P.drawImage(QRectF(ddw/2,ddh/2,DestImageWith-ddw,DestImageHeight-ddh),*ImageA,QRectF(0,0,ImageA->width(),ImageA->height()));
+            P.end();
+            Rotate=double(90)*(PCT*2);
+            Img=RotateImage(Rotate,0,0,&ImgZoomed);
+            dw=(double(DestImageWith)-double(Img.width()))/2;
+            dh=(double(DestImageHeight)-double(Img.height()))/2;
+            WorkingPainter->drawImage(QRectF(dw,DestImageHeight/2,Img.width(),Img.height()/2),Img,QRectF(0,Img.height()/2,Img.width(),Img.height()/2));
+        } else {
+            P.drawImage(QRectF(ddw/2,ddh/2,DestImageWith-ddw,DestImageHeight-ddh),*ImageB,QRectF(0,0,ImageB->width(),ImageB->height()));
+            P.end();
+            Rotate=double(-90)*((1-PCT)*2);
+            Img=RotateImage(Rotate,0,0,&ImgZoomed);
+            dw=(double(DestImageWith)-double(Img.width()))/2;
+            dh=(double(DestImageHeight)-double(Img.height()))/2;
+            WorkingPainter->drawImage(QRectF(dw,dh,Img.width(),Img.height()/2),Img,QRectF(0,0,Img.width(),Img.height()/2));
+        }
+        break;
+    case 19 :    // 1/2 Rotating from x axis (flip) with zoom
+        dh=DestImageHeight/2;
+        WorkingPainter->drawImage(QRectF(ddw/2,ddh/2,DestImageWith-ddw,dh-ddh/2),*ImageB,QRectF(0,0,DestImageWith,dh));
+        WorkingPainter->drawImage(QRectF(ddw/2,dh,DestImageWith-ddw,dh-ddh/2),*ImageA,QRectF(0,dh,DestImageWith,dh));
+
+        ImgZoomed=QImage(DestImageWith,DestImageHeight,QImage::Format_ARGB32_Premultiplied);
+        P.begin(&ImgZoomed);
+        P.setCompositionMode(QPainter::CompositionMode_Source);
+        P.fillRect(QRect(0,0,DestImageWith,DestImageHeight),Qt::transparent);
+        P.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+        if (PCT<0.5) {
+            P.drawImage(QRectF(ddw/2,ddh/2,DestImageWith-ddw,DestImageHeight-ddh),*ImageA,QRectF(0,0,ImageA->width(),ImageA->height()));
+            P.end();
+            Rotate=double(-90)*(PCT*2);
+            Img=RotateImage(Rotate,0,0,&ImgZoomed);
+            dw=(double(DestImageWith)-double(Img.width()))/2;
+            dh=(double(DestImageHeight)-double(Img.height()))/2;
+            WorkingPainter->drawImage(QRectF(dw,dh,Img.width(),Img.height()/2),Img,QRectF(0,0,Img.width(),Img.height()/2));
+        } else {
+            P.drawImage(QRectF(ddw/2,ddh/2,DestImageWith-ddw,DestImageHeight-ddh),*ImageB,QRectF(0,0,ImageB->width(),ImageB->height()));
+            P.end();
+            Rotate=double(90)*((1-PCT)*2);
+            Img=RotateImage(Rotate,0,0,&ImgZoomed);
             dw=(double(DestImageWith)-double(Img.width()))/2;
             dh=(double(DestImageHeight)-double(Img.height()))/2;
             WorkingPainter->drawImage(QRectF(dw,DestImageHeight/2,Img.width(),Img.height()/2),Img,QRectF(0,Img.height()/2,Img.width(),Img.height()/2));

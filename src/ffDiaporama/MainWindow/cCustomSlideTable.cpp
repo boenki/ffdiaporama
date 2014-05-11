@@ -917,6 +917,7 @@ void cCustomSlideTable::mousePressEvent(QMouseEvent *event) {
 //====================================================================================================================
 
 void cCustomSlideTable::mouseReleaseEvent(QMouseEvent *event) {
+    if (columnCount()==0) return;
     setCursor(Qt::ArrowCursor);
     if (event->button()==Qt::RightButton) {
         int ThumbWidth      =columnWidth(0);

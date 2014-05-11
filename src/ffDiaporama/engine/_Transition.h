@@ -67,7 +67,7 @@
     #define TRANSITIONMAXSUBTYPE_BASE           5
     #define TRANSITIONMAXSUBTYPE_ZOOMINOUT      18
     #define TRANSITIONMAXSUBTYPE_SLIDE          22
-    #define TRANSITIONMAXSUBTYPE_PUSH           16
+    #define TRANSITIONMAXSUBTYPE_PUSH           20
     #define TRANSITIONMAXSUBTYPE_DEFORM         4
 
     // static local values use to work with luma images

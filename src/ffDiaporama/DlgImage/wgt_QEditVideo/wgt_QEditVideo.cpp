@@ -165,7 +165,9 @@ void wgt_QEditVideo::DoInitDialog() {
     audio_outputStream->setBufferSize(MixedMusic.NbrPacketForFPS*MixedMusic.SoundPacketSize*BUFFERING_NBR_AUDIO_FRAME);
     audio_outputDevice=audio_outputStream->start();
     AudioPlayed=0;
+    #if QT_VERSION >= 0x050000
     audio_outputStream->setVolume(ApplicationConfig->PreviewSoundVolume);
+    #endif
     audio_outputStream->suspend();
 }
 
@@ -420,7 +422,9 @@ void wgt_QEditVideo::SetPlayerToPlay(bool force) {
                                      break;
         case QAudio::StoppedState:   audio_outputDevice=audio_outputStream->start();
                                      AudioPlayed=0;
+                                     #if QT_VERSION >= 0x050000
                                      audio_outputStream->setVolume(ApplicationConfig->PreviewSoundVolume);
+                                     #endif
                                      break;
         case QAudio::ActiveState:    qDebug()<<"ActiveState";                           break;
         case QAudio::IdleState:      qDebug()<<"IdleState";                             break;
@@ -630,6 +634,9 @@ void wgt_QEditVideo::s_TimerEvent() {
                 int16_t *Packet=MixedMusic.DetachFirstPacket(true);
                 if (Packet!=NULL) {
                     memcpy(AudioBuf+AudioBufSize,Packet,MixedMusic.SoundPacketSize);
+                    AudioBufSize+=MixedMusic.SoundPacketSize;
+                } else {
+                    memset(AudioBuf+AudioBufSize,0,MixedMusic.SoundPacketSize);
                     AudioBufSize+=MixedMusic.SoundPacketSize;
                 }
             }

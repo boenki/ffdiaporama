@@ -2,6 +2,17 @@
 * FFDIAPORAMA 2.2 - trunk (Version Française)
 **************************************************
 
+[Commit: 10/05/2014] - ffDiaporama 2.2 devel 20140510
+    Correction de bug :
+        -Augmente l'écart entre les ref-frames dans les vidéos générées pour réduire les scintillements (passe de 4 par secondes à 2 par secondes)
+        -Fait fonctionner le lecteur de prévisualisation et le lecteur de la boite d'édition des vidéos même s'il n'y a pas de piste musical
+        -Corrige un plantage lorsqu'on click dans la barre temps et que le projet est vide
+
+    Nouveautés :
+        -Ajout de 4 nouvelles transitions : Transitions de type page tournée avec dé-zoom préalable
+
+--------------------------------------------------------------------------------
+
 [Commit: 03/05/2014] - ffDiaporama 2.2 devel 20140503
     Correction de bug :
         -Corrige un bug d'affichage dans la barre de temps (l'affichage de la piste son des vidéos pouvait sortir du cadre quand le son était sur auto)

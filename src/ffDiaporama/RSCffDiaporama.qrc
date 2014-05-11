@@ -390,5 +390,9 @@
         <file>img/add_sound.png</file>
         <file>img/ContinuePlayList.png</file>
         <file>img/splash.png</file>
+        <file>img/Transitions/tr-03-16.png</file>
+        <file>img/Transitions/tr-03-17.png</file>
+        <file>img/Transitions/tr-03-18.png</file>
+        <file>img/Transitions/tr-03-19.png</file>
     </qresource>
 </RCC>

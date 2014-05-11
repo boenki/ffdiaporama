@@ -2504,12 +2504,12 @@ void MainWindow::s_Action_DoUseAsPlayList() {
 }
 
 //====================================================================================================================
-
 void MainWindow::s_VideoPlayer_VolumeChanged() {
+    #if QT_VERSION >= 0x050000
     if (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER) ui->preview2->audio_outputStream->setVolume(ApplicationConfig->PreviewSoundVolume);
         else ui->preview->audio_outputStream->setVolume(ApplicationConfig->PreviewSoundVolume);
+    #endif
 }
-
 //====================================================================================================================
 
 void MainWindow::s_VideoPlayer_SaveImageEvent() {
