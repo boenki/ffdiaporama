@@ -4,7 +4,7 @@
 <context>
     <name>CommonInfoMsg</name>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImage.cpp" line="799"/>
+        <location filename="../src/ffDiaporama/DlgImage/wgt_QEditImage/wgt_QEditImage.cpp" line="798"/>
         <source>Select a file</source>
         <translation>Datei auswählen</translation>
     </message>
@@ -2608,7 +2608,7 @@ Do you want to resume the generation now?</source>
 Möchten Sie die Erstellung nun fortsetzen ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2990"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2991"/>
         <source>A map on slide %1 must be regenerated.
 Do you want to do it now?</source>
         <translation>Eine Karte im Dia %1 muss noch erstellt werden.
@@ -7788,7 +7788,7 @@ und Hilfe</translation>
         <location filename="../src/ffDiaporama/MainWindow/mainwindow.cpp" line="2894"/>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1648"/>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="1678"/>
-        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2479"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2480"/>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="1017"/>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2180"/>
         <location filename="../src/ffDiaporama/engine/cBaseMediaFile.cpp" line="2188"/>
@@ -7854,8 +7854,8 @@ und Hilfe</translation>
         <translation>Speichern Projektdatei ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2479"/>
         <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2480"/>
+        <location filename="../src/ffDiaporama/engine/_Diaporama.cpp" line="2481"/>
         <source>Error creating data file</source>
         <comment>Error message</comment>
         <translation>Fehler beim Erzeugen der Datei </translation>

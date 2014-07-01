@@ -58,6 +58,7 @@ public:
     QList<bool>         IsSelected;
     int                 NbrSelected;
     bool                LockGeometry;
+    bool                IsRefreshQueued;
 
     // Selection rectangle properties
     qreal               AspectRatio;                    // Aspect ratio of the (multi)selection rectangle
@@ -71,8 +72,6 @@ public:
 
     explicit cInteractiveZone(QWidget *parent = 0);
     ~cInteractiveZone();
-
-    void    RefreshDisplay();
 
 protected:
     virtual void    paintEvent(QPaintEvent *event);
@@ -95,6 +94,7 @@ signals:
 public slots:
     void            DifferedEmitRightClickEvent();
     void            DifferedEmitDoubleClickEvent();
+    void            RefreshDisplay();
 
 private:
     sDualQReal      PrepDualQReal(qreal Screen,qreal Block);

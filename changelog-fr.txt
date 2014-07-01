@@ -2,6 +2,17 @@
 * FFDIAPORAMA 2.2 - trunk (Version Française)
 **************************************************
 
+[Commit: 01/07/2017] - ffDiaporama 2.2 devel 20140701
+    Correction de bug :
+        -Corrige un bug sur les sons lorsqu'il y a plusieurs vidéo sur un slide
+        -Corrige un bug sur l'export des pistes son (l'export générait un fichier sans son)
+        -Corrige les zones interactives des boites d'édition des diapositives et d'images pour rendre les mouvements et les redimensionnements de blocs fluide (suppression des affichages redondants)
+        -Corrige un bug de calcul sur les ajustements de durée sur le son
+
+    Nouveautés :
+
+--------------------------------------------------------------------------------
+
 [Commit: 10/05/2014] - ffDiaporama 2.2 devel 20140510
     Correction de bug :
         -Augmente l'écart entre les ref-frames dans les vidéos générées pour réduire les scintillements (passe de 4 par secondes à 2 par secondes)

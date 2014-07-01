@@ -1171,7 +1171,7 @@ void cCompositionObject::DrawCompositionObject(cDiaporamaObject *Object,QPainter
                     if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter->setBrush(Qt::NoBrush); else {
 
                         // Create brush with filter and Ken Burns effect !
-                        QBrush *BR=BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,Position,SoundTrackMontage,ImagePctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL);
+                        QBrush *BR=BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,Position,BackgroundBrush->SoundVolume!=0?SoundTrackMontage:NULL,ImagePctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL);
                         if (BR) {
                             QTransform  MatrixBR;
                             // Avoid phantom lines for image brush
@@ -2367,7 +2367,8 @@ void cDiaporama::UpdateCachedInformation() {
 
         int64_t TrackDuration =CurMusic?QTime(0,0,0,0).msecsTo(CurMusic->GetDuration()):0;
         int64_t DurationLeft  =TrackDuration>CurObject->CachedStartPosition?TrackDuration-CurObject->CachedStartPosition:0;
-        int64_t NextTransition=NextObject?NextObject->GetTransitDuration():0;
+        //int64_t NextTransition=NextObject?NextObject->GetTransitDuration():0;
+        int64_t NextTransition=PrevObject?CurObject->GetTransitDuration():0;
         int64_t TimePlayed    =CurObject->MusicPause?((!PrevObject)||(!PrevObject->MusicPause)?CurObject->CachedTransitDuration:0):DurationLeft>CurObject->CachedDuration-NextTransition?CurObject->CachedDuration-NextTransition:DurationLeft;
 
         CurObject->CachedMusicTimePlayed=TimePlayed;

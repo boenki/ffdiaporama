@@ -2,6 +2,17 @@
 * FFDIAPORAMA 2.2 - trunk - (English version)
 **************************************************
 
+[Commit: 01/07/2017] - ffDiaporama 2.2 devel 20140701
+    Bug fixes:
+        -Fixed a bug on sounds when there is more than one video on a slide
+        -Fixed a bug on exporting soundtracks (generated export file without sound)
+        -Fixed interactive areas editing in edit slides and edit image dialogs to make the blocks movement and blocks resizing fluid (removing redundant display)
+        -Fixed a bug in calculating the duration of slides when adjust duration on sound
+
+    New features:
+
+--------------------------------------------------------------------------------
+
 [Commit: 10/05/2014] - ffDiaporama 2.2 devel 20140510
     Bug fixes:
         -Increases the gap between the ref-frames in rendered video to reduce flicker (from 4 to 2 per second)

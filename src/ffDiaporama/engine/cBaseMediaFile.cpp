@@ -3232,7 +3232,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
     }
     if (Position<0) Position=0;
 
-    AVStream *VideoStream =((!MusicOnly)&&(!ForceSoundOnly)&&(VideoStreamNumber>=0)?LibavVideoFile->streams[VideoStreamNumber]:NULL);
+    AVStream *VideoStream =(/*(!MusicOnly)&&(!ForceSoundOnly)&&*/(VideoStreamNumber>=0)?LibavVideoFile->streams[VideoStreamNumber]:NULL);
 
     cVideoFile::sAudioContext AudioContext;
     AudioContext.SoundTrackBloc =SoundTrackBloc;
@@ -3271,7 +3271,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
         // If not then change Position to end file - a FPS to prepare a last image
         Position=dEndFile*AV_TIME_BASE-AudioContext.FPSDuration;
         dPosition=double(Position)/AV_TIME_BASE;
-        SoundTrackBloc->UseLatestData();
+        if (SoundTrackBloc) SoundTrackBloc->UseLatestData();
     }
 
     //================================================

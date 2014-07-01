@@ -297,8 +297,7 @@ void wgt_QEditImage::RefreshControls() {
     int NewFramingStyle=CurrentBrush->GetCurrentFramingStyle(ProjectGeometry);
     if (CurrentFramingStyle!=NewFramingStyle) ui->FramingStyleCB->SetCurrentFraming(/*CurrentFramingStyle*/NewFramingStyle);
     ui->FramingStyleCB->MakeIcons();
-    ui->InteractiveZone->RefreshDisplay();
-
+    ui->InteractiveZone->SendRefreshDisplay();
     StopMaj=false;
 }
 

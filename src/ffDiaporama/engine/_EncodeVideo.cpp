@@ -389,7 +389,7 @@ bool cEncodeVideo::AddStream(AVStream **Stream,AVCodec **codec,const char *Codec
         )
         (*Stream)->codec->flags|=CODEC_FLAG_GLOBAL_HEADER;
 
-    int ThreadC =((getCpuCount()/*-1*/)>1)?(getCpuCount()/*-1*/):1;
+    int ThreadC =((getCpuCount()/*-1*/)>1)?(getCpuCount()-1):1;
     if (ThreadC>0) (*Stream)->codec->thread_count=ThreadC;
     (*Stream)->codec->thread_type=getThreadFlags((*codec)->id);
 
