@@ -44,22 +44,20 @@ void DlgAdjustToSound::DoInitDialog() {
     cDiaporamaObject *NextObject      =NULL;
     int              Current          =ObjectList->first();
     int64_t          StartPosition    =0;
-    cMusicObject     *CurMusic        =Diaporama->GetMusicObject(Current,StartPosition,NULL,NULL);
+    cMusicObject     *CurMusic        =Diaporama->GetMusicObject(Current,StartPosition,NULL,NULL);              // compute StartPosition
     int64_t          PrevStartPosition=0;
-    cMusicObject     *PrevMusic       =Current>0?Diaporama->GetMusicObject(Current-1,PrevStartPosition):NULL;
+    cMusicObject     *PrevMusic       =Current>0?Diaporama->GetMusicObject(Current-1,PrevStartPosition):NULL;   // compute PrevStartPosition
 
     SelectionDuration=0;
     for (int i=0;i<ObjectList->count();i++) {
         int Num=ObjectList->at(i);
         PrevObject=Num>0?Diaporama->List[Num-1]:NULL;
         CurObject =Diaporama->List[Num];
-        NextObject=Num<Diaporama->List.count()-1?Diaporama->List[Num+1]:NULL;
-        if (!CurObject->MusicPause) SelectionDuration=SelectionDuration+CurObject->GetDuration()-(NextObject?NextObject->GetTransitDuration():0);
-            else if ((PrevObject)&&(!PrevObject->MusicPause)) SelectionDuration=SelectionDuration+CurObject->GetTransitDuration();
+        if (!CurObject->MusicPause) SelectionDuration=SelectionDuration+CurObject->GetDuration()-(Num>0?CurObject->GetTransitDuration():0);
     }
     PrevObject=Current>0?Diaporama->List[Current-1]:NULL;
     CurObject =Diaporama->List[Current];
-    NextObject=Current<Diaporama->List.count()-1?Diaporama->List[Current+1]:NULL;
+    NextObject=ObjectList->last()<Diaporama->List.count()-1?Diaporama->List[ObjectList->last()+1]:NULL;
 
     if ((CurMusic)&&(StartPosition>=(QTime(0,0,0,0).msecsTo(CurMusic->GetDuration())-CurObject->TransitionDuration)))                       CurMusic=NULL;
     if ((PrevMusic)&&(PrevObject)&&(PrevStartPosition>=(QTime(0,0,0,0).msecsTo(PrevMusic->GetDuration())-PrevObject->TransitionDuration)))  PrevMusic=NULL;
@@ -84,7 +82,7 @@ void DlgAdjustToSound::DoInitDialog() {
     ui->TimePlayed->setText(QTime(0,0,0,0).addMSecs(SelectionDuration).toString("hh:mm:ss.zzz"));
 
     ui->TimeBefore->setText(StartPosition>0?QTime(0,0,0,0).addMSecs(StartPosition).toString("hh:mm:ss.zzz"):"-");
-    ui->TimeRemaining->setText(Remaining>0?QTime(0,0,0,0).addMSecs(Remaining).toString("hh:mm:ss.zzz"):"-");
+    ui->TimeRemaining->setText(Remaining==0?"-":Remaining  >0?QTime(0,0,0,0).addMSecs(Remaining  ).toString("hh:mm:ss.zzz"):"-"+QTime(0,0,0,0).addMSecs(-Remaining  ).toString("hh:mm:ss.zzz"));
     ui->AdjustBefore->setText(Remaining==0?"-":Remaining  >0?QTime(0,0,0,0).addMSecs(Remaining  ).toString("hh:mm:ss.zzz"):"-"+QTime(0,0,0,0).addMSecs(-Remaining  ).toString("hh:mm:ss.zzz"));
     ui->AdjustWith->setText(MissingWith==0?"-":MissingWith>0?QTime(0,0,0,0).addMSecs(MissingWith).toString("hh:mm:ss.zzz"):"-"+QTime(0,0,0,0).addMSecs(-MissingWith).toString("hh:mm:ss.zzz"));
 
@@ -99,42 +97,44 @@ void DlgAdjustToSound::DoInitDialog() {
 
 void DlgAdjustToSound::DoAdjust(int64_t WantedDuration) {
     cDiaporamaShot *Latest=NULL;
-    int64_t        Compensed=0;
-    for (int i=0;i<ObjectList->count();i++) {
+    int64_t        NewSelectionDuration=0;
+    int64_t        CumuledTransition=0;
+    int            i;
+
+    for (i=0;i<ObjectList->count();i++) CumuledTransition+=Diaporama->List[ObjectList->at(i)]->GetTransitDuration();
+
+    for (i=0;i<ObjectList->count();i++) {
         int Num=ObjectList->at(i);
         cDiaporamaObject *CurObject=Diaporama->List[Num];
-        if (!CurObject->MusicPause) {
-            int64_t Transition      =Num<Diaporama->List.count()-1?Diaporama->List[Num+1]->GetTransitDuration():0;
-            int64_t CurDuration     =0;
-            int64_t CurNewDuration  =0;
 
-            qreal   OldSlideDuration=CurObject->GetDuration();
-            qreal   OldSlideRatio   =qreal(OldSlideDuration-Transition)/qreal(SelectionDuration);
-            qreal   NewSlideDuration=qreal(SelectionDuration+WantedDuration)*OldSlideRatio-Transition;
-            qreal   OldTransitionRatio =qreal(Transition)/OldSlideDuration;
+        if (!CurObject->MusicPause) {
+            int64_t CurNewDuration    =0;
+            int64_t Transition        =Num>0?Diaporama->List[Num]->GetTransitDuration():0;
+            qreal   OldSlideDuration  =CurObject->GetDuration();
+            qreal   OldSlideRatio     =qreal(OldSlideDuration)/qreal(SelectionDuration+CumuledTransition);
+            qreal   NewSlideDuration  =qreal(SelectionDuration/*+CumuledTransition*/+WantedDuration)*OldSlideRatio;
+
+            qreal   OldTransitionRatio=qreal(Transition)/OldSlideDuration;
 
             for (int ShotNum=0;ShotNum<CurObject->List.count();ShotNum++) {
-
                 cDiaporamaShot *Shot=CurObject->List[ShotNum];
-                CurDuration+=Shot->StaticDuration;
-
                 int64_t OldShotDuration =Shot->StaticDuration;
                 qreal   TransitionPart  =OldTransitionRatio*OldShotDuration;
-
                 qreal   Ratio           =qreal(OldShotDuration-TransitionPart)/qreal(OldSlideDuration-Transition);
                 qreal   NewShotDuration =Ratio*NewSlideDuration+TransitionPart;
 
-                if ((ShotNum==CurObject->List.count()-1)&&(CurNewDuration+NewShotDuration!=NewSlideDuration+Transition))
-                    NewShotDuration=NewSlideDuration+Transition-CurNewDuration;
-                CurNewDuration         +=NewShotDuration;
-                Shot->StaticDuration   =NewShotDuration;
+                CurNewDuration      +=NewShotDuration;
+                Shot->StaticDuration=NewShotDuration;
                 Latest=Shot;
             }
-            Compensed+=(CurNewDuration-Transition);
+            NewSelectionDuration+=(CurNewDuration-Transition);
         }
     }
-    if (Compensed!=SelectionDuration+WantedDuration)
-        Latest->StaticDuration+=(SelectionDuration+WantedDuration-Compensed);
+
+    // Adjust last slide to ensure all wanted duration is used
+    NewSelectionDuration-=(SelectionDuration+WantedDuration);
+    if (NewSelectionDuration!=0) Latest->StaticDuration-=NewSelectionDuration;
+
     done(0);
 }
 

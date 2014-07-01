@@ -49,6 +49,7 @@ TRANSLATIONS += locale/ffDiaporama_cz.ts \
     locale/ffDiaporama_it.ts \
     locale/ffDiaporama_nl.ts \
     locale/ffDiaporama_pt.ts \
+    locale/ffDiaporama_pt_br.ts \
     locale/ffDiaporama_ru.ts \
     locale/ffDiaporama_zh_tw.ts
 

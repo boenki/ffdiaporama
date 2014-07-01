@@ -69,6 +69,7 @@ cInteractiveZone::cInteractiveZone(QWidget *parent):QWidget(parent) {
     Scale_Y         =0;
     CurrentShotNbr  =0;
     DisplayMode     =DisplayMode_BlockShape;
+    IsRefreshQueued =false;
 }
 
 //====================================================================================================================
@@ -157,9 +158,10 @@ void cInteractiveZone::RefreshDisplay() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cInteractiveZone::RefreshDisplay");
     if ((!BlockTable)||(!BlockTable->CompositionList)) return;
 
-    ScreenRect=QRectF(0,0,DisplayW,DisplayH);
-
+    IsRefreshQueued=false;
     if (BlockTable->updatesEnabled()) {
+
+        ScreenRect=QRectF(0,0,DisplayW,DisplayH);
         // Prepare BackgroundImage if not exist
         if (!BackgroundImage) {
             QPainter Painter;
@@ -209,9 +211,8 @@ void cInteractiveZone::RefreshDisplay() {
 
         P.restore();
         P.end();
+        repaint();
     }
-
-    repaint();
 }
 
 //====================================================================================================================
@@ -943,7 +944,10 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
                 }
             }
         }
-        RefreshDisplay();
+        if (!IsRefreshQueued) {
+            IsRefreshQueued=true;
+            QTimer::singleShot(LATENCY,this,SLOT(RefreshDisplay()));
+        }
         if (NbrSelected==1) emit DisplayTransformBlock(Move_X,Move_Y,Scale_X,Scale_Y,RSel_X,RSel_Y,RSel_W,RSel_H);
     }
 }

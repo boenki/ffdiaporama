@@ -37,6 +37,7 @@ public:
     };
 
     int                 MagneticRuler;
+    bool                IsRefreshQueued;
 
     cCompositionObject  *CompoObject;
     int                 *BackgroundForm;
@@ -65,8 +66,11 @@ public:
     explicit            cImgInteractiveZone(QWidget *parent = 0);
                         ~cImgInteractiveZone();
 
-    void                RefreshDisplay();
     void                InitCachedImage(cCompositionObject *TheCompoObject,int *TheBackgroundForm,cBrushDefinition *TheCurrentBrush,int TheVideoPosition);
+    void                SendRefreshDisplay();
+
+public slots:
+    void                RefreshDisplay();
 
 protected:
     virtual void        paintEvent(QPaintEvent *event);

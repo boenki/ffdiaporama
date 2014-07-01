@@ -50,6 +50,7 @@ cImgInteractiveZone::cImgInteractiveZone(QWidget *parent):QWidget(parent) {
     Scale_Y         =0;
 
     SceneRect       =QRectF(0,0,0,0);
+    IsRefreshQueued =false;
     setMouseTracking(true);
 }
 
@@ -206,8 +207,20 @@ void cImgInteractiveZone::DrawSelect(QPainter &Painter,QRectF Rect,bool WithHand
 
 //====================================================================================================================
 
+void cImgInteractiveZone::SendRefreshDisplay() {
+    if (!IsRefreshQueued) {
+        IsRefreshQueued=true;
+        QTimer::singleShot(LATENCY,this,SLOT(RefreshDisplay()));
+    }
+}
+
+//====================================================================================================================
+
 void cImgInteractiveZone::RefreshDisplay() {
     if (!CurrentBrush || !CachedImage) return;
+
+    IsRefreshQueued=false;
+
     int         ImgWidth =CachedImage->width();     //CurrentBrush->Image?CurrentBrush->Image->ImageWidth :CurrentBrush->Video?CurrentBrush->Video->ImageWidth:0;
     int         ImgHeight=CachedImage->height();    //CurrentBrush->Image?CurrentBrush->Image->ImageHeight:CurrentBrush->Video?CurrentBrush->Video->ImageHeight:0;
     sDualQReal  x1,x2,x3,x4,y1,y2,y3,y4,Center;
@@ -709,8 +722,8 @@ void cImgInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
         }
 
         // Refresh display
+        SendRefreshDisplay();
         emit DisplayTransformBlock(Move_X,Move_Y,Scale_X,Scale_Y);
-        repaint();
     }
 }
 

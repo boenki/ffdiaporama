@@ -1140,11 +1140,11 @@ Por exemplo, se o proxecto é «As miñas vacacións do 1 ao 15», o capítulo p
     </message>
     <message>
         <source>Add a predefined title slide</source>
-        <translation>Engadir un título predefinido de diapositiva</translation>
+        <translation>Engadir unha diapositiva predefinida de título</translation>
     </message>
     <message>
         <source>Edit a predefined title slide</source>
-        <translation>Editar un título predefinido de diapositiva</translation>
+        <translation>Editar unha diapositiva predefinida de título</translation>
     </message>
     <message>
         <source>Slide type:</source>
@@ -5050,7 +5050,7 @@ Este valor expresase no % do largo do bloque.</translation>
     </message>
     <message>
         <source>Allows you to use predefined margins for the shape of the block.In general, these margins ensure that the text is contained in the form.</source>
-        <translation>Permítelle utilizar as marxes predefinidos para a forma do bloque. En xeral, estas marxes aseguran que o texto está contido na forma.</translation>
+        <translation>Permítelle utilizar as marxes predefinidas para a forma do bloque. En xeral, estas marxes aseguran que o texto está contido na forma.</translation>
     </message>
     <message>
         <source>Allows you to use margins corresponding to the entire form, in fact, the selection rectangle shape regardless of the design.</source>
@@ -6516,7 +6516,7 @@ Asegurouse de que estea baleira?</translation>
     </message>
     <message>
         <source>Add a predefined title slide</source>
-        <translation>Engadir un título predefinido de diapositiva</translation>
+        <translation>Engadir unha diapositiva predefinida de título</translation>
     </message>
     <message>
         <source>Error creating model file</source>
@@ -8097,7 +8097,7 @@ Ampliación %2</translation>
     </message>
     <message>
         <source>Adjust blur/sharpen sigma</source>
-        <translation>Axustar o valor sigma do difuso/resaltado</translation>
+        <translation>Axustar o valor sigma do difuso/nidio</translation>
     </message>
     <message>
         <source>Allows you to activate the despeckle (Noise reduction) filter.</source>
@@ -8165,7 +8165,7 @@ Exemplo: Se o largo é = 33%, a imaxe re-enmarcada representará un terzo do ori
     </message>
     <message>
         <source>Select the blur/sharpen algorythm</source>
-        <translation>Seleccionar o algoritmo do difuso/resaltado</translation>
+        <translation>Seleccionar o algoritmo do difuso/nidio</translation>
     </message>
     <message>
         <source>Fast</source>
@@ -8185,7 +8185,7 @@ Exemplo: Se o largo é = 33%, a imaxe re-enmarcada representará un terzo do ori
     </message>
     <message>
         <source>Adjust blur/sharpen radius</source>
-        <translation>Axustar o radio do difuso/resaltado</translation>
+        <translation>Axustar o radio do difuso/nidio</translation>
     </message>
     <message>
         <source>Allows you to activate the edge filter.</source>
@@ -8220,7 +8220,7 @@ Propóñense varias opcións segundo o formato da imaxe.
 Os encadres clasifícanse en diferentes categorías:
 
 - Bloqueo da xeometría do proxecto:
-Bloquear o encadre da imaxe, seleccion rectangular, para obter a mesma xeometría do proxecto.
+Bloquear o encadre da imaxe, selección rectangular, para obter a mesma xeometría do proxecto.
 Se se coloca a imaxe a pantalla completa, a parte reencadrada corresponderá a toda a pantalla.
 
 - Bloqueo da xeometría da imaxe:
